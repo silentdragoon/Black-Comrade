@@ -1,0 +1,353 @@
+16:33:32: Creating resource group General
+16:33:32: Creating resource group Internal
+16:33:32: Creating resource group Autodetect
+16:33:32: SceneManagerFactory for type 'DefaultSceneManager' registered.
+16:33:32: Registering ResourceManager for type Material
+16:33:32: Registering ResourceManager for type Mesh
+16:33:32: Registering ResourceManager for type Skeleton
+16:33:32: MovableObjectFactory for type 'ParticleSystem' registered.
+16:33:32: OverlayElementFactory for type Panel registered.
+16:33:32: OverlayElementFactory for type BorderPanel registered.
+16:33:32: OverlayElementFactory for type TextArea registered.
+16:33:32: Registering ResourceManager for type Font
+16:33:32: ArchiveFactory for archive type FileSystem registered.
+16:33:32: ArchiveFactory for archive type Zip registered.
+16:33:32: DDS codec registering
+16:33:32: Registering ResourceManager for type HighLevelGpuProgram
+16:33:32: Registering ResourceManager for type Compositor
+16:33:32: MovableObjectFactory for type 'Entity' registered.
+16:33:32: MovableObjectFactory for type 'Light' registered.
+16:33:32: MovableObjectFactory for type 'BillboardSet' registered.
+16:33:32: MovableObjectFactory for type 'ManualObject' registered.
+16:33:32: MovableObjectFactory for type 'BillboardChain' registered.
+16:33:32: MovableObjectFactory for type 'RibbonTrail' registered.
+16:33:32: Loading library /home/user-pool/users/jw7082/lib/usr/lib/OGRE/RenderSystem_GL.so
+16:33:32: Installing plugin: GL RenderSystem
+16:33:32: OpenGL Rendering Subsystem created.
+16:33:32: Plugin successfully installed
+16:33:32: *-*-* OGRE Initialising
+16:33:32: *-*-* Version 1.6.3 (Shoggoth)
+16:33:32: OGRE EXCEPTION(5:ItemIdentityException): Cannot find codec for extension png in Codec::getCodec at OgreCodec.cpp (line 62)
+16:33:32: GLX backdrop image not found: Warning
+16:33:35: CPU Identifier & Features
+16:33:35: -------------------------
+16:33:35:  *   CPU ID: GenuineIntel: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
+16:33:35:  *      SSE: yes
+16:33:35:  *     SSE2: yes
+16:33:35:  *     SSE3: yes
+16:33:35:  *      MMX: yes
+16:33:35:  *   MMXEXT: yes
+16:33:35:  *    3DNOW: no
+16:33:35:  * 3DNOWEXT: no
+16:33:35:  *     CMOV: yes
+16:33:35:  *      TSC: yes
+16:33:35:  *      FPU: yes
+16:33:35:  *      PRO: yes
+16:33:35:  *       HT: no
+16:33:35: -------------------------
+16:33:35: ******************************
+*** Starting GLX Subsystem ***
+******************************
+16:33:35: GLRenderSystem::_createRenderWindow "Test Window", 1600x1200 fullscreen  miscParams: FSAA=0 displayFrequency=60 MHz gamma=No vsync=No 
+16:33:35: OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource GLX_icon.png in resource group General or any other group. in ResourceGroupManager::openResource at OgreResourceGroupManager.cpp (line 753)
+16:33:35: GLXWindow::create used FBConfigID = 39
+16:33:35: GL_VERSION = 2.1.8918
+16:33:35: GL_VENDOR = ATI Technologies Inc.
+16:33:35: GL_RENDERER = ATI Radeon HD 4350
+16:33:35: GL_EXTENSIONS = GL_AMDX_vertex_shader_tessellator GL_AMD_draw_buffers_blend GL_AMD_performance_monitor GL_AMD_texture_texture4 GL_AMD_vertex_shader_tessellator GL_ARB_color_buffer_float GL_ARB_copy_buffer GL_ARB_depth_buffer_float GL_ARB_depth_texture GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_instanced GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_instanced_arrays GL_ARB_map_buffer_range GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_provoking_vertex GL_ARB_shader_objects GL_ARB_shader_texture_lod GL_ARB_shading_language_100 GL_ARB_shadow GL_ARB_shadow_ambient GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_compression GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_float GL_ARB_texture_mirrored_repeat GL_ARB_texture_non_power_of_two GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_snorm GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_object GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_window_pos GL_ATI_draw_buffers GL_ATI_envmap_bumpmap GL_ATI_fragment_shader GL_ATI_meminfo GL_ATI_separate_stencil GL_ATI_texture_compression_3dc GL_ATI_texture_env_combine3 GL_ATI_texture_float GL_ATI_texture_mirror_once GL_EXT_abgr GL_EXT_bgra GL_EXT_bindable_uniform GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_compiled_vertex_array GL_EXT_copy_buffer GL_EXT_copy_texture GL_EXT_draw_buffers2 GL_EXT_draw_instanced GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_pixel_buffer_object GL_EXT_point_parameters GL_EXT_provoking_vertex GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shadow_funcs GL_EXT_stencil_wrap GL_EXT_subtexture GL_EXT_texgen_reflection GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_buffer_object GL_EXT_texture_compression_latc GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc GL_EXT_texture_cube_map GL_EXT_texture_edge_clamp GL_EXT_texture_env_add GL_EXT_texture_env_combine GL_EXT_texture_env_dot3 GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp GL_EXT_texture_object GL_EXT_texture_rectangle GL_EXT_texture_sRGB GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_swizzle GL_EXT_transform_feedback GL_EXT_vertex_array GL_EXT_vertex_array_bgra GL_IBM_texture_mirrored_repeat GL_KTX_buffer_region GL_NV_blend_square GL_NV_conditional_render GL_NV_copy_depth_to_color GL_NV_explicit_multisample GL_NV_primitive_restart GL_NV_texgen_reflection GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod GL_SUN_multi_draw_arrays GL_WIN_swap_hint WGL_EXT_swap_control
+16:33:35: Supported GLX extensions: GLX_ARB_create_context GLX_ARB_get_proc_address GLX_ARB_multisample GLX_EXT_import_context GLX_EXT_visual_info GLX_EXT_visual_rating GLX_MESA_swap_control GLX_NV_swap_group GLX_OML_swap_method GLX_SGI_make_current_read GLX_SGI_swap_control GLX_SGI_video_sync GLX_SGIS_multisample GLX_SGIX_fbconfig GLX_SGIX_pbuffer GLX_SGIX_swap_barrier GLX_SGIX_swap_group GLX_SGIX_visual_select_group 
+16:33:35: ***************************
+16:33:35: *** GL Renderer Started ***
+16:33:35: ***************************
+16:33:35: Registering ResourceManager for type GpuProgram
+16:33:35: GLSL support detected
+16:33:35: GL: Using GL_EXT_framebuffer_object for rendering to textures (best)
+16:33:35: FBO PF_UNKNOWN depth/stencil support: D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_L8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_L16 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A4L4 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_BYTE_LA depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_R5G6B5 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_B5G6R5 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A4R4G4B4 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A1R5G5B5 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_R8G8B8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_B8G8R8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A8R8G8B8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_B8G8R8A8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A2R10G10B10 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_A2B10G10R10 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT16_RGB depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT16_RGBA depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT32_RGB depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT32_RGBA depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_X8R8G8B8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_X8B8G8R8 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_SHORT_RGBA depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_R3G3B2 depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT16_R depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT32_R depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_SHORT_GR depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT16_GR depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_FLOAT32_GR depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: FBO PF_SHORT_RGB depth/stencil support: D0S0 D0S1 D0S4 D0S8 D0S16 D16S0 D24S0 D32S0 Packed-D24S8 
+16:33:35: [GL] : Valid FBO targets PF_UNKNOWN PF_L8 PF_L16 PF_A8 PF_A4L4 PF_BYTE_LA PF_R5G6B5 PF_B5G6R5 PF_A4R4G4B4 PF_A1R5G5B5 PF_R8G8B8 PF_B8G8R8 PF_A8R8G8B8 PF_B8G8R8A8 PF_A2R10G10B10 PF_A2B10G10R10 PF_FLOAT16_RGB PF_FLOAT16_RGBA PF_FLOAT32_RGB PF_FLOAT32_RGBA PF_X8R8G8B8 PF_X8B8G8R8 PF_SHORT_RGBA PF_R3G3B2 PF_FLOAT16_R PF_FLOAT32_R PF_SHORT_GR PF_FLOAT16_GR PF_FLOAT32_GR PF_SHORT_RGB 
+16:33:35: RenderSystem capabilities
+16:33:35: -------------------------
+16:33:35: RenderSystem Name: OpenGL Rendering Subsystem
+16:33:35: GPU Vendor: ati
+16:33:35: Device Name: ATI Radeon HD 4350
+16:33:35: Driver Version: 2.1.8918.0
+16:33:35:  * Fixed function pipeline: yes
+16:33:35:  * Hardware generation of mipmaps: no
+16:33:35:  * Texture blending: yes
+16:33:35:  * Anisotropic texture filtering: yes
+16:33:35:  * Dot product texture operation: yes
+16:33:35:  * Cube mapping: yes
+16:33:35:  * Hardware stencil buffer: yes
+16:33:35:    - Stencil depth: 8
+16:33:35:    - Two sided stencil support: yes
+16:33:35:    - Wrap stencil values: yes
+16:33:35:  * Hardware vertex / index buffers: yes
+16:33:35:  * Vertex programs: yes
+16:33:35:  * Fragment programs: yes
+16:33:35:  * Geometry programs: yes
+16:33:35:  * Supported Shader Profiles: arbfp1 arbvp1 glsl gp4gp gpu_gp nvgp4 ps_1_1 ps_1_2 ps_1_3 ps_1_4
+16:33:35:  * Texture Compression: yes
+16:33:35:    - DXT: yes
+16:33:35:    - VTC: no
+16:33:35:  * Scissor Rectangle: yes
+16:33:35:  * Hardware Occlusion Query: yes
+16:33:35:  * User clip planes: yes
+16:33:35:  * VET_UBYTE4 vertex element type: yes
+16:33:35:  * Infinite far plane projection: yes
+16:33:35:  * Hardware render-to-texture: yes
+16:33:35:  * Floating point textures: yes
+16:33:35:  * Non-power-of-two textures: yes
+16:33:35:  * Volume textures: yes
+16:33:35:  * Multiple Render Targets: 8
+16:33:35:    - With different bit depths: yes
+16:33:35:  * Point Sprites: yes
+16:33:35:  * Extended point parameters: yes
+16:33:35:  * Max Point Size: 8192
+16:33:35:  * Vertex texture fetch: yes
+16:33:35:    - Max vertex textures: 16
+16:33:35:    - Vertex textures shared: yes
+16:33:35:  * Render to Vertex Buffer : no
+16:33:35:  * GL 1.5 without VBO workaround: no
+16:33:35:  * Frame Buffer objects: yes
+16:33:35:  * Frame Buffer objects (ARB extension): no
+16:33:35:  * Frame Buffer objects (ATI extension): no
+16:33:35:  * PBuffer suppport: no
+16:33:35:  * GL 1.5 without HW-occlusion workaround: no
+16:33:35: Registering ResourceManager for type Texture
+16:33:35: ResourceBackgroundQueue - threading disabled
+16:33:35: Particle Renderer Type 'billboard' registered
+16:33:35: Added resource location 'models' of type 'FileSystem' to resource group 'General'
+16:33:35: Added resource location 'materials/scripts' of type 'FileSystem' to resource group 'General'
+16:33:35: Added resource location 'materials/programs' of type 'FileSystem' to resource group 'General'
+16:33:35: Added resource location 'materials/textures' of type 'FileSystem' to resource group 'General'
+16:33:35: Parsing scripts for resource group Autodetect
+16:33:35: Finished parsing scripts for resource group Autodetect
+16:33:35: Parsing scripts for resource group General
+16:33:35: Finished parsing scripts for resource group General
+16:33:35: Parsing scripts for resource group Internal
+16:33:35: Finished parsing scripts for resource group Internal
+16:33:35: Mesh: Loading testmap.mesh.
+16:33:35: Can't assign material lambert1 to SubEntity of object because this Material does not exist. Have you forgotten to define it in a .material script?
+16:33:35: *** Initializing OIS ***
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)
+16:33:35: OGRE EXCEPTION(5:ItemIdentityException): OverlayElement with name Core/AverageFps not found. in OverlayManager::getOverlayElementImpl at OgreOverlayManager.cpp (line 593)

@@ -1,0 +1,10 @@
+
+PREFIX=/home/user-pool/users/jw7082/lib
+
+
+main: main.cpp
+	PKG_CONFIG_PATH=${PREFIX}/pkgconfig/
+	g++ -o test main.cpp `pkg-config --cflags --libs OGRE OIS`
+
+run:
+	export LD_LIBRARY_PATH="${PREFIX}/usr/lib/"; ./test
