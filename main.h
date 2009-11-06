@@ -7,6 +7,8 @@
 
 #include "ExampleFrameListener.h"
 
+using namespace Ogre;
+
 class Main {
 private:
     Root *root;

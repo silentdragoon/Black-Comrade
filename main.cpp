@@ -1,7 +1,7 @@
 
 #include "main.h"
 
-using namespace Ogre;
+#include "stateUpdate.h"
 
 Main::Main() {
     
@@ -34,6 +34,9 @@ Main::Main() {
     createScene();
     
     createFrameListener();
+    
+    StateUpdate *su = new StateUpdate();
+    root->addFrameListener(su);
     
     // Start Rendering Loop
     root->startRendering();
