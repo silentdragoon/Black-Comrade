@@ -28,7 +28,7 @@ class MotionState : public IMotionState
     //constant values that will need tuning
     
     static const double MASS = 1000.0;
-    static const double ENGINEPOWER = 10;
+    static const double ENGINEPOWER = 5;
     static const double SIDETHURSTERPOWER = 10;
     static const double xFRIC = 1;
     static const double yFRIC = 1;

@@ -4,7 +4,7 @@
 #include <iostream>
 
 ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState) :
-    position(new Vector3(0.0,0.0,0.0)),
+    position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
     pitch(0.0),
     yaw(0.0),

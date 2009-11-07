@@ -2,7 +2,7 @@
 #include "engineState.h"
 
 double EngineState::enginePower()
-{
+{   return 1.0;
     // keep Engine Power between 0.0 and 1.0
     if (mEnginePower >= 1.0)
         mEnginePower = 1.0;
