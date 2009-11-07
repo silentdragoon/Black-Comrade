@@ -8,6 +8,7 @@
 #include <OGRE/Ogre.h>
 
 #include "shipState.h"
+#include "IMotionState.h"
 
 using namespace Ogre;
 
@@ -17,10 +18,11 @@ private:
     int count;
     
     ShipState *shipState;
+    IMotionState *motionState;
     
 public:
     
-    StateUpdate(ShipState *shipState);
+    StateUpdate(ShipState *shipState, IMotionState *motionState);
     
     void tick();
     

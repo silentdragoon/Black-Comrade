@@ -8,8 +8,9 @@
 #include "ExampleFrameListener.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "IMotionState.h"
-#include "fixedMotionState.h"
+#include "engineState.h"
+#include "motionState.h"
+//#include "fixedMotionState.h"
 
 using namespace Ogre;
 

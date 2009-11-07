@@ -35,9 +35,11 @@ Main::Main() {
     
     //createFrameListener();
     
-    shipState = new ShipState(shipSceneNode, new FixedMotionState);
+    EngineState *es = new EngineState();
+    MotionState *ms = new MotionState(es);
+    shipState = new ShipState(shipSceneNode, ms);
     
-    stateUpdate = new StateUpdate(shipState);
+    stateUpdate = new StateUpdate(shipState, ms);
     root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop
