@@ -6,6 +6,10 @@
 #include <OGRE/Ogre.h>
 
 #include "ExampleFrameListener.h"
+#include "stateUpdate.h"
+#include "shipState.h"
+#include "IMotionState.h"
+#include "fixedMotionState.h"
 
 using namespace Ogre;
 
@@ -18,6 +22,10 @@ private:
     ExampleFrameListener *frameListener;
     
     SceneNode *robotNode;
+    
+    StateUpdate *stateUpdate;
+    SceneNode *shipSceneNode;
+    ShipState *shipState;
     
     void createCamera();
     void createScene();

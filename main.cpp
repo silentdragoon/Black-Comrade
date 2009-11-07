@@ -33,10 +33,12 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    createFrameListener();
+    //createFrameListener();
     
-    StateUpdate *su = new StateUpdate();
-    root->addFrameListener(su);
+    shipState = new ShipState(shipSceneNode, new FixedMotionState);
+    
+    stateUpdate = new StateUpdate(shipState);
+    root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop
     root->startRendering();
@@ -44,10 +46,14 @@ Main::Main() {
 
 void Main::createCamera() {
 
+    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    
     camera = sceneMgr->createCamera("mainCam");
     
-    camera->setPosition(Vector3(0,0,50));
-    camera->lookAt(Vector3(1,0,50));
+    shipSceneNode->attachObject(camera);
+    
+    //camera->setPosition(Vector3(0,0,50));
+    //camera->lookAt(Vector3(1,0,50));
     camera->setNearClipDistance(5);
     camera->setFarClipDistance(1000);
 }

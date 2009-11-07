@@ -3,9 +3,10 @@
 
 #include <iostream>
 
-StateUpdate::StateUpdate() :
+StateUpdate::StateUpdate(ShipState *shipState) :
     timeSinceLastEvent(0),
-    count(0)
+    count(0),
+    shipState(shipState)
 {}
 
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
@@ -26,4 +27,6 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
 void StateUpdate::tick() 
 {
     std::cout << "Tick " << ++count << std::endl;
+    
+    shipState->tick();
 }
