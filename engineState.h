@@ -6,6 +6,10 @@
 
 #include "IEngineState.h"
 
+#include "Ogre.h"
+#include "OgreStringConverter.h"
+#include "OgreException.h"
+
 class EngineState : public IEngineState {
 private:
 
@@ -29,7 +33,6 @@ public:
         using namespace OIS;
         ParamList pl;
         mInputManager = InputManager::createInputSystem(pl);
-        
         mKeyboard = static_cast<Keyboard*> (mInputManager->createInputObject(OISKeyboard, bufferedKeys));
         }
 

@@ -9,6 +9,7 @@
 
 #include "shipState.h"
 #include "IMotionState.h"
+#include "IEngineState.h"
 
 using namespace Ogre;
 
@@ -19,10 +20,11 @@ private:
     
     ShipState *shipState;
     IMotionState *motionState;
+    IEngineState *engineState;
     
 public:
     
-    StateUpdate(ShipState *shipState, IMotionState *motionState);
+    StateUpdate(ShipState *shipState, IMotionState *motionState, IEngineState *engineState);
     
     void tick();
     
