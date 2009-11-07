@@ -35,7 +35,7 @@ Main::Main() {
     
     //createFrameListener();
     
-    EngineState *es = new EngineState();
+    EngineState *es = new EngineState(window);
     MotionState *ms = new MotionState(es);
     shipState = new ShipState(shipSceneNode, ms);
     

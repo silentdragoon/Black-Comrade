@@ -3,21 +3,20 @@
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
-
 #include "IEngineState.h"
-
-#include "Ogre.h"
-#include "OgreStringConverter.h"
-#include "OgreException.h"
+#include <OGRE/Ogre.h>
 
 class EngineState : public IEngineState {
+
 private:
 
     double mEnginePower;
+    
+    void setEnginePower(char);
+    
     OIS::Keyboard* mKeyboard;
-   	OIS::InputManager* mInputManager;
-  	void setEnginePower(char);
-
+    OIS::InputManager* mInputManager;
+    
 public:
 
 	virtual double enginePower();
@@ -26,15 +25,7 @@ public:
 	virtual double pitchPower();
 	
 	virtual void tick();
-
-    EngineState(bool bufferedKeys = false) :
-        mKeyboard(0)
-    {
-        //using namespace OIS;
-        //ParamList pl;
-        //mInputManager = InputManager::createInputSystem(pl);
-        //mKeyboard = static_cast<Keyboard*> (mInputManager->createInputObject(OISKeyboard, bufferedKeys));
-        }
+	EngineState(RenderWindow *window, bool bufferedKeys = false);
 
 };
 
