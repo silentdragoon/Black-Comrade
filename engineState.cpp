@@ -1,3 +1,4 @@
+
 #include "engineState.h"
 
 double EngineState::enginePower()
@@ -39,13 +40,12 @@ void EngineState::setEnginePower(char input)
 
 void EngineState::tick()
 {
-    mKeyboard->capture();
+/*
     if(mKeyboard->isKeyDown(OIS::KC_W))
         setEnginePower('w');
     if(mKeyboard->isKeyDown(OIS::KC_S))
         setEnginePower('s');
-    /*
-    if(mKeyboard->isKeyDown(OIS::KC_A))
+    *if(mKeyboard->isKeyDown(OIS::KC_A))
 
     if(mKeyboard->isKeyDown(OIS::KC_D))
 
@@ -56,22 +56,4 @@ void EngineState::tick()
     if(mKeyboard->isKeyDown(OIS::KC_LEFT))
 
     if(mKeyboard->isKeyDown(OIS::KC_RIGHT))*/
-}
-
-EngineState::EngineState(RenderWindow *window, bool bufferedKeys = false) :
-        mKeyboard(0)
-{
-    OIS::ParamList pl;
-    size_t windowHnd = 0;
-    std::ostringstream windowHndStr;
-
-    window->getCustomAttribute("WINDOW", &windowHnd);
-    windowHndStr << windowHnd;
-    pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
-
-    mInputManager = OIS::InputManager::createInputSystem(pl);
-    mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys));
-
-        
-        
 }
