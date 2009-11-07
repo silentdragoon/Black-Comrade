@@ -6,6 +6,8 @@
 #include "IEngineState.h"
 #include <OGRE/Ogre.h>
 
+using namespace Ogre;
+
 class EngineState : public IEngineState {
 
 private:
