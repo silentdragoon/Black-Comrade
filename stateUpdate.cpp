@@ -3,11 +3,12 @@
 
 #include <iostream>
 
-StateUpdate::StateUpdate(ShipState *shipState, IMotionState *motionState) :
+StateUpdate::StateUpdate(ShipState *shipState, IMotionState *motionState, IEngineState *engineState) :
     timeSinceLastEvent(0),
     count(0),
     shipState(shipState),
-    motionState(motionState)
+    motionState(motionState),
+    engineState(engineState)
 {}
 
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
@@ -28,7 +29,7 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
 void StateUpdate::tick() 
 {
     std::cout << "Tick " << ++count << std::endl;
-    
+    engineState->tick();
     motionState->tick();
     shipState->tick();
 }
