@@ -18,6 +18,10 @@ void ShipState::tick()
     position->y += motionState->yVelocity();
     position->z += motionState->zVelocity();
     
+    roll += motionState->rollVelocity();
+    pitch += motionState->pitchVelocity();
+    yaw += motionState->yawVelocity();
+    
     updateOgre();
 }
 
@@ -25,7 +29,17 @@ void ShipState::updateOgre()
 {
     //std::cout << position->x << "," << position->y << "," << position->z << std::endl;
 
+	shipSceneNode->resetOrientation();
+
     shipSceneNode->setPosition(*position);
+    
+    Radian roll(this->roll);
+    Radian pitch(this->pitch);
+    Radian yaw(this->yaw);
+    
+    shipSceneNode->roll(roll);
+    shipSceneNode->pitch(pitch);
+    shipSceneNode->yaw(yaw);
     
     //std::cout << shipSceneNode->getPosition().z << std::endl;
 }
