@@ -40,12 +40,12 @@ void EngineState::setEnginePower(char input)
 
 void EngineState::tick()
 {
-
+/*
     if(mKeyboard->isKeyDown(OIS::KC_W))
         setEnginePower('w');
     if(mKeyboard->isKeyDown(OIS::KC_S))
         setEnginePower('s');
-    /*if(mKeyboard->isKeyDown(OIS::KC_A))
+    *if(mKeyboard->isKeyDown(OIS::KC_A))
 
     if(mKeyboard->isKeyDown(OIS::KC_D))
 

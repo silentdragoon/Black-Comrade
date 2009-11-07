@@ -30,10 +30,10 @@ public:
     EngineState(bool bufferedKeys = false) :
         mKeyboard(0)
     {
-        using namespace OIS;
-        ParamList pl;
-        mInputManager = InputManager::createInputSystem(pl);
-        mKeyboard = static_cast<Keyboard*> (mInputManager->createInputObject(OISKeyboard, bufferedKeys));
+        //using namespace OIS;
+        //ParamList pl;
+        //mInputManager = InputManager::createInputSystem(pl);
+        //mKeyboard = static_cast<Keyboard*> (mInputManager->createInputObject(OISKeyboard, bufferedKeys));
         }
 
 };
