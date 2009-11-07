@@ -1,4 +1,6 @@
 #include "motionState.h"
+#include <iostream>
+using namespace std;
 
 MotionState::MotionState(IEngineState *es):
     engineState(es),
@@ -42,12 +44,17 @@ double MotionState::rollVelocity()
 
 void MotionState::tick()
 {
-    double xPowerFrac = engineState->enginePower();
-    xMotion = (xMotion + (xPowerFrac*ENGINEPOWER) / MASS) * xFRIC;
     
-    double yPowerFrac = engineState->sideThrusterPower();
-    yMotion = (yMotion + yPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
+    double zPowerFrac = engineState->enginePower();
+    zMotion = (zMotion + (zPowerFrac*ENGINEPOWER) / MASS) * xFRIC;
+    cout << "zMotion: " << zMotion << endl;
+    
+    double xPowerFrac = engineState->sideThrusterPower();
+    yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
+    cout << "xMotion: " << xMotion << endl;
     
     yawAngleS = engineState->turnPower() * 2 * PI;
+    cout << "yawAngleS: " << yawAngleS << endl;
     pitchAngleS = engineState->pitchPower() * 2 * PI;
+    cout << "pitchAngleS: " << pitchAngleS << endl;
 }
