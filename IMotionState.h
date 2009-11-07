@@ -14,6 +14,7 @@ public:
 	virtual double yawVelocity() = 0;
 	virtual double rollVelocity() = 0;
 	
+	virtual void tick() = 0;
 };
 
 #endif

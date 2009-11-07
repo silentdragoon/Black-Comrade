@@ -21,6 +21,8 @@ public:
 	virtual double pitchVelocity() { return 0.0; }
 	virtual double yawVelocity() { return 0.0; }
 	virtual double rollVelocity() { return 0.005; }
+	
+	virtual void tick() {}
 };
 
 #endif
