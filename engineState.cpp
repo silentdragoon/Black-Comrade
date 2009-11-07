@@ -58,7 +58,7 @@ void EngineState::tick()
     if(mKeyboard->isKeyDown(OIS::KC_RIGHT))*/
 }
 
-EngineState::EngineState(RenderWindow *window, bool bufferedKeys = false) :
+EngineState::EngineState(RenderWindow *window, bool bufferedKeys) :
         mKeyboard(0)
 {
     OIS::ParamList pl;
