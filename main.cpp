@@ -53,7 +53,7 @@ void Main::createCamera() {
     shipSceneNode->attachObject(camera);
     
     //camera->setPosition(Vector3(0,0,50));
-    //camera->lookAt(Vector3(1,0,50));
+    camera->lookAt(Vector3(0,0,0));
     camera->setNearClipDistance(5);
     camera->setFarClipDistance(1000);
 }
