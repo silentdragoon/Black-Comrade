@@ -27,12 +27,14 @@ class MotionState : public IMotionState
     
     //constant values that will need tuning
     
-    static const double MASS = 1000.0;
-    static const double ENGINEPOWER = 5;
-    static const double SIDETHURSTERPOWER = 10;
-    static const double xFRIC = 1;
-    static const double yFRIC = 1;
+    static const double MASS = 10000.0;
+    static const double ENGINEPOWER = 25;
+    static const double SIDETHURSTERPOWER = 50;
+    static const double xFRIC = 0.996;
+    static const double yFRIC = 0.9;
     static const double PI = 3.1415926535897932;
+    // in deg/180 = TURNPERTICK at max value turn value
+    static const double TURNPERTICK = 0.01;
     
   public:
     MotionState(IEngineState *es);
