@@ -11,8 +11,6 @@ public:
 	virtual double sideThrusterPower() = 0;
 	virtual double turnPower() = 0;
 	virtual double pitchPower() = 0;
-	
-	virtual void tick() = 0;
 };
 
 #endif

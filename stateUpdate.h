@@ -7,26 +7,30 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
+#include <vector>
+
 #include "shipState.h"
 #include "IMotionState.h"
 #include "IEngineState.h"
 
+
 using namespace Ogre;
+using namespace std;
 
 class StateUpdate : public FrameListener{
 private:
     Real timeSinceLastEvent;
     int count;
     
-    ShipState *shipState;
-    IMotionState *motionState;
-    IEngineState *engineState;
-    
-public:
-    
-    StateUpdate(ShipState *shipState, IMotionState *motionState, IEngineState *engineState);
+    vector <ITickable*> tickables;
     
     void tick();
+   
+public:
+    
+    StateUpdate();
+    
+    void addTickable(ITickable* t); 
     
     bool frameStarted (const FrameEvent &evt) {}
     bool frameRenderingQueued (const FrameEvent &evt);

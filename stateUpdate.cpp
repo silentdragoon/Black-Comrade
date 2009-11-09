@@ -3,12 +3,9 @@
 
 #include <iostream>
 
-StateUpdate::StateUpdate(ShipState *shipState, IMotionState *motionState, IEngineState *engineState) :
-    timeSinceLastEvent(0),
-    count(0),
-    shipState(shipState),
-    motionState(motionState),
-    engineState(engineState)
+StateUpdate::StateUpdate() 
+    : timeSinceLastEvent(0)
+    , count(0)
 {}
 
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
@@ -24,12 +21,23 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
     return true;
 }
 
+void StateUpdate::addTickable(ITickable* t)
+{
+    tickables.push_back(t);
+}
 
 // Called once every TICK_PERIOD seconds
 void StateUpdate::tick() 
 {
     std::cout << "Tick " << ++count << std::endl;
-    engineState->tick();
-    motionState->tick();
-    shipState->tick();
+    
+    vector<ITickable*>::iterator i;
+    ITickable *t;
+    
+    
+    for(i = tickables.begin(); i != tickables.end(); ++i) {
+    
+        t = *i;
+        t->tick();
+    }
 }

@@ -7,10 +7,11 @@
 
 #include "IMotionState.h"
 #include "IEngineState.h"
+#include "ITickable.h"
 
 using namespace Ogre;
 
-class MotionState : public IMotionState
+class MotionState : public IMotionState, public ITickable
 {
   private:
     double xMotion;

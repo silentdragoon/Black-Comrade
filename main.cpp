@@ -39,7 +39,11 @@ Main::Main() {
     MotionState *ms = new MotionState(es);
     shipState = new ShipState(shipSceneNode, ms);
     
-    stateUpdate = new StateUpdate(shipState, ms, es);
+    stateUpdate = new StateUpdate();
+    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ms);
+    stateUpdate->addTickable(shipState);
+    
     root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop

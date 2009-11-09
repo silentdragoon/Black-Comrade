@@ -4,12 +4,13 @@
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
 #include "IEngineState.h"
+#include "ITickable.h"
 #include <OGRE/Ogre.h>
 #include <iostream>
 
 using namespace Ogre;
 
-class EngineState : public IEngineState {
+class EngineState : public IEngineState, public ITickable {
 
 private:
 

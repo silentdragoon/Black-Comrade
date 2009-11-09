@@ -6,10 +6,11 @@
 #include <OGRE/Ogre.h>
 
 #include "IMotionState.h"
+#include "ITickable.h"
 
 using namespace Ogre;
 
-class ShipState {
+class ShipState : public ITickable {
 private:
     Vector3 *position;
     Real roll;
