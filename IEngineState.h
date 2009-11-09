@@ -6,7 +6,7 @@ class IEngineState {
 public:
 	virtual ~IEngineState() {}
 	
-	// Values should be in the range [0,1]
+	// Values should be in the range [-1,1]
 	virtual double enginePower() = 0;
 	virtual double sideThrusterPower() = 0;
 	virtual double turnPower() = 0;

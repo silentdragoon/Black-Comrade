@@ -65,10 +65,10 @@ void EngineState::setTurnPower(char input)
 {
     switch (input) {
         case 'r':
-            mTurnPower += 0.05;
+            mTurnPower += 0.001;
             break;
         case 'l':
-            mTurnPower -= 0.05;
+            mTurnPower -= 0.001;
             break;
     }
 }
@@ -77,10 +77,13 @@ void EngineState::setPitchPower(char input)
 {
     switch (input) {
         case 'd':
-            mPitchPower += 0.05;
+            mPitchPower += 0.001;
             break;
         case 'u':
-            mPitchPower -= 0.05;
+            mPitchPower -= 0.001;
+            break;
+        case 'r':
+            mPitchPower = 0;
             break;
     }
 }
@@ -88,23 +91,33 @@ void EngineState::setPitchPower(char input)
 void EngineState::tick()
 {
     mKeyboard->capture();
-    if(mKeyboard->isKeyDown(OIS::KC_W))
+    if (mKeyboard->isKeyDown(OIS::KC_W))
         setEnginePower('w');
-    if(mKeyboard->isKeyDown(OIS::KC_S))
+    if (mKeyboard->isKeyDown(OIS::KC_S))
         setEnginePower('s');
-    if(mKeyboard->isKeyDown(OIS::KC_A))
+    if (mKeyboard->isKeyDown(OIS::KC_A))
         setSideThrusterPower('a');
-    if(mKeyboard->isKeyDown(OIS::KC_D))
+    if (mKeyboard->isKeyDown(OIS::KC_D))
         setSideThrusterPower('d');
-    if(mKeyboard->isKeyDown(OIS::KC_UP))	
+        
+    if (mKeyboard->isKeyDown(OIS::KC_UP))	
         setPitchPower('u');
-    if(mKeyboard->isKeyDown(OIS::KC_DOWN))
+    else
+        setPitchPower('r');
+    if (mKeyboard->isKeyDown(OIS::KC_DOWN))
         setPitchPower('d');
-    if(mKeyboard->isKeyDown(OIS::KC_LEFT))
+    else
+        setPitchPower('r');
+        
+    if (mKeyboard->isKeyDown(OIS::KC_LEFT))
         setTurnPower('l');
-    if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
+    if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
        setTurnPower('r');
-    if(mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+       
+       
+       
+       
+    if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
         exit(0);    
 }
 
