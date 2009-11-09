@@ -34,12 +34,12 @@ double MotionState::pitchVelocity()
 
 double MotionState::yawVelocity()
 {
-    return rollAngleS;
+    return yawAngleS;
 }
 
 double MotionState::rollVelocity()
 {
-    return yawAngleS;
+    return rollAngleS;
 }
 
 void MotionState::tick()
