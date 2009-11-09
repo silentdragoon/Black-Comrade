@@ -14,8 +14,14 @@ class EngineState : public IEngineState {
 private:
 
     double mEnginePower;
+    double mSideThrusterPower;
+    double mPitchPower;
+    double mTurnPower;
     
     void setEnginePower(char);
+    void setSideThrusterPower(char);
+    void setPitchPower(char);
+    void setTurnPower(char);
     
     OIS::Keyboard* mKeyboard;
     OIS::InputManager* mInputManager;

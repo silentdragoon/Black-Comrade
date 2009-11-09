@@ -3,26 +3,38 @@
 double EngineState::enginePower()
 {   
     // keep Engine Power between -1.0 and 1.0
-    if (mEnginePower >= 1.0)
-        mEnginePower = 1.0;
-    if (mEnginePower <= -1.0)
-        mEnginePower = -1.0;
+    if (mEnginePower >= 1.00)
+        mEnginePower = 1.00;
+    if (mEnginePower <= -1.00)
+        mEnginePower = -1.00;
     return mEnginePower;
 }
 
 double EngineState::sideThrusterPower()
 {
-    return 0.0;
+    if (mSideThrusterPower >= 1.00)
+        mSideThrusterPower = 1.00;
+    if (mSideThrusterPower <= -1.00)
+        mSideThrusterPower = -1.00;
+    return mSideThrusterPower;
 }
 
 double EngineState::turnPower()
 {
-    return 0.0;
+    if (mTurnPower >= 1.00)
+        mTurnPower = 1.00;
+    if (mTurnPower <= -1.00)
+        mTurnPower = -1.00;
+    return mTurnPower;
 }
 
 double EngineState::pitchPower()
 {
-    return 0.0;
+    if (mPitchPower >= 1.00)
+        mPitchPower = 1.00;
+    if (mPitchPower <= -1.00)
+        mPitchPower = -1.00;
+    return mPitchPower;
 }
 
 void EngineState::setEnginePower(char input)
@@ -37,30 +49,61 @@ void EngineState::setEnginePower(char input)
     }
 }
 
+void EngineState::setSideThrusterPower(char input)
+{
+    switch (input) {
+        case 'a':
+            mSideThrusterPower += 0.05;
+            break;
+        case 'd':
+            mSideThrusterPower -= 0.05;
+            break;
+    }
+}
+
+void EngineState::setTurnPower(char input)
+{
+    switch (input) {
+        case 'r':
+            mTurnPower += 0.05;
+            break;
+        case 'l':
+            mTurnPower -= 0.05;
+            break;
+    }
+}
+
+void EngineState::setPitchPower(char input)
+{
+    switch (input) {
+        case 'd':
+            mPitchPower += 0.05;
+            break;
+        case 'u':
+            mPitchPower -= 0.05;
+            break;
+    }
+}
+
 void EngineState::tick()
 {
     mKeyboard->capture();
-    if(mKeyboard->isKeyDown(OIS::KC_W)) {
+    if(mKeyboard->isKeyDown(OIS::KC_W))
         setEnginePower('w');
-        //std::cout << "Setting engine Power Up!" << std::endl;
-    }
-    if(mKeyboard->isKeyDown(OIS::KC_S)) {
+    if(mKeyboard->isKeyDown(OIS::KC_S))
         setEnginePower('s');
-        //std::cout << "Setting engine Power Down!" << std::endl;
-    }
-    std::cout << "Engine Power: " << mEnginePower << std::endl;
-    /*
     if(mKeyboard->isKeyDown(OIS::KC_A))
-
+        setSideThrusterPower('a');
     if(mKeyboard->isKeyDown(OIS::KC_D))
-
+        setSideThrusterPower('d');
     if(mKeyboard->isKeyDown(OIS::KC_UP))	
-
+        setPitchPower('u');
     if(mKeyboard->isKeyDown(OIS::KC_DOWN))
-
+        setPitchPower('d');
     if(mKeyboard->isKeyDown(OIS::KC_LEFT))
-
-    if(mKeyboard->isKeyDown(OIS::KC_RIGHT))*/
+        setTurnPower('l');
+    if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
+       setTurnPower('r');
 }
 
 EngineState::EngineState(RenderWindow *window, bool bufferedKeys) :
