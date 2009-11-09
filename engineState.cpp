@@ -40,10 +40,14 @@ void EngineState::setEnginePower(char input)
 void EngineState::tick()
 {
     mKeyboard->capture();
-    if(mKeyboard->isKeyDown(OIS::KC_W))
+    if(mKeyboard->isKeyDown(OIS::KC_W)) {
         setEnginePower('w');
-    if(mKeyboard->isKeyDown(OIS::KC_S))
+        std::cout << "Setting engine Power Up!" << std::endl;
+    }
+    if(mKeyboard->isKeyDown(OIS::KC_S)) {
         setEnginePower('s');
+        std::cout << "Setting engine Power Down!" << std::endl;
+    }
     /*
     if(mKeyboard->isKeyDown(OIS::KC_A))
 

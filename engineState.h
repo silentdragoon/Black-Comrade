@@ -5,6 +5,7 @@
 #include <OIS/OIS.h>
 #include "IEngineState.h"
 #include <OGRE/Ogre.h>
+#include <iostream>
 
 using namespace Ogre;
 
