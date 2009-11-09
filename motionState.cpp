@@ -53,8 +53,8 @@ void MotionState::tick()
     yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
     cout << "xMotion: " << xMotion << endl;
     
-    yawAngleS = engineState->turnPower() * 2 * PI;
+    yawAngleS = engineState->turnPower() * PI * TURNPERTICK;
     cout << "yawAngleS: " << yawAngleS << endl;
-    pitchAngleS = engineState->pitchPower() * 2 * PI;
+    pitchAngleS = engineState->pitchPower() * PI * TURNPERTICK ;
     cout << "pitchAngleS: " << pitchAngleS << endl;
 }
