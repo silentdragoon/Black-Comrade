@@ -1,12 +1,12 @@
 #include "engineState.h"
 
 double EngineState::enginePower()
-{   return 1.0;
-    // keep Engine Power between 0.0 and 1.0
+{   
+    // keep Engine Power between -1.0 and 1.0
     if (mEnginePower >= 1.0)
         mEnginePower = 1.0;
-    if (mEnginePower <= 0.0)
-        mEnginePower = 0.0;
+    if (mEnginePower <= -1.0)
+        mEnginePower = -1.0;
     return mEnginePower;
 }
 
@@ -29,10 +29,10 @@ void EngineState::setEnginePower(char input)
 {
     switch (input) {
         case 'w':
-            mEnginePower += 0.1;
+            mEnginePower += 0.05;
             break;
         case 's':
-            mEnginePower -= 0.1;
+            mEnginePower -= 0.05;
             break;
     }
 }
@@ -42,12 +42,13 @@ void EngineState::tick()
     mKeyboard->capture();
     if(mKeyboard->isKeyDown(OIS::KC_W)) {
         setEnginePower('w');
-        std::cout << "Setting engine Power Up!" << std::endl;
+        //std::cout << "Setting engine Power Up!" << std::endl;
     }
     if(mKeyboard->isKeyDown(OIS::KC_S)) {
         setEnginePower('s');
-        std::cout << "Setting engine Power Down!" << std::endl;
+        //std::cout << "Setting engine Power Down!" << std::endl;
     }
+    std::cout << "Engine Power: " << mEnginePower << std::endl;
     /*
     if(mKeyboard->isKeyDown(OIS::KC_A))
 
