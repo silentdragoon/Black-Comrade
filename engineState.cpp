@@ -104,6 +104,8 @@ void EngineState::tick()
         setTurnPower('l');
     if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
        setTurnPower('r');
+    if(mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+        exit(0);    
 }
 
 EngineState::EngineState(RenderWindow *window, bool bufferedKeys) :
