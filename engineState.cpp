@@ -65,10 +65,13 @@ void EngineState::setTurnPower(char input)
 {
     switch (input) {
         case 'r':
-            mTurnPower += 0.001;
+            mTurnPower += 0.0005;
             break;
         case 'l':
-            mTurnPower -= 0.001;
+            mTurnPower -= 0.0005;
+            break;
+        case 'z':
+            mTurnPower = 0;
             break;
     }
 }
@@ -76,13 +79,13 @@ void EngineState::setTurnPower(char input)
 void EngineState::setPitchPower(char input)
 {
     switch (input) {
-        case 'd':
-            mPitchPower += 0.001;
-            break;
         case 'u':
-            mPitchPower -= 0.001;
+            mPitchPower += 0.0005;
             break;
-        case 'r':
+        case 'd':
+            mPitchPower -= 0.0005;
+            break;
+        case 'z':
             mPitchPower = 0;
             break;
     }
@@ -102,18 +105,17 @@ void EngineState::tick()
         
     if (mKeyboard->isKeyDown(OIS::KC_UP))	
         setPitchPower('u');
-    else
-        setPitchPower('r');
-    if (mKeyboard->isKeyDown(OIS::KC_DOWN))
+    else if (mKeyboard->isKeyDown(OIS::KC_DOWN))
         setPitchPower('d');
     else
-        setPitchPower('r');
+       setPitchPower('z');
         
     if (mKeyboard->isKeyDown(OIS::KC_LEFT))
         setTurnPower('l');
-    if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
+    else if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
        setTurnPower('r');
-       
+    else
+        setTurnPower('z');
        
        
        
