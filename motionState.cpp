@@ -45,15 +45,13 @@ double MotionState::roll()
 void MotionState::tick()
 {
     
-    double zPowerFrac = engineState->enginePower();
-    zMotion = (zMotion + (zPowerFrac*ENGINEPOWER) / MASS) * xFRIC;
-    //cout << "zMotion: " << zMotion << endl;
+    zMotion = engineState->enginePower();
     
-    double xPowerFrac = engineState->sideThrusterPower();
-    yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
+    //double xPowerFrac = engineState->sideThrusterPower();
+    //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
     //cout << "xMotion: " << xMotion << endl;
     
-    mYaw = engineState->turnPower() * PI * TURNPERTICK;
+    //mYaw = engineState->turnPower() * PI * TURNPERTICK;
     //cout << "yawAngleS: " << yawAngleS << endl;
     //pitchAngleS = engineState->pitchPower() * PI * TURNPERTICK ;
     //cout << "pitchAngleS: " << pitchAngleS << endl;

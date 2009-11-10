@@ -37,88 +37,40 @@ double EngineState::pitchPower()
     return mPitchPower;
 }
 
-void EngineState::setEnginePower(char input)
-{
-    switch (input) {
-        case 'w':
-            mEnginePower += 0.05;
-            break;
-        case 's':
-            mEnginePower -= 0.05;
-            break;
-    }
-}
-
-void EngineState::setSideThrusterPower(char input)
-{
-    switch (input) {
-        case 'a':
-            mSideThrusterPower += 0.05;
-            break;
-        case 'd':
-            mSideThrusterPower -= 0.05;
-            break;
-    }
-}
-
-void EngineState::setTurnPower(char input)
-{
-    switch (input) {
-        case 'r':
-            mTurnPower += 0.0005;
-            break;
-        case 'l':
-            mTurnPower -= 0.0005;
-            break;
-        case 'z':
-            mTurnPower = 0;
-            break;
-    }
-}
-
-void EngineState::setPitchPower(char input)
-{
-    switch (input) {
-        case 'u':
-            mPitchPower += 0.0005;
-            break;
-        case 'd':
-            mPitchPower -= 0.0005;
-            break;
-        case 'z':
-            mPitchPower = 0;
-            break;
-    }
-}
-
 void EngineState::tick()
 {
     mKeyboard->capture();
-    if (mKeyboard->isKeyDown(OIS::KC_W))
-        setEnginePower('w');
-    if (mKeyboard->isKeyDown(OIS::KC_S))
-        setEnginePower('s');
-    if (mKeyboard->isKeyDown(OIS::KC_A))
-        setSideThrusterPower('a');
-    if (mKeyboard->isKeyDown(OIS::KC_D))
-        setSideThrusterPower('d');
+    
+    
+    if(mKeyboard->isKeyDown(OIS::KC_W))
+    	mEnginePower += ENGINEPOWER / MASS;
+   	else if(mKeyboard->isKeyDown(OIS::KC_S))
+   		mEnginePower -= ENGINEPOWER / MASS;
+   	else
+   		mEnginePower *= xFRIC;
+    
+    if(mKeyboard->isKeyDown(OIS::KC_W))
+    	mSideThrusterPower = 1;
+   	else if(mKeyboard->isKeyDown(OIS::KC_S))
+   		mSideThrusterPower = -1;
+   	else
+   		mSideThrusterPower = 0;
+  
+  	if(mKeyboard->isKeyDown(OIS::KC_UP))
+    	mPitchPower = 1;
+   	else if(mKeyboard->isKeyDown(OIS::KC_DOWN))
+   		mPitchPower = -1;
+   	else
+   		mPitchPower = 0;
         
-    if (mKeyboard->isKeyDown(OIS::KC_UP))	
-        setPitchPower('u');
-    else if (mKeyboard->isKeyDown(OIS::KC_DOWN))
-        setPitchPower('d');
-    else
-       setPitchPower('z');
-        
-    if (mKeyboard->isKeyDown(OIS::KC_LEFT))
-        setTurnPower('l');
-    else if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
-       setTurnPower('r');
-    else
-        setTurnPower('z');
-       
-       
-       
+    if(mKeyboard->isKeyDown(OIS::KC_LEFT))
+    	mTurnPower = 1;
+   	else if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
+   		mTurnPower = -1;
+   	else
+   		mTurnPower = 0;    
+    
+           
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
         exit(0);    
 }
