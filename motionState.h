@@ -17,9 +17,9 @@ class MotionState : public IMotionState, public ITickable
     double xMotion;
     double yMotion;
     double zMotion;
-    double pitchAngleS;
-    double rollAngleS;
-    double yawAngleS;
+    double mPitch;
+    double mRoll;
+    double mYaw;
     
     IEngineState *engineState;
     
@@ -43,9 +43,9 @@ class MotionState : public IMotionState, public ITickable
     double yVelocity();
     double zVelocity();
     
-    double pitchVelocity();
-    double yawVelocity();
-    double rollVelocity();
+    double pitch();
+    double yaw();
+    double roll();
     void tick();
 };
 

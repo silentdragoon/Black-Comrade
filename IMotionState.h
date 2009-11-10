@@ -10,9 +10,9 @@ public:
 	virtual double yVelocity() = 0;
 	virtual double zVelocity() = 0;
 	
-	virtual double pitchVelocity() = 0;
-	virtual double yawVelocity() = 0;
-	virtual double rollVelocity() = 0;
+	virtual double pitch() = 0;
+	virtual double yaw() = 0;
+	virtual double roll() = 0;
 };
 
 #endif

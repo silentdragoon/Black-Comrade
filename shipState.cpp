@@ -18,9 +18,9 @@ void ShipState::tick()
     position->y += motionState->yVelocity();
     position->z += motionState->zVelocity();
     
-    roll += motionState->rollVelocity();
-    pitch += motionState->pitchVelocity();
-    yaw += motionState->yawVelocity();
+    roll = motionState->roll();
+    pitch = motionState->pitch();
+    yaw = motionState->yaw();
     
     updateOgre();
 }
