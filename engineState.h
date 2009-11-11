@@ -22,11 +22,11 @@ private:
     OIS::Keyboard* mKeyboard;
     OIS::InputManager* mInputManager;
     
-    static const double MASS = 10000.0;
-    static const double ENGINEPOWER = 25;
-    static const double SIDETHURSTERPOWER = 25;
-    static const double xFRIC = 0.996;
-    static const double yFRIC = 0.996;
+    static const double MASS = 5000.0;
+    static const double ENGINEPOWER = 200;
+    static const double SIDETHURSTERPOWER = 50;
+    static const double zFRIC = 0.992;
+    static const double xFRIC = 0.99;
     static const double PI = 3.1415926535897932;
     
 public:
