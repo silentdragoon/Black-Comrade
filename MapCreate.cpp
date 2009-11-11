@@ -53,7 +53,7 @@ bool MapCreate::outputMap()
                     out << connections.at(0);
                     dir += out.str();
                     dir += "/";
-                    getMeshList(dir,files);
+                    getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
                     //cout << files.at(0) << endl;
@@ -76,7 +76,7 @@ bool MapCreate::outputMap()
                     string tmp = out.str();
                     dir += tmp.substr(0,tmp.length()-1);
                     dir += "/";
-                    getMeshList(dir,files);
+                    getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
                     //cout << files.at(0) << endl;
@@ -105,7 +105,7 @@ bool MapCreate::outputMap()
                 string tmp = out.str();
                 dir += tmp.substr(0,tmp.length()-1);
                 dir += "/";
-                getMeshList(dir,files);
+                getMeshList(dir,files,xpos,ypos);
                 // TODO: Select random file from list
                 random_shuffle(files.begin(),files.end());
                 //cout << files.at(0) << endl;
@@ -122,7 +122,7 @@ bool MapCreate::outputMap()
                     out << connections.at(0);
                     dir += out.str();
                     dir += "/";
-                    getMeshList(dir,files);
+                    getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
                     //cout << files.at(0) << endl;
@@ -133,9 +133,49 @@ bool MapCreate::outputMap()
                 }
 
             } else if(geo[xpos][ypos] == 'c') {
-
+                int cavtest;
+                cavtest = cavernChecker(xpos,ypos,'c');
+                if(cavtest==0) {
+                    vector<string> files = vector<string>();
+                    string dir = MAPROOT;
+                    dir += "caves/1-2-3-4/";
+                    getMeshList(dir,files,xpos,ypos);
+                    // TODO: Select random file from list
+                    random_shuffle(files.begin(),files.end());
+                    //cout << files.at(0) << endl;
+                    // TODO: Replace above line with code to add to ogre
+                } else if(cavtest==7) {
+                    vector<string> files = vector<string>();
+                    string dir = MAPROOT;
+                    dir += "cavel/1-2-3-4/";
+                    getMeshList(dir,files,xpos,ypos);
+                    // TODO: Select random file from list
+                    random_shuffle(files.begin(),files.end());
+                    //cout << files.at(0) << endl;
+                    // TODO: Replace above line with code to add to ogre
+                } else if(cavtest==-1) {
+                    cerr << "A badly sized cavern appeared at " << xpos << " " << ypos << "." << endl;
+                    return false;
+                }
             } else if(geo[xpos][ypos] == 'o') {
-
+                int cavtest;
+                cavtest = cavernChecker(xpos,ypos,'o');
+                if(cavtest==0) {
+                    cerr << "The objective is too small, must be 3x3." << endl;
+                    return false;
+                } else if(cavtest==7) {
+                    vector<string> files = vector<string>();
+                    string dir = MAPROOT;
+                    dir += "cavel/1-2-3-4/";
+                    getMeshList(dir,files,xpos,ypos);
+                    // TODO: Select random file from list
+                    random_shuffle(files.begin(),files.end());
+                    //cout << files.at(0) << endl;
+                    // TODO: Replace above line with code to add to ogre
+                } else if(cavtest==-1) {
+                    cerr << "A badly sized objective appeared at " << xpos << " " << ypos << "." << endl;
+                    return false;
+                }
             }
         }
     }
@@ -143,12 +183,12 @@ bool MapCreate::outputMap()
     return true;
 }
 
-int MapCreate::getMeshList(string dir, vector<string>& files)
+int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
 {
     DIR *dp;
     struct dirent *dirp;
     if((dp = opendir(dir.c_str()))==NULL) {
-        cerr << "Error(" << errno << ") opening " << dir << endl;
+        cerr << "Error(" << errno << ") opening " << dir << " at " << x << " " << y << endl;
         return errno;
     }
 
@@ -182,6 +222,45 @@ vector<int> MapCreate::getConnections(int x, int y)
     sort(connections.begin(),connections.end());
 
     return connections;
+}
+
+int MapCreate::cavernChecker(int x, int y, char type)
+{
+    int cavCount = 0;
+    bool up,down,left,right=false;
+
+    if(x!=MAPSIZE) {
+        if(geo[x+1][y]==type) cavCount++; right = true;
+    }
+    if(y!=MAPSIZE) {
+        if(geo[x][y+1]==type) cavCount++; up = true;
+    }
+    if(x!=0) {
+        if(geo[x-1][y]==type) cavCount++; left = true;
+    }
+    if(y!=0) {
+        if(geo[x][y-1]==type) cavCount++; down = true;
+    }
+
+    if(cavCount==0) {
+        return 0; // Single cavenr piece
+    } else {
+        if(cavCount==4) {
+            return 5;
+        } else if (cavCount==3) {
+            if((up==true)&&(right==true)&&(left==true)) return 8;
+            if((up==true)&&(down==true)&&(left==true)) return 6;
+            if((up==true)&&(down==true)&&(right==true)) return 4;
+            if((down==true)&&(right==true)&&(left==true)) return 2;
+        } else if (cavCount==2) {
+            if((right==true)&&(down==true)) return 1;
+            if((left==true)&&(down==true)) return 3;
+            if((right==true)&&(up==true)) return 7;
+            if((left==true)&&(up==true)) return 9;
+        } else {
+            return -1;
+        }
+    }
 }
 
 MapCreate::MapCreate(char* file)

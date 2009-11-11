@@ -27,8 +27,9 @@ private:
     bool buildMap(char* file);
     void addEnemies();
     bool outputMap();
-    int getMeshList(string dir, vector<string> &files);
+    int getMeshList(string dir, vector<string> &files, int x, int y);
     vector<int> getConnections(int x, int y);
+    int cavernChecker(int x, int y, char type);
 
 public:
     MapCreate(char* file);
