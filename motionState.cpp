@@ -47,6 +47,7 @@ void MotionState::tick()
     
     zMotion = engineState->enginePower();
     xMotion = -engineState->sideThrusterPower();
+    yMotion = -engineState->upThrusterPower();
     //double xPowerFrac = engineState->sideThrusterPower();
     //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
     //cout << "xMotion: " << xMotion << endl;

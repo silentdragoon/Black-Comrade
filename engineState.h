@@ -16,8 +16,10 @@ private:
 
     double mEnginePower;
     double mSideThrusterPower;
+    double mUpThrusterPower;
     double mPitchPower;
     double mTurnPower;
+    
 
     OIS::Keyboard* mKeyboard;
     OIS::InputManager* mInputManager;
@@ -27,12 +29,14 @@ private:
     static const double SIDETHURSTERPOWER = 50;
     static const double zFRIC = 0.992;
     static const double xFRIC = 0.99;
+    static const double yFRIC = 0.99;
     static const double PI = 3.1415926535897932;
     
 public:
 
 	virtual double enginePower();
 	virtual double sideThrusterPower();
+    virtual double upThrusterPower();
 	virtual double turnPower();
 	virtual double pitchPower();
 	

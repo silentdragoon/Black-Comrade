@@ -22,6 +22,15 @@ double EngineState::sideThrusterPower()
     return mSideThrusterPower;
 }
 
+double EngineState::upThrusterPower()
+{
+    if (mUpThrusterPower >= 1.00)
+        mUpThrusterPower = 1.00;
+    if (mUpThrusterPower <= -1.00)
+        mUpThrusterPower = -1.00;
+    return mUpThrusterPower;
+}
+
 double EngineState::turnPower()
 {
     if (mTurnPower >= 1.00)
@@ -44,7 +53,7 @@ void EngineState::tick()
 {
     mKeyboard->capture();
     
-    cout<< "mEnPow: " << mEnginePower;
+    //cout<< "mEnPow: " << mEnginePower;
     if(mKeyboard->isKeyDown(OIS::KC_W))
     {
         if( mEnginePower < 0 ) mEnginePower += 0.5 *ENGINEPOWER / MASS;
@@ -65,6 +74,16 @@ void EngineState::tick()
    		mSideThrusterPower -= SIDETHURSTERPOWER / MASS;
    	else
    		mSideThrusterPower *= xFRIC;
+    
+    if(mKeyboard->isKeyDown(OIS::KC_LSHIFT))
+    {
+        cout<< "UP"<< endl;
+    	mUpThrusterPower += SIDETHURSTERPOWER / MASS;
+    }
+   	else if(mKeyboard->isKeyDown(OIS::KC_SPACE))
+   		mUpThrusterPower -= SIDETHURSTERPOWER / MASS;
+   	else
+   		mUpThrusterPower *= xFRIC;
   
   	if(mKeyboard->isKeyDown(OIS::KC_UP))
     	mPitchPower = 1;
