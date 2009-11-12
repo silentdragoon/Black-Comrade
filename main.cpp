@@ -86,6 +86,9 @@ void Main::createScene() {
     //e->setMaterialName("Examples/EnvMappedRustySteel");
     
     robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    
+    //mapCreate->outputMap(robot);
+    
     robotNode->attachObject(e);
     
     robotNode->yaw(Ogre::Radian(4.712));
