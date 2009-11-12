@@ -1,5 +1,6 @@
 #include "motionState.h"
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 MotionState::MotionState(IEngineState *es):
@@ -45,9 +46,12 @@ double MotionState::roll()
 void MotionState::tick()
 {
     
-    zMotion = engineState->enginePower();
-    xMotion = -engineState->sideThrusterPower();
-    yMotion = -engineState->upThrusterPower();
+    mYaw += engineState->turnPower() * 0.01;
+    
+    zMotion = cos(mYaw) * engineState->enginePower() + sin(mYaw) * (engineState->sideThrusterPower());
+    xMotion = cos(mYaw) * (-engineState->sideThrusterPower()) + sin(mYaw) * engineState->enginePower();
+    yMotion = -(engineState->upThrusterPower());
+
     //double xPowerFrac = engineState->sideThrusterPower();
     //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
     //cout << "xMotion: " << xMotion << endl;
