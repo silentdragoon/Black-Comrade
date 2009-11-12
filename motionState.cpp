@@ -48,6 +48,10 @@ void MotionState::tick()
     
     mYaw += engineState->turnPower() * 0.01;
     
+    //mRoll -= engineState->turnPower() * 0.004;
+    //if(mRoll > 0.01) mRoll = 0.01;
+    //else if(mRoll < -0.01) mRoll = 0.01;
+    
     zMotion = cos(mYaw) * engineState->enginePower() + sin(mYaw) * (engineState->sideThrusterPower());
     xMotion = cos(mYaw) * (-engineState->sideThrusterPower()) + sin(mYaw) * engineState->enginePower();
     yMotion = -(engineState->upThrusterPower());
