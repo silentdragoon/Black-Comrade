@@ -75,23 +75,25 @@ void Main::createViewPort() {
 
 void Main::createScene() {
 
-    sceneMgr->setAmbientLight(ColourValue(0.5,0.5,0.5));
+    sceneMgr->setAmbientLight(ColourValue(0.1,0.1,0.1));
     
     Light *l = sceneMgr->createLight("MainLight");
     
     l->setPosition(20,80,50);
     
-    Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
     
     //e->setMaterialName("Examples/EnvMappedRustySteel");
     
-    robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    MapCreate *mc = new MapCreate("examplemap.txt",sceneMgr);
+
+    mc->outputMap(mapNode);
     
-    //mapCreate->outputMap(robot);
+    //robotNode->attachObject(e);
     
-    robotNode->attachObject(e);
-    
-    robotNode->yaw(Ogre::Radian(4.712));
+    //robotNode->yaw(Ogre::Radian(4.712));
 }
 
 void Main::createFrameListener(void)

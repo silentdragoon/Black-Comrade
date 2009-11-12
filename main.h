@@ -10,6 +10,7 @@
 #include "shipState.h"
 #include "engineState.h"
 #include "motionState.h"
+#include "mapCreate.h"
 //#include "fixedMotionState.h"
 
 using namespace Ogre;
@@ -22,7 +23,7 @@ private:
     RenderWindow *window;
     ExampleFrameListener *frameListener;
     
-    SceneNode *robotNode;
+    SceneNode *mapNode;
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
