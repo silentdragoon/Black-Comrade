@@ -46,21 +46,7 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                 vector<int> connections = vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()==1) {
-                    vector<string> files = vector<string>();
-                    string dir = MAPROOT;
-                    dir += "ends/";
-                    stringstream out;
-                    out << connections.at(0);
-                    dir += out.str();
-                    dir += "/";
-                    getMeshList(dir,files,xpos,ypos);
-                    // TODO: Select random file from list
-                    random_shuffle(files.begin(),files.end());
-                    
-                    attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
+                    fetchTile("ends/",connections,xpos,ypos,sceneNode);
                 } else {
                     cerr << "Start has more than one connection." << endl;
                     return false;
@@ -69,24 +55,7 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                 vector<int> connections = vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()!=1) {
-                    vector<string> files = vector<string>();
-                    string dir = MAPROOT;
-                    dir += "junct/";
-                    stringstream out;
-                    for(vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
-                        out << *it << "-";
-                    }
-                    string tmp = out.str();
-                    dir += tmp.substr(0,tmp.length()-1);
-                    dir += "/";
-                    getMeshList(dir,files,xpos,ypos);
-                    // TODO: Select random file from list
-                    random_shuffle(files.begin(),files.end());
-                    
-                    attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
+                    fetchTile("junct/",connections,xpos,ypos,sceneNode);
                 } else {
                     cerr << "Junction at " << xpos << " " << ypos << " has 1 or less connections." << endl;
                     return false;
@@ -94,56 +63,26 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
             } else if(geo[xpos][ypos] == 'x') {
                 vector<int> connections = vector<int>();
                 connections = getConnections(xpos,ypos);
-                vector<string> files = vector<string>();
-                string dir = MAPROOT;
+                string dir;
                 if(connections.size()==2) {
-                    dir += "strai/";
+                    dir = "strai/";
                 } else if(connections.size()==1) {
-                    dir += "ends/";
+                    dir = "ends/";
                 } else if(connections.size()>2) {
                     cerr << "Component at " << xpos << " " << ypos << " is bad, consider junction." << endl;
                     return false;
                 }
-                stringstream out;
-                for(vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
-                    out << *it << "-";
-                }
-                string tmp = out.str();
-                dir += tmp.substr(0,tmp.length()-1);
-                dir += "/";
-                getMeshList(dir,files,xpos,ypos);
-                // TODO: Select random file from list
-                random_shuffle(files.begin(),files.end());
-                    
-                attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                //cout << files.at(0) << endl;
-                // TODO: Replace above line with code to add to ogre
-
+                fetchTile(dir,connections,xpos,ypos,sceneNode);
             } else if(geo[xpos][ypos] == 'e') {
                 vector<int> connections = vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()==1) {
-                    vector<string> files = vector<string>();
-                    string dir = MAPROOT;
-                    dir += "ends/";
-                    stringstream out;
-                    out << connections.at(0);
-                    dir += out.str();
-                    dir += "/";
-                    getMeshList(dir,files,xpos,ypos);
-                    // TODO: Select random file from list
-                    random_shuffle(files.begin(),files.end());
-                    
-                    attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
+                    fetchTile("ends/",connections,xpos,ypos,sceneNode);
                 } else {
                     cerr << "End has more than one connection." << endl;
                     return false;
                 }
-
+            // 'c' and 'o' are special cases so we cant use fetchTile()
             } else if(geo[xpos][ypos] == 'c') {
                 int cavtest;
                 cavtest = cavernChecker(xpos,ypos,'c');
@@ -156,9 +95,6 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     random_shuffle(files.begin(),files.end());
                     
                     attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==7) {
                     vector<string> files = vector<string>();
                     string dir = MAPROOT;
@@ -168,9 +104,6 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     random_shuffle(files.begin(),files.end());
                     
                     attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==-1) {
                     cerr << "A badly sized cavern appeared at " << xpos << " " << ypos << "." << endl;
                     return false;
@@ -190,9 +123,6 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     random_shuffle(files.begin(),files.end());
                     
                     attachTile(sceneNode, &files.at(0), xpos, ypos);
-                    
-                    //cout << files.at(0) << endl;
-                    // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==-1) {
                     cerr << "A badly sized objective appeared at " << xpos << " " << ypos << "." << endl;
                     return false;
@@ -202,6 +132,27 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
     }
 
     return true;
+}
+
+void MapCreate::fetchTile(string adir, vector<int> connections, int x, int y, SceneNode *sceneNode)
+{
+    vector<string> files = vector<string>();
+    string dir = MAPROOT;
+    dir += adir;
+    stringstream out;
+    for(vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
+        out << *it << "-";
+    }
+    string tmp = out.str();
+    dir += tmp.substr(0,tmp.length()-1);
+    dir += "/";
+    
+    getMeshList(dir,files,x,x);
+
+    // TODO:  This is the bit where we need to randomise the vector, or somehow randomis the file returned.
+    random_shuffle(files.begin(),files.end());
+
+    attachTile(sceneNode, &files.at(0), x, y);
 }
 
 void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)

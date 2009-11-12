@@ -37,6 +37,7 @@ private:
     vector<int> getConnections(int x, int y);
     int cavernChecker(int x, int y, char type);
     void attachTile(SceneNode *sceneNode, string *file, int x, int y);
+    void fetchTile(string dir, vector<int> connections, int x, int y,SceneNode *sceneNode);
 
 public:
     MapCreate(char* file, SceneManager *sceneManager);
