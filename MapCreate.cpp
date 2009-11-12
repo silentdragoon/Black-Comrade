@@ -261,6 +261,7 @@ int MapCreate::cavernChecker(int x, int y, char type)
             return -1;
         }
     }
+    return -1;
 }
 
 MapCreate::MapCreate(char* file)
