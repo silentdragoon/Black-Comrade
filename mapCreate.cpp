@@ -56,6 +56,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else {
@@ -111,6 +114,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                 getMeshList(dir,files,xpos,ypos);
                 // TODO: Select random file from list
                 random_shuffle(files.begin(),files.end());
+                    
+                attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                 //cout << files.at(0) << endl;
                 // TODO: Replace above line with code to add to ogre
 
@@ -128,6 +134,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else {
@@ -145,6 +154,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==7) {
@@ -154,6 +166,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==-1) {
@@ -173,6 +188,9 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else if(cavtest==-1) {
