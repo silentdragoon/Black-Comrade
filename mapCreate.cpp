@@ -1,4 +1,4 @@
-#include "MapCreate.h"
+#include "mapCreate.h"
 
 bool MapCreate::buildMap(char* file)
 {
@@ -38,7 +38,7 @@ void MapCreate::addEnemies()
 
 }
 
-bool MapCreate::outputMap()
+bool MapCreate::outputMap(SceneNode *sceneNode)
 {
     for(int xpos=0;xpos<MAPSIZE;xpos++) {
         for(int ypos=0;ypos<MAPSIZE;ypos++) {
@@ -79,6 +79,9 @@ bool MapCreate::outputMap()
                     getMeshList(dir,files,xpos,ypos);
                     // TODO: Select random file from list
                     random_shuffle(files.begin(),files.end());
+                    
+                    attachTile(sceneNode, &files.at(0), xpos, ypos);
+                    
                     //cout << files.at(0) << endl;
                     // TODO: Replace above line with code to add to ogre
                 } else {
@@ -183,6 +186,21 @@ bool MapCreate::outputMap()
     return true;
 }
 
+void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
+{
+	SceneNode *node = sceneNode->createChildSceneNode();
+
+
+	// TODO: Do these names need to be unique?
+	Entity *e = sceneManager->createEntity("mapTile", *file);
+	
+	node->attachObject(e);
+	
+	Vector3 pos(x * TILE_SIZE, y * TILE_SIZE, 0);
+	
+	node->setPosition(pos);
+}
+
 int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
 {
     DIR *dp;
@@ -264,17 +282,17 @@ int MapCreate::cavernChecker(int x, int y, char type)
     return -1;
 }
 
-MapCreate::MapCreate(char* file)
+MapCreate::MapCreate(char* file, SceneManager *sceneManager)
+	: sceneManager(sceneManager)
 {
     if(buildMap(file)) {
-        outputMap();
     } else {
         cerr << "Something to do with reading the map went horribly wrong." << endl;
     }
 }
 
-int main(int argc, char* argv[])
-{
-    MapCreate *me = new MapCreate(argv[1]);
-    return 0;
-}
+//int main(int argc, char* argv[])
+//{
+//    MapCreate *me = new MapCreate(argv[1], NULL);
+//    return 0;
+//}
