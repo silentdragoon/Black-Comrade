@@ -75,7 +75,7 @@ void EngineState::tick()
    	else
    		mSideThrusterPower *= xFRIC;
     
-    if(mKeyboard->isKeyDown(OIS::KC_LSHIFT))
+    if(mKeyboard->isKeyDown(OIS::KC_LSHIFT) || mKeyboard->isKeyDown(OIS::KC_LCONTROL))
     {
         cout<< "UP"<< endl;
     	mUpThrusterPower += SIDETHURSTERPOWER / MASS;
