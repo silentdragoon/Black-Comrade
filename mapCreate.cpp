@@ -161,7 +161,11 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 
 
 	// TODO: Do these names need to be unique?
-	Entity *e = sceneManager->createEntity("mapTile", *file);
+    string name = "mapTile";
+    stringstream out;
+    out << "-" << x << "-" << y;
+    name += out.str();
+	Entity *e = sceneManager->createEntity(name, *file);
 	
 	node->attachObject(e);
 	
@@ -181,7 +185,9 @@ int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
 
     while ((dirp = readdir(dp)) != NULL) {
         if((string(dirp->d_name).compare(".")!=0)&&(string(dirp->d_name).compare("..")!=0)) {
-            files.push_back(string(dirp->d_name));
+            string path = dir;
+            path += string(dirp->d_name);
+            files.push_back(path);
         }
     }
     closedir(dp);

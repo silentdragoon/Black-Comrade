@@ -16,6 +16,9 @@ Main::Main() {
     // Set the paths to look for varius resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ".", "FileSystem", "General");
   
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
