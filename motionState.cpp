@@ -46,11 +46,11 @@ double MotionState::roll()
 void MotionState::tick()
 {
     
+    std::cout << engineState->enginePower() << std::endl;
+    
     mYaw += engineState->turnPower() * 0.01;
     
-    //mRoll -= engineState->turnPower() * 0.004;
-    //if(mRoll > 0.01) mRoll = 0.01;
-    //else if(mRoll < -0.01) mRoll = 0.01;
+    mRoll = engineState->turnPower() * abs(engineState->enginePower() / 1.3) * 0.07;
     
     zMotion = cos(mYaw) * engineState->enginePower() + sin(mYaw) * (engineState->sideThrusterPower());
     xMotion = cos(mYaw) * (-engineState->sideThrusterPower()) + sin(mYaw) * engineState->enginePower();
