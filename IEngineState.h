@@ -9,6 +9,7 @@ public:
 	// Values should be in the range [-1,1]
 	virtual double enginePower() = 0;
 	virtual double sideThrusterPower() = 0;
+    virtual double upThrusterPower() = 0;
 	virtual double turnPower() = 0;
 	virtual double pitchPower() = 0;
 };
