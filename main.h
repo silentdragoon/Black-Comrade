@@ -29,6 +29,8 @@ private:
     SceneNode *shipSceneNode;
     ShipState *shipState;
     
+    MapCreate *mc;
+    
     void createCamera();
     void createScene();
     void createViewPort();

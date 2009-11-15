@@ -32,11 +32,13 @@ Main::Main() {
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     
+    //createFrameListener();
+    
+    mc = new MapCreate("examplemap.txt",sceneMgr);
+    
     createCamera();
     createViewPort();
     createScene();
-    
-    //createFrameListener();
     
     EngineState *es = new EngineState(window);
     MotionState *ms = new MotionState(es);
@@ -46,6 +48,8 @@ Main::Main() {
     stateUpdate->addTickable(es);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
+    
+    shipState->position = new Vector3(mc->startx,0,mc->starty);
     
     root->addFrameListener(stateUpdate);
     
@@ -61,7 +65,7 @@ void Main::createCamera() {
     
     shipSceneNode->attachObject(camera);
     
-    //camera->setPosition(Vector3(0,0,50));
+    camera->setPosition(Vector3(0,0,-50));
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(5);
     camera->setFarClipDistance(1000);
@@ -90,13 +94,7 @@ void Main::createScene() {
     
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
-    MapCreate *mc = new MapCreate("examplemap.txt",sceneMgr);
-
     mc->outputMap(mapNode);
-
-    Vector3 startpos(mc->startx,0,mc->starty);
-    
-    camera->setPosition(startpos);
     
     //robotNode->attachObject(e);
     
