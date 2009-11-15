@@ -3,14 +3,14 @@
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
-#include "IEngineState.h"
+#include "IAccelerationState.h"
 #include "ITickable.h"
 #include <OGRE/Ogre.h>
 #include <iostream>
 
 using namespace Ogre;
 
-class EngineState : public IEngineState, public ITickable {
+class EngineState : public IAccelerationState, public ITickable {
 
 private:
 
@@ -34,11 +34,11 @@ private:
     
 public:
 
-	virtual double enginePower();
-	virtual double sideThrusterPower();
-    virtual double upThrusterPower();
-	virtual double turnPower();
-	virtual double pitchPower();
+	virtual double propForwardVel();
+	virtual double propSideVel();
+    virtual double propUpVel();
+	virtual double propYawVel();
+	virtual double propPitchVel();
 	
 	virtual void tick();
 	EngineState(RenderWindow *window, bool bufferedKeys = false);

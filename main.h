@@ -8,7 +8,8 @@
 #include "ExampleFrameListener.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "engineState.h"
+#include "keyState.h"
+#include "accelerationState.h"
 #include "motionState.h"
 //#include "fixedMotionState.h"
 

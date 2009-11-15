@@ -1,7 +1,7 @@
 #include "engineState.h"
 using namespace std;
 
-double EngineState::enginePower()
+double EngineState::propForwardVel()
 {   
     // keep Engine Power between -1.0 and 1.0
     /*
@@ -13,7 +13,7 @@ double EngineState::enginePower()
     return mEnginePower;
 }
 
-double EngineState::sideThrusterPower()
+double EngineState::propSideVel()
 {
     if (mSideThrusterPower >= 1.00)
         mSideThrusterPower = 1.00;
@@ -22,7 +22,7 @@ double EngineState::sideThrusterPower()
     return mSideThrusterPower;
 }
 
-double EngineState::upThrusterPower()
+double EngineState::propUpVel()
 {
     if (mUpThrusterPower >= 1.00)
         mUpThrusterPower = 1.00;
@@ -31,7 +31,7 @@ double EngineState::upThrusterPower()
     return mUpThrusterPower;
 }
 
-double EngineState::turnPower()
+double EngineState::propYawVel()
 {
     if (mTurnPower >= 1.00)
         mTurnPower = 1.00;
@@ -40,7 +40,7 @@ double EngineState::turnPower()
     return mTurnPower;
 }
 
-double EngineState::pitchPower()
+double EngineState::propPitchVel()
 {
     if (mPitchPower >= 1.00)
         mPitchPower = 1.00;

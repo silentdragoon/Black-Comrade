@@ -11,7 +11,7 @@
 
 #include "shipState.h"
 #include "IMotionState.h"
-#include "IEngineState.h"
+#include "IAccelerationState.h"
 
 
 using namespace Ogre;

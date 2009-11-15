@@ -34,13 +34,14 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
+    KeyState *ks = new KeyState(window);
+    AccelerationState *as = new AccelerationState(ks);
+    MotionState *ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     

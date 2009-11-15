@@ -1,4 +1,3 @@
-
 #ifndef MOTION_STATE_H
 #define MOTION_STATE_H
 
@@ -6,7 +5,7 @@
 #include <OGRE/Ogre.h>
 
 #include "IMotionState.h"
-#include "IEngineState.h"
+#include "IAccelerationState.h"
 #include "ITickable.h"
 
 using namespace Ogre;
@@ -21,7 +20,7 @@ class MotionState : public IMotionState, public ITickable
     double mRoll;
     double mYaw;
     
-    IEngineState *engineState;
+    IAccelerationState *engineState;
     
     //double xForce;
     //double yForce;
@@ -33,7 +32,7 @@ class MotionState : public IMotionState, public ITickable
     static const double TURNPERTICK = 0.01;
     
   public:
-    MotionState(IEngineState *es);
+    MotionState(IAccelerationState *as);
     double xVelocity();
     double yVelocity();
     double zVelocity();

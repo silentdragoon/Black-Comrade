@@ -3,7 +3,7 @@ PREFIX=/home/user-pool/users/jw7082/lib
 
 
 main: main.cpp
-	g++ -o test main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp -DOGRE_GUI_GLX -DOGRE_NO_FREEIMAGE -DOGRE_CONFIG_LITTLE_ENDIAN -I/home/user-pool/users/jw7082/lib/usr/include -I/home/user-pool/users/jw7082/lib/usr/include/OGRE -I/home/user-pool/users/jw7082/lib/usr/include/OIS  -L/home/user-pool/users/jw7082/lib/usr/lib -lOgreMain -lOIS
+	g++ -o test main.cpp stateUpdate.cpp shipState.cpp keyState.cpp accelerationState.cpp motionState.cpp -DOGRE_GUI_GLX -DOGRE_NO_FREEIMAGE -DOGRE_CONFIG_LITTLE_ENDIAN -I/home/user-pool/users/jw7082/lib/usr/include -I/home/user-pool/users/jw7082/lib/usr/include/OGRE -I/home/user-pool/users/jw7082/lib/usr/include/OIS  -L/home/user-pool/users/jw7082/lib/usr/lib -lOgreMain -lOIS
 
 run:
 	export LD_LIBRARY_PATH="${PREFIX}/usr/lib/"; ./test

@@ -1,10 +1,11 @@
 #include "motionState.h"
 #include <iostream>
 #include <math.h>
+
 using namespace std;
 
-MotionState::MotionState(IEngineState *es):
-    engineState(es),
+MotionState::MotionState(IAccelerationState *as):
+    engineState(as),
     xMotion(0.0),
     yMotion(0.0),
     zMotion(0.0),
@@ -46,15 +47,15 @@ double MotionState::roll()
 void MotionState::tick()
 {
     
-    std::cout << engineState->enginePower() << std::endl;
+    std::cout << engineState->propForwardVel() << std::endl;
     
-    mYaw += engineState->turnPower() * 0.01;
+    mYaw += engineState->propYawVel() * 0.01;
     
-    mRoll = engineState->turnPower() * abs(engineState->enginePower() / 1.3) * 0.07;
+    mRoll = engineState->propYawVel() * abs(engineState->propForwardVel() / 1.3) * 0.07;
     
-    zMotion = cos(mYaw) * engineState->enginePower() + sin(mYaw) * (engineState->sideThrusterPower());
-    xMotion = cos(mYaw) * (-engineState->sideThrusterPower()) + sin(mYaw) * engineState->enginePower();
-    yMotion = -(engineState->upThrusterPower());
+    zMotion = cos(mYaw) * engineState->propForwardVel() + sin(mYaw) * (engineState->propSideVel());
+    xMotion = cos(mYaw) * (-engineState->propSideVel()) + sin(mYaw) * engineState->propForwardVel();
+    yMotion = engineState->propUpVel();
 
     //double xPowerFrac = engineState->sideThrusterPower();
     //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
