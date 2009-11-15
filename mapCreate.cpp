@@ -168,8 +168,10 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	Entity *e = sceneManager->createEntity(name, *file);
 	
 	node->attachObject(e);
+
+    cout << file << ": " << (x * TILE_SIZE) << " " << (y * TILE_SIZE) << endl;
 	
-	Vector3 pos(x * TILE_SIZE, y * TILE_SIZE, 0);
+	Vector3 pos(x * TILE_SIZE,0 , y * TILE_SIZE);
 	
 	node->setPosition(pos);
 }
