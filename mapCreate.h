@@ -26,7 +26,6 @@ class MapCreate {
 
 private:
     char geo[MAPSIZE][MAPSIZE]; // Store for the geography of the map
-    int startx,starty; // Index location of the start square of the map
     int endx,endy; // Index location of the end square of the map
 
 	SceneManager *sceneManager;
@@ -40,8 +39,10 @@ private:
     void fetchTile(string dir, vector<int> connections, int x, int y,SceneNode *sceneNode);
 
 public:
+    int startx,starty; // Index location of the start square of the map
+
     MapCreate(char* file, SceneManager *sceneManager);
-	bool outputMap(SceneNode *sceneNode);
+    bool outputMap(SceneNode *sceneNode);
 };
 
 #endif

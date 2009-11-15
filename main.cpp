@@ -93,6 +93,10 @@ void Main::createScene() {
     MapCreate *mc = new MapCreate("examplemap.txt",sceneMgr);
 
     mc->outputMap(mapNode);
+
+    Vector3 startpos(mc->startx,0,mc->starty);
+    
+    camera->setPosition(startpos);
     
     //robotNode->attachObject(e);
     

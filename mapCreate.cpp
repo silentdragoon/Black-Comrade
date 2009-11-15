@@ -43,6 +43,11 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
     for(int xpos=0;xpos<MAPSIZE;xpos++) {
         for(int ypos=0;ypos<MAPSIZE;ypos++) {
             if(geo[xpos][ypos] == 's') {
+                startx = (xpos * TILE_SIZE)+100;
+                starty = (ypos * TILE_SIZE)+100;
+
+                cout << "Startx: " << startx << " Start y: " << starty << endl;
+
                 vector<int> connections = vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()==1) {
