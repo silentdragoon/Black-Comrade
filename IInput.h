@@ -9,6 +9,6 @@ class IInput
     virtual double upInput() = 0;
     virtual double yawInput() = 0;
     virtual double pitchInput() = 0;
-}
+};
 
 #endif

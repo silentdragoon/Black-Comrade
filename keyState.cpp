@@ -1,5 +1,32 @@
+
 #include "keyState.h"
+
 using namespace std;
+
+double KeyState::forwardInput()
+{
+    return mForward;
+}
+
+double KeyState::sideInput()
+{
+    return mSide;
+}
+
+double KeyState::upInput()
+{
+    return mUp;
+}
+
+double KeyState::yawInput()
+{
+    return mYaw;
+}
+
+double KeyState::pitchInput()
+{
+    return mPitch;
+}
 
 void KeyState::tick()
 {

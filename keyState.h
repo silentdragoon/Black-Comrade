@@ -1,3 +1,4 @@
+
 #ifndef KEY_STATE_H
 #define KEY_STATE_H
 
@@ -7,6 +8,8 @@
 #include <iostream>
 #include "ITickable.h"
 #include "IInput.h"
+
+using namespace Ogre;
 
 class KeyState : public ITickable, public IInput
 {
