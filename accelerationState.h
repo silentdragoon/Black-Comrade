@@ -1,7 +1,6 @@
 #ifndef ACCELERATION_STATE_H
 #define ACCELERATION_STATE_H
 
-// Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
 #include "IInput.h"
@@ -19,11 +18,11 @@ class AccelerationState : public IAccelerationState, public ITickable
     IInput *input;
     
   public:
-    virtual double propForwardVel(){ return vPropForwardVel; }
-	virtual double propSideVel(){ return vPropSideVel; }
-    virtual double propUpVel(){ return vPropUpVel; }
-	virtual double propYawVel(){ return vPropYawVel; }
-	virtual double propPitchVel(){ return vPropPitchVel; }
+    virtual double propForwardVel();
+	virtual double propSideVel();
+    virtual double propUpVel();
+	virtual double propYawVel();
+	virtual double propPitchVel();
     virtual void tick();
     AccelerationState( IInput *fromInput );
 }

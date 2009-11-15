@@ -1,7 +1,7 @@
+
 #ifndef MOTION_STATE_H
 #define MOTION_STATE_H
 
-// Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
 #include "IMotionState.h"

@@ -8,8 +8,6 @@
 #include "ITickable.h"
 #include "IInput.h"
 
-using namespace Ogre;
-
 class KeyState : public ITickable, public IInput
 {
     private:
@@ -23,11 +21,11 @@ class KeyState : public ITickable, public IInput
         OIS::InputManager* mInputManager;
         
     public:    
-        virtual double forwardInput() { return mForward; }
-        virtual double sideInput(){ return mSide; }
-        virtual double upInput(){ return mUp; }
-        virtual double yawInput(){ return mYaw; }
-        virtual double pitchInput(){ return mPitch; }
+        virtual double forwardInput();
+        virtual double sideInput();
+        virtual double upInput();
+        virtual double yawInput();
+        virtual double pitchInput();
         
         virtual void tick();
         

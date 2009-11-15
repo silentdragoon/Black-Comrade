@@ -1,5 +1,6 @@
 #include "accelerationState.h"
 
+/*
 AccelerationState::AccelerationState( IInput *fromInput ):
     input(fromInput),
     vPropForwardVel(0.0),
@@ -7,4 +8,4 @@ AccelerationState::AccelerationState( IInput *fromInput ):
     vPropUpVel(0.0),
     vPropYawVel(0.0),
     vPropPitchVel(0.0)
-{}
+{}*/
