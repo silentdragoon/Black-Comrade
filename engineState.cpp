@@ -101,11 +101,16 @@ void EngineState::tick()
     
            
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-        exit(0);    
+        exit(0);
 }
 
-EngineState::EngineState(RenderWindow *window, bool bufferedKeys) :
-        mKeyboard(0)
+EngineState::EngineState(RenderWindow *window, bool bufferedKeys) 
+    : mKeyboard(0)
+    , mEnginePower(0)
+    , mSideThrusterPower(0)
+    , mUpThrusterPower(0)
+    , mPitchPower(0)
+    , mTurnPower(0)
 {
     OIS::ParamList pl;
     size_t windowHnd = 0;
