@@ -3,7 +3,7 @@ PREFIX=/home/user-pool/users/jw7082/lib
 
 
 main:
-	g++ -o test main.cpp DiscoveryAgent.cpp -I/home/user-pool/users/jw7082/lib/usr/include -I/home/user-pool/users/jw7082/lib/usr/include/raknet -L/home/user-pool/users/jw7082/lib/usr/lib -lraknet -lpthread
+	g++ -o test main.cpp ReplicaObject.cpp ShipState.cpp SystemsState.cpp ReplicaConnection.cpp OurReplicaManager.cpp DiscoveryAgent.cpp -I/home/user-pool/users/jw7082/lib/usr/include -I/home/user-pool/users/jw7082/lib/usr/include/raknet -I/home/user-pool/users/jw7082/lib/usr/include/OGRE -L/home/user-pool/users/jw7082/lib/usr/lib -lOgreMain -lraknet -lpthread
 
 run:
 	export LD_LIBRARY_PATH="${PREFIX}/usr/lib/"; ./test

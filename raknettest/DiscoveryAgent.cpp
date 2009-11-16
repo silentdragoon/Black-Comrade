@@ -15,11 +15,13 @@
 
 DiscoveryAgent::DiscoveryAgent(){}
 
-char* DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
+using namespace std;
+
+string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
 {
     RakPeerInterface *client;
     Packet *p;
-    char server[22] = "";
+    string server = "";
     client=RakNetworkFactory::GetRakPeerInterface();
 
     SocketDescriptor socketDescriptor(clientPort,0);
@@ -46,7 +48,8 @@ char* DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
                 RakNetTime time;
                 memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
                 printf("Got pong from %s with time %i\n", p->systemAddress.ToString(), RakNet::GetTime() - time);
-                strcpy(server,p->systemAddress.ToString());
+		  string temp = p->systemAddress.ToString();
+                server = temp.substr(0, temp.find(":"));
                 break;
             }
             else
@@ -59,7 +62,7 @@ char* DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
         SLEEP(30);
     }
     RakNetworkFactory::DestroyRakPeerInterface(client);
-    return strdup(server);
+    return server;
 }
 
 void DiscoveryAgent::beServer(int serverPort, int timeout)
@@ -99,9 +102,8 @@ void DiscoveryAgent::beServer(int serverPort, int timeout)
         {
             server->DeallocatePacket(p);
             numConnections = numConnections + 1;
-            if (numConnections == 2)
+            if (numConnections == 1)
             {
-              printf("Two pings received. Continuing.\n");
               break;
             }
         }
