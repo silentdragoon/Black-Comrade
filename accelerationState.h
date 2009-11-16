@@ -3,7 +3,6 @@
 
 #include <OGRE/Ogre.h>
 
-#include "IInput.h"
 #include "ITickable.h"
 #include "IAccelerationState.h"
 
@@ -15,16 +14,16 @@ class AccelerationState : public IAccelerationState, public ITickable
     double vPropUpVel;
     double vPropYawVel;
     double vPropPitchVel;
-    IInput *input;
+    IAccelerationState *input;
     
   public:
-    virtual double propForwardVel();
-	virtual double propSideVel();
-    virtual double propUpVel();
-	virtual double propYawVel();
-	virtual double propPitchVel();
+    virtual double forward();
+	virtual double side();
+    virtual double up();
+	virtual double yaw();
+	virtual double pitch();
     virtual void tick();
-    AccelerationState( IInput *fromInput );
+    AccelerationState( IAccelerationState *fromInput );
 };
 
 #endif

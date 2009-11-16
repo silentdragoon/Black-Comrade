@@ -12,7 +12,7 @@
 #include "shipState.h"
 #include "IMotionState.h"
 #include "IAccelerationState.h"
-
+#include "ITickable.h"
 
 using namespace Ogre;
 using namespace std;

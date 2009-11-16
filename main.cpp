@@ -35,7 +35,7 @@ Main::Main() {
     
     //createFrameListener();
     KeyState *ks = new KeyState(window);
-    /* AccelerationState *as = new AccelerationState(ks);
+    AccelerationState *as = new AccelerationState(ks);
     MotionState *ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
@@ -43,7 +43,7 @@ Main::Main() {
     stateUpdate->addTickable(ks);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
-    stateUpdate->addTickable(shipState); */
+    stateUpdate->addTickable(shipState);
     
     root->addFrameListener(stateUpdate);
     
