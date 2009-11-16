@@ -1,9 +1,26 @@
 
 PREFIX=/home/user-pool/users/jw7082/lib
 
+CFLAGS=-DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${PREFIX}/usr/include -I${PREFIX}/usr/include/OGRE -I${PREFIX}/usr/include/OIS -I${PREFIX}/usr/include
+LIBS=-L${PREFIX}/usr/lib -lOgreMain -L${PREFIX}/usr/lib -lOIS
 
-main: main.cpp
-	g++ -o test main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp -DOGRE_GUI_GLX -DOGRE_NO_FREEIMAGE -DOGRE_CONFIG_LITTLE_ENDIAN -I/home/user-pool/users/jw7082/lib/usr/include -I/home/user-pool/users/jw7082/lib/usr/include/OGRE -I/home/user-pool/users/jw7082/lib/usr/include/OIS  -L/home/user-pool/users/jw7082/lib/usr/lib -lOgreMain -lOIS
+main: main.o stateUpdate.o shipState.o engineState.o motionState.o
+	g++ -o test main.o stateUpdate.o shipState.o engineState.o motionState.o ${LIBS}
 
+main.o: main.cpp main.h
+	g++ -c main.cpp ${CFLAGS}
+	
+stateUpdate.o: stateUpdate.cpp stateUpdate.h
+	g++ -c stateUpdate.cpp ${CFLAGS}
+	
+shipState.o: shipState.cpp shipState.h
+	g++ -c shipState.cpp ${CFLAGS}
+	
+engineState.o: engineState.cpp engineState.h
+	g++ -c engineState.cpp ${CFLAGS}
+
+motionState.o: motionState.cpp motionState.h
+	g++ -c motionState.cpp ${CFLAGS}
+	
 run:
 	export LD_LIBRARY_PATH="${PREFIX}/usr/lib/"; ./test
