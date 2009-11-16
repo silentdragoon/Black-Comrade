@@ -1,8 +1,5 @@
 
-PREFIX=/home/user-pool/users/jw7082/lib
-
-CFLAGS=-DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${PREFIX}/usr/include -I${PREFIX}/usr/include/OGRE -I${PREFIX}/usr/include/OIS -I${PREFIX}/usr/include
-LIBS=-L${PREFIX}/usr/lib -lOgreMain -L${PREFIX}/usr/lib -lOIS
+include Makefile.local
 
 main: main.o stateUpdate.o shipState.o engineState.o motionState.o
 	g++ -o test main.o stateUpdate.o shipState.o engineState.o motionState.o ${LIBS}
