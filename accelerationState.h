@@ -25,6 +25,6 @@ class AccelerationState : public IAccelerationState, public ITickable
 	virtual double propPitchVel();
     virtual void tick();
     AccelerationState( IInput *fromInput );
-}
+};
 
 #endif

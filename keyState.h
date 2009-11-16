@@ -7,11 +7,11 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "IInput.h"
+#include "IAccelerationState.h"
 
 using namespace Ogre;
 
-class KeyState : public ITickable, public IInput
+class KeyState : public ITickable, public IAccelerationState
 {
     private:
         double mForward;
@@ -24,11 +24,11 @@ class KeyState : public ITickable, public IInput
         OIS::InputManager* mInputManager;
         
     public:    
-        virtual double forwardInput();
-        virtual double sideInput();
-        virtual double upInput();
-        virtual double yawInput();
-        virtual double pitchInput();
+        virtual double forward();
+        virtual double side();
+        virtual double up();
+        virtual double yaw();
+        virtual double pitch();
         
         virtual void tick();
         

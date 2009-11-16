@@ -3,27 +3,27 @@
 
 using namespace std;
 
-double KeyState::forwardInput()
+double KeyState::forward()
 {
     return mForward;
 }
 
-double KeyState::sideInput()
+double KeyState::side()
 {
     return mSide;
 }
 
-double KeyState::upInput()
+double KeyState::up()
 {
     return mUp;
 }
 
-double KeyState::yawInput()
+double KeyState::yaw()
 {
     return mYaw;
 }
 
-double KeyState::pitchInput()
+double KeyState::pitch()
 {
     return mPitch;
 }

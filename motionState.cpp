@@ -47,15 +47,15 @@ double MotionState::roll()
 void MotionState::tick()
 {
     
-    std::cout << engineState->propForwardVel() << std::endl;
+    std::cout << engineState->forward() << std::endl;
     
-    mYaw += engineState->propYawVel() * 0.01;
+    mYaw += engineState->yaw() * 0.01;
     
-    mRoll = engineState->propYawVel() * abs(engineState->propForwardVel() / 1.3) * 0.07;
+    mRoll = engineState->yaw() * abs(engineState->forward() / 1.3) * 0.07;
     
-    zMotion = cos(mYaw) * engineState->propForwardVel() + sin(mYaw) * (engineState->propSideVel());
-    xMotion = cos(mYaw) * (-engineState->propSideVel()) + sin(mYaw) * engineState->propForwardVel();
-    yMotion = engineState->propUpVel();
+    zMotion = cos(mYaw) * engineState->forward() + sin(mYaw) * (engineState->side());
+    xMotion = cos(mYaw) * (-engineState->side()) + sin(mYaw) * engineState->forward();
+    yMotion = engineState->up();
 
     //double xPowerFrac = engineState->sideThrusterPower();
     //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
