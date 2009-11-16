@@ -3,6 +3,8 @@
 
 #include "stateUpdate.h"
 
+#include "networkingManager.h"
+
 Main::Main() {
     
     root = new Root();
@@ -45,10 +47,32 @@ Main::Main() {
     stateUpdate->addTickable(shipState);
     
     root->addFrameListener(stateUpdate);
+
+    // networking
+
+    networkingManager = new NetworkingManager();
     
     // Start Rendering Loop
     root->startRendering();
 }
+
+void Main::startNetworking() {
+        char ch;
+	printf("Start as (c)lient, (s)erver?\n");
+	ch=getch();
+
+	if (ch=='c' || ch=='C')
+	{
+                networkingManager->startNetworking(false);
+	}
+	else if (ch=='s' || ch=='S')
+	{
+                networkingManager->startNetworking(true);
+	}
+
+}
+
+
 
 void Main::createCamera() {
 

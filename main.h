@@ -6,13 +6,30 @@
 #include <OGRE/Ogre.h>
 
 #include "ExampleFrameListener.h"
+#include "networkingManager.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "engineState.h"
 #include "motionState.h"
 //#include "fixedMotionState.h"
 
+//include networking stuff
+#include <string.h>
+#include <string>
+#include <cstdio>
+
+
+
+enum Topology
+{
+	CLIENT,
+	SERVER,
+} topology;
+
+
 using namespace Ogre;
+using namespace std;
+using namespace RakNet;
 
 class Main {
 private:
@@ -21,6 +38,7 @@ private:
     SceneManager *sceneMgr;
     RenderWindow *window;
     ExampleFrameListener *frameListener;
+    NetworkingManager *networkingManager;
     
     SceneNode *robotNode;
     
@@ -32,6 +50,7 @@ private:
     void createScene();
     void createViewPort();
     void createFrameListener(void);
+    void startNetworking();
     
 public:
     Main();
