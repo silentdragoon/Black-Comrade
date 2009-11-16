@@ -37,9 +37,9 @@ void ShipState::updateOgre()
     Radian pitch(this->pitch);
     Radian yaw(this->yaw);
     
+    shipSceneNode->yaw(yaw);
     shipSceneNode->roll(roll);
     shipSceneNode->pitch(pitch);
-    shipSceneNode->yaw(yaw);
-    
+        
     //std::cout << shipSceneNode->getPosition().z << std::endl;
 }

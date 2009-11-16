@@ -1,12 +1,15 @@
 #include "engineState.h"
+using namespace std;
 
 double EngineState::enginePower()
 {   
     // keep Engine Power between -1.0 and 1.0
+    /*
     if (mEnginePower >= 1.00)
         mEnginePower = 1.00;
     if (mEnginePower <= -1.00)
         mEnginePower = -1.00;
+    */
     return mEnginePower;
 }
 
@@ -17,6 +20,15 @@ double EngineState::sideThrusterPower()
     if (mSideThrusterPower <= -1.00)
         mSideThrusterPower = -1.00;
     return mSideThrusterPower;
+}
+
+double EngineState::upThrusterPower()
+{
+    if (mUpThrusterPower >= 1.00)
+        mUpThrusterPower = 1.00;
+    if (mUpThrusterPower <= -1.00)
+        mUpThrusterPower = -1.00;
+    return mUpThrusterPower;
 }
 
 double EngineState::turnPower()
@@ -41,20 +53,37 @@ void EngineState::tick()
 {
     mKeyboard->capture();
     
-    
+    //cout<< "mEnPow: " << mEnginePower;
     if(mKeyboard->isKeyDown(OIS::KC_W))
-    	mEnginePower += ENGINEPOWER / MASS;
+    {
+        if( mEnginePower < 0 ) mEnginePower += 0.5 *ENGINEPOWER / MASS;
+        else mEnginePower += ENGINEPOWER / (MASS *4*(mEnginePower+1));
+        
+    }
    	else if(mKeyboard->isKeyDown(OIS::KC_S))
-   		mEnginePower -= ENGINEPOWER / MASS;
+    {
+        if( mEnginePower > 0 ) mEnginePower -= 0.5 * ENGINEPOWER / MASS;
+   		else mEnginePower -= ENGINEPOWER / (MASS *4*(-mEnginePower+1));
+    }
    	else
-   		mEnginePower *= xFRIC;
+   		mEnginePower *= zFRIC;
     
-    if(mKeyboard->isKeyDown(OIS::KC_W))
-    	mSideThrusterPower = 1;
-   	else if(mKeyboard->isKeyDown(OIS::KC_S))
-   		mSideThrusterPower = -1;
+    if(mKeyboard->isKeyDown(OIS::KC_D))
+    	mSideThrusterPower += SIDETHURSTERPOWER / MASS;
+   	else if(mKeyboard->isKeyDown(OIS::KC_A))
+   		mSideThrusterPower -= SIDETHURSTERPOWER / MASS;
    	else
-   		mSideThrusterPower = 0;
+   		mSideThrusterPower *= xFRIC;
+    
+    if(mKeyboard->isKeyDown(OIS::KC_LSHIFT) || mKeyboard->isKeyDown(OIS::KC_LCONTROL))
+    {
+        cout<< "UP"<< endl;
+    	mUpThrusterPower += SIDETHURSTERPOWER / MASS;
+    }
+   	else if(mKeyboard->isKeyDown(OIS::KC_SPACE))
+   		mUpThrusterPower -= SIDETHURSTERPOWER / MASS;
+   	else
+   		mUpThrusterPower *= xFRIC;
   
   	if(mKeyboard->isKeyDown(OIS::KC_UP))
     	mPitchPower = 1;
@@ -72,11 +101,16 @@ void EngineState::tick()
     
            
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-        exit(0);    
+        exit(0);
 }
 
-EngineState::EngineState(RenderWindow *window, bool bufferedKeys) :
-        mKeyboard(0)
+EngineState::EngineState(RenderWindow *window, bool bufferedKeys) 
+    : mKeyboard(0)
+    , mEnginePower(0)
+    , mSideThrusterPower(0)
+    , mUpThrusterPower(0)
+    , mPitchPower(0)
+    , mTurnPower(0)
 {
     OIS::ParamList pl;
     size_t windowHnd = 0;
