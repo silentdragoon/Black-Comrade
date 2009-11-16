@@ -36,6 +36,7 @@ double AccelerationState::pitch()
 
 void AccelerationState::tick()
 {
+    
     vPropForwardVel = input->forward();
     vPropSideVel = input->side();
     vPropUpVel = input->up();
