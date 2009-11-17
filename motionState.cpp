@@ -45,26 +45,20 @@ double MotionState::roll()
 }
 
 void MotionState::tick()
-{
-    
-    std::cout << engineState->forward() << std::endl;
-    
-    mYaw += engineState->yaw() * 0.01;
+{   
+    mYaw += engineState->yaw() * TURN_SPEED;
     
 
-    mRoll = -engineState->yaw() * abs(engineState->forward() / 1.3) * 0.07;
+    mRoll = -engineState->yaw() * abs(engineState->forward()) * MAX_BANK;
+
+    double forwardV = engineState->forward() * FORWARD_SPEED;
+    double sideV = engineState->side() * SIDE_SPEED;
+    double upV = engineState->up() * UP_SPEED;
 
     
-    zMotion = cos(mYaw) * engineState->forward() + sin(mYaw) * (engineState->side());
-    xMotion = cos(mYaw) * (-engineState->side()) + sin(mYaw) * engineState->forward();
-    yMotion = engineState->up();
+    zMotion = cos(mYaw) * forwardV + sin(mYaw) * (sideV);
+    xMotion = cos(mYaw) * (-sideV) + sin(mYaw) * forwardV;
+    yMotion = upV;
 
-    //double xPowerFrac = engineState->sideThrusterPower();
-    //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
-    //cout << "xMotion: " << xMotion << endl;
-    
-    //mYaw = engineState->turnPower() * PI * TURNPERTICK;
-    //cout << "yawAngleS: " << yawAngleS << endl;
-    //pitchAngleS = engineState->pitchPower() * PI * TURNPERTICK ;
-    //cout << "pitchAngleS: " << pitchAngleS << endl;
+    std::cout << forwardV << std::endl;    
 }
