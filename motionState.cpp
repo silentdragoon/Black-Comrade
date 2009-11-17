@@ -51,7 +51,9 @@ void MotionState::tick()
     
     mYaw += engineState->yaw() * 0.01;
     
-    mRoll = engineState->yaw() * abs(engineState->forward() / 1.3) * 0.07;
+
+    mRoll = -engineState->yaw() * abs(engineState->forward() / 1.3) * 0.07;
+
     
     zMotion = cos(mYaw) * engineState->forward() + sin(mYaw) * (engineState->side());
     xMotion = cos(mYaw) * (-engineState->side()) + sin(mYaw) * engineState->forward();
