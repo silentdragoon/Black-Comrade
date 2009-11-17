@@ -1,6 +1,6 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 Main::Main() {
@@ -34,9 +34,9 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    KeyState *ks = new KeyState(window);
-    AccelerationState *as = new AccelerationState(ks);
-    MotionState *ms = new MotionState(as);
+    ks = new KeyState(window, false, this);
+    as = new AccelerationState(ks);
+    ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
     stateUpdate = new StateUpdate();
@@ -93,13 +93,36 @@ void Main::createScene() {
 }
 
 void Main::createFrameListener(void)
-    {
-        frameListener= new ExampleFrameListener(window, camera);
-        frameListener->showDebugOverlay(true);
-        root->addFrameListener(frameListener);
-    }
+{
+    frameListener= new ExampleFrameListener(window, camera);
+    frameListener->showDebugOverlay(true);
+    root->addFrameListener(frameListener);
+}
 
-int main() {
+int main() 
+{
     
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    delete frameListener;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+

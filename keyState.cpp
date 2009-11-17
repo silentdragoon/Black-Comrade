@@ -69,11 +69,13 @@ void KeyState::tick()
    		mYaw = 0.0;    
          
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-        exit(0);    
+        mExit->exit();   
 }
 
-KeyState::KeyState(RenderWindow *window, bool bufferedKeys) :
-        mKeyboard(0)
+KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
+    : mKeyboard(0)
+    , mWindow(mWindow)
+    , mExit(mExit)
 {
     OIS::ParamList pl;
     size_t windowHnd = 0;
@@ -84,8 +86,14 @@ KeyState::KeyState(RenderWindow *window, bool bufferedKeys) :
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
     mInputManager = OIS::InputManager::createInputSystem(pl);
-    mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys));
-
-        
-        
+    mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
 }
+
+KeyState::~KeyState()
+{
+	mInputManager->destroyInputObject( mKeyboard );
+
+	OIS::InputManager::destroyInputSystem(mInputManager);
+	mInputManager = NULL;
+}
+

@@ -8,6 +8,7 @@
 #include <iostream>
 #include "ITickable.h"
 #include "IAccelerationState.h"
+#include "IExit.h"
 
 using namespace Ogre;
 
@@ -22,6 +23,9 @@ class KeyState : public ITickable, public IAccelerationState
         
         OIS::Keyboard* mKeyboard;
         OIS::InputManager* mInputManager;
+        RenderWindow *mWindow;
+        
+        IExit *mExit;
         
     public:    
         virtual double forward();
@@ -32,8 +36,8 @@ class KeyState : public ITickable, public IAccelerationState
         
         virtual void tick();
         
-        KeyState(RenderWindow *window, bool bufferedKeys = false);
-        
+        KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit);
+        ~KeyState();
 };
 
 #endif

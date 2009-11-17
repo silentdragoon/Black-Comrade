@@ -28,6 +28,8 @@ private:
    
 public:
     
+    bool running;
+    
     StateUpdate();
     
     void addTickable(ITickable* t); 
