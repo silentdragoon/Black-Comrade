@@ -56,15 +56,15 @@ void doTick( double in, double &counter, double &propVel, double BRAKE, double A
 
 void AccelerationState::tick()
 {
-    doTick(input->forward(), cForward, vPropForwardVel, 0.8, TICKSFORWARD);
+    doTick(input->forward(), cForward, vPropForwardVel, 0.97, TICKSFORWARD);
 
-    doTick(input->side(), cSide, vPropSideVel, 0.8, TICKSSIDE);
+    doTick(input->side(), cSide, vPropSideVel, 0.9, TICKSSIDE);
     
-    doTick(input->up(), cUp, vPropUpVel, 0.8, TICKSUP);
+    doTick(input->up(), cUp, vPropUpVel, 0.95, TICKSUP);
     
-    doTick(input->yaw(), cYaw, vPropYawVel, 0.8, TICKSYAW);
+    doTick(input->yaw(), cYaw, vPropYawVel, 0.9, TICKSYAW);
     
-    doTick(input->pitch(), cPitch, vPropPitchVel, 0.8, TICKSPITCH);
+    doTick(input->pitch(), cPitch, vPropPitchVel, 0.95, TICKSPITCH);
     
     /*    
     double tmp = input->forward();
