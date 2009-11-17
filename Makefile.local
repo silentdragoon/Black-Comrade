@@ -1,4 +1,7 @@
-PREFIX=/home/user-pool/users/jw7082/lib
 
-CFLAGS=-DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${PREFIX}/usr/include -I${PREFIX}/usr/include/OGRE -I${PREFIX}/usr/include/OIS -I${PREFIX}/usr/include
-LIBS=-L${PREFIX}/usr/lib -lOgreMain -L${PREFIX}/usr/lib -lOIS
+PREFIX=
+OGRE_PATH=$(PREFIX)/usr/local
+OIS_PATH=$(PREFIX)/usr/local
+
+CFLAGS=-DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include
+LIBS=-L${OGRE_PATH}/lib -lOgreMain -L${OIS_PATH}/lib -lOIS

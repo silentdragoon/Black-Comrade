@@ -20,4 +20,9 @@ motionState.o: motionState.cpp motionState.h
 	g++ -c motionState.cpp ${CFLAGS}
 	
 run:
-	export LD_LIBRARY_PATH="${PREFIX}/usr/lib/"; ./test
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/"; ./test
+	
+.PHONY: clean	
+
+clean:
+	rm *.o test
