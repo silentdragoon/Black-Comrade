@@ -1,28 +1,34 @@
 
+default: all
+
 include Makefile.local
 
-main: main.o stateUpdate.o shipState.o engineState.o motionState.o
-	g++ -o test main.o stateUpdate.o shipState.o engineState.o motionState.o ${LIBS}
+CC = g++
+CFLAGS = 
 
-main.o: main.cpp main.h
-	g++ -c main.cpp ${CFLAGS}
-	
-stateUpdate.o: stateUpdate.cpp stateUpdate.h
-	g++ -c stateUpdate.cpp ${CFLAGS}
-	
-shipState.o: shipState.cpp shipState.h
-	g++ -c shipState.cpp ${CFLAGS}
-	
-engineState.o: engineState.cpp engineState.h
-	g++ -c engineState.cpp ${CFLAGS}
+OUTPUT = test
 
-motionState.o: motionState.cpp motionState.h
-	g++ -c motionState.cpp ${CFLAGS}
+SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp
+
+OBJS = $(SRCS:.cpp=.o)
+
+
+all: $(OUTPUT)
+	@echo Finished!
+	
+$(OUTPUT) : $(OBJS)
+	$(CC) -o $(OUTPUT) $(OBJS) $(LFLAGS) $(LIBS)
+	
+.cpp.o:
+	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
 	
 run:
-	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/"; ./test
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/"; ./$(OUTPUT)
 	
-.PHONY: clean	
+.PHONY: clean depend
 
 clean:
-	rm *.o test
+	rm *.o $(OUTPUT)
+	
+depend: $(SRCS)
+	makedepend -f Makefile.local $^
