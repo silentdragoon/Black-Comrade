@@ -8,7 +8,7 @@ CFLAGS =
 
 OUTPUT = test
 
-SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp
+SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp soundManager.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
