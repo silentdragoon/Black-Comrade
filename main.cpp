@@ -29,6 +29,7 @@ Main::Main() {
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     
+    createSoundManager();
     createCamera();
     createViewPort();
     createScene();
@@ -92,11 +93,17 @@ void Main::createScene() {
 }
 
 void Main::createFrameListener(void)
-    {
-        frameListener= new ExampleFrameListener(window, camera);
-        frameListener->showDebugOverlay(true);
-        root->addFrameListener(frameListener);
-    }
+{
+    frameListener= new ExampleFrameListener(window, camera);
+    frameListener->showDebugOverlay(true);
+    root->addFrameListener(frameListener);
+}
+
+void Main::createSoundManager()
+{
+    soundMgr = new SoundManager;
+    soundMgr->Initialize();
+}
 
 int main() {
     

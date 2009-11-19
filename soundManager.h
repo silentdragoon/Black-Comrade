@@ -6,7 +6,7 @@
 #include <fmodex/fmod_errors.h>
 #include <OGRE/Ogre.h>
 
-#define MAX_SOUND_CHANNELS       200
+#define MAX_SOUND_CHANNELS  200
 
 #define INVALID_SOUND_INDEX      0
 #define INVALID_SOUND_CHANNEL    -1

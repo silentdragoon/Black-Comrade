@@ -10,6 +10,7 @@
 #include "shipState.h"
 #include "engineState.h"
 #include "motionState.h"
+#include "soundManager.h"
 //#include "fixedMotionState.h"
 
 using namespace Ogre;
@@ -21,6 +22,7 @@ private:
     SceneManager *sceneMgr;
     RenderWindow *window;
     ExampleFrameListener *frameListener;
+    SoundManager *soundMgr;
     
     SceneNode *robotNode;
     
@@ -32,6 +34,7 @@ private:
     void createScene();
     void createViewPort();
     void createFrameListener(void);
+    void createSoundManager();
     
 public:
     Main();
