@@ -1,5 +1,4 @@
 #include "soundManager.h"
-#include <fmod_errors.h>
 
 #define INITIAL_VECTOR_SIZE   100
 #define INCREASE_VECTOR_SIZE  20
@@ -141,19 +140,19 @@ void SoundManager::FrameStarted(Ogre::SceneNode *listenerNode, Ogre::Real timeEl
    Ogre::Vector3  vectorUp;
 
    if (timeElapsed > 0)
-      vectorVelocity = (listenerNode->getWorldPosition() - prevListenerPosition) / timeElapsed;
+      vectorVelocity = (listenerNode->getPosition() - prevListenerPosition) / timeElapsed;
    else
       vectorVelocity = Vector3(0, 0, 0);
 
-   vectorForward = listenerNode->getWorldOrientation().zAxis();
+   vectorForward = listenerNode->getOrientation().zAxis();
    vectorForward.normalise();
 
-   vectorUp = listenerNode->getWorldOrientation().yAxis();
+   vectorUp = listenerNode->getOrientation().yAxis();
    vectorUp.normalise();
 
-   listenerPosition.x = listenerNode->getWorldPosition().x;
-   listenerPosition.y = listenerNode->getWorldPosition().y;
-   listenerPosition.z = listenerNode->getWorldPosition().z;
+   listenerPosition.x = listenerNode->getPosition().x;
+   listenerPosition.y = listenerNode->getPosition().y;
+   listenerPosition.z = listenerNode->getPosition().z;
 
    listenerForward.x = vectorForward.x;
    listenerForward.y = vectorForward.y;
@@ -171,7 +170,7 @@ void SoundManager::FrameStarted(Ogre::SceneNode *listenerNode, Ogre::Real timeEl
    system->set3DListenerAttributes(0, &listenerPosition, &listenerVelocity, &listenerForward, &listenerUp);
    system->update();
 
-   prevListenerPosition = listenerNode->getWorldPosition();
+   prevListenerPosition = listenerNode->getPosition();
 
    for (channelIndex = 0; channelIndex < MAX_SOUND_CHANNELS; channelIndex++)
       {
@@ -179,20 +178,20 @@ void SoundManager::FrameStarted(Ogre::SceneNode *listenerNode, Ogre::Real timeEl
          {
          system->getChannel(channelIndex, &nextChannel);
          if (timeElapsed > 0)
-            vectorVelocity = (channelArray[channelIndex].sceneNode->getWorldPosition() - channelArray[channelIndex].prevPosition) / timeElapsed;
+            vectorVelocity = (channelArray[channelIndex].sceneNode->getPosition() - channelArray[channelIndex].prevPosition) / timeElapsed;
          else
             vectorVelocity = Vector3(0, 0, 0);
 
-         listenerPosition.x = channelArray[channelIndex].sceneNode->getWorldPosition().x;
-         listenerPosition.y = channelArray[channelIndex].sceneNode->getWorldPosition().y;
-         listenerPosition.z = channelArray[channelIndex].sceneNode->getWorldPosition().z;
+         listenerPosition.x = channelArray[channelIndex].sceneNode->getPosition().x;
+         listenerPosition.y = channelArray[channelIndex].sceneNode->getPosition().y;
+         listenerPosition.z = channelArray[channelIndex].sceneNode->getPosition().z;
 
          listenerVelocity.x = vectorVelocity.x;
          listenerVelocity.y = vectorVelocity.y;
          listenerVelocity.z = vectorVelocity.z;
 
          nextChannel->set3DAttributes(&listenerPosition, &listenerVelocity);
-         channelArray[channelIndex].prevPosition = channelArray[channelIndex].sceneNode->getWorldPosition();
+         channelArray[channelIndex].prevPosition = channelArray[channelIndex].sceneNode->getPosition();
          }
       }
    }
@@ -442,11 +441,11 @@ void SoundManager::PlaySound(int soundIndex, SceneNode *soundNode, int *channelI
 
    if (soundNode)
       {
-      channelArray[channelIndexTemp].prevPosition = soundNode->getWorldPosition();
+      channelArray[channelIndexTemp].prevPosition = soundNode->getPosition();
 
-      initialPosition.x = soundNode->getWorldPosition().x;
-      initialPosition.y = soundNode->getWorldPosition().y;
-      initialPosition.z = soundNode->getWorldPosition().z;
+      initialPosition.x = soundNode->getPosition().x;
+      initialPosition.y = soundNode->getPosition().y;
+      initialPosition.z = soundNode->getPosition().z;
       channel->set3DAttributes(&initialPosition, NULL);
       }
 

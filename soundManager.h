@@ -1,8 +1,10 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-#include <fmod.hpp>
-#include <ogre.h>
+#include <fmodex/fmod.hpp>
+#include <fmodex/fmod.h>
+#include <fmodex/fmod_errors.h>
+#include <OGRE/Ogre.h>
 
 #define MAX_SOUND_CHANNELS       200
 
