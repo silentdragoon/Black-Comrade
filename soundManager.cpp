@@ -1,7 +1,6 @@
 #include "soundManager.h"
 #include <fmod_errors.h>
 
-
 #define INITIAL_VECTOR_SIZE   100
 #define INCREASE_VECTOR_SIZE  20
 
