@@ -50,7 +50,7 @@ private:
     void createScene();
     void createViewPort();
     void createFrameListener(void);
-    void startNetworking();
+    bool startNetworking();
     
 public:
     Main();

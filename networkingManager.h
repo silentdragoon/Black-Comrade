@@ -44,6 +44,7 @@ private:
         SocketDescriptor sd;
         static const int SERVER_PORT=6001;
         NetworkIDManager networkIdManager;
+        bool isServer;
 
 
         RakPeerInterface *rakPeer;

@@ -13,7 +13,7 @@ Main::Main() {
 
     shipState = new ShipState();
 
-    startNetworking();
+    bool isServer = startNetworking();
    
     root = new Root();
     
@@ -45,18 +45,34 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    createFrameListener();
+    //createFrameListener();
     
-    //EngineState *es = new EngineState(window);
-    //MotionState *ms = new MotionState(es);
-    //shipState = new ShipState(shipSceneNode, ms);
-    shipState = (ShipState*) networkingManager->replicaManager.GetReplicaAtIndex(0);
-    shipState->shipSceneNode = shipSceneNode;
+    EngineState *es;
+    MotionState *ms;
+
+    if (isServer)
+    {
+        es = new EngineState(window);
+        ms = new MotionState(es);
+        shipState = new ShipState(shipSceneNode, ms);
+        networkingManager->replicaManager.Reference(shipState);
+        shipState->setX(20.0);
+    }
+    else
+    {
+        shipState = (ShipState*) networkingManager->replicaManager.GetReplicaAtIndex(0);
+        shipState->shipSceneNode = shipSceneNode;
+    }
     
     stateUpdate = new StateUpdate();
     stateUpdate->addTickable(networkingManager);
-    //stateUpdate->addTickable(es);
-    //stateUpdate->addTickable(ms);
+
+    if (isServer)
+    {
+        stateUpdate->addTickable(es);
+        stateUpdate->addTickable(ms);
+    }
+
     stateUpdate->addTickable(shipState);
     
     root->addFrameListener(stateUpdate);
@@ -65,7 +81,7 @@ Main::Main() {
     root->startRendering();
 }
 
-void Main::startNetworking() {
+bool Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver?\n");
     ch=getch();
@@ -73,16 +89,17 @@ void Main::startNetworking() {
     if (ch=='c' || ch=='C')
     {
         networkingManager->startNetworking(false);
+        while(networkingManager->replicaManager.GetReplicaCount() == 0)
+        {
+            networkingManager->tick();
+        }
+        return false;
     }
     else if (ch=='s' || ch=='S')
     {
         networkingManager->startNetworking(true);
     }
-    while(networkingManager->replicaManager.GetReplicaCount() == 0)
-    {
-        networkingManager->tick();
-    }
-    printf("Hello\n");
+    return true;
 }
 
 void Main::createCamera() {
