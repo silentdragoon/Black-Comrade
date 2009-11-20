@@ -1,0 +1,11 @@
+
+PREFIX =
+OGRE_PATH = $(PREFIX)/usr/local
+OIS_PATH = $(PREFIX)/usr/local
+
+INCLUDES = -DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include
+LFLAGS = -L${OGRE_PATH}/lib -L${OIS_PATH}/lib
+LIBS = -lOgreMain  -lOIS
+	
+# DO NOT DELETE THIS LINE -- make depend needs it
+
