@@ -43,8 +43,8 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
     for(int xpos=0;xpos<MAPSIZE;xpos++) {
         for(int ypos=0;ypos<MAPSIZE;ypos++) {
             if(geo[xpos][ypos] == 's') {
-                startx = (xpos * TILE_SIZE)+100;
-                starty = (ypos * TILE_SIZE)+100;
+                startx = (xpos * TILE_SIZE)+(TILE_SIZE/2);
+                starty = (ypos * TILE_SIZE)+(TILE_SIZE/2);
 
                 cout << "Startx: " << startx << " Start y: " << starty << endl;
 

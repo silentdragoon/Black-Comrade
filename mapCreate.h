@@ -17,7 +17,7 @@
 #define MAPSIZE 30
 #define MAPROOT "./mapparts/"
 
-#define TILE_SIZE 200
+#define TILE_SIZE 400
 
 using namespace std;
 using namespace Ogre;
