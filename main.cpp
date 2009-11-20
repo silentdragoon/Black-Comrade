@@ -1,6 +1,6 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 #include "networkingManager.h"
@@ -46,14 +46,12 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    
-    EngineState *es;
-    MotionState *ms;
 
     if (isServer)
     {
-        es = new EngineState(window);
-        ms = new MotionState(es);
+        ks = new KeyState(window, false, this);
+        as = new AccelerationState(ks);
+        ms = new MotionState(as);
         shipState = new ShipState(shipSceneNode, ms);
         networkingManager->replicaManager.Reference(shipState);
         shipState->setX(20.0);
@@ -69,7 +67,8 @@ Main::Main() {
 
     if (isServer)
     {
-        stateUpdate->addTickable(es);
+        stateUpdate->addTickable(ks);
+        stateUpdate->addTickable(as);
         stateUpdate->addTickable(ms);
     }
 
@@ -146,4 +145,24 @@ void Main::createScene() {
 int main() {
     
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+

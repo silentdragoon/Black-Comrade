@@ -8,9 +8,10 @@
 #include "networkingManager.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "engineState.h"
+#include "keyState.h"
+#include "accelerationState.h"
 #include "motionState.h"
-//#include "fixedMotionState.h"
+#include "IExit.h"
 
 //include networking stuff
 #include <string.h>
@@ -30,7 +31,7 @@ using namespace Ogre;
 using namespace std;
 using namespace RakNet;
 
-class Main {
+class Main : public IExit {
 private:
     Root *root;
     Camera *camera;
@@ -39,6 +40,10 @@ private:
 
     NetworkingManager *networkingManager;
 
+    
+    KeyState *ks;
+    AccelerationState *as;
+    MotionState *ms;
     
     SceneNode *robotNode;
     
@@ -53,6 +58,9 @@ private:
     
 public:
     Main();
+    ~Main();
+    
+    void exit();
 };
 
 #endif
