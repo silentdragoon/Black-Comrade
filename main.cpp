@@ -1,6 +1,6 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 Main::Main() {
@@ -34,13 +34,14 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
+    ks = new KeyState(window, false, this);
+    as = new AccelerationState(ks);
+    ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     
@@ -94,4 +95,24 @@ void Main::createScene() {
 int main() {
     
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+
