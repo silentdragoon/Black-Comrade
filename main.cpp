@@ -5,11 +5,21 @@
 
 #include "networkingManager.h"
 
+using namespace RakNet;
+
 Main::Main() {
-    
+
+    networkingManager = new NetworkingManager();
+
+    shipState = new ShipState();
+
+    startNetworking();
+   
     root = new Root();
     
     root->showConfigDialog();
+
+    // networking
     
     window = root->initialise(true, "Test Window");
     
@@ -35,44 +45,45 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    //createFrameListener();
+    createFrameListener();
     
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
-    shipState = new ShipState(shipSceneNode, ms);
+    //EngineState *es = new EngineState(window);
+    //MotionState *ms = new MotionState(es);
+    //shipState = new ShipState(shipSceneNode, ms);
+    shipState = (ShipState*) networkingManager->replicaManager.GetReplicaAtIndex(0);
+    shipState->shipSceneNode = shipSceneNode;
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
-    stateUpdate->addTickable(ms);
+    stateUpdate->addTickable(networkingManager);
+    //stateUpdate->addTickable(es);
+    //stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     
     root->addFrameListener(stateUpdate);
-
-    // networking
-
-    networkingManager = new NetworkingManager();
     
     // Start Rendering Loop
     root->startRendering();
 }
 
 void Main::startNetworking() {
-        char ch;
-	printf("Start as (c)lient, (s)erver?\n");
-	ch=getch();
+    char ch;
+    printf("Start as (c)lient, (s)erver?\n");
+    ch=getch();
 
-	if (ch=='c' || ch=='C')
-	{
-                networkingManager->startNetworking(false);
-	}
-	else if (ch=='s' || ch=='S')
-	{
-                networkingManager->startNetworking(true);
-	}
-
+    if (ch=='c' || ch=='C')
+    {
+        networkingManager->startNetworking(false);
+    }
+    else if (ch=='s' || ch=='S')
+    {
+        networkingManager->startNetworking(true);
+    }
+    while(networkingManager->replicaManager.GetReplicaCount() == 0)
+    {
+        networkingManager->tick();
+    }
+    printf("Hello\n");
 }
-
-
 
 void Main::createCamera() {
 

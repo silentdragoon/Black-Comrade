@@ -24,3 +24,4 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
 		}
 		return 0;
 }
+

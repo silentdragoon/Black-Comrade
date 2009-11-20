@@ -9,6 +9,9 @@ class OurReplicaManager : public ReplicaManager3
 {
 	virtual Connection_RM3* AllocConnection(SystemAddress systemAddress, RakNetGUID rakNetGUID) const;
 	virtual void DeallocConnection(Connection_RM3 *connection) const;
+
+public:
+       Replica3 *GetShipState();
 };
 
 #endif

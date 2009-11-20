@@ -3,6 +3,14 @@
 
 #include <iostream>
 
+ShipState::ShipState() {
+    position = new Vector3(0.0,0.0,-500.0);
+    roll=0.0;
+    pitch=0.0;
+    yaw=0.0;
+    motionState = 0;
+}
+
 ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState) :
     position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
@@ -12,21 +20,21 @@ ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState) :
     motionState(motionState)
 {}
 
-void ShipState::tick()
-{
-    position->x += motionState->xVelocity();
-    position->y += motionState->yVelocity();
-    position->z += motionState->zVelocity();
+void ShipState::tick() {
+
+    if (motionState != 0) {
+        position->x += motionState->xVelocity();
+        position->y += motionState->yVelocity();
+        position->z += motionState->zVelocity();
     
-    roll = motionState->roll();
-    pitch = motionState->pitch();
-    yaw = motionState->yaw();
-    
+        roll = motionState->roll();
+        pitch = motionState->pitch();
+        yaw = motionState->yaw();
+    }
     updateOgre();
 }
 
-void ShipState::updateOgre()
-{
+void ShipState::updateOgre() {
     //std::cout << position->x << "," << position->y << "," << position->z << std::endl;
 
 	shipSceneNode->resetOrientation();
@@ -44,43 +52,57 @@ void ShipState::updateOgre()
     //std::cout << shipSceneNode->getPosition().z << std::endl;
 }
 
-	RakNet::RakString ShipState::GetName(void) const {return RakNet::RakString("ShipState");}
+void ShipState::setX(double newX) {
+    position->x = newX;
+}
 
-	void ShipState::WriteAllocationID(RakNet::BitStream *allocationIdBitstream) const {
-		allocationIdBitstream->Write(GetName());
-	}
+void ShipState::setY(double newY) {
+    position->y = newY;
+}
 
-	RM3SerializationResult ShipState::Serialize(SerializeParameters *serializeParameters)	{
-		serializeParameters->outputBitstream[0].Write(position->x);
-		serializeParameters->outputBitstream[0].Write(position->y);
-		serializeParameters->outputBitstream[0].Write(position->z);
-		serializeParameters->outputBitstream[0].Write(roll);
-		serializeParameters->outputBitstream[0].Write(pitch);
-		serializeParameters->outputBitstream[0].Write(yaw);
+void ShipState::setZ(double newZ) {
+    position->z = newZ;
+}
 
-		return RM3SR_BROADCAST_IDENTICALLY;
-	}
+double ShipState::getX() {
+    return position->x;
+}
 
-	void ShipState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-		deserializeParameters->serializationBitstream[0].Read(position->x);	
-		deserializeParameters->serializationBitstream[0].Read(position->y);	
-		deserializeParameters->serializationBitstream[0].Read(position->z);	
-		deserializeParameters->serializationBitstream[0].Read(roll);
-		deserializeParameters->serializationBitstream[0].Read(pitch);
-		deserializeParameters->serializationBitstream[0].Read(yaw);
+double ShipState::getY() {
+    return position->y;
+}
 
-		print();
-	}
+double ShipState::getZ() {
+    return position->z;
+}
 
-	void ShipState::print() {
-		printf("ShipState is now (X:%.1f Y:%.1f Z:%.1f), (R:%.1f P:%.1f Y:%.1f)\n", position->x, position->y, position->z, roll, pitch, yaw);
-	}
+RakNet::RakString ShipState::GetName(void) const {return RakNet::RakString("ShipState");}
 
-	ShipState::ShipState()
-       {
-		position = new Vector3(0.0,0.0,-500.0);
-		roll=0.0;
-		pitch=0.0;
-		yaw=0.0;
-	}
+RM3SerializationResult ShipState::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(position->x);
+    serializeParameters->outputBitstream[0].Write(position->y);
+    serializeParameters->outputBitstream[0].Write(position->z);
+    serializeParameters->outputBitstream[0].Write(roll);
+    serializeParameters->outputBitstream[0].Write(pitch);
+    serializeParameters->outputBitstream[0].Write(yaw);
+
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void ShipState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+    deserializeParameters->serializationBitstream[0].Read(position->x);	
+    deserializeParameters->serializationBitstream[0].Read(position->y);	
+    deserializeParameters->serializationBitstream[0].Read(position->z);	
+    deserializeParameters->serializationBitstream[0].Read(roll);
+    deserializeParameters->serializationBitstream[0].Read(pitch);
+    deserializeParameters->serializationBitstream[0].Read(yaw);
+
+    print();
+}
+
+void ShipState::print() {
+    printf("ShipState is now (X:%.1f Y:%.1f Z:%.1f), (R:%.1f P:%.1f Y:%.1f)\n", position->x, position->y, position->z, roll, pitch, yaw);
+}
+
+
 

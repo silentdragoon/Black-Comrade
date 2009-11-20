@@ -17,7 +17,7 @@
 #include "DiscoveryAgent.h"
 
 #include "ReplicaObject.h"
-#include "ShipState.h"
+#include "shipState.h"
 #include "SystemsState.h"
 #include "ReplicaConnection.h"
 #include "OurReplicaManager.h"
@@ -136,7 +136,7 @@ int main(void)
 			{
                             shipState = new ShipState();
 				replicaManager.Reference(shipState);
-				shipState->Print();
+				shipState->print();
 				amPilot = true;
 			}
 			if(ch=='e' && amPilot == false && amEngineer == false)
@@ -149,18 +149,18 @@ int main(void)
 			}
 			if(ch=='x' && amPilot == true)
 			{
-				shipState->position->x = shipState->position->x + 1;
-				shipState->Print();
+				shipState->setX(shipState->getX() + 1);
+				shipState->print();
 			}
 			if(ch=='y' && amPilot == true)
 			{
-				shipState->position->y = shipState->position->y + 1;
-				shipState->Print();
+				shipState->setY(shipState->getY() + 1);
+				shipState->print();
 			}
 			if(ch=='z' && amPilot == true)
 			{
-				shipState->position->z = shipState->position->z + 1;
-				shipState->Print();
+				shipState->setZ(shipState->getZ() + 1);
+				shipState->print();
 			}
 			if(ch=='h' && amEngineer == true)
 			{

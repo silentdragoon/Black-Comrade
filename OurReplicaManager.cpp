@@ -12,3 +12,14 @@ Connection_RM3* OurReplicaManager::AllocConnection(SystemAddress systemAddress, 
 void OurReplicaManager::DeallocConnection(Connection_RM3 *connection) const {
 	delete connection;
 }
+
+Replica3* OurReplicaManager::GetShipState() {
+    if (GetReplicaCount() > 0) {
+        return GetReplicaAtIndex(0);
+    }
+    else
+    {
+        return 0;
+    }
+}
+

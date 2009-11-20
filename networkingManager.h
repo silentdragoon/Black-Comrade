@@ -40,13 +40,23 @@ private:
         DiscoveryAgent *discoveryAgent;
         ShipState *shipState;
         SystemsState *systemsState;
+        Packet *packet;
+        SocketDescriptor sd;
         static const int SERVER_PORT=6001;
         NetworkIDManager networkIdManager;
+
+
         RakPeerInterface *rakPeer;
-        OurReplicaManager replicaManager;
+
+
+        string serverAddress;
 
 public:
-	virtual void tick();
+
+        OurReplicaManager replicaManager;
+        NetworkingManager();
+
+        virtual void tick();
         void startNetworking(bool Server);
 
 };

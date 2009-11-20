@@ -22,18 +22,25 @@ private:
     Real pitch;
     Real yaw;
 
-    SceneNode *shipSceneNode;
     IMotionState *motionState;
 public:
     ShipState(SceneNode *shipSceneNode, IMotionState *motionState);
     ShipState();
+    SceneNode *shipSceneNode;
 
     void print();
     void tick();
     void updateOgre();
 
+    void setX(double newX);
+    void setY(double newY);
+    void setZ(double newZ);
+
+    double getX();
+    double getY();
+    double getZ();
+
     virtual RakNet::RakString GetName(void) const;
-    virtual void WriteAllocationID(RakNet::BitStream *allocationIdBitstream) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
     virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
 };
