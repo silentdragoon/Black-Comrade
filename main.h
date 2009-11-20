@@ -19,7 +19,6 @@ private:
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
-    ExampleFrameListener *frameListener;
     
     SceneNode *robotNode;
     
