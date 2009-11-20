@@ -30,7 +30,6 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    void createFrameListener(void);
     
 public:
     Main();
