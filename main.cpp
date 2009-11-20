@@ -7,7 +7,8 @@ Main::Main() {
     
     root = new Root();
     
-    root->showConfigDialog();
+    if (!root->restoreConfig())
+        root->showConfigDialog();
     
     window = root->initialise(true, "Test Window");
     
