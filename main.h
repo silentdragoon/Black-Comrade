@@ -7,18 +7,23 @@
 
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "engineState.h"
+#include "keyState.h"
+#include "accelerationState.h"
 #include "motionState.h"
-//#include "fixedMotionState.h"
+#include "IExit.h"
 
 using namespace Ogre;
 
-class Main {
+class Main : public IExit {
 private:
     Root *root;
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
+    
+    KeyState *ks;
+    AccelerationState *as;
+    MotionState *ms;
     
     SceneNode *robotNode;
     
@@ -32,6 +37,9 @@ private:
     
 public:
     Main();
+    ~Main();
+    
+    void exit();
 };
 
 #endif

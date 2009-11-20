@@ -1,6 +1,6 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 Main::Main() {
@@ -34,13 +34,14 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
+    ks = new KeyState(window, false, this);
+    as = new AccelerationState(ks);
+    ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     
@@ -91,7 +92,41 @@ void Main::createScene() {
     robotNode->yaw(Ogre::Radian(4.712));
 }
 
+<<<<<<< HEAD:main.cpp
 int main() {
+=======
+void Main::createFrameListener(void)
+{
+    frameListener= new ExampleFrameListener(window, camera);
+    frameListener->showDebugOverlay(true);
+    root->addFrameListener(frameListener);
+}
+
+int main() 
+{
+>>>>>>> flying:main.cpp
     
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    delete frameListener;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+
