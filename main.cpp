@@ -126,13 +126,6 @@ void Main::createScene() {
     robotNode->yaw(Ogre::Radian(4.712));
 }
 
-void Main::createFrameListener(void)
-    {
-        frameListener= new ExampleFrameListener(window, camera);
-        frameListener->showDebugOverlay(true);
-        root->addFrameListener(frameListener);
-    }
-
 int main() {
     
     Main *main = new Main();

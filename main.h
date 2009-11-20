@@ -5,7 +5,6 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-#include "ExampleFrameListener.h"
 #include "networkingManager.h"
 #include "stateUpdate.h"
 #include "shipState.h"
@@ -37,8 +36,9 @@ private:
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
-    ExampleFrameListener *frameListener;
+
     NetworkingManager *networkingManager;
+
     
     SceneNode *robotNode;
     
@@ -49,7 +49,7 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    void createFrameListener(void);
+
     void startNetworking();
     
 public:
