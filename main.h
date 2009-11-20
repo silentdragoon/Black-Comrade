@@ -5,7 +5,6 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-#include "ExampleFrameListener.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "engineState.h"
