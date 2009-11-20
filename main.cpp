@@ -45,7 +45,7 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    createFrameListener();
+    // createFrameListener();
     
     //EngineState *es = new EngineState(window);
     //MotionState *ms = new MotionState(es);
