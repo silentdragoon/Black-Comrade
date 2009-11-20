@@ -13,7 +13,7 @@ Main::Main() {
 
     shipState = new ShipState();
 
-    bool isServer = startNetworking();
+    isServer = startNetworking();
    
     root = new Root();
     
@@ -45,6 +45,8 @@ Main::Main() {
     createCamera();
     createViewPort();
     createScene();
+    
+    if(!isServer) camera->setPosition(0,0,-40);
     
     //createFrameListener();
 
@@ -139,6 +141,15 @@ void Main::createScene() {
     
     robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     robotNode->attachObject(e);
+    
+    SceneNode *modelNode = shipSceneNode->createChildSceneNode();
+    
+    e = sceneMgr->createEntity("robot", "robot.mesh");
+    modelNode->attachObject(e);
+    modelNode->setScale(0.15,0.15,0.15);
+    modelNode->setPosition(0,-7,0);
+    modelNode->yaw(Degree(270));
+    
     
     robotNode->yaw(Ogre::Radian(4.712));
 }

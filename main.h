@@ -39,7 +39,7 @@ private:
     RenderWindow *window;
 
     NetworkingManager *networkingManager;
-
+    bool isServer;
     
     KeyState *ks;
     AccelerationState *as;
