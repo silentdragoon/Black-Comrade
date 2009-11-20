@@ -17,7 +17,8 @@ Main::Main() {
    
     root = new Root();
     
-    root->showConfigDialog();
+    if (!root->restoreConfig())
+        root->showConfigDialog();
 
     // networking
     
