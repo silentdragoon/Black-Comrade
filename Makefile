@@ -8,7 +8,7 @@ CFLAGS =
 
 OUTPUT = test
 
-SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp
+SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp ReplicaConnection.cpp ReplicaObject.cpp SystemsState.cpp OurReplicaManager.cpp networkingManager.cpp DiscoveryAgent.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

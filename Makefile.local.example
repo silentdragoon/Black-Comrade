@@ -2,10 +2,11 @@
 PREFIX = /home/user-pool/users/jw7082/lib
 OGRE_PATH = $(PREFIX)/usr
 OIS_PATH = $(PREFIX)/usr
+RAKNET_PATH = $(PREFIX)/usr
 
-INCLUDES = -DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include
-LFLAGS = -L${OGRE_PATH}/lib -L${OIS_PATH}/lib
-LIBS = -lOgreMain  -lOIS
+INCLUDES = -DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include -I${RAKNET_PATH}/include/raknet
+LFLAGS = -L${OGRE_PATH}/lib -L${OIS_PATH}/lib -L${RAKNET_PATH}/lib
+LIBS = -lOgreMain -lOIS -lraknet -lpthread
 	
 # DO NOT DELETE THIS LINE -- make depend needs it
 
