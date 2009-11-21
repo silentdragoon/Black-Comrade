@@ -18,15 +18,6 @@
 #include <string>
 #include <cstdio>
 
-
-
-enum Topology
-{
-	CLIENT,
-	SERVER,
-} topology;
-
-
 using namespace Ogre;
 using namespace std;
 using namespace RakNet;
