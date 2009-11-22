@@ -28,6 +28,11 @@ double ShipControls::pitch()
     return mPitch;
 }
 
+bool ShipControls::fire()
+{
+    return isFire;
+}
+
 void ShipControls::tick()
 {
     if(keyState->isKeyDown(OIS::KC_W))
@@ -64,6 +69,8 @@ void ShipControls::tick()
    		mYaw = -1.0;
    	else
    		mYaw = 0.0;
+   		
+    isFire = keyState->isKeyDown(OIS::KC_RETURN);
 }
 
 ShipControls::ShipControls(KeyState *keyState)

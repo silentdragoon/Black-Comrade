@@ -60,5 +60,5 @@ void MotionState::tick()
     xMotion = cos(mYaw) * (-sideV) + sin(mYaw) * forwardV;
     yMotion = upV;
 
-    std::cout << forwardV << std::endl;    
+    //std::cout << forwardV << std::endl;    
 }
