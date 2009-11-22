@@ -36,12 +36,14 @@ Main::Main() {
     
     //createFrameListener();
     ks = new KeyState(window, false, this);
-    as = new AccelerationState(ks);
+    sc = new ShipControls(ks);
+    as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
     stateUpdate = new StateUpdate();
     stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);

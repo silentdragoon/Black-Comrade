@@ -8,6 +8,7 @@
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
+#include "shipControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
 #include "IExit.h"
@@ -22,6 +23,7 @@ private:
     RenderWindow *window;
     
     KeyState *ks;
+    ShipControls *sc;
     AccelerationState *as;
     MotionState *ms;
     

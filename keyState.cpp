@@ -3,73 +3,17 @@
 
 using namespace std;
 
-double KeyState::forward()
-{
-    return mForward;
-}
-
-double KeyState::side()
-{
-    return mSide;
-}
-
-double KeyState::up()
-{
-    return mUp;
-}
-
-double KeyState::yaw()
-{
-    return mYaw;
-}
-
-double KeyState::pitch()
-{
-    return mPitch;
-}
-
 void KeyState::tick()
 {
     mKeyboard->capture();
     
-    //cout<< "mEnPow: " << mEnginePower;
-    if(mKeyboard->isKeyDown(OIS::KC_W))
-        mForward = 1.0;
-   	else if(mKeyboard->isKeyDown(OIS::KC_S))
-        mForward = -1.0;
-   	else
-   		mForward = 0.0;
-    
-    if(mKeyboard->isKeyDown(OIS::KC_D))
-    	mSide = 1.0;
-   	else if(mKeyboard->isKeyDown(OIS::KC_A))
-   		mSide = -1.0;
-   	else
-   		mSide = 0.0;
-    
-    if(mKeyboard->isKeyDown(OIS::KC_SPACE))
-        mUp = 1.0;
-   	else if(mKeyboard->isKeyDown(OIS::KC_LSHIFT) || mKeyboard->isKeyDown(OIS::KC_LCONTROL))
-   		mUp = -1.0;
-   	else
-   		mUp = 0.0;
-  
-  	if(mKeyboard->isKeyDown(OIS::KC_UP))
-    	mPitch = 1.0;
-   	else if(mKeyboard->isKeyDown(OIS::KC_DOWN))
-   		mPitch = -1.0;
-   	else
-   		mPitch = 0.0;
-        
-    if(mKeyboard->isKeyDown(OIS::KC_LEFT))
-    	mYaw = 1.0;
-   	else if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
-   		mYaw = -1.0;
-   	else
-   		mYaw = 0.0;    
-         
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
         mExit->exit();   
+}
+
+bool KeyState::isKeyDown(OIS::KeyCode keyCode)
+{
+    return mKeyboard->isKeyDown(keyCode);
 }
 
 KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 

@@ -7,20 +7,13 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "IAccelerationState.h"
 #include "IExit.h"
 
 using namespace Ogre;
 
-class KeyState : public ITickable, public IAccelerationState
+class KeyState : public ITickable
 {
     private:
-        double mForward;
-        double mSide;
-        double mUp;
-        double mYaw;
-        double mPitch;
-        
         OIS::Keyboard* mKeyboard;
         OIS::InputManager* mInputManager;
         RenderWindow *mWindow;
@@ -28,11 +21,7 @@ class KeyState : public ITickable, public IAccelerationState
         IExit *mExit;
         
     public:    
-        virtual double forward();
-        virtual double side();
-        virtual double up();
-        virtual double yaw();
-        virtual double pitch();
+        bool isKeyDown(OIS::KeyCode keyCode);
         
         virtual void tick();
         
