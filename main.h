@@ -8,9 +8,11 @@
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
+#include "frontGunState.h"
 #include "shipControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
+#include "audioState.h"
 #include "IExit.h"
 
 using namespace Ogre;
@@ -23,9 +25,11 @@ private:
     RenderWindow *window;
     
     KeyState *ks;
+    FrontGunState *frontGunState;
     ShipControls *sc;
     AccelerationState *as;
     MotionState *ms;
+    AudioState *audioState;
     
     SceneNode *robotNode;
     

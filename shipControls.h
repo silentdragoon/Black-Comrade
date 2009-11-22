@@ -19,6 +19,8 @@ class ShipControls : public ITickable, public IAccelerationState
         double mYaw;
         double mPitch;
         
+        bool isFire;
+        
         KeyState *keyState;
         
     public:    
@@ -27,6 +29,7 @@ class ShipControls : public ITickable, public IAccelerationState
         virtual double up();
         virtual double yaw();
         virtual double pitch();
+        bool fire();
         
         virtual void tick();
         
