@@ -2,11 +2,10 @@
 #ifndef MOTION_STATE_H
 #define MOTION_STATE_H
 
-// Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
 #include "IMotionState.h"
-#include "IEngineState.h"
+#include "IAccelerationState.h"
 #include "ITickable.h"
 
 using namespace Ogre;
@@ -21,19 +20,18 @@ class MotionState : public IMotionState, public ITickable
     double mRoll;
     double mYaw;
     
-    IEngineState *engineState;
-    
-    //double xForce;
-    //double yForce;
+    IAccelerationState *engineState;
     
     //constant values that will need tuning
+    static const double FORWARD_SPEED= 2;
+    static const double SIDE_SPEED = 0.5;
+    static const double TURN_SPEED = 0.0175;
+    static const double UP_SPEED = 0.5;
     
-    
-    // in deg/180 = TURNPERTICK at max value turn value
-    static const double TURNPERTICK = 0.01;
+    static const double MAX_BANK = 0.2;
     
   public:
-    MotionState(IEngineState *es);
+    MotionState(IAccelerationState *as);
     double xVelocity();
     double yVelocity();
     double zVelocity();

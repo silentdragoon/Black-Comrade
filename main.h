@@ -5,23 +5,32 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-#include "ExampleFrameListener.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "engineState.h"
+#include "keyState.h"
+#include "frontGunState.h"
+#include "shipControls.h"
+#include "accelerationState.h"
 #include "motionState.h"
 #include "mapCreate.h"
-//#include "fixedMotionState.h"
+#include "audioState.h"
+#include "IExit.h"
 
 using namespace Ogre;
 
-class Main {
+class Main : public IExit {
 private:
     Root *root;
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
-    ExampleFrameListener *frameListener;
+    
+    KeyState *ks;
+    FrontGunState *frontGunState;
+    ShipControls *sc;
+    AccelerationState *as;
+    MotionState *ms;
+    AudioState *audioState;
     
     SceneNode *mapNode;
     
@@ -34,10 +43,12 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    void createFrameListener(void);
     
 public:
     Main();
+    ~Main();
+    
+    void exit();
 };
 
 #endif

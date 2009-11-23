@@ -1,13 +1,14 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 Main::Main() {
     
     root = new Root();
     
-    root->showConfigDialog();
+    if (!root->restoreConfig())
+        root->showConfigDialog();
     
     window = root->initialise(true, "Test Window");
     
@@ -40,14 +41,24 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
+
+    //createFrameListener();
+    ks = new KeyState(window, false, this);    
+    sc = new ShipControls(ks);
+    frontGunState = new FrontGunState(sc);
+    as = new AccelerationState(sc);
+    ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
+    audioState = new AudioState(frontGunState);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(sc);
+    stateUpdate->addTickable(frontGunState);
+    stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
+    stateUpdate->addTickable(audioState);
     
     shipState->position = new Vector3(mc->startx,0,mc->starty);
     
@@ -101,14 +112,27 @@ void Main::createScene() {
     //robotNode->yaw(Ogre::Radian(4.712));
 }
 
-void Main::createFrameListener(void)
-    {
-        frameListener= new ExampleFrameListener(window, camera);
-        frameListener->showDebugOverlay(true);
-        root->addFrameListener(frameListener);
-    }
-
-int main() {
-    
+int main() 
+{   
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+

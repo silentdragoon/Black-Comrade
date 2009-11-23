@@ -8,7 +8,7 @@ CFLAGS =
 
 OUTPUT = test
 
-SRCS = main.cpp stateUpdate.cpp shipState.cpp engineState.cpp motionState.cpp mapCreate.cpp
+SRCS = main.cpp stateUpdate.cpp shipState.cpp accelerationState.cpp motionState.cpp keyState.cpp shipControls.cpp frontGunState.cpp audioState.cpp mapCreate.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -32,3 +32,4 @@ clean:
 	
 depend: $(SRCS)
 	makedepend -f Makefile.local $^
+# DO NOT DELETE
