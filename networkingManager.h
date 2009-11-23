@@ -24,7 +24,6 @@
 
 #include "ReplicaObject.h"
 #include "shipState.h"
-#include "SystemsState.h"
 #include "ReplicaConnection.h"
 #include "OurReplicaManager.h"
 
@@ -38,8 +37,6 @@ class NetworkingManager : public ITickable {
 
 private:
         DiscoveryAgent *discoveryAgent;
-        ShipState *shipState;
-        SystemsState *systemsState;
         Packet *packet;
         SocketDescriptor sd;
         static const int SERVER_PORT=6001;
