@@ -41,9 +41,15 @@ Main::Main() {
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
+    
+    enemyState = new EnemyState( enemySceneNode );
+    
     audioState = new AudioState(frontGunState);
     
     stateUpdate = new StateUpdate();
+    
+    stateUpdate->addTickable(enemyState);
+    
     stateUpdate->addTickable(ks);
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(frontGunState);
@@ -90,8 +96,12 @@ void Main::createScene() {
     l->setPosition(20,80,50);
     
     Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+    Entity *en = sceneMgr->createEntity("enemy","enemy.mesh");
     
     //e->setMaterialName("Examples/EnvMappedRustySteel");
+    
+    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    enemySceneNode->attachObject(en);
     
     robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     robotNode->attachObject(e);
