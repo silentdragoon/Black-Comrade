@@ -19,6 +19,9 @@ Main::Main() {
                     "models", "FileSystem", "General");
   
     ResourceGroupManager::getSingleton().addResourceLocation(
+                    "sounds", "FileSystem", "General");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
                     
     ResourceGroupManager::getSingleton().addResourceLocation(
