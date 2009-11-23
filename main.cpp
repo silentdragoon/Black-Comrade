@@ -109,6 +109,7 @@ int main() {
 Main::~Main()
 {
     delete ks;
+    delete sc;
     delete as;
     delete ms;
     delete shipState;
