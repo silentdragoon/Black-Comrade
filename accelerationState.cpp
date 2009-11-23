@@ -45,10 +45,16 @@ double calc( double val, double aConst )
     else return -(-exp(val/(0.35*aConst)) + 1);
 }
 
-void doTick( double in, double &counter, double &propVel, double BRAKE, double ACCEL)
+void doTick( double in, double &counter, double &propVel, double BRAKE, double FRICK, double ACCEL)
 {
-    if( in == 0 ) counter = BRAKE * counter;
-    else counter += in;
+    if( in == 0 ) counter = FRICK * counter;
+    else
+    {
+        counter += in;
+        if( in > 0 && counter >= 0 ) { if (counter > 2*ACCEL)counter = 2*ACCEL; }
+        else if( in < 0 && counter <= 0) { if(counter < -2*ACCEL) counter = -2*ACCEL; }
+        else counter = counter * (FRICK*0.95);
+    }
     propVel = calc( counter, ACCEL);
 }
 
@@ -56,6 +62,18 @@ void doTick( double in, double &counter, double &propVel, double BRAKE, double A
 
 void AccelerationState::tick()
 {
+    
+    doTick(input->forward(), cForward, vPropForwardVel, 2, 0.97, TICKSFORWARD);
+
+    doTick(input->side(), cSide, vPropSideVel, 4, 0.93, TICKSSIDE);
+    
+    doTick(input->up(), cUp, vPropUpVel, 4, 0.95, TICKSUP);
+    
+    doTick(input->yaw(), cYaw, vPropYawVel, 2, 0.9, TICKSYAW);
+    
+    doTick(input->pitch(), cPitch, vPropPitchVel, 2, 0.95, TICKSPITCH);
+    
+    /*
     doTick(input->forward(), cForward, vPropForwardVel, 0.97, TICKSFORWARD);
 
     doTick(input->side(), cSide, vPropSideVel, 0.9, TICKSSIDE);
@@ -66,7 +84,7 @@ void AccelerationState::tick()
     
     doTick(input->pitch(), cPitch, vPropPitchVel, 0.95, TICKSPITCH);
     
-    /*    
+    
     double tmp = input->forward();
     if( tmp == 0 ) cForward = 0.9 * cForward;
     cForward += tmp;

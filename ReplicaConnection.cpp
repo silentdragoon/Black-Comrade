@@ -2,7 +2,6 @@
 
 #include "ReplicaManager3.h"
 #include "shipState.h"
-#include "SystemsState.h"
 
 using namespace RakNet;
 
@@ -17,10 +16,6 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
 		if (typeName=="ShipState")
 		{
 			return new ShipState;
-		}
-		if (typeName=="SystemsState")
-		{
-			return new SystemsState;
 		}
 		return 0;
 }

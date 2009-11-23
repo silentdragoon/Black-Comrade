@@ -49,33 +49,42 @@ Main::Main() {
     if(!isServer) camera->setPosition(0,0,-40);
     
     //createFrameListener();
-
+    
+    ks = new KeyState(window, false, this);    
+    
     if (isServer)
     {
-        ks = new KeyState(window, false, this);
-        as = new AccelerationState(ks);
+        sc = new ShipControls(ks);
+        as = new AccelerationState(sc);
         ms = new MotionState(as);
+        frontGunState = new FrontGunState(sc);
+        audioState = new AudioState(frontGunState);
         shipState = new ShipState(shipSceneNode, ms);
         networkingManager->replicaManager.Reference(shipState);
-        shipState->setX(20.0);
     }
     else
     {
         shipState = (ShipState*) networkingManager->replicaManager.GetReplicaAtIndex(0);
         shipState->shipSceneNode = shipSceneNode;
     }
-    
+
     stateUpdate = new StateUpdate();
+
     stateUpdate->addTickable(networkingManager);
+    stateUpdate->addTickable(ks);
 
     if (isServer)
     {
-        stateUpdate->addTickable(ks);
+        stateUpdate->addTickable(sc);
         stateUpdate->addTickable(as);
         stateUpdate->addTickable(ms);
+        stateUpdate->addTickable(audioState);
+        stateUpdate->addTickable(frontGunState);
     }
 
+
     stateUpdate->addTickable(shipState);
+
     
     root->addFrameListener(stateUpdate);
     
@@ -164,6 +173,7 @@ int main() {
 Main::~Main()
 {
     delete ks;
+    delete sc;
     delete as;
     delete ms;
     delete shipState;
