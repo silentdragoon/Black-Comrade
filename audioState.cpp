@@ -13,7 +13,7 @@ void AudioState::tick()
         std::cout << "Bang!" << std::endl;
         int gunFireSound;
         int gunFireChannel;
-        String file = "shipgun1.wav";
+        String file = "./sounds/shipgun1.wav";
         gunFireSound = sndMgr->CreateSound(file);
         sndMgr->PlaySound(gunFireSound, shipNode, &gunFireChannel);
     }
