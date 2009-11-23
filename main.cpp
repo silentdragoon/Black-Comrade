@@ -101,10 +101,12 @@ void Main::createScene() {
     //e->setMaterialName("Examples/EnvMappedRustySteel");
     
     enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    enemySceneNode->showBoundingBox(true);
     enemySceneNode->attachObject(en);
     
     robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     robotNode->attachObject(e);
+    robotNode->showBoundingBox(true);
     
     robotNode->yaw(Ogre::Radian(4.712));
 }
