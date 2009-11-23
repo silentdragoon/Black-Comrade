@@ -99,8 +99,8 @@ void Main::createScene() {
     robotNode->yaw(Ogre::Radian(4.712));
 }
 
-int main() {
-    
+int main() 
+{   
     Main *main = new Main();
     
     delete main;
