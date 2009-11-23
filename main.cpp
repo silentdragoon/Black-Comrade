@@ -1,13 +1,14 @@
 
 #include "main.h"
-
+#include <iostream>
 #include "stateUpdate.h"
 
 Main::Main() {
     
     root = new Root();
     
-    root->showConfigDialog();
+    if (!root->restoreConfig())
+        root->showConfigDialog();
     
     window = root->initialise(true, "Test Window");
     
@@ -35,15 +36,22 @@ Main::Main() {
     createScene();
     
     //createFrameListener();
-    
-    EngineState *es = new EngineState(window);
-    MotionState *ms = new MotionState(es);
+    ks = new KeyState(window, false, this);    
+    sc = new ShipControls(ks);
+    frontGunState = new FrontGunState(sc);
+    as = new AccelerationState(sc);
+    ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
+    audioState = new AudioState(frontGunState);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(es);
+    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(sc);
+    stateUpdate->addTickable(frontGunState);
+    stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
+    stateUpdate->addTickable(audioState);
     
     root->addFrameListener(stateUpdate);
     
@@ -92,20 +100,34 @@ void Main::createScene() {
     robotNode->yaw(Ogre::Radian(4.712));
 }
 
-void Main::createFrameListener(void)
-{
-    frameListener= new ExampleFrameListener(window, camera);
-    frameListener->showDebugOverlay(true);
-    root->addFrameListener(frameListener);
-}
-
 void Main::createSoundManager()
 {
     soundMgr = new SoundManager;
     soundMgr->Initialize();
 }
 
-int main() {
-    
+int main() 
+{   
     Main *main = new Main();
+    
+    delete main;
 }
+
+Main::~Main()
+{
+    delete ks;
+    delete sc;
+    delete as;
+    delete ms;
+    delete shipState;
+    
+    delete stateUpdate;
+    
+    OGRE_DELETE root;
+}
+
+void Main::exit()
+{
+    stateUpdate->running = false;
+}
+

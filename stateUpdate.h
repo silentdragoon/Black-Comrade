@@ -11,8 +11,8 @@
 
 #include "shipState.h"
 #include "IMotionState.h"
-#include "IEngineState.h"
-
+#include "IAccelerationState.h"
+#include "ITickable.h"
 
 using namespace Ogre;
 using namespace std;
@@ -27,6 +27,8 @@ private:
     void tick();
    
 public:
+    
+    bool running;
     
     StateUpdate();
     

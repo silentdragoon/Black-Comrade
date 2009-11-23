@@ -1,10 +1,11 @@
 #include "motionState.h"
 #include <iostream>
 #include <math.h>
+
 using namespace std;
 
-MotionState::MotionState(IEngineState *es):
-    engineState(es),
+MotionState::MotionState(IAccelerationState *as):
+    engineState(as),
     xMotion(0.0),
     yMotion(0.0),
     zMotion(0.0),
@@ -44,24 +45,20 @@ double MotionState::roll()
 }
 
 void MotionState::tick()
-{
+{   
+    mYaw += engineState->yaw() * TURN_SPEED;
     
-    std::cout << engineState->enginePower() << std::endl;
-    
-    mYaw += engineState->turnPower() * 0.01;
-    
-    mRoll = -engineState->turnPower() * abs(engineState->enginePower() / 1.3) * 0.07;
-    
-    zMotion = cos(mYaw) * engineState->enginePower() + sin(mYaw) * (engineState->sideThrusterPower());
-    xMotion = cos(mYaw) * (-engineState->sideThrusterPower()) + sin(mYaw) * engineState->enginePower();
-    yMotion = -(engineState->upThrusterPower());
 
-    //double xPowerFrac = engineState->sideThrusterPower();
-    //yMotion = (xMotion + xPowerFrac*SIDETHURSTERPOWER / MASS) * yFRIC;
-    //cout << "xMotion: " << xMotion << endl;
+    mRoll = -engineState->yaw() * abs(engineState->forward()) * MAX_BANK;
+
+    double forwardV = engineState->forward() * FORWARD_SPEED;
+    double sideV = engineState->side() * SIDE_SPEED;
+    double upV = engineState->up() * UP_SPEED;
+
     
-    //mYaw = engineState->turnPower() * PI * TURNPERTICK;
-    //cout << "yawAngleS: " << yawAngleS << endl;
-    //pitchAngleS = engineState->pitchPower() * PI * TURNPERTICK ;
-    //cout << "pitchAngleS: " << pitchAngleS << endl;
+    zMotion = cos(mYaw) * forwardV + sin(mYaw) * (sideV);
+    xMotion = cos(mYaw) * (-sideV) + sin(mYaw) * forwardV;
+    yMotion = upV;
+
+    //std::cout << forwardV << std::endl;    
 }
