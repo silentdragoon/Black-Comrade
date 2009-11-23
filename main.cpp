@@ -42,7 +42,7 @@ Main::Main() {
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
-    audioState = new AudioState(frontGunState);
+    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     
     stateUpdate = new StateUpdate();
     stateUpdate->addTickable(ks);

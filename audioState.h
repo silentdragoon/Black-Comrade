@@ -7,17 +7,23 @@
 #include <iostream>
 #include "ITickable.h"
 #include "frontGunState.h"
+#include "soundManager.h"
+
+using namespace Ogre;
+using namespace std;
 
 class AudioState : public ITickable
 {
     private:
         FrontGunState *frontGunState;
+        SoundManager *sndMgr;
+        SceneNode *shipNode;
         
     public:
         
         void tick();
         
-        AudioState(FrontGunState *frontGunState);
+        AudioState(FrontGunState *frontGunState, SoundManager *sndMgr, SceneNode *shipNode);
         ~AudioState();
 };
 
