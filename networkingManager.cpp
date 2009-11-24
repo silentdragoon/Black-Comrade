@@ -99,6 +99,16 @@ bool NetworkingManager::replicate(ReplicaObject *object) {
 }
 
 ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
-    return (ReplicaObject *) replicaManager.GetReplicaAtIndex(index);
+    if (blocking) {
+        while (replicaManager.GetReplicaCount() == 0) {
+            this->tick();
+        }
+    }
+    try {
+        return (ReplicaObject *) replicaManager.GetReplicaAtIndex(index);
+    }
+    catch (...) {
+        return 0;
+    }
 }
 

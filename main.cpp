@@ -110,12 +110,6 @@ bool Main::startNetworking() {
         isActuallyServer = networkingManager->startNetworking(true);
     }
 
-    if (!isActuallyServer) {
-        while(networkingManager->replicaManager.GetReplicaCount() == 0)
-        {
-            networkingManager->tick();
-        }
-    }
     return isActuallyServer;
 }
 
