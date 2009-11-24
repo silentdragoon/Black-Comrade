@@ -56,7 +56,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
         }
         SLEEP(30);
     }
-    printf("Finished looking\n");
+
     RakNetworkFactory::DestroyRakPeerInterface(client);
     return server;
 }

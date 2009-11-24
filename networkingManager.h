@@ -37,6 +37,7 @@ class NetworkingManager : public ITickable {
 
 private:
         DiscoveryAgent *discoveryAgent;
+
         Packet *packet;
         SocketDescriptor sd;
         static const int SERVER_PORT=6001;
@@ -51,12 +52,11 @@ private:
 
 public:
 
-        OurReplicaManager replicaManager;
         NetworkingManager();
-
+        OurReplicaManager replicaManager;
         virtual void tick();
         bool startNetworking(bool Server);
-
+        bool replicate(ReplicaObject *object);
 };
 
 

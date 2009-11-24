@@ -60,7 +60,7 @@ Main::Main() {
         frontGunState = new FrontGunState(sc);
         audioState = new AudioState(frontGunState);
         shipState = new ShipState(shipSceneNode, ms);
-        networkingManager->replicaManager.Reference(shipState);
+        networkingManager->replicate(shipState);
     }
     else
     {

@@ -16,7 +16,7 @@ void NetworkingManager::tick() {
                     printf("ID_CONNECTION_ATTEMPT_FAILED\n");
                     break;
                 case ID_CONNECTION_REQUEST_ACCEPTED:
-                    printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
+                    //printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
                     break;
             }
     }
@@ -73,5 +73,10 @@ bool NetworkingManager::startNetworking(bool beServer) {
         }
     }
     return isServer;    
+}
+
+bool NetworkingManager::replicate(ReplicaObject *object) {
+    replicaManager.Reference(object);
+    return true;
 }
 
