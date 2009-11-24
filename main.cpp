@@ -155,9 +155,9 @@ void Main::createScene() {
     
     e = sceneMgr->createEntity("robot", "ourship.mesh");
     modelNode->attachObject(e);
-    modelNode->setScale(0.15,0.15,0.15);
-    modelNode->setPosition(0,-7,0);
-    modelNode->yaw(Degree(270));
+    //modelNode->setScale(0.15,0.15,0.15);
+    modelNode->setPosition(0,-7,-5);
+    //modelNode->yaw(Degree(270));
     
     
     robotNode->yaw(Ogre::Radian(4.712));
