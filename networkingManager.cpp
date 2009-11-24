@@ -25,7 +25,7 @@ void NetworkingManager::tick() {
 void NetworkingManager::startNetworking(bool beServer) {
     discoveryAgent = new DiscoveryAgent();
     if (beServer) {
-        discoveryAgent->beServer(6001,15);
+        discoveryAgent->beServer(6001,1);
         isServer = beServer;
     }
     else {
