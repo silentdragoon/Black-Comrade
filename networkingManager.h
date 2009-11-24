@@ -55,7 +55,7 @@ public:
         NetworkingManager();
 
         virtual void tick();
-        void startNetworking(bool Server);
+        bool startNetworking(bool Server);
 
 };
 

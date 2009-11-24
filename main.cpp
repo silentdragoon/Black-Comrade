@@ -96,21 +96,24 @@ bool Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver?\n");
     ch=getch();
+    bool isActuallyServer;
 
     if (ch=='c' || ch=='C')
     {
-        networkingManager->startNetworking(false);
+        isActuallyServer = networkingManager->startNetworking(false);
+    }
+    else if (ch=='s' || ch=='S')
+    {
+        isActuallyServer = networkingManager->startNetworking(true);
+    }
+
+    if (!isActuallyServer) {
         while(networkingManager->replicaManager.GetReplicaCount() == 0)
         {
             networkingManager->tick();
         }
-        return false;
     }
-    else if (ch=='s' || ch=='S')
-    {
-        networkingManager->startNetworking(true);
-    }
-    return true;
+    return isActuallyServer;
 }
 
 void Main::createCamera() {

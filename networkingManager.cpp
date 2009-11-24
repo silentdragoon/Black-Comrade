@@ -22,7 +22,7 @@ void NetworkingManager::tick() {
     }
 }
 
-void NetworkingManager::startNetworking(bool beServer) {
+bool NetworkingManager::startNetworking(bool beServer) {
     discoveryAgent = new DiscoveryAgent();
     if (beServer) {
         discoveryAgent->beServer(6001,1);
@@ -30,19 +30,20 @@ void NetworkingManager::startNetworking(bool beServer) {
     }
     else {
         serverAddress = discoveryAgent->findServer(6001,6000,5);
-        if (serverAddress.compare("") != 0) cout << serverAddress << std::endl;
+        if (serverAddress.compare("") == 0) {
+            printf("No servers could be found. You are now the server.\n");
+            return this->startNetworking(true);
+        }
     }
 
     rakPeer = RakNetworkFactory::GetRakPeerInterface();
 
     rakPeer->SetNetworkIDManager(&networkIdManager);
     networkIdManager.SetIsNetworkIDAuthority(beServer);
-    if (isServer)
-    {
+    if (isServer) {
         sd.port=SERVER_PORT;
     }
-    else
-    {
+    else {
         sd.port=0;
     }
     rakPeer->Startup(3,100,&sd,1);
@@ -53,24 +54,24 @@ void NetworkingManager::startNetworking(bool beServer) {
     if (!beServer) {
         rakPeer->Connect(serverAddress.c_str(),SERVER_PORT,0,0,0);
     }
-    printf("Waiting...\n");
+
     while(!connected) {
         for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
             switch (packet->data[0]) {
                 case ID_CONNECTION_ATTEMPT_FAILED:
-                    printf("ID_CONNECTION_ATTEMPT_FAILED\n");
+                    //printf("ID_CONNECTION_ATTEMPT_FAILED\n");
                     break;
                 case ID_NEW_INCOMING_CONNECTION:
-                    printf("ID_NEW_INCOMING_CONNECTION from %s\n", packet->systemAddress.ToString());
+                    //printf("ID_NEW_INCOMING_CONNECTION from %s\n", packet->systemAddress.ToString());
                     connected = true;
                     break;
                 case ID_CONNECTION_REQUEST_ACCEPTED:
-                    printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
+                    //printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
                     connected = true;
                     break;
             }
         }
     }
-    RakSleep(30); 
+    return isServer;    
 }
 

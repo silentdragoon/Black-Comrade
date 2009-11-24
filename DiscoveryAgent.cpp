@@ -29,7 +29,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
 
     client->Ping("255.255.255.255", serverPort, true);
 
-    printf("Pinging...\n");
+    printf("Looking for servers...\n");
 
     RakNetTime quitTime = RakNet::GetTime() + (timeout * 1000);
 
@@ -47,20 +47,16 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
             {
                 RakNetTime time;
                 memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
-                printf("Got pong from %s with time %i\n", p->systemAddress.ToString(), RakNet::GetTime() - time);
-		  string temp = p->systemAddress.ToString();
+                //printf("Got pong from %s with time %i\n", p->systemAddress.ToString(), RakNet::GetTime() - time);
+		string temp = p->systemAddress.ToString();
                 server = temp.substr(0, temp.find(":"));
                 break;
             }
-            else
-            {
-                printf("%s\n", p->data);
-            }
             client->DeallocatePacket(p);
         }
-
         SLEEP(30);
     }
+    printf("Finished looking\n");
     RakNetworkFactory::DestroyRakPeerInterface(client);
     return server;
 }
