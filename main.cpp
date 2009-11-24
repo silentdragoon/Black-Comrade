@@ -105,8 +105,7 @@ void Main::createScene() {
 
 void Main::createSoundManager()
 {
-    soundMgr = new SoundManager;
-    soundMgr->Initialize();
+    soundMgr = new SoundManager();
 }
 
 int main() 
