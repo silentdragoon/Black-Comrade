@@ -98,6 +98,11 @@ bool NetworkingManager::replicate(ReplicaObject *object) {
     return true;
 }
 
+ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
+    DataStructures::Multilist<ML_STACK, Replica3*> replicaListOut;    replicaManager.GetReferencedReplicaList(replicaListOut);
+    DataStructures::DefaultIndexType index;    return this->getReplica(0, blocking);
+}
+
 ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
     if (blocking) {
         while (replicaManager.GetReplicaCount() == 0) {
