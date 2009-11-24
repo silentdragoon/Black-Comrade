@@ -65,7 +65,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
     return server;
 }
 
-void DiscoveryAgent::beServer(int serverPort, int timeout)
+void DiscoveryAgent::beServer(int serverPort, int numClients)
 {
     RakPeerInterface *server;
     bool b;
@@ -88,9 +88,7 @@ void DiscoveryAgent::beServer(int serverPort, int timeout)
         exit(1);
     }
 
-    RakNetTime quitTime = RakNet::GetTime() + (timeout * 1000);
-
-    while (RakNet::GetTime() < quitTime)
+    while (true)
     {
         p = server->Receive();
         if (p==0)
@@ -102,7 +100,7 @@ void DiscoveryAgent::beServer(int serverPort, int timeout)
         {
             server->DeallocatePacket(p);
             numConnections = numConnections + 1;
-            if (numConnections == 1)
+            if (numConnections == numClients)
             {
               break;
             }
