@@ -153,7 +153,7 @@ void Main::createScene() {
     
     SceneNode *modelNode = shipSceneNode->createChildSceneNode();
     
-    e = sceneMgr->createEntity("robot", "robot.mesh");
+    e = sceneMgr->createEntity("robot", "ourship.mesh");
     modelNode->attachObject(e);
     modelNode->setScale(0.15,0.15,0.15);
     modelNode->setPosition(0,-7,0);
