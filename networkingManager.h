@@ -2,6 +2,7 @@
 #define NETWORKINGMANAGER_H
 
 #include "ITickable.h"
+#include "IExit.h"
 
 // raknet required includes
 #include "StringTable.h"
@@ -43,19 +44,20 @@ private:
         static const int SERVER_PORT=6001;
         NetworkIDManager networkIdManager;
         bool isServer;
-
-
         RakPeerInterface *rakPeer;
-
-
         string serverAddress;
+
+        IExit *mExit;
 
 public:
 
-        NetworkingManager();
+        NetworkingManager(IExit *mExit);
+        ~NetworkingManager();
+
         OurReplicaManager replicaManager;
         virtual void tick();
         bool startNetworking(bool Server);
+        void stopNetworking();
         bool replicate(ReplicaObject *object);
 };
 

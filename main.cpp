@@ -9,7 +9,7 @@ using namespace RakNet;
 
 Main::Main() {
 
-    networkingManager = new NetworkingManager();
+    networkingManager = new NetworkingManager(this);
 
     shipState = new ShipState();
 
@@ -90,6 +90,8 @@ Main::Main() {
     
     // Start Rendering Loop
     root->startRendering();
+
+    networkingManager->stopNetworking();
 }
 
 bool Main::startNetworking() {
@@ -182,6 +184,7 @@ Main::~Main()
     delete shipState;
     
     delete stateUpdate;
+    delete networkingManager;
     
     OGRE_DELETE root;
 }

@@ -5,9 +5,14 @@
 using namespace std;
 using namespace RakNet;
 
-NetworkingManager::NetworkingManager() :
-    serverAddress("")
+NetworkingManager::NetworkingManager(IExit *mExit) :
+    serverAddress(""),
+    mExit(mExit)
 {}
+
+NetworkingManager::~NetworkingManager() {
+    delete discoveryAgent;
+}
 
 void NetworkingManager::tick() {
     for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
@@ -17,6 +22,12 @@ void NetworkingManager::tick() {
                     break;
                 case ID_CONNECTION_REQUEST_ACCEPTED:
                     //printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
+                    break;
+                case ID_DISCONNECTION_NOTIFICATION:                    printf("You have been disconnected.\n");
+                    mExit->exit();
+                    break;                case ID_CONNECTION_LOST:
+                    printf("You have been disconnected.\n");
+                    mExit->exit();
                     break;
             }
     }
@@ -73,6 +84,12 @@ bool NetworkingManager::startNetworking(bool beServer) {
         }
     }
     return isServer;    
+}
+
+void NetworkingManager::stopNetworking() {
+    if (rakPeer == 0) return;
+    rakPeer->Shutdown(100,0);
+    RakNetworkFactory::DestroyRakPeerInterface(rakPeer);
 }
 
 bool NetworkingManager::replicate(ReplicaObject *object) {
