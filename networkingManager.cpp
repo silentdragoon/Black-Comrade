@@ -11,10 +11,11 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
 {}
 
 NetworkingManager::~NetworkingManager() {
-    delete discoveryAgent;
+    
 }
 
 void NetworkingManager::tick() {
+    bool quit = false;
     for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
             switch (packet->data[0]) {
                 case ID_CONNECTION_ATTEMPT_FAILED:
@@ -24,13 +25,14 @@ void NetworkingManager::tick() {
                     //printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
                     break;
                 case ID_DISCONNECTION_NOTIFICATION:                    printf("You have been disconnected.\n");
-                    mExit->exit();
+                    quit = true;
                     break;                case ID_CONNECTION_LOST:
                     printf("You have been disconnected.\n");
-                    mExit->exit();
+                    quit = true;
                     break;
             }
     }
+    if (quit) mExit->exit();
 }
 
 bool NetworkingManager::startNetworking(bool beServer) {
@@ -87,7 +89,6 @@ bool NetworkingManager::startNetworking(bool beServer) {
 }
 
 void NetworkingManager::stopNetworking() {
-    if (rakPeer == 0) return;
     rakPeer->Shutdown(100,0);
     RakNetworkFactory::DestroyRakPeerInterface(rakPeer);
 }
@@ -95,5 +96,9 @@ void NetworkingManager::stopNetworking() {
 bool NetworkingManager::replicate(ReplicaObject *object) {
     replicaManager.Reference(object);
     return true;
+}
+
+ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
+    return (ReplicaObject *) replicaManager.GetReplicaAtIndex(index);
 }
 

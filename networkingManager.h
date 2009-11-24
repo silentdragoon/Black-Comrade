@@ -58,7 +58,9 @@ public:
         virtual void tick();
         bool startNetworking(bool Server);
         void stopNetworking();
+
         bool replicate(ReplicaObject *object);
+        ReplicaObject *getReplica(int index, bool blocking);
 };
 
 

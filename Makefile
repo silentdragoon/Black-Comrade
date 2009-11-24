@@ -3,7 +3,7 @@ default: all
 
 include Makefile.local
 
-CC = g++
+CC = g++ -g
 CFLAGS = 
 
 OUTPUT = test

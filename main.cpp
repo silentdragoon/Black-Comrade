@@ -64,7 +64,7 @@ Main::Main() {
     }
     else
     {
-        shipState = (ShipState*) networkingManager->replicaManager.GetReplicaAtIndex(0);
+        shipState = (ShipState*) networkingManager->getReplica(0,true);
         shipState->shipSceneNode = shipSceneNode;
     }
 
@@ -91,6 +91,7 @@ Main::Main() {
     // Start Rendering Loop
     root->startRendering();
 
+    printf("About\n");
     networkingManager->stopNetworking();
 }
 
@@ -177,20 +178,21 @@ int main() {
 
 Main::~Main()
 {
-    delete ks;
-    delete sc;
-    delete as;
-    delete ms;
-    delete shipState;
+    //delete ks;
+    //delete sc;
+    //delete as;
+    //delete ms;
+    //delete shipState;
     
-    delete stateUpdate;
-    delete networkingManager;
-    
+    //delete stateUpdate;
+    //delete networkingManager;
+
     OGRE_DELETE root;
 }
 
 void Main::exit()
 {
     stateUpdate->running = false;
+    printf("Exit triggered\n");
 }
 
