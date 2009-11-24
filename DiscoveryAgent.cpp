@@ -71,7 +71,6 @@ void DiscoveryAgent::beServer(int serverPort, int numClients)
     Packet *p;
 
     server = RakNetworkFactory::GetRakPeerInterface();
-    printf("Starting server.\n");
 
     SocketDescriptor socketDescriptor(serverPort,0);
     b = server->Startup(2, 30, &socketDescriptor, 1);
