@@ -2,7 +2,7 @@
 
 void SoundManager::errCheck(FMOD_RESULT result) {
     if (result != FMOD_OK) {
-        cerr << "FMOD Error! " << result << " " << FMOD_ErrorString(result) << endl;
+        cout << "FMOD Error! " << result << " " << FMOD_ErrorString(result) << endl;
     }
 }
 
@@ -27,11 +27,11 @@ SoundManager::SoundManager() {
 void SoundManager::loadSoundFiles() {
     FMOD_RESULT result;
 
-    result = system->createSound("./sounds/shipgun1.wav", FMOD_SOFTWARE | FMOD_3D, 0, &sound1);
+    result = system->createSound("./sounds/shipgun1.wav", FMOD_SOFTWARE | FMOD_2D, 0, &sound1);
     errCheck(result);
 
-    result = sound1->set3DMinMaxDistance(4.0f, 10000.0f);
-    errCheck(result);
+    //result = sound1->set3DMinMaxDistance(0.0f, 10000.0f);
+    //errCheck(result);
 
     result = sound1->setMode(FMOD_LOOP_OFF);
     errCheck(result);
@@ -40,8 +40,9 @@ void SoundManager::loadSoundFiles() {
 void SoundManager::playSound(int file, SceneNode *node) {
     FMOD_RESULT result;
     Vector3 place = node->getPosition();
-
-    FMOD_VECTOR pos = {place.x, place.y, place.z};
+    
+    cout << place.x << " " << place.y << " " << place.z << endl;
+    FMOD_VECTOR pos = {(float)place.x,(float)place.y,(float)place.z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};
 
     result = system->playSound(FMOD_CHANNEL_FREE, sound1, true, &channel1);
