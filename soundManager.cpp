@@ -16,6 +16,9 @@ SoundManager::SoundManager() {
     result = system->setOutput(FMOD_OUTPUTTYPE_ALSA);
     errCheck(result);
 
+//    FMOD_LINUX_EXTRADRIVERDATA extradriverdata;
+//    memset(&extradriverdata,0,sizeof(FMOD_LINUX_EXTRADRIVERDATA));
+
     result = system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0);
     errCheck(result);
 
@@ -30,8 +33,8 @@ void SoundManager::loadSoundFiles() {
     result = system->createSound("./sounds/shipgun1.wav", FMOD_SOFTWARE | FMOD_2D, 0, &sound1);
     errCheck(result);
 
-    //result = sound1->set3DMinMaxDistance(0.0f, 10000.0f);
-    //errCheck(result);
+    result = sound1->set3DMinMaxDistance(0.0f, 10000.0f);
+    errCheck(result);
 
     result = sound1->setMode(FMOD_LOOP_OFF);
     errCheck(result);
