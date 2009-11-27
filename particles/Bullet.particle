@@ -1,0 +1,34 @@
+
+Bullet
+{
+	quota	100
+	material	PE/Streak
+	particle_width	2
+	particle_height	6
+	cull_each	true
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	0
+		colour	0 1 0 1
+		colour_range_start	0 1 0 1
+		colour_range_end	0 1 0 1
+		direction	0 1 0
+		emission_rate	3
+		position	0 0 0
+		velocity	20
+		velocity_min	20
+		velocity_max	20
+		time_to_live	5
+		time_to_live_min	5
+		time_to_live_max	5
+		duration	5
+		duration_min	5
+		duration_max	5
+		repeat_delay	1
+		repeat_delay_min	1
+		repeat_delay_max	1
+	}
+}
