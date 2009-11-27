@@ -91,7 +91,6 @@ Main::Main() {
     // Start Rendering Loop
     root->startRendering();
 
-    printf("About\n");
     networkingManager->stopNetworking();
 }
 
@@ -187,6 +186,5 @@ Main::~Main()
 void Main::exit()
 {
     stateUpdate->running = false;
-    printf("Exit triggered\n");
 }
 
