@@ -18,7 +18,6 @@ class SoundManager
 private:
     FMOD::System *system;
     FMOD::Sound *sound1;
-    FMOD::Channel *channel1;
 
     void errCheck(FMOD_RESULT result);
     void loadSoundFiles();
