@@ -14,6 +14,7 @@
 #include "motionState.h"
 #include "audioState.h"
 #include "IExit.h"
+#include "bullet.h"
 
 using namespace Ogre;
 
@@ -30,6 +31,7 @@ private:
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;
+    Bullet *bullet;
     
     SceneNode *robotNode;
     
