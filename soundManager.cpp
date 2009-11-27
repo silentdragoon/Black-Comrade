@@ -2,8 +2,7 @@
 
 void SoundManager::errCheck(FMOD_RESULT result) {
     if (result != FMOD_OK) {
-        //cout << "FMOD Error! " << result << " " << FMOD_ErrorString(result) << endl;
-        Ogre::LogManager::getSingleton().logMessage("FMOD Error! "+String(result)+" "+FMOD_ErrorString(result));
+        cerr << "FMOD Error! " << result << " " << FMOD_ErrorString(result) << endl;
     }
 }
 
