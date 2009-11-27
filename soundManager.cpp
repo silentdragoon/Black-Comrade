@@ -15,6 +15,9 @@ SoundManager::SoundManager() {
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
+    FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
+    errCheck( system->setReverbAmbientProperties(&prop) );
+
     loadSoundFiles();
     
     Ogre::LogManager::getSingleton().logMessage("Sound system OK.");
