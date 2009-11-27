@@ -104,7 +104,7 @@ bool Main::startNetworking() {
     {
         isActuallyServer = networkingManager->startNetworking(false);
     }
-    else if (ch=='s' || ch=='S')
+    else
     {
         isActuallyServer = networkingManager->startNetworking(true);
     }
