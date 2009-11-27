@@ -2,7 +2,7 @@
 #define SOUNDMANAGER_H
 
 #include <fmodex/fmod.hpp>
-#include <fmodex/fmod.h>
+//#include <fmodex/fmod.h>
 #include <fmodex/fmod_errors.h>
 //#include <fmodex/fmodlinux.h>
 #include <OGRE/Ogre.h>
