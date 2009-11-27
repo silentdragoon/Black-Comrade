@@ -2,9 +2,9 @@
 #define SOUNDMANAGER_H
 
 #include <fmodex/fmod.hpp>
-//#include <fmodex/fmod.h>
+#include <fmodex/fmod.h>
 #include <fmodex/fmod_errors.h>
-#include <fmodex/fmodlinux.h>
+//#include <fmodex/fmodlinux.h>
 #include <OGRE/Ogre.h>
 #include <iostream>
 
@@ -24,12 +24,9 @@ private:
     void loadSoundFiles();
 
 public:
-    enum SOUNDS {
-        SHIP_GUN
-    };
     SoundManager();
     ~SoundManager();
-    void playSound(int file, SceneNode *node);
+    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode);
 };
 
 #endif 
