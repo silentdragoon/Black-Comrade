@@ -175,7 +175,7 @@ Main::~Main()
     delete sc;
     delete as;
     delete ms;
-    delete shipState;
+    if (isServer) delete shipState;
     
     delete stateUpdate;
     delete networkingManager;
