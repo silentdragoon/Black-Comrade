@@ -99,8 +99,24 @@ bool NetworkingManager::replicate(ReplicaObject *object) {
 }
 
 ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
-    DataStructures::Multilist<ML_STACK, Replica3*> replicaListOut;    replicaManager.GetReferencedReplicaList(replicaListOut);
-    DataStructures::DefaultIndexType index;    return this->getReplica(0, blocking);
+    DataStructures::Multilist<ML_STACK, Replica3*> replicaList; 
+    DataStructures::DefaultIndexType index;
+    replicaManager.GetReferencedReplicaList(replicaList);
+
+    while (true) {
+        try {
+            for (index=0; index < replicaList.GetSize(); index++) {
+                ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);
+                if (temp->GetName().StrCmp(RakNet::RakString(name.c_str())) == 0) return temp;
+            }
+        }
+        catch (...) {
+
+        }
+        if (!blocking) return 0;
+        this->tick();
+        replicaManager.GetReferencedReplicaList(replicaList);
+    }
 }
 
 ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {

@@ -14,7 +14,7 @@ Main::Main() {
     shipState = new ShipState();
 
     isServer = startNetworking();
-   
+
     root = new Root();
     
     if (!root->restoreConfig())
@@ -64,7 +64,7 @@ Main::Main() {
     }
     else
     {
-        shipState = (ShipState*) networkingManager->getReplica(0,true);
+        shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
         shipState->shipSceneNode = shipSceneNode;
     }
 
