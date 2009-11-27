@@ -14,7 +14,7 @@ Main::Main() {
 
     sceneMgr = root->createSceneManager(ST_GENERIC);
 
-    // Set the paths to look for varius resources
+    // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
 
