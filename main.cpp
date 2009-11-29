@@ -79,7 +79,7 @@ void Main::createCamera() {
     camera->setPosition(Vector3(0,0,-50));
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(5);
-    camera->setFarClipDistance(1000);
+    camera->setFarClipDistance(10000);
 }
 
 void Main::createViewPort() {
