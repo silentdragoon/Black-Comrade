@@ -2,18 +2,17 @@
 #define SOUNDMANAGER_H
 
 #include <fmodex/fmod.hpp>
-//#include <fmodex/fmod.h>
 #include <fmodex/fmod_errors.h>
-//#include <fmodex/fmodlinux.h>
 #include <OGRE/Ogre.h>
 #include <iostream>
+#include "ITickable.h"
 
 #define MAX_SOUND_CHANNELS  200
 
 using namespace Ogre;
 using namespace std;
 
-class SoundManager
+class SoundManager : public ITickable
 {
 private:
     FMOD::System *system;
@@ -25,7 +24,10 @@ private:
 public:
     SoundManager();
     ~SoundManager();
-    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode);
+
+    virtual void tick();
+
+    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume);
 };
 
 #endif 

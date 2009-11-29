@@ -33,7 +33,7 @@ void SoundManager::loadSoundFiles() {
     errCheck( sound1->setMode(FMOD_LOOP_OFF) );
 }
 
-void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode) {
+void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume) {
     Vector3 shipPos = shipNode->getPosition();
     Vector3 soundPos = soundNode->getPosition();
     
@@ -52,8 +52,13 @@ void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode
     
     errCheck( channel1->set3DAttributes(&pos, &vel) );
 
+    errCheck( channel1->setVolume(volume) );
+
     errCheck( channel1->setPaused(false) );
     
+}
+
+void SoundManager::tick() {
     errCheck( system->update() );
 }
 

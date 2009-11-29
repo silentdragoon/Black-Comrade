@@ -9,7 +9,7 @@
 #include "ITickable.h"
 #include "shipControls.h"
 
-#define MIN_SHOOT_PERIOD 25
+#define MIN_SHOOT_PERIOD 15
 
 class FrontGunState : public ITickable
 {
