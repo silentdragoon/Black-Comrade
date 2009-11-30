@@ -42,7 +42,7 @@ Main::Main() {
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     
-    enemyState = new EnemyState( enemySceneNode );
+    enemyState = new EnemyState( enemySceneNode, sceneMgr );
     
     audioState = new AudioState(frontGunState);
     
