@@ -27,7 +27,7 @@ public:
 
     virtual void tick();
 
-    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume);
+    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb);
 };
 
 #endif 

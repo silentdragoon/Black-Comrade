@@ -11,7 +11,7 @@ void AudioState::tick()
 {
     if(frontGunState->fire()) {
         //std::cout << "Bang!" << std::endl;
-        sndMgr->playSound(0,shipNode,shipNode,0.5);
+        sndMgr->playSound(0,shipNode,shipNode,0.5,true);
     }
 }
 

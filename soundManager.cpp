@@ -17,8 +17,8 @@ SoundManager::SoundManager() {
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
-    FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
-    errCheck( system->setReverbAmbientProperties(&prop) );
+    //FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
+    //errCheck( system->setReverbAmbientProperties(&prop) );
 
     loadSoundFiles();
     
@@ -33,15 +33,13 @@ void SoundManager::loadSoundFiles() {
     errCheck( sound1->setMode(FMOD_LOOP_OFF) );
 }
 
-void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume) {
+void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
     Vector3 shipPos = shipNode->getPosition();
     Vector3 soundPos = soundNode->getPosition();
     
     float x = soundPos.x - shipPos.x;
     float y = soundPos.y - shipPos.y;
     float z = soundPos.z - shipPos.z;
-
-    //cout << x << " " << y << " " << z << endl;
 
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};
@@ -53,6 +51,10 @@ void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode
     errCheck( channel1->set3DAttributes(&pos, &vel) );
 
     errCheck( channel1->setVolume(volume) );
+
+    if(reverb==true) {
+        // TODO: FMOD::DSP or something
+    }
 
     errCheck( channel1->setPaused(false) );
     
