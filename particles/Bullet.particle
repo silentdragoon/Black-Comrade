@@ -1,5 +1,5 @@
-
-Bullet
+// an awesome Bullet
+particle_system Bullet
 {
 	quota	100
 	material	PE/Streak
