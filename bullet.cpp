@@ -10,5 +10,5 @@ Bullet::Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr) :
     sceneMgr(sceneMgr)
 {
     sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(
-    sceneMgr->createParticleSystem("Bullet", "particles/Bullet"));
+    sceneMgr->createParticleSystem("Bullet", "Bullet"));
 }

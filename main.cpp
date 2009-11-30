@@ -26,6 +26,9 @@ Main::Main() {
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/textures", "FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "particles", "FileSystem", "General"); 
 
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
