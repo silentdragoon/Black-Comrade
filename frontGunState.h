@@ -9,9 +9,15 @@
 #include "ITickable.h"
 #include "shipControls.h"
 
+// include Raknet classes
+#include "ReplicaObject.h"
+#include "ReplicaManager3.h"
+
 #define MIN_SHOOT_PERIOD 25
 
-class FrontGunState : public ITickable
+using namespace RakNet;
+
+class FrontGunState : public ITickable, public ReplicaObject
 {
     private:
         int timeSinceLastFire;
@@ -24,8 +30,13 @@ class FrontGunState : public ITickable
         
         virtual void tick();
         
+        FrontGunState();
         FrontGunState(ShipControls *shipControls);
         ~FrontGunState();
+
+        virtual RakNet::RakString GetName(void) const;
+        virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
+        virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
 };
 
 #endif

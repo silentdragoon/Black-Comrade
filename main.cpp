@@ -58,16 +58,19 @@ Main::Main() {
         as = new AccelerationState(sc);
         ms = new MotionState(as);
         frontGunState = new FrontGunState(sc);
-        audioState = new AudioState(frontGunState);
         shipState = new ShipState(shipSceneNode, ms);
         networkingManager->replicate(shipState);
+        networkingManager->replicate(frontGunState);
     }
     else
     {
         shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+        frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
         shipState->shipSceneNode = shipSceneNode;
     }
 
+    audioState = new AudioState(frontGunState);
+    
     stateUpdate = new StateUpdate();
 
     stateUpdate->addTickable(networkingManager);
@@ -78,10 +81,10 @@ Main::Main() {
         stateUpdate->addTickable(sc);
         stateUpdate->addTickable(as);
         stateUpdate->addTickable(ms);
-        stateUpdate->addTickable(audioState);
-        stateUpdate->addTickable(frontGunState);
     }
 
+    stateUpdate->addTickable(frontGunState);
+    stateUpdate->addTickable(audioState);
 
     stateUpdate->addTickable(shipState);
 

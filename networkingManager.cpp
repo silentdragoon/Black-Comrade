@@ -53,6 +53,9 @@ bool NetworkingManager::startNetworking(bool beServer) {
 
     rakPeer->SetNetworkIDManager(&networkIdManager);
     networkIdManager.SetIsNetworkIDAuthority(beServer);
+    replicaManager.SetDefaultPacketReliability(RELIABLE_ORDERED);
+    replicaManager.SetAutoSerializeInterval(1);
+
     if (isServer) {
         sd.port=SERVER_PORT;
     }

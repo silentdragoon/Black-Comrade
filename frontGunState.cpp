@@ -8,6 +8,8 @@ bool FrontGunState::fire()
         
 void FrontGunState::tick()
 {
+    if (shipControls == 0) return;
+
     isFire = false;
 
     timeSinceLastFire++;
@@ -24,4 +26,20 @@ FrontGunState::FrontGunState(ShipControls *shipControls)
     , timeSinceLastFire(0)
 {}
 
+FrontGunState::FrontGunState()
+    : shipControls(0)
+{}
+
 FrontGunState::~FrontGunState() {}
+
+RakNet::RakString FrontGunState::GetName(void) const {return RakNet::RakString("FrontGunState");}
+
+RM3SerializationResult FrontGunState::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(isFire);
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void FrontGunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+    deserializeParameters->serializationBitstream[0].Read(isFire);
+    std::cout << isFire << std::endl;
+}
