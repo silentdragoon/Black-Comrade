@@ -14,7 +14,10 @@ class Bullet : public ITickable
     private:
 
         SceneNode *shipSceneNode;
+        SceneNode *bulletNode;
         SceneManager *sceneMgr;
+        ParticleSystem *particle;
+        
 
     public:
 

@@ -11,14 +11,14 @@ particle_system Bullet
 
 	emitter Point
 	{
-		angle	0
+		angle	2
 		colour	0 1 0 1
 		colour_range_start	0 1 0 1
 		colour_range_end	0 1 0 1
-		direction	0 1 0
+		direction	0 0 1
 		emission_rate	3
 		position	0 0 0
-		velocity	20
+		velocity	500
 		velocity_min	20
 		velocity_max	20
 		time_to_live	5
@@ -27,8 +27,8 @@ particle_system Bullet
 		duration	5
 		duration_min	5
 		duration_max	5
-		repeat_delay	1
-		repeat_delay_min	1
-		repeat_delay_max	1
+		//repeat_delay	1
+		//repeat_delay_min	1
+		//repeat_delay_max	1
 	}
 }
