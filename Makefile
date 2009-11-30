@@ -23,7 +23,7 @@ $(OUTPUT) : $(OBJS)
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
 	
 run:
-	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/"; ./$(OUTPUT)
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT)
 	
 .PHONY: clean depend
 

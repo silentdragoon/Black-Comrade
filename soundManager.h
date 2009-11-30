@@ -1,8 +1,8 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-#include <fmodex/fmod.hpp>
-#include <fmodex/fmod_errors.h>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
