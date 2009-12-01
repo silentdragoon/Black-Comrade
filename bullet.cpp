@@ -1,8 +1,9 @@
 #include "bullet.h"
 
-void Bullet::tick()
+void Bullet::fire()
 {
-
+    particle = sceneMgr->createParticleSystem("Bullet", "PE/Bullet");
+    bulletNode->attachObject(particle);
 }
 
 Bullet::Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr) :
@@ -10,6 +11,4 @@ Bullet::Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr) :
     sceneMgr(sceneMgr)
 {
     bulletNode = shipSceneNode->createChildSceneNode();
-    particle = sceneMgr->createParticleSystem("Bullet", "PE/Bullet");
-    bulletNode->attachObject(particle);
 }

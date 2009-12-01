@@ -4,12 +4,11 @@
 
 #include <OGRE/Ogre.h>
 #include <iostream>
-#include "ITickable.h"
 
 using namespace Ogre;
 
 
-class Bullet : public ITickable
+class Bullet
 {
     private:
 
@@ -20,9 +19,9 @@ class Bullet : public ITickable
         
 
     public:
-
-        void tick();
         Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr);
+        void fire();
+
 };
 
 

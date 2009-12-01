@@ -41,12 +41,12 @@ Main::Main() {
     //createFrameListener();
     ks = new KeyState(window, false, this);
     sc = new ShipControls(ks);
-    frontGunState = new FrontGunState(sc);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
     audioState = new AudioState(frontGunState);
     bullet = new Bullet(shipSceneNode,sceneMgr);
+    frontGunState = new FrontGunState(sc,bullet);
 
     stateUpdate = new StateUpdate();
     stateUpdate->addTickable(ks);
@@ -56,7 +56,6 @@ Main::Main() {
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
-    stateUpdate->addTickable(bullet);
 
     root->addFrameListener(stateUpdate);
 
