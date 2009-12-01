@@ -8,7 +8,6 @@
 #include <iostream>
 #include "ITickable.h"
 #include "shipControls.h"
-#include "bullet.h"
 
 #define MIN_SHOOT_PERIOD 15
 
@@ -19,14 +18,13 @@ class FrontGunState : public ITickable
         bool isFire;
         
         ShipControls *shipControls;
-        Bullet *bullet;
         
     public:
         bool fire();
         
         virtual void tick();
         
-        FrontGunState(ShipControls *shipControls, Bullet *bullet);
+        FrontGunState(ShipControls *shipControls);
         ~FrontGunState();
 };
 

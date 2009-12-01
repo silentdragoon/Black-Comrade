@@ -55,9 +55,8 @@ Main::Main() {
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
-    bullet = new Bullet(shipSceneNode,sceneMgr);
-    frontGunState = new FrontGunState(sc,bullet);
-
+    frontGunState = new FrontGunState(sc);
+    bullet = new Bullet(shipSceneNode,sceneMgr,frontGunState);
     enemyState = new EnemyState( enemySceneNode, sceneMgr );
     
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
@@ -72,6 +71,7 @@ Main::Main() {
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
+    stateUpdate->addTickable(bullet);
 
     stateUpdate->addTickable(soundMgr);
     

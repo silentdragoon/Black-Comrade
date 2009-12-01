@@ -17,7 +17,7 @@
 #include "mapCreate.h"
 #include "audioState.h"
 #include "IExit.h"
-#include "bullet.h"
+#include "bulletManager.h"
 
 using namespace Ogre;
 

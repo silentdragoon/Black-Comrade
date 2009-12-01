@@ -15,14 +15,12 @@ void FrontGunState::tick()
     if(shipControls->fire() && timeSinceLastFire >= MIN_SHOOT_PERIOD) {
         isFire = true;
         timeSinceLastFire = 0;
-        bullet->fire();
     }
 
 }
         
-FrontGunState::FrontGunState(ShipControls *shipControls, Bullet *bullet)
+FrontGunState::FrontGunState(ShipControls *shipControls)
     : shipControls(shipControls)
-    , bullet(bullet)
     , isFire(false)
     , timeSinceLastFire(0)
 {

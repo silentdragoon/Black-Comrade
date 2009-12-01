@@ -4,11 +4,12 @@
 
 #include <OGRE/Ogre.h>
 #include <iostream>
+#include "frontGunState.h"
+#include "ITickable.h"
 
 using namespace Ogre;
 
-
-class Bullet
+class Bullet : public ITickable
 {
     private:
 
@@ -16,12 +17,15 @@ class Bullet
         SceneNode *bulletNode;
         SceneManager *sceneMgr;
         ParticleSystem *particle;
+        FrontGunState *gunState;
         
-
-    public:
-        Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr);
         void fire();
-
+    
+    public:
+        Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
+            FrontGunState *gunState);
+            
+        virtual void tick();
 };
 
 
