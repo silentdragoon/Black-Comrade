@@ -17,13 +17,16 @@ using namespace RakNet;
 
 class ShipState : public ITickable, public ReplicaObject {
 private:
+
+    IMotionState *motionState;
+
+public:
+   
     Vector3 *position;
     Real roll;
     Real pitch;
     Real yaw;
 
-    IMotionState *motionState;
-public:
     ShipState(SceneNode *shipSceneNode, IMotionState *motionState);
     ShipState();
     SceneNode *shipSceneNode;

@@ -13,6 +13,7 @@
 #include "shipControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
+#include "mapCreate.h"
 #include "audioState.h"
 #include "IExit.h"
 
@@ -42,11 +43,13 @@ private:
     MotionState *ms;
     AudioState *audioState;
     
-    SceneNode *robotNode;
+    SceneNode *mapNode;
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
     ShipState *shipState;
+    
+    MapCreate *mc;
     
     void createCamera();
     void createScene();
