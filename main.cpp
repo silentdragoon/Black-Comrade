@@ -66,7 +66,7 @@ Main::Main() {
     stateUpdate->addTickable(audioState);
     
     shipState->position = new Vector3(mc->startx,0,mc->starty);
-    enemyState->position = new Vector3(mc->startx,0,mc->starty+100);
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
     //enemyState->yaw = Degree(90);
     enemyState->updateOgre();
     root->addFrameListener(stateUpdate);
