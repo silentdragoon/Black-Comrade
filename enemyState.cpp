@@ -7,11 +7,13 @@ EnemyState::EnemyState(SceneNode *neSceneNode, SceneManager *mSceneMgr) :
     position(new Vector3(0.0,0.0,-50.0)),
     roll(0.0),
     pitch(0.0),
-    yaw(1.57),
+    yaw(0.0),
     eSceneNode(neSceneNode),
     mSceneMgr(mSceneMgr)
 {
     rRayQuery = new RayQuery( mSceneMgr );
+    
+    updateOgre();
 }
 
 void EnemyState::tick()

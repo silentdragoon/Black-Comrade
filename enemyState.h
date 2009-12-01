@@ -13,10 +13,6 @@ using namespace Ogre;
 class EnemyState : public ITickable {
     
 private:
-    Vector3 *position;
-    Real roll;
-    Real pitch;
-    Real yaw;
     
     SceneNode *eSceneNode;
     SceneManager *mSceneMgr;
@@ -24,10 +20,14 @@ private:
     
     static const float FVEL = 0.3;
     //lookahead in ticks
-    static const float LOOKA = 50;
+    static const float LOOKA = 30;
 
     
 public:
+    Vector3 *position;
+    Real roll;
+    Real pitch;
+    Real yaw;
     
     EnemyState(SceneNode *neSceneNode, SceneManager *mSceneMgr );
     

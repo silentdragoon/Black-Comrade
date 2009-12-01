@@ -17,6 +17,9 @@ Main::Main() {
     // Set the paths to look for varius resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ".", "FileSystem", "General");
   
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
@@ -30,10 +33,15 @@ Main::Main() {
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     
+    //createFrameListener();
+    
+    mc = new MapCreate("examplemap.txt",sceneMgr);
+    
     createCamera();
     createViewPort();
     createScene();
     
+
     //createFrameListener();
     ks = new KeyState(window, false, this);    
     sc = new ShipControls(ks);
@@ -49,7 +57,6 @@ Main::Main() {
     stateUpdate = new StateUpdate();
     
     stateUpdate->addTickable(enemyState);
-    
     stateUpdate->addTickable(ks);
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(frontGunState);
@@ -58,6 +65,10 @@ Main::Main() {
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
     
+    shipState->position = new Vector3(mc->startx,0,mc->starty);
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+100);
+    //enemyState->yaw = Degree(90);
+    enemyState->updateOgre();
     root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop
@@ -72,10 +83,10 @@ void Main::createCamera() {
     
     shipSceneNode->attachObject(camera);
     
-    //camera->setPosition(Vector3(0,0,50));
+    camera->setPosition(Vector3(0,0,-50));
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(5);
-    camera->setFarClipDistance(1000);
+    camera->setFarClipDistance(10000);
 }
 
 void Main::createViewPort() {
@@ -89,30 +100,25 @@ void Main::createViewPort() {
 
 void Main::createScene() {
 
-    sceneMgr->setAmbientLight(ColourValue(0.5,0.5,0.5));
+    sceneMgr->setAmbientLight(ColourValue(0.1,0.1,0.1));
     
     Light *l = sceneMgr->createLight("MainLight");
     
     l->setPosition(20,80,50);
     
-    Entity *e = sceneMgr->createEntity("object","testmap.mesh");
     Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
-    
-    //e->setMaterialName("Examples/EnvMappedRustySteel");
     
     enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     enemySceneNode->showBoundingBox(true);
     enemySceneNode->attachObject(en);
-    
-    robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    robotNode->attachObject(e);
-    //robotNode->showBoundingBox(true);
-    
-    robotNode->yaw(Ogre::Radian(4.712));
+
+    mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    mc->outputMap(mapNode);
 }
 
-int main() {
-    
+int main() 
+{   
     Main *main = new Main();
     
     delete main;
@@ -121,6 +127,7 @@ int main() {
 Main::~Main()
 {
     delete ks;
+    delete sc;
     delete as;
     delete ms;
     delete shipState;
