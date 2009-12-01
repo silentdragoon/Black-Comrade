@@ -5,6 +5,7 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
+#include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
@@ -13,6 +14,7 @@
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
+#include "mapCreate.h"
 #include "audioState.h"
 #include "IExit.h"
 
@@ -32,11 +34,15 @@ private:
     MotionState *ms;
     AudioState *audioState;
     
-    SceneNode *robotNode;
+    SceneNode *mapNode;
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
+    SceneNode *enemySceneNode;
     ShipState *shipState;
+    EnemyState *enemyState;
+    
+    MapCreate *mc;
     
     void createCamera();
     void createScene();
