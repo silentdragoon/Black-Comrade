@@ -9,15 +9,3 @@ LIBS = -lOgreMain  -lOIS
 	
 # DO NOT DELETE THIS LINE -- make depend needs it
 
-main.o: main.h ExampleFrameListener.h stateUpdate.h shipState.h
-main.o: IMotionState.h ITickable.h IEngineState.h engineState.h motionState.h
-stateUpdate.o: stateUpdate.h shipState.h IMotionState.h ITickable.h
-stateUpdate.o: IEngineState.h
-shipState.o: shipState.h IMotionState.h ITickable.h
-engineState.o: engineState.h IEngineState.h ITickable.h
-motionState.o: motionState.h IMotionState.h IEngineState.h ITickable.h
-motionState.o: /usr/include/math.h /usr/include/features.h
-motionState.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-motionState.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-motionState.o: /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h
-motionState.o: /usr/include/bits/mathcalls.h
