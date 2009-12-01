@@ -31,6 +31,9 @@ Main::Main() {
                     ".", "FileSystem", "General");
   
     ResourceGroupManager::getSingleton().addResourceLocation(
+                    "sounds", "FileSystem", "General");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
                     
     ResourceGroupManager::getSingleton().addResourceLocation(
@@ -41,23 +44,24 @@ Main::Main() {
     
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-    
+
+    //createSoundManager();
+
     //createFrameListener();
     
     mc = new MapCreate("examplemap.txt",sceneMgr);
-    
+
     createCamera();
     createViewPort();
     createScene();
-    
 
     //createFrameListener();
-    
+
     ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
-
     stateUpdate->addTickable(networkingManager);
+    
     stateUpdate->addTickable(ks);
 
     if (isServer) {
@@ -67,14 +71,21 @@ Main::Main() {
         clientStartup();
     }
 
-    audioState = new AudioState(frontGunState);
+    //audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
 
     stateUpdate->addTickable(frontGunState);
-    stateUpdate->addTickable(audioState);
+    //stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
+    stateUpdate->addTickable(enemyState);
+    //stateUpdate->addTickable(soundMgr);
+    
+
+    //enemyState->yaw = Degree(90);
+    enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
     
+printf("About to start rendering\n");
     // Start Rendering Loop
     root->startRendering();
 
@@ -85,6 +96,9 @@ void Main::clientStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    enemyState = (EnemyState *) networkingManager->getReplica("EnemyState",true);
+    
+    enemyState->eSceneNode =  enemySceneNode;
     shipState->shipSceneNode = shipSceneNode;
 }
 
@@ -95,15 +109,18 @@ void Main::serverStartup() {
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
     shipState = new ShipState(shipSceneNode, ms);
+    enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
+    networkingManager->replicate(enemyState);
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
     shipState->position = new Vector3(mc->startx,0,mc->starty);
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
 bool Main::startNetworking() {
@@ -155,10 +172,12 @@ void Main::createScene() {
     
     l->setPosition(20,80,50);
     
-    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
-    //e->setMaterialName("Examples/EnvMappedRustySteel");
-    
+    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    enemySceneNode->showBoundingBox(true);
+    enemySceneNode->attachObject(en);
+
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
     mc->outputMap(mapNode);
@@ -170,6 +189,11 @@ void Main::createScene() {
     //modelNode->setScale(0.15,0.15,0.15);
     modelNode->setPosition(0,-7,-5);
     //modelNode->yaw(Degree(270));
+}
+
+void Main::createSoundManager()
+{
+    soundMgr = new SoundManager();
 }
 
 int main() 
@@ -189,7 +213,9 @@ Main::~Main()
     
     delete stateUpdate;
     delete networkingManager;
-
+    
+    // TODO: Fix destructing soundManager
+    
     OGRE_DELETE root;
 }
 

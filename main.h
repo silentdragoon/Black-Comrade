@@ -6,6 +6,7 @@
 #include <OGRE/Ogre.h>
 
 #include "networkingManager.h"
+#include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
@@ -13,6 +14,7 @@
 #include "shipControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
+#include "soundManager.h"
 #include "mapCreate.h"
 #include "audioState.h"
 #include "IExit.h"
@@ -32,10 +34,9 @@ private:
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
-
     NetworkingManager *networkingManager;
     bool isServer;
-    
+    SoundManager *soundMgr;
     KeyState *ks;
     FrontGunState *frontGunState;
     ShipControls *sc;
@@ -47,7 +48,9 @@ private:
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
+    SceneNode *enemySceneNode;
     ShipState *shipState;
+    EnemyState *enemyState;
     
     MapCreate *mc;
     
@@ -58,6 +61,8 @@ private:
 
     void clientStartup();
     void serverStartup();
+
+    void createSoundManager();
     
 public:
     Main();
