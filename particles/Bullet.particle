@@ -2,7 +2,7 @@
 particle_system PE/Bullet
 {
 	quota	100
-	material	PE/streak
+	material	PE/Streak
 	particle_width	2
 	particle_height	6
 	cull_each	true
