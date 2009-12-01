@@ -1,8 +1,8 @@
 // an awesome Bullet
-particle_system Bullet
+particle_system PE/Bullet
 {
 	quota	100
-	material	PE/Streak
+	material	PE/streak
 	particle_width	2
 	particle_height	6
 	cull_each	true

@@ -10,6 +10,6 @@ Bullet::Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr) :
     sceneMgr(sceneMgr)
 {
     bulletNode = shipSceneNode->createChildSceneNode();
-    particle = sceneMgr->createParticleSystem("Bullet", "Bullet");
+    particle = sceneMgr->createParticleSystem("Bullet", "PE/Bullet");
     bulletNode->attachObject(particle);
 }
