@@ -106,7 +106,7 @@ void Main::createScene() {
     
     robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     robotNode->attachObject(e);
-    robotNode->showBoundingBox(true);
+    //robotNode->showBoundingBox(true);
     
     robotNode->yaw(Ogre::Radian(4.712));
 }
