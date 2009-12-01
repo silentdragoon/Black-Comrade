@@ -52,6 +52,9 @@ private:
     void createScene();
     void createViewPort();
     bool startNetworking();
+
+    void clientStartup();
+    void serverStartup();
     
 public:
     Main();

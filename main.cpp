@@ -11,16 +11,13 @@ Main::Main() {
 
     networkingManager = new NetworkingManager(this);
 
-    shipState = new ShipState();
-
+    // networking
     isServer = startNetworking();
 
     root = new Root();
     
     if (!root->restoreConfig())
         root->showConfigDialog();
-
-    // networking
     
     window = root->initialise(true, "Test Window");
     
@@ -46,55 +43,57 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    if(!isServer) camera->setPosition(0,0,-40);
-    
     //createFrameListener();
     
-    ks = new KeyState(window, false, this);    
-    
-    if (isServer)
-    {
-        sc = new ShipControls(ks);
-        as = new AccelerationState(sc);
-        ms = new MotionState(as);
-        frontGunState = new FrontGunState(sc);
-        shipState = new ShipState(shipSceneNode, ms);
-        networkingManager->replicate(shipState);
-        networkingManager->replicate(frontGunState);
-    }
-    else
-    {
-        shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-        frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
-        shipState->shipSceneNode = shipSceneNode;
-    }
-
-    audioState = new AudioState(frontGunState);
+    ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
 
     stateUpdate->addTickable(networkingManager);
     stateUpdate->addTickable(ks);
 
-    if (isServer)
-    {
-        stateUpdate->addTickable(sc);
-        stateUpdate->addTickable(as);
-        stateUpdate->addTickable(ms);
+    if (isServer) {
+        serverStartup();
     }
+    else {
+        clientStartup();
+    }
+
+    audioState = new AudioState(frontGunState);
 
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
 
     stateUpdate->addTickable(shipState);
 
-    
     root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop
     root->startRendering();
 
     networkingManager->stopNetworking();
+}
+
+void Main::clientStartup() {
+    camera->setPosition(0,0,-40);
+    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+    frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    shipState->shipSceneNode = shipSceneNode;
+}
+
+void Main::serverStartup() {
+    sc = new ShipControls(ks);
+    as = new AccelerationState(sc);
+    ms = new MotionState(as);
+    frontGunState = new FrontGunState(sc);
+    shipState = new ShipState(shipSceneNode, ms);
+
+    networkingManager->replicate(shipState);
+    networkingManager->replicate(frontGunState);
+
+    stateUpdate->addTickable(sc);
+    stateUpdate->addTickable(as);
+    stateUpdate->addTickable(ms);
 }
 
 bool Main::startNetworking() {
