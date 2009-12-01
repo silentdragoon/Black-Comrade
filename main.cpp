@@ -96,7 +96,7 @@ void Main::createScene() {
     l->setPosition(20,80,50);
     
     Entity *e = sceneMgr->createEntity("object","testmap.mesh");
-    Entity *en = sceneMgr->createEntity("enemy","enemy.mesh");
+    Entity *en = sceneMgr->createEntity("enemy","enemyship2.mesh");
     
     //e->setMaterialName("Examples/EnvMappedRustySteel");
     

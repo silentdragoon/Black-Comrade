@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <stdint.h>
 
 using namespace std;
 
