@@ -38,15 +38,17 @@ Main::Main() {
     createViewPort();
     createScene();
 
+ 
+
     //createFrameListener();
     ks = new KeyState(window, false, this);
     sc = new ShipControls(ks);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
-    audioState = new AudioState(frontGunState);
     bullet = new Bullet(shipSceneNode,sceneMgr);
     frontGunState = new FrontGunState(sc,bullet);
+    audioState = new AudioState(frontGunState);
 
     stateUpdate = new StateUpdate();
     stateUpdate->addTickable(ks);
@@ -59,8 +61,10 @@ Main::Main() {
 
     root->addFrameListener(stateUpdate);
 
+
     // Start Rendering Loop
     root->startRendering();
+
 }
 
 void Main::createCamera() {
