@@ -1,23 +1,10 @@
-
 PREFIX = /home/user-pool/users/jw7082/lib
 OGRE_PATH = $(PREFIX)/usr
 OIS_PATH = $(PREFIX)/usr
+FMOD_PATH = $(PREFIX)/usr/local
 
-INCLUDES = -DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include
-LFLAGS = -L${OGRE_PATH}/lib -L${OIS_PATH}/lib
-LIBS = -lOgreMain  -lOIS
+INCLUDES = -DOGRE_GUI_GLX -DOGRE_CONFIG_LITTLE_ENDIAN -I${ORGE_PATH}/include -I${OGRE_PATH}/include/OGRE -I${OIS_PATH}/include/OIS -I${OIS_PATH}/include -I${FMOD_PATH}/include/fmodex
+LFLAGS = -L${OGRE_PATH}/lib -L${OIS_PATH}/lib -L${FMOD_PATH}/lib
+LIBS = -lOgreMain -lOIS -lfmodex64 -lfmodexp64 -pthread
 	
 # DO NOT DELETE THIS LINE -- make depend needs it
-
-main.o: main.h ExampleFrameListener.h stateUpdate.h shipState.h
-main.o: IMotionState.h ITickable.h IEngineState.h engineState.h motionState.h
-stateUpdate.o: stateUpdate.h shipState.h IMotionState.h ITickable.h
-stateUpdate.o: IEngineState.h
-shipState.o: shipState.h IMotionState.h ITickable.h
-engineState.o: engineState.h IEngineState.h ITickable.h
-motionState.o: motionState.h IMotionState.h IEngineState.h ITickable.h
-motionState.o: /usr/include/math.h /usr/include/features.h
-motionState.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-motionState.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-motionState.o: /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h
-motionState.o: /usr/include/bits/mathcalls.h

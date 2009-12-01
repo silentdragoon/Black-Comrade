@@ -14,9 +14,15 @@ Main::Main() {
 
     sceneMgr = root->createSceneManager(ST_GENERIC);
 
+	ResourceGroupManager::getSingleton().addResourceLocation(
+                    ".", "FileSystem", "General");
+
     // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
@@ -30,15 +36,18 @@ Main::Main() {
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "particles", "FileSystem", "General"); 
                    
-
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    createSoundManager();
+
+    //createFrameListener();
+    
+    mc = new MapCreate("examplemap.txt",sceneMgr);
 
     createCamera();
     createViewPort();
     createScene();
-
- 
 
     //createFrameListener();
     ks = new KeyState(window, false, this);
@@ -48,9 +57,14 @@ Main::Main() {
     shipState = new ShipState(shipSceneNode, ms);
     bullet = new Bullet(shipSceneNode,sceneMgr);
     frontGunState = new FrontGunState(sc,bullet);
-    audioState = new AudioState(frontGunState);
 
+    enemyState = new EnemyState( enemySceneNode, sceneMgr );
+    
+    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+    
     stateUpdate = new StateUpdate();
+    
+    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(ks);
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(frontGunState);
@@ -58,6 +72,13 @@ Main::Main() {
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
+
+    stateUpdate->addTickable(soundMgr);
+    
+    shipState->position = new Vector3(mc->startx,0,mc->starty);
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+    //enemyState->yaw = Degree(90);
+    enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
 
@@ -75,10 +96,11 @@ void Main::createCamera() {
 
     shipSceneNode->attachObject(camera);
 
-    //camera->setPosition(Vector3(0,0,50));
+    camera->setPosition(Vector3(0,0,-50));
+
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(5);
-    camera->setFarClipDistance(1000);
+    camera->setFarClipDistance(10000);
 }
 
 void Main::createViewPort() {
@@ -98,14 +120,22 @@ void Main::createScene() {
 
     l->setPosition(20,80,50);
 
-    Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
+    
+    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    enemySceneNode->showBoundingBox(true);
+    enemySceneNode->attachObject(en);
 
-    //e->setMaterialName("Examples/EnvMappedRustySteel");
+    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
 
-    robotNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    robotNode->attachObject(e);
+    mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
-    robotNode->yaw(Ogre::Radian(4.712));
+    mc->outputMap(mapNode);
+}
+
+void Main::createSoundManager()
+{
+    soundMgr = new SoundManager();
 }
 
 int main()
