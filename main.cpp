@@ -49,9 +49,14 @@ Main::Main() {
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     shipState = new ShipState(shipSceneNode, ms);
+    
+    enemyState = new EnemyState( enemySceneNode, sceneMgr );
+    
     audioState = new AudioState(frontGunState);
     
     stateUpdate = new StateUpdate();
+    
+    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(ks);
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(frontGunState);
@@ -61,7 +66,9 @@ Main::Main() {
     stateUpdate->addTickable(audioState);
     
     shipState->position = new Vector3(mc->startx,0,mc->starty);
-    
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+    //enemyState->yaw = Degree(90);
+    enemyState->updateOgre();
     root->addFrameListener(stateUpdate);
     
     // Start Rendering Loop
@@ -99,17 +106,15 @@ void Main::createScene() {
     
     l->setPosition(20,80,50);
     
-    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
-    //e->setMaterialName("Examples/EnvMappedRustySteel");
-    
+    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    enemySceneNode->showBoundingBox(true);
+    enemySceneNode->attachObject(en);
+
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
     mc->outputMap(mapNode);
-    
-    //robotNode->attachObject(e);
-    
-    //robotNode->yaw(Ogre::Radian(4.712));
 }
 
 int main() 
