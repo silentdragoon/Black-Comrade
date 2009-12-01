@@ -55,6 +55,7 @@ Main::Main() {
     stateUpdate->addTickable(ms);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
+    stateUpdate->addTickable(soundMgr);
     
     root->addFrameListener(stateUpdate);
     
