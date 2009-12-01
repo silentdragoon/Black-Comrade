@@ -41,5 +41,4 @@ RM3SerializationResult FrontGunState::Serialize(SerializeParameters *serializePa
 
 void FrontGunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(isFire);
-    std::cout << isFire << std::endl;
 }
