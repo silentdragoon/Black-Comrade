@@ -4,10 +4,13 @@
 
 #include <OGRE/Ogre.h>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "frontGunState.h"
 #include "ITickable.h"
 
 using namespace Ogre;
+using namespace std;
 
 class Bullet : public ITickable
 {
@@ -16,7 +19,8 @@ class Bullet : public ITickable
         SceneNode *shipSceneNode;
         SceneNode *bulletNode;
         SceneManager *sceneMgr;
-        ParticleSystem *particle;
+        //ParticleSystem *particle;
+        int bnum;
         FrontGunState *gunState;
         
         void fire();
