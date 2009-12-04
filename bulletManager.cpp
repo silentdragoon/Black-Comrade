@@ -1,29 +1,36 @@
 
 #include "bulletManager.h"
 
-// This method needs to make a new bullet particle and add it to eg. a vector
-void Bullet::fire()
-{
-    //if (particle != 0)
-    //    sceneMgr->destroyParticleSystem(particle);
+void BulletManager::fire() {
+    // Need to put all this stuff into a new class which is an actual bullet,
+    // it needs to store the direction it was fired in and the type of bullet it is.
+    // We can then move it according to the constants given using the updateBullets method.
     string name = "Bullet";
     stringstream out;
     out << bnum++;
     name += out.str();
+    bulletNode = shipSceneNode->createChildSceneNode();
     ParticleSystem *particle = sceneMgr->createParticleSystem(name, "PE/Bullet");
     bulletNode->attachObject(particle);
+    activeBullets.push_back(bulletNode);
 }
 
-Bullet::Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState) 
+void BulletManager::updateBullets() {
+    // Update the position of all the bullets in the vector. Somehow test to see if they
+    // have collided with anything, or if they have run their course. If this is the case
+    // we need to destroy them and remove them from the vector.
+}
+
+BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState) 
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
     , gunState(gunState)
     , bnum(0)
 {
-    bulletNode = shipSceneNode->createChildSceneNode();
 }
 
-void Bullet::tick()
+void BulletManager::tick()
 {
     if(gunState->fire()) fire();
+    updateBullets();
 }

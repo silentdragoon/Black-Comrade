@@ -6,27 +6,27 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include "frontGunState.h"
 #include "ITickable.h"
 
 using namespace Ogre;
 using namespace std;
 
-class Bullet : public ITickable
+class BulletManager : public ITickable
 {
     private:
-
+        vector<SceneNode> activeBullets;
         SceneNode *shipSceneNode;
-        SceneNode *bulletNode;
         SceneManager *sceneMgr;
         //ParticleSystem *particle;
         int bnum;
         FrontGunState *gunState;
         
         void fire();
-    
+        void updateBullets(); 
     public:
-        Bullet(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
+        BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
             FrontGunState *gunState);
             
         virtual void tick();
