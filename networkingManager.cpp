@@ -1,6 +1,6 @@
 #include "networkingManager.h"
 #include <iostream>  // I/O 
-
+#include "networkRole.h"
 
 using namespace std;
 using namespace RakNet;
@@ -35,28 +35,31 @@ void NetworkingManager::tick() {
     if (quit) mExit->exit();
 }
 
-bool NetworkingManager::startNetworking(bool beServer) {
+NetworkRole NetworkingManager::startNetworking(NetworkRole desiredRole) {
+    NetworkRole actualRole = NONE;
     discoveryAgent = new DiscoveryAgent();
-    if (beServer) {
+    if (desiredRole == SERVER) {
         discoveryAgent->beServer(6001,1);
-        isServer = beServer;
+        actualRole = SERVER;
     }
-    else {
+    else if (desiredRole == CLIENT) {
         serverAddress = discoveryAgent->findServer(6001,6000,5);
         if (serverAddress.compare("") == 0) {
             printf("No servers could be found. You are now the server.\n");
-            return this->startNetworking(true);
+            return this->startNetworking(SERVER);
         }
+        actualRole = CLIENT;
     }
+    else if (desiredRole == DEVELOPMENTSERVER) { actualRole = DEVELOPMENTSERVER; }
 
     rakPeer = RakNetworkFactory::GetRakPeerInterface();
 
     rakPeer->SetNetworkIDManager(&networkIdManager);
-    networkIdManager.SetIsNetworkIDAuthority(beServer);
+    networkIdManager.SetIsNetworkIDAuthority((actualRole == SERVER || actualRole == DEVELOPMENTSERVER));
     replicaManager.SetDefaultPacketReliability(RELIABLE_ORDERED);
     replicaManager.SetAutoSerializeInterval(1);
 
-    if (isServer) {
+    if (actualRole == SERVER) {
         sd.port=SERVER_PORT;
     }
     else {
@@ -67,9 +70,10 @@ bool NetworkingManager::startNetworking(bool beServer) {
     rakPeer->SetMaximumIncomingConnections(3);
 
     bool connected = false;
-    if (!beServer) {
+    if (actualRole == CLIENT) {
         rakPeer->Connect(serverAddress.c_str(),SERVER_PORT,0,0,0);
     }
+    else if (actualRole == DEVELOPMENTSERVER) return actualRole;
 
     while(!connected) {
         for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
@@ -88,7 +92,7 @@ bool NetworkingManager::startNetworking(bool beServer) {
             }
         }
     }
-    return isServer;    
+    return actualRole;
 }
 
 void NetworkingManager::stopNetworking() {

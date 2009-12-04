@@ -65,7 +65,7 @@ Main::Main() {
     
     stateUpdate->addTickable(ks);
 
-    if (role == SERVER || role == INVISIBLESERVER) {
+    if (role == SERVER || role == DEVELOPMENTSERVER) {
         serverStartup();
     }
     else {
@@ -126,25 +126,21 @@ void Main::serverStartup() {
 NetworkRole Main::startNetworking() {
     NetworkRole role = NONE;
     char ch;
-    printf("Start as (c)lient, (s)erver?\n");
+    printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
     ch=getch();
-    bool isActuallyServer;
 
     if (ch=='c' || ch=='C')
     {
-        isActuallyServer = networkingManager->startNetworking(false);
-        if (!isActuallyServer) role = CLIENT; else role = SERVER;
+        role = networkingManager->startNetworking(CLIENT);
     }
     else if (ch=='d' || ch=='D')
     {
-        std::cout << "Development mode enabled." << std::endl;
-        isActuallyServer = networkingManager->startNetworking(false);
-        if (!isActuallyServer) role = INVISIBLECLIENT; else role = SERVER;
+        role = networkingManager->startNetworking(DEVELOPMENTSERVER);
+        printf("DEVELOPMENT SERVER\n");
     }
     else
     {
-        isActuallyServer = networkingManager->startNetworking(true);
-        if (isActuallyServer) role = SERVER; else role = CLIENT;
+        role = networkingManager->startNetworking(SERVER);
     }
 
     return role;

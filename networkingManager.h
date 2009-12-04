@@ -15,6 +15,7 @@
 #include "MessageIdentifiers.h"
 #include "ReplicaManager3.h"
 #include "NetworkIDManager.h"
+#include "networkRole.h"
 #include "RakSleep.h"
 #include "FormatString.h"
 #include "RakString.h"
@@ -56,7 +57,7 @@ public:
 
         OurReplicaManager replicaManager;
         virtual void tick();
-        bool startNetworking(bool Server);
+        NetworkRole startNetworking(NetworkRole desiredRole);
         void stopNetworking();
 
         bool replicate(ReplicaObject *object);
