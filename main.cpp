@@ -91,14 +91,14 @@ void Main::createCamera() {
     
     camera->setPosition(Vector3(0,0,-50));
     camera->lookAt(Vector3(0,0,1));
-    camera->setNearClipDistance(5);
-    camera->setFarClipDistance(10000);
+    camera->setNearClipDistance(1);
+    camera->setFarClipDistance(1000);
 }
 
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(100,0,0));
+    vp->setBackgroundColour(ColourValue(0,0,0));
     
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
@@ -106,11 +106,24 @@ void Main::createViewPort() {
 
 void Main::createScene() {
 
-    sceneMgr->setAmbientLight(ColourValue(0.1,0.1,0.1));
+    sceneMgr->setAmbientLight(ColourValue(0,0,0));
+    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
     
     Light *l = sceneMgr->createLight("MainLight");
-    
-    l->setPosition(20,80,50);
+    l->setType(Light::LT_POINT);
+    l->setDiffuseColour(0.1,0.1,0.1);
+    l->setSpecularColour(0.1,0.1,0.1);
+
+    Light *sp = sceneMgr->createLight("FrontSpot");
+    sp->setType(Light::LT_SPOTLIGHT);
+    sp->setDiffuseColour(0.7,0.7,0.7);
+    sp->setSpecularColour(0.7,0.7,0.7);
+    sp->setSpotlightRange(Degree(50), Degree(50));
+    sp->setDirection(Vector3(0,0,1));
+
+    //l->setPosition(20,80,50);
+    shipSceneNode->attachObject(l);
+    shipSceneNode->attachObject(sp);
     
     Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
