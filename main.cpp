@@ -3,6 +3,7 @@
 #include <iostream>
 #include "stateUpdate.h"
 
+#include "networkRole.h"
 #include "networkingManager.h"
 
 using namespace RakNet;
@@ -12,7 +13,7 @@ Main::Main() {
     networkingManager = new NetworkingManager(this);
 
     // networking
-    isServer = startNetworking();
+    role = startNetworking();
 
     root = new Root();
     
@@ -45,7 +46,7 @@ Main::Main() {
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    //createSoundManager();
+    createSoundManager();
 
     //createFrameListener();
     
@@ -64,28 +65,27 @@ Main::Main() {
     
     stateUpdate->addTickable(ks);
 
-    if (isServer) {
+    if (role == SERVER || role == INVISIBLESERVER) {
         serverStartup();
     }
     else {
         clientStartup();
     }
 
-    //audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
 
     stateUpdate->addTickable(frontGunState);
-    //stateUpdate->addTickable(audioState);
+    stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(enemyState);
-    //stateUpdate->addTickable(soundMgr);
+    stateUpdate->addTickable(soundMgr);
     
 
     //enemyState->yaw = Degree(90);
     enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
-    
-printf("About to start rendering\n");
+
     // Start Rendering Loop
     root->startRendering();
 
@@ -123,7 +123,8 @@ void Main::serverStartup() {
     enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
-bool Main::startNetworking() {
+NetworkRole Main::startNetworking() {
+    NetworkRole role = NONE;
     char ch;
     printf("Start as (c)lient, (s)erver?\n");
     ch=getch();
@@ -132,13 +133,21 @@ bool Main::startNetworking() {
     if (ch=='c' || ch=='C')
     {
         isActuallyServer = networkingManager->startNetworking(false);
+        if (!isActuallyServer) role = CLIENT; else role = SERVER;
+    }
+    else if (ch=='d' || ch=='D')
+    {
+        std::cout << "Development mode enabled." << std::endl;
+        isActuallyServer = networkingManager->startNetworking(false);
+        if (!isActuallyServer) role = INVISIBLECLIENT; else role = SERVER;
     }
     else
     {
         isActuallyServer = networkingManager->startNetworking(true);
+        if (isActuallyServer) role = SERVER; else role = CLIENT;
     }
 
-    return isActuallyServer;
+    return role;
 }
 
 void Main::createCamera() {
@@ -158,7 +167,7 @@ void Main::createCamera() {
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(100,0,0));
+    vp->setBackgroundColour(ColourValue(0,0,0));
     
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
@@ -209,7 +218,7 @@ Main::~Main()
     delete sc;
     delete as;
     delete ms;
-    if (isServer) delete shipState;
+    if (role == SERVER || role == INVISIBLESERVER) delete shipState;
     
     delete stateUpdate;
     delete networkingManager;

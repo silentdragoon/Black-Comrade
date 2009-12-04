@@ -6,6 +6,7 @@
 #include <OGRE/Ogre.h>
 
 #include "networkingManager.h"
+#include "networkRole.h"
 #include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
@@ -36,6 +37,7 @@ private:
     RenderWindow *window;
     NetworkingManager *networkingManager;
     bool isServer;
+    NetworkRole role;
     SoundManager *soundMgr;
     KeyState *ks;
     FrontGunState *frontGunState;
@@ -57,7 +59,7 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    bool startNetworking();
+    NetworkRole startNetworking();
 
     void clientStartup();
     void serverStartup();
