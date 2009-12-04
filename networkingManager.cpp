@@ -39,7 +39,7 @@ NetworkRole NetworkingManager::startNetworking(NetworkRole desiredRole) {
     NetworkRole actualRole = NONE;
     discoveryAgent = new DiscoveryAgent();
     if (desiredRole == SERVER) {
-        discoveryAgent->beServer(6001,2);
+        discoveryAgent->beServer(6001,1);
         actualRole = SERVER;
     }
     else if (desiredRole == CLIENT) {
@@ -76,7 +76,7 @@ NetworkRole NetworkingManager::startNetworking(NetworkRole desiredRole) {
     }
     else if (actualRole == DEVELOPMENTSERVER) return actualRole;
 
-    while(numConnections != 2) {
+    while(!connected) {
         for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
             switch (packet->data[0]) {
                 case ID_CONNECTION_ATTEMPT_FAILED:
@@ -84,11 +84,11 @@ NetworkRole NetworkingManager::startNetworking(NetworkRole desiredRole) {
                     break;
                 case ID_NEW_INCOMING_CONNECTION:
                     //printf("ID_NEW_INCOMING_CONNECTION from %s\n", packet->systemAddress.ToString());
-                    numConnections ++;
+                    connected = true;
                     break;
                 case ID_CONNECTION_REQUEST_ACCEPTED:
                     //printf("ID_CONNECTION_REQUEST_ACCEPTED\n");
-                    numConnections = 2;
+                    connected = true;
                     break;
             }
         }
