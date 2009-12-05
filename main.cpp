@@ -58,7 +58,6 @@ Main::Main() {
     frontGunState = new FrontGunState(sc);
     bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState);
     enemyState = new EnemyState( enemySceneNode, sceneMgr );
-    
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     
     stateUpdate = new StateUpdate();
@@ -72,7 +71,6 @@ Main::Main() {
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(bulletMgr);
-
     stateUpdate->addTickable(soundMgr);
     
     shipState->position = new Vector3(mc->startx,0,mc->starty);

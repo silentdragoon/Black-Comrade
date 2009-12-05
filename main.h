@@ -34,7 +34,7 @@ private:
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;
-    Bullet *bullet;
+    BulletManager *bulletMgr;
     
     SceneNode *mapNode;
     

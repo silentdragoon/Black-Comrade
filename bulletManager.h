@@ -1,6 +1,5 @@
-
-#ifndef _BULLET_H
-#define	_BULLET_H
+#ifndef _BULLETMANAGER_H
+#define	_BULLETMANAGER_H
 
 #include <OGRE/Ogre.h>
 #include <iostream>
@@ -9,6 +8,7 @@
 #include <vector>
 #include "frontGunState.h"
 #include "ITickable.h"
+#include "bullet.h"
 
 using namespace Ogre;
 using namespace std;
@@ -16,7 +16,7 @@ using namespace std;
 class BulletManager : public ITickable
 {
     private:
-        vector<SceneNode> activeBullets;
+        vector<Bullet> activeBullets;
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
         //ParticleSystem *particle;
@@ -28,6 +28,8 @@ class BulletManager : public ITickable
     public:
         BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
             FrontGunState *gunState);
+
+        // TODO: Add destructor
             
         virtual void tick();
 };
