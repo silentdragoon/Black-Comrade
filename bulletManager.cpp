@@ -10,7 +10,7 @@ void BulletManager::fire() {
     ParticleSystem *particle = sceneMgr->createParticleSystem(name, "PE/Bullet");
     bulletNode->attachObject(particle);
     
-    Bullet *b = new Bullet(bulletNode,Vector3(0,0,1),500,false,false);
+    Bullet *b = new Bullet(bulletNode,Vector3(0,1,0),1,false,false);
     
     activeBullets.push_back(*b);
 }

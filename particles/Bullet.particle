@@ -19,7 +19,7 @@ particle_system PE/Bullet
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	5
+		time_to_live	20
 		duration	1
 	}
 }
