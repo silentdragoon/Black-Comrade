@@ -39,7 +39,7 @@ void StateUpdate::tick()
     
     
     for(i = tickables.begin(); i != tickables.end(); ++i) {
-    
+        if (running == false) break;
         t = *i;
         t->tick();
     }

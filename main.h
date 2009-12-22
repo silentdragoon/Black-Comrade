@@ -5,6 +5,8 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
+#include "networkingManager.h"
+#include "networkRole.h"
 #include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
@@ -18,7 +20,14 @@
 #include "audioState.h"
 #include "IExit.h"
 
+//include networking stuff
+#include <string.h>
+#include <string>
+#include <cstdio>
+
 using namespace Ogre;
+using namespace std;
+using namespace RakNet;
 
 class Main : public IExit {
 private:
@@ -26,6 +35,9 @@ private:
     Camera *camera;
     SceneManager *sceneMgr;
     RenderWindow *window;
+    NetworkingManager *networkingManager;
+    bool isServer;
+    NetworkRole role;
     SoundManager *soundMgr;
     KeyState *ks;
     FrontGunState *frontGunState;
@@ -47,6 +59,11 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
+    NetworkRole startNetworking();
+
+    void clientStartup();
+    void serverStartup();
+
     void createSoundManager();
     
 public:

@@ -8,13 +8,16 @@
 #include "ITickable.h"
 #include "rayQuery.h"
 
-using namespace Ogre;
+// include Raknet classes
+#include "ReplicaObject.h"
+#include "ReplicaManager3.h"
 
-class EnemyState : public ITickable {
+using namespace Ogre;
+using namespace RakNet;
+
+class EnemyState : public ITickable, public ReplicaObject {
     
 private:
-    
-    SceneNode *eSceneNode;
     SceneManager *mSceneMgr;
     RayQuery *rRayQuery;
     
@@ -24,16 +27,26 @@ private:
 
     
 public:
+    SceneNode *eSceneNode;
     Vector3 *position;
     Real roll;
     Real pitch;
     Real yaw;
     
+    EnemyState();
     EnemyState(SceneNode *neSceneNode, SceneManager *mSceneMgr );
     
     void tick();
     
     void updateOgre();
+
+    virtual RakNet::RakString GetName(void) const;
+    virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
+    virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
+
+    void print();
+
+    
 };
 
 #endif

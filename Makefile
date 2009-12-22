@@ -3,13 +3,12 @@ default: all
 
 include Makefile.local
 
-CC = g++
+CC = g++ -g
 CFLAGS = 
 
 OUTPUT = test
 
-SRCS = main.cpp stateUpdate.cpp shipState.cpp accelerationState.cpp motionState.cpp keyState.cpp shipControls.cpp frontGunState.cpp audioState.cpp mapCreate.cpp enemyState.cpp rayQuery.cpp soundManager.cpp
-
+SRCS = main.cpp stateUpdate.cpp shipState.cpp accelerationState.cpp motionState.cpp keyState.cpp shipControls.cpp frontGunState.cpp audioState.cpp ReplicaConnection.cpp ReplicaObject.cpp OurReplicaManager.cpp networkingManager.cpp DiscoveryAgent.cpp mapCreate.cpp enemyState.cpp rayQuery.cpp soundManager.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -3,8 +3,18 @@
 #include <iostream>
 #include "stateUpdate.h"
 
+#include "networkRole.h"
+#include "networkingManager.h"
+
+using namespace RakNet;
+
 Main::Main() {
-    
+
+    networkingManager = new NetworkingManager(this);
+
+    // networking
+    role = startNetworking();
+
     root = new Root();
     
     if (!root->restoreConfig())
@@ -45,40 +55,95 @@ Main::Main() {
     createCamera();
     createViewPort();
     createScene();
-    
 
     //createFrameListener();
-    ks = new KeyState(window, false, this);    
-    sc = new ShipControls(ks);
-    frontGunState = new FrontGunState(sc);
-    as = new AccelerationState(sc);
-    ms = new MotionState(as);
-    shipState = new ShipState(shipSceneNode, ms);
 
-    enemyState = new EnemyState( enemySceneNode, sceneMgr );
-    
-    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+    ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
+    stateUpdate->addTickable(networkingManager);
     
-    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(ks);
-    stateUpdate->addTickable(sc);
+
+    if (role == SERVER || role == DEVELOPMENTSERVER) {
+        serverStartup();
+    }
+    else {
+        clientStartup();
+    }
+
+    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+
     stateUpdate->addTickable(frontGunState);
-    stateUpdate->addTickable(as);
-    stateUpdate->addTickable(ms);
-    stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(audioState);
+    stateUpdate->addTickable(shipState);
+    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(soundMgr);
     
-    shipState->position = new Vector3(mc->startx,0,mc->starty);
-    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+
     //enemyState->yaw = Degree(90);
     enemyState->updateOgre();
+
     root->addFrameListener(stateUpdate);
-    
+
     // Start Rendering Loop
     root->startRendering();
+
+    networkingManager->stopNetworking();
+}
+
+void Main::clientStartup() {
+    camera->setPosition(0,0,-40);
+    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+    frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    enemyState = (EnemyState *) networkingManager->getReplica("EnemyState",true);
+    
+    enemyState->eSceneNode =  enemySceneNode;
+    shipState->shipSceneNode = shipSceneNode;
+}
+
+void Main::serverStartup() {
+    camera->setPosition(Vector3(0,0,0));
+    sc = new ShipControls(ks);
+    as = new AccelerationState(sc);
+    ms = new MotionState(as);
+    frontGunState = new FrontGunState(sc);
+    shipState = new ShipState(shipSceneNode, ms);
+    enemyState = new EnemyState(enemySceneNode, sceneMgr);
+
+    networkingManager->replicate(shipState);
+    networkingManager->replicate(frontGunState);
+    networkingManager->replicate(enemyState);
+
+    stateUpdate->addTickable(sc);
+    stateUpdate->addTickable(as);
+    stateUpdate->addTickable(ms);
+
+    shipState->position = new Vector3(mc->startx,0,mc->starty);
+    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+}
+
+NetworkRole Main::startNetworking() {
+    NetworkRole role = NONE;
+    char ch;
+    printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
+    ch=getch();
+
+    if (ch=='c' || ch=='C')
+    {
+        role = networkingManager->startNetworking(CLIENT);
+    }
+    else if (ch=='d' || ch=='D')
+    {
+        role = networkingManager->startNetworking(DEVELOPMENTSERVER);
+        printf("DEVELOPMENT SERVER\n");
+    }
+    else
+    {
+        role = networkingManager->startNetworking(SERVER);
+    }
+
+    return role;
 }
 
 void Main::createCamera() {
@@ -134,6 +199,14 @@ void Main::createScene() {
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
     mc->outputMap(mapNode);
+    
+    SceneNode *modelNode = shipSceneNode->createChildSceneNode();
+    
+    Entity *e = sceneMgr->createEntity("robot", "ourship.mesh");
+    modelNode->attachObject(e);
+    //modelNode->setScale(0.15,0.15,0.15);
+    modelNode->setPosition(0,-7,-5);
+    //modelNode->yaw(Degree(270));
 }
 
 void Main::createSoundManager()
@@ -154,9 +227,10 @@ Main::~Main()
     delete sc;
     delete as;
     delete ms;
-    delete shipState;
+    if (role == SERVER || role == INVISIBLESERVER) delete shipState;
     
     delete stateUpdate;
+    delete networkingManager;
     
     // TODO: Fix destructing soundManager
     
