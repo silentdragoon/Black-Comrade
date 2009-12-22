@@ -18,6 +18,7 @@
 #include "soundManager.h"
 #include "mapCreate.h"
 #include "audioState.h"
+#include "miniGameManager.h"
 #include "IExit.h"
 
 //include networking stuff
@@ -45,6 +46,7 @@ private:
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;
+    MiniGameManager *miniGameMgr;
     
     SceneNode *mapNode;
     

@@ -69,12 +69,14 @@ Main::Main() {
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+    miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(soundMgr);
+    stateUpdate->addTickable(miniGameMgr);
     
     enemyState->updateOgre();
 
