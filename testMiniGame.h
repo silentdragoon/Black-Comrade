@@ -5,17 +5,22 @@
 #include <OGRE/Ogre.h>
 
 #include "IMiniGame.h"
+#include "keyState.h"
+
+using namespace Ogre;
 
 class TestMiniGame : public IMiniGame {
 private:
     Overlay *overlay;
     bool isEnd;
+    
+    KeyState *keyState;
 public:
     void tick();
     bool end();
     Overlay *getOverlay();
     
-    TestMiniGame();
+    TestMiniGame(KeyState *keyState);
 };
 
 #endif
