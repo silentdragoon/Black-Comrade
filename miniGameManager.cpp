@@ -18,6 +18,8 @@ void MiniGameManager::tick()
         if(keyState->isKeyDown(OIS::KC_1)) {
             currentMiniGame = new TestMiniGame(keyState);
             
+            currentMiniGame->getOverlay()->show();
+            
             shipControls->setEnabled(false);
         }
     } 

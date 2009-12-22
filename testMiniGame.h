@@ -21,6 +21,7 @@ public:
     Overlay *getOverlay();
     
     TestMiniGame(KeyState *keyState);
+    void createScene();
 };
 
 #endif
