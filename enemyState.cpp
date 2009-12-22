@@ -91,7 +91,7 @@ void EnemyState::Deserialize(RakNet::DeserializeParameters *deserializeParameter
     deserializeParameters->serializationBitstream[0].Read(pitch);
     deserializeParameters->serializationBitstream[0].Read(yaw);
 
-    print();
+    //print();
 }
 
 void EnemyState::print() {

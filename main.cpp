@@ -4,6 +4,7 @@
 #include "stateUpdate.h"
 
 #include "networkRole.h"
+#include "collaborationInfo.h"
 #include "networkingManager.h"
 
 using namespace RakNet;
@@ -13,7 +14,7 @@ Main::Main() {
     networkingManager = new NetworkingManager(this);
 
     // networking
-    role = startNetworking();
+    startNetworking();
 
     root = new Root();
     
@@ -65,7 +66,8 @@ Main::Main() {
     
     stateUpdate->addTickable(ks);
 
-    if (role == SERVER || role == DEVELOPMENTSERVER) {
+    GameRole myRole = collabInfo->getGameRole();
+    if (myRole == PILOT) {
         serverStartup();
     }
     else {
@@ -123,27 +125,24 @@ void Main::serverStartup() {
     enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
-NetworkRole Main::startNetworking() {
-    NetworkRole role = NONE;
+void Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
     ch=getch();
 
     if (ch=='c' || ch=='C')
     {
-        role = networkingManager->startNetworking(CLIENT);
+        collabInfo = networkingManager->startNetworking(CLIENT);
     }
     else if (ch=='d' || ch=='D')
     {
-        role = networkingManager->startNetworking(DEVELOPMENTSERVER);
+        collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
         printf("DEVELOPMENT SERVER\n");
     }
     else
     {
-        role = networkingManager->startNetworking(SERVER);
+        collabInfo = networkingManager->startNetworking(SERVER);
     }
-
-    return role;
 }
 
 void Main::createCamera() {
@@ -154,7 +153,7 @@ void Main::createCamera() {
     
     shipSceneNode->attachObject(camera);
     
-    //camera->setPosition(Vector3(0,0,-50));
+    camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(5);
     camera->setFarClipDistance(10000);
@@ -214,7 +213,7 @@ Main::~Main()
     delete sc;
     delete as;
     delete ms;
-    if (role == SERVER || role == INVISIBLESERVER) delete shipState;
+    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
     
     delete stateUpdate;
     delete networkingManager;

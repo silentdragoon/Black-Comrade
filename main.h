@@ -37,7 +37,7 @@ private:
     RenderWindow *window;
     NetworkingManager *networkingManager;
     bool isServer;
-    NetworkRole role;
+    CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
     KeyState *ks;
     FrontGunState *frontGunState;
@@ -59,7 +59,7 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    NetworkRole startNetworking();
+    void startNetworking();
 
     void clientStartup();
     void serverStartup();

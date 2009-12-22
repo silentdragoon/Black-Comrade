@@ -13,7 +13,8 @@
 
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
 
-DiscoveryAgent::DiscoveryAgent(){}
+DiscoveryAgent::DiscoveryAgent() :
+    server(0) {}
 
 using namespace std;
 
@@ -21,7 +22,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
 {
     RakPeerInterface *client;
     Packet *p;
-    string server = "";
+    string serverIP = "";
     client=RakNetworkFactory::GetRakPeerInterface();
 
     SocketDescriptor socketDescriptor(clientPort,0);
@@ -47,9 +48,8 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
             {
                 RakNetTime time;
                 memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
-                //printf("Got pong from %s with time %i\n", p->systemAddress.ToString(), RakNet::GetTime() - time);
 		string temp = p->systemAddress.ToString();
-                server = temp.substr(0, temp.find(":"));
+                serverIP = temp.substr(0, temp.find(":"));
                 break;
             }
             client->DeallocatePacket(p);
@@ -58,48 +58,39 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
     }
 
     RakNetworkFactory::DestroyRakPeerInterface(client);
-    return server;
+    return serverIP;
 }
 
-void DiscoveryAgent::beServer(int serverPort, int numClients)
-{
-    RakPeerInterface *server;
-    bool b;
-
-    int numConnections = 0;
-
+void DiscoveryAgent::beServer() {
+    if (server == 0) createServer(6001);
     Packet *p;
 
-    server = RakNetworkFactory::GetRakPeerInterface();
-
-    SocketDescriptor socketDescriptor(serverPort,0);
-    b = server->Startup(2, 30, &socketDescriptor, 1);
-    server->SetMaximumIncomingConnections(2);
-    if (b)
-        printf("Server started, waiting for connections.\n");
+    p = server->Receive();
+    if (p==0)
+    {
+        SLEEP(30);
+    }
     else
+    {
+        server->DeallocatePacket(p);
+    }
+}
+
+bool DiscoveryAgent::createServer(int port) {
+    server = RakNetworkFactory::GetRakPeerInterface();
+    bool b;
+    SocketDescriptor socketDescriptor(port,0);
+    b = server->Startup(2, 30, &socketDescriptor, 1);
+    server->SetMaximumIncomingConnections(3);
+    if (!b)
     {
         printf("Server failed to start. Terminating.\n");
         exit(1);
     }
+    return b;
+}
 
-    while (true)
-    {
-        p = server->Receive();
-        if (p==0)
-        {
-            SLEEP(30);
-            continue;
-        }
-        else
-        {
-            server->DeallocatePacket(p);
-            numConnections = numConnections + 1;
-            if (numConnections == numClients)
-            {
-              break;
-            }
-        }
-    }
+void DiscoveryAgent::destroyServer() {
     RakNetworkFactory::DestroyRakPeerInterface(server);
 }
+
