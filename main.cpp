@@ -47,16 +47,12 @@ Main::Main() {
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     createSoundManager();
-
-    //createFrameListener();
     
     mc = new MapCreate("examplemap.txt",sceneMgr);
 
     createCamera();
     createViewPort();
     createScene();
-
-    //createFrameListener();
 
     ks = new KeyState(window, false, this);
     
@@ -80,8 +76,6 @@ Main::Main() {
     stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(soundMgr);
     
-
-    //enemyState->yaw = Degree(90);
     enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
