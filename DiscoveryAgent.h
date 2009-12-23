@@ -1,3 +1,6 @@
+#ifndef DISCOVERYAGENT_H
+#define DISCOVERYAGENT_H
+
 #include <string>
 #include "RakPeerInterface.h"
 
@@ -16,3 +19,5 @@ class DiscoveryAgent {
     void beServer();
     void destroyServer();
 };
+
+#endif

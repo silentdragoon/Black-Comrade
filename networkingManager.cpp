@@ -3,13 +3,8 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "gameRole.h"
-
-const unsigned char CHOOSE_GAME_ROLE = 100;
-const unsigned char START_GAME = 101;
-const unsigned char GAME_ROLE_CHOICE = 102;
-const unsigned char GET_ROLE_CHOICES = 103;
-const unsigned char GAME_ROLE_CHOICES = 104;
-
+#include <stdio.h>
+#include "lobby.h"
 
 using namespace std;
 using namespace RakNet;
@@ -18,9 +13,6 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
     serverAddress(""),
     numConnections(0),
     chosenGameRole(NO_GAME_ROLE),
-    pilotTaken(false),
-    navTaken(false),
-    engTaken(false),
     mExit(mExit)
 {
     sd.port = 0;
@@ -85,23 +77,22 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
     rakPeer->AttachPlugin(&replicaManager);
     rakPeer->SetMaximumIncomingConnections(3);
 
-    if (actualRole == CLIENT) { 
-        enterLobby();
-    }
-    else if (actualRole == SERVER) {
-        initializeLobby();
-        offerGameRoleChoices();
-        while (pilotTaken == false || navTaken == false || engTaken == false)
-        {
-            discoveryAgent->beServer();
-            beLobby();
-        }
-        
+    lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
+
+    if (actualRole == CLIENT) lobby->connect(serverAddress, SERVER_PORT);
+
+    lobby->enter();
+
+    while (!lobby->wait()){}
+    
+    if (networkRole == SERVER) {
         startGame();
         discoveryAgent->destroyServer();
     }
     string nick = "rob";
-    CollaborationInfo *collabInfo = new CollaborationInfo(nick, actualRole, chosenGameRole); 
+    chosenGameRole = lobby->getChosenGameRole();
+    if (chosenGameRole == NO_GAME_ROLE) chosenGameRole = PILOT;
+    CollaborationInfo *collabInfo = new CollaborationInfo(nick, networkRole, chosenGameRole); 
     return collabInfo;
 }
 
@@ -112,109 +103,6 @@ void NetworkingManager::startGame() {
     rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
-void NetworkingManager::initializeLobby() {
-    std::cout << "Welcome to the lobby! Just wait here while the other players connect..." << std::endl;
-}
-
-void NetworkingManager::offerGameRoleChoices() {
-    if (chosenGameRole != NO_GAME_ROLE) return;
-    printf("Please choose a game role from the list below:\n");
-    if (!pilotTaken) printf("(P)ilot\n");
-    if (!navTaken) printf("(N)avigator\n");
-    if (!engTaken) printf("(E)ngineer\n");
-}
-
-void NetworkingManager::enterLobby() {
-    rakPeer->Connect(serverAddress.c_str(),SERVER_PORT,0,0,0);
-    bool connected = false;
-    bool goodToGo = false;
-
-    while(connected != true) {
-        for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
-            switch (packet->data[0]) {
-                case ID_CONNECTION_ATTEMPT_FAILED:
-                    exit(1);
-                    break;
-                case ID_CONNECTION_REQUEST_ACCEPTED:
-                    connected = true;
-                    break;
-            }
-        }
-    }
-
-    initializeLobby();
-    requestGameRoleChoices();
-
-    while (goodToGo != true)
-    {
-        unsigned char packetID;
-        for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
-            RakNet::BitStream dataStream((unsigned char*)packet->data, packet->length, false);
-            dataStream.Read(packetID);
-            switch (packetID) {
-                case START_GAME:
-                    printf("We're good to go!\n");
-                    goodToGo = true;
-                    break;
-                case GAME_ROLE_CHOICES:
-                    dataStream.Read(pilotTaken);
-                    dataStream.Read(navTaken);
-                    dataStream.Read(engTaken);
-                    offerGameRoleChoices();
-                    break;
-            }
-        }
-        checkForRoleChoice();
-    }
-}
-
-void NetworkingManager::checkForRoleChoice() {
-    if (kbhit())
-    {
-        char ch = getch();
-        if ((ch=='p' || ch=='P') && chosenGameRole == NO_GAME_ROLE)
-        {
-            chosenGameRole = PILOT;
-            pilotTaken = true;
-            printf("You chose to be the Pilot.\n");
-        }
-        else if ((ch=='n' || ch=='N') && chosenGameRole == NO_GAME_ROLE)
-        {
-            chosenGameRole = NAVIGATOR;
-            navTaken = true;
-            printf("You chose to be the Navigator.\n");
-        }
-        else if ((ch=='e' || ch=='E') && chosenGameRole == NO_GAME_ROLE)
-        {
-            chosenGameRole = ENGINEER;
-            engTaken = true;
-            printf("You chose to be the Engineer.\n");
-        }
-
-        if (networkRole == CLIENT) {
-            sendGameRoleChoice(chosenGameRole);
-        }
-        else if (networkRole == SERVER) sendGameRoleChoices();
-    }
-}
-
-void NetworkingManager::sendGameRoleChoice(GameRole chosenGameRole) {
-    RakNet::BitStream dataStream;
-
-    dataStream.Write(GAME_ROLE_CHOICE);
-    if (chosenGameRole == PILOT) dataStream.Write(true); else dataStream.Write(false);
-    if (chosenGameRole == NAVIGATOR) dataStream.Write(true); else dataStream.Write(false);
-    if (chosenGameRole == ENGINEER) dataStream.Write(true); else dataStream.Write(false);
-    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, rakPeer->GetSystemAddressFromIndex(0), false);
-}
-
-void NetworkingManager::requestGameRoleChoices() {
-    RakNet::BitStream dataStream;
-
-    dataStream.Write(GET_ROLE_CHOICES);
-    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, rakPeer->GetSystemAddressFromIndex(0), false);
-}
-
 void NetworkingManager::stopNetworking() {
     rakPeer->Shutdown(100,0);
     RakNetworkFactory::DestroyRakPeerInterface(rakPeer);
@@ -223,62 +111,6 @@ void NetworkingManager::stopNetworking() {
 bool NetworkingManager::replicate(ReplicaObject *object) {
     replicaManager.Reference(object);
     return true;
-}
-
-void NetworkingManager::beLobby() {
-    unsigned char packetID;
-    for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
-        RakNet::BitStream dataStream((unsigned char*)packet->data, packet->length, false);
-        dataStream.Read(packetID);
-        switch (packetID) {
-            case ID_CONNECTION_ATTEMPT_FAILED:
-                exit(1);
-                break;
-            case ID_NEW_INCOMING_CONNECTION:
-                printf("A new player has connected.\n");
-                numConnections ++;
-                break;
-            case GET_ROLE_CHOICES:
-                sendGameRoleChoices(packet->systemAddress);
-                break;
-            case GAME_ROLE_CHOICE:
-                bool someoneChosePilot;
-                bool someoneChoseNav;
-                bool someoneChoseEng;
-                dataStream.Read(someoneChosePilot);
-                dataStream.Read(someoneChoseNav);
-                dataStream.Read(someoneChoseEng);
-                pilotTaken = pilotTaken || someoneChosePilot;
-                navTaken = navTaken || someoneChoseNav;
-                engTaken = engTaken || someoneChoseEng;
-                sendGameRoleChoices();
-                offerGameRoleChoices();
-                break;
-        }
-    }
-    checkForRoleChoice();
-}
-
-void NetworkingManager::sendGameRoleChoices() {
-    RakNet::BitStream dataStream;
-
-    dataStream.Write(GAME_ROLE_CHOICES);
-    dataStream.Write(pilotTaken);
-    dataStream.Write(navTaken);
-    dataStream.Write(engTaken);
-
-    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
-}
-
-void NetworkingManager::sendGameRoleChoices(SystemAddress recipient) {
-    RakNet::BitStream dataStream;
-
-    dataStream.Write(GAME_ROLE_CHOICES);
-    dataStream.Write(pilotTaken);
-    dataStream.Write(navTaken);
-    dataStream.Write(engTaken);
-
-    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, recipient, false);
 }
 
 ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {

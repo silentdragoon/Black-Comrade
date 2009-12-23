@@ -12,6 +12,7 @@
 #include "shipState.h"
 #include "keyState.h"
 #include "frontGunState.h"
+#include "Kbhit.h"
 #include "shipControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
