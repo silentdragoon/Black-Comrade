@@ -41,7 +41,7 @@ void StateUpdate::tick()
     
     
     for(i = tickables.begin(); i != tickables.end(); ++i) {
-        std::cout << "Tick " << ++count << std::endl;
+        //std::cout << "Tick " << ++count << std::endl;
         t = *i;
         t->tick();
     }

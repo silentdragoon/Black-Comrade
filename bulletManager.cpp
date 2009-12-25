@@ -2,7 +2,7 @@
 
 void BulletManager::fire(SceneNode *bulletNode) {
     
-    Bullet *b = new Bullet(bulletNode,Vector3(0,0,0),1,false,false);
+    Bullet *b = new Bullet(bulletNode,Vector3(1,0,0),2,false,false);
     
     activeBullets.push_back(*b);
 }
