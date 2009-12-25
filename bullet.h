@@ -3,6 +3,7 @@
 
 #include <OGRE/Ogre.h>
 #include <string>
+#include <iostream>
 
 using namespace Ogre;
 using namespace std;

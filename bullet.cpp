@@ -3,6 +3,7 @@
 void Bullet::updateLocation() {
     // Assuming direction is some sort of unit vector or something
     Vector3 currentPos = bulletNode->getPosition();
+    cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << endl;
     bulletNode->setPosition(Vector3(currentPos.x+((direction.x)*velocity),currentPos.y+((direction.y)*velocity),currentPos.z+((direction.z)*velocity)));
 
     aliveTicks++;
