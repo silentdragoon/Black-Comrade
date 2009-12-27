@@ -2,16 +2,19 @@
 
 void BulletManager::fire(SceneNode *bulletNode) {
     
-    Bullet *b = new Bullet(bulletNode,Vector3(1,0,0),2,false,false);
+    Bullet *b = new Bullet(bulletNode,Vector3(1,0,0),0,false,false);
     
-    activeBullets.push_back(*b);
+    activeBullets.push_back(b);
 }
 
 void BulletManager::updateBullets() {
     for(int i=0;i<activeBullets.size();i++) {
-        Bullet b = activeBullets.at(i);
-        b.updateLocation();
+        Bullet *b = activeBullets.at(i);
+        b->updateLocation();
         // TODO: Test for a collision/Destruction here
+        if(b->aliveTicks>2000) {
+            delete b;
+        }
     }
 }
 

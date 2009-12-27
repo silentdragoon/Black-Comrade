@@ -5,7 +5,7 @@ particle_system PE/Bullet
 	material	PE/Streak
 	particle_width	2
 	particle_height	6
-	cull_each	true
+	cull_each	false
 	renderer	billboard
 	billboard_type	point
 
@@ -18,7 +18,7 @@ particle_system PE/Bullet
 		direction	0 0 1
 		emission_rate	1
 		position	0 0 0
-		velocity	0
+		velocity	500
 		time_to_live	20
 		duration	1
 	}

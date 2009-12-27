@@ -4,7 +4,8 @@ void Bullet::updateLocation() {
     // Assuming direction is some sort of unit vector or something
     Vector3 currentPos = bulletNode->getPosition();
     cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << endl;
-    bulletNode->setPosition(Vector3(currentPos.x+((direction.x)*velocity),currentPos.y+((direction.y)*velocity),currentPos.z+((direction.z)*velocity)));
+    //bulletNode->setPosition(Vector3(currentPos.x+((direction.x)*velocity),currentPos.y+((direction.y)*velocity),currentPos.z+((direction.z)*velocity)));
+    bulletNode->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
 
     aliveTicks++;
 }
@@ -30,5 +31,9 @@ Bullet::Bullet(SceneNode *bulletNode,
             trail(trail),
             aliveTicks(0)
 {
+}
+
+Bullet::~Bullet() {
+    delete bulletNode;
 }
         

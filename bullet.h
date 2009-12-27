@@ -22,8 +22,9 @@ class Bullet
         bool trail;
         Vector3 trailColor;
 
-        int aliveTicks;        
+               
    public:
+        int aliveTicks;
         Bullet(SceneNode *bulletNode,
             Vector3 direction, 
             int velocity,
@@ -31,6 +32,7 @@ class Bullet
             bool trail);
 
         // TODO: Add destructor
+        ~Bullet();
 
         void updateLocation();
         void setLightColor(Vector3 lc);
