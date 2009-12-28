@@ -51,12 +51,15 @@ class Lobby {
     bool navTaken;
     bool engTaken;
 
+    string nick;
+
     public:
     Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr);
     void enter();
     bool wait();
     void connect(string address, int port);
     GameRole getChosenGameRole();
+    string getChosenNick();
 };
 
 #endif

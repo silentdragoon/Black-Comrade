@@ -21,7 +21,7 @@ Main::Main() {
     if (!root->restoreConfig())
         root->showConfigDialog();
     
-    window = root->initialise(true, "Test Window");
+    window = root->initialise(true, collabInfo->getNick() + " - " + collabInfo->getGameRoleString());
     
     sceneMgr = root->createSceneManager(ST_GENERIC);
   
@@ -128,20 +128,25 @@ void Main::serverStartup() {
 void Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
-    ch=getch();
 
-    if (ch=='c' || ch=='C')
-    {
-        collabInfo = networkingManager->startNetworking(CLIENT);
-    }
-    else if (ch=='d' || ch=='D')
-    {
-        collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
-        printf("DEVELOPMENT SERVER\n");
-    }
-    else
-    {
-        collabInfo = networkingManager->startNetworking(SERVER);
+    while(true) {
+        ch=getch();
+        if (ch=='c' || ch=='C')
+        {
+            collabInfo = networkingManager->startNetworking(CLIENT);
+            break;
+        }
+        else if (ch=='d' || ch=='D')
+        {
+            collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
+            printf("DEVELOPMENT SERVER\n");
+            break;
+        }
+        else if (ch=='s' || ch=='S')
+        {
+            collabInfo = networkingManager->startNetworking(SERVER);
+            break;
+        }
     }
 }
 

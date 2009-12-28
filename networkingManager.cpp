@@ -89,10 +89,9 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
         startGame();
         discoveryAgent->destroyServer();
     }
-    string nick = "rob";
     chosenGameRole = lobby->getChosenGameRole();
     if (chosenGameRole == NO_GAME_ROLE) chosenGameRole = PILOT;
-    CollaborationInfo *collabInfo = new CollaborationInfo(nick, networkRole, chosenGameRole); 
+    CollaborationInfo *collabInfo = new CollaborationInfo(lobby->getChosenNick(), networkRole, chosenGameRole); 
     return collabInfo;
 }
 

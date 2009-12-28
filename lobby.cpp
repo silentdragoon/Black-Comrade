@@ -13,14 +13,15 @@ Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
 }
 
 void Lobby::enter() {
-    char nick[20];
     std::cout << "Please type a nickname:" << std::endl;
-    cin >> nick;
+    getline(cin, nick);
     std::cout << "Welcome to the lobby, " << nick << "! Just wait here while the other players connect..." << std::endl;
     if (networkRole == SERVER) offerGameRoleChoices();
 }
 
 GameRole Lobby::getChosenGameRole() { return gameRole; }
+
+string Lobby::getChosenNick() { return nick; }
 
 void Lobby::offerGameRoleChoices() {
     if (gameRole != NO_GAME_ROLE) return;

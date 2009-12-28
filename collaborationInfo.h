@@ -19,6 +19,7 @@ class CollaborationInfo
     CollaborationInfo(string nick, NetworkRole networkRole, GameRole gameRole);
     string getNick();
     GameRole getGameRole();
+    string getGameRoleString();
     NetworkRole getNetworkRole();
 };
 
