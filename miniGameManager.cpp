@@ -9,6 +9,7 @@ void MiniGameManager::tick()
         currentMiniGame->tick();
         
         if(currentMiniGame->end()) {
+            currentMiniGame->getOverlay()->hide();
             currentMiniGame = NULL;
             shipControls->setEnabled(true);
         }
