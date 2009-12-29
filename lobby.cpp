@@ -74,6 +74,10 @@ bool Lobby::wait() {
         process();
         if (pilotTaken && navTaken && engTaken) return true;
     }
+    else if (networkRole == DEVELOPMENTSERVER) {
+        gameRole = PILOT;
+        return true;
+    }
     checkForRoleChoice();
     return false;
 }
