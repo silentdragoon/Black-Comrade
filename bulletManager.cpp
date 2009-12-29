@@ -2,7 +2,7 @@
 
 void BulletManager::fire(SceneNode *bulletNode) {
     
-    Bullet *b = new Bullet(bulletNode,Vector3(1,0,0),0,false,false);
+    Bullet *b = new Bullet(bulletNode,Vector3(0,0,1),15,false,false);
     
     activeBullets.push_back(b);
 }
@@ -13,6 +13,7 @@ void BulletManager::updateBullets() {
         b->updateLocation();
         // TODO: Test for a collision/Destruction here
         if(b->aliveTicks>2000) {
+            // TODO: This doesnt work and is retarded completely
             delete b;
         }
     }
@@ -30,19 +31,32 @@ void BulletManager::tick()
     if(gunState->fire()) {
 
         // Making a new bullet
-        string name = "Bullet";
+        string bname = "Bullet";
+        string lname = "Light";
         stringstream out;
         out << bnum++;
-        name += out.str();
+        bname += out.str();
+        lname += out.str();
 
         SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
         bulletNode->setPosition(shipSceneNode->getPosition());
 
         // TODO: Get the direction the ship is pointing in first then pass it to the fire method
+        BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
+        bbbs->setMaterialName("PE/Streak");
+        Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(0.0,0.7,0.0f));
+        bbb->setDimensions(3.0,3.0);
+
+        Light *l = sceneMgr->createLight(lname);
+        l->setType(Light::LT_POINT);
+        l->setDiffuseColour(ColourValue(0.0f,0.1f,0.0f));
+        l->setSpecularColour(ColourValue(0.0f,0.1f,0.0f));
+        l->setAttenuation(100,0.5,0.0005,0);
+
+        bulletNode->attachObject(bbbs);
+        bulletNode->attachObject(l);
         
-        ParticleSystem *particle = sceneMgr->createParticleSystem(name, "PE/Bullet");
-        bulletNode->attachObject(particle);
-        
+        // FIRE THE BULLET!
         fire(bulletNode);
     }
     updateBullets();
