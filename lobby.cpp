@@ -13,6 +13,10 @@ Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
 }
 
 void Lobby::enter() {
+    if (networkRole == DEVELOPMENTSERVER) {
+        nick = "Player";
+        return;
+    }
     std::cout << "Please type a nickname:" << std::endl;
     getline(cin, nick);
     std::cout << "Welcome to the lobby, " << nick << "! Just wait here while the other players connect..." << std::endl;
