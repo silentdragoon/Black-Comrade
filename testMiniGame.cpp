@@ -2,9 +2,10 @@
 #include "testMiniGame.h"
 #include <iostream>
 #include <OgreTextAreaOverlayElement.h>
+#include <OgrePanelOverlayElement.h>
 #include <OgreFontManager.h>
 
-TestMiniGame::TestMiniGame(KeyState *keyState)
+TestMiniGame::TestMiniGame(KeyState *keyState, SceneManager *sceneManager)
     : isEnd(false)
     , keyState(keyState)
 {
@@ -14,6 +15,17 @@ TestMiniGame::TestMiniGame(KeyState *keyState)
     OverlayManager& overlayManager = OverlayManager::getSingleton();
       
     createScene();
+    
+    String s("testRect");
+    
+    Rect2D *rect = new Rect2D(s,0.5,0.5);
+    
+    sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(rect);
+    
+    PlaneBoundedVolumeListSceneQuery *volQuery;
+    
+    volQuery = sceneManager->createPlaneBoundedVolumeQuery(PlaneBoundedVolumeList());
+    
 }
 
 void TestMiniGame::createScene()
@@ -44,6 +56,16 @@ void TestMiniGame::createScene()
     texte->setColourBottom(ColourValue::White);
     texte->setColourTop(ColourValue::White);
     
+    PanelOverlayElement *panel;
+    panel = static_cast<PanelOverlayElement*>(
+        om->createOverlayElement("Panel","panel1"));
+    panel->setPosition(0.1f,0.1f);
+    panel->setDimensions(0.8f,0.8f);
+    panel->setColour(ColourValue::Black);
+    panel->setTransparent(false);
+    //panel->setMaterialName("lambert1");
+    
+    oc->addChild(panel);
     oc->addChild(texte);
     overlay->add2D(oc);
 }

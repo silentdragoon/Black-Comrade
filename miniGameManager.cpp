@@ -17,7 +17,7 @@ void MiniGameManager::tick()
 
     if(currentMiniGame == NULL) {
         if(keyState->isKeyDown(OIS::KC_1)) {
-            currentMiniGame = new TestMiniGame(keyState);
+            currentMiniGame = new TestMiniGame(keyState, sceneManager);
             
             currentMiniGame->getOverlay()->show();
             

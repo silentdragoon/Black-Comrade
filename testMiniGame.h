@@ -6,6 +6,7 @@
 
 #include "IMiniGame.h"
 #include "keyState.h"
+#include "rect2D.h"
 
 using namespace Ogre;
 
@@ -20,7 +21,7 @@ public:
     bool end();
     Overlay *getOverlay();
     
-    TestMiniGame(KeyState *keyState);
+    TestMiniGame(KeyState *keyState, SceneManager *sceneManager);
     void createScene();
 };
 
