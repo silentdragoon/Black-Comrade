@@ -4,6 +4,7 @@
 #include "stateUpdate.h"
 
 #include "networkRole.h"
+#include "collaborationInfo.h"
 #include "networkingManager.h"
 
 using namespace RakNet;
@@ -13,14 +14,14 @@ Main::Main() {
     networkingManager = new NetworkingManager(this);
 
     // networking
-    role = startNetworking();
+    startNetworking();
 
     root = new Root();
     
     if (!root->restoreConfig())
         root->showConfigDialog();
     
-    window = root->initialise(true, "Test Window");
+    window = root->initialise(true, collabInfo->getNick() + " - " + collabInfo->getGameRoleString());
     
     sceneMgr = root->createSceneManager(ST_GENERIC);
   
@@ -61,7 +62,8 @@ Main::Main() {
     
     stateUpdate->addTickable(ks);
 
-    if (role == SERVER || role == DEVELOPMENTSERVER) {
+    GameRole myRole = collabInfo->getGameRole();
+    if (myRole == PILOT) {
         serverStartup();
     }
     else {
@@ -119,27 +121,29 @@ void Main::serverStartup() {
     enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
-NetworkRole Main::startNetworking() {
-    NetworkRole role = NONE;
+void Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
-    ch=getch();
 
-    if (ch=='c' || ch=='C')
-    {
-        role = networkingManager->startNetworking(CLIENT);
+    while(true) {
+        ch=getch();
+        if (ch=='c' || ch=='C')
+        {
+            collabInfo = networkingManager->startNetworking(CLIENT);
+            break;
+        }
+        else if (ch=='d' || ch=='D')
+        {
+            collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
+            printf("DEVELOPMENT SERVER\n");
+            break;
+        }
+        else if (ch=='s' || ch=='S')
+        {
+            collabInfo = networkingManager->startNetworking(SERVER);
+            break;
+        }
     }
-    else if (ch=='d' || ch=='D')
-    {
-        role = networkingManager->startNetworking(DEVELOPMENTSERVER);
-        printf("DEVELOPMENT SERVER\n");
-    }
-    else
-    {
-        role = networkingManager->startNetworking(SERVER);
-    }
-
-    return role;
 }
 
 void Main::createCamera() {
@@ -223,7 +227,7 @@ Main::~Main()
     delete sc;
     delete as;
     delete ms;
-    if (role == SERVER || role == INVISIBLESERVER) delete shipState;
+    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
     
     delete stateUpdate;
     delete networkingManager;

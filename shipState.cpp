@@ -97,7 +97,7 @@ void ShipState::Deserialize(RakNet::DeserializeParameters *deserializeParameters
     deserializeParameters->serializationBitstream[0].Read(pitch);
     deserializeParameters->serializationBitstream[0].Read(yaw);
 
-    print();
+    //print();
 }
 
 void ShipState::print() {
