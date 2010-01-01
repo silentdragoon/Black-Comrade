@@ -18,9 +18,13 @@ TestMiniGame::TestMiniGame(KeyState *keyState, SceneManager *sceneManager)
     
     String s("testRect");
     
-    Rect2D *rect = new Rect2D(s,0.5,0.5);
+    Rect2D *rect = new Rect2D(s,1,1);
+    //rect->setPosition(-0.5,-0.5);
     
-    sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject(rect);
+    SceneNode *rectNode = sceneManager->getRootSceneNode()->createChildSceneNode();
+    rectNode->attachObject(rect);
+    
+    rectNode->setPosition(-1.0,-1.0,0.0);
     
     PlaneBoundedVolumeListSceneQuery *volQuery;
     
