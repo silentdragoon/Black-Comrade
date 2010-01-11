@@ -15,6 +15,7 @@ void BulletManager::updateBullets() {
         if(b->aliveTicks>2000) {
             // TODO: This doesnt work and is retarded completely
             delete b;
+            activeBullets.erase(activeBullets.begin()+(i));
         }
     }
 }
@@ -41,10 +42,8 @@ void BulletManager::tick()
         SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
         bulletNode->setPosition(shipSceneNode->getPosition());
 
-        // TODO: Get the direction the ship is pointing in first then pass it to the fire method
         Quaternion orient = shipSceneNode->getOrientation();
         Vector3 direction = orient.zAxis();
-
 
         BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
         bbbs->setMaterialName("PE/Streak");
