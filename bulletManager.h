@@ -19,7 +19,6 @@ class BulletManager : public ITickable
         vector<Bullet*> activeBullets;
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
-        //ParticleSystem *particle;
         int bnum;
         FrontGunState *gunState;
         

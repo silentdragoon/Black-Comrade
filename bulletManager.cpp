@@ -28,8 +28,11 @@ BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, Fr
 {}
 
 BulletManager::~BulletManager() {
+    cout << "...shipscene" << endl;
     delete shipSceneNode;
-    delete sceneMgr;
+    //cout << "scenemgr" << endl;
+    //delete sceneMgr;
+    cout << "...gunstate" << endl;
     delete gunState;
 }
 

@@ -21,7 +21,16 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
 }
 
 NetworkingManager::~NetworkingManager() {
-    
+    cout << "...packet" << endl;
+    delete packet;
+    cout << "...discoveryagent" << endl;
+    delete discoveryAgent;
+    cout << "...lobby" << endl;
+    delete lobby;
+    cout << "...rakpeer" << endl;
+    //delete rakPeer;
+    cout << "...mexit" << endl;
+    delete mExit;
 }
 
 void NetworkingManager::tick() {

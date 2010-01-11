@@ -163,7 +163,7 @@ void Main::createCamera() {
     camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,1));
     camera->setNearClipDistance(1);
-    camera->setFarClipDistance(1000);
+    camera->setFarClipDistance(1500);
 }
 
 void Main::createViewPort() {
@@ -180,7 +180,7 @@ void Main::createScene() {
     sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
 
     sceneMgr->setAmbientLight(ColourValue(0,0,0));
-    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     Light *l = sceneMgr->createLight("MainLight");
     l->setType(Light::LT_POINT);
@@ -235,21 +235,29 @@ int main()
 
 Main::~Main()
 {
+    cout << "deleting ks" << endl;
     delete ks;
+    cout << "deleting sc" << endl;
     delete sc;
+    cout << "deleting as" << endl;
     delete as;
+    cout << "deleting ms" << endl;
     delete ms;
-    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
-    
+    cout << "deleteing bulletMgr" << endl;
     delete bulletMgr;
-
+    cout << "deleting shipstate" << endl;
+    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
+    cout << "deleting stateUpdate" << endl;
     delete stateUpdate;
+    cout << "deleting networkingManger" << endl;
     delete networkingManager;
     
     // TODO: Fix destructing soundManager
     
 
     OGRE_DELETE root;
+
+    cout << "PLEASE STOP HERE!" << endl;
 }
 
 void Main::exit()
