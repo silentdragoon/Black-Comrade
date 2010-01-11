@@ -27,7 +27,7 @@ NetworkingManager::~NetworkingManager() {
     delete discoveryAgent;
     cout << "...lobby" << endl;
     delete lobby;
-    cout << "...rakpeer" << endl;
+    //cout << "...rakpeer" << endl;
     //delete rakPeer;
     cout << "...mexit" << endl;
     delete mExit;

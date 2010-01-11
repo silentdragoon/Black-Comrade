@@ -56,7 +56,7 @@ void BulletManager::tick()
 
         BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
         bbbs->setMaterialName("PE/Streak");
-        Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(0.0,0.7,0.0f));
+        Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(0.0,0.7,0.0));
         bbb->setDimensions(3.0,3.0);
 
         Light *l = sceneMgr->createLight(lname);

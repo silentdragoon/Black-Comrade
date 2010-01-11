@@ -214,7 +214,7 @@ void Main::createScene() {
     
     SceneNode *modelNode = shipSceneNode->createChildSceneNode();
     
-    Entity *e = sceneMgr->createEntity("robot", "ourship.mesh");
+    Entity *e = sceneMgr->createEntity("ourship", "ourship.mesh");
     modelNode->attachObject(e);
     //modelNode->setScale(0.15,0.15,0.15);
     modelNode->setPosition(0,-7,-5);
@@ -251,9 +251,9 @@ Main::~Main()
     delete stateUpdate;
     cout << "deleting networkingManger" << endl;
     delete networkingManager;
-    
+
     // TODO: Fix destructing soundManager
-    
+
 
     OGRE_DELETE root;
 
