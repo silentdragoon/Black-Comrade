@@ -178,8 +178,8 @@ void Main::createScene() {
     
     Light *l = sceneMgr->createLight("MainLight");
     l->setType(Light::LT_POINT);
-    l->setDiffuseColour(0.1,0.1,0.1);
-    l->setSpecularColour(0.1,0.1,0.1);
+    l->setDiffuseColour(0.2,0.2,0.2);
+    l->setSpecularColour(0.2,0.2,0.2);
 
     Light *sp = sceneMgr->createLight("FrontSpot");
     sp->setType(Light::LT_SPOTLIGHT);
