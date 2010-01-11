@@ -1,8 +1,8 @@
 #include "bulletManager.h"
 
-void BulletManager::fire(SceneNode *bulletNode) {
+void BulletManager::fire(SceneNode *bulletNode, Vector3 direction) {
     
-    Bullet *b = new Bullet(bulletNode,Vector3(0,0,1),15,false,false);
+    Bullet *b = new Bullet(bulletNode,direction,15,false,false);
     
     activeBullets.push_back(b);
 }
@@ -42,6 +42,10 @@ void BulletManager::tick()
         bulletNode->setPosition(shipSceneNode->getPosition());
 
         // TODO: Get the direction the ship is pointing in first then pass it to the fire method
+        Quaternion orient = shipSceneNode->getOrientation();
+        Vector3 direction = orient.zAxis();
+
+
         BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
         bbbs->setMaterialName("PE/Streak");
         Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(0.0,0.7,0.0f));
@@ -57,7 +61,7 @@ void BulletManager::tick()
         bulletNode->attachObject(l);
         
         // FIRE THE BULLET!
-        fire(bulletNode);
+        fire(bulletNode,direction);
     }
     updateBullets();
 }

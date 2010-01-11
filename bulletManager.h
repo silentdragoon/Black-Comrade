@@ -23,7 +23,7 @@ class BulletManager : public ITickable
         int bnum;
         FrontGunState *gunState;
         
-        void fire(SceneNode *bulletNode);
+        void fire(SceneNode *bulletNode, Vector3 direction);
         void updateBullets(); 
     public:
         BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
