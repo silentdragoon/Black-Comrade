@@ -17,33 +17,37 @@ Main::Main() {
     startNetworking();
 
     root = new Root();
-    
+
     if (!root->restoreConfig())
         root->showConfigDialog();
     
     window = root->initialise(true, collabInfo->getNick() + " - " + collabInfo->getGameRoleString());
     
+
     sceneMgr = root->createSceneManager(ST_GENERIC);
-  
-    // Set the paths to look for varius resources
+
+	ResourceGroupManager::getSingleton().addResourceLocation(
+                    ".", "FileSystem", "General");
+
+    // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
 
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    ".", "FileSystem", "General");
-  
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
-                    
+
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/programs", "FileSystem", "General");
-                    
+
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/textures", "FileSystem", "General");
-    
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "particles", "FileSystem", "General"); 
+                   
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
@@ -70,6 +74,7 @@ Main::Main() {
         clientStartup();
     }
 
+    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState);
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
@@ -77,6 +82,7 @@ Main::Main() {
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(enemyState);
+    stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
     
@@ -149,15 +155,10 @@ void Main::startNetworking() {
 void Main::createCamera() {
 
     shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    
+
     camera = sceneMgr->createCamera("mainCam");
-    
+
     shipSceneNode->attachObject(camera);
-    
-    camera->setPosition(Vector3(0,0,0));
-    camera->lookAt(Vector3(0,0,1));
-    camera->setNearClipDistance(1);
-    camera->setFarClipDistance(1000);
 }
 
 void Main::createViewPort() {
@@ -200,6 +201,8 @@ void Main::createScene() {
     enemySceneNode->showBoundingBox(true);
     enemySceneNode->attachObject(en);
 
+    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
+
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
     mc->outputMap(mapNode);
@@ -218,10 +221,10 @@ void Main::createSoundManager()
     soundMgr = new SoundManager();
 }
 
-int main() 
-{   
+int main()
+{
     Main *main = new Main();
-    
+
     delete main;
 }
 
@@ -233,11 +236,14 @@ Main::~Main()
     delete ms;
     if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
     
+    delete bulletMgr;
+
     delete stateUpdate;
     delete networkingManager;
     
     // TODO: Fix destructing soundManager
     
+
     OGRE_DELETE root;
 }
 

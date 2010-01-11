@@ -36,17 +36,14 @@ void EnemyState::tick()
         Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
         dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
         //cout << " LD: " << dLeft;
-    
+
         Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
         dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
         //cout << " RD: " << dRight << endl;
-    
+
         tmp = (dLeft + dRight) /2 - dRight;
     
-        //cout << " angle: " << 1.0f/2.0f*(atan(tmp/(FVEL*LOOKA))) << endl;
-    
         yaw +=   1.0f/2.0f*atan(tmp/(FVEL*LOOKA));
-    
     
         position->x += FVEL * sin(yaw);
         position->z += FVEL * cos(yaw);
