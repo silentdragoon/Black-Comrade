@@ -29,7 +29,7 @@ class BulletManager : public ITickable
         BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, 
             FrontGunState *gunState);
 
-        // TODO: Add destructor
+        ~BulletManager();
             
         virtual void tick();
 };

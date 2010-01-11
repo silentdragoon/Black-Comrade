@@ -27,6 +27,12 @@ BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, Fr
     , bnum(0)
 {}
 
+BulletManager::~BulletManager() {
+    delete shipSceneNode;
+    delete sceneMgr;
+    delete gunState;
+}
+
 void BulletManager::tick()
 {
     if(gunState->fire()) {

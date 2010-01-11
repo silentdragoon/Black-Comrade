@@ -159,12 +159,17 @@ void Main::createCamera() {
     camera = sceneMgr->createCamera("mainCam");
 
     shipSceneNode->attachObject(camera);
+
+    camera->setPosition(Vector3(0,0,0));
+    camera->lookAt(Vector3(0,0,1));
+    camera->setNearClipDistance(1);
+    camera->setFarClipDistance(1000);
 }
 
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
+    vp->setBackgroundColour(ColourValue(100,0,0));
     
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
