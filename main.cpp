@@ -186,15 +186,15 @@ void Main::createScene() {
     l->setType(Light::LT_POINT);
     l->setDiffuseColour(0.2,0.2,0.2);
     l->setSpecularColour(0.2,0.2,0.2);
-
+    
     Light *sp = sceneMgr->createLight("FrontSpot");
-    sp->setType(Light::LT_SPOTLIGHT);
-    sp->setDiffuseColour(0.7,0.7,0.7);
-    sp->setSpecularColour(0.7,0.7,0.3);
-    sp->setSpotlightRange(Degree(50), Degree(30));
+    sp->setType(Light::LT_POINT);
+    sp->setDiffuseColour(0.2,0.2,0.4);
+    sp->setSpecularColour(0.2,0.2,0.7);
+    //sp->setSpotlightRange(Degree(50), Degree(30));
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
-    sp->setCastShadows(true);
+    //sp->setCastShadows(true);
 
     //l->setPosition(20,80,50);
     shipSceneNode->attachObject(l);
