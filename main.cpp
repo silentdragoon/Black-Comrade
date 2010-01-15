@@ -245,15 +245,17 @@ Main::~Main()
     delete ms;
     cout << "deleteing bulletMgr" << endl;
     delete bulletMgr;
-    cout << "deleting shipstate" << endl;
-    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
-    cout << "deleting stateUpdate" << endl;
-    delete stateUpdate;
-    cout << "deleting frontGunState" << endl;
-    delete frontGunState;
+    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) {
+        cout << "deleting shipstate" << endl;
+        delete shipState;
+        cout << "deleting frontGunState" << endl;
+        delete frontGunState;
+    }
     cout << "deleting networkingManger" << endl;
     delete networkingManager;
 
+    cout << "deleting stateUpdate" << endl;
+    delete stateUpdate;
     // TODO: Fix destructing soundManager
 
 
