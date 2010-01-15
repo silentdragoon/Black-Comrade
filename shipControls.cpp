@@ -76,7 +76,7 @@ void ShipControls::tick()
        	else
        		mYaw = 0.0;
        		
-        isFire = keyState->isKeyDown(OIS::KC_RETURN);
+        isFire = keyState->isKeyDown(OIS::KC_RCONTROL);
     }
 }
 
