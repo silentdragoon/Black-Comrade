@@ -92,8 +92,8 @@ Main::Main() {
 
     // Start Rendering Loop
     root->startRendering();
-
     networkingManager->stopNetworking();
+
 }
 
 void Main::clientStartup() {
@@ -249,6 +249,8 @@ Main::~Main()
     if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) delete shipState;
     cout << "deleting stateUpdate" << endl;
     delete stateUpdate;
+    cout << "deleting frontGunState" << endl;
+    delete frontGunState;
     cout << "deleting networkingManger" << endl;
     delete networkingManager;
 
@@ -257,7 +259,7 @@ Main::~Main()
 
     OGRE_DELETE root;
 
-    cout << "PLEASE STOP HERE!" << endl;
+    //cout << "PLEASE STOP HERE!" << endl;
 }
 
 void Main::exit()
