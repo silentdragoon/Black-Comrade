@@ -16,7 +16,7 @@ using namespace std;
 class BulletManager : public ITickable
 {
     private:
-        vector<Bullet*> activeBullets;
+        vector<Bullet*> *activeBullets;
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
         int bnum;

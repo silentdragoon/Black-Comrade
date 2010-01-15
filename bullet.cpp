@@ -34,7 +34,7 @@ Bullet::Bullet(SceneNode *bulletNode,
 }
 
 Bullet::~Bullet() {
-    bulletNode->removeAndDestroyAllChildren();
-    delete bulletNode;
+    //bulletNode->removeAndDestroyAllChildren();
+    //delete bulletNode;
 }
         

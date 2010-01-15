@@ -4,18 +4,18 @@ void BulletManager::fire(SceneNode *bulletNode, Vector3 direction) {
     
     Bullet *b = new Bullet(bulletNode,direction,50,false,false);
     
-    activeBullets.push_back(b);
+    activeBullets->push_back(b);
 }
 
 void BulletManager::updateBullets() {
-    for(int i=0;i<activeBullets.size();i++) {
-        Bullet *b = activeBullets.at(i);
+    for(int i=0;i<activeBullets->size();i++) {
+        Bullet *b = activeBullets->at(i);
         b->updateLocation();
         // TODO: Test for a collision/Destruction here
         if(b->aliveTicks>2000) {
             // TODO: This doesnt work and is retarded completely
             delete b;
-            activeBullets.erase(activeBullets.begin()+(i));
+            activeBullets->erase(activeBullets->begin()+(i));
         }
     }
 }
@@ -25,16 +25,19 @@ BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, Fr
     , sceneMgr(sceneMgr)
     , gunState(gunState)
     , bnum(0)
-{}
+{
+    activeBullets = new vector<Bullet*>();
+}
 
 BulletManager::~BulletManager() {
-
+    cout << "...activeBullets" << endl;
+    delete activeBullets;
 }
 
 void BulletManager::tick()
 {
     if(gunState->fire()) {
-
+        // TODO: This needs to be generalised for other ships and things
         // Making a new bullet
         string bname = "Bullet";
         string lname = "Light";
