@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include "collision.h"
 
 
 using namespace Ogre;
@@ -46,7 +47,7 @@ public:
     
     void addTreeCollisionMesh(Entity *entity);
     
-    bool isCollision(Entity *e1, Entity *e2);
+    Collision isCollision(Entity *e1, Entity *e2);
     
     void createShipMesh( Entity* e ); 
     

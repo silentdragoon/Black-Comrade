@@ -76,7 +76,6 @@ void CollisionDetection::addTreeCollisionMesh(Entity *entity)
  
  	collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,treeCollision));
  	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
-    cout<<entity->getName()<<endl;
 }
 
 
@@ -91,7 +90,7 @@ void CollisionDetection::createShipMesh( Entity * e )
 }
     
 
-bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
+Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 {
     dFloat e1Matrix[16];
     dFloat e2Matrix[16];
@@ -104,14 +103,20 @@ bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
     if(iter != collisionsMap.end()) {
     	e1Collision=iter->second;
     } else {
-    	return false;
+        dFloat contacts[16] = {0.0f};
+        dFloat normals[16] = {0.0f};
+        dFloat penetration[16] = {0.0f};
+    	return Collision(false,normals,contacts,penetration);;
     }
     
     iter = collisionsMap.find(e2);
     if(iter != collisionsMap.end()) {
     	e2Collision=iter->second;
     } else {
-    	return false;
+        dFloat contacts[16] = {0.0f};
+        dFloat normals[16] = {0.0f};
+        dFloat penetration[16] = {0.0f};
+    	return Collision(false,normals,contacts,penetration);;
     }
     
     getMatrix(e1,e1Matrix);
@@ -128,7 +133,11 @@ bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
 		e2Collision, &e2Matrix[0],
 		&contacts[0], &normals[0], &penetration[0], 0);
 		
-	return (numCollisionPoints > 0);
+        if (numCollisionPoints > 0) {
+            return Collision(true,normals,contacts,penetration);
+        } else {
+            return Collision(false,normals,contacts,penetration);
+        }
 }
 
 void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
@@ -146,8 +155,6 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
     } else {
         sceneNode = entity->getParentSceneNode();
     }
-    cout<< sceneNode->getName()<<endl;
-    
     
     // TODO: we need to include orientation & scale
     //Vector3 pos = sceneNode->convertLocalToWorldPosition(
@@ -159,8 +166,6 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
    	*(matrix+12) = pos.x;
    	*(matrix+13) = pos.y;
    	*(matrix+14) = pos.z;
-    
-    cout << "x,y,z: " << pos.x << " " << pos.y << " " << pos.z << endl;
 }
 
 void CollisionDetection::GetMeshInformation(const Ogre::MeshPtr mesh,

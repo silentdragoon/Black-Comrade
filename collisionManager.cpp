@@ -14,10 +14,14 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapCreate* mp ):
     //cd->addTreeCollisionMesh( sceneMgr->getEntity("ourship") );
 }
 
-bool CollisionManager::isCollided(Vector3 *shipPos)
+Collision CollisionManager::isCollided(Vector3 *shipPos)
 {
-    bool isCollided = false;
+    //bool isCollided = false;
+    dFloat contacts[16] = {0.0f};
+    dFloat normals[16] = {0.0f};
+    dFloat penetration[16] = {0.0f};
+    Collision col = Collision(false,normals,contacts,penetration);
     Entity* e = mp->getEntity( shipPos );
-    if( e != NULL) isCollided = cd->isCollision( sceneMgr->getEntity("ourship"), e );
-    return isCollided;
+    if( e != NULL) col = cd->isCollision( sceneMgr->getEntity("ourship"), e );
+    return col;
 }

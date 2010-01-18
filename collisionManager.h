@@ -10,6 +10,7 @@
 
 #include "collisionDetection.h"
 #include "mapCreate.h"
+#include "collision.h"
 
 using namespace Ogre;
 using namespace std;
@@ -23,7 +24,7 @@ private:
     
 public:
     CollisionManager( SceneManager* sceneMgr, MapCreate* mp );
-    bool isCollided(Vector3 *shipPos);
+    Collision isCollided(Vector3 *shipPos);
 };
 
 

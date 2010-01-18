@@ -12,6 +12,8 @@
 #include "ReplicaObject.h"
 #include "ReplicaManager3.h"
 #include "collisionManager.h"
+#include "collision.h"
+#include <math.h>
 
 using namespace Ogre;
 using namespace RakNet;

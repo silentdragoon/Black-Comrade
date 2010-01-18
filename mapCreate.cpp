@@ -187,8 +187,8 @@ vector<Entity*> MapCreate::getMapPieces()
 
 Entity* MapCreate::getEntity(Vector3 *locn) 
 {
-    int x = floor(locn->x/(double)TILE_SIZE);
-    int y = floor(locn->z/(double)TILE_SIZE);
+    int x =(int) floor(locn->x/(double)TILE_SIZE);
+    int y =(int) floor(locn->z/(double)TILE_SIZE);
     string name = "mapTile";
     stringstream out;
     out << "-" << x << "-" << y;

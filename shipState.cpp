@@ -24,17 +24,26 @@ ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, Collis
 void ShipState::tick() {
 
     if (motionState != 0) {
-        if(colMgr->isCollided(position))
+        Collision col = colMgr->isCollided(position);
+        if(col.isCollided)
         {
+            
+            for( int i = 0; i < 1; i += 3 )
+            {
+                cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
+                    <<" "<< col.normals[i+2] <<" "<<endl;
+            }
+            /*
+            double normRad = atan2(col.normals[3],col.normals[0]);
+            yaw = normRad + motionState->yaw();
             position->x -= motionState->xVelocity();
             position->y -= motionState->yVelocity();
             position->z -= motionState->zVelocity();
         
             roll = motionState->roll();
-            pitch = motionState->pitch();
-            yaw = motionState->yaw();
+            pitch = motionState->pitch();*/
         }
-        else
+        //else
         {
             position->x += motionState->xVelocity();
             position->y += motionState->yVelocity();
