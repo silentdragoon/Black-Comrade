@@ -23,8 +23,11 @@ $(OUTPUT) : $(OBJS)
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
 	
 run:
-	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb ./$(OUTPUT)
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT)
 	
+debug:
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb ./$(OUTPUT)
+
 .PHONY: clean depend
 
 clean:
