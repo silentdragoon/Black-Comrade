@@ -22,6 +22,7 @@
 #include "miniGameManager.h"
 #include "IExit.h"
 #include "bulletManager.h"
+#include "collisionManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -50,6 +51,7 @@ private:
     AudioState *audioState;
     MiniGameManager *miniGameMgr;
     BulletManager *bulletMgr;
+    CollisionManager *collisionMgr;
     
     SceneNode *mapNode;
     

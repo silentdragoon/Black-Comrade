@@ -13,6 +13,7 @@
 #include <string>
 #include <errno.h>
 #include <algorithm>
+#include <math.h>
 
 #define MAPSIZE 30
 #define MAPROOT "./mapparts/"
@@ -46,6 +47,8 @@ public:
     bool outputMap(SceneNode *sceneNode);
     
     vector<Entity*> getMapPieces();
+    
+    Entity* getEntity(Vector3 *locn);
 };
 
 #endif

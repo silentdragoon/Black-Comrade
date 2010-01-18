@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <vector>
 
+
 using namespace Ogre;
 using namespace std;
 
@@ -46,6 +47,10 @@ public:
     void addTreeCollisionMesh(Entity *entity);
     
     bool isCollision(Entity *e1, Entity *e2);
+    
+    void createShipMesh( Entity* e ); 
+    
+    
 };
 
 //static unsigned RayCastPrefilter (const NewtonBody* body,  const NewtonCollision* collision, void* userData);

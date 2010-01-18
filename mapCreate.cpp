@@ -164,8 +164,6 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 {
 	SceneNode *node = sceneNode->createChildSceneNode();
 
-
-	// TODO: Do these names need to be unique?
     string name = "mapTile";
     stringstream out;
     out << "-" << x << "-" << y;
@@ -185,6 +183,17 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 vector<Entity*> MapCreate::getMapPieces()
 {
     return mapEntities;
+}
+
+Entity* MapCreate::getEntity(Vector3 *locn) 
+{
+    int x = floor(locn->x/TILE_SIZE);
+    int y = floor(locn->z/TILE_SIZE);
+    string name = "mapTile";
+    stringstream out;
+    out << "-" << x << "-" << y;
+    name += out.str();
+    return sceneManager->getEntity(name);
 }
 
 

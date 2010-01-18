@@ -78,6 +78,11 @@ void CollisionDetection::addTreeCollisionMesh(Entity *entity)
  	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
 }
 
+
+void CollisionDetection::createShipMesh( Entity * e )
+{
+    
+
 bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
 {
     dFloat e1Matrix[16];
