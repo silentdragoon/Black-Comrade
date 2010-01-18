@@ -76,11 +76,19 @@ void CollisionDetection::addTreeCollisionMesh(Entity *entity)
  
  	collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,treeCollision));
  	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
+    cout<<entity->getName()<<endl;
 }
 
 
 void CollisionDetection::createShipMesh( Entity * e )
 {
+    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,10000, NULL); 
+    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
+    NewtonReleaseCollision (newtonWorld, shipCollision);
+    
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
+ 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
+}
     
 
 bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
@@ -94,14 +102,14 @@ bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
     map<Entity *,NewtonCollision *>::const_iterator iter = 
     		collisionsMap.find(e1);
     if(iter != collisionsMap.end()) {
-    	iter->second;
+    	e1Collision=iter->second;
     } else {
     	return false;
     }
     
     iter = collisionsMap.find(e2);
     if(iter != collisionsMap.end()) {
-    	iter->second;
+    	e2Collision=iter->second;
     } else {
     	return false;
     }
@@ -131,7 +139,15 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
     *(matrix+10) = 1.0f;
     *(matrix+15) = 1.0f;
     
-    SceneNode *sceneNode = entity->getParentSceneNode();
+    SceneNode *sceneNode;
+    if(entity->getName() == "ourship")
+    {
+        sceneNode = entity->getParentSceneNode()->getParentSceneNode();
+    } else {
+        sceneNode = entity->getParentSceneNode();
+    }
+    cout<< sceneNode->getName()<<endl;
+    
     
     // TODO: we need to include orientation & scale
     //Vector3 pos = sceneNode->convertLocalToWorldPosition(
@@ -143,6 +159,8 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
    	*(matrix+12) = pos.x;
    	*(matrix+13) = pos.y;
    	*(matrix+14) = pos.z;
+    
+    cout << "x,y,z: " << pos.x << " " << pos.y << " " << pos.z << endl;
 }
 
 void CollisionDetection::GetMeshInformation(const Ogre::MeshPtr mesh,
