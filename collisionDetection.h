@@ -7,6 +7,7 @@
 #include <Newton.h>
 
 #include <stdint.h>
+#include <vector>
 
 using namespace Ogre;
 using namespace std;

@@ -171,6 +171,7 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
     out << "-" << x << "-" << y;
     name += out.str();
 	Entity *e = sceneManager->createEntity(name, *file);
+    mapEntities.push_back( e );
 	
 	node->attachObject(e);
 
@@ -180,6 +181,12 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	
 	node->setPosition(pos);
 }
+
+vector<Entity*> MapCreate::getMapPieces()
+{
+    return mapEntities;
+}
+
 
 int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
 {
