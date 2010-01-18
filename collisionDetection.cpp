@@ -92,7 +92,7 @@ bool CollisionDetection::isCollision(Entity *e1, Entity *e2)
     	iter->second;
     } else {
     	return false;
-    }	
+    }
     
     iter = collisionsMap.find(e2);
     if(iter != collisionsMap.end()) {

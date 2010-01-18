@@ -29,6 +29,7 @@ private:
     int endx,endy; // Index location of the end square of the map
 
 	SceneManager *sceneManager;
+    vector<Entity*> mapEntities;
 
     bool buildMap(char* file);
     void addEnemies();
@@ -43,6 +44,8 @@ public:
 
     MapCreate(char* file, SceneManager *sceneManager);
     bool outputMap(SceneNode *sceneNode);
+    
+    vector<Entity*> getMapPieces();
 };
 
 #endif
