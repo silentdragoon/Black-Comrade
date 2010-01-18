@@ -13,7 +13,7 @@
 #include "ReplicaObject.h"
 #include "ReplicaManager3.h"
 
-#define MIN_SHOOT_PERIOD 5
+#define MIN_SHOOT_PERIOD 10 
 
 using namespace RakNet;
 

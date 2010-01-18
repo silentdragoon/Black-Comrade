@@ -61,7 +61,7 @@ void BulletManager::tick()
 
         RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
         trail->setMaterialName("PE/LightRibbonTrail");
-        trail->setTrailLength(10);
+        trail->setTrailLength(100);
         trail->setMaxChainElements(40);
 
         Light *l = sceneMgr->createLight(lname);

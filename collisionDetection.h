@@ -44,7 +44,7 @@ public:
     
     void addTreeCollisionMesh(Entity *entity);
     
-    bool isCollision(Entity *e1, Entity *e1);
+    bool isCollision(Entity *e1, Entity *e2);
 };
 
 //static unsigned RayCastPrefilter (const NewtonBody* body,  const NewtonCollision* collision, void* userData);
