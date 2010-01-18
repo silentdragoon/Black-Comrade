@@ -28,7 +28,7 @@ material PE/LightRibbonTrail
 
             texture_unit
             {
-                texture ribbonband.png 1d
+                texture ribbonband.png
                 tex_address_mode clamp
                 filtering none
             }
