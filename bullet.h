@@ -13,6 +13,7 @@ class Bullet
     private:
         SceneNode *bulletNode;
         string name;
+        string rname;
         SceneManager *sceneMgr;
 
         Vector3 direction;
@@ -30,6 +31,7 @@ class Bullet
         Bullet(SceneNode *bulletNode,
             SceneManager *sceneMgr,
             string name,
+            string rname,
             Vector3 direction, 
             int velocity,
             bool light,

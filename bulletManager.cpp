@@ -1,7 +1,7 @@
 #include "bulletManager.h"
 
-void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName) {
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,50,false,false);
+void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname) {
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,false,false);
     
     activeBullets->push_back(b);
 }
@@ -80,7 +80,7 @@ void BulletManager::tick()
         bulletNode->attachObject(l);
         
         // FIRE THE BULLET!
-        fire(bulletNode,direction,bullName);
+        fire(bulletNode,direction,bullName,rname);
     }
     updateBullets();
 }

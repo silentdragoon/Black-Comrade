@@ -17,6 +17,7 @@ void Bullet::setTrailColor(Vector3 tc) {
 Bullet::Bullet(SceneNode *bulletNode,
         SceneManager *sceneMgr,
         string name,
+        string rname,
         Vector3 direction,
         int velocity,
         bool light,
@@ -25,6 +26,7 @@ Bullet::Bullet(SceneNode *bulletNode,
             bulletNode(bulletNode),
             sceneMgr(sceneMgr),
             name(name), 
+            rname(rname),
             direction(direction),
             velocity(velocity),
             light(light),
@@ -35,5 +37,6 @@ Bullet::Bullet(SceneNode *bulletNode,
 
 Bullet::~Bullet() {
     sceneMgr->destroySceneNode(name);
+    sceneMgr->destroyRibbonTrail(rname);
 }
         
