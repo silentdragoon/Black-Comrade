@@ -11,25 +11,39 @@ ShipState::ShipState() {
     motionState = 0;
 }
 
-ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState) :
+ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, CollisionManager *colMgr) :
     position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
     pitch(0.0),
     yaw(0.0),
     shipSceneNode(shipSceneNode),
-    motionState(motionState)
+    motionState(motionState),
+    colMgr(colMgr)
 {}
 
 void ShipState::tick() {
 
     if (motionState != 0) {
-        position->x += motionState->xVelocity();
-        position->y += motionState->yVelocity();
-        position->z += motionState->zVelocity();
-    
-        roll = motionState->roll();
-        pitch = motionState->pitch();
-        yaw = motionState->yaw();
+        if(colMgr->isCollided(position))
+        {
+            position->x -= motionState->xVelocity();
+            position->y -= motionState->yVelocity();
+            position->z -= motionState->zVelocity();
+        
+            roll = motionState->roll();
+            pitch = motionState->pitch();
+            yaw = motionState->yaw();
+        }
+        else
+        {
+            position->x += motionState->xVelocity();
+            position->y += motionState->yVelocity();
+            position->z += motionState->zVelocity();
+        
+            roll = motionState->roll();
+            pitch = motionState->pitch();
+            yaw = motionState->yaw();
+        }
     }
     updateOgre();
 }

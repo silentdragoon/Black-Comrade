@@ -67,6 +67,8 @@ Main::Main() {
     stateUpdate->addTickable(networkingManager);
     
     stateUpdate->addTickable(ks);
+    
+    collisionMgr = new CollisionManager( sceneMgr, mc );
 
     GameRole myRole = collabInfo->getGameRole();
     if (myRole == PILOT) {
@@ -79,9 +81,6 @@ Main::Main() {
     bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState);
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
-    cout << "Before CollisionManager" << endl;
-    collisionMgr = new CollisionManager( sceneMgr, mc, shipState );
-    cout << "After CollisionManager" << endl;
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
@@ -89,7 +88,6 @@ Main::Main() {
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
-    stateUpdate->addTickable(collisionMgr);
     
     enemyState->updateOgre();
 
@@ -117,7 +115,7 @@ void Main::serverStartup() {
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
-    shipState = new ShipState(shipSceneNode, ms);
+    shipState = new ShipState(shipSceneNode, ms, collisionMgr);
     enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);

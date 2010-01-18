@@ -11,6 +11,7 @@
 // include Raknet classes
 #include "ReplicaObject.h"
 #include "ReplicaManager3.h"
+#include "collisionManager.h"
 
 using namespace Ogre;
 using namespace RakNet;
@@ -19,6 +20,7 @@ class ShipState : public ITickable, public ReplicaObject {
 private:
 
     IMotionState *motionState;
+    CollisionManager *colMgr;
 
 public:
    
@@ -27,7 +29,7 @@ public:
     Real pitch;
     Real yaw;
 
-    ShipState(SceneNode *shipSceneNode, IMotionState *motionState);
+    ShipState(SceneNode *shipSceneNode, IMotionState *motionState, CollisionManager *colMgr);
     ShipState();
     SceneNode *shipSceneNode;
 
