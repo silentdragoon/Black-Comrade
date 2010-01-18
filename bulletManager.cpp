@@ -1,8 +1,7 @@
 #include "bulletManager.h"
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName) {
-    //cout << "bullet manager: " << bullName << endl; 
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,50,false,false);
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,5,false,false);
     
     activeBullets->push_back(b);
 }
@@ -13,7 +12,6 @@ void BulletManager::updateBullets() {
         b->updateLocation();
         // TODO: Test for a collision/Destruction here
         if(b->aliveTicks>200) {
-            // TODO: This doesnt work and is retarded completely
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -42,13 +40,13 @@ void BulletManager::tick()
         string bullName = "Bullet";
         string bname = "Bill";
         string lname = "Light";
+        string rname = "Ribbon";
         stringstream out;
         out << bnum++;
         bname += out.str();
         lname += out.str();
         bullName += out.str();
-
-        //cout << "first creation: " << bullName << endl;
+        rname += out.str();
 
         SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
         bulletNode->setPosition(shipSceneNode->getPosition());
@@ -61,6 +59,11 @@ void BulletManager::tick()
         Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(1.0,0.7,0.0));
         bbb->setDimensions(2.0,2.0);
 
+        RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
+        trail->setMaterialName("PE/LightRibbonTrail");
+        trail->setTrailLength(10);
+        trail->setMaxChainElements(40);
+
         Light *l = sceneMgr->createLight(lname);
         l->setType(Light::LT_POINT);
         l->setDiffuseColour(ColourValue(0.7f,0.3f,0.0f));
@@ -69,6 +72,7 @@ void BulletManager::tick()
 
         bulletNode->attachObject(bbbs);
         bulletNode->attachObject(l);
+        bulletNode->attachObject(trail);
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName);

@@ -21,9 +21,9 @@ private:
     SceneManager *mSceneMgr;
     RayQuery *rRayQuery;
     
-    static const float FVEL = 0.3;
+    static const float FVEL = 2.25;
     //lookahead in ticks
-    static const float LOOKA = 30;
+    static const float LOOKA = 3;
 
     
 public:
