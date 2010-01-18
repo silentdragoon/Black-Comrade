@@ -1,7 +1,7 @@
 #include "bulletManager.h"
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName) {
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,5,false,false);
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,50,false,false);
     
     activeBullets->push_back(b);
 }
@@ -49,7 +49,9 @@ void BulletManager::tick()
         rname += out.str();
 
         SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
-        bulletNode->setPosition(shipSceneNode->getPosition());
+        Vector3 sp = shipSceneNode->getPosition();
+        sp.y = sp.y - 3.0;
+        bulletNode->setPosition(sp);
 
         Quaternion orient = shipSceneNode->getOrientation();
         Vector3 direction = orient.zAxis();
@@ -57,22 +59,25 @@ void BulletManager::tick()
         BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
         bbbs->setMaterialName("PE/Streak");
         Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(1.0,0.7,0.0));
-        bbb->setDimensions(2.0,2.0);
+        bbb->setDimensions(0.7,0.7);
 
         RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
         trail->setMaterialName("PE/LightRibbonTrail");
-        trail->setTrailLength(100);
-        trail->setMaxChainElements(40);
+        trail->setTrailLength(75);
+        trail->setMaxChainElements(400);
+        trail->setInitialColour(0,1.0,0.7,0.0);
+        trail->setInitialWidth(0,0.7);
+        trail->addNode(bulletNode);
+        sceneMgr->getRootSceneNode()->attachObject(trail);
 
         Light *l = sceneMgr->createLight(lname);
         l->setType(Light::LT_POINT);
-        l->setDiffuseColour(ColourValue(0.7f,0.3f,0.0f));
-        l->setSpecularColour(ColourValue(0.7f,0.3f,0.0f));
+        l->setDiffuseColour(ColourValue(0.5f,0.2f,0.0f));
+        l->setSpecularColour(ColourValue(0.5f,0.2f,0.0f));
         l->setAttenuation(100,0.5,0.0005,0);
 
         bulletNode->attachObject(bbbs);
         bulletNode->attachObject(l);
-        bulletNode->attachObject(trail);
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName);
