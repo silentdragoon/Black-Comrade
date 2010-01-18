@@ -1,8 +1,8 @@
 #include "bulletManager.h"
 
-void BulletManager::fire(SceneNode *bulletNode, Vector3 direction) {
-    
-    Bullet *b = new Bullet(bulletNode,direction,50,false,false);
+void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName) {
+    //cout << "bullet manager: " << bullName << endl; 
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,direction,50,false,false);
     
     activeBullets->push_back(b);
 }
@@ -12,7 +12,7 @@ void BulletManager::updateBullets() {
         Bullet *b = activeBullets->at(i);
         b->updateLocation();
         // TODO: Test for a collision/Destruction here
-        if(b->aliveTicks>2000) {
+        if(b->aliveTicks>200) {
             // TODO: This doesnt work and is retarded completely
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
@@ -39,14 +39,18 @@ void BulletManager::tick()
     if(gunState->fire()) {
         // TODO: This needs to be generalised for other ships and things
         // Making a new bullet
-        string bname = "Bullet";
+        string bullName = "Bullet";
+        string bname = "Bill";
         string lname = "Light";
         stringstream out;
         out << bnum++;
         bname += out.str();
         lname += out.str();
+        bullName += out.str();
 
-        SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+        //cout << "first creation: " << bullName << endl;
+
+        SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
         bulletNode->setPosition(shipSceneNode->getPosition());
 
         Quaternion orient = shipSceneNode->getOrientation();
@@ -67,7 +71,7 @@ void BulletManager::tick()
         bulletNode->attachObject(l);
         
         // FIRE THE BULLET!
-        fire(bulletNode,direction);
+        fire(bulletNode,direction,bullName);
     }
     updateBullets();
 }

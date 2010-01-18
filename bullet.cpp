@@ -19,21 +19,28 @@ void Bullet::setTrailColor(Vector3 tc) {
 }
 
 Bullet::Bullet(SceneNode *bulletNode,
+        SceneManager *sceneMgr,
+        string name,
         Vector3 direction,
         int velocity,
         bool light,
         bool trail)
         : 
             bulletNode(bulletNode),
+            sceneMgr(sceneMgr),
+            name(name), 
             direction(direction),
             velocity(velocity),
             light(light),
             trail(trail),
             aliveTicks(0)
 {
+    //cout << name << endl;
 }
 
 Bullet::~Bullet() {
+    //cout << name << endl;
+    sceneMgr->destroySceneNode(name);
     //bulletNode->removeAndDestroyAllChildren();
     //delete bulletNode;
 }

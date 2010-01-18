@@ -12,6 +12,8 @@ class Bullet
 {
     private:
         SceneNode *bulletNode;
+        string name;
+        SceneManager *sceneMgr;
 
         Vector3 direction;
         int velocity;
@@ -26,12 +28,13 @@ class Bullet
    public:
         int aliveTicks;
         Bullet(SceneNode *bulletNode,
+            SceneManager *sceneMgr,
+            string name,
             Vector3 direction, 
             int velocity,
             bool light,
             bool trail);
 
-        // TODO: Add destructor
         ~Bullet();
 
         void updateLocation();
