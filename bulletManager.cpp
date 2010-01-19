@@ -1,7 +1,7 @@
 #include "bulletManager.h"
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname) {
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,false,false);
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,400.0);
     
     activeBullets->push_back(b);
 }
@@ -10,8 +10,7 @@ void BulletManager::updateBullets() {
     for(int i=0;i<activeBullets->size();i++) {
         Bullet *b = activeBullets->at(i);
         b->updateLocation();
-        // TODO: Test for a collision/Destruction here
-        if(b->aliveTicks>200) {
+        if(b->distanceTravelled>b->distanceToTravel) {
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }

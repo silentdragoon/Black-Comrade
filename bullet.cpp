@@ -3,15 +3,8 @@
 void Bullet::updateLocation() {
     bulletNode->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
 
-    aliveTicks++;
-}
-
-void Bullet::setLightColor(Vector3 lc) {
-    lightColor = lc;
-}
-
-void Bullet::setTrailColor(Vector3 tc) {
-    trailColor = tc;
+    distanceTravelled = distanceTravelled + 
+        sqrt(pow(direction.x*velocity,2)+pow(direction.y*velocity,2)+pow(direction.z*velocity,2)); 
 }
 
 Bullet::Bullet(SceneNode *bulletNode,
@@ -20,8 +13,7 @@ Bullet::Bullet(SceneNode *bulletNode,
         string rname,
         Vector3 direction,
         int velocity,
-        bool light,
-        bool trail)
+        double dtt)
         : 
             bulletNode(bulletNode),
             sceneMgr(sceneMgr),
@@ -29,9 +21,8 @@ Bullet::Bullet(SceneNode *bulletNode,
             rname(rname),
             direction(direction),
             velocity(velocity),
-            light(light),
-            trail(trail),
-            aliveTicks(0)
+            distanceToTravel(dtt),
+            distanceTravelled(0.0)
 {
 }
 

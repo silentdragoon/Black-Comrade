@@ -4,6 +4,7 @@
 #include <OGRE/Ogre.h>
 #include <string>
 #include <iostream>
+#include <math.h>
 
 using namespace Ogre;
 using namespace std;
@@ -19,29 +20,22 @@ class Bullet
         Vector3 direction;
         int velocity;
 
-        bool light;
-        Vector3 lightColor;
-        
-        bool trail;
-        Vector3 trailColor;
-
                
    public:
-        int aliveTicks;
+        double distanceTravelled;
+        double distanceToTravel;
+
         Bullet(SceneNode *bulletNode,
             SceneManager *sceneMgr,
             string name,
             string rname,
             Vector3 direction, 
             int velocity,
-            bool light,
-            bool trail);
+            double dtt); // Distance to travel
 
         ~Bullet();
 
         void updateLocation();
-        void setLightColor(Vector3 lc);
-        void setTrailColor(Vector3 tc);
 };
 
 #endif
