@@ -65,8 +65,8 @@ void SoundManager::tick() {
 }
 
 SoundManager::~SoundManager() {
-    Ogre::LogManager::getSingleton().logMessage("Closing sound system...");
+    cout << "deleting soundMgr...";
     errCheck(system->release());
-    Ogre::LogManager::getSingleton().logMessage("Sound closed.");
+    cout << "sound closed." << endl;
 }
     

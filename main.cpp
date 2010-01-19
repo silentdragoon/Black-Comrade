@@ -51,7 +51,7 @@ Main::Main() {
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    createSoundManager();
+    soundMgr = new SoundManager();
     
     mc = new MapCreate("examplemap.txt",sceneMgr);
 
@@ -81,6 +81,7 @@ Main::Main() {
     bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState);
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
+
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
@@ -190,7 +191,7 @@ void Main::createScene() {
     l->setDiffuseColour(0.2,0.2,0.2);
     l->setSpecularColour(0.2,0.2,0.2);
     
-    Light *sp = sceneMgr->createLight("FrontSpot");
+    Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(0.2,0.2,0.4);
     sp->setSpecularColour(0.2,0.2,0.7);
@@ -224,11 +225,6 @@ void Main::createScene() {
     //modelNode->yaw(Degree(270));
 }
 
-void Main::createSoundManager()
-{
-    soundMgr = new SoundManager();
-}
-
 int main()
 {
     Main *main = new Main();
@@ -259,8 +255,8 @@ Main::~Main()
 
     cout << "deleting stateUpdate" << endl;
     delete stateUpdate;
-    // TODO: Fix destructing soundManager
 
+    delete soundMgr;
 
     OGRE_DELETE root;
 

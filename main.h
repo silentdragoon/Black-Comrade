@@ -70,8 +70,6 @@ private:
 
     void clientStartup();
     void serverStartup();
-
-    void createSoundManager();
     
 public:
     Main();
