@@ -1,7 +1,8 @@
 #include "bulletManager.h"
 
-void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname) {
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,700.0);
+void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
+
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,distance);
     
     activeBullets->push_back(b);
 }
@@ -78,7 +79,7 @@ void BulletManager::tick()
         bulletNode->attachObject(l);
         
         // FIRE THE BULLET!
-        fire(bulletNode,direction,bullName,rname);
+        fire(bulletNode,direction,bullName,rname,700.0);
     }
     // TODO: Add stuff like the thing above here for the other guns or enemies
     updateBullets();
