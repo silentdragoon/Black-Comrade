@@ -186,22 +186,18 @@ void Main::createScene() {
     sceneMgr->setAmbientLight(ColourValue(0,0,0));
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
-    Light *l = sceneMgr->createLight("MainLight");
-    l->setType(Light::LT_POINT);
-    l->setDiffuseColour(0.2,0.2,0.2);
-    l->setSpecularColour(0.2,0.2,0.2);
+    // Add some sexy fog
+    ColourValue fadeColour(0.1,0.1,0.1);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
     
+    // Creating the light that is attached to the ship
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(0.2,0.2,0.4);
     sp->setSpecularColour(0.2,0.2,0.7);
-    //sp->setSpotlightRange(Degree(50), Degree(30));
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
-    //sp->setCastShadows(true);
 
-    //l->setPosition(20,80,50);
-    shipSceneNode->attachObject(l);
     shipSceneNode->attachObject(sp);
     
     Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
@@ -209,8 +205,6 @@ void Main::createScene() {
     enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     enemySceneNode->showBoundingBox(true);
     enemySceneNode->attachObject(en);
-
-    //Entity *e = sceneMgr->createEntity("object","testmap.mesh");
 
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
@@ -220,9 +214,7 @@ void Main::createScene() {
     
     Entity *e = sceneMgr->createEntity("ourship", "ourship.mesh");
     modelNode->attachObject(e);
-    //modelNode->setScale(0.15,0.15,0.15);
     modelNode->setPosition(0,-7,-5);
-    //modelNode->yaw(Degree(270));
 }
 
 int main()
