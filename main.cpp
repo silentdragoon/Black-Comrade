@@ -59,8 +59,6 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    cout << "After createScene" << endl;
-
     ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
@@ -173,7 +171,7 @@ void Main::createCamera() {
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(100,0,0));
+    vp->setBackgroundColour(ColourValue(0,0,0));
     
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()));

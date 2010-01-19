@@ -1,7 +1,7 @@
 #include "bulletManager.h"
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname) {
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,400.0);
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,700.0);
     
     activeBullets->push_back(b);
 }
@@ -33,9 +33,8 @@ BulletManager::~BulletManager() {
 
 void BulletManager::tick()
 {
+    // Firing the pilots gun
     if(gunState->fire()) {
-        // TODO: This needs to be generalised for other ships and things
-        // Making a new bullet
         string bullName = "Bullet";
         string bname = "Bill";
         string lname = "Light";
@@ -71,8 +70,8 @@ void BulletManager::tick()
 
         Light *l = sceneMgr->createLight(lname);
         l->setType(Light::LT_POINT);
-        l->setDiffuseColour(ColourValue(0.5f,0.2f,0.0f));
-        l->setSpecularColour(ColourValue(0.5f,0.2f,0.0f));
+        l->setDiffuseColour(ColourValue(0.7f,0.4f,0.0f));
+        l->setSpecularColour(ColourValue(0.7f,0.4f,0.0f));
         l->setAttenuation(100,0.5,0.0005,0);
 
         bulletNode->attachObject(bbbs);
@@ -81,5 +80,6 @@ void BulletManager::tick()
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName,rname);
     }
+    // TODO: Add stuff like the thing above here for the other guns or enemies
     updateBullets();
 }
