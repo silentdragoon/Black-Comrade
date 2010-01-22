@@ -181,7 +181,7 @@ void Main::createScene() {
 
     sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
 
-    sceneMgr->setAmbientLight(ColourValue(0,0,0));
+    sceneMgr->setAmbientLight(ColourValue(1,1,1));
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
