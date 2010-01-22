@@ -165,6 +165,7 @@ void Main::createCamera() {
 
     camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,1));
+    camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(1);
     camera->setFarClipDistance(1500);
 }
@@ -175,7 +176,8 @@ void Main::createViewPort() {
     vp->setBackgroundColour(ColourValue(0,0,0));
     
     camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
+        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
+    //camera->setAspectRatio(1.17);
 }
 
 void Main::createScene() {
