@@ -62,7 +62,6 @@ Main::Main() {
     ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(networkingManager);
     
     stateUpdate->addTickable(ks);
     
@@ -84,9 +83,11 @@ Main::Main() {
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(enemyState);
+    stateUpdate->addTickable(networkingManager);
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
+
     
     enemyState->updateOgre();
 

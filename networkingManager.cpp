@@ -17,7 +17,7 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
 {
     sd.port = 0;
     replicaManager.SetDefaultPacketReliability(RELIABLE_ORDERED);
-    replicaManager.SetAutoSerializeInterval(10);
+    replicaManager.SetAutoSerializeInterval(1);
 }
 
 NetworkingManager::~NetworkingManager() {
