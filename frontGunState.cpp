@@ -8,12 +8,12 @@ bool FrontGunState::fire()
         
 void FrontGunState::tick()
 {
+
+    timeSinceLastFire++;
+
+    isFire = false;
     if (shipControls == 0) return;
 
-    isFire = false;
-
-    isFire = false;
-    timeSinceLastFire++;
 
     if(shipControls->fire() && timeSinceLastFire >= MIN_SHOOT_PERIOD) {
         isFire = true;
@@ -43,5 +43,7 @@ RM3SerializationResult FrontGunState::Serialize(SerializeParameters *serializePa
 }
 
 void FrontGunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(isFire);
+    bool isFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(isFire2);
+    if (isFire2) isFire = true;
 }
