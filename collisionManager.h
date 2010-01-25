@@ -24,7 +24,8 @@ private:
     
 public:
     CollisionManager( SceneManager* sceneMgr, MapCreate* mp );
-    Collision isCollided(Vector3 *shipPos);
+    //Collision isCollided(Vector3 *shipPos);
+    Collision shipMapCollsision(Vector3 *shipPos);
 };
 
 

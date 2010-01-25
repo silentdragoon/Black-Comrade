@@ -29,6 +29,23 @@ double MotionState::zVelocity()
     return zMotion;
 }
 
+
+double MotionState::forVelocity()
+{
+    return forwardV;
+}
+
+double MotionState::sideVelocity()
+{
+    return sideV;
+}
+
+double MotionState::upVelocity()
+{
+    return upV;
+}
+
+
 double MotionState::pitch()
 {
     return mPitch;
@@ -44,6 +61,11 @@ double MotionState::roll()
     return mRoll;
 }
 
+void MotionState::inYVel()
+{
+    upV = - upV;
+}
+
 void MotionState::tick()
 {   
     mYaw += engineState->yaw() * TURN_SPEED;
@@ -51,11 +73,10 @@ void MotionState::tick()
 
     mRoll = -engineState->yaw() * abs(engineState->forward()) * MAX_BANK;
 
-    double forwardV = engineState->forward() * FORWARD_SPEED;
-    double sideV = engineState->side() * SIDE_SPEED;
-    double upV = engineState->up() * UP_SPEED;
+    forwardV = engineState->forward() * FORWARD_SPEED;
+    sideV = engineState->side() * SIDE_SPEED;
+    upV = engineState->up() * UP_SPEED;
 
-    
     zMotion = cos(mYaw) * forwardV + sin(mYaw) * (sideV);
     xMotion = cos(mYaw) * (-sideV) + sin(mYaw) * forwardV;
     yMotion = upV;

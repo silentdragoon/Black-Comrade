@@ -14,7 +14,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapCreate* mp ):
     //cd->addTreeCollisionMesh( sceneMgr->getEntity("ourship") );
 }
 
-Collision CollisionManager::isCollided(Vector3 *shipPos)
+Collision CollisionManager::shipMapCollsision(Vector3 *shipPos)
 {
     //bool isCollided = false;
     dFloat contacts[16] = {0.0f};

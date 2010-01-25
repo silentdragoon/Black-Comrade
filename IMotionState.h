@@ -9,6 +9,12 @@ public:
 	virtual double xVelocity() = 0;
 	virtual double yVelocity() = 0;
 	virtual double zVelocity() = 0;
+    
+    virtual double forVelocity() = 0;
+    virtual double sideVelocity() = 0;
+    virtual double upVelocity() = 0;
+    
+    virtual void inYVel() = 0;
 	
 	virtual double pitch() = 0;
 	virtual double yaw() = 0;

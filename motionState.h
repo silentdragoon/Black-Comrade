@@ -16,6 +16,11 @@ class MotionState : public IMotionState, public ITickable
     double xMotion;
     double yMotion;
     double zMotion;
+    
+    double forwardV;
+    double sideV;
+    double upV;
+    
     double mPitch;
     double mRoll;
     double mYaw;
@@ -35,6 +40,12 @@ class MotionState : public IMotionState, public ITickable
     double xVelocity();
     double yVelocity();
     double zVelocity();
+    
+    void inYVel();
+    
+    double forVelocity();
+    double sideVelocity();
+    double upVelocity();
     
     double pitch();
     double yaw();

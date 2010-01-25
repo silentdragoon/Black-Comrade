@@ -24,7 +24,7 @@ ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, Collis
 void ShipState::tick() {
 
     if (motionState != 0) {
-        Collision col = colMgr->isCollided(position);
+        Collision col = colMgr->shipMapCollsision(position);
         if(col.isCollided)
         {
             
@@ -33,17 +33,23 @@ void ShipState::tick() {
                 cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
                     <<" "<< col.normals[i+2] <<" "<<endl;
             }
-            /*
-            double normRad = atan2(col.normals[3],col.normals[0]);
-            yaw = normRad + motionState->yaw();
-            position->x -= motionState->xVelocity();
-            position->y -= motionState->yVelocity();
-            position->z -= motionState->zVelocity();
+            
+            // double normRad = atan2(col.normals[3],col.normals[0]);
+            // yaw = normRad + motionState->yaw();
+            
+            
+            double zMotion = cos(yaw) * motionState->forVelocity() + sin(yaw) * (motionState->sideVelocity());
+            double xMotion = cos(yaw) * (-motionState->sideVelocity()) + sin(yaw) * motionState->forVelocity();
+            motionState->inYVel();
+            
+            position->x += xMotion;
+            position->y += motionState->yVelocity();
+            position->z += zMotion;
         
             roll = motionState->roll();
-            pitch = motionState->pitch();*/
+            pitch = motionState->pitch();
         }
-        //else
+        else
         {
             position->x += motionState->xVelocity();
             position->y += motionState->yVelocity();
