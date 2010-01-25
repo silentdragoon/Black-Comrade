@@ -80,6 +80,7 @@ Main::Main() {
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
 	gameStateMachine = new GameStateMachine(mc,shipState);
+	gameParameterMap = new GameParameterMap(gameStateMachine);
 
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);

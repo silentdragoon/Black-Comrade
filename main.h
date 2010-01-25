@@ -24,6 +24,7 @@
 #include "bulletManager.h"
 #include "collisionManager.h"
 #include "gameStateMachine.h"
+#include "gameParameterMap.h"
 
 //include networking stuff
 #include <string.h>
@@ -54,6 +55,7 @@ private:
     BulletManager *bulletMgr;
     CollisionManager *collisionMgr;
     GameStateMachine *gameStateMachine;
+    GameParameterMap *gameParameterMap;
     
     SceneNode *mapNode;
     
