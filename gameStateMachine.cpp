@@ -23,12 +23,11 @@ void GameStateMachine::tick()
 			switch(gameState) {
 				case GS_STELPH:
 					gameState = GS_ATTACK;
-					std::cout << "Change!\n";
 					break;
 			}
 		}
 	}
-	delete wp;
+	//delete wp;
 	
 	if(oldState != gameState) mIsNewState = true;
 }
