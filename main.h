@@ -23,6 +23,7 @@
 #include "IExit.h"
 #include "bulletManager.h"
 #include "collisionManager.h"
+#include "gameStateMachine.h"
 
 //include networking stuff
 #include <string.h>
@@ -52,6 +53,7 @@ private:
     MiniGameManager *miniGameMgr;
     BulletManager *bulletMgr;
     CollisionManager *collisionMgr;
+    GameStateMachine *gameStateMachine;
     
     SceneNode *mapNode;
     
