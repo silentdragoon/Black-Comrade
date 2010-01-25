@@ -79,6 +79,9 @@ Main::Main() {
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
+	gameStateMachine = new GameStateMachine(mc,shipState);
+	gameParameterMap = new GameParameterMap(gameStateMachine);
+
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
@@ -87,7 +90,7 @@ Main::Main() {
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
-
+    stateUpdate->addTickable(gameStateMachine);
     
     enemyState->updateOgre();
 
