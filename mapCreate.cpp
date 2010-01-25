@@ -13,14 +13,39 @@ bool MapCreate::buildMap(char* file)
         while(!map.eof()) {
             string line;
             getline(map, line);
-            for(int xpos=0;xpos<MAPSIZE;xpos++) {
-                if(line[xpos]=='.') geo[xpos][ypos] = '.';
-                if(line[xpos]=='s') geo[xpos][ypos] = 's'; start = true; startx = xpos; starty = ypos;
-                if(line[xpos]=='+') geo[xpos][ypos] = '+';
-                if(line[xpos]=='x') geo[xpos][ypos] = 'x';
-                if(line[xpos]=='e') geo[xpos][ypos] = 'e'; end = true; endx = xpos; endy = ypos;
-                if(line[xpos]=='c') geo[xpos][ypos] = 'c';
-                if(line[xpos]=='o') geo[xpos][ypos] = 'o'; objec = true;
+            if(ypos<MAPSIZE) {
+                for(int xpos=0;xpos<MAPSIZE;xpos++) {
+                    if(line[xpos]=='.') geo[xpos][ypos] = '.';
+                    if(line[xpos]=='s') geo[xpos][ypos] = 's'; start = true; startx = xpos; starty = ypos;
+                    if(line[xpos]=='+') geo[xpos][ypos] = '+';
+                    if(line[xpos]=='x') geo[xpos][ypos] = 'x';
+                    if(line[xpos]=='e') geo[xpos][ypos] = 'e'; end = true; endx = xpos; endy = ypos;
+                    if(line[xpos]=='c') geo[xpos][ypos] = 'c';
+                    if(line[xpos]=='o') geo[xpos][ypos] = 'o'; objec = true;
+                }
+            } else {
+                // READ IN WAYPOINTS
+                string xs;
+                string ys;
+                string *name;
+                int comNum=0;
+                int lastCom;
+                for(int wp=0;wp<line.size();wp++) {
+                    if(line[wp]==',') {
+                        if(comNum==0) xs = line.substr(0,wp-1); lastCom=wp;
+                        if(comNum==1) ys = line.substr(lastCom,wp-1); lastCom=wp;
+                        if(comNum>1 ) name = new string(line.substr(lastCom));
+                        comNum++;
+                    }
+                }
+                int wpx;
+                int wpy;
+                istringstream wpxss(xs);
+                istringstream wpyss(ys);
+                wpxss >> wpx;
+                wpyss >> wpy;
+                Waypoint *w = new Waypoint(name,wpx,wpy);
+                waypoints.push_back(w);
             }
             ypos++;
         }
@@ -205,6 +230,22 @@ Entity* MapCreate::getEntity(Vector3 *locn)
     return e;
 }
 
+string* MapCreate::getWaypoint(Vector3 *locn) 
+{
+    int x =(int) floor(locn->x/(double)TILE_SIZE);
+    int y =(int) floor(locn->z/(double)TILE_SIZE);
+    
+    Waypoint *w;
+
+    for(vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
+        w = *it;
+        if((w->getX()==x)&&(w->getY()==y)) {
+            return w->getName();
+        }
+    }
+
+    return NULL;
+}
 
 int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
 {
@@ -297,9 +338,3 @@ MapCreate::MapCreate(char* file, SceneManager *sceneManager)
         cerr << "Something to do with reading the map went horribly wrong." << endl;
     }
 }
-
-//int main(int argc, char* argv[])
-//{
-//    MapCreate *me = new MapCreate(argv[1], NULL);
-//    return 0;
-//}

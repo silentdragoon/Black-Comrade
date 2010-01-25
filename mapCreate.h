@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <algorithm>
 #include <math.h>
+#include "waypoint.h"
 
 #define MAPSIZE 30
 #define MAPROOT "./mapparts/"
@@ -31,6 +32,7 @@ private:
 
 	SceneManager *sceneManager;
     vector<Entity*> mapEntities;
+    vector<Waypoint*> waypoints;
 
     bool buildMap(char* file);
     void addEnemies();
@@ -49,6 +51,7 @@ public:
     vector<Entity*> getMapPieces();
     
     Entity* getEntity(Vector3 *locn);
+    string* getWaypoint(Vector3 *locn);
 };
 
 #endif
