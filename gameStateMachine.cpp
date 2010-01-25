@@ -15,11 +15,10 @@ void GameStateMachine::tick()
 	GameState oldState = gameState;
 	mIsNewState = false;
 
-	// TODO: Something hear
+	// Waypoint events
 	string *wp = mapCreate->getWaypoint(shipState->position);
 	if(wp != NULL) {
-		//cout << wp << "\n";
-		if(wp->compare("wp_attack") == 0) {
+		if(*wp == "wp_attack") {
 			switch(gameState) {
 				case GS_STELPH:
 					gameState = GS_ATTACK;
@@ -27,7 +26,6 @@ void GameStateMachine::tick()
 			}
 		}
 	}
-	//delete wp;
 	
 	if(oldState != gameState) mIsNewState = true;
 }
