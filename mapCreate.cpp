@@ -25,27 +25,25 @@ bool MapCreate::buildMap(char* file)
                 }
             } else {
                 // READ IN WAYPOINTS
-                string xs;
-                string ys;
-                string *name;
-                int comNum=0;
-                int lastCom;
-                for(int wp=0;wp<line.size();wp++) {
-                    if(line[wp]==',') {
-                        if(comNum==0) xs = line.substr(0,wp-1); lastCom=wp;
-                        if(comNum==1) ys = line.substr(lastCom,wp-1); lastCom=wp;
-                        if(comNum>1 ) name = new string(line.substr(lastCom));
-                        comNum++;
-                    }
+                if((line[0]=='w')&&(line[1]=='p')) {
+                    istringstream liness(line);
+                    int x;
+                    int y;
+                    string temp;
+                    string rubbish;
+
+                    liness >> rubbish;
+                    liness >> x;
+                    liness >> y;
+                    liness >> temp;
+
+                    
+                    string *name = new string(temp);
+                    cout << x << " " << y << " " << name << endl;
+
+                    Waypoint *w = new Waypoint(name,x,y);
+                    waypoints.push_back(w);
                 }
-                int wpx;
-                int wpy;
-                istringstream wpxss(xs);
-                istringstream wpyss(ys);
-                wpxss >> wpx;
-                wpyss >> wpy;
-                Waypoint *w = new Waypoint(name,wpx,wpy);
-                waypoints.push_back(w);
             }
             ypos++;
         }
