@@ -81,6 +81,8 @@ Main::Main() {
 
 	gameStateMachine = new GameStateMachine(mc,shipState);
 	gameParameterMap = new GameParameterMap(gameStateMachine);
+	
+	printState = new PrintState(gameStateMachine);
 
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
@@ -90,6 +92,9 @@ Main::Main() {
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
+    stateUpdate->addTickable(printState);
+    
+    // This should be last to allow events for the inital state 'change'
     stateUpdate->addTickable(gameStateMachine);
     
     enemyState->updateOgre();

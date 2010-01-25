@@ -25,6 +25,7 @@
 #include "collisionManager.h"
 #include "gameStateMachine.h"
 #include "gameParameterMap.h"
+#include "printState.h"
 
 //include networking stuff
 #include <string.h>
@@ -56,6 +57,7 @@ private:
     CollisionManager *collisionMgr;
     GameStateMachine *gameStateMachine;
     GameParameterMap *gameParameterMap;
+    PrintState *printState;
     
     SceneNode *mapNode;
     

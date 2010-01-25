@@ -14,12 +14,14 @@ private:
 	GameState gameState;
 	MapCreate *mapCreate;
 	ShipState *shipState;
+	bool mIsNewState;
 	
 public:
 	GameStateMachine(MapCreate *mapCreate, ShipState *shipState);
 	void tick();
 	
 	GameState currentGameState();
+	bool isNewState();
 };
 
 #endif
