@@ -1,5 +1,6 @@
 
 #include "enemyState.h"
+#include "const.h"
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ void EnemyState::tick()
         Vector3 result(0,0,0);
         float dRight, dLeft, tmp;
     
-        Vector3 futPos( position->x+(FVEL*LOOKA)*sin(yaw), position->y, position->z+(FVEL*LOOKA)*cos(yaw));
+        Vector3 futPos( position->x+(Const::FVEL*Const::LOOKA)*sin(yaw), position->y, position->z+(Const::FVEL*Const::LOOKA)*cos(yaw));
     
         Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
         dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
@@ -43,10 +44,10 @@ void EnemyState::tick()
 
         tmp = (dLeft + dRight) /2 - dRight;
     
-        yaw +=   1.0f/2.0f*atan(tmp/(FVEL*LOOKA));
+        yaw +=   1.0f/2.0f*atan(tmp/(Const::FVEL*Const::LOOKA));
     
-        position->x += FVEL * sin(yaw);
-        position->z += FVEL * cos(yaw);
+        position->x += Const::FVEL * sin(yaw);
+        position->z += Const::FVEL * cos(yaw);
     }    
     updateOgre();
 }

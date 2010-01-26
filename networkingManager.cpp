@@ -5,6 +5,7 @@
 #include "gameRole.h"
 #include <stdio.h>
 #include "lobby.h"
+#include "const.h"
 
 using namespace std;
 using namespace RakNet;
@@ -76,7 +77,7 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
     rakPeer->SetNetworkIDManager(&networkIdManager);
     networkIdManager.SetIsNetworkIDAuthority((actualRole == SERVER || actualRole == DEVELOPMENTSERVER));
     
-    if (actualRole == SERVER) sd.port = SERVER_PORT;
+    if (actualRole == SERVER) sd.port = Const::SERVER_PORT;
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
@@ -84,7 +85,7 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
 
     lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
 
-    if (actualRole == CLIENT) lobby->connect(serverAddress, SERVER_PORT);
+    if (actualRole == CLIENT) lobby->connect(serverAddress, Const::SERVER_PORT);
 
     lobby->enter();
 

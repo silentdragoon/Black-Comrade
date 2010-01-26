@@ -24,6 +24,16 @@ public:
     
     static const double MAX_BANK = 0.2;
     
+    // Constants for front gun
+    static const int MIN_SHOOT_PERIOD = 8;
+    
+    // Constants for enemy behav.
+    static const float FVEL = 2.25;
+    //lookahead in ticks
+    static const float LOOKA = 3;
+    
+    // Constants for network
+    static const int SERVER_PORT=6005;
 };
 
 #endif

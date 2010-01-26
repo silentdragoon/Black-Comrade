@@ -1,5 +1,7 @@
 #include "bulletManager.h"
 
+// TODO: Does this contain numbers which should be constants in const.h?
+
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
 
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,distance);

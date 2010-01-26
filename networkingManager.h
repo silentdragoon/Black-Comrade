@@ -19,7 +19,6 @@
 #include <string>
 #include <cstdio>
 
-
 class NetworkingManager : public ITickable {
 
 private:
@@ -29,7 +28,7 @@ private:
         DiscoveryAgent *discoveryAgent;
         Lobby *lobby;
         SocketDescriptor sd;
-        static const int SERVER_PORT=6005;
+
         NetworkIDManager networkIdManager;
         bool isServer;
         RakPeerInterface *rakPeer;

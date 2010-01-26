@@ -13,8 +13,6 @@
 #include "ReplicaObject.h"
 #include "ReplicaManager3.h"
 
-#define MIN_SHOOT_PERIOD 8 
-
 using namespace RakNet;
 
 class FrontGunState : public ITickable, public ReplicaObject

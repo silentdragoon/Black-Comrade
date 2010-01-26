@@ -1,5 +1,6 @@
 
 #include "frontGunState.h"
+#include "const.h"
 
 bool FrontGunState::fire()
 {
@@ -15,7 +16,7 @@ void FrontGunState::tick()
     if (shipControls == 0) return;
 
 
-    if(shipControls->fire() && timeSinceLastFire >= MIN_SHOOT_PERIOD) {
+    if(shipControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
         isFire = true;
         timeSinceLastFire = 0;
     }

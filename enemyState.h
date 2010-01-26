@@ -20,12 +20,7 @@ class EnemyState : public ITickable, public ReplicaObject {
 private:
     SceneManager *mSceneMgr;
     RayQuery *rRayQuery;
-    
-    static const float FVEL = 2.25;
-    //lookahead in ticks
-    static const float LOOKA = 3;
 
-    
 public:
     SceneNode *eSceneNode;
     Vector3 *position;
