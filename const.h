@@ -9,6 +9,9 @@ public:
 	// TICK_PERIOD
 	#define TICK_PERIOD 0.01
 
+	// TODO: This does not work correctly, twice the clock period and
+	// twice the TICKSFORWARD does not result in the same movement :(
+
 	// Constants for acceleration
     static const double TICKSFORWARD = 40000.0 * TICK_PERIOD;
     static const double TICKSSIDE = 10000.0 * TICK_PERIOD;
