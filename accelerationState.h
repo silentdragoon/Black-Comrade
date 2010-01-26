@@ -27,13 +27,6 @@ class AccelerationState : public IAccelerationState, public ITickable
     double cYaw;
     double cPitch;
     
-    //ticks required to reach ~95%
-    static const double TICKSFORWARD = 400;
-    static const double TICKSSIDE = 100;
-    static const double TICKSUP = 50;
-    static const double TICKSYAW = 40;
-    static const double TICKSPITCH = 20;
-    
   public:
     virtual double forward();
 	virtual double side();

@@ -1,5 +1,6 @@
 
 #include "stateUpdate.h"
+#include "const.h"
 
 #include <iostream>
 
@@ -14,7 +15,7 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
     if(running) {
         timeSinceLastEvent += evt.timeSinceLastFrame;
         
-        if(timeSinceLastEvent > TICK_PERIOD) {
+        if(timeSinceLastEvent > Const::TICK_PERIOD) {
             timeSinceLastEvent = 0;
             
             tick();

@@ -22,14 +22,6 @@ class MotionState : public IMotionState, public ITickable
     
     IAccelerationState *engineState;
     
-    //constant values that will need tuning
-    static const double FORWARD_SPEED= 2;
-    static const double SIDE_SPEED = 1;
-    static const double TURN_SPEED = 0.0175;
-    static const double UP_SPEED = 0.5;
-    
-    static const double MAX_BANK = 0.2;
-    
   public:
     MotionState(IAccelerationState *as);
     double xVelocity();
