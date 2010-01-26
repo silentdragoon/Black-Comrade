@@ -4,6 +4,9 @@
 
 #include <iostream>
 
+// TODO: Are their numbers in hear which need to be made constants (in const.h)?
+//			ie. "1.57f"?
+
 EnemyState::EnemyState() :
     position(new Vector3(0.0,0.0,-50.0)),
     roll(0.0),
@@ -32,7 +35,7 @@ void EnemyState::tick()
         Vector3 result(0,0,0);
         float dRight, dLeft, tmp;
     
-        Vector3 futPos( position->x+(Const::FVEL*Const::LOOKA)*sin(yaw), position->y, position->z+(Const::FVEL*Const::LOOKA)*cos(yaw));
+        Vector3 futPos( position->x+(Const::FVELOCITY*Const::LOOKA)*sin(yaw), position->y, position->z+(Const::FVELOCITY*Const::LOOKA)*cos(yaw));
     
         Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
         dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
@@ -44,10 +47,10 @@ void EnemyState::tick()
 
         tmp = (dLeft + dRight) /2 - dRight;
     
-        yaw +=   1.0f/2.0f*atan(tmp/(Const::FVEL*Const::LOOKA));
+        yaw +=   1.0f/2.0f*atan(tmp/(Const::FVELOCITY*Const::LOOKA));
     
-        position->x += Const::FVEL * sin(yaw);
-        position->z += Const::FVEL * cos(yaw);
+        position->x += Const::FVELOCITY * sin(yaw);
+        position->z += Const::FVELOCITY * cos(yaw);
     }    
     updateOgre();
 }
