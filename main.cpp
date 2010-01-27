@@ -184,7 +184,7 @@ void Main::createCamera() {
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
+    vp->setBackgroundColour(ColourValue(1,0,0));
     
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
@@ -199,16 +199,16 @@ void Main::createScene() {
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
-    ColourValue fadeColour(0.1,0.1,0.1);
-    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    //ColourValue fadeColour(0.1,0.1,0.1);
+    //sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
     
     // Creating the light that is attached to the ship
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.2,0.2,0.4);
+    sp->setDiffuseColour(1.0,1.0,1.0);
     sp->setSpecularColour(0.2,0.2,0.7);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
+    //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
 
     shipSceneNode->attachObject(sp);
     
