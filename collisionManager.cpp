@@ -59,7 +59,7 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
     {
         if( e[i] != NULL )
         {
-            int tmp = getRCDirDist(pos,direction, 2000.0, e[i]);
+            dFloat tmp = getRCDirDist(pos,direction, 2000.0, e[i]);
             if( tmp < closestDist) closestDist = tmp;
         }
     }
