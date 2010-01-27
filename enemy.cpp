@@ -28,6 +28,8 @@ void Enemy::setLocation(Vector3 v)
 
 void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
 {
+	node->resetOrientation();
+
 	Radian troll(roll);
     Radian tpitch(pitch);
     Radian tyaw(yaw);
