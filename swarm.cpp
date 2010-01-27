@@ -92,7 +92,7 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::isShipInSight()
 {
-	Vector3 lookDirection(cos(yaw),0,sin(yaw));
+	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
 	Radian sightAngle(Const::ENEMY_SIGHT_ANGLE);
 	
@@ -131,15 +131,34 @@ void Swarm::updateSwarmLocation()
 	
 	if(state == SS_ATTACK) {
 		
+		Vector3 lookDirection(sin(yaw),0,cos(yaw));
+		
 		// Point at ship
 		Vector3 lineToShip = *(shipState->position) -location;
 		float newYaw = atan2(lineToShip.x,lineToShip.z);
-		
-		
 		// TODO: Sometimes they turn the long-way-round
 		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
 		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
 		else yaw += Const::TURN_TO_LOOK_STEP;
+		
+		// Check if its pointing at the ship
+		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
+		if( angleTo < 1.57) {
+		
+			// Move towards ship
+			float disToMove = lineToShip.length() - Const::SWARM_TARGET_DIS;
+			disToMove = disToMove * cos(angleTo);
+			float adjustedSpeed =
+				(abs(disToMove) < speed) ? abs(disToMove) : speed;
+			
+			if(disToMove > 0) {
+			//	location.x += adjustedSpeed * sin(yaw);
+		    //	location.z += adjustedSpeed * cos(yaw);
+			} else {
+			//	location.x -= adjustedSpeed * sin(yaw);
+		    //	location.z -= adjustedSpeed * cos(yaw);
+			}
+		}
 		
 	}
 }
