@@ -302,7 +302,7 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
             double xx = (x * (TILE_SIZE)) + (0.5*TILE_SIZE);
             double yy = (y * (TILE_SIZE)) + (0.5*TILE_SIZE);
 
-            cout << "Spawn Tiles: " << xx << " " << yy;
+            cout << "Spawn Tiles: " << xx << " " << yy << endl;
 
             Vector3 *v = new Vector3(xx,0.0,yy);
 
