@@ -14,6 +14,8 @@ CollisionDetection::CollisionDetection()
 void CollisionDetection::addStaticTreeCollisionMesh(Entity *entity)
 {
 	NewtonCollision *treeCollision;
+    
+    enemyCol = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,10001, NULL);
 
 	treeCollision = NewtonCreateTreeCollision (newtonWorld, 0);
     NewtonTreeCollisionBeginBuild(treeCollision);
@@ -84,8 +86,16 @@ void CollisionDetection::createShipMesh( Entity * e )
  	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
 }
 
-
-
+void CollisionDetection::createEnemyMesh( Entity * e )
+{
+    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,10002, NULL); 
+    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
+    NewtonReleaseCollision (newtonWorld, shipCollision);
+    
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
+ 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
+}
+    
 Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 {
     dFloat e1Matrix[16];
@@ -161,8 +171,31 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
     	return -1;
     }
 }
+
+dFloat CollisionDetection::rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst )
+{
+    Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
+    Vector3 transEnd = m4 * (*end);
+    return rayCollideDist( start, &transEnd, collideAgainst );
+}
+
+dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
+{
+    Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
+    Vector3 transStart = m4 * (*start);
+    Vector3 transEnd = m4 * (*end);
     
+    dFloat p0[3]; dFloat p1[3];
+    p0[0] = transStart.x; p0[1] = transStart.y; p0[2] = transStart.z;
     
+    p1[0] = transEnd.x; p1[1] = transEnd.y; p1[2] = transEnd.z;
+    
+    dFloat normal[3];
+    int att[1];
+
+    return NewtonCollisionRayCast( enemyCol, p0, p1, normal, att);
+}
+
 
 void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
 {

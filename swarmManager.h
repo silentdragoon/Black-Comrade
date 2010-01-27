@@ -25,6 +25,10 @@ class SwarmManager : public ITickable
 
         int id;
 
+        int dynSwarmSize;
+
+        int swarmTick;
+
     public:
 
         SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, 

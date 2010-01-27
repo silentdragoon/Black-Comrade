@@ -23,6 +23,8 @@ private:
 
 	map<Entity *,NewtonCollision *> collisionsMap;
 	map<Entity *,NewtonBody *> bodysMap;
+    
+    NewtonCollision *enemyCol;
 
     //dFloat t[9]; 
     //dFloat shipPos[16];
@@ -50,9 +52,11 @@ public:
     Collision isCollision(Entity *e1, Entity *e2);
     
     void createShipMesh( Entity* e );
+    void createEnemyMesh( Entity* e );
     
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
-    
+    dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
+    dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     
 };
 
