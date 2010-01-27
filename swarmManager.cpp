@@ -42,9 +42,9 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 
 void SwarmManager::tick() 
 {
-    string *sp = gamePM->getParameter("SPAWN");
+    int sp = gamePM->getParameter("SPAWN");
 
-    if(*(sp)=="Y") {
+    if(sp>0) {
         // TODO: Do the dynamic spawning fun
     }
 

@@ -294,29 +294,33 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
     for(vector<int>::const_iterator it=conns.begin();it!=conns.end(); ++it) {
         int c = *it;
         if(c==1) {
-            xx = xx + (0.5*TILE_SIZE);
-            cout << "1 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy = yy;
+            xxx = xx + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==2) {
-            xx = xx + (TILE_SIZE);
-            yy = yy + (0.5*TILE_SIZE);
-            cout << "2 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy;
+            xxx = xx + (TILE_SIZE);
+            yyy = yy + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==3) {
-            xx = xx + (0.5*TILE_SIZE);
-            yy = yy + (TILE_SIZE);
-            cout << "3 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy;
+            xxx = xx + (0.5*TILE_SIZE);
+            yyy = yy + (TILE_SIZE);
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==4) {
-            yy = yy + (0.5*TILE_SIZE);
-            cout << "4 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx = xx;
+            double yyy;
+            yyy = yy + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
     }
@@ -338,8 +342,6 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
 
             double xx = (x * (TILE_SIZE)) + (0.5*TILE_SIZE);
             double yy = (y * (TILE_SIZE)) + (0.5*TILE_SIZE);
-
-            cout << "Spawn Tiles: " << xx << " " << yy << endl;
 
             Vector3 *v = new Vector3(xx,0.0,yy);
 

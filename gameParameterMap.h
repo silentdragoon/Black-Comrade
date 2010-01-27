@@ -12,7 +12,7 @@ private:
 public:
 	GameParameterMap(GameStateMachine *gameStateMachine);
 	
-	string* getParameter(string name);
+	int getParameter(string name);
 };
 
 #endif
