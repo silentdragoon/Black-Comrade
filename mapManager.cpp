@@ -229,8 +229,36 @@ Entity* MapManager::getEntity(Vector3 *locn)
 }
 
 void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
+
+    int x =(int) floor(locn->x/(double)TILE_SIZE);
+    int y =(int) floor(locn->z/(double)TILE_SIZE);
+
+    vector<int> adj = getConnections(x,y);
+
     mps[0] = getEntity( locn );
-    mps[1] = getEntity(new Vector3(locn->x+(double)TILE_SIZE, locn->y, locn->z));
+    mps[1] = NULL;
+    mps[2] = NULL;
+    mps[3] = NULL;
+    mps[4] = NULL;
+
+    for(vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
+        int c = *it;
+        if(c==1) {
+            Vector3 *p = new Vector3(locn->x,locn->y,locn->z-TILE_SIZE);
+            mps[1] = getEntity(p);
+        } else if(c==2) {
+            Vector3 *p = new Vector3(locn->x+TILE_SIZE,locn->y,locn->z);
+            mps[2] = getEntity(p);
+        } else if(c==3) {
+            Vector3 *p = new Vector3(locn->x,locn->y,locn->z+TILE_SIZE);
+            mps[3] = getEntity(p);
+        } else if(c==4) {
+            Vector3 *p = new Vector3(locn->x-TILE_SIZE,locn->y,locn->z);
+            mps[4] = getEntity(p);
+        } else {
+            //
+        }
+    }
 }    
 
 string* MapManager::getWaypoint(Vector3 *locn) 
@@ -267,23 +295,27 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
         int c = *it;
         if(c==1) {
             xx = xx + (0.5*TILE_SIZE);
+            cout << "1 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==2) {
             xx = xx + (TILE_SIZE);
             yy = yy + (0.5*TILE_SIZE);
+            cout << "2 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==3) {
             xx = xx + (0.5*TILE_SIZE);
             yy = yy + (TILE_SIZE);
+            cout << "3 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==4) {
             yy = yy + (0.5*TILE_SIZE);
+            cout << "4 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
