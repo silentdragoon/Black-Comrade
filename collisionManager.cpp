@@ -1,6 +1,6 @@
 #include "collisionManager.h"
 
-CollisionManager::CollisionManager( SceneManager* sceneMgr, MapCreate* mp ):
+CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
     sceneMgr(sceneMgr),
     mp(mp)
 {

@@ -30,8 +30,8 @@ void ShipState::tick() {
             
             for( int i = 0; i < 1; i += 3 )
             {
-                cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
-                    <<" "<< col.normals[i+2] <<" "<<endl;
+                //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
+                 //   <<" "<< col.normals[i+2] <<" "<<endl;
             }
             
             

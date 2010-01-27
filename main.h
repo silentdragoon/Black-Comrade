@@ -7,7 +7,6 @@
 
 #include "networkingManager.h"
 #include "networkRole.h"
-#include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
@@ -17,7 +16,7 @@
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
-#include "mapCreate.h"
+#include "mapManager.h"
 #include "audioState.h"
 #include "miniGameManager.h"
 #include "IExit.h"
@@ -26,6 +25,7 @@
 #include "gameStateMachine.h"
 #include "gameParameterMap.h"
 #include "printState.h"
+#include "swarmManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -63,11 +63,10 @@ private:
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
-    SceneNode *enemySceneNode;
     ShipState *shipState;
-    EnemyState *enemyState;
     
-    MapCreate *mc;
+    MapManager *mapMgr;
+    SwarmManager *swarmMgr;
     
     void createCamera();
     void createScene();

@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "collisionDetection.h"
-#include "mapCreate.h"
+#include "mapManager.h"
 #include "collision.h"
 
 using namespace Ogre;
@@ -19,11 +19,12 @@ class CollisionManager{
 private:
 
     CollisionDetection *cd;
-    MapCreate *mp;
+    MapManager *mp;
     SceneManager* sceneMgr;
     
 public:
-    CollisionManager( SceneManager* sceneMgr, MapCreate* mp );
+
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp );
     //Collision isCollided(Vector3 *shipPos);
     Collision shipMapCollision(Vector3 *shipPos);
     dFloat getRCDistBetweenPoints( Vector3 *start, Vector3 * end, Entity* collideAgainst );
@@ -35,7 +36,6 @@ public:
     Vector3* getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst );
     
     dFloat getRCAgainstShip ( Vector3 *start, Real pitch, Real yaw );
-
 };
 
 

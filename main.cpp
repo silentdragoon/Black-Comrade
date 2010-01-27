@@ -53,7 +53,7 @@ Main::Main() {
 
     soundMgr = new SoundManager();
     
-    mc = new MapCreate("examplemap.txt",sceneMgr);
+    mapMgr = new MapManager("examplemap.txt",sceneMgr);
 
     createCamera();
     createViewPort();
@@ -62,11 +62,10 @@ Main::Main() {
     ks = new KeyState(window, false, this);
     
     stateUpdate = new StateUpdate();
-    stateUpdate->addTickable(networkingManager);
     
     stateUpdate->addTickable(ks);
     
-    collisionMgr = new CollisionManager( sceneMgr, mc );
+    collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
     GameRole myRole = collabInfo->getGameRole();
     if (myRole == PILOT) {
@@ -80,17 +79,32 @@ Main::Main() {
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
+	gameStateMachine = new GameStateMachine(mapMgr,shipState);
+	gameParameterMap = new GameParameterMap(gameStateMachine);
+	
+	printState = new PrintState(gameStateMachine);
+
+	//Test swarm
+	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
+	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
+    swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr);
+
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
-    stateUpdate->addTickable(enemyState);
+    stateUpdate->addTickable(networkingManager);
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
+    stateUpdate->addTickable(printState);
+    stateUpdate->addTickable(swarmMgr);
     
-    enemyState->updateOgre();
+    // This should be last to allow events for the inital state 'change'
+    stateUpdate->addTickable(gameStateMachine);
 
     root->addFrameListener(stateUpdate);
+
+	
 
     // Start Rendering Loop
     root->startRendering();
@@ -102,9 +116,7 @@ void Main::clientStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
-    enemyState = (EnemyState *) networkingManager->getReplica("EnemyState",true);
-    
-    enemyState->eSceneNode =  enemySceneNode;
+
     shipState->shipSceneNode = shipSceneNode;
 }
 
@@ -115,18 +127,18 @@ void Main::serverStartup() {
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
-    enemyState = new EnemyState(enemySceneNode, sceneMgr);
+    //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
-    networkingManager->replicate(enemyState);
+    //networkingManager->replicate(enemyState);
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
-    shipState->position = new Vector3(mc->startx,0,mc->starty);
-    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+
 }
 
 void Main::startNetworking() {
@@ -164,6 +176,7 @@ void Main::createCamera() {
 
     camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,1));
+    //camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(1);
     camera->setFarClipDistance(1500);
 }
@@ -174,39 +187,40 @@ void Main::createViewPort() {
     vp->setBackgroundColour(ColourValue(0,0,0));
     
     camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
+        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
+    //camera->setAspectRatio(1.17);
 }
 
 void Main::createScene() {
 
     sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
 
-    sceneMgr->setAmbientLight(ColourValue(0.0,0.0,0.0));
+    sceneMgr->setAmbientLight(ColourValue(1,1,1));
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
-    //ColourValue fadeColour(0.1,0.1,0.1);
-    //sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    ColourValue fadeColour(0.1,0.1,0.1);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
     
     // Creating the light that is attached to the ship
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.4,0.4,0.6);
+    sp->setDiffuseColour(0.2,0.2,0.4);
     sp->setSpecularColour(0.2,0.2,0.7);
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
 
     shipSceneNode->attachObject(sp);
     
-    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
+    //Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
-    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    enemySceneNode->showBoundingBox(true);
-    enemySceneNode->attachObject(en);
+    //enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    //enemySceneNode->showBoundingBox(true);
+    //enemySceneNode->attachObject(en);
 
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
-    mc->outputMap(mapNode);
+    mapMgr->outputMap(mapNode);
     
     SceneNode *modelNode = shipSceneNode->createChildSceneNode();
     

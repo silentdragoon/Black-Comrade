@@ -1,6 +1,9 @@
+
 #include "motionState.h"
 #include <iostream>
 #include <math.h>
+
+#include "const.h"
 
 using namespace std;
 
@@ -29,23 +32,6 @@ double MotionState::zVelocity()
     return zMotion;
 }
 
-
-double MotionState::forVelocity()
-{
-    return forwardV;
-}
-
-double MotionState::sideVelocity()
-{
-    return sideV;
-}
-
-double MotionState::upVelocity()
-{
-    return upV;
-}
-
-
 double MotionState::pitch()
 {
     return mPitch;
@@ -61,22 +47,18 @@ double MotionState::roll()
     return mRoll;
 }
 
-void MotionState::inYVel()
-{
-    upV = - upV;
-}
-
 void MotionState::tick()
 {   
-    mYaw += engineState->yaw() * TURN_SPEED;
+    mYaw += engineState->yaw() * Const::TURN_SPEED;
     
 
-    mRoll = -engineState->yaw() * abs(engineState->forward()) * MAX_BANK;
+    mRoll = -engineState->yaw() * abs(engineState->forward()) * Const::MAX_BANK;
 
-    forwardV = engineState->forward() * FORWARD_SPEED;
-    sideV = engineState->side() * SIDE_SPEED;
-    upV = engineState->up() * UP_SPEED;
+    double forwardV = engineState->forward() * Const::FORWARD_SPEED;
+    double sideV = engineState->side() * Const::SIDE_SPEED;
+    double upV = engineState->up() * Const::UP_SPEED;
 
+    
     zMotion = cos(mYaw) * forwardV + sin(mYaw) * (sideV);
     xMotion = cos(mYaw) * (-sideV) + sin(mYaw) * forwardV;
     yMotion = upV;
