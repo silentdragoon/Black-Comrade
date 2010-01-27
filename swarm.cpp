@@ -28,7 +28,9 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr) :
 
         followSN->setPosition(offset);
 
-        members.push_back(followSN);
+        Enemy *e = new Enemy(followSN,100);
+
+        members.push_back(e);
     }
 }
 
@@ -42,11 +44,10 @@ Vector3 Swarm::getAverageAlignment()
     double y = 0.0;
     double z = 0.0;
 
-    vector<SceneNode*>::iterator it;
+    vector<Enemy*>::iterator it;
     for(it = members.begin();it != members.end(); it++) {
-        SceneNode *s = *(it);
-        Quaternion orient = s->getOrientation();
-        Vector3 direction = orient.zAxis();
+        Enemy *e = *(it);
+        Vector3 direction = e->getDirection();
         x += direction.x;
         y += direction.y;
         z += direction.z;

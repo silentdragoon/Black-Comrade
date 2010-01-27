@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <math.h>
+#include "enemy.h"
 
 using namespace Ogre;
 using namespace std;
@@ -15,7 +16,7 @@ class Swarm
     private:
         SceneManager *sceneMgr;
         SceneNode *leadSN;
-        vector<SceneNode*> members;
+        vector<Enemy*> members;
         int size;
         int id;
         Vector3 location;

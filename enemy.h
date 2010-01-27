@@ -12,10 +12,15 @@ using namespace std;
 class Enemy
 {
     private:
-               
+        SceneNode *node;
+        int health;
     public:
 
-        Enemy();
+        Enemy(SceneNode *node, int health);
+
+        Vector3 getDirection();
+        Vector3 getLocation();
+        int getHealth();
 
         ~Enemy();
 
