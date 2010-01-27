@@ -3,7 +3,7 @@
 #include "const.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-	Real roll, Real pitch, Real yaw) 
+	Real roll, Real pitch, Real yaw, ShipState *shipState) 
 	: size(size)
 	, id(id)
 	, location(location)
@@ -16,10 +16,6 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
-    // Create the invisible lead node
-    leadSN = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    leadSN->setPosition(location);
-
     for(int i=0;i<(size);i++) {
         string ename = "follower";
         stringstream out;
@@ -31,7 +27,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         	sceneMgr->getRootSceneNode()->createChildSceneNode();
         followSN->attachObject(follow);
 
-		//followSN->showBoundingBox(true);
+		followSN->showBoundingBox(true);
 
         double x = location.x;
         double y = location.y;
@@ -86,7 +82,12 @@ Vector3 Swarm::getAverageAlignment()
 
 Vector3 Swarm::getAveragePosition()
 {
-    return leadSN->getPosition();
+    return location;
+}
+
+bool Swarm::isShipInSight()
+{
+	
 }
 
 void Swarm::updateSwarmLocation()
