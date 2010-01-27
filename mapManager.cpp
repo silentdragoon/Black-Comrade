@@ -1,6 +1,6 @@
-#include "mapCreate.h"
+#include "mapManager.h"
 
-bool MapCreate::buildMap(char* file)
+bool MapManager::buildMap(char* file)
 {
     bool start = false;
     bool end = false;
@@ -56,12 +56,12 @@ bool MapCreate::buildMap(char* file)
     return false;
 }
 
-void MapCreate::addEnemies()
+void MapManager::addEnemies()
 {
 
 }
 
-bool MapCreate::outputMap(SceneNode *sceneNode)
+bool MapManager::outputMap(SceneNode *sceneNode)
 {
     for(int xpos=0;xpos<MAPSIZE;xpos++) {
         for(int ypos=0;ypos<MAPSIZE;ypos++) {
@@ -162,7 +162,7 @@ bool MapCreate::outputMap(SceneNode *sceneNode)
     return true;
 }
 
-void MapCreate::fetchTile(string adir, vector<int> connections, int x, int y, SceneNode *sceneNode)
+void MapManager::fetchTile(string adir, vector<int> connections, int x, int y, SceneNode *sceneNode)
 {
     vector<string> files = vector<string>();
     string dir = MAPROOT;
@@ -183,7 +183,7 @@ void MapCreate::fetchTile(string adir, vector<int> connections, int x, int y, Sc
     attachTile(sceneNode, &files.at(0), x, y);
 }
 
-void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
+void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 {
 	SceneNode *node = sceneNode->createChildSceneNode();
 
@@ -203,12 +203,12 @@ void MapCreate::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	node->setPosition(pos);
 }
 
-vector<Entity*> MapCreate::getMapPieces()
+vector<Entity*> MapManager::getMapPieces()
 {
     return mapEntities;
 }
 
-Entity* MapCreate::getEntity(Vector3 *locn) 
+Entity* MapManager::getEntity(Vector3 *locn) 
 {
     int x =(int) floor(locn->x/(double)TILE_SIZE);
     int y =(int) floor(locn->z/(double)TILE_SIZE);
@@ -228,7 +228,7 @@ Entity* MapCreate::getEntity(Vector3 *locn)
     return e;
 }
 
-string* MapCreate::getWaypoint(Vector3 *locn) 
+string* MapManager::getWaypoint(Vector3 *locn) 
 {
     int x =(int) floor(locn->x/(double)TILE_SIZE);
     int y =(int) floor(locn->z/(double)TILE_SIZE);
@@ -245,7 +245,7 @@ string* MapCreate::getWaypoint(Vector3 *locn)
     return NULL;
 }
 
-int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
+int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)
 {
     DIR *dp;
     struct dirent *dirp;
@@ -266,7 +266,7 @@ int MapCreate::getMeshList(string dir, vector<string>& files, int x, int y)
     return 0;
 }
 
-vector<int> MapCreate::getConnections(int x, int y)
+vector<int> MapManager::getConnections(int x, int y)
 {
     vector<int> connections = vector<int>();
     if(x!=MAPSIZE) {
@@ -288,7 +288,7 @@ vector<int> MapCreate::getConnections(int x, int y)
     return connections;
 }
 
-int MapCreate::cavernChecker(int x, int y, char type)
+int MapManager::cavernChecker(int x, int y, char type)
 {
     int cavCount = 0;
     bool up,down,left,right=false;
@@ -328,7 +328,7 @@ int MapCreate::cavernChecker(int x, int y, char type)
     return -1;
 }
 
-MapCreate::MapCreate(char* file, SceneManager *sceneManager)
+MapManager::MapManager(char* file, SceneManager *sceneManager)
 	: sceneManager(sceneManager)
 {
     if(buildMap(file)) {

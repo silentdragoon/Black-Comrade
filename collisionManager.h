@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "collisionDetection.h"
-#include "mapCreate.h"
+#include "mapManager.h"
 #include "collision.h"
 
 using namespace Ogre;
@@ -19,11 +19,11 @@ class CollisionManager{
 private:
 
     CollisionDetection *cd;
-    MapCreate *mp;
+    MapManager *mp;
     SceneManager* sceneMgr;
     
 public:
-    CollisionManager( SceneManager* sceneMgr, MapCreate* mp );
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp );
     Collision isCollided(Vector3 *shipPos);
 };
 

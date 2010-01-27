@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-GameStateMachine::GameStateMachine(MapCreate *mapCreate, ShipState *shipState)
+GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
 	: gameState(GS_STELPH)
-	, mapCreate(mapCreate)
+	, mapManager(mapManager)
 	, shipState(shipState)
 	, mIsNewState(true)
 {}
@@ -16,7 +16,7 @@ void GameStateMachine::tick()
 	mIsNewState = false;
 
 	// Waypoint events
-	string *wp = mapCreate->getWaypoint(shipState->position);
+	string *wp = mapManager->getWaypoint(shipState->position);
 	if(wp != NULL) {
 		if(*wp == "wp_attack") {
 			switch(gameState) {

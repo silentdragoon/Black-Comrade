@@ -17,7 +17,7 @@
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
-#include "mapCreate.h"
+#include "mapManager.h"
 #include "audioState.h"
 #include "miniGameManager.h"
 #include "IExit.h"
@@ -67,7 +67,7 @@ private:
     ShipState *shipState;
     EnemyState *enemyState;
     
-    MapCreate *mc;
+    MapManager *mapMgr;
     
     void createCamera();
     void createScene();
