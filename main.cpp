@@ -87,7 +87,6 @@ Main::Main() {
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
-    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(networkingManager);
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
@@ -96,8 +95,6 @@ Main::Main() {
     
     // This should be last to allow events for the inital state 'change'
     stateUpdate->addTickable(gameStateMachine);
-    
-    enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
 
@@ -111,9 +108,7 @@ void Main::clientStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
-    enemyState = (EnemyState *) networkingManager->getReplica("EnemyState",true);
-    
-    enemyState->eSceneNode =  enemySceneNode;
+
     shipState->shipSceneNode = shipSceneNode;
 }
 
@@ -124,18 +119,18 @@ void Main::serverStartup() {
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
-    enemyState = new EnemyState(enemySceneNode, sceneMgr);
+    //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
-    networkingManager->replicate(enemyState);
+    //networkingManager->replicate(enemyState);
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
     shipState->position = new Vector3(mc->startx,0,mc->starty);
-    enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
+    //enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
 void Main::startNetworking() {
@@ -209,11 +204,11 @@ void Main::createScene() {
 
     shipSceneNode->attachObject(sp);
     
-    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
+    //Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
-    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    enemySceneNode->showBoundingBox(true);
-    enemySceneNode->attachObject(en);
+    //enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    //enemySceneNode->showBoundingBox(true);
+    //enemySceneNode->attachObject(en);
 
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 

@@ -20,3 +20,19 @@ Vector3 Enemy::getLocation() {
 int Enemy::getHealth() {
     return health;
 }
+
+void Enemy::setLocation(Vector3 v)
+{
+	node->setPosition(v);
+}
+
+void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
+{
+	Radian troll(roll);
+    Radian tpitch(pitch);
+    Radian tyaw(yaw);
+    
+    node->yaw(tyaw);
+    node->roll(troll);
+    node->pitch(tpitch);
+}

@@ -20,10 +20,13 @@ class Enemy
 
         Vector3 getDirection();
         Vector3 getLocation();
+        
+        void setLocation(Vector3 v);
+        void setOrientation(Real roll, Real pitch, Real yaw);
+        
         int getHealth();
 
         ~Enemy();
-
 };
 
 #endif

@@ -7,7 +7,6 @@
 
 #include "networkingManager.h"
 #include "networkRole.h"
-#include "enemyState.h"
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "keyState.h"
@@ -63,9 +62,7 @@ private:
     
     StateUpdate *stateUpdate;
     SceneNode *shipSceneNode;
-    SceneNode *enemySceneNode;
     ShipState *shipState;
-    EnemyState *enemyState;
     
     MapCreate *mc;
     
