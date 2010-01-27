@@ -3,7 +3,6 @@
 #include "ReplicaManager3.h"
 #include "shipState.h"
 #include "frontGunState.h"
-#include "enemyState.h"
 
 using namespace RakNet;
 
@@ -21,9 +20,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="FrontGunState") {
         return new FrontGunState;
     }
-    else if (typeName=="EnemyState") {
-        return new EnemyState;
-    }
+    //else if (typeName=="EnemyState") {
+    //    return new EnemyState;
+    //}
     return 0;
 }
 

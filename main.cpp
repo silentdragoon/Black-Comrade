@@ -6,6 +6,7 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "networkingManager.h"
+#include "swarm.h"
 
 using namespace RakNet;
 
@@ -84,22 +85,26 @@ Main::Main() {
 	
 	printState = new PrintState(gameStateMachine);
 
+	//Test swarm
+	Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
+	Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
+
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
-    stateUpdate->addTickable(enemyState);
     stateUpdate->addTickable(networkingManager);
     stateUpdate->addTickable(bulletMgr);
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
     stateUpdate->addTickable(printState);
+    stateUpdate->addTickable(swarm);
     
     // This should be last to allow events for the inital state 'change'
     stateUpdate->addTickable(gameStateMachine);
-    
-    enemyState->updateOgre();
 
     root->addFrameListener(stateUpdate);
+
+	
 
     // Start Rendering Loop
     root->startRendering();
@@ -111,9 +116,7 @@ void Main::clientStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
-    enemyState = (EnemyState *) networkingManager->getReplica("EnemyState",true);
-    
-    enemyState->eSceneNode =  enemySceneNode;
+
     shipState->shipSceneNode = shipSceneNode;
 }
 
@@ -124,18 +127,18 @@ void Main::serverStartup() {
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
-    enemyState = new EnemyState(enemySceneNode, sceneMgr);
+    //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
-    networkingManager->replicate(enemyState);
+    //networkingManager->replicate(enemyState);
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-    enemyState->position = new Vector3(mapMgr->startx,0,mapMgr->starty+500);
+
 }
 
 void Main::startNetworking() {
@@ -209,11 +212,11 @@ void Main::createScene() {
 
     shipSceneNode->attachObject(sp);
     
-    Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
+    //Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
     
-    enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    enemySceneNode->showBoundingBox(true);
-    enemySceneNode->attachObject(en);
+    //enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    //enemySceneNode->showBoundingBox(true);
+    //enemySceneNode->attachObject(en);
 
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
