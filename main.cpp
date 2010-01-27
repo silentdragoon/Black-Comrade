@@ -75,7 +75,7 @@ Main::Main() {
         clientStartup();
     }
 
-    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState);
+    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,collisionMgr);
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 

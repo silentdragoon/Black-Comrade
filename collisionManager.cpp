@@ -50,6 +50,13 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
     return getRCDistAlongRay( pos, pitch, yaw, 2000, e );
 }
 
+dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
+{
+    Entity* e = mp->getEntity( pos );
+    Vector3 *v = new Vector3(pos->x+(direction->x*2000.0),pos->y+(direction->y*2000.0),pos->z+(direction->z*2000.0));
+    return getRCDistBetweenPoints(pos,direction,e)*2000.0;
+}
+
 Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst )
 {
     Vector3 end;
