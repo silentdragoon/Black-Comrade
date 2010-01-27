@@ -21,7 +21,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, Map
             spawnPoint = *ite;
             Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
             createSwarm(1,sp);
-            cout << "Created initial swarm..." << endl;
+            //cout << "Created initial swarm..." << endl;
         }
     }
     

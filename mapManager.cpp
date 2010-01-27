@@ -297,6 +297,7 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
             double xxx;
             double yyy = yy;
             xxx = xx + (0.5*TILE_SIZE);
+            //cout << "1 Spawn: " << xxx << " " << yyy << endl;
             Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
@@ -305,6 +306,7 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
             double yyy;
             xxx = xx + (TILE_SIZE);
             yyy = yy + (0.5*TILE_SIZE);
+            //cout << "2 Spawn: " << xxx << " " << yyy << endl;
             Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
@@ -313,6 +315,7 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
             double yyy;
             xxx = xx + (0.5*TILE_SIZE);
             yyy = yy + (TILE_SIZE);
+            //cout << "3 Spawn: " << xxx << " " << yyy << endl;
             Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
@@ -320,6 +323,7 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
             double xxx = xx;
             double yyy;
             yyy = yy + (0.5*TILE_SIZE);
+            //cout << "4 Spawn: " << xxx << " " << yyy << endl;
             Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
