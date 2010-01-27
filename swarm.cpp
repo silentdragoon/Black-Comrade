@@ -13,6 +13,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, yaw(yaw)
 	, speed(Const::ENEMY_PATROL_SPEED)
 	, state(SS_PATROL)
+	, shipState(shipState)
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
@@ -45,6 +46,10 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
 void Swarm::tick()
 {
+	if(isShipInSight()) {
+		state = SS_ATTACK;
+	}
+	
 	// Change speed?
 	switch(state) {
 		case SS_ATTACK:
@@ -87,7 +92,19 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::isShipInSight()
 {
+	Vector3 lookDirection(cos(yaw),0,sin(yaw));
 	
+	Radian sightAngle(Const::ENEMY_SIGHT_ANGLE);
+	
+	Vector3 lineToShip = *(shipState->position) -location;
+	
+	if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
+		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
+			return true;
+		}
+	} 
+	
+	return false;
 }
 
 void Swarm::updateSwarmLocation()
