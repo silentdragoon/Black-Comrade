@@ -27,6 +27,8 @@ class Swarm //: public ITickable
     	Real yaw;
     	RayQuery *rRayQuery;
     
+    	void updateSwarmLocation();
+    	void updateEnemyLocations();
     	
     public:
 
@@ -37,8 +39,8 @@ class Swarm //: public ITickable
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
         
-    	void updateSwarmLocation();
-    	void updateEnemyLocations();
+        void tick();
+
 };
 
 #endif

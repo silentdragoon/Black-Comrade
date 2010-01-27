@@ -49,7 +49,6 @@ void SwarmManager::tick()
     // Here we are updating the locations of the swarms and the enemies within
     for(int i=0;i<activeSwarms->size();i++) {
         Swarm *s = activeSwarms->at(i);
-        s->updateSwarmLocation();
-        s->updateEnemyLocations();
+        s->tick();
     } 
 }
