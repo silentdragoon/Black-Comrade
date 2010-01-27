@@ -6,19 +6,21 @@ GameParameterMap::GameParameterMap(GameStateMachine *gameStateMachine)
 {}
 
 // YOU NEED TO FREE THE MEMORY FOR THE RETURN STRING	
-string* GameParameterMap::getParameter(string name){
+int GameParameterMap::getParameter(string name){
 
 	// SPAWN Parameter
 	if(name.compare("SPAWN") == 0) {
 		switch(gameStateMachine->currentGameState()) {
 			case GS_ATTACK:
+                return 5;
+                break;
 			case GS_FLEE:
-				return new string("Y");
+				return 10;
 				break;
 			default:
-				return new string("N");
+				return 0;
 		}
 	}
 
-	return NULL;
+	return -1;
 }
