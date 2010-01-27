@@ -3,7 +3,7 @@
 #include "const.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-	Real roll, Real pitch, Real yaw) 
+	Real roll, Real pitch, Real yaw, ShipState *shipState) 
 	: size(size)
 	, id(id)
 	, location(location)
@@ -11,12 +11,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, roll(roll)
 	, pitch(pitch)
 	, yaw(yaw)
+	, speed(Const::ENEMY_PATROL_SPEED)
+	, state(SS_PATROL)
+	, shipState(shipState)
 {
 	rRayQuery = new RayQuery( sceneMgr );
-
-    // Create the invisible lead node
-    leadSN = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    leadSN->setPosition(location);
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
@@ -29,7 +28,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         	sceneMgr->getRootSceneNode()->createChildSceneNode();
         followSN->attachObject(follow);
 
-		//followSN->showBoundingBox(true);
+		followSN->showBoundingBox(true);
 
         double x = location.x;
         double y = location.y;
@@ -47,6 +46,19 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
 void Swarm::tick()
 {
+	if(isShipInSight()) {
+		state = SS_ATTACK;
+	}
+	
+	// Change speed?
+	switch(state) {
+		case SS_ATTACK:
+			speed = Const::ENEMY_ATTACK_SPEED;
+			break;
+		default:
+			speed = Const::ENEMY_PATROL_SPEED;
+	}
+
 	updateSwarmLocation();
 	updateEnemyLocations();
 }
@@ -75,28 +87,61 @@ Vector3 Swarm::getAverageAlignment()
 
 Vector3 Swarm::getAveragePosition()
 {
-    return leadSN->getPosition();
+    return location;
+}
+
+bool Swarm::isShipInSight()
+{
+	Vector3 lookDirection(cos(yaw),0,sin(yaw));
+	
+	Radian sightAngle(Const::ENEMY_SIGHT_ANGLE);
+	
+	Vector3 lineToShip = *(shipState->position) -location;
+	
+	if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
+		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
+			return true;
+		}
+	} 
+	
+	return false;
 }
 
 void Swarm::updateSwarmLocation()
 {
-    Vector3 result(0,0,0);
-    float dRight, dLeft, tmp;
+	if(state == SS_PATROL) {
+	    Vector3 result(0,0,0);
+	    float dRight, dLeft, tmp;
 
-    Vector3 futPos( location.x+(Const::FVELOCITY*Const::LOOKA)*sin(yaw), location.y, location.z+(Const::FVELOCITY*Const::LOOKA)*cos(yaw));
+	    Vector3 futPos( location.x+(speed*Const::LOOKA)*sin(yaw), location.y, location.z+(speed*Const::LOOKA)*cos(yaw));
 
-    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
-    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
+	    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
+	    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
 
-    Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
-    dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
+	    Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
+	    dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
 
-    tmp = (dLeft + dRight) /2 - dRight;
+	    tmp = (dLeft + dRight) /2 - dRight;
 
-    yaw +=   1.0f/2.0f*atan(tmp/(Const::FVELOCITY*Const::LOOKA));
+	    yaw +=   1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
 
-    location.x += Const::FVELOCITY * sin(yaw);
-    location.z += Const::FVELOCITY * cos(yaw);
+	    location.x += speed * sin(yaw);
+	    location.z += speed * cos(yaw);
+	}
+	
+	if(state == SS_ATTACK) {
+		
+		// Point at ship
+		Vector3 lineToShip = *(shipState->position) -location;
+		float newYaw = atan2(lineToShip.x,lineToShip.z);
+		
+		
+		// TODO: Sometimes they turn the long-way-round
+		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
+		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
+		else yaw += Const::TURN_TO_LOOK_STEP;
+		
+	}
 }
 
 void Swarm::updateEnemyLocations()

@@ -4,7 +4,7 @@
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
 
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,5,distance);
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,50,distance);
     
     activeBullets->push_back(b);
 }
@@ -84,7 +84,6 @@ void BulletManager::tick()
         Vector3 *pos = new Vector3(sp.x,sp.y,sp.z);
 
         double t = colMgr->getRCMapDist(pos,&direction);
-        cout<< t << endl;
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName,rname,t);

@@ -1,10 +1,14 @@
 #include "swarmManager.h"
+#include "const.h"
 
-SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr) :
+SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState) :
     sceneMgr(sceneMgr),
     gamePM(gamePM),
     mapMgr(mapMgr),
-    id(0)
+    id(0),
+    dynSwarmSize(0),
+    swarmTick(0),
+    shipState(shipState)
 {
 
     activeSwarms = new vector<Swarm*>();
@@ -21,7 +25,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, Map
             spawnPoint = *ite;
             Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
             createSwarm(1,sp);
-            cout << "Created initial swarm..." << endl;
+            //cout << "Created initial swarm..." << endl;
         }
     }
     
@@ -33,17 +37,29 @@ SwarmManager::~SwarmManager()
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
-    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0);
+    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
     activeSwarms->push_back(s);
     id++;
 }
 
 void SwarmManager::tick() 
 {
-    string *sp = gamePM->getParameter("SPAWN");
+    int sp = gamePM->getParameter("SPAWN");
 
-    if(*(sp)=="Y") {
-        // TODO: Do the dynamic spawning fun
+    if(sp>0) {
+        if(dynSwarmSize<sp) {
+            swarmTick++;
+            if(swarmTick>Const::SPAWN_DELAY) {
+                swarmTick = 0;
+                cout << "1" << endl;
+                Vector3 spawnPoint = mapMgr->getDynamicSpawnPoint(shipState->position);
+                cout << "2" << endl;
+                createSwarm(1,spawnPoint);
+                cout << "3" << endl;
+                dynSwarmSize++;
+                cout << "4" << endl;
+            }
+        }
     }
 
     // Here we are updating the locations of the swarms and the enemies within

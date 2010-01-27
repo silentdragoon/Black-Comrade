@@ -294,29 +294,37 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
     for(vector<int>::const_iterator it=conns.begin();it!=conns.end(); ++it) {
         int c = *it;
         if(c==1) {
-            xx = xx + (0.5*TILE_SIZE);
-            cout << "1 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy = yy;
+            xxx = xx + (0.5*TILE_SIZE);
+            //cout << "1 Spawn: " << xxx << " " << yyy << endl;
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==2) {
-            xx = xx + (TILE_SIZE);
-            yy = yy + (0.5*TILE_SIZE);
-            cout << "2 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy;
+            xxx = xx + (TILE_SIZE);
+            yyy = yy + (0.5*TILE_SIZE);
+            //cout << "2 Spawn: " << xxx << " " << yyy << endl;
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==3) {
-            xx = xx + (0.5*TILE_SIZE);
-            yy = yy + (TILE_SIZE);
-            cout << "3 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx;
+            double yyy;
+            xxx = xx + (0.5*TILE_SIZE);
+            yyy = yy + (TILE_SIZE);
+            //cout << "3 Spawn: " << xxx << " " << yyy << endl;
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
         if(c==4) {
-            yy = yy + (0.5*TILE_SIZE);
-            cout << "4 Spawn: " << xx << " " << yy << endl;
-            Vector3 *v = new Vector3(xx,zz,yy);
+            double xxx = xx;
+            double yyy;
+            yyy = yy + (0.5*TILE_SIZE);
+            //cout << "4 Spawn: " << xxx << " " << yyy << endl;
+            Vector3 *v = new Vector3(xxx,zz,yyy);
             places.push_back(v);
         }
     }
@@ -339,8 +347,6 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
             double xx = (x * (TILE_SIZE)) + (0.5*TILE_SIZE);
             double yy = (y * (TILE_SIZE)) + (0.5*TILE_SIZE);
 
-            cout << "Spawn Tiles: " << xx << " " << yy << endl;
-
             Vector3 *v = new Vector3(xx,0.0,yy);
 
             places.push_back(v);
@@ -348,6 +354,36 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
     }
 
     return places;
+}
+
+Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
+    int x = (int) floor(locn->x/(double)TILE_SIZE);
+    int y = (int) floor(locn->z/(double)TILE_SIZE);
+
+    vector<int> conns = getConnections(x,y);
+
+    random_shuffle(conns.begin(),conns.end());
+
+    int c = conns.at(0);
+
+    if(c==1) {
+        y--;
+    } else if(c==2) {
+        x++;
+    } else if(c==3) {
+        y++;
+    } else {
+        x--;
+    }
+
+    vector<Vector3*> places = vector<Vector3*>();
+    Vector3 *loc = new Vector3(x*(1.5*TILE_SIZE),0.0,y*(1.5*TILE_SIZE));
+
+    places = getSpawnPoints(loc);
+
+    random_shuffle(places.begin(),places.end());
+
+    return *places.at(0);
 }
 
 int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)

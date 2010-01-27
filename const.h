@@ -31,12 +31,20 @@ public:
     static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
     
     // Constants for enemy behav.
-    static const float FVELOCITY = 50.0 * TICK_PERIOD;
+    static const float ENEMY_PATROL_SPEED = 50.0 * TICK_PERIOD;
+    static const float ENEMY_ATTACK_SPEED = 100.0 * TICK_PERIOD;
     // How many times its verlocity you look ahead
     static const float LOOKA = 15;
+    static const float ENEMY_SIGHT_DIS = 100;
+    static const float ENEMY_SIGHT_ANGLE = 0.5236;
+    
+    static const float TURN_TO_LOOK_STEP = 0.01;
     
     // Constants for network
     static const int SERVER_PORT=6005;
+
+    // Constants for swarm managing
+    static const int SPAWN_DELAY=5.0 / TICK_PERIOD;
 };
 
 #endif
