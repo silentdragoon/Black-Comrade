@@ -31,9 +31,9 @@ public:
     static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
     
     // Constants for enemy behav.
-    static const float FVELOCITY = 225.0 * TICK_PERIOD;
+    static const float FVELOCITY = 50.0 * TICK_PERIOD;
     //lookahead in ticks
-    static const float LOOKA = 300.0 * TICK_PERIOD;
+    static const float LOOKA = 3;
     
     // Constants for network
     static const int SERVER_PORT=6005;
