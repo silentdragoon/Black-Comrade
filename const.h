@@ -31,7 +31,8 @@ public:
     static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
     
     // Constants for enemy behav.
-    static const float FVELOCITY = 50.0 * TICK_PERIOD;
+    static const float ENEMY_PATROL_SPEED = 50.0 * TICK_PERIOD;
+    static const float ENEMY_ATTACK_SPEED = 100.0 * TICK_PERIOD;
     // How many times its verlocity you look ahead
     static const float LOOKA = 15;
     

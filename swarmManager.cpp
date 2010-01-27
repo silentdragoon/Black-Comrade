@@ -1,10 +1,12 @@
+
 #include "swarmManager.h"
 
-SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr) :
+SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState) :
     sceneMgr(sceneMgr),
     gamePM(gamePM),
     mapMgr(mapMgr),
-    id(0)
+    id(0),
+    shipState(shipState)
 {
 
     activeSwarms = new vector<Swarm*>();
@@ -33,7 +35,7 @@ SwarmManager::~SwarmManager()
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
-    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0);
+    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
     activeSwarms->push_back(s);
     id++;
 }
