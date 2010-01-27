@@ -7,13 +7,14 @@
 #include <iostream>
 #include <math.h>
 #include "enemy.h"
-//#include "ITickable.h"
 #include "rayQuery.h"
 
 using namespace Ogre;
 using namespace std;
 
-class Swarm //: public ITickable
+enum SwarmState { SS_PATROL, SS_ATTACK };
+
+class Swarm
 {
     private:
         SceneManager *sceneMgr;
@@ -26,6 +27,8 @@ class Swarm //: public ITickable
     	Real pitch;
     	Real yaw;
     	RayQuery *rRayQuery;
+    	float speed;
+    	SwarmState state;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();

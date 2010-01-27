@@ -11,6 +11,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, roll(roll)
 	, pitch(pitch)
 	, yaw(yaw)
+	, speed(Const::ENEMY_PATROL_SPEED)
+	, state(SS_PATROL)
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
@@ -47,6 +49,15 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
 void Swarm::tick()
 {
+	// Change speed?
+	switch(state) {
+		case SS_ATTACK:
+			speed = Const::ENEMY_ATTACK_SPEED;
+			break;
+		default:
+			speed = Const::ENEMY_PATROL_SPEED;
+	}
+
 	updateSwarmLocation();
 	updateEnemyLocations();
 }
@@ -80,23 +91,29 @@ Vector3 Swarm::getAveragePosition()
 
 void Swarm::updateSwarmLocation()
 {
-    Vector3 result(0,0,0);
-    float dRight, dLeft, tmp;
+	if(state == SS_PATROL) {
+	    Vector3 result(0,0,0);
+	    float dRight, dLeft, tmp;
 
-    Vector3 futPos( location.x+(Const::FVELOCITY*Const::LOOKA)*sin(yaw), location.y, location.z+(Const::FVELOCITY*Const::LOOKA)*cos(yaw));
+	    Vector3 futPos( location.x+(speed*Const::LOOKA)*sin(yaw), location.y, location.z+(speed*Const::LOOKA)*cos(yaw));
 
-    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
-    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
+	    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
+	    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
 
-    Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
-    dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
+	    Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
+	    dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
 
-    tmp = (dLeft + dRight) /2 - dRight;
+	    tmp = (dLeft + dRight) /2 - dRight;
 
-    yaw +=   1.0f/2.0f*atan(tmp/(Const::FVELOCITY*Const::LOOKA));
+	    yaw +=   1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
 
-    location.x += Const::FVELOCITY * sin(yaw);
-    location.z += Const::FVELOCITY * cos(yaw);
+	    location.x += speed * sin(yaw);
+	    location.z += speed * cos(yaw);
+	}
+	
+	if(state == SS_ATTACK) {
+		
+	}
 }
 
 void Swarm::updateEnemyLocations()
