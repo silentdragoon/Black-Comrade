@@ -1,4 +1,6 @@
+
 #include "accelerationState.h"
+#include "const.h"
 
 AccelerationState::AccelerationState( IAccelerationState *fromInput ):
     input(fromInput),
@@ -63,51 +65,51 @@ void doTick( double in, double &counter, double &propVel, double BRAKE, double F
 void AccelerationState::tick()
 {
     
-    doTick(input->forward(), cForward, vPropForwardVel, 2, 0.97, TICKSFORWARD);
+    doTick(input->forward(), cForward, vPropForwardVel, 2, 0.97, Const::TICKSFORWARD);
 
-    doTick(input->side(), cSide, vPropSideVel, 4, 0.93, TICKSSIDE);
+    doTick(input->side(), cSide, vPropSideVel, 4, 0.93, Const::TICKSSIDE);
     
-    doTick(input->up(), cUp, vPropUpVel, 4, 0.95, TICKSUP);
+    doTick(input->up(), cUp, vPropUpVel, 4, 0.95, Const::TICKSUP);
     
-    doTick(input->yaw(), cYaw, vPropYawVel, 2, 0.9, TICKSYAW);
+    doTick(input->yaw(), cYaw, vPropYawVel, 2, 0.9, Const::TICKSYAW);
     
-    doTick(input->pitch(), cPitch, vPropPitchVel, 2, 0.95, TICKSPITCH);
+    doTick(input->pitch(), cPitch, vPropPitchVel, 2, 0.95, Const::TICKSPITCH);
     
     /*
-    doTick(input->forward(), cForward, vPropForwardVel, 0.97, TICKSFORWARD);
+    doTick(input->forward(), cForward, vPropForwardVel, 0.97, Const::TICKSFORWARD);
 
-    doTick(input->side(), cSide, vPropSideVel, 0.9, TICKSSIDE);
+    doTick(input->side(), cSide, vPropSideVel, 0.9, Const::TICKSSIDE);
     
-    doTick(input->up(), cUp, vPropUpVel, 0.95, TICKSUP);
+    doTick(input->up(), cUp, vPropUpVel, 0.95, Const::TICKSUP);
     
-    doTick(input->yaw(), cYaw, vPropYawVel, 0.9, TICKSYAW);
+    doTick(input->yaw(), cYaw, vPropYawVel, 0.9, Const::TICKSYAW);
     
-    doTick(input->pitch(), cPitch, vPropPitchVel, 0.95, TICKSPITCH);
+    doTick(input->pitch(), cPitch, vPropPitchVel, 0.95, Const::TICKSPITCH);
     
     
     double tmp = input->forward();
     if( tmp == 0 ) cForward = 0.9 * cForward;
     cForward += tmp;
-    vPropForwardVel = calc( cForward, TICKSFORWARD );
+    vPropForwardVel = calc( cForward, Const::TICKSFORWARD );
     
     tmp = input->side();
     if( tmp == 0 ) cSide = 0.9 * cSide;
     cSide += tmp;
-    vPropSideVel = calc( cSide, TICKSSIDE );
+    vPropSideVel = calc( cSide, Const::TICKSSIDE );
     
     tmp = input->up();
     if( tmp == 0 ) cUp = 0.9 * cUp;
     cUp += tmp;
-    vPropUpVel = calc( cUp, TICKSUP );
+    vPropUpVel = calc( cUp, Const::TICKSUP );
     
     tmp = input->yaw();
     if( tmp == 0 ) cYaw = 0.6 * cYaw;
     cYaw += tmp;
-    vPropYawVel = calc( cYaw, TICKSYAW );
+    vPropYawVel = calc( cYaw, Const::TICKSYAW );
     
     tmp = input->pitch();
     if( tmp == 0 ) cPitch = 0.6 * cPitch;
     cPitch += tmp;
-    vPropPitchVel = calc( cPitch, TICKSYAW );
+    vPropPitchVel = calc( cPitch, Const::TICKSYAW );
     */
 }

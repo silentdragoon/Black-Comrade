@@ -2,8 +2,6 @@
 #ifndef STATE_UPDATE_H
 #define STATE_UPDATE_H
 
-#define TICK_PERIOD 0.01
-
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 

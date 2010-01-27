@@ -1,5 +1,6 @@
 
 #include "frontGunState.h"
+#include "const.h"
 
 bool FrontGunState::fire()
 {
@@ -8,14 +9,14 @@ bool FrontGunState::fire()
         
 void FrontGunState::tick()
 {
-    if (shipControls == 0) return;
 
-    isFire = false;
-
-    isFire = false;
     timeSinceLastFire++;
 
-    if(shipControls->fire() && timeSinceLastFire >= MIN_SHOOT_PERIOD) {
+    isFire = false;
+    if (shipControls == 0) return;
+
+
+    if(shipControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
         isFire = true;
         timeSinceLastFire = 0;
     }
@@ -43,5 +44,7 @@ RM3SerializationResult FrontGunState::Serialize(SerializeParameters *serializePa
 }
 
 void FrontGunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(isFire);
+    bool isFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(isFire2);
+    if (isFire2) isFire = true;
 }

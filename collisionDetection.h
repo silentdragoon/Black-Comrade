@@ -45,11 +45,13 @@ public:
     
     CollisionDetection();
     
-    void addTreeCollisionMesh(Entity *entity);
+    void addStaticTreeCollisionMesh(Entity *entity);
     
     Collision isCollision(Entity *e1, Entity *e2);
     
-    void createShipMesh( Entity* e ); 
+    void createShipMesh( Entity* e );
+    
+    dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     
     
 };

@@ -4,16 +4,15 @@
 CollisionDetection::CollisionDetection()
 {
 	newtonWorld = NewtonCreate();
-}
-
-void CollisionDetection::addTreeCollisionMesh(Entity *entity)
-{
-	for(int i=0; i < 16; i++) idmatrix[i] = 0.0f;
+    for(int i=0; i < 16; i++) idmatrix[i] = 0.0f;
     idmatrix[0] = 1.0f;
     idmatrix[5] = 1.0f;
     idmatrix[10] = 1.0f;
     idmatrix[15] = 1.0f;
+}
 
+void CollisionDetection::addStaticTreeCollisionMesh(Entity *entity)
+{
 	NewtonCollision *treeCollision;
 
 	treeCollision = NewtonCreateTreeCollision (newtonWorld, 0);
@@ -24,10 +23,14 @@ void CollisionDetection::addTreeCollisionMesh(Entity *entity)
 	Ogre::Vector3 *vertices;
 	unsigned long *indices;
     
-    GetMeshInformation(entity->getMesh(), vertex_count, vertices, index_count, indices,             
-                              Ogre::Vector3(),
+    GetMeshInformation(   entity->getMesh(), vertex_count, vertices, index_count, indices,
+                          entity->getParentNode()->getPosition(),
+                          entity->getParentNode()->getOrientation(),
+                          entity->getParentNode()->_getDerivedScale());
+                          
+/*                               Ogre::Vector3(),
                               Ogre::Quaternion::IDENTITY,
-                              Ogre::Vector3(1,1,1));
+                              Ogre::Vector3(1,1,1)); */
     
     dFloat vArray[9];
     int i0, i1, i2;
@@ -57,14 +60,6 @@ void CollisionDetection::addTreeCollisionMesh(Entity *entity)
     NewtonTreeCollisionEndBuild(treeCollision, 1);
     NewtonBody* rigidTree = NewtonCreateBody (newtonWorld, treeCollision);
     NewtonReleaseCollision (newtonWorld, treeCollision);
- 
- 	dFloat idmatrix[16];
-
-	for(int i=0; i < 16; i++) idmatrix[i] = 0.0f;
-    idmatrix[0] = 1.0f;
-    idmatrix[5] = 1.0f;
-    idmatrix[10] = 1.0f;
-    idmatrix[15] = 1.0f;
     
     NewtonBodySetMatrix (rigidTree, &idmatrix[0]);
  
@@ -88,7 +83,8 @@ void CollisionDetection::createShipMesh( Entity * e )
     collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
  	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
 }
-    
+
+
 
 Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 {
@@ -120,7 +116,7 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
     }
     
     getMatrix(e1,e1Matrix);
-    getMatrix(e2,e2Matrix);
+    //getMatrix(e2,e2Matrix);
 	
 	dFloat contacts[16];
     dFloat normals[16];
@@ -130,7 +126,7 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 	
 	numCollisionPoints = NewtonCollisionCollide (newtonWorld, 1,
 		e1Collision, &e1Matrix[0],
-		e2Collision, &e2Matrix[0],
+		e2Collision, &idmatrix[0],
 		&contacts[0], &normals[0], &penetration[0], 0);
 		
         if (numCollisionPoints > 0) {
@@ -139,6 +135,34 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
             return Collision(false,normals,contacts,penetration);
         }
 }
+
+dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst )
+{
+    dFloat p0[3];
+    dFloat p1[3];
+    p0[0] = start->x;
+    p0[1] = start->y;
+    p0[2] = start->z;
+    
+    p1[0] = end->x;
+    p1[1] = end->y;
+    p1[2] = end->z;
+    
+    dFloat normal[3];
+    int att[1];
+    
+    NewtonCollision collideAgainstCollision;
+    
+    map<Entity *,NewtonCollision *>::const_iterator iter = 
+    		collisionsMap.find(collideAgainst);
+    if(iter != collisionsMap.end()) {
+        return NewtonCollisionRayCast( iter->second, p0, p1, normal, att);
+    } else {
+    	return -1;
+    }
+}
+    
+    
 
 void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
 {
