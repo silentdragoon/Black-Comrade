@@ -38,6 +38,8 @@ public:
     static const float ENEMY_SIGHT_DIS = 100;
     static const float ENEMY_SIGHT_ANGLE = 0.5236;
     
+    static const float TURN_TO_LOOK_STEP = 0.01;
+    
     // Constants for network
     static const int SERVER_PORT=6005;
 };

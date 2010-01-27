@@ -131,6 +131,16 @@ void Swarm::updateSwarmLocation()
 	
 	if(state == SS_ATTACK) {
 		
+		// Point at ship
+		Vector3 lineToShip = *(shipState->position) -location;
+		float newYaw = atan2(lineToShip.x,lineToShip.z);
+		
+		
+		// TODO: Sometimes they turn the long-way-round
+		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
+		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
+		else yaw += Const::TURN_TO_LOOK_STEP;
+		
 	}
 }
 
