@@ -44,7 +44,7 @@ public:
     static const int SERVER_PORT=6005;
 
     // Constants for swarm managing
-    static const int SPAWN_DELAY=5.0 / TICK_PERIOD;
+    static const double SPAWN_DELAY=1.0 / TICK_PERIOD;
 };
 
 #endif
