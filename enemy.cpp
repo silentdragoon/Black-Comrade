@@ -30,9 +30,13 @@ void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
 {
 	node->resetOrientation();
 
+	yaw += 3.14159;
+
 	Radian troll(roll);
     Radian tpitch(pitch);
     Radian tyaw(yaw);
+    
+    
     
     node->yaw(tyaw);
     node->roll(troll);

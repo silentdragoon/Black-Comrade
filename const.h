@@ -32,8 +32,8 @@ public:
     
     // Constants for enemy behav.
     static const float FVELOCITY = 50.0 * TICK_PERIOD;
-    //lookahead in ticks
-    static const float LOOKA = 3;
+    // How many times its verlocity you look ahead
+    static const float LOOKA = 15;
     
     // Constants for network
     static const int SERVER_PORT=6005;
