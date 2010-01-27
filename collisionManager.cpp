@@ -90,7 +90,28 @@ Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, En
     return new Vector3( start->x + sin(yaw)*t*dist, start->y + sin(pitch)*t*dist, start->z + cos(yaw)*t*dist);
 }
 
+//doenst work
 dFloat CollisionManager::getRCAgainstShip ( Vector3  *start, Real pitch, Real yaw )
 {
     return getRCDistAlongRay( start, pitch, yaw, 2000.0, sceneMgr->getEntity("ourship") );
 }
+
+void CollisionManager::addEnemy( Entity e)
+{
+    ;//cd->createEnemyMesh(e);
+}
+
+dFloat CollisionManager::rayCollideWithEnemy( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
+{
+    Vector3 end;
+    dFloat dist = 2000;
+    end.x = start->x + direction->x * dist;
+    end.y = start->y + direction->y * dist;
+    end.z = start->z + direction->z * dist;
+
+    return rayCollideWithEnemy( start, &end, collideAgainst) *dist;
+}
+    
+
+
+
