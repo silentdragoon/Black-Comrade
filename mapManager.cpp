@@ -356,6 +356,36 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
     return places;
 }
 
+Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
+    int x = (int) floor(locn->x/(double)TILE_SIZE);
+    int y = (int) floor(locn->z/(double)TILE_SIZE);
+
+    vector<int> conns = getConnections(x,y);
+
+    random_shuffle(conns.begin(),conns.end());
+
+    int c = conns.at(0);
+
+    if(c==1) {
+        y--;
+    } else if(c==2) {
+        x++;
+    } else if(c==3) {
+        y++;
+    } else {
+        x--;
+    }
+
+    vector<Vector3*> places = vector<Vector3*>();
+    Vector3 *loc = new Vector3(x*(1.5*TILE_SIZE),0.0,y*(1.5*TILE_SIZE));
+
+    places = getSpawnPoints(loc);
+
+    random_shuffle(places.begin(),places.end());
+
+    return *places.at(0);
+}
+
 int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)
 {
     DIR *dp;
