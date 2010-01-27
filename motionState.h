@@ -41,12 +41,6 @@ class MotionState : public IMotionState, public ITickable
     double yVelocity();
     double zVelocity();
     
-    void inYVel();
-    
-    double forVelocity();
-    double sideVelocity();
-    double upVelocity();
-    
     double pitch();
     double yaw();
     double roll();
