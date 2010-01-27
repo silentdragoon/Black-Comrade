@@ -39,6 +39,9 @@ public:
     Vector3* getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst );
     
     dFloat getRCAgainstShip ( Vector3 *start, Real pitch, Real yaw );
+    
+    void addEnemy( Entity e);
+    dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst);
 };
 
 
