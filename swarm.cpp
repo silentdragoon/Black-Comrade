@@ -24,7 +24,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Entity *follow = sceneMgr->createEntity(ename, "smallenemy.mesh");
+        Entity *follow = sceneMgr->createEntity(ename, "squid.mesh");
         SceneNode *followSN = 
         	sceneMgr->getRootSceneNode()->createChildSceneNode();
         followSN->attachObject(follow);

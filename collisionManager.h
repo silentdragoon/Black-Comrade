@@ -32,6 +32,7 @@ public:
     dFloat getRCDistAlongRay( Vector3 *start, Real Pitch, Real Yaw, dFloat maxDist, Entity* collideAgainst );
 
     dFloat getRCMapDist( Vector3 *pos, Real pitch, Real yaw  );
+    dFloat getRCMapDist( Vector3 *pos, Vector3 *direction );
     
     Vector3* getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst );
     

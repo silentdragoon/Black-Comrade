@@ -28,7 +28,7 @@ public:
     static const double MAX_BANK = 20.0 * TICK_PERIOD;
     
     // Constants for front gun
-    static const double MIN_SHOOT_PERIOD = 800.0 * TICK_PERIOD;
+    static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
     
     // Constants for enemy behav.
     static const float FVELOCITY = 225.0 * TICK_PERIOD;
