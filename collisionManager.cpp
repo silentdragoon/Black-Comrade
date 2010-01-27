@@ -47,20 +47,38 @@ dFloat CollisionManager::getRCDistAlongRay( Vector3 *start, Real pitch, Real yaw
 dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
 {
     Entity* e = mp->getEntity( pos );
-    return getRCDistAlongRay( pos, pitch, yaw, 2000, e );
+    return getRCDistAlongRay( pos, pitch, yaw, 2000.0, e );
 }
 
 dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
 {
-    Entity* e = mp->getEntity( pos );
-    Vector3 *v = new Vector3(pos->x+(direction->x*2000.0),pos->y+(direction->y*2000.0),pos->z+(direction->z*2000.0));
-    return getRCDistBetweenPoints(pos,direction,e)*2000.0;
+    Entity* e[3];
+    mp->getMapEntities( pos, e );
+    dFloat closestDist = 2500.0;
+    for(int i = 0; i < 2; i++)
+    {
+        int tmp = getRCDirDist(pos,direction, 2000.0, e[i]);
+        if( tmp < closestDist) closestDist = tmp;
+    }
+        
+    return  closestDist;
+}
+
+dFloat CollisionManager::getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat dist, Entity* e)
+{
+    Vector3 end;
+    
+    end.x = pos->x + direction->x * dist;
+    end.y = pos->y + direction->y * dist;
+    end.z = pos->z + direction->z * dist;
+    
+    return (cd->rayCollideDist( pos, &end, e)*dist);
 }
 
 Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst )
 {
     Vector3 end;
-    dFloat dist = 2000;
+    dFloat dist = 2000.0;
     end.x = start->x + sin(yaw)*dist;
     end.y = start->y + sin(pitch)*dist;
     end.z = start->z + cos(yaw)*dist;
@@ -71,5 +89,5 @@ Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, En
 
 dFloat CollisionManager::getRCAgainstShip ( Vector3  *start, Real pitch, Real yaw )
 {
-    return getRCDistAlongRay( start, pitch, yaw, 2000, sceneMgr->getEntity("ourship") );
+    return getRCDistAlongRay( start, pitch, yaw, 2000.0, sceneMgr->getEntity("ourship") );
 }
