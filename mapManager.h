@@ -52,6 +52,9 @@ public:
     
     Entity* getEntity(Vector3 *locn);
     string* getWaypoint(Vector3 *locn);
+
+    vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
+    vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
 };
 
 #endif

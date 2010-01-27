@@ -245,6 +245,72 @@ string* MapManager::getWaypoint(Vector3 *locn)
     return NULL;
 }
 
+vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
+{
+    int x = (int) floor(locn->x/(double)TILE_SIZE);
+    int y = (int) floor(locn->y/(double)TILE_SIZE);
+
+    vector<int> conns = getConnections(x,y);
+
+    double xx = x * TILE_SIZE;
+    double yy = y * TILE_SIZE; // Actually z in ogre coords
+    double zz = 0.0;
+
+    vector<Vector3*> places = vector<Vector3*>();
+
+    for(vector<int>::const_iterator it=conns.begin();it!=conns.end(); ++it) {
+        int c = *it;
+        if(c==1) {
+            xx = xx + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xx,zz,yy);
+            places.push_back(v);
+        }
+        if(c==2) {
+            xx = xx + (TILE_SIZE);
+            yy = yy + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xx,zz,yy);
+            places.push_back(v);
+        }
+        if(c==3) {
+            xx = xx + (0.5*TILE_SIZE);
+            yy = yy + (TILE_SIZE);
+            Vector3 *v = new Vector3(xx,zz,yy);
+            places.push_back(v);
+        }
+        if(c==4) {
+            yy = yy + (0.5*TILE_SIZE);
+            Vector3 *v = new Vector3(xx,zz,yy);
+            places.push_back(v);
+        }
+    }
+
+    return places; 
+}
+
+vector<Vector3*> MapManager::getInitialSpawnPoints()
+{
+    Waypoint *w;
+
+    vector<Vector3*> places = vector<Vector3*>();
+
+    for(vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
+        w = *it;
+        if(*(w->getName())=="en_spawn") {
+            int x = w->getX();
+            int y = w->getY();
+
+            double xx = x * (0.5*TILE_SIZE);
+            double yy = y * (0.5*TILE_SIZE);
+
+            Vector3 *v = new Vector3(xx,0.0,yy);
+
+            places.push_back(v);
+        }
+    }
+
+    return places;
+}
+
 int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)
 {
     DIR *dp;
