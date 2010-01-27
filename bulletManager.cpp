@@ -84,6 +84,7 @@ void BulletManager::tick()
         Vector3 *pos = new Vector3(sp.x,sp.y,sp.z);
 
         double t = colMgr->getRCMapDist(pos,&direction);
+        cout<< t << endl;
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName,rname,t);

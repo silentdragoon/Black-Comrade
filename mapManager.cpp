@@ -228,6 +228,11 @@ Entity* MapManager::getEntity(Vector3 *locn)
     return e;
 }
 
+void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
+    mps[0] = getEntity( locn );
+    mps[1] = getEntity(new Vector3(locn->x+(double)TILE_SIZE, locn->y, locn->z));
+}    
+
 string* MapManager::getWaypoint(Vector3 *locn) 
 {
     int x =(int) floor(locn->x/(double)TILE_SIZE);
