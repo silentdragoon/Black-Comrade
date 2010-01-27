@@ -262,23 +262,27 @@ vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
         int c = *it;
         if(c==1) {
             xx = xx + (0.5*TILE_SIZE);
+            cout << "1 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==2) {
             xx = xx + (TILE_SIZE);
             yy = yy + (0.5*TILE_SIZE);
+            cout << "2 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==3) {
             xx = xx + (0.5*TILE_SIZE);
             yy = yy + (TILE_SIZE);
+            cout << "3 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
         if(c==4) {
             yy = yy + (0.5*TILE_SIZE);
+            cout << "4 Spawn: " << xx << " " << yy << endl;
             Vector3 *v = new Vector3(xx,zz,yy);
             places.push_back(v);
         }
