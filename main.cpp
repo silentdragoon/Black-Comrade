@@ -54,7 +54,7 @@ Main::Main() {
 
     soundMgr = new SoundManager();
     
-    mc = new MapCreate("examplemap.txt",sceneMgr);
+    mapMgr = new MapManager("examplemap.txt",sceneMgr);
 
     createCamera();
     createViewPort();
@@ -66,7 +66,7 @@ Main::Main() {
     
     stateUpdate->addTickable(ks);
     
-    collisionMgr = new CollisionManager( sceneMgr, mc );
+    collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
     GameRole myRole = collabInfo->getGameRole();
     if (myRole == PILOT) {
@@ -80,13 +80,13 @@ Main::Main() {
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
-	gameStateMachine = new GameStateMachine(mc,shipState);
+	gameStateMachine = new GameStateMachine(mapMgr,shipState);
 	gameParameterMap = new GameParameterMap(gameStateMachine);
 	
 	printState = new PrintState(gameStateMachine);
 
 	//Test swarm
-	Vector3 swarmLocation(mc->startx,0,mc->starty+500);
+	Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
 	Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
 
     stateUpdate->addTickable(frontGunState);
@@ -137,7 +137,8 @@ void Main::serverStartup() {
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
-    shipState->position = new Vector3(mc->startx,0,mc->starty);
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+
 }
 
 void Main::startNetworking() {
@@ -219,7 +220,7 @@ void Main::createScene() {
 
     mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
 
-    mc->outputMap(mapNode);
+    mapMgr->outputMap(mapNode);
     
     SceneNode *modelNode = shipSceneNode->createChildSceneNode();
     

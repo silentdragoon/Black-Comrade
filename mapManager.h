@@ -1,5 +1,5 @@
-#ifndef MAP_EDIT_H
-#define MAP_EDIT_H
+#ifndef _MAPMANAGER_H
+#define _MAPMANAGER_H
 
 #include <OGRE/Ogre.h>
 
@@ -24,7 +24,7 @@
 using namespace std;
 using namespace Ogre;
 
-class MapCreate {
+class MapManager {
 
 private:
     char geo[MAPSIZE][MAPSIZE]; // Store for the geography of the map
@@ -45,7 +45,7 @@ private:
 public:
     int startx,starty; // Index location of the start square of the map
 
-    MapCreate(char* file, SceneManager *sceneManager);
+    MapManager(char* file, SceneManager *sceneManager);
     bool outputMap(SceneNode *sceneNode);
     
     vector<Entity*> getMapPieces();

@@ -3,7 +3,6 @@
 #include "ReplicaManager3.h"
 #include "shipState.h"
 #include "frontGunState.h"
-#include "enemyState.h"
 
 using namespace RakNet;
 
