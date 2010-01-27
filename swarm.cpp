@@ -29,6 +29,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         	sceneMgr->getRootSceneNode()->createChildSceneNode();
         followSN->attachObject(follow);
 
+		//followSN->showBoundingBox(true);
+
         double x = location.x;
         double y = location.y;
         double z = location.z;

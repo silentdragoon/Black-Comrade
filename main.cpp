@@ -6,6 +6,7 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "networkingManager.h"
+#include "swarm.h"
 
 using namespace RakNet;
 
@@ -84,6 +85,10 @@ Main::Main() {
 	
 	printState = new PrintState(gameStateMachine);
 
+	//Test swarm
+	Vector3 swarmLocation(mc->startx,0,mc->starty+500);
+	Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
+
     stateUpdate->addTickable(frontGunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
@@ -92,11 +97,14 @@ Main::Main() {
     stateUpdate->addTickable(soundMgr);
     stateUpdate->addTickable(miniGameMgr);
     stateUpdate->addTickable(printState);
+    stateUpdate->addTickable(swarm);
     
     // This should be last to allow events for the inital state 'change'
     stateUpdate->addTickable(gameStateMachine);
 
     root->addFrameListener(stateUpdate);
+
+	
 
     // Start Rendering Loop
     root->startRendering();
@@ -130,7 +138,6 @@ void Main::serverStartup() {
     stateUpdate->addTickable(ms);
 
     shipState->position = new Vector3(mc->startx,0,mc->starty);
-    //enemyState->position = new Vector3(mc->startx,0,mc->starty+500);
 }
 
 void Main::startNetworking() {
