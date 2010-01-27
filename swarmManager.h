@@ -7,6 +7,7 @@
 #include "ITickable.h"
 #include "swarm.h"
 #include "gameParameterMap.h"
+#include "mapManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -17,13 +18,14 @@ class SwarmManager : public ITickable
 
         SceneManager *sceneMgr;
         GameParameterMap *gamePM; 
+        MapManager *mapMgr;
         vector<Swarm*> *activeSwarms;
 
         int id;
 
     public:
 
-        SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM);
+        SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr);
         ~SwarmManager();
 
         void createSwarm(int size, Vector3 location);

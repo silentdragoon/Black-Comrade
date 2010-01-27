@@ -45,11 +45,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     }
 }
 
-void Swarm::tick()
+/*void Swarm::tick()
 {
 	updateSwarmLocation();
 	updateEnemyLocations();
-}
+}*/
 
 Swarm::~Swarm()
 {

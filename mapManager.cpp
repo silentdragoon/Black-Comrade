@@ -248,7 +248,7 @@ string* MapManager::getWaypoint(Vector3 *locn)
 vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
 {
     int x = (int) floor(locn->x/(double)TILE_SIZE);
-    int y = (int) floor(locn->y/(double)TILE_SIZE);
+    int y = (int) floor(locn->z/(double)TILE_SIZE);
 
     vector<int> conns = getConnections(x,y);
 
@@ -299,8 +299,8 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
             int x = w->getX();
             int y = w->getY();
 
-            double xx = x * (0.5*TILE_SIZE);
-            double yy = y * (0.5*TILE_SIZE);
+            double xx = (x * (TILE_SIZE)) + (0.5*TILE_SIZE);
+            double yy = (y * (TILE_SIZE)) + (0.5*TILE_SIZE);
 
             Vector3 *v = new Vector3(xx,0.0,yy);
 

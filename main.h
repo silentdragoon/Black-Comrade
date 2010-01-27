@@ -25,6 +25,7 @@
 #include "gameStateMachine.h"
 #include "gameParameterMap.h"
 #include "printState.h"
+#include "swarmManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -65,6 +66,7 @@ private:
     ShipState *shipState;
     
     MapManager *mapMgr;
+    SwarmManager *swarmMgr;
     
     void createCamera();
     void createScene();

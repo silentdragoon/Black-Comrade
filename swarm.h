@@ -7,13 +7,13 @@
 #include <iostream>
 #include <math.h>
 #include "enemy.h"
-#include "ITickable.h"
+//#include "ITickable.h"
 #include "rayQuery.h"
 
 using namespace Ogre;
 using namespace std;
 
-class Swarm : public ITickable
+class Swarm //: public ITickable
 {
     private:
         SceneManager *sceneMgr;
@@ -27,8 +27,6 @@ class Swarm : public ITickable
     	Real yaw;
     	RayQuery *rRayQuery;
     
-    	void updateSwarmLocation();
-    	void updateEnemyLocations();
     	
     public:
 
@@ -39,7 +37,8 @@ class Swarm : public ITickable
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
         
-        void tick();        
+    	void updateSwarmLocation();
+    	void updateEnemyLocations();
 };
 
 #endif
