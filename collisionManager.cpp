@@ -55,7 +55,7 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
     Entity* e[5];
     mp->getMapEntities( pos, e );
     dFloat closestDist = 2500.0;
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 5; i++)
     {
         if( e[i] != NULL )
         {
