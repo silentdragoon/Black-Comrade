@@ -102,14 +102,13 @@ void CollisionManager::addEnemy( Entity e)
 }
 
 dFloat CollisionManager::rayCollideWithEnemy( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
-{
-    
+{ 
     dFloat dist = 2000;
     double x = start->x + direction->x * dist;
     double y = start->y + direction->y * dist;
     double z = start->z + direction->z * dist;
     Vector3 end = Vector3(x,y,z);
-    return rayCollideWithEnemy( start, &end, collideAgainst) *dist;
+    return (cd->rayCollideWithEnemy( start, &end, collideAgainst) * dist);
 }
     
 

@@ -96,7 +96,7 @@ void BulletManager::tick()
             if(temp<t) t = temp;
         }
 
-        cout << t << endl;
+        //cout << t << endl;
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName,rname,t);
