@@ -125,8 +125,11 @@ void Main::serverStartup() {
     sc = new ShipControls(ks);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
+    Vector3 *startposition = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    Vector3 *startorientation = new Vector3(0.0,0.0,0.0);
+    flying = new Flying(ks,startposition,startorientation);
     frontGunState = new FrontGunState(sc);
-    shipState = new ShipState(shipSceneNode, ms, collisionMgr);
+    shipState = new ShipState(shipSceneNode, flying, collisionMgr);
     //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
@@ -136,8 +139,9 @@ void Main::serverStartup() {
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
+    stateUpdate->addTickable(flying);
 
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    //shipState->position = startposition;
 
 }
 

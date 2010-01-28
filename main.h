@@ -26,6 +26,7 @@
 #include "gameParameterMap.h"
 #include "printState.h"
 #include "swarmManager.h"
+#include "flying.h"
 
 //include networking stuff
 #include <string.h>
@@ -51,6 +52,7 @@ private:
     ShipControls *sc;
     AccelerationState *as;
     MotionState *ms;
+    Flying *flying;
     AudioState *audioState;
     MiniGameManager *miniGameMgr;
     BulletManager *bulletMgr;

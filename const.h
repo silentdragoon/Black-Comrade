@@ -49,6 +49,20 @@ public:
     static const double SPAWN_DELAY=1.0 / TICK_PERIOD;
 
     // Constants for bulletManager
+    
+    // Constants for flying
+    static const int SHIP_MASS = 1000; // KG
+    static const int SHIP_FORWARD_THRUST = 10; // N
+    static const int SHIP_REVERSE_THRUST = -10; // N
+    static const int SHIP_ROTATE_THRUST = 10; // N
+    static const int SHIP_SIDE_THRUST = 10; // N
+    static const int SHIP_UP_THRUST = 10; // N
+    static const int SHIP_DOWN_THRUST = 10; // N
+    static const float AIR_DENSITY = 1.292;
+    static const float DRAG_COEFFICIENT = 0.45;
+    static const float REFERENCE_AREA = 40.0;
+    static const double GRAVITY = 9.81 / TICK_PERIOD; // Units per
+
 };
 
 #endif

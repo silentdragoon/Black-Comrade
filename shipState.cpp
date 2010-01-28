@@ -8,22 +8,20 @@ ShipState::ShipState() {
     roll=0.0;
     pitch=0.0;
     yaw=0.0;
-    motionState = 0;
 }
 
-ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, CollisionManager *colMgr) :
+ShipState::ShipState(SceneNode *shipSceneNode, Flying *flying, CollisionManager *colMgr) :
     position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
     pitch(0.0),
     yaw(0.0),
     shipSceneNode(shipSceneNode),
-    motionState(motionState),
+    flying(flying),
     colMgr(colMgr)
 {}
 
 void ShipState::tick() {
 
-    if (motionState != 0) {
         Collision col = colMgr->shipMapCollision(position);
         /* if(col.isCollided)
         {
@@ -54,14 +52,13 @@ void ShipState::tick() {
 
         //cout << colMgr->getRCMapDist(position, pitch, yaw )<< endl;
         
-        position->x += motionState->xVelocity();
-        position->y += motionState->yVelocity();
-        position->z += motionState->zVelocity();
+        position->x = flying->position->x;
+        position->y = flying->position->y;
+        position->z = flying->position->z;
         
-        roll = motionState->roll();
-        pitch = motionState->pitch();
-        yaw = motionState->yaw();
-    }
+        roll = flying->orientation->z;
+        pitch = flying->orientation->x;
+        yaw = flying->orientation->y;
     updateOgre();
 }
 
@@ -80,6 +77,7 @@ void ShipState::updateOgre() {
     shipSceneNode->roll(roll);
     shipSceneNode->pitch(pitch);
         
+    print();
     //std::cout << shipSceneNode->getPosition().z << std::endl;
 }
 
