@@ -33,10 +33,6 @@ void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
 /*                               Ogre::Vector3(),
                               Ogre::Quaternion::IDENTITY,
                               Ogre::Vector3(1,1,1)); */
-    cout<< "here" <<endl;
-    cout<< vertex_count <<endl;
-    cout<< index_count <<endl;
-    cout<< sizeof(dFloat) <<endl;
     dFloat vArray[9];
     int i0, i1, i2;
     for (int i = 0; i < static_cast<int>(index_count); i += 3)
@@ -212,7 +208,6 @@ void CollisionDetection::createEnemyConvexHull( Entity *entity )
 
 dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
 {
-    cout << collideAgainst->getName()<< endl;
     if(enemyCol == NULL)createEnemyConvexHull(collideAgainst);
     Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
     Vector3 transStart = m4 * (*start);
