@@ -37,7 +37,7 @@ class SwarmManager : public ITickable
 
         void createSwarm(int size, Vector3 location);
 
-        vector<Entity*> getAllEntities();
+        vector<Enemy*> getAllEnemies();
 
         virtual void tick();
 

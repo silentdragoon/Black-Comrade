@@ -42,15 +42,15 @@ void SwarmManager::createSwarm(int size, Vector3 location)
     id++;
 }
 
-vector<Entity*> SwarmManager::getAllEntities()
+vector<Enemy*> SwarmManager::getAllEnemies()
 {
     Swarm *s;
-    vector<Entity*> out = vector<Entity*>();
+    vector<Enemy*> out = vector<Enemy*>();
     for(vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
         s = *it;
-        vector<Entity*> ents = s->getAllEntities();
-        Entity *en;
-        for(vector<Entity*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+        vector<Enemy*> ents = s->getAllEnemies();
+        Enemy *en;
+        for(vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
             en = *ite;
             out.push_back(en);
         }

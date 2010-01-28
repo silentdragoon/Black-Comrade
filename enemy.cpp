@@ -6,7 +6,9 @@ Enemy::Enemy(SceneNode *node, int health) :
 {}
 
 Enemy::~Enemy()
-{}
+{
+	node->detachObject(getEntity());
+}
 
 Vector3 Enemy::getDirection() {
     Quaternion orient = node->getOrientation();
@@ -24,6 +26,11 @@ int Enemy::getHealth() {
 void Enemy::setLocation(Vector3 v)
 {
 	node->setPosition(v);
+}
+
+Entity* Enemy::getEntity()
+{
+	return (Entity*)node->getAttachedObject(0);
 }
 
 void Enemy::setOrientation(Real roll, Real pitch, Real yaw)

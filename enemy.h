@@ -12,8 +12,10 @@ using namespace std;
 class Enemy
 {
     private:
-        int health;
+        
     public:
+    	int health;
+    
         SceneNode *node;
         Enemy(SceneNode *node, int health);
 
@@ -23,10 +25,11 @@ class Enemy
         void setLocation(Vector3 v);
         void setOrientation(Real roll, Real pitch, Real yaw);
         
+        Entity *getEntity();
+        
         int getHealth();
 
         ~Enemy();
 };
 
 #endif
-

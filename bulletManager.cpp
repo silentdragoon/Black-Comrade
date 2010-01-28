@@ -89,13 +89,24 @@ void BulletManager::tick()
         double t = colMgr->getRCMapDist(pos,&direction);
         if(t<0) t=10000;
 
-        vector<Entity*> ents = swarmMgr->getAllEntities();
-        Entity *e;
-        for(vector<Entity*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+        vector<Enemy*> ents = swarmMgr->getAllEnemies();
+        Enemy *e;
+        bool isEnemy = false;
+        Enemy *hurtEnemy = NULL;
+        for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
             e = *it;
-            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e);
-            if(temp<t) t = temp;
+            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e->getEntity());
+            if(temp<t) {
+            	t = temp;
+            	isEnemy = true;
+            	hurtEnemy = e;
+            }
         }
+
+		// Hurt Enemy
+		if(isEnemy) {
+			hurtEnemy->health -= 1;
+		}
 
         //cout << t << endl;
         

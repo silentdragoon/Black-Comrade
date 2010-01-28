@@ -38,19 +38,18 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         followSN->setPosition(offset);
 
-        Enemy *e = new Enemy(followSN,100);
+        Enemy *e = new Enemy(followSN,1);
 
         members.push_back(e);
     }
 }
 
-vector<Entity*> Swarm::getAllEntities() {
+vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
-    vector<Entity*> out = vector<Entity*>();
+    vector<Enemy*> out = vector<Enemy*>();
     for(vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
         e = *it;
-        Entity *en = (Entity*)e->node->getAttachedObject(0);
-        out.push_back(en);
+        out.push_back(e);
     }
 
     return out;
@@ -58,6 +57,8 @@ vector<Entity*> Swarm::getAllEntities() {
 
 void Swarm::tick()
 {
+	removeDeadEnemies();
+
 	if(isShipInSight()) {
 		state = SS_ATTACK;
 	}
@@ -117,6 +118,19 @@ bool Swarm::isShipInSight()
 	} 
 	
 	return false;
+}
+
+void Swarm::removeDeadEnemies()
+{
+   
+    for(int i=0;i<members.size();i++) {
+    	Enemy *e = members.at(i);
+        if(e->health <= 0) {
+        	delete e;
+        	members.erase(members.begin()+(i));
+        	std::cout << "Remove\n";
+        }
+    }
 }
 
 void Swarm::updateSwarmLocation()
