@@ -22,43 +22,43 @@ ShipState::ShipState(SceneNode *shipSceneNode, Flying *flying, CollisionManager 
 
 void ShipState::tick() {
 
-        Collision col = colMgr->shipMapCollision(position);
-        /* if(col.isCollided)
-        {
-            
-            for( int i = 0; i < 1; i += 3 )
-            {
-                //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
-                 //   <<" "<< col.normals[i+2] <<" "<<endl;
-            }
-            
-            
-            
-            // double normRad = atan2(col.normals[3],col.normals[0]);
-            // yaw = normRad + motionState->yaw();
-            
-            
-            double zMotion = cos(yaw) * motionState->forVelocity() + sin(yaw) * (motionState->sideVelocity());
-            double xMotion = cos(yaw) * (-motionState->sideVelocity()) + sin(yaw) * motionState->forVelocity();
-            motionState->inYVel();
-            
-            position->x += xMotion;
-            position->y += motionState->yVelocity();
-            position->z += zMotion;
-        
-            roll = motionState->roll();
-            pitch = motionState->pitch();
-        } */
+    Collision col = colMgr->shipMapCollision(position);
+    /* if(col.isCollided)
+       {
 
-        //cout << colMgr->getRCMapDist(position, pitch, yaw )<< endl;
-        
-        position->x = flying->position->x;
-        position->y = flying->position->y;
-        position->z = flying->position->z;
-        
-        roll = flying->orientation->z;
-        pitch = flying->orientation->x;
-        yaw = flying->orientation->y;
+       for( int i = 0; i < 1; i += 3 )
+       {
+    //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
+    //   <<" "<< col.normals[i+2] <<" "<<endl;
+    }
+
+
+
+    // double normRad = atan2(col.normals[3],col.normals[0]);
+    // yaw = normRad + motionState->yaw();
+
+
+    double zMotion = cos(yaw) * motionState->forVelocity() + sin(yaw) * (motionState->sideVelocity());
+    double xMotion = cos(yaw) * (-motionState->sideVelocity()) + sin(yaw) * motionState->forVelocity();
+    motionState->inYVel();
+
+    position->x += xMotion;
+    position->y += motionState->yVelocity();
+    position->z += zMotion;
+
+    roll = motionState->roll();
+    pitch = motionState->pitch();
+    } */
+
+    //cout << colMgr->getRCMapDist(position, pitch, yaw )<< endl;
+
+    position->x = flying->position->x;
+    position->y = flying->position->y;
+    position->z = flying->position->z;
+
+    roll = flying->orientation->z;
+    pitch = flying->orientation->x;
+    yaw = flying->orientation->y;
     updateOgre();
 }
 
@@ -77,7 +77,6 @@ void ShipState::updateOgre() {
     shipSceneNode->roll(roll);
     shipSceneNode->pitch(pitch);
         
-    print();
     //std::cout << shipSceneNode->getPosition().z << std::endl;
 }
 

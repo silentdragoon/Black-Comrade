@@ -20,11 +20,14 @@ double Flying::getDrag(string dir)
     if(dir=="y") v2 = velocity->y;
     if(dir=="z") v2 = velocity->z;
 
-    v2 = v2*v2; // Square the velocity for a laugh
-    cout << "v2: " << v2 << endl;
+    int m = 1;
+    if(v2<0) m = -1;
 
-    double drag = 0.5*Const::AIR_DENSITY*v2*Const::DRAG_COEFFICIENT*Const::REFERENCE_AREA;
-    cout << "Drag: " << drag << endl;
+    v2 = v2*v2; // Square the velocity for a laugh
+    //cout << "v2: " << v2 << endl;
+
+    double drag = m*0.5*Const::AIR_DENSITY*v2*Const::DRAG_COEFFICIENT*Const::REFERENCE_AREA;
+    //cout << "Drag: " << drag << endl;
     return drag;
 }
 
@@ -43,11 +46,13 @@ void Flying::updatePosition()
     position->y=position->y+velocity->y;
     position->z=position->z+velocity->z;
 
-    cout << position->x << " " << position->y << " " << position->z << endl;
+    //cout << position->x << " " << position->y << " " << position->z << endl;
 
     orientation->x=orientation->x+angularVelocity->x;
     orientation->y=orientation->y+angularVelocity->y;
     orientation->z=orientation->z+angularVelocity->z;
+
+    //cout << orientation->x << " " << orientation->y << " " << orientation->z << endl;
 }
 
 void Flying::tick()
@@ -56,31 +61,35 @@ void Flying::tick()
         double accel = (Const::SHIP_SIDE_THRUST-getDrag("x"))/Const::SHIP_MASS;
         velocity->x = velocity->x + accel;
     } else if(ks->isKeyDown(OIS::KC_D)) {
-        double accel = (-Const::SHIP_SIDE_THRUST-getDrag("x"))/Const::SHIP_MASS;
+        double accel = ((-1.0*(Const::SHIP_SIDE_THRUST))-getDrag("x"))/Const::SHIP_MASS;
         velocity->x = velocity->x + accel;
     } else if(ks->isKeyDown(OIS::KC_SPACE)) {
         double accel = (Const::SHIP_UP_THRUST-getDrag("y"))/Const::SHIP_MASS;
         velocity->y = velocity->y + accel;
     } else if(ks->isKeyDown(OIS::KC_LSHIFT)) {
-        double accel = (Const::SHIP_DOWN_THRUST-getDrag("y"))/Const::SHIP_MASS;
+        double accel = ((-1.0*(Const::SHIP_UP_THRUST))-getDrag("y"))/Const::SHIP_MASS;
         velocity->y = velocity->y + accel;
     } else if(ks->isKeyDown(OIS::KC_W)) {
         double accel = (Const::SHIP_FORWARD_THRUST-getDrag("z"))/Const::SHIP_MASS;
         velocity->z = velocity->z + accel;
     } else if(ks->isKeyDown(OIS::KC_S)) {
-        double accel = (-Const::SHIP_FORWARD_THRUST-getDrag("z"))/Const::SHIP_MASS;
+        double accel = ((-1.0*(Const::SHIP_FORWARD_THRUST))-getDrag("z"))/Const::SHIP_MASS;
         velocity->z = velocity->z + accel;
     } else if(ks->isKeyDown(OIS::KC_UP)) {
-        double accel = (-Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        double accel = (-1.0*Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        cout << accel << endl;
         angularVelocity->x = angularVelocity->x + accel;
     } else if(ks->isKeyDown(OIS::KC_DOWN)) {
         double accel = (Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        cout << accel << endl;
         angularVelocity->x = angularVelocity->x + accel;
     } else if(ks->isKeyDown(OIS::KC_LEFT)) {
         double accel = (Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        cout << accel << endl;
         angularVelocity->z = angularVelocity->z + accel;
     } else if(ks->isKeyDown(OIS::KC_RIGHT)) {
-        double accel = (-Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        double accel = (-1.0*Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
+        cout << accel << endl;
         angularVelocity->z = angularVelocity->z + accel;
     } else {
         double accelx = -getDrag("x")/Const::SHIP_MASS;
