@@ -18,11 +18,14 @@ class CollisionDetection{
 private:
 
    	NewtonWorld *newtonWorld;
+    
+    int shapeID;
 
 	dFloat idmatrix[16];
 
 	map<Entity *,NewtonCollision *> collisionsMap;
 	map<Entity *,NewtonBody *> bodysMap;
+    Entity *enemy;
     
     NewtonCollision *enemyCol;
 
@@ -57,6 +60,8 @@ public:
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
+    
+    void createEnemyConvexHull( Entity *entity );
     
 };
 
