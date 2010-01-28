@@ -4,9 +4,11 @@
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
+void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance, Enemy *enemy) {
 
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,Const::FRONT_BULLET_SPEED,distance);
+    
+    b->enemy = enemy;
     
     activeBullets->push_back(b);
 }
@@ -16,6 +18,12 @@ void BulletManager::updateBullets() {
         Bullet *b = activeBullets->at(i);
         b->updateLocation();
         if(b->distanceTravelled>b->distanceToTravel) {
+        
+        	// Hurt Enemy
+			if(b->enemy != NULL) {
+				b->enemy->health -= 1;
+			}
+        
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -89,18 +97,24 @@ void BulletManager::tick()
         double t = colMgr->getRCMapDist(pos,&direction);
         if(t<0) t=10000;
 
-        vector<Entity*> ents = swarmMgr->getAllEntities();
-        Entity *e;
-        for(vector<Entity*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+        vector<Enemy*> ents = swarmMgr->getAllEnemies();
+        Enemy *e;
+        bool isEnemy = false;
+        Enemy *hurtEnemy = NULL;
+        for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
             e = *it;
-            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e);
-            if(temp<t) t = temp;
+            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e->getEntity());
+            if(temp<t) {
+            	t = temp;
+            	isEnemy = true;
+            	hurtEnemy = e;
+            }
         }
 
         //cout << t << endl;
         
         // FIRE THE BULLET!
-        fire(bulletNode,direction,bullName,rname,t);
+        fire(bulletNode,direction,bullName,rname,t,hurtEnemy);
     }
     // TODO: Add stuff like the thing above here for the other guns or enemies
     updateBullets();

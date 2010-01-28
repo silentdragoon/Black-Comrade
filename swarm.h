@@ -34,6 +34,8 @@ class Swarm
     	void updateSwarmLocation();
     	void updateEnemyLocations();
     	
+    	void removeDeadEnemies();
+    	
     	bool isShipInSight();
     	
     public:
@@ -45,7 +47,7 @@ class Swarm
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
 
-        vector<Entity*> getAllEntities();
+        vector<Enemy*> getAllEnemies();
         
         void tick();
 
