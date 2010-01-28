@@ -11,7 +11,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, Map
     shipState(shipState)
 {
 
-    activeSwarms = new vector<Swarm*>();
+    activeSwarms = vector<Swarm*>();
 
     vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
 
@@ -38,8 +38,25 @@ SwarmManager::~SwarmManager()
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
-    activeSwarms->push_back(s);
+    activeSwarms.push_back(s);
     id++;
+}
+
+vector<Entity*> SwarmManager::getAllEntities()
+{
+    Swarm *s;
+    vector<Entity*> out = vector<Entity*>();
+    for(vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
+        s = *it;
+        vector<Entity*> ents = s->getAllEntities();
+        Entity *en;
+        for(vector<Entity*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+            en = *ite;
+            out.push_back(en);
+        }
+    }
+
+    return out;
 }
 
 void SwarmManager::tick() 
@@ -59,8 +76,8 @@ void SwarmManager::tick()
     }
 
     // Here we are updating the locations of the swarms and the enemies within
-    for(int i=0;i<activeSwarms->size();i++) {
-        Swarm *s = activeSwarms->at(i);
+    for(int i=0;i<activeSwarms.size();i++) {
+        Swarm *s = activeSwarms.at(i);
         s->tick();
     } 
 }

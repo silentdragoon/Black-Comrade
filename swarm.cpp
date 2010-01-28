@@ -44,6 +44,18 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     }
 }
 
+vector<Entity*> Swarm::getAllEntities() {
+    Enemy *e;
+    vector<Entity*> out = vector<Entity*>();
+    for(vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
+        e = *it;
+        Entity *en = (Entity*)e->node->getAttachedObject(0);
+        out.push_back(en);
+    }
+
+    return out;
+}
+
 void Swarm::tick()
 {
 	if(isShipInSight()) {

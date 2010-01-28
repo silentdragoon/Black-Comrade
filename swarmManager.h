@@ -20,7 +20,7 @@ class SwarmManager : public ITickable
         SceneManager *sceneMgr;
         GameParameterMap *gamePM;
         MapManager *mapMgr;
-        vector<Swarm*> *activeSwarms;
+        vector<Swarm*> activeSwarms;
         ShipState *shipState;
 
         int id;
@@ -36,6 +36,8 @@ class SwarmManager : public ITickable
         ~SwarmManager();
 
         void createSwarm(int size, Vector3 location);
+
+        vector<Entity*> getAllEntities();
 
         virtual void tick();
 

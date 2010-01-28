@@ -10,6 +10,7 @@
 #include "ITickable.h"
 #include "bullet.h"
 #include "collisionManager.h"
+#include "swarmManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -23,12 +24,12 @@ class BulletManager : public ITickable
         int bnum;
         FrontGunState *gunState;
         CollisionManager *colMgr;
+        SwarmManager *swarmMgr;
         
         void fire(SceneNode *bulletNode, Vector3 direction, string name, string rname, double distance);
         void updateBullets(); 
     public:
-        BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState, 
-                CollisionManager *colMgr);
+        BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr);
 
         ~BulletManager();
             

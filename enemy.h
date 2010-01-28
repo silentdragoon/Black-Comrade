@@ -12,10 +12,9 @@ using namespace std;
 class Enemy
 {
     private:
-        SceneNode *node;
         int health;
     public:
-
+        SceneNode *node;
         Enemy(SceneNode *node, int health);
 
         Vector3 getDirection();
