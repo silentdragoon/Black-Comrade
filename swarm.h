@@ -20,7 +20,6 @@ class Swarm
     private:
         SceneManager *sceneMgr;
         vector<Enemy*> members;
-        int size;
         int id;
         Vector3 location;
     	Real roll;
@@ -39,6 +38,7 @@ class Swarm
     	bool isShipInSight();
     	
     public:
+        int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState);

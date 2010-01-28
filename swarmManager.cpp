@@ -78,6 +78,12 @@ void SwarmManager::tick()
     // Here we are updating the locations of the swarms and the enemies within
     for(int i=0;i<activeSwarms.size();i++) {
         Swarm *s = activeSwarms.at(i);
-        s->tick();
+        if(s->size==0) {
+            dynSwarmSize--;
+            delete s;
+            activeSwarms.erase(activeSwarms.begin()+(i));
+        } else {
+            s->tick();
+        }
     } 
 }

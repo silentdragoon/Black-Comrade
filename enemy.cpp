@@ -1,13 +1,14 @@
 #include "enemy.h"
 
-Enemy::Enemy(SceneNode *node, int health) :
+Enemy::Enemy(SceneNode *node, int health, SceneManager *sceneMgr) :
     node(node),
-    health(health)
+    health(health),
+    sceneMgr(sceneMgr)
 {}
 
 Enemy::~Enemy()
 {
-	node->detachObject(getEntity());
+    sceneMgr->destroySceneNode(node);
 }
 
 Vector3 Enemy::getDirection() {

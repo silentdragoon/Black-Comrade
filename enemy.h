@@ -12,12 +12,13 @@ using namespace std;
 class Enemy
 {
     private:
+        SceneManager *sceneMgr;
         
     public:
     	int health;
     
         SceneNode *node;
-        Enemy(SceneNode *node, int health);
+        Enemy(SceneNode *node, int health, SceneManager *sceneMgr);
 
         Vector3 getDirection();
         Vector3 getLocation();

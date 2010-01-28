@@ -38,7 +38,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         followSN->setPosition(offset);
 
-        Enemy *e = new Enemy(followSN,1);
+        Enemy *e = new Enemy(followSN,1,sceneMgr);
 
         members.push_back(e);
     }
@@ -128,6 +128,7 @@ void Swarm::removeDeadEnemies()
         if(e->health <= 0) {
         	delete e;
         	members.erase(members.begin()+(i));
+            size--;
         	std::cout << "Remove\n";
         }
     }
