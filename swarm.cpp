@@ -153,26 +153,31 @@ void Swarm::updateSwarmLocation()
 		// move yaw to be in the range [0,2PI]
 		while(yaw < 0) yaw += 2.0*PI;
 	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
-		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
-		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
-		else yaw += Const::TURN_TO_LOOK_STEP;
+		float posDis = (newYaw >= yaw) ? newYaw - yaw : 2*PI + newYaw - yaw;
+		float negDis = (newYaw <= yaw) ? yaw - newYaw : 2*PI + yaw - newYaw;
+		
+		float move = (posDis <= negDis) ? posDis : -negDis;
+		
+		if(abs(move) < Const::TURN_TO_LOOK_STEP) yaw += move;
+		else if(move > 0) yaw += Const::TURN_TO_LOOK_STEP;
+		else yaw -= Const::TURN_TO_LOOK_STEP;
 		
 		// Check if its pointing at the ship
 		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
-		if( angleTo < PI/2) {
+		if(angleTo < PI/2) {
 		
 			// Move towards ship
 			float disToMove = lineToShip.length() - Const::SWARM_TARGET_DIS;
-			disToMove = disToMove * cos(angleTo);
-			float adjustedSpeed =
-				(abs(disToMove) < speed) ? abs(disToMove) : speed;
+			float adjustedSpeed = speed * cos(angleTo);
+			adjustedSpeed = (abs(disToMove) < adjustedSpeed) ? 
+				disToMove : adjustedSpeed;
 			
 			if(disToMove > 0) {
-			//	location.x += adjustedSpeed * sin(yaw);
-		    //	location.z += adjustedSpeed * cos(yaw);
+				location.x += adjustedSpeed * sin(yaw);
+		    	location.z += adjustedSpeed * cos(yaw);
 			} else {
-			//	location.x -= adjustedSpeed * sin(yaw);
-		    //	location.z -= adjustedSpeed * cos(yaw);
+				location.x -= adjustedSpeed * sin(yaw);
+		    	location.z -= adjustedSpeed * cos(yaw);
 			}
 		}
 		
