@@ -135,7 +135,7 @@ void Swarm::updateSwarmLocation()
 
 	    tmp = (dLeft + dRight) /2 - dRight;
 
-	    yaw +=   1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
+	    yaw += 1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
 
 	    location.x += speed * sin(yaw);
 	    location.z += speed * cos(yaw);
@@ -148,14 +148,18 @@ void Swarm::updateSwarmLocation()
 		// Point at ship
 		Vector3 lineToShip = *(shipState->position) -location;
 		float newYaw = atan2(lineToShip.x,lineToShip.z);
-		// TODO: Sometimes they turn the long-way-round
+		if(newYaw < 0) newYaw += 2.0*PI;
+		
+		// move yaw to be in the range [0,2PI]
+		while(yaw < 0) yaw += 2.0*PI;
+	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
 		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
 		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
 		else yaw += Const::TURN_TO_LOOK_STEP;
 		
 		// Check if its pointing at the ship
 		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
-		if( angleTo < 1.57) {
+		if( angleTo < PI/2) {
 		
 			// Move towards ship
 			float disToMove = lineToShip.length() - Const::SWARM_TARGET_DIS;
