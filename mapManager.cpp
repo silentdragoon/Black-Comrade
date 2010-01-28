@@ -382,12 +382,18 @@ Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
     Vector3 *loc = new Vector3((x*TILE_SIZE)+(0.5*TILE_SIZE),0.0,(y*TILE_SIZE)+(0.5*TILE_SIZE));
 
     places = getSpawnPoints(loc);
-    cout << places.size() << endl;
 
     random_shuffle(places.begin(),places.end());
 
-    
-    Vector3 out = Vector3(places.at(0)->x,places.at(0)->y,places.at(0)->z);
+    int xnew = (int) floor(places.at(0)->x/(double)TILE_SIZE);
+    int ynew = (int) floor(places.at(0)->z/(double)TILE_SIZE);
+
+    Vector3 out;
+    if((xnew==x)&&(ynew==y)) {
+        out = getDynamicSpawnPoint(locn);   
+    } else {
+        out = Vector3(places.at(0)->x,places.at(0)->y,places.at(0)->z);
+    }
     return out;
 }
 

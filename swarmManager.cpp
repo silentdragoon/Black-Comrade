@@ -63,14 +63,15 @@ void SwarmManager::tick()
 {
     int sp = gamePM->getParameter("SPAWN");
 
+
     if(sp>0) {
-        if(dynSwarmSize<sp) {
+        if(activeSwarms.size()<sp) {
             swarmTick++;
             if(swarmTick>Const::SPAWN_DELAY) {
                 swarmTick = 0;
                 Vector3 spawnPoint = mapMgr->getDynamicSpawnPoint(shipState->position);
                 createSwarm(1,spawnPoint);
-                dynSwarmSize++;
+                cout << "Swarms: " << activeSwarms.size() << endl;
             }
         }
     }
@@ -79,9 +80,9 @@ void SwarmManager::tick()
     for(int i=0;i<activeSwarms.size();i++) {
         Swarm *s = activeSwarms.at(i);
         if(s->size==0) {
-            dynSwarmSize--;
             delete s;
             activeSwarms.erase(activeSwarms.begin()+(i));
+            cout << "Swarms: " << activeSwarms.size() << endl;
         } else {
             s->tick();
         }
