@@ -74,6 +74,8 @@ void Swarm::tick()
 
 	updateSwarmLocation();
 	updateEnemyLocations();
+	
+	shootAtShip();
 }
 
 Swarm::~Swarm()
@@ -115,7 +117,7 @@ bool Swarm::isShipInSight()
 		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
 			return true;
 		}
-	} 
+	}
 	
 	return false;
 }
@@ -196,6 +198,32 @@ void Swarm::updateSwarmLocation()
 			}
 		}
 		
+	}
+}
+
+void Swarm::shootAtShip()
+{
+	vector<Enemy*>::iterator i;
+	Enemy *e;
+	
+	i = members.begin();
+	if(i != members.end()) {
+		e = *i;
+		
+		e->fire = false;
+		
+		Vector3 lineToShip = *(shipState->position) - e->getLocation();
+		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
+		
+		if(angleTo < 0.05) {
+			if(e->fireDelay <= 0) {
+				e->fireDelay = 50;
+				e->fire = true;
+				std::cout << "Bang!\n";
+			}
+		}
+		
+		if(e->fireDelay > 0) e->fireDelay -= 1;
 	}
 }
 

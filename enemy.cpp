@@ -3,7 +3,9 @@
 Enemy::Enemy(SceneNode *node, int health, SceneManager *sceneMgr) :
     node(node),
     health(health),
-    sceneMgr(sceneMgr)
+    sceneMgr(sceneMgr),
+    fire(false),
+    fireDelay(0)
 {}
 
 Enemy::~Enemy()

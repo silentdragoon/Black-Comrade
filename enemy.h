@@ -16,6 +16,8 @@ class Enemy
         
     public:
     	int health;
+    	bool fire;
+    	int fireDelay;
     
         SceneNode *node;
         Enemy(SceneNode *node, int health, SceneManager *sceneMgr);

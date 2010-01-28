@@ -34,6 +34,7 @@ class Swarm
     	void updateEnemyLocations();
     	
     	void removeDeadEnemies();
+    	void shootAtShip();
     	
     	bool isShipInSight();
     	
