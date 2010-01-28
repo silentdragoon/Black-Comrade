@@ -39,12 +39,13 @@ public:
     static const float ENEMY_SIGHT_ANGLE = 0.5236;
     
     static const float TURN_TO_LOOK_STEP = 0.01;
+    static const float SWARM_TARGET_DIS = 20;
     
     // Constants for network
     static const int SERVER_PORT=6005;
 
     // Constants for swarm managing
-    static const int SPAWN_DELAY=5.0 / TICK_PERIOD;
+    static const double SPAWN_DELAY=1.0 / TICK_PERIOD;
 };
 
 #endif

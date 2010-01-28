@@ -1,5 +1,6 @@
 #include "bulletManager.h"
 
+
 // TODO: Does this contain numbers which should be constants in const.h?
 
 void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
@@ -20,11 +21,12 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
     , gunState(gunState)
     , colMgr(colMgr)
+    , swarmMgr(swarmMgr)
     , bnum(0)
 {
     activeBullets = new vector<Bullet*>();
@@ -84,6 +86,17 @@ void BulletManager::tick()
         Vector3 *pos = new Vector3(sp.x,sp.y,sp.z);
 
         double t = colMgr->getRCMapDist(pos,&direction);
+        if(t<0) t=10000;
+
+        vector<Entity*> ents = swarmMgr->getAllEntities();
+        Entity *e;
+        for(vector<Entity*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+            e = *it;
+            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e);
+            if(temp<t) t = temp;
+        }
+
+        cout << t << endl;
         
         // FIRE THE BULLET!
         fire(bulletNode,direction,bullName,rname,t);
