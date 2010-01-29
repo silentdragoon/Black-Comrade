@@ -26,10 +26,13 @@ class BulletManager : public ITickable
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
         
-        void fire(SceneNode *bulletNode, Vector3 direction, string name, string rname, double distance, Enemy *enemy);
+        void fire(Vector3 origin, Vector3 direction, ColourValue c);
         void updateBullets(); 
+        
     public:
-        BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr);
+        BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
+        	FrontGunState *gunState, CollisionManager *colMgr, 
+        	SwarmManager *swarmMgr);
 
         ~BulletManager();
             

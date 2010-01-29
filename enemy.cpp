@@ -15,6 +15,10 @@ Enemy::~Enemy()
 
 Vector3 Enemy::getDirection() {
     Quaternion orient = node->getOrientation();
+    Quaternion rotateYaw(Radian(3.14159),Vector3::UNIT_Y);
+    
+    orient = orient * rotateYaw;
+    
     return orient.zAxis();
 }
 
@@ -45,9 +49,7 @@ void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
 	Radian troll(roll);
     Radian tpitch(pitch);
     Radian tyaw(yaw);
-    
-    
-    
+   
     node->yaw(tyaw);
     node->roll(troll);
     node->pitch(tpitch);
