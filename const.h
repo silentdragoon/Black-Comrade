@@ -31,7 +31,7 @@ public:
     
     // Constants for front gun
     static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
-    static const int FRONT_BULLET_SPEED = 10;
+    static const int FRONT_BULLET_SPEED = 50;
     
     // Constants for enemy behav.
     static const float ENEMY_PATROL_SPEED = 50.0 * TICK_PERIOD;
@@ -51,6 +51,10 @@ public:
     static const double SPAWN_DELAY=1.0 / TICK_PERIOD;
 
     // Constants for bulletManager
+
+    // Constants for mapManager
+    static const int MAPSIZE = 30;
+    static const int TILE_SIZE = 400;
 };
 
 #endif

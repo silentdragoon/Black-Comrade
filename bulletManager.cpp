@@ -29,7 +29,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     trail->setMaterialName("PE/LightRibbonTrail");
     trail->setTrailLength(75);
     trail->setMaxChainElements(400);
-    trail->setInitialColour(0,1.0,0.7,0.0);
+    trail->setInitialColour(0,c);
     trail->setInitialWidth(0,0.7);
     trail->addNode(bulletNode);
     sceneMgr->getRootSceneNode()->attachObject(trail);
