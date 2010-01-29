@@ -46,14 +46,19 @@ void Flying::updatePosition()
     orientation->y=orientation->y+angularVelocity->y;
     orientation->z=orientation->z+angularVelocity->z;
 
-    position->x=position->x+(velocity->x);
-    position->y=position->y+(velocity->y);
-    position->z=position->z+(velocity->z);
+    position->x=position->x+0;
+    position->y=position->y+(velocity->y*cos(orientation->y))+(velocity->z*sin(orientation->x));
+    position->z=position->z+(velocity->z*cos(orientation->x)*cos(orientation->y))+(velocity->x*cos(orientation->y));
 
     //cout << position->x << " " << position->y << " " << position->z << endl;
 
 
-    //cout << orientation->x << " " << orientation->y << " " << orientation->z << endl;
+    cout << orientation->x << " " << orientation->y << " " << orientation->z << endl;
+}
+
+void Flying::changeVector()
+{
+
 }
 
 void Flying::tick()
@@ -116,7 +121,7 @@ void Flying::tick()
         double accely = -getDrag("y")/Const::SHIP_MASS;
         double accelz = -getDrag("z")/Const::SHIP_MASS;
 
-        velocity->x = velocity->x + accelx;
+        velocity->x = velocity->x + accelx; // RELATIVE TO SHIP
         velocity->y = velocity->y + accely;
         velocity->z = velocity->z + accelz;
 

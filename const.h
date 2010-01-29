@@ -52,7 +52,7 @@ public:
     
     // Constants for flying
     static const double SHIP_MASS = 1000.0; // KG
-    static const double SHIP_FORWARD_THRUST = 100.0; // N
+    static const double SHIP_FORWARD_THRUST = 10.0; // N
     //static const int SHIP_REVERSE_THRUST = -10; // N
     static const double SHIP_ROTATE_THRUST = 0.1; // N
     static const double SHIP_SIDE_THRUST = 10.0; // N

@@ -16,6 +16,7 @@ class Flying : public ITickable
         double getDrag(string dir);
         double getVelocity();
         void updatePosition();
+        void changeVector();
     public:
         Vector3 *position; //
         Vector3 *velocity; // ( Units per tick )
