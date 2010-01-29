@@ -45,10 +45,24 @@ void Flying::updatePosition()
     orientation->x=orientation->x+angularVelocity->x;
     orientation->y=orientation->y+angularVelocity->y;
     orientation->z=orientation->z+angularVelocity->z;
-
-    position->x=position->x+0;
-    position->y=position->y+(velocity->y*cos(orientation->y))+(velocity->z*sin(orientation->x));
-    position->z=position->z+(velocity->z*cos(orientation->x)*cos(orientation->y))+(velocity->x*cos(orientation->y));
+    
+    double forward = velocity->z;
+    double side = velocity->x;
+    double up = velocity->y;
+    
+    double pitch = orientation->x;
+    double yaw = orientation->y;
+    
+    double zcomp =   (forward*cos(pitch))*cos(yaw)+side*sin(yaw);
+    double xcomp =   (forward*cos(pitch))*sin(yaw)+side*cos(yaw);
+    double ycomp =   (forward*sin(pitch))+up*cos(pitch);
+    
+    position->x=position->x+xcomp;
+    position->y=position->y+ycomp;
+    position->z=position->z+zcomp;
+    // position->x=position->x+(velocity->z*cos(orientation->x)*sin(orientation->y))+(velocity->x*cos(orientation->y));
+    // position->y=position->y+(velocity->y*cos(orientation->y))+(velocity->z*sin(orientation->x));
+    // position->z=position->z+(velocity->z*cos(orientation->x)*cos(orientation->y))+(velocity->x*sin(orientation->y));
 
     //cout << position->x << " " << position->y << " " << position->z << endl;
 
@@ -67,32 +81,32 @@ void Flying::tick()
     bool keypress=false;
 
     if(ks->isKeyDown(OIS::KC_A)) {
-        double accel = (Const::SHIP_SIDE_THRUST-getDrag("x"))/Const::SHIP_MASS;
+        double accel = (Const::SHIP_SIDE_THRUST)/Const::SHIP_MASS;
         velocity->x = velocity->x + accel;
         keypress=true;
     } 
     if(ks->isKeyDown(OIS::KC_D)) {
-        double accel = ((-1.0*(Const::SHIP_SIDE_THRUST))-getDrag("x"))/Const::SHIP_MASS;
+        double accel = (-1.0*(Const::SHIP_SIDE_THRUST))/Const::SHIP_MASS;
         velocity->x = velocity->x + accel;
         keypress=true;
     } 
     if(ks->isKeyDown(OIS::KC_SPACE)) {
-        double accel = (Const::SHIP_UP_THRUST-getDrag("y"))/Const::SHIP_MASS;
+        double accel = (Const::SHIP_UP_THRUST)/Const::SHIP_MASS;
         velocity->y = velocity->y + accel;
         keypress=true;
     } 
     if(ks->isKeyDown(OIS::KC_LSHIFT)) {
-        double accel = ((-1.0*(Const::SHIP_UP_THRUST))-getDrag("y"))/Const::SHIP_MASS;
+        double accel = (-1.0*(Const::SHIP_UP_THRUST))/Const::SHIP_MASS;
         velocity->y = velocity->y + accel;
         keypress=true;
     } 
     if(ks->isKeyDown(OIS::KC_W)) {
-        double accel = (Const::SHIP_FORWARD_THRUST-getDrag("z"))/Const::SHIP_MASS;
+        double accel = (Const::SHIP_FORWARD_THRUST)/Const::SHIP_MASS;
         velocity->z = velocity->z + accel;
         keypress=true;
     } 
     if(ks->isKeyDown(OIS::KC_S)) {
-        double accel = ((-1.0*(Const::SHIP_FORWARD_THRUST))-getDrag("z"))/Const::SHIP_MASS;
+        double accel = (-1.0*(Const::SHIP_FORWARD_THRUST))/Const::SHIP_MASS;
         velocity->z = velocity->z + accel;
         keypress=true;
     } 
@@ -117,18 +131,20 @@ void Flying::tick()
         keypress=true;
     } 
     if(!keypress) {
-        double accelx = -getDrag("x")/Const::SHIP_MASS;
-        double accely = -getDrag("y")/Const::SHIP_MASS;
-        double accelz = -getDrag("z")/Const::SHIP_MASS;
-
-        velocity->x = velocity->x + accelx; // RELATIVE TO SHIP
-        velocity->y = velocity->y + accely;
-        velocity->z = velocity->z + accelz;
-
-        angularVelocity->x = angularVelocity->x/1.1;
-        angularVelocity->y = angularVelocity->y/1.1;
-        angularVelocity->z = angularVelocity->z/1.1;
+       
     }
+    
+    double accelx = -getDrag("x")/Const::SHIP_MASS;
+    double accely = -getDrag("y")/Const::SHIP_MASS;
+    double accelz = -getDrag("z")/Const::SHIP_MASS;
+
+    velocity->x = velocity->x + accelx; // RELATIVE TO SHIP
+    velocity->y = velocity->y + accely;
+    velocity->z = velocity->z + accelz;
+
+    angularVelocity->x = angularVelocity->x/1.1;
+    angularVelocity->y = angularVelocity->y/1.2;
+    angularVelocity->z = angularVelocity->z/1.1;
     
     updatePosition();
 }
