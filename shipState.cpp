@@ -56,14 +56,16 @@ void ShipState::tick() {
     position->y = flying->position->y;
     position->z = flying->position->z;
 
-    roll = flying->orientation->z;
-    pitch = flying->orientation->x;
-    yaw = flying->orientation->y;
+    roll = flying->roll;
+    pitch = flying->pitch;
+    yaw = flying->yaw;
+    
+    
     updateOgre();
 }
 
 void ShipState::updateOgre() {
-    //std::cout << position->x << "," << position->y << "," << position->z << std::endl;
+    std::cout << position->x << "," << position->y << "," << position->z << std::endl;
 
 	shipSceneNode->resetOrientation();
 

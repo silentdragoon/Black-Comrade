@@ -1,150 +1,58 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(KeyState *ks,Vector3 *position,Vector3 *orientation) :
-    ks(ks),
-    position(position),
-    orientation(orientation)
+Flying::Flying(ShipControls *sc) :
+    sc(sc),
+    zVel(0.0),
+    xVel(0.0),
+    yVel(0.0),
+    flyPitch(0.0),
+    flyYaw(0.0),
+    flyRoll(0.0),
+    pitch(0.0),
+    yaw(0.0),
+    roll(0.0)
 {
-    velocity = new Vector3(0.0,0.0,0.0);
-    angularVelocity = new Vector3(0.0,0.0,0.0);
+    position = new Vector3(0.0, 0.0, -500.0 );
 }
 
 Flying::~Flying()
 {}
 
-double Flying::getDrag(string dir)
+void Flying::updateAngels()
 {
-    double v2 = 0.0;
-    if(dir=="x") v2 = velocity->x;
-    if(dir=="y") v2 = velocity->y;
-    if(dir=="z") v2 = velocity->z;
-
-    int m = 1;
-    if(v2<0) m = -1;
-
-    v2 = v2*v2; // Square the velocity for a laugh
-    //cout << "v2: " << v2 << endl;
-
-    double drag = m*0.5*Const::AIR_DENSITY*v2*Const::DRAG_COEFFICIENT*Const::REFERENCE_AREA;
-    //cout << "Drag: " << drag << endl;
-    return drag;
-}
-
-double Flying::getVelocity()
-{
-    double xvel = velocity->x;
-    double yvel = velocity->y;
-    double zvel = velocity->z;
-
-    return sqrt((xvel*xvel)+(yvel*yvel)+(zvel*zvel));
+    addPitch += (0.1*sc->forward());
+    if( addPitch > 1.0 ) addPitch = 1.0;
+    addRoll += (0.1*sc->side());
+    if( addRoll > 1.0 ) addRoll = 1.0;
+    flyYaw += (0.1*sc->yaw());
 }
 
 void Flying::updatePosition()
 {
-    orientation->x=orientation->x+angularVelocity->x;
-    orientation->y=orientation->y+angularVelocity->y;
-    orientation->z=orientation->z+angularVelocity->z;
+    double xzF =  EngineForce*sin(addPitch);
+    xVel += xzF*sin(flyYaw);
+    zVel += xzF*cos(flyYaw);
+
+    xVel *= 0.9;
+    yVel *= 0.9;
     
-    double forward = velocity->z;
-    double side = velocity->x;
-    double up = velocity->y;
+    position->x += xVel;
+    position->z += zVel;
     
-    double pitch = orientation->x;
-    double yaw = orientation->y;
+    pitch = addPitch;
+    roll = addRoll;
     
-    double zcomp =   (forward*cos(pitch))*cos(yaw)+side*sin(yaw);
-    double xcomp =   (forward*cos(pitch))*sin(yaw)+side*cos(yaw);
-    double ycomp =   (forward*sin(pitch))+up*cos(pitch);
     
-    position->x=position->x+xcomp;
-    position->y=position->y+ycomp;
-    position->z=position->z+zcomp;
-    // position->x=position->x+(velocity->z*cos(orientation->x)*sin(orientation->y))+(velocity->x*cos(orientation->y));
-    // position->y=position->y+(velocity->y*cos(orientation->y))+(velocity->z*sin(orientation->x));
-    // position->z=position->z+(velocity->z*cos(orientation->x)*cos(orientation->y))+(velocity->x*sin(orientation->y));
-
-    //cout << position->x << " " << position->y << " " << position->z << endl;
-
-
-    cout << orientation->x << " " << orientation->y << " " << orientation->z << endl;
-}
-
-void Flying::changeVector()
-{
-
+    
+    
+    // double zcomp =   (forward*cos(pitch))*cos(yaw)+side*sin(yaw);
+    // double xcomp =   (forward*cos(pitch))*sin(yaw)+side*cos(yaw);
+    // double ycomp =   (forward*sin(pitch))+up*cos(pitch);
 }
 
 void Flying::tick()
 {
-
-    bool keypress=false;
-
-    if(ks->isKeyDown(OIS::KC_A)) {
-        double accel = (Const::SHIP_SIDE_THRUST)/Const::SHIP_MASS;
-        velocity->x = velocity->x + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_D)) {
-        double accel = (-1.0*(Const::SHIP_SIDE_THRUST))/Const::SHIP_MASS;
-        velocity->x = velocity->x + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_SPACE)) {
-        double accel = (Const::SHIP_UP_THRUST)/Const::SHIP_MASS;
-        velocity->y = velocity->y + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_LSHIFT)) {
-        double accel = (-1.0*(Const::SHIP_UP_THRUST))/Const::SHIP_MASS;
-        velocity->y = velocity->y + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_W)) {
-        double accel = (Const::SHIP_FORWARD_THRUST)/Const::SHIP_MASS;
-        velocity->z = velocity->z + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_S)) {
-        double accel = (-1.0*(Const::SHIP_FORWARD_THRUST))/Const::SHIP_MASS;
-        velocity->z = velocity->z + accel;
-        keypress=true;
-    } 
-    if(ks->isKeyDown(OIS::KC_DOWN)) {
-        double accel = (-1.0*Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
-        angularVelocity->x = angularVelocity->x + accel;
-        keypress=true;
-    }
-    if(ks->isKeyDown(OIS::KC_UP)) {
-        double accel = (Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
-        angularVelocity->x = angularVelocity->x + accel;
-        keypress=true;
-    }
-    if(ks->isKeyDown(OIS::KC_LEFT)) {
-        double accel = (Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
-        angularVelocity->y = angularVelocity->y + accel;
-        keypress=true;
-    }
-    if(ks->isKeyDown(OIS::KC_RIGHT)) {
-        double accel = (-1.0*Const::SHIP_ROTATE_THRUST)/Const::SHIP_MASS;
-        angularVelocity->y = angularVelocity->y + accel;
-        keypress=true;
-    } 
-    if(!keypress) {
-       
-    }
-    
-    double accelx = -getDrag("x")/Const::SHIP_MASS;
-    double accely = -getDrag("y")/Const::SHIP_MASS;
-    double accelz = -getDrag("z")/Const::SHIP_MASS;
-
-    velocity->x = velocity->x + accelx; // RELATIVE TO SHIP
-    velocity->y = velocity->y + accely;
-    velocity->z = velocity->z + accelz;
-
-    angularVelocity->x = angularVelocity->x/1.1;
-    angularVelocity->y = angularVelocity->y/1.2;
-    angularVelocity->z = angularVelocity->z/1.1;
-    
-    updatePosition();
+    //updateAngels();
+    //updatePosition();
 }
