@@ -69,10 +69,13 @@ Main::Main() {
 
     GameRole myRole = collabInfo->getGameRole();
     if (myRole == PILOT) {
-        serverStartup();
+        pilotStartup();
     }
-    else {
-        clientStartup();
+    else if (myRole == ENGINEER) {
+        engineerStartup();
+    }
+    else if (myRole == NAVIGATOR) {
+        navigatorStartup();
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
@@ -112,15 +115,25 @@ Main::Main() {
 
 }
 
-void Main::clientStartup() {
+void Main::navigatorStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
 
     shipState->shipSceneNode = shipSceneNode;
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
 }
 
-void Main::serverStartup() {
+void Main::engineerStartup() {
+    camera->setPosition(0,0,-40);
+    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+    frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+
+    shipState->shipSceneNode = shipSceneNode;
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+}
+
+void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
     sc = new ShipControls(ks);
     as = new AccelerationState(sc);
@@ -248,7 +261,7 @@ Main::~Main()
     delete ms;
     cout << "deleteing bulletMgr" << endl;
     delete bulletMgr;
-    if (collabInfo->getNetworkRole() == SERVER || collabInfo->getNetworkRole() == INVISIBLESERVER) {
+    if (collabInfo->getGameRole() == PILOT) {
         cout << "deleting shipstate" << endl;
         delete shipState;
         cout << "deleting frontGunState" << endl;
