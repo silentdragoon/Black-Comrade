@@ -1,4 +1,5 @@
 #include "navigatorControls.h"
+#include <iostream>
 
 NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
@@ -14,6 +15,7 @@ void NavigatorControls::tick()
     if(enabled) {
         int x = inputState->getMouseX();
         int y = inputState->getMouseY();
+
         cam->yaw(Degree(-0.13 * x));
         cam->pitch(Degree(-0.13 * y));
     }

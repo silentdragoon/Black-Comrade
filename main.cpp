@@ -132,18 +132,24 @@ void Main::serverStartup() {
 }
 
 void Main::navigatorStartup() {
-    camera->setPosition(0,0,-40);
+    camera->setPosition(0,2,-2);
+    nc = new NavigatorControls(ks,camera);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+
+    stateUpdate->addTickable(nc);
 
     shipState->shipSceneNode = shipSceneNode;
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
 }
 
 void Main::engineerStartup() {
-    camera->setPosition(0,0,-40);
+    camera->setPosition(0,-2,-2);
+    nc = new NavigatorControls(ks,camera);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+
+    stateUpdate->addTickable(nc);
 
     shipState->shipSceneNode = shipSceneNode;
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
@@ -161,6 +167,7 @@ void Main::pilotStartup() {
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
     //networkingManager->replicate(enemyState);
+
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
