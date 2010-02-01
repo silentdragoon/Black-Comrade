@@ -43,8 +43,6 @@ private:
                                 const Ogre::Vector3 &scale);
 
 	void getMatrix(Entity *entity, dFloat *matrix);
-
-    //static dFloat RayCastFilter(const NewtonBody* body, const dFloat* normal, int collisionID, void* userData, dFloat intersetParam);
     
 public:
     
@@ -54,14 +52,15 @@ public:
     
     Collision isCollision(Entity *e1, Entity *e2);
     
-    void createShipMesh( Entity* e );
-    void createEnemyMesh( Entity* e );
-    
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
-    dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     
-    void createEnemyConvexHull( Entity *entity );
+    //depreciated. Here for refrence
+    //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
+    // void createshipmesh( entity* e );
+    // void createEnemyMesh( Entity* e );
+    
+    void createConvexHull( Entity *entity );
     
 };
 

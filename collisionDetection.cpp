@@ -75,28 +75,6 @@ void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
 }
 
 
-void CollisionDetection::createShipMesh( Entity * e )
-{
-    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,2, NULL); 
-    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
-    NewtonReleaseCollision (newtonWorld, shipCollision);
-    
-    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
- 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
-}
-
-
-
-void CollisionDetection::createEnemyMesh( Entity * e )
-{
-    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,3, NULL); 
-    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
-    NewtonReleaseCollision (newtonWorld, shipCollision);
-    
-    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
- 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
-}
-
 Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 {
     dFloat e1Matrix[16];
@@ -178,10 +156,11 @@ dFloat CollisionDetection::rayCollideWithTransform( Vector3 *start, Vector3 *end
     Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
     Vector3 transStart = m4 * (*start);
     Vector3 transEnd = m4 * (*end);
-    return rayCollideDist( &transStart, &transEnd, collideAgainst );
+    //return rayCollideDist( &transStart, &transEnd, collideAgainst );
+    return -1;
 }
 
-void CollisionDetection::createEnemyConvexHull( Entity *entity )
+void CollisionDetection::createConvexHull( Entity *entity )
 {
     size_t vertex_count;
 	size_t index_count;
@@ -201,29 +180,13 @@ void CollisionDetection::createEnemyConvexHull( Entity *entity )
         vertexCloud[i*3+2] = vertices[i].z;
     }
     shapeID++;
-    enemyCol = NewtonCreateConvexHull (newtonWorld, vertex_count, vertexCloud, 12, 0.002, shapeID, NULL);
+    NewtonCollision *newCol = NewtonCreateConvexHull (newtonWorld, vertex_count, vertexCloud, 12, 0.002, shapeID, NULL);
+    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, newCol);
     //PROBLEM with the line above as this comand should work, but terminates the app;Possibly a c++ issue
     //NewtonReleaseCollision( newtonWorld, enemyCol);
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,newCol));
+ 	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidBodyBox));
 }
-
-dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
-{
-    if(enemyCol == NULL)createEnemyConvexHull(collideAgainst);
-    Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
-    Vector3 transStart = m4 * (*start);
-    Vector3 transEnd = m4 * (*end);
-    
-    dFloat p0[3]; dFloat p1[3];
-    p0[0] = transStart.x; p0[1] = transStart.y; p0[2] = transStart.z;
-    
-    p1[0] = transEnd.x; p1[1] = transEnd.y; p1[2] = transEnd.z;
-    
-    dFloat normal[3];
-    int att[1];
-
-    return NewtonCollisionRayCast( enemyCol, p0, p1, normal, att);
-}
-
 
 void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
 {
@@ -252,6 +215,47 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
    	*(matrix+13) = pos.y;
    	*(matrix+14) = pos.z;
 }
+
+/* dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
+{
+
+    Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
+    Vector3 transStart = m4 * (*start);
+    Vector3 transEnd = m4 * (*end);
+    
+    dFloat p0[3]; dFloat p1[3];
+    p0[0] = transStart.x; p0[1] = transStart.y; p0[2] = transStart.z;
+    
+    p1[0] = transEnd.x; p1[1] = transEnd.y; p1[2] = transEnd.z;
+    
+    dFloat normal[3];
+    int att[1];
+
+    return NewtonCollisionRayCast( enemyCol, p0, p1, normal, att);
+} */
+
+
+/* void CollisionDetection::createShipMesh( Entity * e )
+{
+    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,2, NULL); 
+    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
+    NewtonReleaseCollision (newtonWorld, shipCollision);
+    
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
+ 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
+}
+
+
+
+void CollisionDetection::createEnemyMesh( Entity * e )
+{
+    NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,3, NULL); 
+    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
+    NewtonReleaseCollision (newtonWorld, shipCollision);
+    
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
+ 	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
+} */
 
 void CollisionDetection::GetMeshInformation(const Ogre::MeshPtr mesh,
                                 size_t &vertex_count,

@@ -54,7 +54,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     Enemy *hurtEnemy = NULL;
     for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
         e = *it;
-        double temp = colMgr->rayCollideWithEnemy(pos,&direction,e->getEntity());
+        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
         if(temp<t) {
         	t = temp;
         	isEnemy = true;
