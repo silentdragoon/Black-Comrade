@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string>
-#include "DiscoveryAgent.h"
+#include "discoveryAgent.h"
 
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
 

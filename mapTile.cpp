@@ -6,6 +6,11 @@ MapTile::MapTile(SceneNode *node, Entity *e) :
 {
     empty = false;
     waypoint = false;
+
+    northTile = NULL;
+    eastTile = NULL;
+    southTile = NULL;
+    westTile = NULL;
 }
 
 MapTile::MapTile()
@@ -73,4 +78,32 @@ Vector3* MapTile::getSpawn(int i)
     if(i==3) return southSpawn;
     if(i==4) return westSpawn;
     return NULL;
+}
+
+void MapTile::setAdjacent(int i, MapTile *adj)
+{
+    if(i==1) northTile = adj;
+    if(i==2) eastTile = adj;
+    if(i==3) southTile = adj;
+    if(i==4) westTile = adj;
+}
+
+MapTile* MapTile::getAdjacent(int i)
+{
+    if(i==1) return northTile;
+    if(i==2) return eastTile;
+    if(i==3) return southTile;
+    if(i==4) return westTile;
+    return NULL;
+}
+
+void MapTile::setConnections(vector<int> c)
+{
+    conns = c;
+}
+
+vector<int> MapTile::getConnections()
+{
+    random_shuffle(conns.begin(),conns.end());
+    return conns;
 }

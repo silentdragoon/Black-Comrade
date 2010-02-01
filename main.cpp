@@ -154,6 +154,8 @@ void Main::pilotStartup() {
 
 }
 
+
+
 void Main::startNetworking() {
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
@@ -249,6 +251,21 @@ int main()
     delete main;
 }
 
+void Main::pilotShutdown() {
+        cout << "deleting shipstate" << endl;
+        delete shipState;
+        cout << "deleting frontGunState" << endl;
+        delete frontGunState;
+}
+
+void Main::navigatorShutdown() {
+
+}
+
+void Main::engineerShutdown() {
+
+}
+
 Main::~Main()
 {
     cout << "deleting ks" << endl;
@@ -262,10 +279,13 @@ Main::~Main()
     cout << "deleteing bulletMgr" << endl;
     delete bulletMgr;
     if (collabInfo->getGameRole() == PILOT) {
-        cout << "deleting shipstate" << endl;
-        delete shipState;
-        cout << "deleting frontGunState" << endl;
-        delete frontGunState;
+        pilotShutdown();
+    }
+    else if (collabInfo->getGameRole() == NAVIGATOR) {
+        navigatorShutdown();
+    }
+    else if (collabInfo->getGameRole() == ENGINEER) {
+        engineerShutdown();
     }
     cout << "deleting networkingManger" << endl;
     delete networkingManager;
