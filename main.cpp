@@ -67,24 +67,31 @@ Main::Main() {
     
     collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
-    GameRole myRole = collabInfo->getGameRole();
-    if (myRole == PILOT) {
+    GameRole myGameRole = collabInfo->getGameRole();
+    if (myGameRole == PILOT) {
         pilotStartup();
     }
-    else if (myRole == ENGINEER) {
+    else if (myGameRole == ENGINEER) {
         engineerStartup();
     }
-    else if (myRole == NAVIGATOR) {
+    else if (myGameRole == NAVIGATOR) {
         navigatorStartup();
+    }
+
+    NetworkRole myNetworkRole = collabInfo->getNetworkRole();
+    if (myNetworkRole == SERVER || myNetworkRole == DEVELOPMENTSERVER) {
+        serverStartup();
+    }
+    else if (myNetworkRole == CLIENT) {
+        clientStartup();
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
-	gameStateMachine = new GameStateMachine(mapMgr,shipState);
-	gameParameterMap = new GameParameterMap(gameStateMachine);
+    gameParameterMap = new GameParameterMap(gameStateMachine);
 	
-	printState = new PrintState(gameStateMachine);
+    printState = new PrintState(gameStateMachine);
 
 	//Test swarm
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
@@ -113,6 +120,15 @@ Main::Main() {
     root->startRendering();
     networkingManager->stopNetworking();
 
+}
+
+void Main::clientStartup() {
+    gameStateMachine = (GameStateMachine *) networkingManager->getReplica("GameStateMachine", true);
+}
+
+void Main::serverStartup() {
+    gameStateMachine = new GameStateMachine(mapMgr,shipState);
+    networkingManager->replicate(gameStateMachine);
 }
 
 void Main::navigatorStartup() {
@@ -249,6 +265,14 @@ int main()
     Main *main = new Main();
 
     delete main;
+}
+
+void Main::clientShutdown() {
+
+}
+
+void Main::serverShutdown() {
+
 }
 
 void Main::pilotShutdown() {

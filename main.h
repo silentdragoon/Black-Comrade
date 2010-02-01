@@ -77,9 +77,15 @@ private:
     void engineerStartup();
     void pilotStartup();
 
+    void clientStartup();
+    void serverStartup();
+
     void navigatorShutdown();
     void engineerShutdown();
     void pilotShutdown();
+
+    void clientShutdown();
+    void serverShutdown();
     
 public:
     Main();

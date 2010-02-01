@@ -10,11 +10,28 @@ GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
 	, mIsNewState(true)
 {}
 
+GameStateMachine::GameStateMachine()
+        : gameState(GS_STELPH)
+        , previousState(GS_END)
+        , mapManager(0)
+        , shipState(0)
+        , mIsNewState(true)
+{}
+
 void GameStateMachine::tick()
 {
 	GameState oldState = gameState;
 	mIsNewState = false;
 
+        if (mapManager == 0) {
+            if (previousState != gameState) {
+                mIsNewState = true;
+                previousState = gameState;
+            }
+            return;
+        }
+
+        //std::cout << "Checking statemachine" << std::endl;
 	// Waypoint events
 	string *wp = mapManager->getWaypoint(shipState->position);
 	if(wp != NULL) {
@@ -26,7 +43,7 @@ void GameStateMachine::tick()
 			}
 		}
 	}
-	
+
 	if(oldState != gameState) mIsNewState = true;
 }
 	
@@ -38,4 +55,16 @@ GameState GameStateMachine::currentGameState()
 bool GameStateMachine::isNewState()
 {
 	return mIsNewState;
+}
+
+RakNet::RakString GameStateMachine::GetName(void) const {return RakNet::RakString("GameStateMachine");}
+
+RM3SerializationResult GameStateMachine::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(gameState);
+
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void GameStateMachine::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+    deserializeParameters->serializationBitstream[0].Read(gameState);
 }

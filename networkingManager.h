@@ -16,6 +16,7 @@
 
 #include "gameRole.h"
 
+#include <vector>
 #include <string>
 #include <cstdio>
 
@@ -55,6 +56,7 @@ public:
         bool replicate(ReplicaObject *object);
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);
+        vector<ReplicaObject*> getReplicas(string name);
 };
 
 

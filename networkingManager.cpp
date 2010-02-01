@@ -156,3 +156,19 @@ ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
     }
 }
 
+vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
+    DataStructures::Multilist<ML_STACK, Replica3*> replicaList;
+    DataStructures::DefaultIndexType index;
+    replicaManager.GetReferencedReplicaList(replicaList);
+
+    vector<ReplicaObject*> replicas = vector<ReplicaObject*>();
+    try {
+        for (index=0; index < replicaList.GetSize(); index++) {
+            ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);
+            if (temp->GetName().StrCmp(RakNet::RakString(name.c_str())) == 0) replicas.push_back(temp);
+        }
+    }
+    catch (...) {}
+    return replicas;
+}
+
