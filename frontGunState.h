@@ -7,7 +7,7 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "shipControls.h"
+#include "pilotControls.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -21,7 +21,7 @@ class FrontGunState : public ITickable, public ReplicaObject
         int timeSinceLastFire;
         bool isFire;
         
-        ShipControls *shipControls;
+        PilotControls *pilotControls;
         
     public:
         bool fire();
@@ -29,7 +29,7 @@ class FrontGunState : public ITickable, public ReplicaObject
         virtual void tick();
         
         FrontGunState();
-        FrontGunState(ShipControls *shipControls);
+        FrontGunState(PilotControls *pilotControls);
         ~FrontGunState();
 
         virtual RakNet::RakString GetName(void) const;

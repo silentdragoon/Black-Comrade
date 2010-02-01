@@ -16,7 +16,7 @@
 #include "GetTime.h"
 #include "SocketLayer.h"
 
-#include "DiscoveryAgent.h"
+#include "discoveryAgent.h"
 #include "networkRole.h"
 #include "gameRole.h"
 

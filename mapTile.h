@@ -24,17 +24,32 @@ class MapTile
         Vector3 *southSpawn;
         Vector3 *westSpawn;
 
+        vector<int> conns;
+
+        MapTile *northTile;
+        MapTile *eastTile;
+        MapTile *southTile;
+        MapTile *westTile;
+
     public:
         bool hasWaypoint();
         bool isEmpty();
+
         void assignWaypoint(Waypoint *wa);
         void assignSpawnPoints(vector<Vector3*> sp);
         void setSpawn(int i, Vector3 *locn);
+        void setAdjacent(int i, MapTile *adj);
+        void setConnections(vector<int> c);
+
         Vector3* getSpawn(int i);
+        MapTile* getAdjacent(int i);
+        vector<int> getConnections();
         vector<Vector3*> getSpawnPoints();
+
         Waypoint * getWaypoint();
         Entity* getEntity();
         SceneNode* getSceneNode();
+
         MapTile(SceneNode *node, Entity *e);
         MapTile();
         ~MapTile();

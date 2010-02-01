@@ -38,11 +38,11 @@ public:
     static const float ENEMY_ATTACK_SPEED = 100.0 * TICK_PERIOD;
     // How many times its verlocity you look ahead
     static const float LOOKA = 15;
-    static const float ENEMY_SIGHT_DIS = 100;
+    static const float ENEMY_SIGHT_DIS = 150;
     static const float ENEMY_SIGHT_ANGLE = 0.5236;
     
     static const float TURN_TO_LOOK_STEP = 0.01;
-    static const float SWARM_TARGET_DIS = 20;
+    static const float SWARM_TARGET_DIS = 35;
     
     // Constants for network
     static const int SERVER_PORT=6005;

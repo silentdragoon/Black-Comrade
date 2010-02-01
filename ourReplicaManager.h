@@ -3,7 +3,7 @@
 
 #include "ReplicaManager3.h"
 #include "RakNetTime.h"
-#include "ReplicaConnection.h"
+#include "replicaConnection.h"
 
 using namespace RakNet;
 

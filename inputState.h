@@ -1,6 +1,6 @@
 
-#ifndef KEY_STATE_H
-#define KEY_STATE_H
+#ifndef INPUT_STATE_H
+#define INPUT_STATE_H
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
@@ -11,10 +11,11 @@
 
 using namespace Ogre;
 
-class KeyState : public ITickable
+class InputState : public ITickable
 {
     private:
         OIS::Keyboard* mKeyboard;
+        OIS::Mouse* mMouse;
         OIS::InputManager* mInputManager;
         RenderWindow *mWindow;
         
@@ -22,11 +23,15 @@ class KeyState : public ITickable
         
     public:    
         bool isKeyDown(OIS::KeyCode keyCode);
+        bool isMouseMoved(const OIS::MouseEvent &e);
+
+        int getMouseX();
+        int getMouseY();
         
         virtual void tick();
         
-        KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit);
-        ~KeyState();
+        InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit);
+        ~InputState();
 };
 
 #endif

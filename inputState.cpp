@@ -1,22 +1,33 @@
 
-#include "keyState.h"
+#include "inputState.h"
 
 using namespace std;
 
-void KeyState::tick()
+void InputState::tick()
 {
     mKeyboard->capture();
+    mMouse->capture();
     
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
         mExit->exit();   
 }
 
-bool KeyState::isKeyDown(OIS::KeyCode keyCode)
+bool InputState::isKeyDown(OIS::KeyCode keyCode)
 {
     return mKeyboard->isKeyDown(keyCode);
 }
 
-KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
+int InputState::getMouseX()
+{
+    return mMouse->getMouseState().X.rel;
+}
+
+int InputState::getMouseY()
+{
+    return mMouse->getMouseState().Y.rel;
+}
+
+InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
     : mKeyboard(0)
     , mWindow(mWindow)
     , mExit(mExit)
@@ -31,11 +42,13 @@ KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit)
 
     mInputManager = OIS::InputManager::createInputSystem(pl);
     mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
+    mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));
 }
 
-KeyState::~KeyState()
+InputState::~InputState()
 {
 	mInputManager->destroyInputObject( mKeyboard );
+    mInputManager->destroyInputObject( mMouse );
 
 	OIS::InputManager::destroyInputSystem(mInputManager);
 	mInputManager = NULL;

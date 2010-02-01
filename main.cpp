@@ -59,7 +59,7 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    ks = new KeyState(window, false, this);
+    ks = new InputState(window, false, this);
     
     stateUpdate = new StateUpdate();
     
@@ -67,24 +67,31 @@ Main::Main() {
     
     collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
-    GameRole myRole = collabInfo->getGameRole();
-    if (myRole == PILOT) {
+    GameRole myGameRole = collabInfo->getGameRole();
+    if (myGameRole == PILOT) {
         pilotStartup();
     }
-    else if (myRole == ENGINEER) {
+    else if (myGameRole == ENGINEER) {
         engineerStartup();
     }
-    else if (myRole == NAVIGATOR) {
+    else if (myGameRole == NAVIGATOR) {
         navigatorStartup();
+    }
+
+    NetworkRole myNetworkRole = collabInfo->getNetworkRole();
+    if (myNetworkRole == SERVER || myNetworkRole == DEVELOPMENTSERVER) {
+        serverStartup();
+    }
+    else if (myNetworkRole == CLIENT) {
+        clientStartup();
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
 
-	gameStateMachine = new GameStateMachine(mapMgr,shipState);
-	gameParameterMap = new GameParameterMap(gameStateMachine);
+    gameParameterMap = new GameParameterMap(gameStateMachine);
 	
-	printState = new PrintState(gameStateMachine);
+    printState = new PrintState(gameStateMachine);
 
 	//Test swarm
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
@@ -115,6 +122,15 @@ Main::Main() {
 
 }
 
+void Main::clientStartup() {
+    gameStateMachine = (GameStateMachine *) networkingManager->getReplica("GameStateMachine", true);
+}
+
+void Main::serverStartup() {
+    gameStateMachine = new GameStateMachine(mapMgr,shipState);
+    networkingManager->replicate(gameStateMachine);
+}
+
 void Main::navigatorStartup() {
     camera->setPosition(0,0,-40);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
@@ -135,7 +151,7 @@ void Main::engineerStartup() {
 
 void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
-    sc = new ShipControls(ks);
+    sc = new PilotControls(ks);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
@@ -153,6 +169,8 @@ void Main::pilotStartup() {
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
 
 }
+
+
 
 void Main::startNetworking() {
     char ch;
@@ -249,6 +267,29 @@ int main()
     delete main;
 }
 
+void Main::clientShutdown() {
+
+}
+
+void Main::serverShutdown() {
+
+}
+
+void Main::pilotShutdown() {
+        cout << "deleting shipstate" << endl;
+        delete shipState;
+        cout << "deleting frontGunState" << endl;
+        delete frontGunState;
+}
+
+void Main::navigatorShutdown() {
+
+}
+
+void Main::engineerShutdown() {
+
+}
+
 Main::~Main()
 {
     cout << "deleting ks" << endl;
@@ -262,10 +303,13 @@ Main::~Main()
     cout << "deleteing bulletMgr" << endl;
     delete bulletMgr;
     if (collabInfo->getGameRole() == PILOT) {
-        cout << "deleting shipstate" << endl;
-        delete shipState;
-        cout << "deleting frontGunState" << endl;
-        delete frontGunState;
+        pilotShutdown();
+    }
+    else if (collabInfo->getGameRole() == NAVIGATOR) {
+        navigatorShutdown();
+    }
+    else if (collabInfo->getGameRole() == ENGINEER) {
+        engineerShutdown();
     }
     cout << "deleting networkingManger" << endl;
     delete networkingManager;

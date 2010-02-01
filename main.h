@@ -9,10 +9,10 @@
 #include "networkRole.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "keyState.h"
+#include "inputState.h"
 #include "frontGunState.h"
 #include "Kbhit.h"
-#include "shipControls.h"
+#include "pilotControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
@@ -46,9 +46,9 @@ private:
     bool isServer;
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
-    KeyState *ks;
+    InputState *ks;
     FrontGunState *frontGunState;
-    ShipControls *sc;
+    PilotControls *sc;
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;
@@ -76,6 +76,16 @@ private:
     void navigatorStartup();
     void engineerStartup();
     void pilotStartup();
+
+    void clientStartup();
+    void serverStartup();
+
+    void navigatorShutdown();
+    void engineerShutdown();
+    void pilotShutdown();
+
+    void clientShutdown();
+    void serverShutdown();
     
 public:
     Main();

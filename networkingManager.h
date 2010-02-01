@@ -8,14 +8,15 @@
 
 #include "replicaObject.h"
 #include "shipState.h"
-#include "ReplicaConnection.h"
-#include "OurReplicaManager.h"
+#include "replicaConnection.h"
+#include "ourReplicaManager.h"
 #include "collaborationInfo.h"
-#include "DiscoveryAgent.h"
+#include "discoveryAgent.h"
 #include "lobby.h"
 
 #include "gameRole.h"
 
+#include <vector>
 #include <string>
 #include <cstdio>
 
@@ -55,6 +56,7 @@ public:
         bool replicate(ReplicaObject *object);
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);
+        vector<ReplicaObject*> getReplicas(string name);
 };
 
 
