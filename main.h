@@ -13,6 +13,7 @@
 #include "frontGunState.h"
 #include "Kbhit.h"
 #include "pilotControls.h"
+#include "navigatorControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
