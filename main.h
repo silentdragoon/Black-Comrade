@@ -26,6 +26,7 @@
 #include "gameParameterMap.h"
 #include "printState.h"
 #include "swarmManager.h"
+#include "navigatorControls.h"
 
 //include networking stuff
 #include <string.h>
@@ -46,7 +47,7 @@ private:
     bool isServer;
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
-    InputState *ks;
+    InputState *inputState;
     FrontGunState *frontGunState;
     PilotControls *sc;
     AccelerationState *as;
@@ -58,6 +59,7 @@ private:
     GameStateMachine *gameStateMachine;
     GameParameterMap *gameParameterMap;
     PrintState *printState;
+    NavigatorControls *navControls;
     
     SceneNode *mapNode;
     
