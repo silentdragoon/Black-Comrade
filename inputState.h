@@ -24,6 +24,9 @@ class InputState : public ITickable
     public:    
         bool isKeyDown(OIS::KeyCode keyCode);
         bool isMouseMoved(const OIS::MouseEvent &e);
+
+        int getMouseX();
+        int getMouseY();
         
         virtual void tick();
         

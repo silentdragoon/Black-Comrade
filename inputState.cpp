@@ -17,9 +17,14 @@ bool InputState::isKeyDown(OIS::KeyCode keyCode)
     return mKeyboard->isKeyDown(keyCode);
 }
 
-bool InputState::isMouseMoved(const OIS::MouseEvent &e)
+int InputState::getMouseX()
 {
-    return true;
+    return mMouse->getMouseState().X.rel;
+}
+
+int InputState::getMouseY()
+{
+    return mMouse->getMouseState().Y.rel;
 }
 
 InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
