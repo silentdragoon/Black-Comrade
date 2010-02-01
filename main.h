@@ -51,7 +51,6 @@ private:
     InputState *inputState;
     FrontGunState *frontGunState;
     PilotControls *sc;
-    NavigatorControls *nc;
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;
