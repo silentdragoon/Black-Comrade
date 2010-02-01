@@ -151,7 +151,7 @@ void Main::engineerStartup() {
 
 void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
-    sc = new ShipControls(ks);
+    sc = new PilotControls(ks);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);

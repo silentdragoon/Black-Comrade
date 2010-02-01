@@ -10,7 +10,7 @@
 #include "IAccelerationState.h"
 #include "inputState.h"
 
-class ShipControls : public ITickable, public IAccelerationState
+class PilotControls : public ITickable, public IAccelerationState
 {
     private:
         double mForward;
@@ -36,8 +36,8 @@ class ShipControls : public ITickable, public IAccelerationState
         
         virtual void tick();
         
-        ShipControls(InputState *inputState);
-        ~ShipControls();
+        PilotControls(InputState *inputState);
+        ~PilotControls();
 };
 
 #endif

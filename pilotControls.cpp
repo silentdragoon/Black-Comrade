@@ -1,44 +1,44 @@
 
-#include "shipControls.h"
+#include "pilotControls.h"
 
 using namespace std;
 
-double ShipControls::forward()
+double PilotControls::forward()
 {
     return mForward;
 }
 
-double ShipControls::side()
+double PilotControls::side()
 {
     return mSide;
 }
 
-double ShipControls::up()
+double PilotControls::up()
 {
     return mUp;
 }
 
-double ShipControls::yaw()
+double PilotControls::yaw()
 {
     return mYaw;
 }
 
-double ShipControls::pitch()
+double PilotControls::pitch()
 {
     return mPitch;
 }
 
-bool ShipControls::fire()
+bool PilotControls::fire()
 {
     return isFire;
 }
 
-void ShipControls::setEnabled(bool b)
+void PilotControls::setEnabled(bool b)
 {
     enabled = b;
 }
 
-void ShipControls::tick()
+void PilotControls::tick()
 {
     if(enabled) {
         if(inputState->isKeyDown(OIS::KC_W))
@@ -80,10 +80,10 @@ void ShipControls::tick()
     }
 }
 
-ShipControls::ShipControls(InputState *inputState)
+PilotControls::PilotControls(InputState *inputState)
     : inputState(inputState)
     , enabled(true)
 {}
 
-ShipControls::~ShipControls() {}
+PilotControls::~PilotControls() {}
 

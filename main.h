@@ -12,7 +12,7 @@
 #include "inputState.h"
 #include "frontGunState.h"
 #include "Kbhit.h"
-#include "shipControls.h"
+#include "pilotControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
@@ -48,7 +48,7 @@ private:
     SoundManager *soundMgr;
     InputState *ks;
     FrontGunState *frontGunState;
-    ShipControls *sc;
+    PilotControls *sc;
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;

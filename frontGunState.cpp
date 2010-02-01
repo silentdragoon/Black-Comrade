@@ -13,25 +13,25 @@ void FrontGunState::tick()
     timeSinceLastFire++;
 
     isFire = false;
-    if (shipControls == 0) return;
+    if (pilotControls == 0) return;
 
 
-    if(shipControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
+    if(pilotControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
         isFire = true;
         timeSinceLastFire = 0;
     }
 
 }
         
-FrontGunState::FrontGunState(ShipControls *shipControls)
-    : shipControls(shipControls)
+FrontGunState::FrontGunState(PilotControls *pilotControls)
+    : pilotControls(pilotControls)
     , isFire(false)
     , timeSinceLastFire(0)
 {
 }
 
 FrontGunState::FrontGunState()
-    : shipControls(0)
+    : pilotControls(0)
 {}
 
 FrontGunState::~FrontGunState() {}
