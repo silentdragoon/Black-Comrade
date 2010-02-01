@@ -76,6 +76,10 @@ private:
     void navigatorStartup();
     void engineerStartup();
     void pilotStartup();
+
+    void navigatorShutdown();
+    void engineerShutdown();
+    void pilotShutdown();
     
 public:
     Main();
