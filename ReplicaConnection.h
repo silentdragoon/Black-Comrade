@@ -12,6 +12,7 @@ public:
     ReplicaConnection(SystemAddress _systemAddress, RakNetGUID _guid);
     virtual ~ReplicaConnection();
     virtual Replica3 *AllocReplica(RakNet::BitStream *allocationId, ReplicaManager3 *replicaManager3);
+    DataStructures::Multilist<ML_STACK, LastSerializationResult*, Replica3*> getList();
 
 protected:
 };

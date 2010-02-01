@@ -73,8 +73,9 @@ private:
     void createViewPort();
     void startNetworking();
 
-    void clientStartup();
-    void serverStartup();
+    void navigatorStartup();
+    void engineerStartup();
+    void pilotStartup();
     
 public:
     Main();

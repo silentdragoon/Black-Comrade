@@ -10,7 +10,7 @@
 #include "shipControls.h"
 
 // include Raknet classes
-#include "ReplicaObject.h"
+#include "replicaObject.h"
 #include "ReplicaManager3.h"
 
 using namespace RakNet;

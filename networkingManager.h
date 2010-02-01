@@ -6,7 +6,7 @@
 
 // raknet required includes
 
-#include "ReplicaObject.h"
+#include "replicaObject.h"
 #include "shipState.h"
 #include "ReplicaConnection.h"
 #include "OurReplicaManager.h"

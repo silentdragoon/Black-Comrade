@@ -9,7 +9,7 @@
 #include "ITickable.h"
 
 // include Raknet classes
-#include "ReplicaObject.h"
+#include "replicaObject.h"
 #include "ReplicaManager3.h"
 #include "collisionManager.h"
 #include "collision.h"
