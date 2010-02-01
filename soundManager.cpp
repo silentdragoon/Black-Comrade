@@ -9,13 +9,13 @@ void SoundManager::errCheck(FMOD_RESULT result) {
 SoundManager::SoundManager() {
     Ogre::LogManager::getSingleton().logMessage("Starting sound system...");
 
-    errCheck( FMOD::System_Create(&system) );
+    //errCheck( FMOD::System_Create(&system) );
 
-    errCheck( system->setOutput(FMOD_OUTPUTTYPE_ALSA) );
+    //errCheck( system->setOutput(FMOD_OUTPUTTYPE_ALSA) );
 
-    errCheck( system->setSoftwareChannels(100) );
+    //errCheck( system->setSoftwareChannels(100) );
 
-    errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
+    //errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
     //FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
     //errCheck( system->setReverbAmbientProperties(&prop) );
@@ -26,11 +26,11 @@ SoundManager::SoundManager() {
 }
 
 void SoundManager::loadSoundFiles() {
-    errCheck( system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &sound1) );
+    //errCheck( system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &sound1) );
 
     //errCheck( sound1->set3DMinMaxDistance(0.0f, 10000.0f) );
 
-    errCheck( sound1->setMode(FMOD_LOOP_OFF) );
+    //errCheck( sound1->setMode(FMOD_LOOP_OFF) );
 }
 
 void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
@@ -46,27 +46,27 @@ void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode
     
     FMOD::Channel *channel1;
 
-    errCheck( system->playSound(FMOD_CHANNEL_FREE, sound1, true, &channel1) );
+    //errCheck( system->playSound(FMOD_CHANNEL_FREE, sound1, true, &channel1) );
     
-    errCheck( channel1->set3DAttributes(&pos, &vel) );
+    //errCheck( channel1->set3DAttributes(&pos, &vel) );
 
-    errCheck( channel1->setVolume(volume) );
+    //errCheck( channel1->setVolume(volume) );
 
     if(reverb==true) {
         // TODO: FMOD::DSP or something
     }
 
-    errCheck( channel1->setPaused(false) );
+    //errCheck( channel1->setPaused(false) );
     
 }
 
 void SoundManager::tick() {
-    errCheck( system->update() );
+    //errCheck( system->update() );
 }
 
 SoundManager::~SoundManager() {
     cout << "deleting soundMgr...";
-    errCheck(system->release());
+    //errCheck(system->release());
     cout << "sound closed." << endl;
 }
     

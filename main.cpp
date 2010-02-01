@@ -59,11 +59,11 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    ks = new InputState(window, false, this);
+    inputState = new InputState(window, false, this);
     
     stateUpdate = new StateUpdate();
     
-    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(inputState);
     
     collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
@@ -87,7 +87,7 @@ Main::Main() {
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
-    miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
+    miniGameMgr = new MiniGameManager(inputState,sc,sceneMgr);
 
     gameParameterMap = new GameParameterMap(gameStateMachine);
 	
@@ -132,18 +132,25 @@ void Main::serverStartup() {
 }
 
 void Main::navigatorStartup() {
-    camera->setPosition(0,0,-40);
+    camera->setPosition(0,2,-2);
+
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    navControls = new NavigatorControls(inputState,camera);
+
+    stateUpdate->addTickable(navControls);
 
     shipState->shipSceneNode = shipSceneNode;
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
 }
 
 void Main::engineerStartup() {
-    camera->setPosition(0,0,-40);
+    camera->setPosition(0,-2,-2);
+    navControls = new NavigatorControls(inputState,camera);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+
+    stateUpdate->addTickable(navControls);
 
     shipState->shipSceneNode = shipSceneNode;
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
@@ -151,7 +158,7 @@ void Main::engineerStartup() {
 
 void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
-    sc = new PilotControls(ks);
+    sc = new PilotControls(inputState);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
@@ -161,6 +168,7 @@ void Main::pilotStartup() {
     networkingManager->replicate(shipState);
     networkingManager->replicate(frontGunState);
     //networkingManager->replicate(enemyState);
+
 
     stateUpdate->addTickable(sc);
     stateUpdate->addTickable(as);
@@ -292,8 +300,8 @@ void Main::engineerShutdown() {
 
 Main::~Main()
 {
-    cout << "deleting ks" << endl;
-    delete ks;
+    cout << "deleting inputState" << endl;
+    delete inputState;
     cout << "deleting sc" << endl;
     delete sc;
     cout << "deleting as" << endl;
