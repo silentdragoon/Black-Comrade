@@ -8,10 +8,10 @@
 
 #include "replicaObject.h"
 #include "shipState.h"
-#include "ReplicaConnection.h"
-#include "OurReplicaManager.h"
+#include "replicaConnection.h"
+#include "ourReplicaManager.h"
 #include "collaborationInfo.h"
-#include "DiscoveryAgent.h"
+#include "discoveryAgent.h"
 #include "lobby.h"
 
 #include "gameRole.h"
