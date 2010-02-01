@@ -53,7 +53,7 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
     double z = start->z + direction->z * dist;
     Vector3 end = Vector3(x,y,z);
     return (cd->rayCollideWithTransform( start, &end, collideAgainst) * dist);
-    return -1;
+    //return -1;
 }
 
 /* dFloat CollisionManager::getRCDistBetweenPoints( Vector3 *start, Vector3 *end, Entity *collideAgainst )

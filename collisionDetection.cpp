@@ -147,6 +147,7 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
     if(iter != collisionsMap.end()) {
         return NewtonCollisionRayCast( iter->second, p0, p1, normal, att);
     } else {
+        cout << "enemy not found" << endl;
     	return -1;
     }
 }
@@ -156,8 +157,8 @@ dFloat CollisionDetection::rayCollideWithTransform( Vector3 *start, Vector3 *end
     Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
     Vector3 transStart = m4 * (*start);
     Vector3 transEnd = m4 * (*end);
-    //return rayCollideDist( &transStart, &transEnd, collideAgainst );
-    return -1;
+    return rayCollideDist( &transStart, &transEnd, collideAgainst );
+    //return -1;
 }
 
 void CollisionDetection::createConvexHull( Entity *entity )

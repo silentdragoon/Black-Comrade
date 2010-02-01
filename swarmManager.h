@@ -9,6 +9,7 @@
 #include "gameParameterMap.h"
 #include "mapManager.h"
 #include "shipState.h"
+#include "collisionManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -22,6 +23,7 @@ class SwarmManager : public ITickable
         MapManager *mapMgr;
         vector<Swarm*> activeSwarms;
         ShipState *shipState;
+        CollisionManager *colMgr;
 
         int id;
 
@@ -32,7 +34,7 @@ class SwarmManager : public ITickable
     public:
 
         SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, 
-        	MapManager *mapMgr, ShipState *shipState);
+        	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr);
         ~SwarmManager();
 
         void createSwarm(int size, Vector3 location);

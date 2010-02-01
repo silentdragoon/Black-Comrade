@@ -96,7 +96,7 @@ Main::Main() {
 	//Test swarm
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
 	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
-    swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState);
+    swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState, collisionMgr);
     bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,collisionMgr,swarmMgr);
 
     stateUpdate->addTickable(frontGunState);
