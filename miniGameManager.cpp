@@ -16,8 +16,8 @@ void MiniGameManager::tick()
     }
 
     if(currentMiniGame == NULL) {
-        if(keyState->isKeyDown(OIS::KC_1)) {
-            currentMiniGame = new TestMiniGame(keyState, sceneManager);
+        if(inputState->isKeyDown(OIS::KC_1)) {
+            currentMiniGame = new TestMiniGame(inputState, sceneManager);
             
             currentMiniGame->getOverlay()->show();
             
@@ -26,9 +26,9 @@ void MiniGameManager::tick()
     } 
 }
     
-MiniGameManager::MiniGameManager(KeyState *keyState, ShipControls *shipControls, SceneManager *sceneManager)
+MiniGameManager::MiniGameManager(InputState *inputState, ShipControls *shipControls, SceneManager *sceneManager)
     : currentMiniGame(NULL)
-    , keyState(keyState)
+    , inputState(inputState)
     , shipControls(shipControls)
     , sceneManager(sceneManager)
 {

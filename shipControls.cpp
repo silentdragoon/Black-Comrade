@@ -41,47 +41,47 @@ void ShipControls::setEnabled(bool b)
 void ShipControls::tick()
 {
     if(enabled) {
-        if(keyState->isKeyDown(OIS::KC_W))
+        if(inputState->isKeyDown(OIS::KC_W))
             mForward = 1.0;
-       	else if(keyState->isKeyDown(OIS::KC_S))
+       	else if(inputState->isKeyDown(OIS::KC_S))
             mForward = -1.0;
        	else
        		mForward = 0.0;
         
-        if(keyState->isKeyDown(OIS::KC_D))
+        if(inputState->isKeyDown(OIS::KC_D))
         	mSide = 1.0;
-       	else if(keyState->isKeyDown(OIS::KC_A))
+       	else if(inputState->isKeyDown(OIS::KC_A))
        		mSide = -1.0;
        	else
        		mSide = 0.0;
         
-        if(keyState->isKeyDown(OIS::KC_SPACE))
+        if(inputState->isKeyDown(OIS::KC_SPACE))
             mUp = 1.0;
-       	else if(keyState->isKeyDown(OIS::KC_LSHIFT) || keyState->isKeyDown(OIS::KC_LCONTROL))
+       	else if(inputState->isKeyDown(OIS::KC_LSHIFT) || inputState->isKeyDown(OIS::KC_LCONTROL))
        		mUp = -1.0;
        	else
        		mUp = 0.0;
       
-      	if(keyState->isKeyDown(OIS::KC_UP))
+      	if(inputState->isKeyDown(OIS::KC_UP))
         	mPitch = 1.0;
-       	else if(keyState->isKeyDown(OIS::KC_DOWN))
+       	else if(inputState->isKeyDown(OIS::KC_DOWN))
        		mPitch = -1.0;
        	else
        		mPitch = 0.0;
             
-        if(keyState->isKeyDown(OIS::KC_LEFT))
+        if(inputState->isKeyDown(OIS::KC_LEFT))
         	mYaw = 1.0;
-       	else if(keyState->isKeyDown(OIS::KC_RIGHT))
+       	else if(inputState->isKeyDown(OIS::KC_RIGHT))
        		mYaw = -1.0;
        	else
        		mYaw = 0.0;
        		
-        isFire = keyState->isKeyDown(OIS::KC_RCONTROL);
+        isFire = inputState->isKeyDown(OIS::KC_RCONTROL);
     }
 }
 
-ShipControls::ShipControls(KeyState *keyState)
-    : keyState(keyState)
+ShipControls::ShipControls(InputState *inputState)
+    : inputState(inputState)
     , enabled(true)
 {}
 

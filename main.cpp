@@ -59,7 +59,7 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    ks = new KeyState(window, false, this);
+    ks = new InputState(window, false, this);
     
     stateUpdate = new StateUpdate();
     

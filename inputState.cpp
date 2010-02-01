@@ -1,9 +1,9 @@
 
-#include "keyState.h"
+#include "inputState.h"
 
 using namespace std;
 
-void KeyState::tick()
+void InputState::tick()
 {
     mKeyboard->capture();
     
@@ -11,12 +11,12 @@ void KeyState::tick()
         mExit->exit();   
 }
 
-bool KeyState::isKeyDown(OIS::KeyCode keyCode)
+bool InputState::isKeyDown(OIS::KeyCode keyCode)
 {
     return mKeyboard->isKeyDown(keyCode);
 }
 
-KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
+InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
     : mKeyboard(0)
     , mWindow(mWindow)
     , mExit(mExit)
@@ -33,7 +33,7 @@ KeyState::KeyState(RenderWindow *window, bool bufferedKeys, IExit *mExit)
     mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
 }
 
-KeyState::~KeyState()
+InputState::~InputState()
 {
 	mInputManager->destroyInputObject( mKeyboard );
 

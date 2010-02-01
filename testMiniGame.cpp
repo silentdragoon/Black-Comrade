@@ -5,9 +5,9 @@
 #include <OgrePanelOverlayElement.h>
 #include <OgreFontManager.h>
 
-TestMiniGame::TestMiniGame(KeyState *keyState, SceneManager *sceneManager)
+TestMiniGame::TestMiniGame(InputState *inputState, SceneManager *sceneManager)
     : isEnd(false)
-    , keyState(keyState)
+    , inputState(inputState)
 {
     
     std::cout << "Create\n";
@@ -78,7 +78,7 @@ void TestMiniGame::tick()
 {
     std::cout << "Test\n";
     
-    if(keyState->isKeyDown(OIS::KC_2)) {
+    if(inputState->isKeyDown(OIS::KC_2)) {
         isEnd = true;
     }
 }

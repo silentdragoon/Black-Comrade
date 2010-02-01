@@ -5,7 +5,7 @@
 #include <OGRE/Ogre.h>
 
 #include "IMiniGame.h"
-#include "keyState.h"
+#include "inputState.h"
 #include "rect2D.h"
 
 using namespace Ogre;
@@ -15,13 +15,13 @@ private:
     Overlay *overlay;
     bool isEnd;
     
-    KeyState *keyState;
+    InputState *inputState;
 public:
     void tick();
     bool end();
     Overlay *getOverlay();
     
-    TestMiniGame(KeyState *keyState, SceneManager *sceneManager);
+    TestMiniGame(InputState *inputState, SceneManager *sceneManager);
     void createScene();
 };
 

@@ -8,7 +8,7 @@
 #include <iostream>
 #include "ITickable.h"
 #include "IAccelerationState.h"
-#include "keyState.h"
+#include "inputState.h"
 
 class ShipControls : public ITickable, public IAccelerationState
 {
@@ -22,7 +22,7 @@ class ShipControls : public ITickable, public IAccelerationState
         bool isFire;
         bool enabled;
         
-        KeyState *keyState;
+        InputState *inputState;
         
     public:    
         virtual double forward();
@@ -36,7 +36,7 @@ class ShipControls : public ITickable, public IAccelerationState
         
         virtual void tick();
         
-        ShipControls(KeyState *keyState);
+        ShipControls(InputState *inputState);
         ~ShipControls();
 };
 
