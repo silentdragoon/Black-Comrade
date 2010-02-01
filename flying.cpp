@@ -13,7 +13,7 @@ Flying::Flying(ShipControls *sc) :
     yaw(0.0),
     roll(0.0)
 {
-    position = new Vector3(0.0, 0.0, -500.0 );
+    position = new Vector3(0.0, 0.0, 0.0 );
 }
 
 Flying::~Flying()
@@ -21,11 +21,11 @@ Flying::~Flying()
 
 void Flying::updateAngels()
 {
-    addPitch += (0.1*sc->forward());
+    addPitch += (0.01*sc->forward());
     if( addPitch > 1.0 ) addPitch = 1.0;
-    addRoll += (0.1*sc->side());
+    addRoll += (0.01*sc->side());
     if( addRoll > 1.0 ) addRoll = 1.0;
-    flyYaw += (0.1*sc->yaw());
+    flyYaw += (0.05*sc->yaw());
 }
 
 void Flying::updatePosition()
@@ -35,13 +35,18 @@ void Flying::updatePosition()
     zVel += xzF*cos(flyYaw);
 
     xVel *= 0.9;
-    yVel *= 0.9;
+    zVel *= 0.9;
+    
+    addPitch *= 0.93;
+    addRoll *= 0.93;
     
     position->x += xVel;
     position->z += zVel;
     
     pitch = addPitch;
     roll = addRoll;
+    
+    yaw = flyYaw;
     
     
     
@@ -53,6 +58,6 @@ void Flying::updatePosition()
 
 void Flying::tick()
 {
-    //updateAngels();
-    //updatePosition();
+    updateAngels();
+    updatePosition();
 }

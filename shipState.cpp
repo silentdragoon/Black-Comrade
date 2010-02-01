@@ -66,7 +66,8 @@ void ShipState::tick() {
 
 void ShipState::updateOgre() {
     std::cout << position->x << "," << position->y << "," << position->z << std::endl;
-
+    std::cout << yaw << endl;
+    
 	shipSceneNode->resetOrientation();
 
     shipSceneNode->setPosition(*position);
