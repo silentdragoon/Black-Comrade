@@ -26,7 +26,10 @@ class Flying : public ITickable
         double flyYaw;
         double flyRoll;
         
-        static const double EngineForce = 10;
+        static const double EngineForce = 1.0;
+        static const double SideForce = 0.2;
+
+        
         
         void updateAngels();
         
