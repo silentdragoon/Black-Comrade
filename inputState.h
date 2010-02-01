@@ -15,6 +15,7 @@ class InputState : public ITickable
 {
     private:
         OIS::Keyboard* mKeyboard;
+        OIS::Mouse* mMouse;
         OIS::InputManager* mInputManager;
         RenderWindow *mWindow;
         
@@ -22,6 +23,7 @@ class InputState : public ITickable
         
     public:    
         bool isKeyDown(OIS::KeyCode keyCode);
+        bool isMouseMoved(const OIS::MouseEvent &e);
         
         virtual void tick();
         
