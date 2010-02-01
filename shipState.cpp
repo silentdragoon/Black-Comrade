@@ -22,9 +22,10 @@ ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, Collis
 {}
 
 void ShipState::tick() {
-
+    cout << "tick" << endl;
     if (motionState != 0) {
-        Collision col = colMgr->shipMapCollision(position);
+        //shipMapCollision does not exist any more
+        //Collision col = colMgr->shipMapCollision(position);
         /* if(col.isCollided)
         {
             
