@@ -1,16 +1,16 @@
-#include "navigatorControls.h"
+#include "engineerControls.h"
 #include "const.h"
 
-NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam) :
+EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
     cam(cam),
     enabled(true)
 {}
 
-NavigatorControls::~NavigatorControls()
+EngineerControls::~EngineerControls()
 {}
 
-void NavigatorControls::tick()
+void EngineerControls::tick()
 {
     if(enabled) {
         int x = inputState->getMouseX();

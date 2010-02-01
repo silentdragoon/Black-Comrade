@@ -27,6 +27,7 @@
 #include "printState.h"
 #include "swarmManager.h"
 #include "navigatorControls.h"
+#include "engineerControls.h"
 
 //include networking stuff
 #include <string.h>
@@ -60,6 +61,7 @@ private:
     GameParameterMap *gameParameterMap;
     PrintState *printState;
     NavigatorControls *navControls;
+    EngineerControls *engControls;
     
     SceneNode *mapNode;
     

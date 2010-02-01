@@ -19,12 +19,26 @@ bool InputState::isKeyDown(OIS::KeyCode keyCode)
 
 int InputState::getMouseX()
 {
-    return mMouse->getMouseState().X.rel;
+    const OIS::MouseState &mouse_state = mMouse->getMouseState();
+    mouse_state.width = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    mouse_state.height = Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    //int relx = mMouse->getMouseState().X.rel;
+    int relx = mouse_state.X.rel;
+    //if(relx>25) relx=25;
+    //if(relx<-25) relx=-25;
+    return relx;
 }
 
 int InputState::getMouseY()
 {
-    return mMouse->getMouseState().Y.rel;
+    const OIS::MouseState &mouse_state = mMouse->getMouseState();
+    mouse_state.width = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    mouse_state.height = Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    //int rely = mMouse->getMouseState().Y.rel;
+    int rely = mouse_state.Y.rel;
+    //if(rely>25) rely=25;
+    //if(rely<-25) rely=-25;
+    return rely;
 }
 
 InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
