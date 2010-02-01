@@ -231,7 +231,7 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
     int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
 
     mps[0] = mts[x][y]->getEntity();
-    vector<int> adj = getConnections(x,y);
+    vector<int> adj = mts[x][y]->getConnections();
 
     mps[1] = NULL;
     mps[2] = NULL;
@@ -241,13 +241,16 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
     for(vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
         int c = *it;
         if(c==1) {
-            mps[1] = mts[x][y-1]->getEntity();
+            mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
         } else if(c==2) {
-            mps[2] = mts[x+1][y]->getEntity();
+            //mps[2] = mts[x+1][y]->getEntity();
+            mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
         } else if(c==3) {
-            mps[3] = mts[x][y+1]->getEntity();
+            //mps[3] = mts[x][y+1]->getEntity();
+            mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
         } else if(c==4) {
-            mps[4] = mts[x-1][y]->getEntity();
+            //mps[4] = mts[x-1][y]->getEntity();
+            mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
         } else {
         }
     }
@@ -279,6 +282,8 @@ void MapManager::setSpawnPoints()
         for(int x=0;x<Const::MAPSIZE;x++) {
             vector<int> conns = getConnections(x,y);
 
+            mts[x][y]->setConnections(conns);
+
             double xx = x * Const::TILE_SIZE;
             double yy = y * Const::TILE_SIZE; // Actually z in ogre coords
             double zz = 0.0;
@@ -294,6 +299,7 @@ void MapManager::setSpawnPoints()
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
+                    mts[x][y]->setAdjacent(c,mts[x][y-1]);
                 }
                 if(c==2) {
                     double xxx;
@@ -303,6 +309,7 @@ void MapManager::setSpawnPoints()
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
+                    mts[x][y]->setAdjacent(c,mts[x+1][y]);
                 }
                 if(c==3) {
                     double xxx;
@@ -312,6 +319,7 @@ void MapManager::setSpawnPoints()
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
+                    mts[x][y]->setAdjacent(c,mts[x][y+1]);
                 }
                 if(c==4) {
                     double xxx = xx;
@@ -320,6 +328,7 @@ void MapManager::setSpawnPoints()
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
+                    mts[x][y]->setAdjacent(c,mts[x-1][y]);
                 }
             }
 
@@ -355,44 +364,29 @@ vector<Vector3*> MapManager::getInitialSpawnPoints()
 Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
     int x = (int) floor(locn->x/(double)Const::TILE_SIZE);
     int y = (int) floor(locn->z/(double)Const::TILE_SIZE);
-    int origx = x;
-    int origy = y;
 
-    vector<int> conns = getConnections(x,y);
-
-    random_shuffle(conns.begin(),conns.end());
-    random_shuffle(conns.begin(),conns.end());
-    random_shuffle(conns.begin(),conns.end());
-
+    vector<int> conns = mts[x][y]->getConnections();
     int c = conns.at(0);
 
-    if(c==1) {
-        y--;
-    } else if(c==2) {
-        x++;
-    } else if(c==3) {
-        y++;
-    } else {
-        x--;
+    vector<int> conns2 = mts[x][y]->getAdjacent(c)->getConnections();
+    int c2 = conns2.at(0);
+
+    if((((c+1)%4)+1)==c2) {
+        if(conns2.size()!=1) {
+            c2 = conns2.at(1);
+        }
     }
 
-    vector<Vector3*> places = vector<Vector3*>();
-    Vector3 *loc = new Vector3((x*Const::TILE_SIZE)+(0.5*Const::TILE_SIZE),0.0,(y*Const::TILE_SIZE)+(0.5*Const::TILE_SIZE));
-
-    places = getSpawnPoints(loc);
-
-    random_shuffle(places.begin(),places.end());
-
-    int xnew = (int) floor(places.at(0)->x/(double)Const::TILE_SIZE);
-    int ynew = (int) floor(places.at(0)->z/(double)Const::TILE_SIZE);
-
-    Vector3 out;
-    if((xnew==x)&&(ynew==y)) {
-        out = getDynamicSpawnPoint(locn);   
-    } else {
-        out = Vector3(places.at(0)->x,places.at(0)->y,places.at(0)->z);
+    vector<int> conns3 = mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getConnections();
+    int c3 = conns3.at(0);
+    if((((c2+1)%4)+1)==c3) {
+        if(conns3.size()!=1) {
+            c3 = conns3.at(1);
+        }
     }
-    return out;
+
+    Vector3* sp =  mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getSpawn(c3);
+    return Vector3(sp->x,sp->y,sp->z);
 }
 
 
