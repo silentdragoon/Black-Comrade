@@ -21,6 +21,7 @@ class CollaborationInfo
     GameRole getGameRole();
     string getGameRoleString();
     NetworkRole getNetworkRole();
+    string getNetworkRoleString();
 };
 
 #endif

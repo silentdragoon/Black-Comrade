@@ -10,6 +10,8 @@
 using namespace std;
 using namespace RakNet;
 
+#define SLEEP(arg)  ( usleep( (arg) *1000 ) )
+
 NetworkingManager::NetworkingManager(IExit *mExit) :
     serverAddress(""),
     numConnections(0),
@@ -47,6 +49,7 @@ void NetworkingManager::tick() {
             }
     }
     if (quit) mExit->exit();
+    replicaManager.doUpdate();
 }
 
 NetworkRole NetworkingManager::determineRole(NetworkRole desiredRole) {

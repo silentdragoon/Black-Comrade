@@ -1,4 +1,4 @@
-#include "ReplicaObject.h"
+#include "replicaObject.h"
 #include "ReplicaManager3.h"
 
 using namespace RakNet;
