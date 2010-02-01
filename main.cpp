@@ -59,11 +59,11 @@ Main::Main() {
     createViewPort();
     createScene();
     
-    ks = new InputState(window, false, this);
+    inputState = new InputState(window, false, this);
     
     stateUpdate = new StateUpdate();
     
-    stateUpdate->addTickable(ks);
+    stateUpdate->addTickable(inputState);
     
     collisionMgr = new CollisionManager( sceneMgr, mapMgr);
 
@@ -87,7 +87,7 @@ Main::Main() {
     }
 
     audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
-    miniGameMgr = new MiniGameManager(ks,sc,sceneMgr);
+    miniGameMgr = new MiniGameManager(inputState,sc,sceneMgr);
 
     gameParameterMap = new GameParameterMap(gameStateMachine);
 	
@@ -136,6 +136,7 @@ void Main::navigatorStartup() {
     nc = new NavigatorControls(ks,camera);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
     frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    navControls = new NavigatorControls(inputState,camera);
 
     stateUpdate->addTickable(nc);
 
@@ -157,7 +158,7 @@ void Main::engineerStartup() {
 
 void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
-    sc = new PilotControls(ks);
+    sc = new PilotControls(inputState);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
     frontGunState = new FrontGunState(sc);
@@ -299,8 +300,8 @@ void Main::engineerShutdown() {
 
 Main::~Main()
 {
-    cout << "deleting ks" << endl;
-    delete ks;
+    cout << "deleting inputState" << endl;
+    delete inputState;
     cout << "deleting sc" << endl;
     delete sc;
     cout << "deleting as" << endl;

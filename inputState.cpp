@@ -7,7 +7,7 @@ void InputState::tick()
 {
     mKeyboard->capture();
     mMouse->capture();
-    
+
     if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
         mExit->exit();   
 }
