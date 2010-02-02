@@ -5,29 +5,45 @@ using namespace std;
 
 void InputState::tick()
 {
-    mKeyboard->capture();
-    mMouse->capture();
+	if(mMouse)
+		mMouse->capture();
 
-    if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-        mExit->exit();   
+	if(mKeyboard)
+	{
+	    mKeyboard->capture();
+	    
+
+	    if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+	        mExit->exit();
+    }
 }
 
 bool InputState::isKeyDown(OIS::KeyCode keyCode)
 {
-    return mKeyboard->isKeyDown(keyCode);
+	if(mKeyboard)
+    	return mKeyboard->isKeyDown(keyCode);
+    else
+    	return false;
 }
 
 int InputState::getMouseX()
 {
-    return mMouse->getMouseState().X.rel;
+	if(mMouse)
+    	return mMouse->getMouseState().X.rel;
+    else
+    	return 0;
 }
 
 int InputState::getMouseY()
 {
-    return mMouse->getMouseState().Y.rel;
+    if(mMouse)
+    	return mMouse->getMouseState().Y.rel;
+    else
+    	return 0;
 }
 
-InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
+InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
+        	bool initKeyboard, bool initMouse) 
     : mKeyboard(0)
     , mWindow(mWindow)
     , mExit(mExit)
@@ -41,8 +57,13 @@ InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit)
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
     mInputManager = OIS::InputManager::createInputSystem(pl);
-    mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
-    mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));
+    
+    if(initKeyboard) {
+    	mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
+    }
+    if(initMouse) {
+    	mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));
+    }
 }
 
 InputState::~InputState()

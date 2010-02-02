@@ -49,9 +49,9 @@ private:
     SoundManager *soundMgr;
     InputState *inputState;
     FrontGunState *frontGunState;
-    PilotControls *sc;
-    AccelerationState *as;
-    MotionState *ms;
+    PilotControls *pilotControls;
+    AccelerationState *accelerationState;
+    MotionState *motionState;
     AudioState *audioState;
     MiniGameManager *miniGameMgr;
     BulletManager *bulletMgr;
@@ -63,7 +63,7 @@ private:
     
     SceneNode *mapNode;
     
-    StateUpdate *stateUpdate;
+    StateUpdate *gameLoop;
     SceneNode *shipSceneNode;
     ShipState *shipState;
     
@@ -73,21 +73,10 @@ private:
     void createCamera();
     void createScene();
     void createViewPort();
-    void startNetworking();
-
-    void navigatorStartup();
-    void engineerStartup();
-    void pilotStartup();
-
-    void clientStartup();
-    void serverStartup();
-
-    void navigatorShutdown();
-    void engineerShutdown();
-    void pilotShutdown();
-
-    void clientShutdown();
-    void serverShutdown();
+    CollaborationInfo *startNetworking();
+    
+    void startOgre();
+    void configResources();
     
 public:
     Main();

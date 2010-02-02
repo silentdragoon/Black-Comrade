@@ -127,6 +127,7 @@ ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
     replicaManager.GetReferencedReplicaList(replicaList);
 
     while (true) {
+        std::cout << replicaList.GetSize() << "\n";
         try {
             for (index=0; index < replicaList.GetSize(); index++) {
                 ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);
