@@ -22,7 +22,6 @@ ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, Collis
 {}
 
 void ShipState::tick() {
-    cout << "tick" << endl;
     if (motionState != 0) {
         //shipMapCollision does not exist any more
         //Collision col = colMgr->shipMapCollision(position);
@@ -52,8 +51,6 @@ void ShipState::tick() {
             roll = motionState->roll();
             pitch = motionState->pitch();
         } */
-
-        //cout << colMgr->getRCMapDist(position, pitch, yaw )<< endl;
         
         position->x += motionState->xVelocity();
         position->y += motionState->yVelocity();
@@ -67,8 +64,6 @@ void ShipState::tick() {
 }
 
 void ShipState::updateOgre() {
-    //std::cout << position->x << "," << position->y << "," << position->z << std::endl;
-
 	shipSceneNode->resetOrientation();
 
     shipSceneNode->setPosition(*position);
@@ -81,7 +76,6 @@ void ShipState::updateOgre() {
     shipSceneNode->roll(roll);
     shipSceneNode->pitch(pitch);
         
-    //std::cout << shipSceneNode->getPosition().z << std::endl;
 }
 
 void ShipState::setX(double newX) {
