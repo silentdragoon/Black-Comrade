@@ -127,7 +127,7 @@ ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
     DataStructures::DefaultIndexType index;
     replicaManager.GetReferencedReplicaList(replicaList);
 
-    std::cout << replicaList.GetSize() << "\n";
+    std::cout << "Waiting for " << name << std::endl;
     while (true) {
         try {
             for (index=0; index < replicaList.GetSize(); index++) {
