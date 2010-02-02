@@ -2,8 +2,6 @@
 #include "const.h"
 
 
-// TODO: Does this contain numbers which should be constants in const.h?
-
 void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
 {
 	string bullName = "Bullet";
@@ -108,7 +106,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
-    if(gunState->fire()) {
+    if(gunState->pilotFire()) {
         
         Vector3 position = shipSceneNode->getPosition();
         position.y -= 3.0;

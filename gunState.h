@@ -1,6 +1,6 @@
 
-#ifndef FRONT_GUN_STATE_H
-#define FRONT_GUN_STATE_H
+#ifndef _GUN_STATE_H
+#define _GUN_STATE_H
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
@@ -8,6 +8,8 @@
 #include <iostream>
 #include "ITickable.h"
 #include "pilotControls.h"
+#include "navigatorControls.h"
+#include "engineerControls.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -18,18 +20,28 @@ using namespace RakNet;
 class GunState : public ITickable, public ReplicaObject
 {
     private:
-        int timeSinceLastFire;
-        bool isFire;
+        int pilotTimeSinceLastFire;
+        int navTimeSinceLastFire;
+        int engTimeSinceLastFire;
+        bool isPilotFire;
+        bool isNavFire;
+        bool isEngFire;
         
         PilotControls *pilotControls;
+        NavigatorControls *navControls;
+        EngineerControls *engControls;
         
     public:
-        bool fire();
+        bool pilotFire();
+        bool navFire();
+        bool engFire();
         
         virtual void tick();
         
         GunState();
         GunState(PilotControls *pilotControls);
+        GunState(NavigatorControls *navControls);
+        GunState(EngineerControls *engControls);
         ~GunState();
 
         virtual RakNet::RakString GetName(void) const;
