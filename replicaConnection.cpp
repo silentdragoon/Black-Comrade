@@ -16,8 +16,8 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     if (typeName=="ShipState") {
         return new ShipState;
     }
-    else if (typeName=="FrontGunState") {
-        return new FrontGunState;
+    else if (typeName=="GunState") {
+        return new GunState;
     }
     else if (typeName=="GameStateMachine") {
         return new GameStateMachine;

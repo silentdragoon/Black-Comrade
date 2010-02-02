@@ -15,7 +15,7 @@
 
 using namespace RakNet;
 
-class FrontGunState : public ITickable, public ReplicaObject
+class GunState : public ITickable, public ReplicaObject
 {
     private:
         int timeSinceLastFire;
@@ -28,9 +28,9 @@ class FrontGunState : public ITickable, public ReplicaObject
         
         virtual void tick();
         
-        FrontGunState();
-        FrontGunState(PilotControls *pilotControls);
-        ~FrontGunState();
+        GunState();
+        GunState(PilotControls *pilotControls);
+        ~GunState();
 
         virtual RakNet::RakString GetName(void) const;
         virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);

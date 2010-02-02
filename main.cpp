@@ -86,7 +86,7 @@ Main::Main() {
         clientStartup();
     }
 
-    audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+    audioState = new AudioState(gunState,soundMgr,shipSceneNode);
     miniGameMgr = new MiniGameManager(inputState,sc,sceneMgr);
 
     gameParameterMap = new GameParameterMap(gameStateMachine);
@@ -97,9 +97,9 @@ Main::Main() {
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
 	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
     swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState, collisionMgr);
-    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,collisionMgr,swarmMgr);
+    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,gunState,collisionMgr,swarmMgr);
 
-    stateUpdate->addTickable(frontGunState);
+    stateUpdate->addTickable(gunState);
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(networkingManager);
@@ -134,7 +134,7 @@ void Main::serverStartup() {
 void Main::navigatorStartup() {
     camera->setPosition(0,2,-2);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    gunState = (GunState *) networkingManager->getReplica("GunState",true);
     navControls = new NavigatorControls(inputState,camera);
     stateUpdate->addTickable(navControls);
 
@@ -145,7 +145,7 @@ void Main::navigatorStartup() {
 void Main::engineerStartup() {
     camera->setPosition(0,-2,-2);
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    frontGunState = (FrontGunState *) networkingManager->getReplica("FrontGunState",true);
+    gunState = (GunState *) networkingManager->getReplica("GunState",true);
     engControls = new EngineerControls(inputState,camera);
     stateUpdate->addTickable(engControls);
 
@@ -158,12 +158,12 @@ void Main::pilotStartup() {
     sc = new PilotControls(inputState);
     as = new AccelerationState(sc);
     ms = new MotionState(as);
-    frontGunState = new FrontGunState(sc);
+    gunState = new GunState(sc);
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
     //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
-    networkingManager->replicate(frontGunState);
+    networkingManager->replicate(gunState);
     //networkingManager->replicate(enemyState);
 
 
@@ -283,8 +283,8 @@ void Main::serverShutdown() {
 void Main::pilotShutdown() {
         cout << "deleting shipstate" << endl;
         delete shipState;
-        cout << "deleting frontGunState" << endl;
-        delete frontGunState;
+        cout << "deleting gunState" << endl;
+        delete gunState;
 }
 
 void Main::navigatorShutdown() {

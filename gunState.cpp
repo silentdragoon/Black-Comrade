@@ -1,13 +1,12 @@
-
-#include "frontGunState.h"
+#include "gunState.h"
 #include "const.h"
 
-bool FrontGunState::fire()
+bool GunState::fire()
 {
     return isFire;
 }
         
-void FrontGunState::tick()
+void GunState::tick()
 {
 
     timeSinceLastFire++;
@@ -23,27 +22,27 @@ void FrontGunState::tick()
 
 }
         
-FrontGunState::FrontGunState(PilotControls *pilotControls)
+GunState::GunState(PilotControls *pilotControls)
     : pilotControls(pilotControls)
     , isFire(false)
     , timeSinceLastFire(0)
 {
 }
 
-FrontGunState::FrontGunState()
+GunState::GunState()
     : pilotControls(0)
 {}
 
-FrontGunState::~FrontGunState() {}
+GunState::~GunState() {}
 
-RakNet::RakString FrontGunState::GetName(void) const {return RakNet::RakString("FrontGunState");}
+RakNet::RakString GunState::GetName(void) const {return RakNet::RakString("GunState");}
 
-RM3SerializationResult FrontGunState::Serialize(SerializeParameters *serializeParameters) {
+RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParameters) {
     serializeParameters->outputBitstream[0].Write(isFire);
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
-void FrontGunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     bool isFire2 = false;
     deserializeParameters->serializationBitstream[0].Read(isFire2);
     if (isFire2) isFire = true;

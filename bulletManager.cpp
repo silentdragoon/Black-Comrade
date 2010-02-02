@@ -88,7 +88,7 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
     , gunState(gunState)
