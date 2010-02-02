@@ -26,7 +26,7 @@ class GunState : public ITickable, public ReplicaObject
         bool isPilotFire;
         bool isNavFire;
         bool isEngFire;
-        string className;
+        RakString className;
         
         PilotControls *pilotControls;
         NavigatorControls *navControls;

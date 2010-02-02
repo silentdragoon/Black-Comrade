@@ -54,7 +54,7 @@ GunState::GunState(PilotControls *pilotControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className =  "pilotGunState";
+    className =  RakNet::RakString("pilotGunState");
 }
 
 GunState::GunState(NavigatorControls *navControls)
@@ -68,7 +68,7 @@ GunState::GunState(NavigatorControls *navControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className = "navigatorGunState";
+    className = RakNet::RakString("navigatorGunState");
 }
 
 GunState::GunState(EngineerControls *engControls)
@@ -82,7 +82,7 @@ GunState::GunState(EngineerControls *engControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className = "engineerGunState";
+    className = RakNet::RakString("engineerGunState");
 }
 
 GunState::GunState()
@@ -96,17 +96,17 @@ GunState::GunState()
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className = "vagina";
 }
 
 GunState::~GunState() {}
 
-RakNet::RakString GunState::GetName(void) const {return RakNet::RakString(className);}
+RakNet::RakString GunState::GetName(void) const {return className;}
 
 RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParameters) {
     serializeParameters->outputBitstream[0].Write(isPilotFire);
     serializeParameters->outputBitstream[0].Write(isNavFire);
     serializeParameters->outputBitstream[0].Write(isEngFire);
+    serializeParameters->outputBitstream[0].Write(className);
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
@@ -122,4 +122,5 @@ void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters)
     bool engFire2 = false;
     deserializeParameters->serializationBitstream[0].Read(engFire2);
     if (engFire2) isEngFire = true;
+    deserializeParameters->serializationBitstream[0].Read(className);
 }
