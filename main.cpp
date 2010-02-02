@@ -97,7 +97,7 @@ Main::Main() {
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
 	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
     swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState, collisionMgr);
-    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,collisionMgr,swarmMgr);
+    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
 
     stateUpdate->addTickable(pilotGunState);
     if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(engineerGunState);
