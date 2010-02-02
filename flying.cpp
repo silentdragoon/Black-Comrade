@@ -37,7 +37,7 @@ void Flying::updatePosition()
         for( int i = 0; i < 1; i += 3 )
         {
             xVel += col.normals[i];
-        zVel += col.normals[i+2];
+            zVel += col.normals[i+2];
             cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
             <<" "<< col.normals[i+2] <<" "<<endl;
         }
