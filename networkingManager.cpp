@@ -127,11 +127,12 @@ ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
     DataStructures::DefaultIndexType index;
     replicaManager.GetReferencedReplicaList(replicaList);
 
-    std::cout << "Waiting for " << name << std::endl;
     while (true) {
+    std::cout << "Waiting for " << name << std::endl;
         try {
             for (index=0; index < replicaList.GetSize(); index++) {
                 ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);
+                std::cout << "Comparing with " << temp->GetName() << std::endl;
                 if (temp->GetName().StrCmp(RakNet::RakString(name.c_str())) == 0) return temp;
             }
         }
