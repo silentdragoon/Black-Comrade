@@ -54,7 +54,7 @@ GunState::GunState(PilotControls *pilotControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className =  RakNet::RakString("pilotGunState");
+    className =  RakNet::RakString("PilotGunState");
 }
 
 GunState::GunState(NavigatorControls *navControls)
@@ -68,7 +68,7 @@ GunState::GunState(NavigatorControls *navControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className = RakNet::RakString("navigatorGunState");
+    className = RakNet::RakString("NavigatorGunState");
 }
 
 GunState::GunState(EngineerControls *engControls)
@@ -82,7 +82,7 @@ GunState::GunState(EngineerControls *engControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className = RakNet::RakString("engineerGunState");
+    className = RakNet::RakString("EngineerGunState");
 }
 
 GunState::GunState()
