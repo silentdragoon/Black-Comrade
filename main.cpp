@@ -160,7 +160,7 @@ void Main::engineerStartup() {
     networkingManager->replicate(engineerGunState);
 
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    pilotGunState = (GunState *) networkingManager->getReplica("PilotGunState",true);
+    pilotGunState = (GunState*) networkingManager->getReplica("PilotGunState",true);
     navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
 
     stateUpdate->addTickable(engControls);
