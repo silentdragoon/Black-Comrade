@@ -118,7 +118,7 @@ void NetworkingManager::stopNetworking() {
 
 bool NetworkingManager::replicate(ReplicaObject *object) {
     replicaManager.Reference(object);
-    replicaManager.doUpdate();
+    tick();
     return true;
 }
 
