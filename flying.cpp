@@ -45,6 +45,7 @@ void Flying::updatePosition()
         hitCountDown = static_cast<int> (100.0*col.penetration[0]);
         //reflected vel need to be fixed
         xVel += col.penetration[0] * col.normals[0];
+        yVel += col.penetration[0] * col.normals[1];
         zVel += col.penetration[0] * col.normals[2];
         
         for( int i = 0; i < 1; i += 3 )
@@ -66,6 +67,9 @@ void Flying::updatePosition()
         double xzSide = SideForce*sin(flyRoll);
         xVel -= xzSide*sin(flyYaw+1.57079633);
         zVel -= xzSide*cos(flyYaw+1.57079633);
+        
+        yVel += 0.1* sc->up(); 
+        
         addRoll = 0.0;
         addYaw = 0.0;
         addPitch = 0.0;
@@ -83,12 +87,14 @@ void Flying::updatePosition()
     
     xVel *= 0.96;
     zVel *= 0.96;
+    yVel *= 0.9;
     
     flyPitch *= 0.98;
     flyRoll *= 0.98;
     
     position->x += xVel;
     position->z += zVel;
+    position->y += yVel;
     
     pitch = flyPitch + addPitch;
     roll = flyRoll + addRoll;
