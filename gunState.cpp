@@ -54,7 +54,7 @@ GunState::GunState(PilotControls *pilotControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
-    className =  RakNet::RakString("PilotGunState");
+    className = RakNet::RakString("PilotGunState");
 }
 
 GunState::GunState(NavigatorControls *navControls)
@@ -96,6 +96,8 @@ GunState::GunState()
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
+    std::cout << "New gunstate created\n";
+    className = RakNet::RakString("");
 }
 
 GunState::~GunState() {}

@@ -119,7 +119,9 @@ void NetworkingManager::stopNetworking() {
 bool NetworkingManager::replicate(ReplicaObject *object) {
     replicaManager.Reference(object);
     SLEEP(10);
-    tick();
+    replicaManager.doUpdate();
+    replicaManager.doUpdate();
+    std::cout << "Replicated " << object->GetName() << "\n";
     return true;
 }
 
@@ -129,7 +131,7 @@ ReplicaObject* NetworkingManager::getReplica(string name, bool blocking) {
     replicaManager.GetReferencedReplicaList(replicaList);
 
     while (true) {
-    std::cout << "Waiting for " << name << std::endl;
+    //std::cout << "Waiting for " << name << std::endl;
         try {
             for (index=0; index < replicaList.GetSize(); index++) {
                 ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);

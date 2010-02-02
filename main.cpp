@@ -178,12 +178,13 @@ void Main::pilotStartup() {
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
     //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
+
     networkingManager->replicate(shipState);
     networkingManager->replicate(pilotGunState);
     //networkingManager->replicate(enemyState);
 
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER)engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER)navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
 
     stateUpdate->addTickable(pilotControls);
     stateUpdate->addTickable(as);

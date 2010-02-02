@@ -108,6 +108,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
+    //cout << "pilot" << endl;
     if(pilotGunState->pilotFire()) {
         
         Vector3 position = shipSceneNode->getPosition();
@@ -118,7 +119,7 @@ void BulletManager::tick()
     	fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
 
     }
-
+    //cout << "nav" << endl;
     if(navGunState->navFire()) {
         Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
         position.y -= 3.0;
@@ -126,7 +127,7 @@ void BulletManager::tick()
 
         fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
     }
-
+    //cout << "eng" << endl;
     if(engGunState->engFire()) {
         Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
         position.y -= 3.0;
