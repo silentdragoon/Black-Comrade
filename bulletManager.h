@@ -22,9 +22,7 @@ class BulletManager : public ITickable
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
         int bnum;
-        GunState *pilotGunState;
-        GunState *engGunState;
-        GunState *navGunState;
+        GunState *gunState;
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
         
@@ -33,7 +31,7 @@ class BulletManager : public ITickable
         
     public:
         BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
-        	GunState *pilotGunState, GunState *engGunState, GunState *navGunState, CollisionManager *colMgr, 
+        	GunState *gunState, CollisionManager *colMgr, 
         	SwarmManager *swarmMgr);
 
         ~BulletManager();

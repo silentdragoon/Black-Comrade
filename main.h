@@ -50,10 +50,8 @@ private:
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
     InputState *inputState;
-    GunState *pilotGunState;
-    GunState *engineerGunState;
-    GunState *navigatorGunState;
-    PilotControls *pilotControls;
+    GunState *gunState;
+    PilotControls *sc;
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;

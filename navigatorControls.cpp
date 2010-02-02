@@ -10,11 +10,6 @@ NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam) :
 NavigatorControls::~NavigatorControls()
 {}
 
-bool NavigatorControls::fire()
-{
-    return isFire;
-}
-
 void NavigatorControls::tick()
 {
     if(enabled) {
@@ -23,7 +18,5 @@ void NavigatorControls::tick()
 
         cam->yaw(Degree(Const::TURRET_SPEED * x));
         cam->pitch(Degree(Const::TURRET_SPEED * y));
-
-        isFire = inputState->isLeftMouse();
     }
 }
