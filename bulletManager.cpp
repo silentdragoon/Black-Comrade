@@ -86,10 +86,12 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *pilotGunState, GunState *engGunState, GunState *navGunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
-    , gunState(gunState)
+    , pilotGunState(pilotGunState)
+    , engGunState(engGunState)
+    , navGunState(navGunState)
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , bnum(0)
@@ -106,7 +108,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
-    if(gunState->pilotFire()) {
+    if(pilotGunState->pilotFire()) {
         
         Vector3 position = shipSceneNode->getPosition();
         position.y -= 3.0;
@@ -117,7 +119,7 @@ void BulletManager::tick()
 
     }
 
-    if(gunState->navFire()) {
+    if(navGunState->navFire()) {
         Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
         position.y -= 3.0;
         Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
@@ -125,7 +127,7 @@ void BulletManager::tick()
         fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
     }
 
-    if(gunState->engFire()) {
+    if(engGunState->engFire()) {
         Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
         position.y -= 3.0;
         Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
