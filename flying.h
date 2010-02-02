@@ -13,8 +13,10 @@ using namespace std;
 class Flying : public ITickable
 {
     private:
+        int hitCountDown;
         CollisionManager *colMgr;
         ShipControls *sc;
+        double vFactor;
         
         double zVel;
         double xVel;
@@ -22,14 +24,14 @@ class Flying : public ITickable
         
         double addPitch;
         double addRoll;
-        //double addYaw;
+        double addYaw;
         
         double flyPitch;
         double flyYaw;
         double flyRoll;
         
-        static const double EngineForce = 0.8;
-        static const double SideForce = 0.3;
+        static const double EngineForce = 0.3;
+        static const double SideForce = 0.2;
 
         
         
