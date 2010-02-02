@@ -32,10 +32,19 @@ int InputState::getMouseY()
     mouse_state.width = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     mouse_state.height = Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     int rely = mouse_state.Y.rel;
-
-    cout << mouse_state.buttonDown(OIS::MB_Left) << endl;
-
     return rely;
+}
+
+bool InputState::isLeftMouse()
+{
+    const OIS::MouseState &mouse_state = mMouse->getMouseState();
+    return mouse_state.buttonDown(OIS::MB_Left);
+}
+
+bool InputState::isRightMouse()
+{
+    const OIS::MouseState &mouse_state = mMouse->getMouseState();
+    return mouse_state.buttonDown(OIS::MB_Right);
 }
 
 InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 

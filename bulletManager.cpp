@@ -114,7 +114,23 @@ void BulletManager::tick()
     	Vector3 direction = orient.zAxis();
     	
     	fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
-        
+
+    }
+
+    if(gunState->navFire()) {
+        Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
+        position.y -= 3.0;
+        Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
+
+        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+    }
+
+    if(gunState->engFire()) {
+        Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
+        position.y -= 3.0;
+        Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
+
+        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
     }
     
     // Check if any enemies are shooting
@@ -129,8 +145,6 @@ void BulletManager::tick()
         	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
         }
     }
-    
-    
     
     updateBullets();
 }

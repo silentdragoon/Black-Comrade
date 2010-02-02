@@ -32,6 +32,15 @@ void GunState::tick()
         pilotTimeSinceLastFire = 0;
     }
 
+    if(navControls!=0 && navControls->fire() && navTimeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
+        isNavFire = true;
+        navTimeSinceLastFire = 0;
+    }
+
+    if(engControls!=0 && engControls->fire() && engTimeSinceLastFire >= Const::MIN_SHOOT_PERIOD) {
+        isEngFire = true;
+        engTimeSinceLastFire = 0;
+    }
 }
         
 GunState::GunState(PilotControls *pilotControls)
@@ -45,6 +54,7 @@ GunState::GunState(PilotControls *pilotControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
+    className =  "pilotGunState";
 }
 
 GunState::GunState(NavigatorControls *navControls)
@@ -58,6 +68,7 @@ GunState::GunState(NavigatorControls *navControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
+    className = "navigatorGunState";
 }
 
 GunState::GunState(EngineerControls *engControls)
@@ -71,6 +82,7 @@ GunState::GunState(EngineerControls *engControls)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
 {
+    className = "engineerGunState";
 }
 
 GunState::GunState()
@@ -83,19 +95,31 @@ GunState::GunState()
     , pilotTimeSinceLastFire(0)
     , navTimeSinceLastFire(0)
     , engTimeSinceLastFire(0)
-{}
+{
+    className = "vagina";
+}
 
 GunState::~GunState() {}
 
-RakNet::RakString GunState::GetName(void) const {return RakNet::RakString("GunState");}
+RakNet::RakString GunState::GetName(void) const {return RakNet::RakString(className);}
 
 RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParameters) {
     serializeParameters->outputBitstream[0].Write(isPilotFire);
+    serializeParameters->outputBitstream[0].Write(isNavFire);
+    serializeParameters->outputBitstream[0].Write(isEngFire);
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
 void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    bool isFire2 = false;
-    deserializeParameters->serializationBitstream[0].Read(isFire2);
-    if (isFire2) isPilotFire = true;
+    bool pilotFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(pilotFire2);
+    if (pilotFire2) isPilotFire = true;
+    
+    bool navFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(navFire2);
+    if (navFire2) isNavFire = true;
+
+    bool engFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(engFire2);
+    if (engFire2) isEngFire = true;
 }

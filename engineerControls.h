@@ -14,11 +14,14 @@ class EngineerControls : public ITickable
 {
     private:
         bool enabled;
+        bool isFire;
 
         Camera *cam;
         InputState *inputState;
     public:
         virtual void tick();
+
+        bool fire();
 
         EngineerControls(InputState *inputState, Camera *cam);
         ~EngineerControls();
