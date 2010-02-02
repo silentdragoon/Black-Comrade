@@ -5,6 +5,7 @@
 #include <math.h>
 #include "ITickable.h"
 #include "shipControls.h"
+#include "collisionManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -12,6 +13,7 @@ using namespace std;
 class Flying : public ITickable
 {
     private:
+        CollisionManager *colMgr;
         ShipControls *sc;
         
         double zVel;
@@ -26,8 +28,8 @@ class Flying : public ITickable
         double flyYaw;
         double flyRoll;
         
-        static const double EngineForce = 1.0;
-        static const double SideForce = 0.2;
+        static const double EngineForce = 0.8;
+        static const double SideForce = 0.3;
 
         
         
@@ -45,7 +47,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
         
-        Flying(ShipControls *sc);
+        Flying(ShipControls *sc,CollisionManager *colMgr);
 
         ~Flying();
 

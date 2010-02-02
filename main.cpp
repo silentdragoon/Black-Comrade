@@ -127,7 +127,7 @@ void Main::serverStartup() {
     ms = new MotionState(as);
     Vector3 *startposition = new Vector3(mapMgr->startx,0,mapMgr->starty);
     Vector3 *startorientation = new Vector3(0.0,0.0,0.0);
-    flying = new Flying(sc);
+    flying = new Flying(sc, collisionMgr);
     frontGunState = new FrontGunState(sc);
     shipState = new ShipState(shipSceneNode, flying, collisionMgr);
     //enemyState = new EnemyState(enemySceneNode, sceneMgr);
