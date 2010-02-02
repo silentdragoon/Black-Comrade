@@ -44,10 +44,6 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     }
 }
 
-void Swarm::setEnemies(vector<Enemy*> enemies) {
-    members = enemies;
-}
-
 vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
     vector<Enemy*> out = vector<Enemy*>();

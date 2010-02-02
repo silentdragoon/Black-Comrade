@@ -2,6 +2,8 @@
 #include "const.h"
 
 
+// TODO: Does this contain numbers which should be constants in const.h?
+
 void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
 {
 	string bullName = "Bullet";
@@ -86,12 +88,10 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *pilotGunState, GunState *engGunState, GunState *navGunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
-    , pilotGunState(pilotGunState)
-    , engGunState(engGunState)
-    , navGunState(navGunState)
+    , gunState(gunState)
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , bnum(0)
@@ -108,8 +108,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
-    //cout << "pilot" << endl;
-    if(pilotGunState->pilotFire()) {
+    if(gunState->fire()) {
         
         Vector3 position = shipSceneNode->getPosition();
         position.y -= 3.0;
@@ -117,23 +116,7 @@ void BulletManager::tick()
     	Vector3 direction = orient.zAxis();
     	
     	fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
-
-    }
-    //cout << "nav" << endl;
-    if(navGunState->navFire()) {
-        Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
-        position.y -= 3.0;
-        Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
-
-        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
-    }
-    //cout << "eng" << endl;
-    if(engGunState->engFire()) {
-        Vector3 position = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getPosition();
-        position.y -= 3.0;
-        Vector3 direction = ((Camera*)shipSceneNode->getAttachedObject("mainCam"))->getOrientation().zAxis();
-
-        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+        
     }
     
     // Check if any enemies are shooting
@@ -148,6 +131,8 @@ void BulletManager::tick()
         	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
         }
     }
+    
+    
     
     updateBullets();
 }
