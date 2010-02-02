@@ -14,11 +14,14 @@ class NavigatorControls : public ITickable
 {
     private:
         bool enabled;
+        bool isFire;
 
         Camera *cam;
         InputState *inputState;
     public:
         virtual void tick();
+        
+        bool fire();
 
         NavigatorControls(InputState *inputState, Camera *cam);
         ~NavigatorControls();

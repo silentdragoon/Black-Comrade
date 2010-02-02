@@ -10,7 +10,7 @@
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "inputState.h"
-#include "frontGunState.h"
+#include "gunState.h"
 #include "Kbhit.h"
 #include "pilotControls.h"
 #include "navigatorControls.h"
@@ -50,8 +50,10 @@ private:
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
     InputState *inputState;
-    FrontGunState *frontGunState;
-    PilotControls *sc;
+    GunState *pilotGunState;
+    GunState *engineerGunState;
+    GunState *navigatorGunState;
+    PilotControls *pilotControls;
     AccelerationState *as;
     MotionState *ms;
     AudioState *audioState;

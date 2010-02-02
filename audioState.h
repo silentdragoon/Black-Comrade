@@ -6,7 +6,7 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "frontGunState.h"
+#include "gunState.h"
 #include "soundManager.h"
 
 using namespace Ogre;
@@ -15,7 +15,7 @@ using namespace std;
 class AudioState : public ITickable
 {
     private:
-        FrontGunState *frontGunState;
+        GunState *gunState;
         SoundManager *sndMgr;
         SceneNode *shipNode;
         
@@ -23,7 +23,7 @@ class AudioState : public ITickable
         
         void tick();
         
-        AudioState(FrontGunState *frontGunState, SoundManager *sndMgr, SceneNode *shipNode);
+        AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode);
         ~AudioState();
 };
 

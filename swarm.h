@@ -48,6 +48,7 @@ class Swarm
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
 
+        void setEnemies(vector<Enemy*> enemies);
         vector<Enemy*> getAllEnemies();
         
         void tick();
