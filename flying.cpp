@@ -16,7 +16,8 @@ Flying::Flying(ShipControls *sc, CollisionManager *colMgr):
     hitCountDown(0),
     addRoll(0.0),
     addPitch(0.0),
-    addYaw(0.0)
+    addYaw(0.0),
+    yawMom(0.0)
 {
     position = new Vector3(1400.0, 0.0, 100.0 );
 }
@@ -31,8 +32,8 @@ void Flying::updateAngels()
         flyPitch += (0.005*sc->forward());
         if( flyPitch > 0.6 ) flyPitch = 0.6;
         flyRoll += (0.01*sc->side());
-        if( flyRoll > 1.0 ) flyRoll = 1.0;
-        flyYaw += (0.02*sc->yaw());
+        if( yawMom > 1.0 ) yawMom = 1.0;
+        yawMom += (0.002*sc->yaw());
     }
 }
 
@@ -83,7 +84,6 @@ void Flying::updatePosition()
         vFactor *= 0.93;
         hitCountDown--;
     }
-    cout<< hitCountDown << endl << xVel<< endl;
     
     xVel *= 0.96;
     zVel *= 0.96;
@@ -91,6 +91,9 @@ void Flying::updatePosition()
     
     flyPitch *= 0.98;
     flyRoll *= 0.98;
+    yawMom *= 0.9;
+    
+    flyYaw += yawMom;
     
     position->x += xVel;
     position->z += zVel;

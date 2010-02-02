@@ -25,6 +25,7 @@ class Flying : public ITickable
         double addPitch;
         double addRoll;
         double addYaw;
+        double yawMom;
         
         double flyPitch;
         double flyYaw;
