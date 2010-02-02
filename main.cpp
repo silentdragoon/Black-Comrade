@@ -131,12 +131,15 @@ void Main::clientStartup() {
 void Main::serverStartup() {
     gameStateMachine = new GameStateMachine(mapMgr,shipState);
     networkingManager->replicate(gameStateMachine);
+    navigatorGunState = new GunState();
+    engineerGunState = new GunState();
 }
 
 void Main::navigatorStartup() {
     camera->setPosition(0,2,-2);
     navControls = new NavigatorControls(inputState,camera);
     navigatorGunState = new GunState(navControls);
+
     networkingManager->replicate(navigatorGunState);
 
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
@@ -153,6 +156,7 @@ void Main::engineerStartup() {
     camera->setPosition(0,-2,-2);
     engControls = new EngineerControls(inputState,camera);
     engineerGunState = new GunState(engControls);
+
     networkingManager->replicate(engineerGunState);
 
     shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
