@@ -31,6 +31,10 @@ Main::Main() {
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
     	camera->setPosition(Vector3(0,7,5));
+    } else if(collabInfo->getGameRole() == NAVIGATOR) {
+    	camera->setPosition(Vector3(15,7,-25));
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+    	camera->setPosition(Vector3(-15,7,-25));
     }
     createViewPort();
     
@@ -46,7 +50,7 @@ Main::Main() {
     root->addFrameListener(gameLoop);
     
     // User Input
-    inputState = new InputState(window, false, this,true,false);
+    inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
     
     // Navigator Controls
