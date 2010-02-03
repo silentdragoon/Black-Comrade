@@ -13,8 +13,8 @@ void PrintState::tick()
 		
 		switch(gameStateMachine->currentGameState())
 		{
-			case GS_STELPH:
-				cout << "Stelph\n";
+			case GS_STEALTH:
+				cout << "Stealth\n";
 				break;
 			case GS_ATTACK:
 				cout << "Attack\n";

@@ -4,15 +4,15 @@
 #include <iostream>
 
 GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
-	: gameState(GS_STELPH)
+	: gameState(GS_STEALTH)
 	, mapManager(mapManager)
 	, shipState(shipState)
 	, mIsNewState(true)
 {}
 
 GameStateMachine::GameStateMachine()
-        : gameState(GS_STELPH)
-        , oldState(GS_STELPH)
+        : gameState(GS_STEALTH)
+        , oldState(GS_STEALTH)
         , mapManager(0)
         , shipState(0)
         , mIsNewState(true)
@@ -38,7 +38,7 @@ void GameStateMachine::tick()
 	if(wp != NULL) {
 		if(*wp == "wp_attack") {
 			switch(gameState) {
-				case GS_STELPH:
+				case GS_STEALTH:
 					gameState = GS_ATTACK;
 					break;
 			}

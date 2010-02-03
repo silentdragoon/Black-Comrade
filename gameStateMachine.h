@@ -7,7 +7,7 @@
 #include "shipState.h"
 #include "replicaObject.h"
 
-enum GameState { GS_STELPH, GS_ATTACK, GS_FLEE, GS_GAME_OVER, GS_END };
+enum GameState { GS_STEALTH, GS_ATTACK, GS_FLEE, GS_GAME_OVER, GS_END };
 
 class GameStateMachine : public ITickable, public ReplicaObject
 {
