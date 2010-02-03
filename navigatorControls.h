@@ -5,21 +5,23 @@
 #include <OIS/OIS.h>
 #include <iostream>
 #include "ITickable.h"
+#include "IPlayerControls.h"
 #include "inputState.h"
 
 using namespace Ogre;
 using namespace std;
 
-class NavigatorControls : public ITickable 
+class NavigatorControls : public ITickable, public IPlayerControls
 {
     private:
         bool enabled;
+        bool isFire;
 
         Camera *cam;
         InputState *inputState;
     public:
         virtual void tick();
-
+        virtual bool fire();
         NavigatorControls(InputState *inputState, Camera *cam);
         ~NavigatorControls();
 };

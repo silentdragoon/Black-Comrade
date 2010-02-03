@@ -17,6 +17,10 @@ bool InputState::isKeyDown(OIS::KeyCode keyCode)
     return mKeyboard->isKeyDown(keyCode);
 }
 
+bool InputState::isMouseButtonDown(OIS::MouseButtonID buttonID) {
+    return mMouse->getMouseState().buttonDown(buttonID);
+}
+
 int InputState::getMouseX()
 {
     const OIS::MouseState &mouse_state = mMouse->getMouseState();
@@ -61,10 +65,10 @@ InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit)
 
 InputState::~InputState()
 {
-	mInputManager->destroyInputObject( mKeyboard );
+    mInputManager->destroyInputObject( mKeyboard );
     mInputManager->destroyInputObject( mMouse );
 
-	OIS::InputManager::destroyInputSystem(mInputManager);
-	mInputManager = NULL;
+    OIS::InputManager::destroyInputSystem(mInputManager);
+    mInputManager = NULL;
 }
 
