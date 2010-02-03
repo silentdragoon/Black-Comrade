@@ -12,7 +12,7 @@ GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
 
 GameStateMachine::GameStateMachine()
         : gameState(GS_STELPH)
-        , previousState(GS_END)
+        , oldState(GS_STELPH)
         , mapManager(0)
         , shipState(0)
         , mIsNewState(true)
@@ -20,17 +20,18 @@ GameStateMachine::GameStateMachine()
 
 void GameStateMachine::tick()
 {
-	GameState oldState = gameState;
+
 	mIsNewState = false;
 
         if (mapManager == 0) {
-            if (previousState != gameState) {
+            if (oldState != gameState) {
                 mIsNewState = true;
-                previousState = gameState;
+                oldState = gameState;
             }
             return;
         }
 
+	oldState = gameState;
         //std::cout << "Checking statemachine" << std::endl;
 	// Waypoint events
 	string *wp = mapManager->getWaypoint(shipState->position);

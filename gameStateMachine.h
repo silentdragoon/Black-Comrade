@@ -13,7 +13,7 @@ class GameStateMachine : public ITickable, public ReplicaObject
 {
 private:
 	GameState gameState;
-        GameState previousState;
+        GameState oldState;
 	MapManager *mapManager;
 	ShipState *shipState;
 	bool mIsNewState;
