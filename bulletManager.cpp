@@ -113,7 +113,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
-    if(pilotGunState->fire() || engineerGunState->fire() || navigatorGunState->fire()) {
+    if(pilotGunState->fire() || (engineerGunState && engineerGunState->fire()) || (navigatorGunState && navigatorGunState->fire())) {
         
         Vector3 position = shipSceneNode->getPosition();
         position.y -= 3.0;

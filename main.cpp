@@ -100,8 +100,8 @@ Main::Main() {
     bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
 
     stateUpdate->addTickable(pilotGunState);
-    stateUpdate->addTickable(engineerGunState);
-    stateUpdate->addTickable(navigatorGunState);    
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(engineerGunState);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(navigatorGunState);    
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(networkingManager);
@@ -181,8 +181,8 @@ void Main::pilotStartup() {
     networkingManager->replicate(pilotGunState);
     //networkingManager->replicate(enemyState);
 
-    engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
-    navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
 
     stateUpdate->addTickable(pilotControls);
     stateUpdate->addTickable(as);
