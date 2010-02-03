@@ -26,11 +26,14 @@ Main::Main() {
     shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     Entity *shipEntity = sceneMgr->createEntity("ourship", "ourship.mesh");
     shipSceneNode->attachObject(shipEntity);
+    if(collabInfo->getGameRole() == PILOT) {
+    	shipEntity->setVisible(false);
+    }
     
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
-    	camera->setPosition(Vector3(0,7,5));
+    	camera->setPosition(Vector3(0,0,5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
     	camera->setPosition(Vector3(15,7,-25));
     } else if(collabInfo->getGameRole() == ENGINEER) {
@@ -81,20 +84,44 @@ Main::Main() {
     shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
     gameLoop->addTickable(shipState);
 
+	// GameState
+	if(collabInfo->getGameRole() == PILOT) {
+	    gameStateMachine = new GameStateMachine(mapMgr,shipState);
+	    networkingManager->replicate(gameStateMachine);
+	    
+    } else {
+    	gameStateMachine = 
+    		(GameStateMachine*) networkingManager->
+    			getReplica("GameStateMachine",true);
+    }
+	gameLoop->addTickable(gameStateMachine);
+	gameParameterMap = new GameParameterMap(gameStateMachine);
+
+	// Print Game State changes
+	printState = new PrintState(gameStateMachine);
+	gameLoop->addTickable(printState);
+
 	// Front Gun State
 	if(collabInfo->getGameRole() == PILOT) {
 	    frontGunState = new FrontGunState(pilotControls);
 	    networkingManager->replicate(frontGunState);
     } else {
     	frontGunState = 
-    		(FrontGunState*) networkingManager->getReplica("FrontGunState",true);
+    		(FrontGunState*) networkingManager->
+    			getReplica("FrontGunState",true);
     }
     gameLoop->addTickable(frontGunState);
+
+	// TODO: start the enemies pointing towards the ship?
+	// Swarm Manager
+	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
+		shipState);
+	gameLoop->addTickable(swarmMgr);
 
 	// Bullet Manager
 	if(collabInfo->getGameRole() == PILOT) {
 	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,
-	    	collisionMgr, NULL);
+	    	collisionMgr, swarmMgr);
 	    //networkingManager->replicate(bulletMgr);
 	    gameLoop->addTickable(bulletMgr);
     } else {
