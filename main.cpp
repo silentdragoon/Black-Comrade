@@ -12,18 +12,34 @@ using namespace RakNet;
 Main::Main() {
 
     // networking
-    collabInfo = startNetworking();
+    networkingManager = new NetworkingManager(this);
+    collabInfo = runLoby(networkingManager);
 
-    startOgre();
+	// Start Ogre
+    root = configRoot();
+    sceneMgr = root->createSceneManager(ST_GENERIC);
+    window = root->initialise(true, "I removed what was once here");
     
     configResources();
     
-    createCamera();
+    // Ship Node
+    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    Entity *shipEntity = sceneMgr->createEntity("ourship", "ourship.mesh");
+    shipSceneNode->attachObject(shipEntity);
+    
+    // Camera
+    camera = createCamera(shipSceneNode);
+    if(collabInfo->getGameRole() == PILOT) {
+    	camera->setPosition(Vector3(0,7,5));
+    }
     createViewPort();
     
     // Create Map
     mapMgr = new MapManager("examplemap.txt",sceneMgr);
     mapMgr->outputMap(sceneMgr->getRootSceneNode());
+    
+    // Collision Manager
+	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
     
     // Game Loop
     gameLoop = new StateUpdate();
@@ -58,9 +74,32 @@ Main::Main() {
     		(ShipState*) networkingManager->getReplica("ShipState",true);
     	shipState->shipSceneNode = shipSceneNode;
     }
-
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
     gameLoop->addTickable(shipState);
 
+	// Front Gun State
+	if(collabInfo->getGameRole() == PILOT) {
+	    frontGunState = new FrontGunState(pilotControls);
+	    networkingManager->replicate(frontGunState);
+    } else {
+    	frontGunState = 
+    		(FrontGunState*) networkingManager->getReplica("FrontGunState",true);
+    }
+    gameLoop->addTickable(frontGunState);
+
+	// Bullet Manager
+	if(collabInfo->getGameRole() == PILOT) {
+	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,
+	    	collisionMgr, NULL);
+	    //networkingManager->replicate(bulletMgr);
+	    gameLoop->addTickable(bulletMgr);
+    } else {
+    	//bulletMgr = 
+    	//	(BulletManager*) networkingManager->getReplica("BulletManager",true);
+    }
+    
+
+	// Last class to be added to the game loop
     gameLoop->addTickable(networkingManager);
     
     // Start Rendering Loop
@@ -68,16 +107,14 @@ Main::Main() {
     networkingManager->stopNetworking();
 }
 
-void Main::startOgre()
+Root *Main::configRoot()
 {
-	root = new Root();
+	Root *root = new Root();
 
     if (!root->restoreConfig())
         root->showConfigDialog();
         
-    sceneMgr = root->createSceneManager(ST_GENERIC);
-    
-    window = root->initialise(true, "I removed what was once here");
+    return root;
 }
 
 void Main::configResources()
@@ -108,11 +145,9 @@ void Main::configResources()
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
-CollaborationInfo *Main::startNetworking() {
+CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
     
     CollaborationInfo *collabInfo;
-    
-    networkingManager = new NetworkingManager(this);
     
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
@@ -140,11 +175,9 @@ CollaborationInfo *Main::startNetworking() {
     return collabInfo;
 }
 
-void Main::createCamera() {
+Camera *Main::createCamera(SceneNode *shipSceneNode) {
 
-    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    camera = sceneMgr->createCamera("mainCam");
+    Camera *camera = sceneMgr->createCamera("mainCam");
 
     shipSceneNode->attachObject(camera);
 
@@ -171,6 +204,8 @@ void Main::createCamera() {
     //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
 
     shipSceneNode->attachObject(sp);
+    
+    return camera;
 }
 
 void Main::createViewPort() {

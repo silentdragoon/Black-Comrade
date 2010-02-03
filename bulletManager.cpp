@@ -48,18 +48,21 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;
 
-    vector<Enemy*> ents = swarmMgr->getAllEnemies();
-    Enemy *e;
-    bool isEnemy = false;
-    Enemy *hurtEnemy = NULL;
-    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-        e = *it;
-        double temp = colMgr->rayCollideWithEnemy(pos,&direction,e->getEntity());
-        if(temp<t) {
-        	t = temp;
-        	isEnemy = true;
-        	hurtEnemy = e;
-        }
+	bool isEnemy = false;
+	Enemy *hurtEnemy = NULL;
+    if(swarmMgr) {
+	    vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    
+	    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        double temp = colMgr->rayCollideWithEnemy(pos,&direction,e->getEntity());
+	        if(temp<t) {
+	        	t = temp;
+	        	isEnemy = true;
+	        	hurtEnemy = e;
+	        }
+	    }
     }
 
     //cout << t << endl;
@@ -121,14 +124,16 @@ void BulletManager::tick()
     // Check if any enemies are shooting
     
     // Loop for all enemies
-    vector<Enemy*> ents = swarmMgr->getAllEnemies();
-    Enemy *e;
-    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-        e = *it;
-        
-        if(e->fire) {
-        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
-        }
+    if(swarmMgr) {
+	    vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        
+	        if(e->fire) {
+	        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	        }
+	    }
     }
     
     

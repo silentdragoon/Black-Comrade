@@ -70,12 +70,12 @@ private:
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
     
-    void createCamera();
+    Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
-    CollaborationInfo *startNetworking();
+    CollaborationInfo *runLoby(NetworkingManager *networkingManager);
     
-    void startOgre();
+    Root *configRoot();
     void configResources();
     
 public:
