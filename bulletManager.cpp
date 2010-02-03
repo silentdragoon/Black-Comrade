@@ -88,10 +88,15 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, GunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
+                GunState *pilotGunState, GunState *engineerGunState, 
+                GunState *navigatorGunState, CollisionManager *colMgr, 
+        	SwarmManager *swarmMgr)
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
-    , gunState(gunState)
+    , pilotGunState(pilotGunState)
+    , engineerGunState(engineerGunState)
+    , navigatorGunState(navigatorGunState)
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , bnum(0)
@@ -108,7 +113,7 @@ BulletManager::~BulletManager() {
 void BulletManager::tick()
 {
     // Firing the pilots gun
-    if(gunState->fire()) {
+    if(pilotGunState->fire() || engineerGunState->fire() || navigatorGunState->fire()) {
         
         Vector3 position = shipSceneNode->getPosition();
         position.y -= 3.0;
