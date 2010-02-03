@@ -119,16 +119,21 @@ Main::Main() {
 	gameLoop->addTickable(swarmMgr);
 
 	// Bullet Manager
-	if(collabInfo->getGameRole() == PILOT) {
+	//if(collabInfo->getGameRole() == PILOT) {
 	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,
 	    	collisionMgr, swarmMgr);
 	    //networkingManager->replicate(bulletMgr);
 	    gameLoop->addTickable(bulletMgr);
-    } else {
+    //} else {
     	//bulletMgr = 
     	//	(BulletManager*) networkingManager->getReplica("BulletManager",true);
-    }
-    
+    //}
+
+	// Audio
+	soundMgr = new SoundManager();
+	gameLoop->addTickable(soundMgr);
+	audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
+	gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
     gameLoop->addTickable(networkingManager);
