@@ -57,13 +57,22 @@ Main::Main() {
     gameLoop->addTickable(inputState);
     
     // Pilot --- Flying 1.0 ---
+    // if(collabInfo->getGameRole() == PILOT) {
+	    // pilotControls = new PilotControls(inputState,camera);
+	    // accelerationState = new AccelerationState(pilotControls);
+	    // motionState = new MotionState(accelerationState);
+	    // gameLoop->addTickable(pilotControls);
+	    // gameLoop->addTickable(accelerationState);
+	    // gameLoop->addTickable(motionState);
+    // }
+    
+    // pilot new Flying
     if(collabInfo->getGameRole() == PILOT) {
-	    pilotControls = new PilotControls(inputState,camera);
-	    accelerationState = new AccelerationState(pilotControls);
-	    motionState = new MotionState(accelerationState);
-	    gameLoop->addTickable(pilotControls);
-	    gameLoop->addTickable(accelerationState);
-	    gameLoop->addTickable(motionState);
+        collisionMgr->addMesh(shipEntity);
+        pilotControls = new PilotControls(inputState,camera);
+        flying = new Flying( pilotControls, collisionMgr );
+        gameLoop->addTickable(pilotControls);
+        gameLoop->addTickable(flying);
     }
     
     // Navigator Controls
@@ -80,7 +89,7 @@ Main::Main() {
     
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
-	    shipState = new ShipState(shipSceneNode,motionState);
+	    shipState = new ShipState(shipSceneNode,flying);
 	    networkingManager->replicate(shipState);
     } else {
     	shipState = 
@@ -218,7 +227,7 @@ void Main::configResources()
 CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
     
     CollaborationInfo *collabInfo;
-    
+
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
 

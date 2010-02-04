@@ -26,6 +26,7 @@
 #include "gameParameterMap.h"
 #include "printState.h"
 #include "swarmManager.h"
+#include "flying.h"
 #include "navigatorControls.h"
 #include "engineerControls.h"
 
@@ -48,6 +49,9 @@ private:
     bool isServer;
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
+    AccelerationState *as;
+    MotionState *ms;
+    Flying *flying;
     InputState *inputState;
     AccelerationState *accelerationState;
     MotionState *motionState;

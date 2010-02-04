@@ -79,7 +79,7 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
 } */
 
 
-/* Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
+Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
 {
     //bool isCollided = false;
     dFloat contacts[16] = {0.0f};
@@ -88,11 +88,11 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
     Collision col = Collision(false,normals,contacts,penetration);
     //gets the map the ship is in
     Entity* e = mp->getEntity( shipPos );
+    //NOTE: uses asumed name for ship
     //checks if the two entities have collided
     if( e != NULL) col = cd->isCollision( sceneMgr->getEntity("ourship"), e );
     return col;
 }
- */
 
 /* Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst )
 {
