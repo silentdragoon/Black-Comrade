@@ -86,8 +86,8 @@ Main::Main() {
         clientStartup();
     }
 
-    audioState = new AudioState(gunState,soundMgr,shipSceneNode);
-    miniGameMgr = new MiniGameManager(inputState,sc,sceneMgr);
+    audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
+    miniGameMgr = new MiniGameManager(inputState,pilotControls,sceneMgr);
 
     gameParameterMap = new GameParameterMap(gameStateMachine);
 	
@@ -97,9 +97,11 @@ Main::Main() {
 	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
 	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
     swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState, collisionMgr);
-    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,gunState,collisionMgr,swarmMgr);
+    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
 
-    stateUpdate->addTickable(gunState);
+    stateUpdate->addTickable(pilotGunState);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(engineerGunState);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(navigatorGunState);    
     stateUpdate->addTickable(audioState);
     stateUpdate->addTickable(shipState);
     stateUpdate->addTickable(networkingManager);
@@ -133,9 +135,15 @@ void Main::serverStartup() {
 
 void Main::navigatorStartup() {
     camera->setPosition(0,2,-2);
-    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    gunState = (GunState *) networkingManager->getReplica("GunState",true);
+    
     navControls = new NavigatorControls(inputState,camera);
+    navigatorGunState = new GunState(navControls,NAVIGATOR);
+    networkingManager->replicate(navigatorGunState);
+
+    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+    pilotGunState = (GunState *) networkingManager->getReplica("PilotGunState",true);
+    engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
+
     stateUpdate->addTickable(navControls);
 
     shipState->shipSceneNode = shipSceneNode;
@@ -144,9 +152,16 @@ void Main::navigatorStartup() {
 
 void Main::engineerStartup() {
     camera->setPosition(0,-2,-2);
-    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    gunState = (GunState *) networkingManager->getReplica("GunState",true);
+
     engControls = new EngineerControls(inputState,camera);
+    engineerGunState = new GunState(engControls,ENGINEER);
+    networkingManager->replicate(engineerGunState);
+
+
+    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
+    pilotGunState = (GunState *) networkingManager->getReplica("PilotGunState",true);
+    navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
+
     stateUpdate->addTickable(engControls);
 
     shipState->shipSceneNode = shipSceneNode;
@@ -155,19 +170,21 @@ void Main::engineerStartup() {
 
 void Main::pilotStartup() {
     camera->setPosition(Vector3(0,0,0));
-    sc = new PilotControls(inputState);
-    as = new AccelerationState(sc);
+    pilotControls = new PilotControls(inputState);
+    as = new AccelerationState(pilotControls);
     ms = new MotionState(as);
-    gunState = new GunState(sc);
+    pilotGunState = new GunState(pilotControls,PILOT);
     shipState = new ShipState(shipSceneNode, ms, collisionMgr);
     //enemyState = new EnemyState(enemySceneNode, sceneMgr);
 
     networkingManager->replicate(shipState);
-    networkingManager->replicate(gunState);
+    networkingManager->replicate(pilotGunState);
     //networkingManager->replicate(enemyState);
 
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
 
-    stateUpdate->addTickable(sc);
+    stateUpdate->addTickable(pilotControls);
     stateUpdate->addTickable(as);
     stateUpdate->addTickable(ms);
 
@@ -283,8 +300,8 @@ void Main::serverShutdown() {
 void Main::pilotShutdown() {
         cout << "deleting shipstate" << endl;
         delete shipState;
-        cout << "deleting gunState" << endl;
-        delete gunState;
+        cout << "deleting pilotGunState" << endl;
+        delete pilotGunState;
 }
 
 void Main::navigatorShutdown() {
@@ -299,8 +316,8 @@ Main::~Main()
 {
     cout << "deleting inputState" << endl;
     delete inputState;
-    cout << "deleting sc" << endl;
-    delete sc;
+    cout << "deleting pilotControls" << endl;
+    delete pilotControls;
     cout << "deleting as" << endl;
     delete as;
     cout << "deleting ms" << endl;

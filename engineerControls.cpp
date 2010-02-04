@@ -4,11 +4,17 @@
 EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
     cam(cam),
-    enabled(true)
+    enabled(true),
+    isFire(false)
 {}
 
 EngineerControls::~EngineerControls()
 {}
+
+bool EngineerControls::fire() {
+    return isFire;
+}
+
 
 void EngineerControls::tick()
 {
@@ -17,5 +23,7 @@ void EngineerControls::tick()
         int y = inputState->getMouseY();
         cam->yaw(Degree(Const::TURRET_SPEED * x));
         cam->pitch(Degree(Const::TURRET_SPEED * y));
+
+        isFire = inputState->isMouseButtonDown(OIS::MB_Left);
     }
 }
