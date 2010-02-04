@@ -11,21 +11,184 @@ using namespace RakNet;
 
 Main::Main() {
 
-    networkingManager = new NetworkingManager(this);
-
     // networking
-    startNetworking();
+    networkingManager = new NetworkingManager(this);
+    collabInfo = runLoby(networkingManager);
 
-    root = new Root();
+	// Start Ogre
+    root = configRoot();
+    sceneMgr = root->createSceneManager(ST_GENERIC);
+    window = root->initialise(true, collabInfo->getGameRoleString());
+    
+    configResources();
+    
+    // Ship Node
+    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    Entity *shipEntity = sceneMgr->createEntity("ourship", "ourship.mesh");
+    shipSceneNode->attachObject(shipEntity);
+    if(collabInfo->getGameRole() == PILOT) {
+    	shipEntity->setVisible(false);
+    }
+    
+    // Camera
+    camera = createCamera(shipSceneNode);
+    if(collabInfo->getGameRole() == PILOT) {
+    	camera->setPosition(Vector3(0,0,5));
+    } else if(collabInfo->getGameRole() == NAVIGATOR) {
+    	camera->setPosition(Vector3(15,7,-25));
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+    	camera->setPosition(Vector3(-15,7,-25));
+    }
+    createViewPort();
+    
+    // Create Map
+    mapMgr = new MapManager("examplemap.txt",sceneMgr);
+    mapMgr->outputMap(sceneMgr->getRootSceneNode());
+    
+    // Collision Manager
+	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+    
+    // Game Loop
+    gameLoop = new StateUpdate();
+    root->addFrameListener(gameLoop);
+    
+    // User Input
+    inputState = new InputState(window, false, this,true,true);
+    gameLoop->addTickable(inputState);
+    
+    // Pilot --- Flying 1.0 ---
+    if(collabInfo->getGameRole() == PILOT) {
+	    pilotControls = new PilotControls(inputState,camera);
+	    accelerationState = new AccelerationState(pilotControls);
+	    motionState = new MotionState(accelerationState);
+	    gameLoop->addTickable(pilotControls);
+	    gameLoop->addTickable(accelerationState);
+	    gameLoop->addTickable(motionState);
+    }
+    
+    // Navigator Controls
+    if(collabInfo->getGameRole() == NAVIGATOR) {
+	    navigatorControls = new NavigatorControls(inputState,camera);
+	    gameLoop->addTickable(navigatorControls);
+    }
+    
+    // Engineer Controls
+    if(collabInfo->getGameRole() == ENGINEER) {
+	    engineerControls = new EngineerControls(inputState,camera);
+	    gameLoop->addTickable(engineerControls);
+    }
+    
+    // Ship State
+    if(collabInfo->getGameRole() == PILOT) {
+	    shipState = new ShipState(shipSceneNode,motionState);
+	    networkingManager->replicate(shipState);
+    } else {
+    	shipState = 
+    		(ShipState*) networkingManager->getReplica("ShipState",true);
+    	shipState->shipSceneNode = shipSceneNode;
+    }
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    gameLoop->addTickable(shipState);
+
+	// GameState
+	if(collabInfo->getGameRole() == PILOT) {
+	    gameStateMachine = new GameStateMachine(mapMgr,shipState);
+	    networkingManager->replicate(gameStateMachine);
+	    
+    } else {
+    	gameStateMachine = 
+    		(GameStateMachine*) networkingManager->
+    			getReplica("GameStateMachine",true);
+    }
+	gameLoop->addTickable(gameStateMachine);
+	gameParameterMap = new GameParameterMap(gameStateMachine);
+
+	// Print Game State changes
+	printState = new PrintState(gameStateMachine);
+	gameLoop->addTickable(printState);
+
+	// Pilot Gun State
+	if(collabInfo->getGameRole() == PILOT) {
+	    pilotGunState = new GunState(pilotControls,collabInfo->getGameRole());
+	    networkingManager->replicate(pilotGunState);
+	} else {
+    	pilotGunState = (GunState*) networkingManager->
+    		getReplica("PilotGunState",true);
+    }
+    gameLoop->addTickable(pilotGunState);
+    
+    // Navigator Gun State
+	if(collabInfo->getGameRole() == NAVIGATOR) {
+	    navigatorGunState = new GunState(navigatorControls,collabInfo->getGameRole());
+	    networkingManager->replicate(navigatorGunState);
+	    gameLoop->addTickable(navigatorGunState);
+	} else {
+    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+    	    navigatorGunState = (GunState*) networkingManager->
+    	        getReplica("NavigatorGunState",true);
+    	        std::cout << "Got nav gun from net" << std::endl;
+    	    gameLoop->addTickable(navigatorGunState);
+    	}
+    }
+    
+    // Engineer Gun State
+	if(collabInfo->getGameRole() == ENGINEER) {
+	    engineerGunState = new GunState(engineerControls,collabInfo->getGameRole());
+	    networkingManager->replicate(engineerGunState);
+	    gameLoop->addTickable(engineerGunState);
+	} else {
+    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+    	    engineerGunState = (GunState*) networkingManager->
+    		    getReplica("EngineerGunState",true);
+    		    std::cout << "Got eng gun from net" << std::endl;
+    		gameLoop->addTickable(engineerGunState);
+        }
+    }
+
+	// TODO: start the enemies pointing towards the ship?
+	// Swarm Manager
+	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
+		shipState,collisionMgr);
+	gameLoop->addTickable(swarmMgr);
+
+        gameLoop->addTickable(networkingManager);
+
+	// Bullet Manager
+	//if(collabInfo->getGameRole() == PILOT) {
+	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
+	    	engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
+	    //networkingManager->replicate(bulletMgr);
+	    gameLoop->addTickable(bulletMgr);
+    //} else {
+    	//bulletMgr = 
+    	//	(BulletManager*) networkingManager->getReplica("BulletManager",true);
+    //}
+
+	// Audio
+	//soundMgr = new SoundManager();
+	//gameLoop->addTickable(soundMgr);
+	//audioState = new AudioState(gunState,soundMgr,shipSceneNode);
+	//gameLoop->addTickable(audioState);
+
+	// Last class to be added to the game loop
+    
+    // Start Rendering Loop
+    root->startRendering();
+    networkingManager->stopNetworking();
+}
+
+Root *Main::configRoot()
+{
+	Root *root = new Root();
 
     if (!root->restoreConfig())
         root->showConfigDialog();
-    
-    window = root->initialise(true, collabInfo->getNick() + " - " + collabInfo->getGameRoleString());
-    
+        
+    return root;
+}
 
-    sceneMgr = root->createSceneManager(ST_GENERIC);
-
+void Main::configResources()
+{
 	ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
@@ -34,7 +197,7 @@ Main::Main() {
                     "models", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "sounds", "FileSystem", "General");
+                    "sounds", "FileSystem", "Genescenemral");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
@@ -50,153 +213,12 @@ Main::Main() {
                    
     // Magic Resource line
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-    soundMgr = new SoundManager();
-    
-    mapMgr = new MapManager("examplemap.txt",sceneMgr);
-
-    createCamera();
-    createViewPort();
-    createScene();
-    
-    inputState = new InputState(window, false, this);
-    
-    stateUpdate = new StateUpdate();
-    
-    stateUpdate->addTickable(inputState);
-    
-    collisionMgr = new CollisionManager( sceneMgr, mapMgr);
-
-    GameRole myGameRole = collabInfo->getGameRole();
-    if (myGameRole == PILOT) {
-        pilotStartup();
-    }
-    else if (myGameRole == ENGINEER) {
-        engineerStartup();
-    }
-    else if (myGameRole == NAVIGATOR) {
-        navigatorStartup();
-    }
-
-    NetworkRole myNetworkRole = collabInfo->getNetworkRole();
-    if (myNetworkRole == SERVER || myNetworkRole == DEVELOPMENTSERVER) {
-        serverStartup();
-    }
-    else if (myNetworkRole == CLIENT) {
-        clientStartup();
-    }
-
-    audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
-    miniGameMgr = new MiniGameManager(inputState,pilotControls,sceneMgr);
-
-    gameParameterMap = new GameParameterMap(gameStateMachine);
-	
-    printState = new PrintState(gameStateMachine);
-
-	//Test swarm
-	//Vector3 swarmLocation(mapMgr->startx,0,mapMgr->starty+500);
-	//Swarm *swarm = new Swarm(1,1,swarmLocation,sceneMgr,0,0,0);
-    swarmMgr = new SwarmManager(sceneMgr,gameParameterMap,mapMgr,shipState, collisionMgr);
-    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
-
-    stateUpdate->addTickable(pilotGunState);
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(engineerGunState);
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) stateUpdate->addTickable(navigatorGunState);    
-    stateUpdate->addTickable(audioState);
-    stateUpdate->addTickable(shipState);
-    stateUpdate->addTickable(networkingManager);
-    stateUpdate->addTickable(bulletMgr);
-    stateUpdate->addTickable(soundMgr);
-    stateUpdate->addTickable(miniGameMgr);
-    stateUpdate->addTickable(printState);
-    stateUpdate->addTickable(swarmMgr);
-    
-    // This should be last to allow events for the inital state 'change'
-    stateUpdate->addTickable(gameStateMachine);
-
-    root->addFrameListener(stateUpdate);
-
-	
-
-    // Start Rendering Loop
-    root->startRendering();
-    networkingManager->stopNetworking();
-    
-    addCrossHair();
-
 }
 
-void Main::clientStartup() {
-    gameStateMachine = (GameStateMachine *) networkingManager->getReplica("GameStateMachine", true);
-}
-
-void Main::serverStartup() {
-    gameStateMachine = new GameStateMachine(mapMgr,shipState);
-    networkingManager->replicate(gameStateMachine);
-}
-
-void Main::navigatorStartup() {
-    camera->setPosition(0,2,-2);
+CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
     
-    navControls = new NavigatorControls(inputState,camera);
-    navigatorGunState = new GunState(navControls,NAVIGATOR);
-    networkingManager->replicate(navigatorGunState);
-
-    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    pilotGunState = (GunState *) networkingManager->getReplica("PilotGunState",true);
-    engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
-
-    stateUpdate->addTickable(navControls);
-
-    shipState->shipSceneNode = shipSceneNode;
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-}
-
-void Main::engineerStartup() {
-    camera->setPosition(0,-2,-2);
-
-    engControls = new EngineerControls(inputState,camera);
-    engineerGunState = new GunState(engControls,ENGINEER);
-    networkingManager->replicate(engineerGunState);
-
-
-    shipState = (ShipState*) networkingManager->getReplica("ShipState",true);
-    pilotGunState = (GunState *) networkingManager->getReplica("PilotGunState",true);
-    navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
-
-    stateUpdate->addTickable(engControls);
-
-    shipState->shipSceneNode = shipSceneNode;
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-}
-
-void Main::pilotStartup() {
-    camera->setPosition(Vector3(0,0,0));
-    pilotControls = new PilotControls(inputState);
-    as = new AccelerationState(pilotControls);
-    ms = new MotionState(as);
-    pilotGunState = new GunState(pilotControls,PILOT);
-    shipState = new ShipState(shipSceneNode, ms, collisionMgr);
-    //enemyState = new EnemyState(enemySceneNode, sceneMgr);
-
-    networkingManager->replicate(shipState);
-    networkingManager->replicate(pilotGunState);
-    //networkingManager->replicate(enemyState);
-
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) engineerGunState = (GunState *) networkingManager->getReplica("EngineerGunState",true);
-    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) navigatorGunState = (GunState *) networkingManager->getReplica("NavigatorGunState",true);
-
-    stateUpdate->addTickable(pilotControls);
-    stateUpdate->addTickable(as);
-    stateUpdate->addTickable(ms);
-
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-
-}
-
-
-
-void Main::startNetworking() {
+    CollaborationInfo *collabInfo;
+    
     char ch;
     printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
 
@@ -219,13 +241,13 @@ void Main::startNetworking() {
             break;
         }
     }
+    
+    return collabInfo;
 }
 
-void Main::createCamera() {
+Camera *Main::createCamera(SceneNode *shipSceneNode) {
 
-    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    camera = sceneMgr->createCamera("mainCam");
+    Camera *camera = sceneMgr->createCamera("mainCam");
 
     shipSceneNode->attachObject(camera);
 
@@ -234,6 +256,26 @@ void Main::createCamera() {
     //camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(1);
     camera->setFarClipDistance(1500);
+    
+    // Lighting
+    //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
+
+    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
+    
+    // Add some sexy fog
+    //ColourValue fadeColour(0.1,0.1,0.1);
+    //sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    
+    Light *sp = sceneMgr->createLight("ShipLight");
+    sp->setType(Light::LT_POINT);
+    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setSpecularColour(0.2,0.2,0.7);
+    sp->setDirection(Vector3(0,0,1));
+    //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
+
+    shipSceneNode->attachObject(sp);
+    
+    return camera;
 }
 
 void Main::createViewPort() {
@@ -246,44 +288,6 @@ void Main::createViewPort() {
     //camera->setAspectRatio(1.17);
 }
 
-void Main::createScene() {
-
-    sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
-
-    sceneMgr->setAmbientLight(ColourValue(1,1,1));
-    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
-    
-    // Add some sexy fog
-    //ColourValue fadeColour(0.1,0.1,0.1);
-    //sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
-    
-    // Creating the light that is attached to the ship
-    Light *sp = sceneMgr->createLight("ShipLight");
-    sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(1.0,1.0,1.0);
-    sp->setSpecularColour(0.2,0.2,0.7);
-    sp->setDirection(Vector3(0,0,1));
-    //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
-
-    shipSceneNode->attachObject(sp);
-    
-    //Entity *en = sceneMgr->createEntity("enemy","smallenemy.mesh");
-    
-    //enemySceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    //enemySceneNode->showBoundingBox(true);
-    //enemySceneNode->attachObject(en);
-
-    mapNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    mapMgr->outputMap(mapNode);
-    
-    SceneNode *modelNode = shipSceneNode->createChildSceneNode();
-    
-    Entity *e = sceneMgr->createEntity("ourship", "ourship.mesh");
-    modelNode->attachObject(e);
-    modelNode->setPosition(0,-7,-5);
-}
-
 int main()
 {
     Main *main = new Main();
@@ -291,89 +295,12 @@ int main()
     delete main;
 }
 
-void Main::clientShutdown() {
-
-}
-
-void Main::serverShutdown() {
-
-}
-
-void Main::pilotShutdown() {
-        cout << "deleting shipstate" << endl;
-        delete shipState;
-        cout << "deleting pilotGunState" << endl;
-        delete pilotGunState;
-}
-
-void Main::navigatorShutdown() {
-
-}
-
-void Main::engineerShutdown() {
-
-}
-
 Main::~Main()
 {
-    cout << "deleting inputState" << endl;
-    delete inputState;
-    cout << "deleting pilotControls" << endl;
-    delete pilotControls;
-    cout << "deleting as" << endl;
-    delete as;
-    cout << "deleting ms" << endl;
-    delete ms;
-    cout << "deleteing bulletMgr" << endl;
-    delete bulletMgr;
-    if (collabInfo->getGameRole() == PILOT) {
-        pilotShutdown();
-    }
-    else if (collabInfo->getGameRole() == NAVIGATOR) {
-        navigatorShutdown();
-    }
-    else if (collabInfo->getGameRole() == ENGINEER) {
-        engineerShutdown();
-    }
-    cout << "deleting networkingManger" << endl;
-    delete networkingManager;
-
-    cout << "deleting stateUpdate" << endl;
-    delete stateUpdate;
-
-    delete soundMgr;
-
-    OGRE_DELETE root;
-
-    //cout << "PLEASE STOP HERE!" << endl;
 }
-
-void Main::addCrossHair()
-{
-    /* lines = new Lines(sceneMgr);
-    Vector3 *a = new Vector3(mapMgr->startx,0,mapMgr->starty);
-    cout << mapMgr->startx << " " << << endl<< endl;
-    lines->addCross( a );
-    lines->addCross( a ); */
-    
-    // ManualObject* manual = sceneMgr->createManualObject("manual");
-    // manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
-// 
-    // 
-    // manual->position(mapMgr->startx-100, 0, mapMgr->starty);
-    // manual->position(mapMgr->startx+100, 0, mapMgr->starty);
-    // manual->position(mapMgr->startx, -100, mapMgr->starty);
-    // manual->position(mapMgr->startx, +100, mapMgr->starty);
-// 
-// 
-    // manual->end();
-    // sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
-
-}
-    
 
 void Main::exit()
 {
-    stateUpdate->running = false;
+    gameLoop->running = false;
 }
 
