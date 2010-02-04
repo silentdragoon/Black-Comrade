@@ -35,9 +35,9 @@ Main::Main() {
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,2,-2));
+        camera->setPosition(Vector3(0,3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-2,-2));
+        camera->setPosition(Vector3(0,-3,0));
     }
     createViewPort();
     
