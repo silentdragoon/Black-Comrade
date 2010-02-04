@@ -19,7 +19,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
-        stringstream out;
+        std::stringstream out;
         out << id << i;
         ename += out.str();
 
@@ -44,10 +44,10 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     }
 }
 
-vector<Enemy*> Swarm::getAllEnemies() {
+std::vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
-    vector<Enemy*> out = vector<Enemy*>();
-    for(vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+    for(std::vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
         e = *it;
         out.push_back(e);
     }
@@ -88,7 +88,7 @@ Vector3 Swarm::getAverageAlignment()
     double y = 0.0;
     double z = 0.0;
 
-    vector<Enemy*>::iterator it;
+    std::vector<Enemy*>::iterator it;
     for(it = members.begin();it != members.end(); it++) {
         Enemy *e = *(it);
         Vector3 direction = e->getDirection();
@@ -203,7 +203,7 @@ void Swarm::updateSwarmLocation()
 
 void Swarm::shootAtShip()
 {
-	vector<Enemy*>::iterator i;
+	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
 	i = members.begin();
@@ -233,7 +233,7 @@ void Swarm::updateEnemyLocations()
 
 	// Tempory one enemy per swarm solution
 	
-	vector<Enemy*>::iterator i;
+	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
 	i = members.begin();

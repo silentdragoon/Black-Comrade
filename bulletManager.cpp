@@ -10,7 +10,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     string bname = "Bill";
     string lname = "Light";
     string rname = "Ribbon";
-    stringstream out;
+    std::stringstream out;
     out << bnum++;
     bname += out.str();
     lname += out.str();
@@ -51,9 +51,9 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
 	bool isEnemy = false;
     Enemy *hurtEnemy = NULL;
     if(swarmMgr) {
-	    vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
 	    Enemy *e;
-	    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
 	        e = *it;
 	        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
 	        if(temp<t && temp > 0.0) {
@@ -103,7 +103,7 @@ BulletManager::BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr,
     , swarmMgr(swarmMgr)
     , bnum(0)
 {
-    activeBullets = new vector<Bullet*>();
+    activeBullets = new std::vector<Bullet*>();
     colMgr->addMesh( sceneMgr->getEntity("ourship") );
 }
 
@@ -135,9 +135,9 @@ void BulletManager::tick()
     
     // Loop for all enemies
     if(swarmMgr) {
-	    vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
 	    Enemy *e;
-	    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
 	        e = *it;
 	        
 	        if(e->fire) {

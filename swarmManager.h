@@ -21,7 +21,7 @@ class SwarmManager : public ITickable
         SceneManager *sceneMgr;
         GameParameterMap *gamePM;
         MapManager *mapMgr;
-        vector<Swarm*> activeSwarms;
+        std::vector<Swarm*> activeSwarms;
         ShipState *shipState;
         CollisionManager *colMgr;
 
@@ -39,7 +39,7 @@ class SwarmManager : public ITickable
 
         void createSwarm(int size, Vector3 location);
 
-        vector<Enemy*> getAllEnemies();
+        std::vector<Enemy*> getAllEnemies();
 
         virtual void tick();
 

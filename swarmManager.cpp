@@ -12,17 +12,17 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, Map
     colMgr(colMgr)
 {
 
-    activeSwarms = vector<Swarm*>();
+    activeSwarms = std::vector<Swarm*>();
 
-    vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
+    std::vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
 
     Vector3 *v;
-    for(vector<Vector3*>::const_iterator it=wps.begin();it!=wps.end(); ++it) {
+    for(std::vector<Vector3*>::const_iterator it=wps.begin();it!=wps.end(); ++it) {
         v = *it;
-        vector<Vector3*> rings = mapMgr->getSpawnPoints(v);
+        std::vector<Vector3*> rings = mapMgr->getSpawnPoints(v);
 
         Vector3 *spawnPoint;
-        for(vector<Vector3*>::const_iterator ite=rings.begin();ite!=rings.end(); ++ite) {
+        for(std::vector<Vector3*>::const_iterator ite=rings.begin();ite!=rings.end(); ++ite) {
             spawnPoint = *ite;
             Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
             createSwarm(1,sp);
@@ -40,9 +40,9 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
 
-    vector<Enemy*> ents = s->getAllEnemies();
+    std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
-    for(vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+    for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
         en = *ite;
         colMgr->addMesh(en->getEntity());
     }
@@ -51,15 +51,15 @@ void SwarmManager::createSwarm(int size, Vector3 location)
     id++;
 }
 
-vector<Enemy*> SwarmManager::getAllEnemies()
+std::vector<Enemy*> SwarmManager::getAllEnemies()
 {
     Swarm *s;
-    vector<Enemy*> out = vector<Enemy*>();
-    for(vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+    for(std::vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
         s = *it;
-        vector<Enemy*> ents = s->getAllEnemies();
+        std::vector<Enemy*> ents = s->getAllEnemies();
         Enemy *en;
-        for(vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+        for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
             en = *ite;
             out.push_back(en);
         }

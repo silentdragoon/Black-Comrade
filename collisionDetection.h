@@ -23,8 +23,8 @@ private:
 
 	dFloat idmatrix[16];
 
-	map<Entity *,NewtonCollision *> collisionsMap;
-	map<Entity *,NewtonBody *> bodysMap;
+    std::map<Entity *,NewtonCollision *> collisionsMap;
+    std::map<Entity *,NewtonBody *> bodysMap;
     Entity *enemy;
     
     NewtonCollision *enemyCol;

@@ -157,12 +157,12 @@ ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
     }
 }
 
-vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
+std::vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
     DataStructures::Multilist<ML_STACK, Replica3*> replicaList;
     DataStructures::DefaultIndexType index;
     replicaManager.GetReferencedReplicaList(replicaList);
 
-    vector<ReplicaObject*> replicas = vector<ReplicaObject*>();
+    std::vector<ReplicaObject*> replicas = std::vector<ReplicaObject*>();
     try {
         for (index=0; index < replicaList.GetSize(); index++) {
             ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);

@@ -53,12 +53,12 @@ void MapTile::assignWaypoint(Waypoint *wa)
     waypoint = true;
 }
 
-void MapTile::assignSpawnPoints(vector<Vector3*> sp)
+void MapTile::assignSpawnPoints(std::vector<Vector3*> sp)
 {
     spawnPoints = sp;
 }
 
-vector<Vector3*> MapTile::getSpawnPoints()
+std::vector<Vector3*> MapTile::getSpawnPoints()
 {
     return spawnPoints;
 }
@@ -97,12 +97,12 @@ MapTile* MapTile::getAdjacent(int i)
     return NULL;
 }
 
-void MapTile::setConnections(vector<int> c)
+void MapTile::setConnections(std::vector<int> c)
 {
     conns = c;
 }
 
-vector<int> MapTile::getConnections()
+std::vector<int> MapTile::getConnections()
 {
     random_shuffle(conns.begin(),conns.end());
     return conns;

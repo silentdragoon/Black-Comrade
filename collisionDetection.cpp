@@ -83,7 +83,7 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
     NewtonCollision *e1Collision;
     NewtonCollision *e2Collision;
     
-    map<Entity *,NewtonCollision *>::const_iterator iter = 
+    std::map<Entity *,NewtonCollision *>::const_iterator iter = 
     		collisionsMap.find(e1);
     if(iter != collisionsMap.end()) {
     	e1Collision=iter->second;
@@ -142,7 +142,7 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
     
     NewtonCollision collideAgainstCollision;
     
-    map<Entity *,NewtonCollision *>::const_iterator iter = 
+    std::map<Entity *,NewtonCollision *>::const_iterator iter = 
     		collisionsMap.find(collideAgainst);
     if(iter != collisionsMap.end()) {
         return NewtonCollisionRayCast( iter->second, p0, p1, normal, att);

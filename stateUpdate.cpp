@@ -36,7 +36,7 @@ void StateUpdate::tick()
 
 
     // std::cout << "Tick " << ++count << std::endl;
-    vector<ITickable*>::iterator i;
+    std::vector<ITickable*>::iterator i;
     ITickable *t;
 
     
