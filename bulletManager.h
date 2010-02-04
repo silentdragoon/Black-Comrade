@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include "frontGunState.h"
+#include "gunState.h"
 #include "ITickable.h"
 #include "bullet.h"
 #include "collisionManager.h"
@@ -22,7 +22,9 @@ class BulletManager : public ITickable
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
         int bnum;
-        FrontGunState *gunState;
+        GunState *pilotGunState;
+        GunState *navigatorGunState;
+        GunState *engineerGunState;
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
         
@@ -31,7 +33,8 @@ class BulletManager : public ITickable
         
     public:
         BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
-        	FrontGunState *gunState, CollisionManager *colMgr, 
+        	GunState *pilotGunState, GunState *engineerGunState, 
+                GunState *navigatorGunState, CollisionManager *colMgr, 
         	SwarmManager *swarmMgr);
 
         ~BulletManager();

@@ -10,7 +10,7 @@
 #include "stateUpdate.h"
 #include "shipState.h"
 #include "inputState.h"
-#include "frontGunState.h"
+#include "gunState.h"
 #include "Kbhit.h"
 #include "pilotControls.h"
 #include "accelerationState.h"
@@ -27,6 +27,7 @@
 #include "printState.h"
 #include "swarmManager.h"
 #include "navigatorControls.h"
+#include "engineerControls.h"
 
 //include networking stuff
 #include <string.h>
@@ -48,8 +49,6 @@ private:
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
     InputState *inputState;
-    FrontGunState *frontGunState;
-    PilotControls *pilotControls;
     AccelerationState *accelerationState;
     MotionState *motionState;
     AudioState *audioState;
@@ -59,7 +58,14 @@ private:
     GameStateMachine *gameStateMachine;
     GameParameterMap *gameParameterMap;
     PrintState *printState;
-    NavigatorControls *navControls;
+    
+    PilotControls *pilotControls;
+    NavigatorControls *navigatorControls;
+    EngineerControls *engineerControls;
+   
+    GunState *pilotGunState;
+    GunState *engineerGunState;
+    GunState *navigatorGunState;
     
     SceneNode *mapNode;
     

@@ -1,14 +1,15 @@
 #include "swarmManager.h"
 #include "const.h"
 
-SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState) :
+SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr) :
     sceneMgr(sceneMgr),
     gamePM(gamePM),
     mapMgr(mapMgr),
     id(0),
     dynSwarmSize(0),
     swarmTick(0),
-    shipState(shipState)
+    shipState(shipState),
+    colMgr(colMgr)
 {
 
     activeSwarms = vector<Swarm*>();
@@ -38,6 +39,14 @@ SwarmManager::~SwarmManager()
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
+
+    vector<Enemy*> ents = s->getAllEnemies();
+    Enemy *en;
+    for(vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+        en = *ite;
+        colMgr->addMesh(en->getEntity());
+    }
+    
     activeSwarms.push_back(s);
     id++;
 }
@@ -86,5 +95,6 @@ void SwarmManager::tick()
         } else {
             s->tick();
         }
-    } 
+    }
 }
+

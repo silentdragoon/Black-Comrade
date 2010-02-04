@@ -4,15 +4,15 @@
 #include <iostream>
 
 GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
-	: gameState(GS_STELPH)
+	: gameState(GS_STEALTH)
 	, mapManager(mapManager)
 	, shipState(shipState)
 	, mIsNewState(true)
 {}
 
 GameStateMachine::GameStateMachine()
-        : gameState(GS_STELPH)
-        , previousState(GS_END)
+        : gameState(GS_STEALTH)
+        , oldState(GS_STEALTH)
         , mapManager(0)
         , shipState(0)
         , mIsNewState(true)
@@ -20,24 +20,25 @@ GameStateMachine::GameStateMachine()
 
 void GameStateMachine::tick()
 {
-	GameState oldState = gameState;
+
 	mIsNewState = false;
 
         if (mapManager == 0) {
-            if (previousState != gameState) {
+            if (oldState != gameState) {
                 mIsNewState = true;
-                previousState = gameState;
+                oldState = gameState;
             }
             return;
         }
 
+	oldState = gameState;
         //std::cout << "Checking statemachine" << std::endl;
 	// Waypoint events
 	string *wp = mapManager->getWaypoint(shipState->position);
 	if(wp != NULL) {
 		if(*wp == "wp_attack") {
 			switch(gameState) {
-				case GS_STELPH:
+				case GS_STEALTH:
 					gameState = GS_ATTACK;
 					break;
 			}

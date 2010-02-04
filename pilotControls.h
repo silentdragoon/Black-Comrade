@@ -9,8 +9,9 @@
 #include "ITickable.h"
 #include "IAccelerationState.h"
 #include "inputState.h"
+#include "IPlayerControls.h"
 
-class PilotControls : public ITickable, public IAccelerationState
+class PilotControls : public ITickable, public IAccelerationState, public IPlayerControls
 {
     private:
         double mForward;

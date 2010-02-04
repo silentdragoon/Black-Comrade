@@ -56,12 +56,6 @@ Main::Main() {
     inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
     
-    // Navigator Controls
-    if(collabInfo->getGameRole() == NAVIGATOR) {
-	    navControls = new NavigatorControls(inputState,camera);
-	    gameLoop->addTickable(navControls);
-    }
-    
     // Pilot --- Flying 1.0 ---
     if(collabInfo->getGameRole() == PILOT) {
 	    pilotControls = new PilotControls(inputState);
@@ -70,6 +64,18 @@ Main::Main() {
 	    gameLoop->addTickable(pilotControls);
 	    gameLoop->addTickable(accelerationState);
 	    gameLoop->addTickable(motionState);
+    }
+    
+    // Navigator Controls
+    if(collabInfo->getGameRole() == NAVIGATOR) {
+	    navigatorControls = new NavigatorControls(inputState,camera);
+	    gameLoop->addTickable(navigatorControls);
+    }
+    
+    // Engineer Controls
+    if(collabInfo->getGameRole() == ENGINEER) {
+	    engineerControls = new EngineerControls(inputState,camera);
+	    gameLoop->addTickable(engineerControls);
     }
     
     // Ship State
@@ -101,27 +107,54 @@ Main::Main() {
 	printState = new PrintState(gameStateMachine);
 	gameLoop->addTickable(printState);
 
-	// Front Gun State
+	// Pilot Gun State
 	if(collabInfo->getGameRole() == PILOT) {
-	    frontGunState = new FrontGunState(pilotControls);
-	    networkingManager->replicate(frontGunState);
-    } else {
-    	frontGunState = 
-    		(FrontGunState*) networkingManager->
-    			getReplica("FrontGunState",true);
+	    pilotGunState = new GunState(pilotControls,collabInfo->getGameRole());
+	    networkingManager->replicate(pilotGunState);
+	} else {
+    	pilotGunState = (GunState*) networkingManager->
+    		getReplica("PilotGunState",true);
     }
-    gameLoop->addTickable(frontGunState);
+    gameLoop->addTickable(pilotGunState);
+    
+    // Navigator Gun State
+	if(collabInfo->getGameRole() == NAVIGATOR) {
+	    navigatorGunState = new GunState(navigatorControls,collabInfo->getGameRole());
+	    networkingManager->replicate(navigatorGunState);
+	    gameLoop->addTickable(navigatorGunState);
+	} else {
+    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+    	    navigatorGunState = (GunState*) networkingManager->
+    	        getReplica("NavigatorGunState",true);
+    	        std::cout << "Got nav gun from net" << std::endl;
+    	    gameLoop->addTickable(navigatorGunState);
+    	}
+    }
+    
+    // Engineer Gun State
+	if(collabInfo->getGameRole() == ENGINEER) {
+	    engineerGunState = new GunState(engineerControls,collabInfo->getGameRole());
+	    networkingManager->replicate(engineerGunState);
+	    gameLoop->addTickable(engineerGunState);
+	} else {
+    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+    	    engineerGunState = (GunState*) networkingManager->
+    		    getReplica("EngineerGunState",true);
+    		    std::cout << "Got eng gun from net" << std::endl;
+    		gameLoop->addTickable(engineerGunState);
+        }
+    }
 
 	// TODO: start the enemies pointing towards the ship?
 	// Swarm Manager
 	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
-		shipState);
+		shipState,collisionMgr);
 	gameLoop->addTickable(swarmMgr);
 
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
-	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,frontGunState,
-	    	collisionMgr, swarmMgr);
+	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
+	    	engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
 	    //networkingManager->replicate(bulletMgr);
 	    gameLoop->addTickable(bulletMgr);
     //} else {
@@ -130,10 +163,10 @@ Main::Main() {
     //}
 
 	// Audio
-	soundMgr = new SoundManager();
-	gameLoop->addTickable(soundMgr);
-	audioState = new AudioState(frontGunState,soundMgr,shipSceneNode);
-	gameLoop->addTickable(audioState);
+	//soundMgr = new SoundManager();
+	//gameLoop->addTickable(soundMgr);
+	//audioState = new AudioState(gunState,soundMgr,shipSceneNode);
+	//gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
     gameLoop->addTickable(networkingManager);

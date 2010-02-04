@@ -55,6 +55,9 @@ public:
     // Constants for mapManager
     static const int MAPSIZE = 30;
     static const int TILE_SIZE = 400;
+
+    // Ship turrets
+    static const double TURRET_SPEED = -0.2;
 };
 
 #endif

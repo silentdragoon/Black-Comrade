@@ -7,7 +7,8 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "pilotControls.h"
+#include "IPlayerControls.h"
+#include "gameRole.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -15,26 +16,29 @@
 
 using namespace RakNet;
 
-class FrontGunState : public ITickable, public ReplicaObject
+class GunState : public ITickable, public ReplicaObject
 {
     private:
         int timeSinceLastFire;
         bool isFire;
+        GameRole owner;
         
-        PilotControls *pilotControls;
+        IPlayerControls *playerControls;
         
     public:
         bool fire();
         
         virtual void tick();
         
-        FrontGunState();
-        FrontGunState(PilotControls *pilotControls);
-        ~FrontGunState();
+        GunState();
+        GunState(IPlayerControls *pilotControls, GameRole owner);
+        ~GunState();
 
         virtual RakNet::RakString GetName(void) const;
         virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
         virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
+	virtual void SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection);
+        virtual bool DeserializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *sourceConnection);
 };
 
 #endif

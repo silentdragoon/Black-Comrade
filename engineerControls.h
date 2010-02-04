@@ -1,17 +1,17 @@
-#ifndef _NAVIGATOR_CONTROLS_H 
-#define _NAVIGATOR_CONTROLS_H
+#ifndef _ENGINEER_CONTROLS_H 
+#define _ENGINEER_CONTROLS_H
 
 #include <OGRE/Ogre.h>
 #include <OIS/OIS.h>
 #include <iostream>
 #include "ITickable.h"
-#include "IPlayerControls.h"
 #include "inputState.h"
+#include "IPlayerControls.h"
 
 using namespace Ogre;
 using namespace std;
 
-class NavigatorControls : public ITickable, public IPlayerControls
+class EngineerControls : public ITickable, public IPlayerControls
 {
     private:
         bool enabled;
@@ -22,8 +22,9 @@ class NavigatorControls : public ITickable, public IPlayerControls
     public:
         virtual void tick();
         virtual bool fire();
-        NavigatorControls(InputState *inputState, Camera *cam);
-        ~NavigatorControls();
+
+        EngineerControls(InputState *inputState, Camera *cam);
+        ~EngineerControls();
 };
 
 #endif
