@@ -121,6 +121,8 @@ Main::Main() {
     // Start Rendering Loop
     root->startRendering();
     networkingManager->stopNetworking();
+    
+    addCrossHair();
 
 }
 
@@ -348,9 +350,25 @@ Main::~Main()
 
 void Main::addCrossHair()
 {
-    lines = new Lines(sceneMgr);
+    /* lines = new Lines(sceneMgr);
     Vector3 *a = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    cout << mapMgr->startx << " " << << endl<< endl;
     lines->addCross( a );
+    lines->addCross( a ); */
+    
+    // ManualObject* manual = sceneMgr->createManualObject("manual");
+    // manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
+// 
+    // 
+    // manual->position(mapMgr->startx-100, 0, mapMgr->starty);
+    // manual->position(mapMgr->startx+100, 0, mapMgr->starty);
+    // manual->position(mapMgr->startx, -100, mapMgr->starty);
+    // manual->position(mapMgr->startx, +100, mapMgr->starty);
+// 
+// 
+    // manual->end();
+    // sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
+
 }
     
 
