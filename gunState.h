@@ -22,11 +22,17 @@ class GunState : public ITickable, public ReplicaObject
         int timeSinceLastFire;
         bool isFire;
         GameRole owner;
+
+        Vector3 position;
+        Quaternion orientation;    
         
         IPlayerControls *playerControls;
         
     public:
         bool fire();
+
+        Vector3 getPosition();
+        Quaternion getOrientation();
         
         virtual void tick();
         

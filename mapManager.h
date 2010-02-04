@@ -31,15 +31,15 @@ private:
     int endx,endy; // Index location of the end square of the map
 
 	SceneManager *sceneManager;
-    vector<Entity*> mapEntities;
-    vector<Waypoint*> waypoints;
+    std::vector<Entity*> mapEntities;
+    std::vector<Waypoint*> waypoints;
 
     bool buildMap(char* file);
-    int getMeshList(string dir, vector<string> &files, int x, int y);
-    vector<int> getConnections(int x, int y);
+    int getMeshList(string dir, std::vector<string> &files, int x, int y);
+    std::vector<int> getConnections(int x, int y);
     int cavernChecker(int x, int y, char type);
     void attachTile(SceneNode *sceneNode, string *file, int x, int y);
-    void fetchTile(string dir, vector<int> connections, int x, int y,SceneNode *sceneNode);
+    void fetchTile(string dir, std::vector<int> connections, int x, int y,SceneNode *sceneNode);
     void setSpawnPoints();
 
 public:
@@ -48,7 +48,7 @@ public:
     MapManager(char* file, SceneManager *sceneManager);
     bool outputMap(SceneNode *sceneNode);
     
-    vector<Entity*> getMapPieces();
+    std::vector<Entity*> getMapPieces();
     
     Entity* getEntity(Vector3 *locn);
     void getMapEntities(Vector3 *locn, Entity** mps );
@@ -56,8 +56,8 @@ public:
     
     string* getWaypoint(Vector3 *locn);
 
-    vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
-    vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
+    std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
+    std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
 
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
 };

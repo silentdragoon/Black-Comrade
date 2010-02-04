@@ -15,6 +15,14 @@ bool NavigatorControls::fire() {
     return isFire;
 }
 
+Vector3 NavigatorControls::cameraPosition() {
+    return cam->getRealPosition();
+}
+
+Quaternion NavigatorControls::cameraOrientation() {
+    return cam->getRealOrientation();
+}
+
 void NavigatorControls::tick()
 {
     if(enabled) {

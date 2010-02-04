@@ -20,7 +20,7 @@ private:
     Real timeSinceLastEvent;
     int count;
     
-    vector <ITickable*> tickables;
+    std::vector <ITickable*> tickables;
     
     void tick();
    

@@ -18,7 +18,7 @@ using namespace std;
 class BulletManager : public ITickable
 {
     private:
-        vector<Bullet*> *activeBullets;
+        std::vector<Bullet*> *activeBullets;
         SceneNode *shipSceneNode;
         SceneManager *sceneMgr;
         int bnum;
@@ -29,6 +29,7 @@ class BulletManager : public ITickable
         SwarmManager *swarmMgr;
         
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
+        void handleGun(GunState *gun);
         void updateBullets(); 
         
     public:

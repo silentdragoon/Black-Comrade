@@ -13,7 +13,7 @@ using namespace std;
 class MapTile 
 {
     private:
-        vector<Vector3*> spawnPoints;
+        std::vector<Vector3*> spawnPoints;
         SceneNode *node;
         Entity *e;
         Waypoint *w;
@@ -24,7 +24,7 @@ class MapTile
         Vector3 *southSpawn;
         Vector3 *westSpawn;
 
-        vector<int> conns;
+        std::vector<int> conns;
 
         MapTile *northTile;
         MapTile *eastTile;
@@ -36,15 +36,15 @@ class MapTile
         bool isEmpty();
 
         void assignWaypoint(Waypoint *wa);
-        void assignSpawnPoints(vector<Vector3*> sp);
+        void assignSpawnPoints(std::vector<Vector3*> sp);
         void setSpawn(int i, Vector3 *locn);
         void setAdjacent(int i, MapTile *adj);
-        void setConnections(vector<int> c);
+        void setConnections(std::vector<int> c);
 
         Vector3* getSpawn(int i);
         MapTile* getAdjacent(int i);
-        vector<int> getConnections();
-        vector<Vector3*> getSpawnPoints();
+        std::vector<int> getConnections();
+        std::vector<Vector3*> getSpawnPoints();
 
         Waypoint * getWaypoint();
         Entity* getEntity();

@@ -19,7 +19,7 @@ class Swarm
 {
     private:
         SceneManager *sceneMgr;
-        vector<Enemy*> members;
+        std::vector<Enemy*> members;
         int id;
         Vector3 location;
     	Real roll;
@@ -48,7 +48,7 @@ class Swarm
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
 
-        vector<Enemy*> getAllEnemies();
+        std::vector<Enemy*> getAllEnemies();
         
         void tick();
 

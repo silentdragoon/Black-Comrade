@@ -5,16 +5,25 @@ using namespace std;
 
 void InputState::tick()
 {
-    mKeyboard->capture();
-    mMouse->capture();
+	if(mMouse)
+		mMouse->capture();
 
-    if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-        mExit->exit();   
+	if(mKeyboard)
+	{
+	    mKeyboard->capture();
+	    
+
+	    if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+	        mExit->exit();
+    }
 }
 
 bool InputState::isKeyDown(OIS::KeyCode keyCode)
 {
-    return mKeyboard->isKeyDown(keyCode);
+	if(mKeyboard)
+    	return mKeyboard->isKeyDown(keyCode);
+    else
+    	return false;
 }
 
 bool InputState::isMouseButtonDown(OIS::MouseButtonID buttonID) {
@@ -30,7 +39,9 @@ int InputState::getMouseX()
     int relx = mouse_state.X.rel;
     //if(relx>25) relx=25;
     //if(relx<-25) relx=-25;
-    return relx;
+    if(mMouse) return relx;
+    else return 0;
+
 }
 
 int InputState::getMouseY()
@@ -42,10 +53,12 @@ int InputState::getMouseY()
     int rely = mouse_state.Y.rel;
     //if(rely>25) rely=25;
     //if(rely<-25) rely=-25;
-    return rely;
+    if(mMouse) return rely;
+	else return 0;
 }
 
-InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit) 
+InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
+        	bool initKeyboard, bool initMouse) 
     : mKeyboard(0)
     , mWindow(mWindow)
     , mExit(mExit)
@@ -59,8 +72,13 @@ InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit)
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
     mInputManager = OIS::InputManager::createInputSystem(pl);
-    mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
-    mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));
+    
+    if(initKeyboard) {
+    	mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
+    }
+    if(initMouse) {
+    	mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));
+    }
 }
 
 InputState::~InputState()

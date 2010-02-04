@@ -5,8 +5,8 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
     mp(mp)
 {
     cd = new CollisionDetection();
-    vector<Entity*> pc = mp->getMapPieces();
-    for( vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
+    std::vector<Entity*> pc = mp->getMapPieces();
+    for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
     {
         cd->addStaticTreeCollisionMesh(*it);
     }

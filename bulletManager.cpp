@@ -10,7 +10,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     string bname = "Bill";
     string lname = "Light";
     string rname = "Ribbon";
-    stringstream out;
+    std::stringstream out;
     out << bnum++;
     bname += out.str();
     lname += out.str();
@@ -48,18 +48,20 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;
 
-    vector<Enemy*> ents = swarmMgr->getAllEnemies();
-    Enemy *e;
-    bool isEnemy = false;
+	bool isEnemy = false;
     Enemy *hurtEnemy = NULL;
-    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-        e = *it;
-        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
-        if(temp<t && temp > 0.0) {
-        	t = temp;
-        	isEnemy = true;
-        	hurtEnemy = e;
-        }
+    if(swarmMgr) {
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
+	        if(temp<t && temp > 0.0) {
+	        	t = temp;
+	        	isEnemy = true;
+	        	hurtEnemy = e;
+	        }
+		}
     }
 
     //cout << t << endl;
@@ -101,7 +103,7 @@ BulletManager::BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr,
     , swarmMgr(swarmMgr)
     , bnum(0)
 {
-    activeBullets = new vector<Bullet*>();
+    activeBullets = new std::vector<Bullet*>();
     colMgr->addMesh( sceneMgr->getEntity("ourship") );
 }
 
@@ -110,31 +112,38 @@ BulletManager::~BulletManager() {
     delete activeBullets;
 }
 
+void BulletManager::handleGun(GunState *gun) {
+    if (!gun) return;
+
+    if (gun->fire()) {
+        Vector3 position = gun->getPosition();
+        position.y = position.y - 2;
+        Quaternion orientation = gun->getOrientation();
+        Vector3 direction = -orientation.zAxis();
+        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+    }
+}
+
 void BulletManager::tick()
 {
-    // Firing the pilots gun
-    if(pilotGunState->fire() || (engineerGunState && engineerGunState->fire()) || (navigatorGunState && navigatorGunState->fire())) {
-        
-        Vector3 position = shipSceneNode->getPosition();
-        position.y -= 3.0;
-        Quaternion orient = shipSceneNode->getOrientation();
-    	Vector3 direction = orient.zAxis();
-    	
-    	fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
-        
-    }
+    // Shoot if neccessary
+    handleGun(pilotGunState);
+    handleGun(engineerGunState);
+    handleGun(navigatorGunState);
     
     // Check if any enemies are shooting
     
     // Loop for all enemies
-    vector<Enemy*> ents = swarmMgr->getAllEnemies();
-    Enemy *e;
-    for(vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-        e = *it;
-        
-        if(e->fire) {
-        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
-        }
+    if(swarmMgr) {
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        
+	        if(e->fire) {
+	        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	        }
+	    }
     }
     
     

@@ -11,19 +11,20 @@ ShipState::ShipState() {
     motionState = 0;
 }
 
-ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState, CollisionManager *colMgr) :
+ShipState::ShipState(SceneNode *shipSceneNode, IMotionState *motionState) :
     position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
     pitch(0.0),
     yaw(0.0),
     shipSceneNode(shipSceneNode),
-    motionState(motionState),
-    colMgr(colMgr)
+    motionState(motionState)
 {}
 
 void ShipState::tick() {
     if (motionState != 0) {
+
         //shipMapCollision does not exist any more
+
         //Collision col = colMgr->shipMapCollision(position);
         /* if(col.isCollided)
         {

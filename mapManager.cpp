@@ -1,5 +1,7 @@
 #include "mapManager.h"
 
+using namespace std;
+
 bool MapManager::buildMap(char* file)
 {
     bool start = false;
@@ -67,7 +69,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
 
                 cout << "Startx: " << startx << " Start y: " << starty << endl;
 
-                vector<int> connections = vector<int>();
+                std::vector<int> connections = std::vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()==1) {
                     fetchTile("ends/",connections,xpos,ypos,sceneNode);
@@ -76,7 +78,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                     return false;
                 }
             } else if(geo[xpos][ypos] == '+') {
-                vector<int> connections = vector<int>();
+                std::vector<int> connections = std::vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()!=1) {
                     fetchTile("junct/",connections,xpos,ypos,sceneNode);
@@ -85,7 +87,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                     return false;
                 }
             } else if(geo[xpos][ypos] == 'x') {
-                vector<int> connections = vector<int>();
+                std::vector<int> connections = std::vector<int>();
                 connections = getConnections(xpos,ypos);
                 string dir;
                 if(connections.size()==2) {
@@ -98,7 +100,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                 }
                 fetchTile(dir,connections,xpos,ypos,sceneNode);
             } else if(geo[xpos][ypos] == 'e') {
-                vector<int> connections = vector<int>();
+                std::vector<int> connections = std::vector<int>();
                 connections = getConnections(xpos,ypos);
                 if(connections.size()==1) {
                     fetchTile("ends/",connections,xpos,ypos,sceneNode);
@@ -111,7 +113,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                 int cavtest;
                 cavtest = cavernChecker(xpos,ypos,'c');
                 if(cavtest==0) {
-                    vector<string> files = vector<string>();
+                    std::vector<string> files = std::vector<string>();
                     string dir = MAPROOT;
                     dir += "caves/1-2-3-4/";
                     getMeshList(dir,files,xpos,ypos);
@@ -120,7 +122,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                     
                     attachTile(sceneNode, &files.at(0), xpos, ypos);
                 } else if(cavtest==7) {
-                    vector<string> files = vector<string>();
+                    std::vector<string> files = std::vector<string>();
                     string dir = MAPROOT;
                     dir += "cavel/1-2-3-4/";
                     getMeshList(dir,files,xpos,ypos);
@@ -139,7 +141,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
                     cerr << "The objective is too small, must be 3x3." << endl;
                     return false;
                 } else if(cavtest==7) {
-                    vector<string> files = vector<string>();
+                    std::vector<string> files = std::vector<string>();
                     string dir = MAPROOT;
                     dir += "cavel/1-2-3-4/";
                     getMeshList(dir,files,xpos,ypos);
@@ -160,13 +162,13 @@ bool MapManager::outputMap(SceneNode *sceneNode)
     return true;
 }
 
-void MapManager::fetchTile(string adir, vector<int> connections, int x, int y, SceneNode *sceneNode)
+void MapManager::fetchTile(string adir, std::vector<int> connections, int x, int y, SceneNode *sceneNode)
 {
-    vector<string> files = vector<string>();
+    std::vector<string> files = std::vector<string>();
     string dir = MAPROOT;
     dir += adir;
-    stringstream out;
-    for(vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
+    std::stringstream out;
+    for(std::vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
         out << *it << "-";
     }
     string tmp = out.str();
@@ -175,7 +177,7 @@ void MapManager::fetchTile(string adir, vector<int> connections, int x, int y, S
     
     getMeshList(dir,files,x,x);
 
-    // TODO:  This is the bit where we need to randomise the vector, or somehow randomis the file returned.
+    // TODO:  This is the bit where we need to randomise the std::vector, or somehow randomis the file returned.
     random_shuffle(files.begin(),files.end());
 
     attachTile(sceneNode, &files.at(0), x, y);
@@ -186,7 +188,7 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	SceneNode *node = sceneNode->createChildSceneNode();
 
     string name = "mapTile";
-    stringstream out;
+    std::stringstream out;
     out << "-" << x << "-" << y;
     name += out.str();
 	Entity *e = sceneManager->createEntity(name, *file);
@@ -204,7 +206,7 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 
     Waypoint *w;
 
-    for(vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
+    for(std::vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
         w = *it;
         if((w->getX()==x)&&(w->getY()==y)) m->assignWaypoint(w);
     }
@@ -212,7 +214,7 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
     mts[x][y] = m;
 }
 
-vector<Entity*> MapManager::getMapPieces()
+std::vector<Entity*> MapManager::getMapPieces()
 {
     return mapEntities;
 }
@@ -231,14 +233,14 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
     int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
 
     mps[0] = mts[x][y]->getEntity();
-    vector<int> adj = mts[x][y]->getConnections();
+    std::vector<int> adj = mts[x][y]->getConnections();
 
     mps[1] = NULL;
     mps[2] = NULL;
     mps[3] = NULL;
     mps[4] = NULL;
 
-    for(vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
+    for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
         int c = *it;
         if(c==1) {
             mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
@@ -268,7 +270,7 @@ string* MapManager::getWaypoint(Vector3 *locn)
     return NULL;
 }
 
-vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
+std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
 {
     int x = (int) floor(locn->x/(double)Const::TILE_SIZE);
     int y = (int) floor(locn->z/(double)Const::TILE_SIZE);
@@ -280,7 +282,7 @@ void MapManager::setSpawnPoints()
 {
     for(int y=0;y<Const::MAPSIZE;y++) {
         for(int x=0;x<Const::MAPSIZE;x++) {
-            vector<int> conns = getConnections(x,y);
+            std::vector<int> conns = getConnections(x,y);
 
             mts[x][y]->setConnections(conns);
 
@@ -288,9 +290,9 @@ void MapManager::setSpawnPoints()
             double yy = y * Const::TILE_SIZE; // Actually z in ogre coords
             double zz = 0.0;
 
-            vector<Vector3*> places = vector<Vector3*>();
+            std::vector<Vector3*> places = std::vector<Vector3*>();
 
-            for(vector<int>::const_iterator it=conns.begin();it!=conns.end(); ++it) {
+            for(std::vector<int>::const_iterator it=conns.begin();it!=conns.end(); ++it) {
                 int c = *it;
                 if(c==1) {
                     double xxx;
@@ -337,13 +339,13 @@ void MapManager::setSpawnPoints()
     }
 }
 
-vector<Vector3*> MapManager::getInitialSpawnPoints()
+std::vector<Vector3*> MapManager::getInitialSpawnPoints()
 {
     Waypoint *w;
 
-    vector<Vector3*> places = vector<Vector3*>();
+    std::vector<Vector3*> places = std::vector<Vector3*>();
 
-    for(vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
+    for(std::vector<Waypoint*>::const_iterator it=waypoints.begin();it!=waypoints.end(); ++it) {
         w = *it;
         if(*(w->getName())=="en_spawn") {
             int x = w->getX();
@@ -365,10 +367,10 @@ Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
     int x = (int) floor(locn->x/(double)Const::TILE_SIZE);
     int y = (int) floor(locn->z/(double)Const::TILE_SIZE);
 
-    vector<int> conns = mts[x][y]->getConnections();
+    std::vector<int> conns = mts[x][y]->getConnections();
     int c = conns.at(0);
 
-    vector<int> conns2 = mts[x][y]->getAdjacent(c)->getConnections();
+    std::vector<int> conns2 = mts[x][y]->getAdjacent(c)->getConnections();
     int c2 = conns2.at(0);
 
     if((((c+1)%4)+1)==c2) {
@@ -377,7 +379,7 @@ Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
         }
     }
 
-    vector<int> conns3 = mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getConnections();
+    std::vector<int> conns3 = mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getConnections();
     int c3 = conns3.at(0);
     if((((c2+1)%4)+1)==c3) {
         if(conns3.size()!=1) {
@@ -391,7 +393,7 @@ Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
 
 
 
-int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)
+int MapManager::getMeshList(string dir, std::vector<string>& files, int x, int y)
 {
     DIR *dp;
     struct dirent *dirp;
@@ -412,9 +414,9 @@ int MapManager::getMeshList(string dir, vector<string>& files, int x, int y)
     return 0;
 }
 
-vector<int> MapManager::getConnections(int x, int y)
+std::vector<int> MapManager::getConnections(int x, int y)
 {
-    vector<int> connections = vector<int>();
+    std::vector<int> connections = std::vector<int>();
     if(x!=Const::MAPSIZE) {
         if(geo[x+1][y]!='.') connections.push_back(2);
     }

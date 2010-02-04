@@ -14,6 +14,8 @@
 class PilotControls : public ITickable, public IAccelerationState, public IPlayerControls
 {
     private:
+        Camera *cam;
+
         double mForward;
         double mSide;
         double mUp;
@@ -31,13 +33,16 @@ class PilotControls : public ITickable, public IAccelerationState, public IPlaye
         virtual double up();
         virtual double yaw();
         virtual double pitch();
-        bool fire();
+        virtual bool fire();
+
+        virtual Vector3 cameraPosition();
+        virtual Quaternion cameraOrientation();
         
         void setEnabled(bool b);
         
         virtual void tick();
         
-        PilotControls(InputState *inputState);
+        PilotControls(InputState *inputState, Camera *cam);
         ~PilotControls();
 };
 

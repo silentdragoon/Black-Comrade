@@ -33,6 +33,14 @@ bool PilotControls::fire()
     return isFire;
 }
 
+Vector3 PilotControls::cameraPosition() {
+    return cam->getRealPosition();
+}
+
+Quaternion PilotControls::cameraOrientation() {
+    return cam->getRealOrientation();
+}
+
 void PilotControls::setEnabled(bool b)
 {
     enabled = b;
@@ -80,8 +88,9 @@ void PilotControls::tick()
     }
 }
 
-PilotControls::PilotControls(InputState *inputState)
+PilotControls::PilotControls(InputState *inputState, Camera *cam)
     : inputState(inputState)
+    , cam(cam)
     , enabled(true)
 {}
 

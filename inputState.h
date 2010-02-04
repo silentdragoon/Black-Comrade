@@ -31,7 +31,8 @@ class InputState : public ITickable
         
         virtual void tick();
         
-        InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit);
+        InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
+        	bool initKeyboard, bool initMouse);
         ~InputState();
 };
 
