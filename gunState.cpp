@@ -62,8 +62,5 @@ RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParamet
 void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     bool isFire2 = false;
     deserializeParameters->serializationBitstream[0].Read(isFire2);
-    if (isFire2) {
-       isFire = true;
-       std::cout << "FIRE" << std::endl;
-    }
+    if (isFire2) isFire = true;
 }
