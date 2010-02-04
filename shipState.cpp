@@ -4,6 +4,7 @@
 #include <iostream>
 
 ShipState::ShipState() {
+    flying=0;
     position = new Vector3(1400.0,0.0,100.0);
     roll=0.0;
     pitch=0.0;
@@ -21,15 +22,15 @@ ShipState::ShipState(SceneNode *shipSceneNode, Flying *flying ) :
 
 void ShipState::tick() {
 
-    position->x = flying->position->x;
-    position->y = flying->position->y;
-    position->z = flying->position->z;
+    if (flying != 0) {
+        position->x = flying->position->x;
+        position->y = flying->position->y;
+        position->z = flying->position->z;
 
-    roll = flying->roll;
-    pitch = flying->pitch;
-    yaw = flying->yaw;
-    
-    
+        roll = flying->roll;
+        pitch = flying->pitch;
+        yaw = flying->yaw;
+    }
     updateOgre();
 }
 
