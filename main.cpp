@@ -349,7 +349,7 @@ Main::~Main()
 void Main::addCrossHair()
 {
     lines = new Lines(sceneMgr);
-    Vector3 *a = new Vector3(1400.0, 0.0, 120.0);
+    Vector3 *a = new Vector3(mapMgr->startx,0,mapMgr->starty);
     lines->addCross( a );
 }
     
