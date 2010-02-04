@@ -33,11 +33,11 @@ Main::Main() {
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
-    	camera->setPosition(Vector3(0,0,5));
+        camera->setPosition(Vector3(0,0,5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-    	camera->setPosition(Vector3(15,7,-25));
+        camera->setPosition(Vector3(0,2,-2));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-    	camera->setPosition(Vector3(-15,7,-25));
+        camera->setPosition(Vector3(0,-2,-2));
     }
     createViewPort();
     
