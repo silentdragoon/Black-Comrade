@@ -18,7 +18,7 @@ Main::Main() {
 	// Start Ogre
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
-    window = root->initialise(true, "I removed what was once here");
+    window = root->initialise(true, collabInfo->getGameRoleString());
     
     configResources();
     
