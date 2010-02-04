@@ -29,6 +29,7 @@
 #include "swarmManager.h"
 #include "navigatorControls.h"
 #include "engineerControls.h"
+#include "lines.h"
 
 //include networking stuff
 #include <string.h>
@@ -75,6 +76,8 @@ private:
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
     
+    Lines* lines;
+    
     void createCamera();
     void createScene();
     void createViewPort();
@@ -93,6 +96,8 @@ private:
 
     void clientShutdown();
     void serverShutdown();
+    
+    void addCrossHair();
     
 public:
     Main();

@@ -346,6 +346,14 @@ Main::~Main()
     //cout << "PLEASE STOP HERE!" << endl;
 }
 
+void Main::addCrossHair()
+{
+    lines = new Lines(sceneMgr);
+    Vector3 *a = new Vector3(1400.0, 0.0, 120.0);
+    lines->addCross( a );
+}
+    
+
 void Main::exit()
 {
     stateUpdate->running = false;
