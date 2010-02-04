@@ -151,6 +151,8 @@ Main::Main() {
 		shipState,collisionMgr);
 	gameLoop->addTickable(swarmMgr);
 
+        gameLoop->addTickable(networkingManager);
+
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
 	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
@@ -169,7 +171,6 @@ Main::Main() {
 	//gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
-    gameLoop->addTickable(networkingManager);
     
     // Start Rendering Loop
     root->startRendering();
