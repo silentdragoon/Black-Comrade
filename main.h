@@ -28,6 +28,7 @@
 #include "swarmManager.h"
 #include "navigatorControls.h"
 #include "engineerControls.h"
+#include "sceneNodeManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -43,6 +44,7 @@ private:
     Root *root;
     Camera *camera;
     SceneManager *sceneMgr;
+    SceneNodeManager *sceneNodeMgr;
     RenderWindow *window;
     NetworkingManager *networkingManager;
     bool isServer;

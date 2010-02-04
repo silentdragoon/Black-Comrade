@@ -15,19 +15,27 @@ Main::Main() {
     networkingManager = new NetworkingManager(this);
     collabInfo = runLoby(networkingManager);
 
-	// Start Ogre
+    // Start Ogre
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
     window = root->initialise(true, collabInfo->getGameRoleString());
     
     configResources();
+
+    // Game Loop
+    gameLoop = new StateUpdate();
+    root->addFrameListener(gameLoop);
+
+    // SceneNode Manager
+    sceneNodeMgr = new SceneNodeManager(sceneMgr);
+    gameLoop->addTickable(sceneNodeMgr);
     
     // Ship Node
-    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    Entity *shipEntity = sceneMgr->createEntity("ourship", "ourship.mesh");
-    shipSceneNode->attachObject(shipEntity);
+    shipSceneNode = sceneNodeMgr->getNode(shipState);
+    //shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     if(collabInfo->getGameRole() == PILOT) {
-    	shipEntity->setVisible(false);
+	//Entity *shipEntity->
+        //shipEntity->setVisible(false);
     }
     
     // Camera
@@ -47,10 +55,6 @@ Main::Main() {
     
     // Collision Manager
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
-    
-    // Game Loop
-    gameLoop = new StateUpdate();
-    root->addFrameListener(gameLoop);
     
     // User Input
     inputState = new InputState(window, false, this,true,true);
