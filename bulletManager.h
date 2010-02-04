@@ -29,6 +29,7 @@ class BulletManager : public ITickable
         SwarmManager *swarmMgr;
         
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
+        void handleGun(GunState *gun);
         void updateBullets(); 
         
     public:

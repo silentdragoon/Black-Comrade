@@ -22,6 +22,10 @@ class NavigatorControls : public ITickable, public IPlayerControls
     public:
         virtual void tick();
         virtual bool fire();
+
+        virtual Vector3 cameraPosition();
+        virtual Quaternion cameraOrientation();
+
         NavigatorControls(InputState *inputState, Camera *cam);
         ~NavigatorControls();
 };

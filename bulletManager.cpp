@@ -112,19 +112,24 @@ BulletManager::~BulletManager() {
     delete activeBullets;
 }
 
+void BulletManager::handleGun(GunState *gun) {
+    if (!gun) return;
+
+    if (gun->fire()) {
+        Vector3 position = gun->getPosition();
+        position.y = position.y - 2;
+        Quaternion orientation = gun->getOrientation();
+        Vector3 direction = -orientation.zAxis();
+        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+    }
+}
+
 void BulletManager::tick()
 {
-    // Firing the pilots gun
-    if((pilotGunState && pilotGunState->fire()) || (engineerGunState && engineerGunState->fire()) || (navigatorGunState && navigatorGunState->fire())) {
-        
-        Vector3 position = shipSceneNode->getPosition();
-        position.y -= 3.0;
-        Quaternion orient = shipSceneNode->getOrientation();
-    	Vector3 direction = orient.zAxis();
-    	
-    	fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
-        
-    }
+    // Shoot if neccessary
+    handleGun(pilotGunState);
+    handleGun(engineerGunState);
+    handleGun(navigatorGunState);
     
     // Check if any enemies are shooting
     

@@ -23,6 +23,9 @@ class EngineerControls : public ITickable, public IPlayerControls
         virtual void tick();
         virtual bool fire();
 
+        virtual Vector3 cameraPosition();
+        virtual Quaternion cameraOrientation();
+
         EngineerControls(InputState *inputState, Camera *cam);
         ~EngineerControls();
 };

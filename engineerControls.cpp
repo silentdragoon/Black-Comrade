@@ -15,6 +15,13 @@ bool EngineerControls::fire() {
     return isFire;
 }
 
+Vector3 EngineerControls::cameraPosition() {
+    return cam->getRealPosition();
+}
+
+Quaternion EngineerControls::cameraOrientation() {
+    return cam->getRealOrientation();
+}
 
 void EngineerControls::tick()
 {

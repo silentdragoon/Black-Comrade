@@ -58,7 +58,7 @@ Main::Main() {
     
     // Pilot --- Flying 1.0 ---
     if(collabInfo->getGameRole() == PILOT) {
-	    pilotControls = new PilotControls(inputState);
+	    pilotControls = new PilotControls(inputState,camera);
 	    accelerationState = new AccelerationState(pilotControls);
 	    motionState = new MotionState(accelerationState);
 	    gameLoop->addTickable(pilotControls);
