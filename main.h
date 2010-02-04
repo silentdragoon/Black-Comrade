@@ -85,6 +85,8 @@ private:
     void createViewPort();
     CollaborationInfo *runLoby(NetworkingManager *networkingManager);
     
+    void addCrossHair();
+    
     Root *configRoot();
     void configResources();
     

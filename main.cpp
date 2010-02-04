@@ -181,7 +181,11 @@ Main::Main() {
 
 	// Last class to be added to the game loop
     
+    //adding the crosshair
+    //addCrossHair();
+    
     // Start Rendering Loop
+    
     root->startRendering();
     networkingManager->stopNetworking();
 }
@@ -296,6 +300,27 @@ void Main::createViewPort() {
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
     //camera->setAspectRatio(1.17);
 }
+
+void Main::addCrossHair()
+{
+    ManualObject* manual = sceneMgr->createManualObject("manual");
+    
+    manual->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    manual->setUseIdentityProjection(true);
+    manual->setUseIdentityView(true);
+    manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
+    manual->position(-3, 0, 1);
+    manual->position(3, 0, 1);
+    manual->position(0, -3, 1);
+    manual->position(0, +3, 1);
+    manual->end();
+    
+    sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
+
+}
+
+
+
 
 int main()
 {
