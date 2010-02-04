@@ -11,25 +11,25 @@ void MiniGameManager::tick()
         if(currentMiniGame->end()) {
             currentMiniGame->getOverlay()->hide();
             currentMiniGame = NULL;
-            shipControls->setEnabled(true);
+            pilotControls->setEnabled(true);
         }
     }
 
     if(currentMiniGame == NULL) {
-        if(keyState->isKeyDown(OIS::KC_1)) {
-            currentMiniGame = new TestMiniGame(keyState, sceneManager);
+        if(inputState->isKeyDown(OIS::KC_1)) {
+            currentMiniGame = new TestMiniGame(inputState, sceneManager);
             
             currentMiniGame->getOverlay()->show();
             
-            shipControls->setEnabled(false);
+            pilotControls->setEnabled(false);
         }
     } 
 }
     
-MiniGameManager::MiniGameManager(KeyState *keyState, ShipControls *shipControls, SceneManager *sceneManager)
+MiniGameManager::MiniGameManager(InputState *inputState, PilotControls *pilotControls, SceneManager *sceneManager)
     : currentMiniGame(NULL)
-    , keyState(keyState)
-    , shipControls(shipControls)
+    , inputState(inputState)
+    , pilotControls(pilotControls)
     , sceneManager(sceneManager)
 {
     

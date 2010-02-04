@@ -21,3 +21,9 @@ string CollaborationInfo::getGameRoleString() {
     else if (gameRole == ENGINEER) return "Engineer";
     else return "";
 }
+
+string CollaborationInfo::getNetworkRoleString() {
+    if (networkRole == SERVER) return "Server";
+    else if (networkRole == CLIENT) return "Client";
+    else return "";
+}

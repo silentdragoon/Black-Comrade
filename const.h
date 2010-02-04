@@ -6,9 +6,11 @@ class Const
 {
 public:
 
+	#define PI 3.14159265
+
 	// TICK_PERIOD
 	#define TICK_PERIOD 0.01
-
+	
 	// TODO: This does not work correctly, twice the clock period and
 	// twice the TICKSFORWARD does not result in the same movement :(
 
@@ -29,18 +31,18 @@ public:
     
     // Constants for front gun
     static const double MIN_SHOOT_PERIOD = 1800.0 * TICK_PERIOD;
-    static const int FRONT_BULLET_SPEED = 5;
+    static const int FRONT_BULLET_SPEED = 50;
     
     // Constants for enemy behav.
     static const float ENEMY_PATROL_SPEED = 50.0 * TICK_PERIOD;
     static const float ENEMY_ATTACK_SPEED = 100.0 * TICK_PERIOD;
     // How many times its verlocity you look ahead
     static const float LOOKA = 15;
-    static const float ENEMY_SIGHT_DIS = 100;
+    static const float ENEMY_SIGHT_DIS = 150;
     static const float ENEMY_SIGHT_ANGLE = 0.5236;
     
     static const float TURN_TO_LOOK_STEP = 0.01;
-    static const float SWARM_TARGET_DIS = 20;
+    static const float SWARM_TARGET_DIS = 35;
     
     // Constants for network
     static const int SERVER_PORT=6005;
@@ -51,7 +53,7 @@ public:
     // Constants for bulletManager
     
     // Constants for flying
-    static const double SHIP_MASS = 100.0; // KG
+    /* static const double SHIP_MASS = 100.0; // KG
     static const double SHIP_FORWARD_THRUST = 100.0; // N
     //static const int SHIP_REVERSE_THRUST = -10; // N
     static const double SHIP_ROTATE_THRUST = 0.05; // 
@@ -61,8 +63,15 @@ public:
     static const float AIR_DENSITY = 1.292;
     static const float DRAG_COEFFICIENT = 0.65;
     static const float REFERENCE_AREA = 60.0;
-    static const double GRAVITY = 9.81 / TICK_PERIOD; // Units per
+    static const double GRAVITY = 9.81 / TICK_PERIOD; // Units per */
 
+
+    // Constants for mapManager
+    static const int MAPSIZE = 30;
+    static const int TILE_SIZE = 400;
+
+    // Ship turrets
+    static const double TURRET_SPEED = -0.2;
 };
 
 #endif

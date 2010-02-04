@@ -17,8 +17,8 @@ SoundManager::SoundManager() {
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
-    //FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
-    //errCheck( system->setReverbAmbientProperties(&prop) );
+    FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
+    errCheck( system->setReverbAmbientProperties(&prop) );
 
     loadSoundFiles();
     
@@ -28,7 +28,7 @@ SoundManager::SoundManager() {
 void SoundManager::loadSoundFiles() {
     errCheck( system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &sound1) );
 
-    //errCheck( sound1->set3DMinMaxDistance(0.0f, 10000.0f) );
+    errCheck( sound1->set3DMinMaxDistance(0.0f, 10000.0f) );
 
     errCheck( sound1->setMode(FMOD_LOOP_OFF) );
 }

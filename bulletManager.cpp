@@ -4,11 +4,73 @@
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-void BulletManager::fire(SceneNode *bulletNode, Vector3 direction,string bullName, string rname, double distance) {
+void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
+{
+	string bullName = "Bullet";
+    string bname = "Bill";
+    string lname = "Light";
+    string rname = "Ribbon";
+    std::stringstream out;
+    out << bnum++;
+    bname += out.str();
+    lname += out.str();
+    bullName += out.str();
+    rname += out.str();
 
-    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,Const::FRONT_BULLET_SPEED,distance);
+    SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
+    bulletNode->setPosition(origin);
+
+    BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
+    bbbs->setMaterialName("PE/Streak");
+    Billboard *bbb = bbbs->createBillboard(0,0,0,c);
+    bbb->setDimensions(0.7,0.7);
+
+    RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
+    trail->setMaterialName("PE/LightRibbonTrail");
+    trail->setTrailLength(75);
+    trail->setMaxChainElements(400);
+    trail->setInitialColour(0,c);
+    trail->setInitialWidth(0,0.7);
+    trail->addNode(bulletNode);
+    sceneMgr->getRootSceneNode()->attachObject(trail);
+
+    Light *l = sceneMgr->createLight(lname);
+    l->setType(Light::LT_POINT);
+    l->setDiffuseColour(c);
+    l->setSpecularColour(c);
+    l->setAttenuation(100,0.5,0.0005,0);
+
+    bulletNode->attachObject(bbbs);
+    bulletNode->attachObject(l);
+
+    Vector3 *pos = new Vector3(origin.x,origin.y,origin.z);
+
+    double t = colMgr->getRCMapDist(pos,&direction);
+    if(t<0) t=10000;
+
+	bool isEnemy = false;
+    Enemy *hurtEnemy = NULL;
+    if(swarmMgr) {
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
+	        if(temp<t && temp > 0.0) {
+	        	t = temp;
+	        	isEnemy = true;
+	        	hurtEnemy = e;
+	        }
+		}
+    }
+
+    //cout << t << endl;
     
-    activeBullets->push_back(b);
+    // FIRE THE BULLET!
+    Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,
+    	Const::FRONT_BULLET_SPEED,t);
+	b->enemy = hurtEnemy;
+	activeBullets->push_back(b);
 }
 
 void BulletManager::updateBullets() {
@@ -16,21 +78,33 @@ void BulletManager::updateBullets() {
         Bullet *b = activeBullets->at(i);
         b->updateLocation();
         if(b->distanceTravelled>b->distanceToTravel) {
+        
+        	// Hurt Enemy
+			if(b->enemy != NULL) {
+				b->enemy->health -= 1;
+			}
+        
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode,SceneManager *sceneMgr, FrontGunState *gunState, CollisionManager *colMgr, SwarmManager *swarmMgr) 
+BulletManager::BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
+                GunState *pilotGunState, GunState *engineerGunState, 
+                GunState *navigatorGunState, CollisionManager *colMgr, 
+        	SwarmManager *swarmMgr)
     : shipSceneNode(shipSceneNode)
     , sceneMgr(sceneMgr)
-    , gunState(gunState)
+    , pilotGunState(pilotGunState)
+    , engineerGunState(engineerGunState)
+    , navigatorGunState(navigatorGunState)
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , bnum(0)
 {
-    activeBullets = new vector<Bullet*>();
+    activeBullets = new std::vector<Bullet*>();
+    colMgr->addMesh( sceneMgr->getEntity("ourship") );
 }
 
 BulletManager::~BulletManager() {
@@ -38,70 +112,41 @@ BulletManager::~BulletManager() {
     delete activeBullets;
 }
 
+void BulletManager::handleGun(GunState *gun) {
+    if (!gun) return;
+
+    if (gun->fire()) {
+        Vector3 position = gun->getPosition();
+        position.y = position.y - 2;
+        Quaternion orientation = gun->getOrientation();
+        Vector3 direction = -orientation.zAxis();
+        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+    }
+}
+
 void BulletManager::tick()
 {
-    // Firing the pilots gun
-    if(gunState->fire()) {
-        string bullName = "Bullet";
-        string bname = "Bill";
-        string lname = "Light";
-        string rname = "Ribbon";
-        stringstream out;
-        out << bnum++;
-        bname += out.str();
-        lname += out.str();
-        bullName += out.str();
-        rname += out.str();
-
-        SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
-        Vector3 sp = shipSceneNode->getPosition();
-        sp.y = sp.y - 3.0;
-        bulletNode->setPosition(sp);
-
-        Quaternion orient = shipSceneNode->getOrientation();
-        Vector3 direction = orient.zAxis();
-
-        BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
-        bbbs->setMaterialName("PE/Streak");
-        Billboard *bbb = bbbs->createBillboard(0,0,0,ColourValue(1.0,0.7,0.0));
-        bbb->setDimensions(0.7,0.7);
-
-        RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
-        trail->setMaterialName("PE/LightRibbonTrail");
-        trail->setTrailLength(75);
-        trail->setMaxChainElements(400);
-        trail->setInitialColour(0,1.0,0.7,0.0);
-        trail->setInitialWidth(0,0.7);
-        trail->addNode(bulletNode);
-        sceneMgr->getRootSceneNode()->attachObject(trail);
-
-        Light *l = sceneMgr->createLight(lname);
-        l->setType(Light::LT_POINT);
-        l->setDiffuseColour(ColourValue(0.7f,0.4f,0.0f));
-        l->setSpecularColour(ColourValue(0.7f,0.4f,0.0f));
-        l->setAttenuation(100,0.5,0.0005,0);
-
-        bulletNode->attachObject(bbbs);
-        bulletNode->attachObject(l);
-
-        Vector3 *pos = new Vector3(sp.x,sp.y,sp.z);
-
-        double t = colMgr->getRCMapDist(pos,&direction);
-        if(t<0) t=10000;
-
-        vector<Entity*> ents = swarmMgr->getAllEntities();
-        Entity *e;
-        for(vector<Entity*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-            e = *it;
-            double temp = colMgr->rayCollideWithEnemy(pos,&direction,e);
-            if(temp<t) t = temp;
-        }
-
-        //cout << t << endl;
-        
-        // FIRE THE BULLET!
-        fire(bulletNode,direction,bullName,rname,t);
+    // Shoot if neccessary
+    handleGun(pilotGunState);
+    handleGun(engineerGunState);
+    handleGun(navigatorGunState);
+    
+    // Check if any enemies are shooting
+    
+    // Loop for all enemies
+    if(swarmMgr) {
+	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+	    Enemy *e;
+	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	        e = *it;
+	        
+	        if(e->fire) {
+	        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	        }
+	    }
     }
-    // TODO: Add stuff like the thing above here for the other guns or enemies
+    
+    
+    
     updateBullets();
 }

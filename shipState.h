@@ -9,10 +9,8 @@
 #include "ITickable.h"
 
 // include Raknet classes
-#include "ReplicaObject.h"
+#include "replicaObject.h"
 #include "ReplicaManager3.h"
-#include "collisionManager.h"
-#include "collision.h"
 #include <math.h>
 
 using namespace Ogre;
@@ -22,7 +20,6 @@ class ShipState : public ITickable, public ReplicaObject {
 private:
 
     Flying *flying;
-    CollisionManager *colMgr;
 
 public:
    
@@ -31,7 +28,8 @@ public:
     Real pitch;
     Real yaw;
 
-    ShipState(SceneNode *shipSceneNode, Flying *flying, CollisionManager *colMgr);
+    ShipState(SceneNode *shipSceneNode, Flying *flying );
+
     ShipState();
     SceneNode *shipSceneNode;
 

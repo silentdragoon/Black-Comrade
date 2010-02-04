@@ -19,8 +19,7 @@ class Swarm
 {
     private:
         SceneManager *sceneMgr;
-        vector<Enemy*> members;
-        int size;
+        std::vector<Enemy*> members;
         int id;
         Vector3 location;
     	Real roll;
@@ -34,9 +33,13 @@ class Swarm
     	void updateSwarmLocation();
     	void updateEnemyLocations();
     	
+    	void removeDeadEnemies();
+    	void shootAtShip();
+    	
     	bool isShipInSight();
     	
     public:
+        int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState);
@@ -45,7 +48,7 @@ class Swarm
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
 
-        vector<Entity*> getAllEntities();
+        std::vector<Enemy*> getAllEnemies();
         
         void tick();
 

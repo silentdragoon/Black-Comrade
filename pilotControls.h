@@ -8,11 +8,14 @@
 #include <iostream>
 #include "ITickable.h"
 #include "IAccelerationState.h"
-#include "keyState.h"
+#include "inputState.h"
+#include "IPlayerControls.h"
 
-class ShipControls : public ITickable, public IAccelerationState
+class PilotControls : public ITickable, public IAccelerationState, public IPlayerControls
 {
     private:
+        Camera *cam;
+
         double mForward;
         double mSide;
         double mUp;
@@ -22,7 +25,7 @@ class ShipControls : public ITickable, public IAccelerationState
         bool isFire;
         bool enabled;
         
-        KeyState *keyState;
+        InputState *inputState;
         
     public:    
         virtual double forward();
@@ -30,14 +33,17 @@ class ShipControls : public ITickable, public IAccelerationState
         virtual double up();
         virtual double yaw();
         virtual double pitch();
-        bool fire();
+        virtual bool fire();
+
+        virtual Vector3 cameraPosition();
+        virtual Quaternion cameraOrientation();
         
         void setEnabled(bool b);
         
         virtual void tick();
         
-        ShipControls(KeyState *keyState);
-        ~ShipControls();
+        PilotControls(InputState *inputState, Camera *cam);
+        ~PilotControls();
 };
 
 #endif

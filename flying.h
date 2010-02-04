@@ -4,7 +4,7 @@
 #include <OGRE/Ogre.h>
 #include <math.h>
 #include "ITickable.h"
-#include "shipControls.h"
+#include "pilotControls.h"
 #include "collisionManager.h"
 
 using namespace Ogre;
@@ -15,7 +15,7 @@ class Flying : public ITickable
     private:
         int hitCountDown;
         CollisionManager *colMgr;
-        ShipControls *sc;
+        PilotControls *sc;
         double vFactor;
         
         double zVel;
@@ -50,7 +50,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
         
-        Flying(ShipControls *sc,CollisionManager *colMgr);
+        Flying(PilotControls *sc,CollisionManager *colMgr);
 
         ~Flying();
 

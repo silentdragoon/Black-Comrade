@@ -18,11 +18,14 @@ class CollisionDetection{
 private:
 
    	NewtonWorld *newtonWorld;
+    
+    int shapeID;
 
 	dFloat idmatrix[16];
 
-	map<Entity *,NewtonCollision *> collisionsMap;
-	map<Entity *,NewtonBody *> bodysMap;
+    std::map<Entity *,NewtonCollision *> collisionsMap;
+    std::map<Entity *,NewtonBody *> bodysMap;
+    Entity *enemy;
     
     NewtonCollision *enemyCol;
 
@@ -40,8 +43,6 @@ private:
                                 const Ogre::Vector3 &scale);
 
 	void getMatrix(Entity *entity, dFloat *matrix);
-
-    //static dFloat RayCastFilter(const NewtonBody* body, const dFloat* normal, int collisionID, void* userData, dFloat intersetParam);
     
 public:
     
@@ -51,12 +52,15 @@ public:
     
     Collision isCollision(Entity *e1, Entity *e2);
     
-    void createShipMesh( Entity* e );
-    void createEnemyMesh( Entity* e );
-    
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
-    dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
+    
+    //depreciated. Here for refrence
+    //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
+     void createShipMesh( Entity* e );
+    // void createEnemyMesh( Entity* e );
+    
+    void createConvexHull( Entity *entity );
     
 };
 

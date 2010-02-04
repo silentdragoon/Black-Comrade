@@ -1,8 +1,7 @@
-#include "ReplicaConnection.h"
+#include "replicaConnection.h"
+#include "ourReplicaManager.h"
 
 #include "ReplicaManager3.h"
-#include "shipState.h"
-#include "frontGunState.h"
 
 using namespace RakNet;
 
@@ -17,12 +16,20 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     if (typeName=="ShipState") {
         return new ShipState;
     }
-    else if (typeName=="FrontGunState") {
-        return new FrontGunState;
+    else if (typeName=="PilotGunState" || typeName == "EngineerGunState" || typeName == "NavigatorGunState") {
+        return new GunState;
+    }
+    else if (typeName=="GameStateMachine") {
+        return new GameStateMachine;
     }
     //else if (typeName=="EnemyState") {
     //    return new EnemyState;
     //}
+    ((OurReplicaManager *) replicaManager3)->doUpdate();
     return 0;
+}
+
+DataStructures::Multilist<ML_STACK, LastSerializationResult*, Replica3*> ReplicaConnection::getList() {
+    return queryToSerializeReplicaList;
 }
 

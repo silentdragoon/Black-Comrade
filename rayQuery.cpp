@@ -30,7 +30,7 @@ float RayQuery::RaycastFromPoint(const Vector3 &point,
         m_pray_scene_query->setRay(ray);
         //cout << "number of onjects intersected: "<< m_pray_scene_query->execute().size() << endl;
 
-        // execute the query, returns a vector of hits
+        // execute the query, returns a std::vector of hits
         if (m_pray_scene_query->execute().size() <= 0)
         {
             // raycast did not hit an objects bounding box

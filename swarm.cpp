@@ -19,7 +19,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
-        stringstream out;
+        std::stringstream out;
         out << id << i;
         ename += out.str();
 
@@ -38,19 +38,18 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         followSN->setPosition(offset);
 
-        Enemy *e = new Enemy(followSN,100);
+        Enemy *e = new Enemy(followSN,1,sceneMgr);
 
         members.push_back(e);
     }
 }
 
-vector<Entity*> Swarm::getAllEntities() {
+std::vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
-    vector<Entity*> out = vector<Entity*>();
-    for(vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+    for(std::vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
         e = *it;
-        Entity *en = (Entity*)e->node->getAttachedObject(0);
-        out.push_back(en);
+        out.push_back(e);
     }
 
     return out;
@@ -58,6 +57,8 @@ vector<Entity*> Swarm::getAllEntities() {
 
 void Swarm::tick()
 {
+	removeDeadEnemies();
+
 	if(isShipInSight()) {
 		state = SS_ATTACK;
 	}
@@ -73,6 +74,8 @@ void Swarm::tick()
 
 	updateSwarmLocation();
 	updateEnemyLocations();
+	
+	shootAtShip();
 }
 
 Swarm::~Swarm()
@@ -85,7 +88,7 @@ Vector3 Swarm::getAverageAlignment()
     double y = 0.0;
     double z = 0.0;
 
-    vector<Enemy*>::iterator it;
+    std::vector<Enemy*>::iterator it;
     for(it = members.begin();it != members.end(); it++) {
         Enemy *e = *(it);
         Vector3 direction = e->getDirection();
@@ -114,9 +117,23 @@ bool Swarm::isShipInSight()
 		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
 			return true;
 		}
-	} 
+	}
 	
 	return false;
+}
+
+void Swarm::removeDeadEnemies()
+{
+   
+    for(int i=0;i<members.size();i++) {
+    	Enemy *e = members.at(i);
+        if(e->health <= 0) {
+        	delete e;
+        	members.erase(members.begin()+(i));
+            size--;
+        	std::cout << "Remove\n";
+        }
+    }
 }
 
 void Swarm::updateSwarmLocation()
@@ -135,7 +152,7 @@ void Swarm::updateSwarmLocation()
 
 	    tmp = (dLeft + dRight) /2 - dRight;
 
-	    yaw +=   1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
+	    yaw += 1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
 
 	    location.x += speed * sin(yaw);
 	    location.z += speed * cos(yaw);
@@ -148,30 +165,66 @@ void Swarm::updateSwarmLocation()
 		// Point at ship
 		Vector3 lineToShip = *(shipState->position) -location;
 		float newYaw = atan2(lineToShip.x,lineToShip.z);
-		// TODO: Sometimes they turn the long-way-round
-		if(abs(yaw - newYaw) < Const::TURN_TO_LOOK_STEP) yaw = newYaw;
-		else if(yaw > newYaw) yaw -= Const::TURN_TO_LOOK_STEP;
-		else yaw += Const::TURN_TO_LOOK_STEP;
+		if(newYaw < 0) newYaw += 2.0*PI;
+		
+		// move yaw to be in the range [0,2PI]
+		while(yaw < 0) yaw += 2.0*PI;
+	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
+		float posDis = (newYaw >= yaw) ? newYaw - yaw : 2*PI + newYaw - yaw;
+		float negDis = (newYaw <= yaw) ? yaw - newYaw : 2*PI + yaw - newYaw;
+		
+		float move = (posDis <= negDis) ? posDis : -negDis;
+		
+		if(abs(move) < Const::TURN_TO_LOOK_STEP) yaw += move;
+		else if(move > 0) yaw += Const::TURN_TO_LOOK_STEP;
+		else yaw -= Const::TURN_TO_LOOK_STEP;
 		
 		// Check if its pointing at the ship
 		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
-		if( angleTo < 1.57) {
+		if(angleTo < PI/2) {
 		
 			// Move towards ship
 			float disToMove = lineToShip.length() - Const::SWARM_TARGET_DIS;
-			disToMove = disToMove * cos(angleTo);
-			float adjustedSpeed =
-				(abs(disToMove) < speed) ? abs(disToMove) : speed;
+			float adjustedSpeed = speed * cos(angleTo);
+			adjustedSpeed = (abs(disToMove) < adjustedSpeed) ? 
+				disToMove : adjustedSpeed;
 			
 			if(disToMove > 0) {
-			//	location.x += adjustedSpeed * sin(yaw);
-		    //	location.z += adjustedSpeed * cos(yaw);
+				location.x += adjustedSpeed * sin(yaw);
+		    	location.z += adjustedSpeed * cos(yaw);
 			} else {
-			//	location.x -= adjustedSpeed * sin(yaw);
-		    //	location.z -= adjustedSpeed * cos(yaw);
+				location.x -= adjustedSpeed * sin(yaw);
+		    	location.z -= adjustedSpeed * cos(yaw);
 			}
 		}
 		
+	}
+}
+
+void Swarm::shootAtShip()
+{
+	std::vector<Enemy*>::iterator i;
+	Enemy *e;
+	
+	i = members.begin();
+	if(i != members.end()) {
+		e = *i;
+		
+		e->fire = false;
+		
+		Vector3 lineToShip = *(shipState->position) - e->getLocation();
+		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
+		
+		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 
+				angleTo < Const::ENEMY_SIGHT_ANGLE) {
+			if(e->fireDelay <= 0) {
+				e->fireDelay = 50;
+				e->fire = true;
+				std::cout << "Bang!\n";
+			}
+		}
+		
+		if(e->fireDelay > 0) e->fireDelay -= 1;
 	}
 }
 
@@ -180,7 +233,7 @@ void Swarm::updateEnemyLocations()
 
 	// Tempory one enemy per swarm solution
 	
-	vector<Enemy*>::iterator i;
+	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
 	i = members.begin();

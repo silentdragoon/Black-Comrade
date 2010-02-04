@@ -1,7 +1,7 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(ShipControls *sc, CollisionManager *colMgr):
+Flying::Flying(PilotControls *sc, CollisionManager *colMgr):
     colMgr(colMgr),
     sc(sc),
     zVel(0.0),
@@ -49,13 +49,13 @@ void Flying::updatePosition()
         yVel += col.penetration[0] * col.normals[1];
         zVel += col.penetration[0] * col.normals[2];
         
-        for( int i = 0; i < 1; i += 3 )
+/*         for( int i = 0; i < 1; i += 3 )
         {
             
             cout << "n["<<i<<"] "<< col.penetration[i] <<" xcomp: "<< col.penetration[0] * col.normals[i] <<" zcomp: "<< col.penetration[0] * col.normals[i+2] <<endl;
             //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
             //<<" "<< col.normals[i+2] <<" "<<endl;
-        }
+        } */
     }
     
     if( hitCountDown == 0 )

@@ -9,10 +9,10 @@
 #include "networkRole.h"
 #include "stateUpdate.h"
 #include "shipState.h"
-#include "keyState.h"
-#include "frontGunState.h"
+#include "inputState.h"
+#include "gunState.h"
 #include "Kbhit.h"
-#include "shipControls.h"
+#include "pilotControls.h"
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
@@ -27,6 +27,8 @@
 #include "printState.h"
 #include "swarmManager.h"
 #include "flying.h"
+#include "navigatorControls.h"
+#include "engineerControls.h"
 
 //include networking stuff
 #include <string.h>
@@ -47,12 +49,12 @@ private:
     bool isServer;
     CollaborationInfo *collabInfo;
     SoundManager *soundMgr;
-    KeyState *ks;
-    FrontGunState *frontGunState;
-    ShipControls *sc;
     AccelerationState *as;
     MotionState *ms;
     Flying *flying;
+    InputState *inputState;
+    AccelerationState *accelerationState;
+    MotionState *motionState;
     AudioState *audioState;
     MiniGameManager *miniGameMgr;
     BulletManager *bulletMgr;
@@ -61,22 +63,30 @@ private:
     GameParameterMap *gameParameterMap;
     PrintState *printState;
     
+    PilotControls *pilotControls;
+    NavigatorControls *navigatorControls;
+    EngineerControls *engineerControls;
+   
+    GunState *pilotGunState;
+    GunState *engineerGunState;
+    GunState *navigatorGunState;
+    
     SceneNode *mapNode;
     
-    StateUpdate *stateUpdate;
+    StateUpdate *gameLoop;
     SceneNode *shipSceneNode;
     ShipState *shipState;
     
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
     
-    void createCamera();
+    Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
-    void startNetworking();
-
-    void clientStartup();
-    void serverStartup();
+    CollaborationInfo *runLoby(NetworkingManager *networkingManager);
+    
+    Root *configRoot();
+    void configResources();
     
 public:
     Main();

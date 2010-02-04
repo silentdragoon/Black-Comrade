@@ -10,6 +10,8 @@
 using namespace std;
 using namespace RakNet;
 
+#define SLEEP(arg)  ( usleep( (arg) *1000 ) )
+
 NetworkingManager::NetworkingManager(IExit *mExit) :
     serverAddress(""),
     numConnections(0),
@@ -47,6 +49,7 @@ void NetworkingManager::tick() {
             }
     }
     if (quit) mExit->exit();
+    replicaManager.doUpdate();
 }
 
 NetworkRole NetworkingManager::determineRole(NetworkRole desiredRole) {
@@ -115,6 +118,7 @@ void NetworkingManager::stopNetworking() {
 
 bool NetworkingManager::replicate(ReplicaObject *object) {
     replicaManager.Reference(object);
+    replicaManager.doUpdate();
     return true;
 }
 
@@ -151,5 +155,21 @@ ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
     catch (...) {
         return 0;
     }
+}
+
+std::vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
+    DataStructures::Multilist<ML_STACK, Replica3*> replicaList;
+    DataStructures::DefaultIndexType index;
+    replicaManager.GetReferencedReplicaList(replicaList);
+
+    std::vector<ReplicaObject*> replicas = std::vector<ReplicaObject*>();
+    try {
+        for (index=0; index < replicaList.GetSize(); index++) {
+            ReplicaObject * temp = ((ReplicaObject *) replicaList[index]);
+            if (temp->GetName().StrCmp(RakNet::RakString(name.c_str())) == 0) replicas.push_back(temp);
+        }
+    }
+    catch (...) {}
+    return replicas;
 }
 

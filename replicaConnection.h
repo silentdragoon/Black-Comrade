@@ -3,6 +3,8 @@
 
 #include "ReplicaManager3.h"
 #include "shipState.h"
+#include "gunState.h"
+#include "gameStateMachine.h"
 
 using namespace RakNet;
 
@@ -12,6 +14,7 @@ public:
     ReplicaConnection(SystemAddress _systemAddress, RakNetGUID _guid);
     virtual ~ReplicaConnection();
     virtual Replica3 *AllocReplica(RakNet::BitStream *allocationId, ReplicaManager3 *replicaManager3);
+    DataStructures::Multilist<ML_STACK, LastSerializationResult*, Replica3*> getList();
 
 protected:
 };

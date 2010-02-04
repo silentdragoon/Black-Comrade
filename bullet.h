@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <math.h>
+#include "enemy.h"
 
 using namespace Ogre;
 using namespace std;
@@ -36,6 +37,8 @@ class Bullet
         ~Bullet();
 
         void updateLocation();
+        
+        Enemy *enemy;
 };
 
 #endif

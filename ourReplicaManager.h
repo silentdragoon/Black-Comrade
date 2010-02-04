@@ -2,6 +2,8 @@
 #define OURREPLICAMANAGER_H
 
 #include "ReplicaManager3.h"
+#include "RakNetTime.h"
+#include "replicaConnection.h"
 
 using namespace RakNet;
 
@@ -12,6 +14,7 @@ class OurReplicaManager : public ReplicaManager3
 
 public:
        Replica3 *GetShipState();
+       void doUpdate();
 };
 
 #endif
