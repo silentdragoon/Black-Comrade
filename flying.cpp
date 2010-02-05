@@ -30,11 +30,11 @@ void Flying::updateAngels()
 {
     if( hitCountDown == 0)
     {
-        flyPitch += (0.005*sc->forward());
-        if( flyPitch > 0.6 ) flyPitch = 0.6;
+        flyPitch += (0.004*sc->forward());
+        if( flyPitch > 0.4 ) flyPitch = 0.4;
         flyRoll += (0.01*sc->side());
-        if( yawMom > 1.0 ) yawMom = 1.0;
-        yawMom += (0.002*sc->yaw());
+        if( flyRoll > 1.0 ) flyRoll = 1.0;
+        yawMom += (0.0015*sc->yaw());
     }
 }
 
@@ -70,7 +70,7 @@ void Flying::updatePosition()
         xVel -= xzSide*sin(flyYaw+1.57079633);
         zVel -= xzSide*cos(flyYaw+1.57079633);
         
-        yVel += 0.1* sc->up(); 
+        yVel += 0.025* sc->up(); 
         
         addRoll = 0.0;
         addYaw = 0.0;

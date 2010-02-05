@@ -35,8 +35,8 @@ class Flying : public ITickable
         double flyYaw;
         double flyRoll;
         
-        static const double EngineForce = 0.3;
-        static const double SideForce = 0.2;
+        static const double EngineForce = 0.5;
+        static const double SideForce = 0.13;
 
         
         
