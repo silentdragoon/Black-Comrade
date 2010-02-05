@@ -34,7 +34,7 @@ void GameStateMachine::tick()
 	oldState = gameState;
         //std::cout << "Checking statemachine" << std::endl;
 	// Waypoint events
-	string *wp = mapManager->getWaypoint(shipState->position);
+	string *wp = mapManager->getWaypoint(shipState->getPosition());
 	if(wp != NULL) {
 		if(*wp == "wp_attack") {
 			switch(gameState) {

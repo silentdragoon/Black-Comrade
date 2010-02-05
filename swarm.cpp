@@ -111,7 +111,7 @@ bool Swarm::isShipInSight()
 	
 	Radian sightAngle(Const::ENEMY_SIGHT_ANGLE);
 	
-	Vector3 lineToShip = *(shipState->position) -location;
+	Vector3 lineToShip = *(shipState->getPosition()) -location;
 	
 	if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
 		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
@@ -163,7 +163,7 @@ void Swarm::updateSwarmLocation()
 		Vector3 lookDirection(sin(yaw),0,cos(yaw));
 		
 		// Point at ship
-		Vector3 lineToShip = *(shipState->position) -location;
+		Vector3 lineToShip = *(shipState->getPosition()) -location;
 		float newYaw = atan2(lineToShip.x,lineToShip.z);
 		if(newYaw < 0) newYaw += 2.0*PI;
 		
@@ -212,7 +212,7 @@ void Swarm::shootAtShip()
 		
 		e->fire = false;
 		
-		Vector3 lineToShip = *(shipState->position) - e->getLocation();
+		Vector3 lineToShip = *(shipState->getPosition()) - e->getLocation();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
 		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 

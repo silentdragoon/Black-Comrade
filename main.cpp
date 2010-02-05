@@ -53,7 +53,7 @@ Main::Main() {
     root->addFrameListener(gameLoop);
     
     // User Input
-    inputState = new InputState(window, false, this,false,false);
+    inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
     
     // Pilot --- Flying 1.0 ---
@@ -76,7 +76,9 @@ Main::Main() {
     		(ShipState*) networkingManager->getReplica("ShipState",true);
     	shipState->shipSceneNode = shipSceneNode;
     }
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    shipState->setX(mapMgr->startx);
+    shipState->setY(0);
+    shipState->setZ(mapMgr->starty);
     gameLoop->addTickable(shipState);
     
     // pilot new Flying

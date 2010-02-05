@@ -18,10 +18,10 @@ using namespace RakNet;
 
 class ShipState : public ITickable, public ReplicaObject {
 private:
-
+        Vector3 *position;
 public:
    
-    Vector3 *position;
+
     Real roll;
     Real pitch;
     Real yaw;
@@ -38,6 +38,8 @@ public:
     void setX(double newX);
     void setY(double newY);
     void setZ(double newZ);
+    
+    Vector3 *getPosition();
 
     double getX();
     double getY();

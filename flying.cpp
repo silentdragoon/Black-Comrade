@@ -108,13 +108,17 @@ void Flying::updatePosition()
 
 void Flying::updateShipState()
 {
-    shipState->position->x = position->x;
-    shipState->position->y = position->y;
-    shipState->position->z = position->z;
+    shipState->setX(position->x);
+    shipState->setY(position->y);
+    shipState->setZ(position->z);
+    
+    shipState->yaw = yaw;
+    shipState->pitch = pitch;
+    shipState->roll = roll;
 }
 
 void Flying::tick()
 {
-    updateShipState();
     updatePosition();
+    updateShipState();
 }

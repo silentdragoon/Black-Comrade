@@ -3,11 +3,17 @@
 
 #include <iostream>
 
-ShipState::ShipState() {
-    position = new Vector3(1400.0,0.0,100.0);
+ShipState::ShipState() 
+    : position(new Vector3(1400.0,0.0,100.0))
+{
     roll=0.0;
     pitch=0.0;
     yaw=0.0;
+}
+
+Vector3 *ShipState::getPosition()
+{
+    return position;   
 }
 
 ShipState::ShipState(SceneNode *shipSceneNode ) :
