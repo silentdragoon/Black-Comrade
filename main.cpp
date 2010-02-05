@@ -176,7 +176,7 @@ Main::Main() {
 	// Audio
 	//soundMgr = new SoundManager();
 	//gameLoop->addTickable(soundMgr);
-	//audioState = new AudioState(gunState,soundMgr,shipSceneNode);
+	//audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
 	//gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
