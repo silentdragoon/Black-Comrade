@@ -53,7 +53,7 @@ void ShipState::updateOgre() {
         
 }
 
-SceneNode* ShipState::getParentNode() { return NULL; }
+IDrawable* ShipState::getParentObject() { return NULL; }
 
 Vector3* ShipState::getOrientation() { return new Vector3(pitch,yaw,roll); }
 

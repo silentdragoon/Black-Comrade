@@ -3,7 +3,8 @@
 #include "const.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-	Real roll, Real pitch, Real yaw, ShipState *shipState) 
+	Real roll, Real pitch, Real yaw, ShipState *shipState,
+	SceneNodeManager *sceneNodeMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -14,6 +15,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, speed(Const::ENEMY_PATROL_SPEED)
 	, state(SS_PATROL)
 	, shipState(shipState)
+    , sceneNodeMgr(sceneNodeMgr)
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
@@ -23,22 +25,10 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Entity *follow = sceneMgr->createEntity(ename, "squid.mesh");
-        SceneNode *followSN = 
-        	sceneMgr->getRootSceneNode()->createChildSceneNode();
-        followSN->attachObject(follow);
+        Enemy *e = new Enemy(1);
+        e->setPosition(location);
 
-		followSN->showBoundingBox(true);
-
-        double x = location.x;
-        double y = location.y;
-        double z = location.z;
-
-        Vector3 offset = Vector3(x,y,z+i+1);
-
-        followSN->setPosition(offset);
-
-        Enemy *e = new Enemy(followSN,1,sceneMgr);
+        sceneNodeMgr->createNode(e);
 
         members.push_back(e);
     }
@@ -128,6 +118,7 @@ void Swarm::removeDeadEnemies()
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
         if(e->health <= 0) {
+            sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));
             size--;
@@ -212,7 +203,7 @@ void Swarm::shootAtShip()
 		
 		e->fire = false;
 		
-		Vector3 lineToShip = *(shipState->getPosition()) - e->getLocation();
+		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
 		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 
@@ -240,7 +231,7 @@ void Swarm::updateEnemyLocations()
 	if(i != members.end()) {
 		e = *i;
 		
-		e->setLocation(location);
+		e->setPosition(location);
 		e->setOrientation(roll,pitch,yaw);
 	}
 	

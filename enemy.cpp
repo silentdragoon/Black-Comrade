@@ -1,56 +1,46 @@
 #include "enemy.h"
 
-Enemy::Enemy(SceneNode *node, int health, SceneManager *sceneMgr) :
-    node(node),
+Enemy::Enemy(int health) :
     health(health),
-    sceneMgr(sceneMgr),
     fire(false),
-    fireDelay(0)
+    fireDelay(0),
+    position(new Vector3())
 {}
 
 Enemy::~Enemy()
-{
-    sceneMgr->destroySceneNode(node);
-}
+{}
 
 Vector3 Enemy::getDirection() {
-    Quaternion orient = node->getOrientation();
-    Quaternion rotateYaw(Radian(3.14159),Vector3::UNIT_Y);
+    Vector3 direction;
+    direction.x = sin(yaw) + cos(roll);
+    direction.y = sin(roll) + cos(pitch);
+    direction.z = sin(pitch) + cos(yaw);
     
-    orient = orient * rotateYaw;
-    
-    return orient.zAxis();
-}
-
-Vector3 Enemy::getLocation() {
-    return node->getPosition();
+    return direction;
 }
 
 int Enemy::getHealth() {
     return health;
 }
 
-void Enemy::setLocation(Vector3 v)
+void Enemy::setPosition(Vector3 v)
 {
-	node->setPosition(v);
+	position->x = v.x;
+	position->y = v.y;
+	position->z = v.z;
 }
 
-Entity* Enemy::getEntity()
+Vector3* Enemy::getPosition() { return position; }
+
+Vector3* Enemy::getOrientation() { return new Vector3(pitch,yaw,roll); }
+
+std::string Enemy::getMeshName() { return "squid.mesh"; }
+
+IDrawable* Enemy::getParentObject() { return NULL; }
+
+void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 {
-	return (Entity*)node->getAttachedObject(0);
-}
-
-void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
-{
-	node->resetOrientation();
-
-	yaw += 3.14159;
-
-	Radian troll(roll);
-    Radian tpitch(pitch);
-    Radian tyaw(yaw);
-   
-    node->yaw(tyaw);
-    node->roll(troll);
-    node->pitch(tpitch);
+	roll = mRoll;
+    pitch = mPitch;
+    yaw = mYaw;
 }

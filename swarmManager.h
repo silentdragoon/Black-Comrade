@@ -19,6 +19,7 @@ class SwarmManager : public ITickable
     private:
 
         SceneManager *sceneMgr;
+        SceneNodeManager *sceneNodeMgr;
         GameParameterMap *gamePM;
         MapManager *mapMgr;
         std::vector<Swarm*> activeSwarms;
@@ -33,7 +34,7 @@ class SwarmManager : public ITickable
 
     public:
 
-        SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, 
+        SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr);
         ~SwarmManager();
 

@@ -11,6 +11,7 @@
 #include "bullet.h"
 #include "collisionManager.h"
 #include "swarmManager.h"
+#include "shipState.h"
 
 using namespace Ogre;
 using namespace std;
@@ -19,8 +20,9 @@ class BulletManager : public ITickable
 {
     private:
         std::vector<Bullet*> *activeBullets;
-        SceneNode *shipSceneNode;
+        ShipState *shipState;
         SceneManager *sceneMgr;
+        SceneNodeManager *sceneNodeMgr;
         int bnum;
         GunState *pilotGunState;
         GunState *navigatorGunState;
@@ -33,10 +35,10 @@ class BulletManager : public ITickable
         void updateBullets(); 
         
     public:
-        BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
-        	GunState *pilotGunState, GunState *engineerGunState, 
-                GunState *navigatorGunState, CollisionManager *colMgr, 
-        	SwarmManager *swarmMgr);
+        BulletManager(ShipState *shipState, SceneManager *sceneMgr,
+            GunState *pilotGunState, GunState *engineerGunState,
+            GunState *navigatorGunState, CollisionManager *colMgr,
+            SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr);
 
         ~BulletManager();
             

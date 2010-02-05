@@ -43,7 +43,7 @@ public:
     
     Vector3 *getPosition();
     Vector3 *getOrientation();
-    SceneNode *getParentNode();
+    IDrawable *getParentObject();
     std::string getMeshName();
 
     double getX();

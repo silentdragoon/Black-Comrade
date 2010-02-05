@@ -48,7 +48,7 @@ Main::Main() {
     gameLoop->addTickable(shipState);
 
     // Ship Node
-    shipSceneNode = sceneNodeMgr->getNode(shipState);
+    shipSceneNode = sceneNodeMgr->createNode(shipState);
 	Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);
@@ -150,7 +150,7 @@ Main::Main() {
 
 	// TODO: start the enemies pointing towards the ship?
 	// Swarm Manager
-	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
+	swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
 		shipState,collisionMgr);
 	gameLoop->addTickable(swarmMgr);
 
@@ -158,8 +158,8 @@ Main::Main() {
 
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
-	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
-	    	engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
+	    bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
+            engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr);
 	    //networkingManager->replicate(bulletMgr);
 	    gameLoop->addTickable(bulletMgr);
     //} else {

@@ -9,6 +9,7 @@
 #include "enemy.h"
 #include "rayQuery.h"
 #include "shipState.h"
+#include "sceneNodeManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -19,6 +20,7 @@ class Swarm
 {
     private:
         SceneManager *sceneMgr;
+        SceneNodeManager *sceneNodeMgr;
         std::vector<Enemy*> members;
         int id;
         Vector3 location;
@@ -32,7 +34,7 @@ class Swarm
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
-    	
+
     	void removeDeadEnemies();
     	void shootAtShip();
     	
@@ -42,7 +44,7 @@ class Swarm
         int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-			Real roll, Real pitch, Real yaw, ShipState *shipState);
+			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();
