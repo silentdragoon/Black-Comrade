@@ -74,8 +74,8 @@ void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
  	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
 }
 
-
-Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
+//only to be used with map pieces where the second element is not transformed
+Collision CollisionDetection::mapCollision(Entity *e1, Entity *e2)
 {
     dFloat e1Matrix[16];
     dFloat e2Matrix[16];
@@ -122,6 +122,46 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
     } else {
         return Collision(false,normals,contacts,penetration);
     }
+}
+
+
+void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
+{
+	for(int i=0; i < 16; i++) *(matrix+i) = 0.0f;
+    *(matrix+0) = 1.0f;
+    *(matrix+5) = 1.0f;
+    *(matrix+10) = 1.0f;
+    *(matrix+15) = 1.0f;
+    
+    SceneNode *sceneNode;
+    // if(entity->getName() == "ourship")
+    // {
+        // sceneNode = entity->getParentSceneNode()->getParentSceneNode();
+    // } else {
+    // TODO: This is cause of bugs! Dependant on stucture of scene nodes
+    
+    //here for refrence
+    //Vector3 pos = sceneNode->convertLocalToWorldPosition(
+    //	sceneNode->getPosition());
+    // Vector3 pos = sceneNode->_getDerivedPosition();
+    // TODO: we need to include orientation & scale
+    
+    Matrix4 m4 = entity->getParentSceneNode()->_getFullTransform().transpose();
+    
+    float *tmp = m4[0];
+    
+    for( int i = 0; i < 4; i++)
+    {
+        tmp = m4[i];
+        for( int j = 0; j < 4; j++ )
+        {
+            *(matrix+i*4+j) = tmp[j];
+        }
+    }
+
+   	// *(matrix+12) = pos.x;
+   	// *(matrix+13) = pos.y;
+   	// *(matrix+14) = pos.z;
 }
 
 dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst )
@@ -188,33 +228,6 @@ void CollisionDetection::createConvexHull( Entity *entity )
  	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidBodyBox));
 }
 
-void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
-{
-	for(int i=0; i < 16; i++) *(matrix+i) = 0.0f;
-    *(matrix+0) = 1.0f;
-    *(matrix+5) = 1.0f;
-    *(matrix+10) = 1.0f;
-    *(matrix+15) = 1.0f;
-    
-    SceneNode *sceneNode;
-    // if(entity->getName() == "ourship")
-    // {
-        // sceneNode = entity->getParentSceneNode()->getParentSceneNode();
-    // } else {
-    // TODO: This is cause of bugs! Dependant on stucture of scene nodes
-        sceneNode = entity->getParentSceneNode();
-    
-    // TODO: we need to include orientation & scale
-    //Vector3 pos = sceneNode->convertLocalToWorldPosition(
-    //	sceneNode->getPosition());
-   
-   	// TODO: Use world position
-   	Vector3 pos = sceneNode->getPosition();
-    	
-   	*(matrix+12) = pos.x;
-   	*(matrix+13) = pos.y;
-   	*(matrix+14) = pos.z;
-}
 
 /* dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
 {

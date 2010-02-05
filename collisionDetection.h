@@ -50,7 +50,7 @@ public:
     
     void addStaticTreeCollisionMesh(Entity *entity);
     
-    Collision isCollision(Entity *e1, Entity *e2);
+    Collision mapCollision(Entity *e1, Entity *e2);
     
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
