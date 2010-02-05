@@ -29,7 +29,21 @@ Main::Main() {
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
     gameLoop->addTickable(sceneNodeMgr);
-    
+
+    // Ship State
+    if(collabInfo->getGameRole() == PILOT) {
+	    shipState = new ShipState(shipSceneNode);
+	    networkingManager->replicate(shipState);
+    } else {
+    	shipState = 
+    		(ShipState*) networkingManager->getReplica("ShipState",true);
+    	shipState->shipSceneNode = shipSceneNode;
+    }
+    shipState->setX(mapMgr->startx);
+    shipState->setY(0);
+    shipState->setZ(mapMgr->starty);
+    gameLoop->addTickable(shipState);
+
     // Ship Node
     shipSceneNode = sceneNodeMgr->getNode(shipState);
     //shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -43,9 +57,9 @@ Main::Main() {
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(3,0,0));
+        camera->setPosition(Vector3(3.5,0,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(-3,0,0));
+        camera->setPosition(Vector3(-3.5,0,0));
     }
     createViewPort();
     
@@ -69,12 +83,12 @@ Main::Main() {
 	    // gameLoop->addTickable(accelerationState);
 	    // gameLoop->addTickable(motionState);
     // }
-
+    
     // pilot new Flying
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, collisionMgr );
+        flying = new Flying( pilotControls, shipState, collisionMgr );
         gameLoop->addTickable(pilotControls);
         gameLoop->addTickable(flying);
     }
@@ -90,18 +104,6 @@ Main::Main() {
 	    engineerControls = new EngineerControls(inputState,camera);
 	    gameLoop->addTickable(engineerControls);
     }
-    
-    // Ship State
-    if(collabInfo->getGameRole() == PILOT) {
-	    shipState = new ShipState(shipSceneNode,flying);
-	    networkingManager->replicate(shipState);
-    } else {
-    	shipState = 
-    		(ShipState*) networkingManager->getReplica("ShipState",true);
-    	shipState->shipSceneNode = shipSceneNode;
-    }
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-    gameLoop->addTickable(shipState);
 
 	// GameState
 	if(collabInfo->getGameRole() == PILOT) {
@@ -180,12 +182,16 @@ Main::Main() {
 	// Audio
 	//soundMgr = new SoundManager();
 	//gameLoop->addTickable(soundMgr);
-	//audioState = new AudioState(gunState,soundMgr,shipSceneNode);
+	//audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
 	//gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
     
+    //adding the crosshair
+    //addCrossHair();
+    
     // Start Rendering Loop
+    
     root->startRendering();
     networkingManager->stopNetworking();
 }
@@ -300,6 +306,27 @@ void Main::createViewPort() {
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
     //camera->setAspectRatio(1.17);
 }
+
+void Main::addCrossHair()
+{
+    ManualObject* manual = sceneMgr->createManualObject("manual");
+    
+    manual->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    manual->setUseIdentityProjection(true);
+    manual->setUseIdentityView(true);
+    manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
+    manual->position(-3, 0, 1);
+    manual->position(3, 0, 1);
+    manual->position(0, -3, 1);
+    manual->position(0, +3, 1);
+    manual->end();
+    
+    sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
+
+}
+
+
+
 
 int main()
 {

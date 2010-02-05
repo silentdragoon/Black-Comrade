@@ -78,7 +78,7 @@ void SwarmManager::tick()
             swarmTick++;
             if(swarmTick>Const::SPAWN_DELAY) {
                 swarmTick = 0;
-                Vector3 spawnPoint = mapMgr->getDynamicSpawnPoint(shipState->position);
+                Vector3 spawnPoint = mapMgr->getDynamicSpawnPoint(shipState->getPosition());
                 createSwarm(1,spawnPoint);
                 cout << "Swarms: " << activeSwarms.size() << endl;
             }

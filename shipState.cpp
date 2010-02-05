@@ -3,25 +3,29 @@
 
 #include <iostream>
 
-ShipState::ShipState() {
-    flying=0;
-    position = new Vector3(1400.0,0.0,100.0);
+ShipState::ShipState() 
+    : position(new Vector3(1400.0,0.0,100.0))
+{
     roll=0.0;
     pitch=0.0;
     yaw=0.0;
 }
 
-ShipState::ShipState(SceneNode *shipSceneNode, Flying *flying ) :
+Vector3 *ShipState::getPosition()
+{
+    return position;   
+}
+
+ShipState::ShipState(SceneNode *shipSceneNode ) :
     position(new Vector3(0.0,0.0,-500.0)),
     roll(0.0),
     pitch(0.0),
     yaw(0.0),
-    shipSceneNode(shipSceneNode),
-    flying(flying)
+    shipSceneNode(shipSceneNode)
 {}
 
 void ShipState::tick() {
-    if (flying != 0) {
+    /* if (flying != 0) {
         position->x = flying->position->x;
         position->y = flying->position->y;
         position->z = flying->position->z;
@@ -29,7 +33,7 @@ void ShipState::tick() {
         roll = flying->roll;
         pitch = flying->pitch;
         yaw = flying->yaw;
-    }
+    } */
     updateOgre();
 }
 
