@@ -57,7 +57,7 @@ public:
     
     //depreciated. Here for refrence
     //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
-    // void createshipmesh( entity* e );
+     void createShipMesh( Entity* e );
     // void createEnemyMesh( Entity* e );
     
     void createConvexHull( Entity *entity );

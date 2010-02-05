@@ -110,7 +110,6 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 	dFloat contacts[16];
     dFloat normals[16];
     dFloat penetration[16];
-	
 	int numCollisionPoints;
 	
 	numCollisionPoints = NewtonCollisionCollide (newtonWorld, 1,
@@ -118,11 +117,11 @@ Collision CollisionDetection::isCollision(Entity *e1, Entity *e2)
 		e2Collision, &idmatrix[0],
 		&contacts[0], &normals[0], &penetration[0], 0);
 		
-        if (numCollisionPoints > 0) {
-            return Collision(true,normals,contacts,penetration);
-        } else {
-            return Collision(false,normals,contacts,penetration);
-        }
+    if (numCollisionPoints > 0) {
+        return Collision(true,normals,contacts,penetration);
+    } else {
+        return Collision(false,normals,contacts,penetration);
+    }
 }
 
 dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst )
@@ -198,12 +197,12 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
     *(matrix+15) = 1.0f;
     
     SceneNode *sceneNode;
-    if(entity->getName() == "ourship")
-    {
-        sceneNode = entity->getParentSceneNode()->getParentSceneNode();
-    } else {
+    // if(entity->getName() == "ourship")
+    // {
+        // sceneNode = entity->getParentSceneNode()->getParentSceneNode();
+    // } else {
+    // TODO: This is cause of bugs! Dependant on stucture of scene nodes
         sceneNode = entity->getParentSceneNode();
-    }
     
     // TODO: we need to include orientation & scale
     //Vector3 pos = sceneNode->convertLocalToWorldPosition(
@@ -236,7 +235,7 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
 } */
 
 
-/* void CollisionDetection::createShipMesh( Entity * e )
+void CollisionDetection::createShipMesh( Entity * e )
 {
     NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,2, NULL); 
     NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
@@ -247,7 +246,7 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix)
 }
 
 
-
+/*
 void CollisionDetection::createEnemyMesh( Entity * e )
 {
     NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,3, NULL); 

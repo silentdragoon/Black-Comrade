@@ -39,13 +39,15 @@ public:
     //needs to be used for dynamic pieces
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* entity);
     
+    //working for now. may need to be looked at later
+    Collision shipMapCollision(Vector3 *shipPos);
+
     //working stuff thats unneccesary for now
     //dFloat getRCDistBetweenPoints( Vector3 *start, Vector3 * end, Entity* collideAgainst );
     // dFloat getRCDistAlongRay( Vector3 *start, Real Pitch, Real Yaw, dFloat maxDist, Entity* collideAgainst );
     //dFloat getRCMapDist( Vector3 *pos, Real pitch, Real yaw  );
     
     //depreciated stuff. Here for me to refrence
-    //Collision shipMapCollision(Vector3 *shipPos);
     // Vector3* getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst );
     
 };
