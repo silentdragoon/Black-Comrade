@@ -1,9 +1,10 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, CollisionManager *colMgr):
+Flying::Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr):
     colMgr(colMgr),
     sc(sc),
+    shipState(shipState),
     zVel(0.0),
     xVel(0.0),
     yVel(0.0),
@@ -105,7 +106,15 @@ void Flying::updatePosition()
     yaw = flyYaw + addYaw;
 }
 
+void Flying::updateShipState()
+{
+    shipState->position->x = position->x;
+    shipState->position->y = position->y;
+    shipState->position->z = position->z;
+}
+
 void Flying::tick()
 {
+    updateShipState();
     updatePosition();
 }

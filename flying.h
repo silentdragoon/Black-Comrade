@@ -6,6 +6,7 @@
 #include "ITickable.h"
 #include "pilotControls.h"
 #include "collisionManager.h"
+#include "shipState.h"
 
 using namespace Ogre;
 using namespace std;
@@ -13,9 +14,12 @@ using namespace std;
 class Flying : public ITickable
 {
     private:
+        void updateShipState();
+    
         int hitCountDown;
         CollisionManager *colMgr;
         PilotControls *sc;
+        ShipState *shipState;
         double vFactor;
         
         double zVel;
@@ -50,7 +54,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
         
-        Flying(PilotControls *sc,CollisionManager *colMgr);
+        Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr);
 
         ~Flying();
 

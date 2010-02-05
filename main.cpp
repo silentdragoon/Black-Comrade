@@ -53,7 +53,7 @@ Main::Main() {
     root->addFrameListener(gameLoop);
     
     // User Input
-    inputState = new InputState(window, false, this,true,true);
+    inputState = new InputState(window, false, this,false,false);
     gameLoop->addTickable(inputState);
     
     // Pilot --- Flying 1.0 ---
@@ -66,11 +66,24 @@ Main::Main() {
 	    // gameLoop->addTickable(motionState);
     // }
     
+    
+    // Ship State
+    if(collabInfo->getGameRole() == PILOT) {
+	    shipState = new ShipState(shipSceneNode);
+	    networkingManager->replicate(shipState);
+    } else {
+    	shipState = 
+    		(ShipState*) networkingManager->getReplica("ShipState",true);
+    	shipState->shipSceneNode = shipSceneNode;
+    }
+    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
+    gameLoop->addTickable(shipState);
+    
     // pilot new Flying
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, collisionMgr );
+        flying = new Flying( pilotControls, shipState, collisionMgr );
         gameLoop->addTickable(pilotControls);
         gameLoop->addTickable(flying);
     }
@@ -86,18 +99,6 @@ Main::Main() {
 	    engineerControls = new EngineerControls(inputState,camera);
 	    gameLoop->addTickable(engineerControls);
     }
-    
-    // Ship State
-    if(collabInfo->getGameRole() == PILOT) {
-	    shipState = new ShipState(shipSceneNode,flying);
-	    networkingManager->replicate(shipState);
-    } else {
-    	shipState = 
-    		(ShipState*) networkingManager->getReplica("ShipState",true);
-    	shipState->shipSceneNode = shipSceneNode;
-    }
-    shipState->position = new Vector3(mapMgr->startx,0,mapMgr->starty);
-    gameLoop->addTickable(shipState);
 
 	// GameState
 	if(collabInfo->getGameRole() == PILOT) {

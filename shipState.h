@@ -5,7 +5,7 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-#include "flying.h"
+// #include "flying.h"
 #include "ITickable.h"
 
 // include Raknet classes
@@ -19,8 +19,6 @@ using namespace RakNet;
 class ShipState : public ITickable, public ReplicaObject {
 private:
 
-    Flying *flying;
-
 public:
    
     Vector3 *position;
@@ -28,7 +26,7 @@ public:
     Real pitch;
     Real yaw;
 
-    ShipState(SceneNode *shipSceneNode, Flying *flying );
+    ShipState(SceneNode *shipSceneNode);
 
     ShipState();
     SceneNode *shipSceneNode;
