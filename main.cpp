@@ -49,11 +49,10 @@ Main::Main() {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->getNode(shipState);
-	Entity *shipEntity = (Entity*) shipSceneNode->getAttachedObject(0);
+	Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);
     }
-    //TODO - Index may not always be 0...
     
     // Camera
     camera = createCamera(shipSceneNode);
