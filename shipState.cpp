@@ -35,6 +35,7 @@ void ShipState::tick() {
     //    yaw = flying->yaw;
     //}
     //updateOgre();
+
 }
 
 void ShipState::updateOgre() {
@@ -54,7 +55,7 @@ void ShipState::updateOgre() {
 
 SceneNode* ShipState::getParentNode() { return NULL; }
 
-Quaternion* ShipState::getOrientation() { return new Quaternion(1.0,roll,yaw,pitch); }
+Vector3* ShipState::getOrientation() { return new Vector3(pitch,yaw,roll); }
 
 std::string ShipState::getMeshName() { return "ourship.mesh"; }
 

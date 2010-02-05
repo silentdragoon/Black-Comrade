@@ -50,18 +50,15 @@ Main::Main() {
     // Ship Node
     shipSceneNode = sceneNodeMgr->getNode(shipState);
 	Entity *shipEntity = (Entity*) shipSceneNode->getAttachedObject(0);
-    //TODO - Index may not always be 0...
-
-    //shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    if(collabInfo->getGameRole() == PILOT) {
-	//Entity *shipEntity->
-        //shipEntity->setVisible(false);
+    if (collabInfo->getGameRole() == PILOT) {
+        shipEntity->setVisible(false);
     }
+    //TODO - Index may not always be 0...
     
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
-        camera->setPosition(Vector3(0,0,5));
+        camera->setPosition(Vector3(0,0,-5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
         camera->setPosition(Vector3(3.5,0,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {

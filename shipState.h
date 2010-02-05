@@ -42,7 +42,7 @@ public:
     void setZ(double newZ);
     
     Vector3 *getPosition();
-    Quaternion *getOrientation();
+    Vector3 *getOrientation();
     SceneNode *getParentNode();
     std::string getMeshName();
 
