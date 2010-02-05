@@ -25,16 +25,16 @@ ShipState::ShipState(SceneNode *shipSceneNode ) :
 {}
 
 void ShipState::tick() {
-    /* if (flying != 0) {
-        position->x = flying->position->x;
-        position->y = flying->position->y;
-        position->z = flying->position->z;
+    //if (flying != 0) {
+    //    position->x = flying->position->x;
+    //    position->y = flying->position->y;
+    //    position->z = flying->position->z;
 
-        roll = flying->roll;
-        pitch = flying->pitch;
-        yaw = flying->yaw;
-    } */
-    updateOgre();
+    //    roll = flying->roll;
+    //    pitch = flying->pitch;
+    //    yaw = flying->yaw;
+    //}
+    //updateOgre();
 }
 
 void ShipState::updateOgre() {
@@ -51,6 +51,12 @@ void ShipState::updateOgre() {
     shipSceneNode->pitch(pitch);
         
 }
+
+SceneNode* ShipState::getParentNode() { return NULL; }
+
+Quaternion* ShipState::getOrientation() { return new Quaternion(1.0,roll,yaw,pitch); }
+
+std::string ShipState::getMeshName() { return "ourship.mesh"; }
 
 void ShipState::setX(double newX) {
     position->x = newX;

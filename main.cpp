@@ -30,6 +30,10 @@ Main::Main() {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
     gameLoop->addTickable(sceneNodeMgr);
 
+    // Create Map
+    mapMgr = new MapManager("examplemap.txt",sceneMgr);
+    mapMgr->outputMap(sceneMgr->getRootSceneNode());
+
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
 	    shipState = new ShipState(shipSceneNode);
@@ -37,7 +41,6 @@ Main::Main() {
     } else {
     	shipState = 
     		(ShipState*) networkingManager->getReplica("ShipState",true);
-    	shipState->shipSceneNode = shipSceneNode;
     }
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
@@ -46,6 +49,9 @@ Main::Main() {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->getNode(shipState);
+	Entity *shipEntity = (Entity*) shipSceneNode->getAttachedObject(0);
+    //TODO - Index may not always be 0...
+
     //shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     if(collabInfo->getGameRole() == PILOT) {
 	//Entity *shipEntity->
@@ -62,14 +68,10 @@ Main::Main() {
         camera->setPosition(Vector3(-3.5,0,0));
     }
     createViewPort();
-    
-    // Create Map
-    mapMgr = new MapManager("examplemap.txt",sceneMgr);
-    mapMgr->outputMap(sceneMgr->getRootSceneNode());
-    
+
     // Collision Manager
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
-    
+
     // User Input
     inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
