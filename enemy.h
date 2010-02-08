@@ -7,6 +7,7 @@
 #include <math.h>
 
 #include "IDrawable.h"
+#include "sceneNodeManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -33,6 +34,10 @@ class Enemy : public IDrawable
 
         Vector3 *getPosition();
         Vector3 *getOrientation();
+
+		Real getRoll();
+		Real getPitch();
+		Real getYaw();
 
         std::string getMeshName();
         IDrawable *getParentObject();

@@ -11,15 +11,6 @@ Enemy::Enemy(int health, int id) :
 Enemy::~Enemy()
 {}
 
-Vector3 Enemy::getDirection() {
-    Vector3 direction;
-    direction.x = sin(yaw) + cos(roll);
-    direction.y = sin(roll) + cos(pitch);
-    direction.z = sin(pitch) + cos(yaw);
-    
-    return direction;
-}
-
 int Enemy::getHealth() {
     return health;
 }
@@ -44,4 +35,13 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 	roll = mRoll;
     pitch = mPitch;
     yaw = mYaw;
+}
+
+Real Enemy::getRoll() { return roll; }
+Real Enemy::getPitch() { return pitch; }
+Real Enemy::getYaw() { return yaw; }
+
+Vector3 Enemy::getDirection()
+{
+	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
 }

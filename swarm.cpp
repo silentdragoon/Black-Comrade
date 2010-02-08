@@ -210,12 +210,14 @@ void Swarm::shootAtShip()
 		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
-		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 
-				angleTo < Const::ENEMY_SIGHT_ANGLE) {
-			if(e->fireDelay <= 0) {
-				e->fireDelay = 50;
-				e->fire = true;
-				std::cout << "Bang!\n";
+		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
+			std::cout << angleTo << std::endl;
+			if(angleTo < Const::ENEMY_SIGHT_ANGLE) {
+				if(e->fireDelay <= 0) {
+					e->fireDelay = 50;
+					e->fire = true;
+					std::cout << "Bang!\n";
+				}
 			}
 		}
 		

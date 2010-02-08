@@ -1,5 +1,7 @@
 #include "sceneNodeManager.h"
 
+#include <iostream>
+
 SceneNodeManager::SceneNodeManager(SceneManager *sceneMgr)
     : sceneMgr(sceneMgr)
 {
@@ -27,6 +29,26 @@ void SceneNodeManager::updateNode(IDrawable *object, SceneNode *node) {
     node->yaw(yaw);
     node->roll(roll);
     node->pitch(pitch);
+}
+
+Vector3 SceneNodeManager::rollPitchYawToDirection(Real roll, Real pitch, 
+		Real yaw)
+{
+	Vector3 direction;
+	
+	Matrix3 rotateX(1,0,0,0,cos(pitch),-sin(pitch),0,sin(pitch),cos(pitch));
+	Matrix3 rotateY(cos(-yaw),0,-sin(-yaw),0,1,0,-sin(-yaw),0,cos(-yaw));
+	Matrix3 rotateZ(cos(roll),-sin(roll),0,sin(roll),cos(roll),0,0,0,1);
+	
+	//Matrix3 rotateX(1,0,0,0,cos(pitch),sin(pitch),0,-sin(pitch),cos(pitch));
+	//Matrix3 rotateY(cos(yaw),0,-sin(yaw),0,1,0,sin(yaw),0,cos(yaw));
+	//Matrix3 rotateZ(cos(roll),sin(roll),0,-sin(roll),cos(roll),0,0,0,1);
+	
+	//std::cout << "j" << roll << "," << pitch << "," << yaw << "\n";
+	
+	direction = rotateY * Vector3::UNIT_Z;
+	
+	return direction;
 }
 
 
