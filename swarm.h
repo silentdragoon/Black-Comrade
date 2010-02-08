@@ -46,6 +46,8 @@ class Swarm
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr);
+
+        Swarm(std::vector<Enemy*> enemies, SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();
@@ -54,7 +56,6 @@ class Swarm
         std::vector<Enemy*> getAllEnemies();
         
         void tick();
-
 };
 
 #endif

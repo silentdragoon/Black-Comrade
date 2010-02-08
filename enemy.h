@@ -8,11 +8,13 @@
 
 #include "IDrawable.h"
 #include "sceneNodeManager.h"
+#include "replicaObject.h"
+
 
 using namespace Ogre;
 using namespace std;
 
-class Enemy : public IDrawable
+class Enemy : public IDrawable, public ReplicaObject
 {
     private:
         Vector3 *position;
@@ -46,6 +48,10 @@ class Enemy : public IDrawable
         void setOrientation(Real roll, Real pitch, Real yaw);
 
         int getHealth();
+
+        virtual RakNet::RakString GetName(void) const;
+        virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
+        virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
 
         ~Enemy();
 };

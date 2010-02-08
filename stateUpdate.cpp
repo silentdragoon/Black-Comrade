@@ -13,11 +13,11 @@ StateUpdate::StateUpdate()
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
 {   
     if(running) {
+
         timeSinceLastEvent += evt.timeSinceLastFrame;
         
         if(timeSinceLastEvent > TICK_PERIOD) {
             timeSinceLastEvent = 0;
-            
             tick();
         }
     }

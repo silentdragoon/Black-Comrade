@@ -32,9 +32,15 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
             //cout << "Created initial swarm..." << endl;
         }
     }
-    
+
 }
 
+SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
+    CollisionManager *colMgr)
+    : sceneMgr(sceneMgr)
+    , sceneNodeMgr(sceneNodeMgr)
+    , colMgr(colMgr)
+{}
 
 SwarmManager::~SwarmManager()
 {
@@ -53,6 +59,18 @@ void SwarmManager::createSwarm(int size, Vector3 location)
     
     activeSwarms.push_back(s);
     id++;
+}
+
+void SwarmManager::createSwarm(std::vector<Enemy*> enemies) {
+    Swarm *s = new Swarm(enemies,sceneMgr,sceneNodeMgr);
+    std::vector<Enemy*> ents = s->getAllEnemies();
+    Enemy *en;
+    for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
+        en = *ite;
+        colMgr->addMesh(sceneNodeMgr->getEntity(en));
+    }
+
+    activeSwarms.push_back(s);
 }
 
 std::vector<Enemy*> SwarmManager::getAllEnemies()

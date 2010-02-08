@@ -36,9 +36,11 @@ class SwarmManager : public ITickable
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr);
+        SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, CollisionManager *colMgr);
         ~SwarmManager();
 
         void createSwarm(int size, Vector3 location);
+        void createSwarm(std::vector<Enemy*> enemies);
 
         std::vector<Enemy*> getAllEnemies();
 
