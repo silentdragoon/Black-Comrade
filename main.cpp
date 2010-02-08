@@ -83,7 +83,7 @@ Main::Main() {
     
     // Flying!!!!
     if(collabInfo->getGameRole() == PILOT) {
-    	flying = new Flying( pilotControls, shipState, collisionMgr,true);
+    	flying = new Flying( pilotControls, shipState, collisionMgr,false);
     	gameLoop->addTickable(flying);
     }
     
