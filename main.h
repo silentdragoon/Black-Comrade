@@ -4,6 +4,10 @@
 
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/CEGUIBase.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+//#include <CEGUI/CEGUIImageset.h>
 
 #include "networkingManager.h"
 #include "networkRole.h"
@@ -79,14 +83,12 @@ private:
     
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
-    
+
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
     CollaborationInfo *runLoby(NetworkingManager *networkingManager);
-    
     void addCrossHair();
-    
     Root *configRoot();
     void configResources();
     

@@ -19,7 +19,7 @@ Main::Main() {
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
     window = root->initialise(true, collabInfo->getGameRoleString());
-    
+
     configResources();
     
     // Ship Node
@@ -183,7 +183,26 @@ Main::Main() {
 	//gameLoop->addTickable(audioState);
 
 	// Last class to be added to the game loop
-    
+
+    // CEGUI Stuff
+    CEGUI::OgreRenderer &guiRenderer = CEGUI::OgreRenderer::bootstrapSystem();
+
+    CEGUI::Imageset::setDefaultResourceGroup("imagesets");
+    CEGUI::Font::setDefaultResourceGroup("fonts");
+    CEGUI::Scheme::setDefaultResourceGroup("schemes");
+    CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
+    CEGUI::WindowManager::setDefaultResourceGroup("layouts");
+    CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
+
+    CEGUI::XMLParser *parser = CEGUI::System::getSingleton().getXMLParser();
+    if(parser->isPropertyPresent("SchemaDefaultResourceGroup")) {
+        parser->setProperty("SchemaDefaultResourceGroup", "schemas");
+    }
+
+    CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
+    CEGUI::Window *guiWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("BlackComrade.layout");
+    CEGUI::System::getSingleton().setGUISheet(guiWindow);
+
     //adding the crosshair
     //addCrossHair();
     
@@ -213,7 +232,7 @@ void Main::configResources()
                     "models", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "sounds", "FileSystem", "Genescenemral");
+                    "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/scripts", "FileSystem", "General");
@@ -227,7 +246,27 @@ void Main::configResources()
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "particles", "FileSystem", "General"); 
                    
-    // Magic Resource line
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/fonts", "FileSystem", "fonts"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/imagesets", "FileSystem", "imagesets"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/layouts", "FileSystem", "layouts"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/looknfeel", "FileSystem", "looknfeels"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/lua_scripts", "FileSystem", "lua_scripts"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/schemes", "FileSystem", "schemes"); 
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
+
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
@@ -275,7 +314,6 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     // Lighting
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
-
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
@@ -284,7 +322,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setDiffuseColour(1.0,1.0,0.7);
     sp->setSpecularColour(0.2,0.2,0.7);
     sp->setDirection(Vector3(0,0,1));
     //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
