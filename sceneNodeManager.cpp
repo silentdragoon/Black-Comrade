@@ -36,6 +36,8 @@ Vector3 SceneNodeManager::rollPitchYawToDirection(Real roll, Real pitch,
 {
 	Vector3 direction;
 	
+	// TODO: when pitch and roll actully get used, they may need
+	// to be negated or some such.
 	Matrix3 rotateX(1,0,0,0,cos(pitch),-sin(pitch),0,sin(pitch),cos(pitch));
 	Matrix3 rotateY(cos(-yaw),0,-sin(-yaw),0,1,0,-sin(-yaw),0,cos(-yaw));
 	Matrix3 rotateZ(cos(roll),-sin(roll),0,sin(roll),cos(roll),0,0,0,1);
@@ -46,7 +48,7 @@ Vector3 SceneNodeManager::rollPitchYawToDirection(Real roll, Real pitch,
 	
 	//std::cout << "j" << roll << "," << pitch << "," << yaw << "\n";
 	
-	direction = rotateY * Vector3::UNIT_Z;
+	direction = rotateY * rotateX * rotateZ * Vector3::UNIT_Z;
 	
 	return direction;
 }

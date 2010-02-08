@@ -227,7 +227,7 @@ void Swarm::shootAtShip()
 		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
-		Vector3 b = *e->getPosition() + (50 *e->getDirection());
+		Vector3 b = *e->getPosition() + (10 *e->getDirection());
 		
 		lines->addLine(e->getPosition(),&b);
 		

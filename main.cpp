@@ -67,18 +67,24 @@ Main::Main() {
 
     // Collision Manager
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+	if(collabInfo->getGameRole() == PILOT) {
+    	collisionMgr->addMesh(shipEntity);
+    }
 
     // User Input
     inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
-    
-    // Pilot
+
+    // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
-        collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, collisionMgr );
         gameLoop->addTickable(pilotControls);
-        gameLoop->addTickable(flying);
+    }
+    
+    // Flying!!!!
+    if(collabInfo->getGameRole() == PILOT) {
+    	flying = new Flying( pilotControls, shipState, collisionMgr,true);
+    	gameLoop->addTickable(flying);
     }
     
     // Navigator Controls
