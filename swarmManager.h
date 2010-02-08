@@ -10,6 +10,7 @@
 #include "mapManager.h"
 #include "shipState.h"
 #include "collisionManager.h"
+#include "lines.h"
 
 using namespace Ogre;
 using namespace std;
@@ -25,7 +26,7 @@ class SwarmManager : public ITickable
         std::vector<Swarm*> activeSwarms;
         ShipState *shipState;
         CollisionManager *colMgr;
-
+		Lines *lines;
         int id;
 
         int dynSwarmSize;

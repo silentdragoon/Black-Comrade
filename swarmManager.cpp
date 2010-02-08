@@ -12,7 +12,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     dynSwarmSize(0),
     swarmTick(0),
     shipState(shipState),
-    colMgr(colMgr)
+    colMgr(colMgr),
+    lines(new Lines(sceneMgr))
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -48,7 +49,8 @@ SwarmManager::~SwarmManager()
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
-    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr);
+    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr,
+    	lines);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -118,5 +120,7 @@ void SwarmManager::tick()
             s->tick();
         }
     }
+    
+    lines->clearWithoutUpdate();
 }
 

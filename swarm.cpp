@@ -2,9 +2,10 @@
 #include "swarm.h"
 #include "const.h"
 
+
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr)
+	SceneNodeManager *sceneNodeMgr, Lines *lines)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -16,6 +17,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, state(SS_PATROL)
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
+    , lines(lines)
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
@@ -67,9 +69,9 @@ void Swarm::tick()
 {
 	removeDeadEnemies();
 
-	//if(isShipInSight()) {
-		//state = SS_ATTACK;
-	//}
+	if(isShipInSight()) {
+		state = SS_ATTACK;
+	}
 	
 	// Change speed?
 	switch(state) {
@@ -85,7 +87,7 @@ void Swarm::tick()
 	    updateEnemyLocations();
     }
 	
-	//shootAtShip();
+	shootAtShip();
 }
 
 Swarm::~Swarm()
@@ -215,7 +217,7 @@ void Swarm::shootAtShip()
 {
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
-	
+
 	i = members.begin();
 	if(i != members.end()) {
 		e = *i;
@@ -224,6 +226,10 @@ void Swarm::shootAtShip()
 		
 		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
+		
+		Vector3 b = *e->getPosition() + (50 *e->getDirection());
+		
+		lines->addLine(e->getPosition(),&b);
 		
 		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
 			std::cout << angleTo << std::endl;
