@@ -40,6 +40,7 @@ void Flying::updateAngels()
 
 void Flying::updatePosition()
 {
+    //Collision col = colMgr->collideWithMapPiece((Entity*)shipState->shipSceneNode->getAttachedObject(1) );
     Collision col = colMgr->shipMapCollision(position);
     if(col.isCollided)
     {

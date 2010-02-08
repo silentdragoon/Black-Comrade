@@ -30,7 +30,7 @@ public:
     //stanard way to check map dist. Checks all surrounding pieces.
     dFloat getRCMapDist( Vector3 *pos, Vector3 *direction );
 
-    //checks a map piece up to a specified dist. If there hsnt been a intersection 1.2*dist is returned.
+    //checks a/one map piece up to a specified dist. If there hsnt been a intersection 1.2*dist is returned.
     dFloat getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat dist, Entity* e);
 
     //will add a convex hull for that entity. Will be about the origin, so any ray Cast option to it will need to use the transformed version.
@@ -38,6 +38,9 @@ public:
     
     //needs to be used for dynamic pieces
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* entity);
+    
+    //function for checking if a dynamic entitiy has collided with the map piece its in
+    Collision collideWithMapPiece( Entity *e);
     
     //working for now. may need to be looked at later
     Collision shipMapCollision(Vector3 *shipPos);

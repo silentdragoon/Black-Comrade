@@ -56,6 +56,21 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
     //return -1;
 }
 
+Collision CollisionManager::collideWithMapPiece( Entity *e )
+{
+    dFloat contacts[16] = {0.0f};
+    dFloat normals[16] = {0.0f};
+    
+    dFloat penetration[16] = {0.0f};
+    Collision col = Collision(false,normals,contacts,penetration);
+    Vector3 pos = e->getParentSceneNode()->_getFullTransform().getTrans();
+    Entity* mapEn = mp->getEntity( &pos );
+    //checks if the two entities have collided
+    if( e != NULL) col = cd->mapCollision( e, mapEn );
+    return col;
+}
+    
+
 /* dFloat CollisionManager::getRCDistBetweenPoints( Vector3 *start, Vector3 *end, Entity *collideAgainst )
 {
     return cd->rayCollideDist( start, end, collideAgainst);
@@ -90,7 +105,7 @@ Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
     Entity* e = mp->getEntity( shipPos );
     //NOTE: uses asumed name for ship
     //checks if the two entities have collided
-    if( e != NULL) col = cd->isCollision( sceneMgr->getEntity("ourship"), e );
+    if( e != NULL) col = cd->mapCollision( sceneMgr->getEntity("ourship"), e );
     return col;
 }
 
