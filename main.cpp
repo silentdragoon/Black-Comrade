@@ -157,7 +157,7 @@ Main::Main() {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, collisionMgr);
     }
 
-	//gameLoop->addTickable(swarmMgr);
+	gameLoop->addTickable(swarmMgr);
 
     gameLoop->addTickable(networkingManager);
 
