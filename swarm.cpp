@@ -232,7 +232,6 @@ void Swarm::shootAtShip()
 		lines->addLine(e->getPosition(),&b);
 		
 		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
-			std::cout << angleTo << std::endl;
 			if(angleTo < Const::ENEMY_SIGHT_ANGLE) {
 				if(e->fireDelay <= 0) {
 					e->fireDelay = 50;
