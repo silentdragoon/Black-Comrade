@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<GUILayout>
+
+    <Window Type="DefaultWindow" Name="root">
+    
+        <!--<Window Type="TaharezLook/FrameWindow" Name="testWindow">
+            <Property Name="UnifiedPosition" Value="{ {0.1, 0}, {0.1, 0} }" />
+            <Property Name="UnifiedSize" Value="{ {0.2, 0}, {0.1, 0} }" />
+            <Property Name="Text" Value="Hello World!" />
+        </Window>-->
+        
+        <Window Type="BlackComrade/CrossHair" name="crossWindow">
+            <Property Name="UnifiedPosition" Value="{ {0.5, 0}, {0.5, 0} }" />
+            <!--<Property Name="Image" Value="set:crosshair image:cross" />-->
+        </Window>
+        
+    </Window>
+    
+</GUILayout>
+

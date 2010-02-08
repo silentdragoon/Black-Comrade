@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<Imageset Name="BlackComrade" Imagefile="crosssmall.png" NativeHorzRes="50" NativeVertRes="50" AutoScaled="false">
+	<Image Name="cross" XPos="0" YPos="0" Width="50" Height="50" />
+</Imageset>
