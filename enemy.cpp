@@ -4,6 +4,7 @@ Enemy::Enemy(int health, int id) :
     health(health),
     fire(false),
     fireDelay(0),
+    id(id),
     position(new Vector3())
 {}
 

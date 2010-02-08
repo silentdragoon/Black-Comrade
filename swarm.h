@@ -29,6 +29,7 @@ class Swarm
     	Real yaw;
     	RayQuery *rRayQuery;
     	float speed;
+        int enemyidcounter;
     	SwarmState state;
     	ShipState *shipState;
     

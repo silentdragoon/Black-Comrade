@@ -19,13 +19,17 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 {
 	rRayQuery = new RayQuery( sceneMgr );
 
+    enemyidcounter = 0;
+
     for(int i=0;i<(size);i++) {
         string ename = "follower";
         std::stringstream out;
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(1);
+        Enemy *e = new Enemy(1,enemyidcounter);
+        enemyidcounter++;
+
         e->setPosition(location);
 
         sceneNodeMgr->createNode(e);
