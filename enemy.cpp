@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-Enemy::Enemy(int health) :
+Enemy::Enemy(int health, int id) :
     health(health),
     fire(false),
     fireDelay(0),

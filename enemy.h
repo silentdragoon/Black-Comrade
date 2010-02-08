@@ -19,6 +19,7 @@ class Enemy : public IDrawable
         Real pitch;
         Real yaw;
         SceneManager *sceneMgr;
+        int id;
         
     public:
     	int health;
@@ -26,7 +27,7 @@ class Enemy : public IDrawable
     	int fireDelay;
     
         SceneNode *node;
-        Enemy(int health);
+        Enemy(int health, int id);
 
         Vector3 getDirection();
 
