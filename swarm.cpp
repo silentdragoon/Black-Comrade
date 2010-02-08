@@ -38,6 +38,20 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     }
 }
 
+Swarm::Swarm(std::vector<Enemy*> members, SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr)
+    : members(members)
+    , sceneMgr(sceneMgr)
+    , sceneNodeMgr(sceneNodeMgr)
+{
+    enemyidcounter = -1;
+    Enemy *e;
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+    for(std::vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
+        e = *it;
+        sceneNodeMgr->createNode(e);
+    }
+}
+
 std::vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
     std::vector<Enemy*> out = std::vector<Enemy*>();
@@ -53,9 +67,9 @@ void Swarm::tick()
 {
 	removeDeadEnemies();
 
-	if(isShipInSight()) {
-		state = SS_ATTACK;
-	}
+	//if(isShipInSight()) {
+		//state = SS_ATTACK;
+	//}
 	
 	// Change speed?
 	switch(state) {
@@ -66,15 +80,16 @@ void Swarm::tick()
 			speed = Const::ENEMY_PATROL_SPEED;
 	}
 
-	updateSwarmLocation();
-	updateEnemyLocations();
+	if (!(enemyidcounter < 0)) {
+        updateSwarmLocation();
+	    updateEnemyLocations();
+    }
 	
-	shootAtShip();
+	//shootAtShip();
 }
 
 Swarm::~Swarm()
-{
-}
+{}
 
 Vector3 Swarm::getAverageAlignment()
 {

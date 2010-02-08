@@ -126,6 +126,7 @@ void BulletManager::handleGun(GunState *gun) {
 
 void BulletManager::tick()
 {
+
     // Shoot if neccessary
     handleGun(pilotGunState);
     handleGun(engineerGunState);
@@ -135,11 +136,12 @@ void BulletManager::tick()
     
     // Loop for all enemies
     if(swarmMgr) {
+
 	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
 	    Enemy *e;
 	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
 	        e = *it;
-	        
+
 	        if(e->fire) {
 	            fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
 	        }
