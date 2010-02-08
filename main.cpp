@@ -24,7 +24,7 @@ Main::Main() {
 
     // Game Loop
     gameLoop = new StateUpdate();
-    root->addFrameListener(gameLoop);
+    //root->addFrameListener(gameLoop);
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
@@ -191,7 +191,9 @@ Main::Main() {
     
     // Start Rendering Loop
     
-    root->startRendering();
+    gameLoop->startLoop();
+    
+    //root->startRendering();
     networkingManager->stopNetworking();
 }
 
