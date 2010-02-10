@@ -8,6 +8,7 @@ StateUpdate::StateUpdate()
     : timeSinceLastEvent(0)
     , count(0)
     , running(true)
+    ,latestSlack(0)
 {}
 
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
@@ -49,7 +50,7 @@ void StateUpdate::startLoop()
     	looptime = newtime - oldtime;
     	sleep = (long)(1000 * TICK_PERIOD) - looptime;
     	sleep = (sleep > 0) ? sleep : 0;
-    	std::cout << sleep << std::endl;
+    	latestSlack = sleep;
     	while(timer.getMilliseconds() < newtime + sleep);
     }
 }
@@ -57,6 +58,11 @@ void StateUpdate::startLoop()
 void StateUpdate::addTickable(ITickable* t)
 {
     tickables.push_back(t);
+}
+
+long StateUpdate::getSlack()
+{
+    return latestSlack;
 }
 
 // Called once every TICK_PERIOD seconds
