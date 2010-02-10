@@ -297,19 +297,19 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     camera->setFarClipDistance(1500);
     
     // Lighting
-    //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
-    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
+    sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
+    sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
-    //ColourValue fadeColour(0.1,0.1,0.1);
-    //sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    ColourValue fadeColour(0.1,0.1,0.1);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(1.0,1.0,0.7);
-    sp->setSpecularColour(0.2,0.2,0.7);
+    sp->setDiffuseColour(0.4,0.4,0.7);
+    sp->setSpecularColour(0.4,0.4,0.7);
     sp->setDirection(Vector3(0,0,1));
-    //sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
+    sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
 
     shipSceneNode->attachObject(sp);
     

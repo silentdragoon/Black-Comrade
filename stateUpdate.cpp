@@ -49,7 +49,7 @@ void StateUpdate::startLoop()
     	newtime = timer.getMilliseconds();
     	looptime = newtime - oldtime;
     	sleep = (long)(1000 * TICK_PERIOD) - looptime;
-    	sleep = (sleep > 0) ? sleep : 0;
+    	//sleep = (sleep > 0) ? sleep : 0;
     	latestSlack = sleep;
     	while(timer.getMilliseconds() < newtime + sleep);
     }
