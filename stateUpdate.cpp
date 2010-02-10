@@ -13,16 +13,45 @@ StateUpdate::StateUpdate()
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
 {   
     if(running) {
+
         timeSinceLastEvent += evt.timeSinceLastFrame;
         
         if(timeSinceLastEvent > TICK_PERIOD) {
+        	std::cout << (timeSinceLastEvent - TICK_PERIOD) << std::endl;
             timeSinceLastEvent = 0;
-            
             tick();
         }
     }
     
     return running;
+}
+
+void StateUpdate::startLoop()
+{
+	WindowEventUtilities weu = WindowEventUtilities();
+    Root *root = Root::getSingletonPtr();
+    
+    Timer timer;
+    
+    long oldtime;
+    long newtime;
+    long looptime;
+    long sleep;
+    
+    bool loop = true;
+    while(loop) {
+        //std::cout << timer.getMilliseconds() - oldtime << std::endl;
+    	oldtime = timer.getMilliseconds();
+    	loop = this->tick();
+    	weu.messagePump();
+    	root->renderOneFrame();
+    	newtime = timer.getMilliseconds();
+    	looptime = newtime - oldtime;
+    	sleep = (long)(1000 * TICK_PERIOD) - looptime;
+    	sleep = (sleep > 0) ? sleep : 0;
+    	std::cout << sleep << std::endl;
+    	while(timer.getMilliseconds() < newtime + sleep);
+    }
 }
 
 void StateUpdate::addTickable(ITickable* t)
@@ -31,7 +60,7 @@ void StateUpdate::addTickable(ITickable* t)
 }
 
 // Called once every TICK_PERIOD seconds
-void StateUpdate::tick() 
+bool StateUpdate::tick() 
 {
 
 
@@ -48,4 +77,5 @@ void StateUpdate::tick()
         t->tick();
     }
 
+	return running;
 }
