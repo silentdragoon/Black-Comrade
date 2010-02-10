@@ -34,6 +34,7 @@
 #include "navigatorControls.h"
 #include "engineerControls.h"
 #include "guiManager.h"
+#include "guiStatusUpdater.h"
 
 //include networking stuff
 #include <string.h>
@@ -85,6 +86,7 @@ private:
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
     GuiManager *guiMgr;
+    GuiStatusUpdater *guiStatusUpdater;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

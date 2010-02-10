@@ -35,8 +35,8 @@ GuiManager::GuiManager()
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("TaharezLook/Editbox","status"));
     guiRoot->addChildWindow(status);
     status->setText("ARGHGHG");
-    status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.1f,0)));
-    status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.1f,0)));
+    status->setSize(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
+    status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
 }
 
 GuiManager::~GuiManager(){}
