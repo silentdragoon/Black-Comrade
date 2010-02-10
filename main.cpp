@@ -50,7 +50,7 @@ Main::Main() {
     
     // Game Loop
     gameLoop = new StateUpdate();
-    root->addFrameListener(gameLoop);
+    //root->addFrameListener(gameLoop);
     
     // User Input
     inputState = new InputState(window, false, this,true,true);
@@ -189,7 +189,8 @@ Main::Main() {
 
     // Start Rendering Loop
     
-    root->startRendering();
+    gameLoop->startLoop();
+    //root->startRendering();
     networkingManager->stopNetworking();
 }
 
