@@ -19,6 +19,7 @@ class StateUpdate : public FrameListener{
 private:
     Real timeSinceLastEvent;
     int count;
+    long latestSlack;
     
     std::vector <ITickable*> tickables;
    
@@ -38,6 +39,8 @@ public:
     bool tick();
     
     void startLoop();
+    
+    long getSlack();
 };
 
 #endif
