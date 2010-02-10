@@ -220,7 +220,7 @@ void Swarm::shootAtShip()
 			if(e->fireDelay <= 0) {
 				e->fireDelay = 50;
 				e->fire = true;
-				std::cout << "Bang!\n";
+				//std::cout << "Bang!\n";
 			}
 		}
 		
