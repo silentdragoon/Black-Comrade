@@ -4,9 +4,9 @@
 
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/CEGUIBase.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+//#include <CEGUI/CEGUI.h>
+//#include <CEGUI/CEGUIBase.h>
+//#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 //#include <CEGUI/CEGUIImageset.h>
 
 #include "networkingManager.h"
@@ -33,6 +33,7 @@
 #include "flying.h"
 #include "navigatorControls.h"
 #include "engineerControls.h"
+#include "guiManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -83,6 +84,7 @@ private:
     
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
+    GuiManager *guiMgr;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

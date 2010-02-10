@@ -185,34 +185,8 @@ Main::Main() {
 	// Last class to be added to the game loop
 
     // CEGUI Stuff
-    CEGUI::OgreRenderer &guiRenderer = CEGUI::OgreRenderer::bootstrapSystem();
+    guiMgr = new GuiManager();    
 
-    CEGUI::Imageset::setDefaultResourceGroup("imagesets");
-    CEGUI::Font::setDefaultResourceGroup("fonts");
-    CEGUI::Scheme::setDefaultResourceGroup("schemes");
-    CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
-    CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-    CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
-
-    CEGUI::XMLParser *parser = CEGUI::System::getSingleton().getXMLParser();
-    if(parser->isPropertyPresent("SchemaDefaultResourceGroup")) {
-        parser->setProperty("SchemaDefaultResourceGroup", "schemas");
-    }
-    
-    CEGUI::WindowManager *guiMgr = CEGUI::WindowManager::getSingletonPtr();
-
-    CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
-
-    CEGUI::Window *guiRoot = guiMgr->createWindow( "DefaultWindow", "root" );
-    CEGUI::System::getSingleton().setGUISheet( guiRoot );
-    
-    CEGUI::FrameWindow* fWnd = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow( "BlackComrade/CrossHair", "vaginasOnIce" ));
-    guiRoot->addChildWindow(fWnd);
-    fWnd->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0), CEGUI::UDim(0.5f,0)));
-
-    //adding the crosshair
-    //addCrossHair();
-    
     // Start Rendering Loop
     
     root->startRendering();

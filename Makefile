@@ -8,7 +8,7 @@ CFLAGS =
 
 OUTPUT = test
 
-SRCS = main.cpp stateUpdate.cpp shipState.cpp accelerationState.cpp motionState.cpp inputState.cpp pilotControls.cpp gunState.cpp audioState.cpp replicaConnection.cpp replicaObject.cpp ourReplicaManager.cpp networkingManager.cpp discoveryAgent.cpp mapManager.cpp rayQuery.cpp soundManager.cpp miniGameManager.cpp testMiniGame.cpp rect2D.cpp collaborationInfo.cpp lobby.cpp bullet.cpp bulletManager.cpp collisionDetection.cpp collisionManager.cpp collision.cpp gameStateMachine.cpp gameParameterMap.cpp waypoint.cpp printState.cpp enemy.cpp swarm.cpp swarmManager.cpp flying.cpp mapTile.cpp navigatorControls.cpp engineerControls.cpp lines.cpp DynamicLines.cpp DynamicRenderable.cpp
+SRCS = main.cpp stateUpdate.cpp shipState.cpp accelerationState.cpp motionState.cpp inputState.cpp pilotControls.cpp gunState.cpp audioState.cpp replicaConnection.cpp replicaObject.cpp ourReplicaManager.cpp networkingManager.cpp discoveryAgent.cpp mapManager.cpp rayQuery.cpp soundManager.cpp miniGameManager.cpp testMiniGame.cpp rect2D.cpp collaborationInfo.cpp lobby.cpp bullet.cpp bulletManager.cpp collisionDetection.cpp collisionManager.cpp collision.cpp gameStateMachine.cpp gameParameterMap.cpp waypoint.cpp printState.cpp enemy.cpp swarm.cpp swarmManager.cpp flying.cpp mapTile.cpp navigatorControls.cpp engineerControls.cpp lines.cpp DynamicLines.cpp DynamicRenderable.cpp guiManager.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

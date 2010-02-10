@@ -1,4 +1,3 @@
-
 #ifndef SHIP_STATE_H
 #define SHIP_STATE_H
 
