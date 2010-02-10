@@ -9,7 +9,7 @@ public:
 	#define PI 3.14159265
 
 	// TICK_PERIOD
-	#define TICK_PERIOD 0.01667
+	#define TICK_PERIOD 0.01
 	
 	// TODO: This does not work correctly, twice the clock period and
 	// twice the TICKSFORWARD does not result in the same movement :(
