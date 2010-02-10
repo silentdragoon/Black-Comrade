@@ -5,4 +5,5 @@
     <LookNFeel Filename="BlackComrade.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
+    <FalagardMapping WindowType="BlackComrade/FrameWindow"  TargetType="CEGUI/FrameWindow" Renderer="Falagard/FrameWindow"  LookNFeel="BlackComrade/FrameWindow" />
 </GUIScheme>

@@ -10,9 +10,11 @@ private:
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
     CEGUI::FrameWindow *crossHair;
+    CEGUI::Editbox *status;
 public:
     GuiManager();
     ~GuiManager();
+    void setStatus(std::string stat);
 };
 
 #endif

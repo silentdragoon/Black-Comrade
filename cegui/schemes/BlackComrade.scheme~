@@ -4,5 +4,5 @@
     <Font Filename="DejaVuSans-10.font" />
     <LookNFeel Filename="BlackComrade.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
-    <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="CEGUI/FrameWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
+    <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
 </GUIScheme>

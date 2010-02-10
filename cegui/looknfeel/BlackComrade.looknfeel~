@@ -8,15 +8,13 @@
                         <AbsoluteDim value="-25" />
                     </Dim>
                     <Dim type="TopEdge">
-                        <AbsoluteDim value="-15" />
+                        <AbsoluteDim value="-10" />
                     </Dim>
                     <Dim type="Width">
                     	<AbsoluteDim value="50" />
-                        <!--<ImageDim imageset="BlackComrade" image="cross" dimension="Width" />-->
                     </Dim>  
                     <Dim type="Height">
                     	<AbsoluteDim value="50" />
-                        <!--<ImageDim imageset="BlackComrade" image="cross" dimension="Height" />-->
                     </Dim>
                 </Area>
                 <Image imageset="BlackComrade" image="cross" />
@@ -40,4 +38,40 @@
         <StateImagery name="DisabledBackground">
         </StateImagery>
     </WidgetLook>
+    
+    <WidgetLook name="BlackComrade/FrameWindow">
+        <NamedArea name="ClientWithTitleWithFrame">
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+        </NamedArea>
+        <StateImagery name="ActiveWithTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+        </StateImagery>
+    </WidgetLook>
+    
 </Falagard>

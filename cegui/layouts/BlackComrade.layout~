@@ -10,7 +10,7 @@
         </Window>-->
         
         <Window Type="BlackComrade/CrossHair" name="crossWindow">
-            <Property Name="UnifiedPosition" Value="{ {0.475, 0}, {0.5, 0} }" />
+            <Property Name="UnifiedPosition" Value="{ {0.5, 0}, {0.5, 0} }" />
             <!--<Property Name="Image" Value="set:crosshair image:cross" />-->
         </Window>
         
