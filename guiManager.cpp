@@ -8,7 +8,7 @@ GuiManager::GuiManager()
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
     CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
     CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-    CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
+    //CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
 
     CEGUI::XMLParser *parser = CEGUI::System::getSingleton().getXMLParser();
     if(parser->isPropertyPresent("SchemaDefaultResourceGroup")) {
