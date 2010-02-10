@@ -198,10 +198,17 @@ Main::Main() {
     if(parser->isPropertyPresent("SchemaDefaultResourceGroup")) {
         parser->setProperty("SchemaDefaultResourceGroup", "schemas");
     }
+    
+    CEGUI::WindowManager *guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
-    CEGUI::Window *guiWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("BlackComrade.layout");
-    CEGUI::System::getSingleton().setGUISheet(guiWindow);
+
+    CEGUI::Window *guiRoot = guiMgr->createWindow( "DefaultWindow", "root" );
+    CEGUI::System::getSingleton().setGUISheet( guiRoot );
+    
+    CEGUI::FrameWindow* fWnd = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow( "BlackComrade/CrossHair", "vaginasOnIce" ));
+    guiRoot->addChildWindow(fWnd);
+    fWnd->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0), CEGUI::UDim(0.5f,0)));
 
     //adding the crosshair
     //addCrossHair();
