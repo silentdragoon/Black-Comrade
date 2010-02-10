@@ -11,6 +11,7 @@ private:
     CEGUI::Window *guiRoot;
     CEGUI::FrameWindow *crossHair;
     CEGUI::Editbox *status;
+    CEGUI::FrameWindow *minimap;
 public:
     GuiManager();
     ~GuiManager();

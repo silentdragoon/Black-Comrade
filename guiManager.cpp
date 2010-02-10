@@ -31,11 +31,16 @@ GuiManager::GuiManager()
     guiRoot->addChildWindow(crossHair);
     crossHair->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
 
-    // Add output window to screen
+    // Add status output window to screen
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/Editbox","status"));
     guiRoot->addChildWindow(status);
     status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
+
+    // Add minimap box to screen
+    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/Minimap","minimap"));
+    guiRoot->addChildWindow(minimap);
+    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7f,0),CEGUI::UDim(0.7f,0)));
 }
 
 GuiManager::~GuiManager(){}
