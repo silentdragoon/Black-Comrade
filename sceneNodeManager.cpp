@@ -62,6 +62,8 @@ Entity* SceneNodeManager::getEntity(IDrawable *object) {
 }
 
 SceneNode* SceneNodeManager::createNode(IDrawable *object) {
+    if (getNode(object) != NULL) return getNode(object);
+
     SceneNode *newNode;
     if (getNode(object->getParentObject()) == NULL) {
         newNode = sceneMgr->getRootSceneNode()->createChildSceneNode();

@@ -150,8 +150,14 @@ Main::Main() {
 
 	// TODO: start the enemies pointing towards the ship?
 	// Swarm Manager
-	swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-		shipState,collisionMgr);
+
+    if (collabInfo->getGameRole() == PILOT) {
+	    swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
+		    shipState,collisionMgr,networkingManager);
+    } else {
+        swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
+        	collisionMgr, networkingManager);
+    }
 	gameLoop->addTickable(swarmMgr);
 
         gameLoop->addTickable(networkingManager);

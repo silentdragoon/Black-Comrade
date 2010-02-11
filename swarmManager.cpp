@@ -3,7 +3,7 @@
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
 	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
-	CollisionManager* colMgr) :
+	CollisionManager* colMgr, NetworkingManager *networkingMgr) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -12,7 +12,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     dynSwarmSize(0),
     swarmTick(0),
     shipState(shipState),
-    colMgr(colMgr)
+    colMgr(colMgr),
+    networkingMgr(networkingMgr)
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -35,6 +36,21 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     
 }
 
+SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
+    CollisionManager* colMgr, NetworkingManager *networkingMgr) :
+    sceneMgr(sceneMgr),
+    sceneNodeMgr(sceneNodeMgr),
+    gamePM(gamePM),
+    mapMgr(0),
+    id(0),
+    dynSwarmSize(0),
+    swarmTick(0),
+    shipState(shipState),
+    colMgr(colMgr),
+    networkingMgr(networkingMgr)
+{
+    activeSwarms = std::vector<Swarm*>();
+}
 
 SwarmManager::~SwarmManager()
 {
@@ -72,8 +88,26 @@ std::vector<Enemy*> SwarmManager::getAllEnemies()
     return out;
 }
 
+void SwarmManager::updateRemoteSwarms() {
+    if (mapMgr == 0) {
+        std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
+        for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+            Enemy *enemy = (Enemy*) *it;
+        }
+        std::cout << replicatedEnemies.size() << std::endl;
+    } else {
+        std::vector<Enemy*> allEnemies = getAllEnemies();
+        for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
+            networkingMgr->replicate(*it);
+        }
+    }
+}
+
 void SwarmManager::tick() 
 {
+    updateRemoteSwarms();
+    if (mapMgr == 0) return;
+
     int sp = gamePM->getParameter("SPAWN");
 
 
