@@ -50,13 +50,13 @@
                         <AbsoluteDim value="0" />
                     </Dim>
                     <Dim type="Width">
-                    	<AbsoluteDim value="1200" />
+                    	<AbsoluteDim value="30" />
                     </Dim>  
                     <Dim type="Height">
-                    	<AbsoluteDim value="1200" />
+                    	<AbsoluteDim value="30" />
                     </Dim>
                 </Area>
-                <Image imageset="Minimap" image="map" />
+                <Image imageset="Minimap" image="map-1-2-3-4" />
                 <VertFormat type="centre" />
             </ImageryComponent>
         </ImagerySection>

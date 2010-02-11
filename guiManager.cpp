@@ -21,6 +21,7 @@ GuiManager::GuiManager()
     //CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
+    CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
@@ -45,21 +46,21 @@ GuiManager::GuiManager()
     CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
     ic.setImage("Minimap","mapTile-1-2-3-4");
 
-    CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
-    ic2.setImage("Minimap","mapTile-1-2-3");
+    //CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
+    //ic2.setImage("Minimap","mapTile-1-2-3");
 
     is.addImageryComponent(ic);
-    is.addImageryComponent(ic2);
+    //is.addImageryComponent(ic2);
 
     CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
     lookFeel.addStateSpecification(si);
 
-    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(1);
+    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(10000000);
     CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","true");
     
     CEGUI::ComponentArea ca = CEGUI::ComponentArea();
-    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_X_POSITION);
-    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_Y_POSITION);
+    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_X_POSITION);
+    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_Y_POSITION);
     ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_WIDTH);
     ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_HEIGHT);
     
@@ -69,11 +70,13 @@ GuiManager::GuiManager()
     si.addLayer(ls);
 
     CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
+    CEGUI::WidgetLookManager::getSingleton().writeWidgetLookToStream("fullMiniMap",std::cout);
     
-    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/Minimap","efegfe"));
-    minimap->setLookNFeel("fullMiniMap");
+    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","efegfe"));
+    minimap->setLookNFeel(lookFeel.getName());
     guiRoot->addChildWindow(minimap);
-    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7f,0),CEGUI::UDim(0.7f,0)));
+    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
+    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f,0),CEGUI::UDim(0.2f,0)));
 }
 
 GuiManager::~GuiManager(){}
