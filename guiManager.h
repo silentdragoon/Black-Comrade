@@ -16,6 +16,7 @@ public:
     GuiManager();
     ~GuiManager();
     void setStatus(std::string stat);
+    void moveMap();
 };
 
 #endif

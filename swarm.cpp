@@ -24,6 +24,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         ename += out.str();
 
         Entity *follow = sceneMgr->createEntity(ename, "squid.mesh");
+        follow->setCastShadows(true);
         SceneNode *followSN = 
         	sceneMgr->getRootSceneNode()->createChildSceneNode();
         followSN->attachObject(follow);

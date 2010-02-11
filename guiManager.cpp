@@ -38,7 +38,24 @@ GuiManager::GuiManager()
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
 
     // Add minimap box to screen
-    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/Minimap","minimap"));
+
+    /*CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
+    CEGUI::ImagerySection is = CEGUI::ImagerySection(); 
+    lookFeel.addImagerySection(is);
+
+    CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
+    ic.setImage("Minimap","mapTile-1-2-3-4");
+
+    CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
+    ic2.setImage("Minimap","mapTile-1-2-3");
+
+    is.addImageryComponent(ic);
+    is.addImageryComponent(ic2);
+
+    CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);*/
+
+    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/Minimap","efegfe"));
+    //minimap->setLookNFeel("fullMiniMap");
     guiRoot->addChildWindow(minimap);
     minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7f,0),CEGUI::UDim(0.7f,0)));
 }
@@ -47,4 +64,10 @@ GuiManager::~GuiManager(){}
 
 void GuiManager::setStatus(std::string stat) {
     status->setText(stat);
+}
+
+void GuiManager::moveMap()
+{
+
+    minimap->setPosition(minimap->getPosition() + CEGUI::UVector2(CEGUI::UDim(-0.0001f,0),CEGUI::UDim(-0.0001f,0)));
 }

@@ -14,4 +14,6 @@ void GuiStatusUpdater::tick() {
     out << "Slack: " << slack << "ms";
     s = out.str();
     guiMgr->setStatus(s);
+
+    guiMgr->moveMap();
 }
