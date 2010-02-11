@@ -4,6 +4,7 @@
 #include "ReplicaManager3.h"
 #include "shipState.h"
 #include "gunState.h"
+#include "enemy.h"
 #include "gameStateMachine.h"
 
 using namespace RakNet;

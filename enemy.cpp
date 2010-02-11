@@ -7,6 +7,14 @@ Enemy::Enemy(int health, int id) :
     position(new Vector3())
 {}
 
+Enemy::Enemy() :
+    health(100),
+    fire(false),
+    fireDelay(0),
+    position(new Vector3()),
+    id(-1)
+{}
+
 Enemy::~Enemy()
 {}
 
@@ -48,9 +56,9 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
 
 RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
-    serializeParameters->outputBitstream[0].Write(getPosition()->x);
-    serializeParameters->outputBitstream[0].Write(getPosition()->y);
-    serializeParameters->outputBitstream[0].Write(getPosition()->z);
+    serializeParameters->outputBitstream[0].Write(position->x);
+    serializeParameters->outputBitstream[0].Write(position->y);
+    serializeParameters->outputBitstream[0].Write(position->z);
     serializeParameters->outputBitstream[0].Write(roll);
     serializeParameters->outputBitstream[0].Write(pitch);
     serializeParameters->outputBitstream[0].Write(yaw);

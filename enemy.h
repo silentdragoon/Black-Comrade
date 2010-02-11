@@ -29,6 +29,7 @@ class Enemy : public IDrawable, public ReplicaObject
     
         SceneNode *node;
         Enemy(int health, int id);
+        Enemy();
 
         Vector3 getDirection();
 
