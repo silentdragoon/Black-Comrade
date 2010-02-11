@@ -96,7 +96,6 @@ void SwarmManager::updateRemoteSwarms() {
             sceneNodeMgr->createNode(enemy);
             if (enemy->health < 0) {
                 sceneNodeMgr->deleteNode(enemy);
-                delete(enemy);
             }
         }
     } else {
