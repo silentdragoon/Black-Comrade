@@ -58,6 +58,8 @@ public:
 
     std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
     std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
+    
+    void makeConPieces( int x, int y );
 
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
 };

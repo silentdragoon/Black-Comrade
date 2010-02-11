@@ -214,6 +214,8 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
     mts[x][y] = m;
 }
 
+
+
 std::vector<Entity*> MapManager::getMapPieces()
 {
     return mapEntities;
@@ -333,10 +335,30 @@ void MapManager::setSpawnPoints()
                     mts[x][y]->setAdjacent(c,mts[x-1][y]);
                 }
             }
-
             mts[x][y]->assignSpawnPoints(places);
+            
+            makeConPieces( x, y );
         }
     }
+}
+
+void MapManager::makeConPieces( int x, int y )
+{
+    MapTile* mt = mts[x][y];
+    if(mt->getAdjacent(2) != NULL)
+    {
+        /* SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+        string name = "conPiece";
+        std::stringstream out;
+        out << "-" << x << "-" << y << "-2";
+        name += out.str();
+        Entity *e = sceneManager->createEntity(name, "enemy.mesh");
+        node->attachObject(e);
+        //needs Tuning
+        Vector3 pos(x * Const::TILE_SIZE+600,0 , y * Const::TILE_SIZE+300);
+        node->setPosition(pos); */
+    }
+    if(mt->getAdjacent(3) != NULL);
 }
 
 std::vector<Vector3*> MapManager::getInitialSpawnPoints()
