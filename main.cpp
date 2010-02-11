@@ -19,7 +19,7 @@ Main::Main() {
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
     window = root->initialise(true, collabInfo->getGameRoleString());
-    sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
+    //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
 
     configResources();
     
@@ -298,7 +298,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     camera->setFarClipDistance(1500);
     
     // Lighting
-    sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
+    //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
     
     // Add some sexy fog
     ColourValue fadeColour(0.1,0.1,0.1);
