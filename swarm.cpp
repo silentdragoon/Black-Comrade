@@ -117,12 +117,14 @@ void Swarm::removeDeadEnemies()
    
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
-        if(e->health <= 0) {
+        if(e->health < 0) {
             sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));
             size--;
         	std::cout << "Remove\n";
+        } else if (e->health == 0) {
+            e->health = -1;
         }
     }
 }

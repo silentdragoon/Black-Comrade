@@ -94,8 +94,10 @@ void SwarmManager::updateRemoteSwarms() {
         for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
             Enemy *enemy = (Enemy*) *it;
             sceneNodeMgr->createNode(enemy);
+            if (enemy->health < 0) {
+                sceneNodeMgr->deleteNode(enemy);
+            }
         }
-        std::cout << replicatedEnemies.size() << std::endl;
     } else {
         std::vector<Enemy*> allEnemies = getAllEnemies();
         for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
