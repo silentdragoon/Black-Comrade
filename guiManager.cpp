@@ -38,9 +38,8 @@ GuiManager::GuiManager()
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
 
     // Add minimap box to screen
-
-    /*CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
-    CEGUI::ImagerySection is = CEGUI::ImagerySection(); 
+    CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
+    CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery"); 
     lookFeel.addImagerySection(is);
 
     CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
@@ -52,10 +51,23 @@ GuiManager::GuiManager()
     is.addImageryComponent(ic);
     is.addImageryComponent(ic2);
 
-    CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);*/
+    CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
+    lookFeel.addStateSpecification(si);
 
+    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(1);
+    CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","true");
+    
+    CEGUI::ComponentArea ca = CEGUI::ComponentArea();
+    //ca.left = CEGUI::Dimension(
+    
+    
+    ls.addSectionSpecification(ss);
+    si.addLayer(ls);
+
+    CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
+    
     minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/Minimap","efegfe"));
-    //minimap->setLookNFeel("fullMiniMap");
+    minimap->setLookNFeel("fullMiniMap");
     guiRoot->addChildWindow(minimap);
     minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7f,0),CEGUI::UDim(0.7f,0)));
 }
