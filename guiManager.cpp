@@ -58,8 +58,12 @@ GuiManager::GuiManager()
     CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","true");
     
     CEGUI::ComponentArea ca = CEGUI::ComponentArea();
-    //ca.left = CEGUI::Dimension(
+    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_X_POSITION);
+    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_Y_POSITION);
+    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_WIDTH);
+    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_HEIGHT);
     
+    ic.setImagePropertySource(ca.getAreaPropertySource());
     
     ls.addSectionSpecification(ss);
     si.addLayer(ls);
