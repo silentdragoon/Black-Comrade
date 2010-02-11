@@ -7,11 +7,12 @@
 #include <math.h>
 
 #include "IDrawable.h"
+#include "replicaObject.h"
 
 using namespace Ogre;
 using namespace std;
 
-class Enemy : public IDrawable
+class Enemy : public IDrawable, public ReplicaObject
 {
     private:
         Vector3 *position;
@@ -43,6 +44,10 @@ class Enemy : public IDrawable
         int getHealth();
 
         ~Enemy();
+
+        virtual RakNet::RakString GetName(void) const;
+        virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
+        virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
 };
 
 #endif
