@@ -4,7 +4,10 @@ Enemy::Enemy(int health, int id) :
     health(health),
     fire(false),
     fireDelay(0),
-    position(new Vector3())
+    position(new Vector3()),
+    yaw(0),
+    pitch(0),
+    roll(0)
 {}
 
 Enemy::Enemy() :
@@ -12,7 +15,10 @@ Enemy::Enemy() :
     fire(false),
     fireDelay(0),
     position(new Vector3()),
-    id(-1)
+    id(-1),
+    yaw(0),
+    pitch(0),
+    roll(0)
 {}
 
 Enemy::~Enemy()
