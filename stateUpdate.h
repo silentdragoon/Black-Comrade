@@ -21,7 +21,7 @@ private:
     int count;
     long latestSlack;
     
-    std::vector <ITickable*> tickables;
+    std::map <ITickable*,string> tickables;
    
 public:
     
@@ -29,7 +29,7 @@ public:
     
     StateUpdate();
     
-    void addTickable(ITickable* t); 
+    void addTickable(ITickable* t,string n); 
     
     bool frameStarted (const FrameEvent &evt) {}
     bool frameRenderingQueued (const FrameEvent &evt);

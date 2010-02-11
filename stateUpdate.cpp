@@ -36,7 +36,9 @@ void StateUpdate::startLoop()
     
     long oldtime;
     long newtime;
+    long renderTime;
     long looptime;
+    long render;
     long sleep;
     
     bool loop = true;
@@ -45,8 +47,11 @@ void StateUpdate::startLoop()
     	oldtime = timer.getMilliseconds();
     	loop = this->tick();
     	weu.messagePump();
+        renderTime = timer.getMilliseconds();
     	root->renderOneFrame();
     	newtime = timer.getMilliseconds();
+        render = newtime - renderTime;
+        //std::cout << "Rendertime: " << render << std::endl;
     	looptime = newtime - oldtime;
     	sleep = (long)(1000 * TICK_PERIOD) - looptime;
     	//sleep = (sleep > 0) ? sleep : 0;
@@ -55,9 +60,9 @@ void StateUpdate::startLoop()
     }
 }
 
-void StateUpdate::addTickable(ITickable* t)
+void StateUpdate::addTickable(ITickable* t, string name)
 {
-    tickables.push_back(t);
+    tickables.insert(pair<ITickable*,string>(t,name));
 }
 
 long StateUpdate::getSlack()
@@ -68,19 +73,24 @@ long StateUpdate::getSlack()
 // Called once every TICK_PERIOD seconds
 bool StateUpdate::tick() 
 {
-
+    Timer timer;
 
     // std::cout << "Tick " << ++count << std::endl;
-    std::vector<ITickable*>::iterator i;
+    std::map<ITickable*,string>::iterator i;
     ITickable *t;
-
+    string n;    
     
-    
-    for(i = tickables.begin(); i != tickables.end(); ++i) {
+    for(i = tickables.begin(); i != tickables.end(); i++) {
         if (running == false) break;
         //std::cout << "Tick " << ++count << std::endl;
-        t = *i;
+        t = (*i).first;
+        n = (*i).second;
+        //std::cout << n << ": ";
+        long t1 = timer.getMilliseconds();
         t->tick();
+        long t2 = timer.getMilliseconds();
+        long ticktime = t2-t1;
+        //std::cout << ticktime << "\n";
     }
 
 	return running;

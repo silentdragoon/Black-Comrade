@@ -19,6 +19,7 @@ Main::Main() {
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
     window = root->initialise(true, collabInfo->getGameRoleString());
+    sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
 
     configResources();
     
@@ -54,7 +55,7 @@ Main::Main() {
     
     // User Input
     inputState = new InputState(window, false, this,true,true);
-    gameLoop->addTickable(inputState);
+    gameLoop->addTickable(inputState,"inputState");
     
     // Pilot --- Flying 1.0 ---
     // if(collabInfo->getGameRole() == PILOT) {
@@ -79,27 +80,27 @@ Main::Main() {
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
-    gameLoop->addTickable(shipState);
+    gameLoop->addTickable(shipState,"shipState");
     
     // pilot new Flying
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
         flying = new Flying( pilotControls, shipState, collisionMgr );
-        gameLoop->addTickable(pilotControls);
-        gameLoop->addTickable(flying);
+        gameLoop->addTickable(pilotControls,"pilotControls");
+        gameLoop->addTickable(flying,"flying");
     }
     
     // Navigator Controls
     if(collabInfo->getGameRole() == NAVIGATOR) {
 	    navigatorControls = new NavigatorControls(inputState,camera);
-	    gameLoop->addTickable(navigatorControls);
+	    gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
     
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
 	    engineerControls = new EngineerControls(inputState,camera);
-	    gameLoop->addTickable(engineerControls);
+	    gameLoop->addTickable(engineerControls,"engineerControls");
     }
 
 	// GameState
@@ -112,12 +113,12 @@ Main::Main() {
     		(GameStateMachine*) networkingManager->
     			getReplica("GameStateMachine",true);
     }
-	gameLoop->addTickable(gameStateMachine);
+	gameLoop->addTickable(gameStateMachine,"gameStateMachine");
 	gameParameterMap = new GameParameterMap(gameStateMachine);
 
 	// Print Game State changes
 	printState = new PrintState(gameStateMachine);
-	gameLoop->addTickable(printState);
+	gameLoop->addTickable(printState,"printState");
 
 	// Pilot Gun State
 	if(collabInfo->getGameRole() == PILOT) {
@@ -127,19 +128,19 @@ Main::Main() {
     	pilotGunState = (GunState*) networkingManager->
     		getReplica("PilotGunState",true);
     }
-    gameLoop->addTickable(pilotGunState);
+    gameLoop->addTickable(pilotGunState,"pilotGunState");
     
     // Navigator Gun State
 	if(collabInfo->getGameRole() == NAVIGATOR) {
 	    navigatorGunState = new GunState(navigatorControls,collabInfo->getGameRole());
 	    networkingManager->replicate(navigatorGunState);
-	    gameLoop->addTickable(navigatorGunState);
+	    gameLoop->addTickable(navigatorGunState,"navigatorGunState");
 	} else {
     	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
     	    navigatorGunState = (GunState*) networkingManager->
     	        getReplica("NavigatorGunState",true);
     	        std::cout << "Got nav gun from net" << std::endl;
-    	    gameLoop->addTickable(navigatorGunState);
+    	    gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     	}
     }
     
@@ -147,13 +148,13 @@ Main::Main() {
 	if(collabInfo->getGameRole() == ENGINEER) {
 	    engineerGunState = new GunState(engineerControls,collabInfo->getGameRole());
 	    networkingManager->replicate(engineerGunState);
-	    gameLoop->addTickable(engineerGunState);
+	    gameLoop->addTickable(engineerGunState,"engineerGunState");
 	} else {
     	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
     	    engineerGunState = (GunState*) networkingManager->
     		    getReplica("EngineerGunState",true);
     		    std::cout << "Got eng gun from net" << std::endl;
-    		gameLoop->addTickable(engineerGunState);
+    		gameLoop->addTickable(engineerGunState,"engineerGunState");
         }
     }
 
@@ -161,16 +162,16 @@ Main::Main() {
 	// Swarm Manager
 	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
 		shipState,collisionMgr);
-	gameLoop->addTickable(swarmMgr);
+	gameLoop->addTickable(swarmMgr,"swarmManager");
 
-        gameLoop->addTickable(networkingManager);
+    gameLoop->addTickable(networkingManager,"networkingManager");
 
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
 	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
 	    	engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
 	    //networkingManager->replicate(bulletMgr);
-	    gameLoop->addTickable(bulletMgr);
+	    gameLoop->addTickable(bulletMgr,"bulletManager");
     //} else {
     	//bulletMgr = 
     	//	(BulletManager*) networkingManager->getReplica("BulletManager",true);
@@ -178,16 +179,16 @@ Main::Main() {
 
 	// Audio
 	//soundMgr = new SoundManager();
-	//gameLoop->addTickable(soundMgr);
+	//gameLoop->addTickable(soundMgr,"soundManager");
 	//audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
-	//gameLoop->addTickable(audioState);
+	//gameLoop->addTickable(audioState,"audioState");
 
 	// Last class to be added to the game loop
 
     // CEGUI Stuff
     guiMgr = new GuiManager();    
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop);
-    gameLoop->addTickable(guiStatusUpdater);
+    gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop
     
@@ -298,7 +299,6 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     // Lighting
     sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
-    sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
     
     // Add some sexy fog
     ColourValue fadeColour(0.1,0.1,0.1);
@@ -306,11 +306,18 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.4,0.4,0.7);
-    sp->setSpecularColour(0.4,0.4,0.7);
+    sp->setDiffuseColour(0.6,0.6,1.0);
+    sp->setSpecularColour(0.6,0.6,1.0);
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
 
+    //Light *spot = sceneMgr->createLight("shipSpot");
+    //spot->setType(Light::LT_SPOTLIGHT);
+    //spot->setDiffuseColour(1.0,1.0,1.0);
+    //spot->setSpecularColour(1.0,1.0,1.0);
+    //spot->setDirection(Vector3(0,0,1));
+
+    //shipSceneNode->attachObject(spot);
     shipSceneNode->attachObject(sp);
     
     return camera;
