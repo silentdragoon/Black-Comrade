@@ -25,7 +25,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(1);
+        Enemy *e = new Enemy(1,0);
         e->setPosition(location);
 
         sceneNodeMgr->createNode(e);
