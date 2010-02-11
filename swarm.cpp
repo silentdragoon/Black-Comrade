@@ -2,10 +2,9 @@
 #include "swarm.h"
 #include "const.h"
 
-
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr, Lines *lines)
+	SceneNodeManager *sceneNodeMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -17,11 +16,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, state(SS_PATROL)
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
-    , lines(lines)
 {
 	rRayQuery = new RayQuery( sceneMgr );
-
-    enemyidcounter = 0;
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
@@ -29,28 +25,12 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(1,enemyidcounter);
-        enemyidcounter++;
-
+        Enemy *e = new Enemy(1);
         e->setPosition(location);
 
         sceneNodeMgr->createNode(e);
 
         members.push_back(e);
-    }
-}
-
-Swarm::Swarm(std::vector<Enemy*> members, SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr)
-    : members(members)
-    , sceneMgr(sceneMgr)
-    , sceneNodeMgr(sceneNodeMgr)
-{
-    enemyidcounter = -1;
-    Enemy *e;
-    std::vector<Enemy*> out = std::vector<Enemy*>();
-    for(std::vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
-        e = *it;
-        sceneNodeMgr->createNode(e);
     }
 }
 
@@ -82,16 +62,15 @@ void Swarm::tick()
 			speed = Const::ENEMY_PATROL_SPEED;
 	}
 
-	if (!(enemyidcounter < 0)) {
-        updateSwarmLocation();
-	    updateEnemyLocations();
-    }
+	updateSwarmLocation();
+	updateEnemyLocations();
 	
 	shootAtShip();
 }
 
 Swarm::~Swarm()
-{}
+{
+}
 
 Vector3 Swarm::getAverageAlignment()
 {
@@ -217,7 +196,7 @@ void Swarm::shootAtShip()
 {
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
-
+	
 	i = members.begin();
 	if(i != members.end()) {
 		e = *i;
@@ -227,17 +206,12 @@ void Swarm::shootAtShip()
 		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
-		Vector3 b = *e->getPosition() + (10 *e->getDirection());
-		
-		lines->addLine(e->getPosition(),&b);
-		
-		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
-			if(angleTo < Const::ENEMY_SIGHT_ANGLE) {
-				if(e->fireDelay <= 0) {
-					e->fireDelay = 50;
-					e->fire = true;
-					std::cout << "Bang!\n";
-				}
+		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 
+				angleTo < Const::ENEMY_SIGHT_ANGLE) {
+			if(e->fireDelay <= 0) {
+				e->fireDelay = 50;
+				e->fire = true;
+				std::cout << "Bang!\n";
 			}
 		}
 		

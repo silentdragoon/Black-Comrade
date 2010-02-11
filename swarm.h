@@ -10,7 +10,6 @@
 #include "rayQuery.h"
 #include "shipState.h"
 #include "sceneNodeManager.h"
-#include "lines.h"
 
 using namespace Ogre;
 using namespace std;
@@ -30,11 +29,8 @@ class Swarm
     	Real yaw;
     	RayQuery *rRayQuery;
     	float speed;
-        int enemyidcounter;
     	SwarmState state;
     	ShipState *shipState;
-    
-    	Lines *lines;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
@@ -48,9 +44,7 @@ class Swarm
         int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines);
-
-        Swarm(std::vector<Enemy*> enemies, SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr);
+			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();
@@ -59,6 +53,7 @@ class Swarm
         std::vector<Enemy*> getAllEnemies();
         
         void tick();
+
 };
 
 #endif

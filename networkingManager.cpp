@@ -157,10 +157,6 @@ ReplicaObject* NetworkingManager::getReplica(int index, bool blocking) {
     }
 }
 
-void NetworkingManager::replicate(std::vector<ReplicaObject*> objects) {
-
-}
-
 std::vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
     DataStructures::Multilist<ML_STACK, Replica3*> replicaList;
     DataStructures::DefaultIndexType index;

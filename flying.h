@@ -21,7 +21,6 @@ class Flying : public ITickable
         PilotControls *sc;
         ShipState *shipState;
         double vFactor;
-        bool noClip;
 
         double zVel;
         double xVel;
@@ -53,8 +52,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying(PilotControls *sc, ShipState *shipState, 
-        	CollisionManager *colMgr, bool noClip);
+        Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr);
 
         ~Flying();
 

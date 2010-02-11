@@ -29,7 +29,6 @@ class SceneNodeManager : public ITickable
 
         void tick();
 
-		static Vector3 rollPitchYawToDirection(Real roll, Real pitch, Real yaw);
 };
 
 #endif

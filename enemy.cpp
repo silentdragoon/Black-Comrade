@@ -4,15 +4,20 @@ Enemy::Enemy(int health, int id) :
     health(health),
     fire(false),
     fireDelay(0),
-    id(id),
-    position(new Vector3()),
-    yaw(0),
-    pitch(0),
-    roll(0)
+    position(new Vector3())
 {}
 
 Enemy::~Enemy()
 {}
+
+Vector3 Enemy::getDirection() {
+    Vector3 direction;
+    direction.x = sin(yaw) + cos(roll);
+    direction.y = sin(roll) + cos(pitch);
+    direction.z = sin(pitch) + cos(yaw);
+    
+    return direction;
+}
 
 int Enemy::getHealth() {
     return health;
@@ -38,36 +43,4 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 	roll = mRoll;
     pitch = mPitch;
     yaw = mYaw;
-}
-
-Real Enemy::getRoll() { return roll; }
-Real Enemy::getPitch() { return pitch; }
-Real Enemy::getYaw() { return yaw; }
-
-RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
-
-Vector3 Enemy::getDirection()
-{
-	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
-}
-
-RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
-    serializeParameters->outputBitstream[0].Write(position->x);
-    serializeParameters->outputBitstream[0].Write(position->y);
-    serializeParameters->outputBitstream[0].Write(position->z);
-    serializeParameters->outputBitstream[0].Write(roll);
-    serializeParameters->outputBitstream[0].Write(pitch);
-    serializeParameters->outputBitstream[0].Write(yaw);
-    serializeParameters->outputBitstream[0].Write(health);
-    return RM3SR_BROADCAST_IDENTICALLY;
-}
-
-void Enemy::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(position->x);
-    deserializeParameters->serializationBitstream[0].Read(position->y);
-    deserializeParameters->serializationBitstream[0].Read(position->z);
-    deserializeParameters->serializationBitstream[0].Read(roll);
-    deserializeParameters->serializationBitstream[0].Read(pitch);
-    deserializeParameters->serializationBitstream[0].Read(yaw);
-    deserializeParameters->serializationBitstream[0].Read(health);
 }

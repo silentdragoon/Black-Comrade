@@ -1,8 +1,7 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, 
-	CollisionManager *colMgr, bool noClip):
+Flying::Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
@@ -19,8 +18,7 @@ Flying::Flying(PilotControls *sc, ShipState *shipState,
     addRoll(0.0),
     addPitch(0.0),
     addYaw(0.0),
-    yawMom(0.0),
-    noClip(noClip)
+    yawMom(0.0)
 {
     position = new Vector3(1400.0, 0.0, 100.0 );
 }
@@ -43,7 +41,7 @@ void Flying::updateAngels()
 void Flying::updatePosition()
 {
     Collision col = colMgr->shipMapCollision(position);
-    if(col.isCollided && !noClip)
+    if(col.isCollided)
     {
         vFactor = 0.05;
         hitCountDown = static_cast<int> (100.0*col.penetration[0]);

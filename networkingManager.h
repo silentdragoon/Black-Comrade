@@ -54,8 +54,6 @@ public:
         void stopNetworking();
 
         bool replicate(ReplicaObject *object);
-        void replicate(std::vector<ReplicaObject*> objects);
-
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);
         std::vector<ReplicaObject*> getReplicas(string name);

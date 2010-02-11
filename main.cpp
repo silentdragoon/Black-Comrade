@@ -24,7 +24,7 @@ Main::Main() {
 
     // Game Loop
     gameLoop = new StateUpdate();
-    //root->addFrameListener(gameLoop);
+    root->addFrameListener(gameLoop);
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
@@ -67,24 +67,18 @@ Main::Main() {
 
     // Collision Manager
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
-	if(collabInfo->getGameRole() == PILOT) {
-    	collisionMgr->addMesh(shipEntity);
-    }
 
     // User Input
     inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState);
-
-    // Pilot Controls
-    if(collabInfo->getGameRole() == PILOT) {
-        pilotControls = new PilotControls(inputState,camera);
-        gameLoop->addTickable(pilotControls);
-    }
     
-    // Flying!!!!
+    // Pilot
     if(collabInfo->getGameRole() == PILOT) {
-    	flying = new Flying( pilotControls, shipState, collisionMgr,false);
-    	gameLoop->addTickable(flying);
+        collisionMgr->addMesh(shipEntity);
+        pilotControls = new PilotControls(inputState,camera);
+        flying = new Flying( pilotControls, shipState, collisionMgr );
+        gameLoop->addTickable(pilotControls);
+        gameLoop->addTickable(flying);
     }
     
     // Navigator Controls
@@ -156,16 +150,11 @@ Main::Main() {
 
 	// TODO: start the enemies pointing towards the ship?
 	// Swarm Manager
-    if(collabInfo->getGameRole() == PILOT) {
-	    swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
+	swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
 		shipState,collisionMgr);
-	} else {
-        swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, collisionMgr);
-    }
-
 	gameLoop->addTickable(swarmMgr);
 
-    gameLoop->addTickable(networkingManager);
+        gameLoop->addTickable(networkingManager);
 
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
@@ -191,9 +180,7 @@ Main::Main() {
     
     // Start Rendering Loop
     
-    gameLoop->startLoop();
-    
-    //root->startRendering();
+    root->startRendering();
     networkingManager->stopNetworking();
 }
 
