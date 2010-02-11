@@ -19,12 +19,12 @@ bool MapManager::buildMap(char* file)
                 for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
                     mts[xpos][ypos]= new MapTile();
                     if(line[xpos]=='.') geo[xpos][ypos] = '.';
-                    if(line[xpos]=='s') geo[xpos][ypos] = 's'; start = true; startx = xpos; starty = ypos;
+                    if(line[xpos]=='s'){ geo[xpos][ypos] = 's'; start = true; startx = xpos; starty = ypos;}
                     if(line[xpos]=='+') geo[xpos][ypos] = '+';
                     if(line[xpos]=='x') geo[xpos][ypos] = 'x';
-                    if(line[xpos]=='e') geo[xpos][ypos] = 'e'; end = true; endx = xpos; endy = ypos;
+                    if(line[xpos]=='e'){ geo[xpos][ypos] = 'e'; end = true; endx = xpos; endy = ypos;}
                     if(line[xpos]=='c') geo[xpos][ypos] = 'c';
-                    if(line[xpos]=='o') geo[xpos][ypos] = 'o'; objec = true;
+                    if(line[xpos]=='o'){ geo[xpos][ypos] = 'o'; objec = true;}
                 }
             } else {
                 // READ IN WAYPOINTS
