@@ -25,12 +25,7 @@ Enemy::~Enemy()
 {}
 
 Vector3 Enemy::getDirection() {
-    Vector3 direction;
-    direction.x = sin(yaw) + cos(roll);
-    direction.y = sin(roll) + cos(pitch);
-    direction.z = sin(pitch) + cos(yaw);
-    
-    return direction;
+	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
 }
 
 int Enemy::getHealth() {

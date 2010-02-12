@@ -9,6 +9,8 @@
 #include "IDrawable.h"
 #include "replicaObject.h"
 
+#include "sceneNodeManager.h"
+
 using namespace Ogre;
 using namespace std;
 
