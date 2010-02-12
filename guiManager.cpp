@@ -41,33 +41,47 @@ GuiManager::GuiManager()
     // Add minimap box to screen
     CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
     CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery"); 
-    lookFeel.addImagerySection(is);
+    
 
     CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
     ic.setImage("Minimap","mapTile-1-2-3-4");
 
-    //CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
-    //ic2.setImage("Minimap","mapTile-1-2-3");
+    CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
+    ic2.setImage("Minimap","mapTile-1-2-4");
 
-    is.addImageryComponent(ic);
-    //is.addImageryComponent(ic2);
-
-    CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
-    lookFeel.addStateSpecification(si);
-
-    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(10000000);
-    CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","true");
-    
     CEGUI::ComponentArea ca = CEGUI::ComponentArea();
     ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_X_POSITION);
     ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_Y_POSITION);
-    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_WIDTH);
-    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(100),CEGUI::DT_HEIGHT);
+    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
+    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
     
-    ic.setImagePropertySource(ca.getAreaPropertySource());
+    ic.setComponentArea(ca);
+
+    is.addImageryComponent(ic);
+    
+    ca = CEGUI::ComponentArea();
+    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_X_POSITION);
+    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_Y_POSITION);
+    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
+    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
+    
+    ic2.setComponentArea(ca);
+    
+    is.addImageryComponent(ic2);
+    
+    lookFeel.addImagerySection(is);
+    //is.addImageryComponent(ic2);
+
+    CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
+   
+
+    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(1);
+    CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","");
     
     ls.addSectionSpecification(ss);
     si.addLayer(ls);
+    
+    lookFeel.addStateSpecification(si);
 
     CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
     CEGUI::WidgetLookManager::getSingleton().writeWidgetLookToStream("fullMiniMap",std::cout);
