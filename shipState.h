@@ -6,16 +6,18 @@
 
 // #include "flying.h"
 #include "ITickable.h"
+#include "IDrawable.h"
 
 // include Raknet classes
 #include "replicaObject.h"
 #include "ReplicaManager3.h"
 #include <math.h>
+#include <string>
 
 using namespace Ogre;
 using namespace RakNet;
 
-class ShipState : public ITickable, public ReplicaObject {
+class ShipState : public ITickable, public IDrawable, public ReplicaObject {
 private:
         Vector3 *position;
 public:
@@ -39,6 +41,9 @@ public:
     void setZ(double newZ);
     
     Vector3 *getPosition();
+    Vector3 *getOrientation();
+    IDrawable *getParentObject();
+    std::string getMeshName();
 
     double getX();
     double getY();

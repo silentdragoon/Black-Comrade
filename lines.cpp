@@ -29,10 +29,10 @@ void Lines::addCross(  Vector3 *a )
 {
     lines->addPoint( a->x-1000,a->y,a->z );
     lines->addPoint( a->x+1000,a->y,a->z );
-    
+
     lines->addPoint( a->x,a->y-1000,a->z );
     lines->addPoint( a->x,a->y+1000,a->z );
-    
+
     lines->addPoint( a->x,a->y,a->z-1000 );
     lines->addPoint( a->x,a->y,a->z+1000 );
 
@@ -45,13 +45,13 @@ void Lines::addPoly(  Vector3 *a, Vector3 *b, Vector3 *c )
 {
     lines->addPoint( *a );
     lines->addPoint( *b );
-    
+
     lines->addPoint( *b );
     lines->addPoint( *c );
-    
+
     lines->addPoint( *c );
     lines->addPoint( *a );
-    
+
     lines->update();
     linesNode->needUpdate();
 }

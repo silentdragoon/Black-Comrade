@@ -6,13 +6,23 @@
 #include <iostream>
 #include <math.h>
 
+#include "IDrawable.h"
+#include "replicaObject.h"
+
+#include "sceneNodeManager.h"
+
 using namespace Ogre;
 using namespace std;
 
-class Enemy
+class Enemy : public IDrawable, public ReplicaObject
 {
     private:
+        Vector3 *position;
+        Real roll;
+        Real pitch;
+        Real yaw;
         SceneManager *sceneMgr;
+        int id;
         
     public:
     	int health;
@@ -20,19 +30,27 @@ class Enemy
     	int fireDelay;
     
         SceneNode *node;
-        Enemy(SceneNode *node, int health, SceneManager *sceneMgr);
+        Enemy(int health, int id);
+        Enemy();
 
         Vector3 getDirection();
-        Vector3 getLocation();
-        
-        void setLocation(Vector3 v);
+
+        Vector3 *getPosition();
+        Vector3 *getOrientation();
+
+        std::string getMeshName();
+        IDrawable *getParentObject();
+
+        void setPosition(Vector3 v);
         void setOrientation(Real roll, Real pitch, Real yaw);
-        
-        Entity *getEntity();
-        
+
         int getHealth();
 
         ~Enemy();
+
+        virtual RakNet::RakString GetName(void) const;
+        virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
+        virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
 };
 
 #endif

@@ -50,16 +50,16 @@ void Flying::updatePosition()
         xVel += col.penetration[0] * col.normals[0];
         yVel += col.penetration[0] * col.normals[1];
         zVel += col.penetration[0] * col.normals[2];
-        
+
 /*         for( int i = 0; i < 1; i += 3 )
         {
-            
+
             cout << "n["<<i<<"] "<< col.penetration[i] <<" xcomp: "<< col.penetration[0] * col.normals[i] <<" zcomp: "<< col.penetration[0] * col.normals[i+2] <<endl;
             //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
             //<<" "<< col.normals[i+2] <<" "<<endl;
         } */
     }
-    
+
     if( hitCountDown == 0 )
     {
         updateAngels();
@@ -70,9 +70,9 @@ void Flying::updatePosition()
         double xzSide = SideForce*sin(flyRoll);
         xVel -= xzSide*sin(flyYaw+1.57079633);
         zVel -= xzSide*cos(flyYaw+1.57079633);
-        
-        yVel += 0.025* sc->up(); 
-        
+
+        yVel += 0.025* sc->up();
+
         addRoll = 0.0;
         addYaw = 0.0;
         addPitch = 0.0;
@@ -86,24 +86,24 @@ void Flying::updatePosition()
         vFactor *= 0.93;
         hitCountDown--;
     }
-    
+
     xVel *= 0.96;
     zVel *= 0.96;
     yVel *= 0.9;
-    
+
     flyPitch *= 0.98;
     flyRoll *= 0.98;
     yawMom *= 0.9;
-    
+
     flyYaw += yawMom;
-    
+
     position->x += xVel;
     position->z += zVel;
     position->y += yVel;
-    
+
     pitch = flyPitch + addPitch;
     roll = flyRoll + addRoll;
-    
+
     yaw = flyYaw + addYaw;
 }
 

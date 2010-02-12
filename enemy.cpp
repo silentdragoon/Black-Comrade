@@ -1,56 +1,84 @@
 #include "enemy.h"
 
-Enemy::Enemy(SceneNode *node, int health, SceneManager *sceneMgr) :
-    node(node),
+Enemy::Enemy(int health, int id) :
     health(health),
-    sceneMgr(sceneMgr),
     fire(false),
-    fireDelay(0)
+    fireDelay(0),
+    position(new Vector3()),
+    yaw(0),
+    pitch(0),
+    roll(0)
+{}
+
+Enemy::Enemy() :
+    health(100),
+    fire(false),
+    fireDelay(0),
+    position(new Vector3()),
+    id(-1),
+    yaw(0),
+    pitch(0),
+    roll(0)
 {}
 
 Enemy::~Enemy()
-{
-    sceneMgr->destroySceneNode(node);
-}
+{}
 
 Vector3 Enemy::getDirection() {
-    Quaternion orient = node->getOrientation();
-    Quaternion rotateYaw(Radian(3.14159),Vector3::UNIT_Y);
-    
-    orient = orient * rotateYaw;
-    
-    return orient.zAxis();
-}
-
-Vector3 Enemy::getLocation() {
-    return node->getPosition();
+	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
 }
 
 int Enemy::getHealth() {
     return health;
 }
 
-void Enemy::setLocation(Vector3 v)
+void Enemy::setPosition(Vector3 v)
 {
-	node->setPosition(v);
+	position->x = v.x;
+	position->y = v.y;
+	position->z = v.z;
 }
 
-Entity* Enemy::getEntity()
+Vector3* Enemy::getPosition() { return position; }
+
+Vector3* Enemy::getOrientation() { return new Vector3(pitch,yaw,roll); }
+
+std::string Enemy::getMeshName() { return "squid.mesh"; }
+
+IDrawable* Enemy::getParentObject() { return NULL; }
+
+void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 {
-	return (Entity*)node->getAttachedObject(0);
+	roll = mRoll;
+    pitch = mPitch;
+    yaw = mYaw;
 }
 
-void Enemy::setOrientation(Real roll, Real pitch, Real yaw)
-{
-	node->resetOrientation();
+RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
 
-	yaw += 3.14159;
+RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(position->x);
+    serializeParameters->outputBitstream[0].Write(position->y);
+    serializeParameters->outputBitstream[0].Write(position->z);
+    serializeParameters->outputBitstream[0].Write(roll);
+    serializeParameters->outputBitstream[0].Write(pitch);
+    serializeParameters->outputBitstream[0].Write(yaw);
+    serializeParameters->outputBitstream[0].Write(health);
+    serializeParameters->outputBitstream[0].Write(fire);
 
-	Radian troll(roll);
-    Radian tpitch(pitch);
-    Radian tyaw(yaw);
-   
-    node->yaw(tyaw);
-    node->roll(troll);
-    node->pitch(tpitch);
+
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void Enemy::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+    bool fire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(position->x);	
+    deserializeParameters->serializationBitstream[0].Read(position->y);	
+    deserializeParameters->serializationBitstream[0].Read(position->z);	
+    deserializeParameters->serializationBitstream[0].Read(roll);
+    deserializeParameters->serializationBitstream[0].Read(pitch);
+    deserializeParameters->serializationBitstream[0].Read(yaw);
+    deserializeParameters->serializationBitstream[0].Read(health);
+    deserializeParameters->serializationBitstream[0].Read(fire2);
+    if (fire2) fire = true;
 }

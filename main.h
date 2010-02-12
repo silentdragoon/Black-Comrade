@@ -35,6 +35,7 @@
 #include "engineerControls.h"
 #include "guiManager.h"
 #include "guiStatusUpdater.h"
+#include "sceneNodeManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -50,6 +51,7 @@ private:
     Root *root;
     Camera *camera;
     SceneManager *sceneMgr;
+    SceneNodeManager *sceneNodeMgr;
     RenderWindow *window;
     NetworkingManager *networkingManager;
     bool isServer;

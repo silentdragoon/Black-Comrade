@@ -22,9 +22,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="GameStateMachine") {
         return new GameStateMachine;
     }
-    //else if (typeName=="EnemyState") {
-    //    return new EnemyState;
-    //}
+    else if (typeName=="Enemy") {
+        return new Enemy;
+    }
     ((OurReplicaManager *) replicaManager3)->doUpdate();
     return 0;
 }

@@ -1,4 +1,4 @@
-#ifndef _FLYING_H 
+#ifndef _FLYING_H
 #define _FLYING_H
 
 #include <OGRE/Ogre.h>
@@ -21,16 +21,16 @@ class Flying : public ITickable
         PilotControls *sc;
         ShipState *shipState;
         double vFactor;
-        
+
         double zVel;
         double xVel;
         double yVel;
-        
+
         double addPitch;
         double addRoll;
         double addYaw;
         double yawMom;
-        
+
         double flyPitch;
         double flyYaw;
         double flyRoll;
@@ -38,10 +38,8 @@ class Flying : public ITickable
         static const double EngineForce = 0.5;
         static const double SideForce = 0.13;
 
-        
-        
         void updateAngels();
-        
+
         // double getDrag(string dir);
         void updatePosition();
         // void changeVector();
@@ -53,7 +51,7 @@ class Flying : public ITickable
         double pitch;
         double yaw;
         double roll;
-        
+
         Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr);
 
         ~Flying();

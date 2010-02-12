@@ -11,6 +11,8 @@
 #include "shipState.h"
 #include "collisionManager.h"
 
+#include "networkingManager.h"
+
 using namespace Ogre;
 using namespace std;
 
@@ -19,11 +21,13 @@ class SwarmManager : public ITickable
     private:
 
         SceneManager *sceneMgr;
+        SceneNodeManager *sceneNodeMgr;
         GameParameterMap *gamePM;
         MapManager *mapMgr;
         std::vector<Swarm*> activeSwarms;
         ShipState *shipState;
         CollisionManager *colMgr;
+        NetworkingManager *networkingMgr;
 
         int id;
 
@@ -33,13 +37,20 @@ class SwarmManager : public ITickable
 
     public:
 
-        SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, 
-        	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr);
+        SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
+        	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr, NetworkingManager *networkingMgr);
+
+        SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
+        	CollisionManager* colMgr, NetworkingManager *networkingMgr);
+
         ~SwarmManager();
 
         void createSwarm(int size, Vector3 location);
 
+        void updateRemoteSwarms();
+
         std::vector<Enemy*> getAllEnemies();
+        std::vector<Enemy*> getReplicatedEnemies();
 
         virtual void tick();
 

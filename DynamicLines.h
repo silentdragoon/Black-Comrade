@@ -34,11 +34,11 @@ public:
   /// Remove all points from the point list
   void clear();
 
-  /// Call this to update the hardware buffer after making changes.  
+  /// Call this to update the hardware buffer after making changes.
   void update();
 
   /** Set the type of operation to draw with.
-   * @param opType Can be one of 
+   * @param opType Can be one of
    *    - RenderOperation::OT_LINE_STRIP
    *    - RenderOperation::OT_LINE_LIST
    *    - RenderOperation::OT_POINT_LIST

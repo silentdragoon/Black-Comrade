@@ -15,59 +15,25 @@ Main::Main() {
     networkingManager = new NetworkingManager(this);
     collabInfo = runLoby(networkingManager);
 
-	// Start Ogre
+    // Start Ogre
     root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
     window = root->initialise(true, collabInfo->getGameRoleString());
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
 
     configResources();
-    
-    // Ship Node
-    shipSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
-    Entity *shipEntity = sceneMgr->createEntity("ourship", "ourship.mesh");
-    shipSceneNode->attachObject(shipEntity);
-    if(collabInfo->getGameRole() == PILOT) {
-    	shipEntity->setVisible(false);
-    }
-    
-    // Camera
-    camera = createCamera(shipSceneNode);
-    if(collabInfo->getGameRole() == PILOT) {
-        camera->setPosition(Vector3(0,0,5));
-    } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(3.5,0,0));
-    } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(-3.5,0,0));
-    }
-    createViewPort();
-    
+
+    // Game Loop
+    gameLoop = new StateUpdate();
+
+    // SceneNode Manager
+    sceneNodeMgr = new SceneNodeManager(sceneMgr);
+    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
     // Create Map
     mapMgr = new MapManager("examplemap.txt",sceneMgr);
     mapMgr->outputMap(sceneMgr->getRootSceneNode());
-    
-    // Collision Manager
-	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
-    
-    // Game Loop
-    gameLoop = new StateUpdate();
-    //root->addFrameListener(gameLoop);
-    
-    // User Input
-    inputState = new InputState(window, false, this,true,true);
-    gameLoop->addTickable(inputState,"inputState");
-    
-    // Pilot --- Flying 1.0 ---
-    // if(collabInfo->getGameRole() == PILOT) {
-	    // pilotControls = new PilotControls(inputState,camera);
-	    // accelerationState = new AccelerationState(pilotControls);
-	    // motionState = new MotionState(accelerationState);
-	    // gameLoop->addTickable(pilotControls);
-	    // gameLoop->addTickable(accelerationState);
-	    // gameLoop->addTickable(motionState);
-    // }
-    
-    
+
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
 	    shipState = new ShipState(shipSceneNode);
@@ -75,14 +41,38 @@ Main::Main() {
     } else {
     	shipState = 
     		(ShipState*) networkingManager->getReplica("ShipState",true);
-    	shipState->shipSceneNode = shipSceneNode;
     }
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
-    gameLoop->addTickable(shipState,"shipState");
+    gameLoop->addTickable(shipState, "shipState");
+
+    // Ship Node
+    shipSceneNode = sceneNodeMgr->createNode(shipState);
+	Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+    if (collabInfo->getGameRole() == PILOT) {
+        shipEntity->setVisible(false);
+    }
     
-    // pilot new Flying
+    // Camera
+    camera = createCamera(shipSceneNode);
+    if(collabInfo->getGameRole() == PILOT) {
+        camera->setPosition(Vector3(0,0,-5));
+    } else if(collabInfo->getGameRole() == NAVIGATOR) {
+        camera->setPosition(Vector3(3.5,0,0));
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+        camera->setPosition(Vector3(-3.5,0,0));
+    }
+    createViewPort();
+
+    // Collision Manager
+	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+
+    // User Input
+    inputState = new InputState(window, false, this,true,true);
+    gameLoop->addTickable(inputState,"inputState");
+
+    // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
@@ -160,16 +150,21 @@ Main::Main() {
 
 	// TODO: start the enemies pointing towards the ship?
 	// Swarm Manager
-	swarmMgr = new SwarmManager(sceneMgr, gameParameterMap, mapMgr,
-		shipState,collisionMgr);
-	gameLoop->addTickable(swarmMgr,"swarmManager");
+    if (collabInfo->getGameRole() == PILOT) {
+	    swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
+		    shipState,collisionMgr,networkingManager);
+    } else {
+        swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
+        	collisionMgr, networkingManager);
+    }
+	gameLoop->addTickable(swarmMgr, "swarmMgr");
 
     gameLoop->addTickable(networkingManager,"networkingManager");
 
 	// Bullet Manager
 	//if(collabInfo->getGameRole() == PILOT) {
-	    bulletMgr = new BulletManager(shipSceneNode,sceneMgr,pilotGunState,
-	    	engineerGunState,navigatorGunState,collisionMgr,swarmMgr);
+	    bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
+            engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr);
 	    //networkingManager->replicate(bulletMgr);
 	    gameLoop->addTickable(bulletMgr,"bulletManager");
     //} else {

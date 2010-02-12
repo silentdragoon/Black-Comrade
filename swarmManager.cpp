@@ -1,15 +1,19 @@
 #include "swarmManager.h"
 #include "const.h"
 
-SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr) :
+SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
+	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
+	CollisionManager* colMgr, NetworkingManager *networkingMgr) :
     sceneMgr(sceneMgr),
+    sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
     mapMgr(mapMgr),
     id(0),
     dynSwarmSize(0),
     swarmTick(0),
     shipState(shipState),
-    colMgr(colMgr)
+    colMgr(colMgr),
+    networkingMgr(networkingMgr)
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -32,19 +36,35 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, GameParameterMap *gamePM, Map
     
 }
 
+SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
+    CollisionManager* colMgr, NetworkingManager *networkingMgr) :
+    sceneMgr(sceneMgr),
+    sceneNodeMgr(sceneNodeMgr),
+    gamePM(gamePM),
+    mapMgr(0),
+    id(0),
+    dynSwarmSize(0),
+    swarmTick(0),
+    shipState(shipState),
+    colMgr(colMgr),
+    networkingMgr(networkingMgr)
+{
+    activeSwarms = std::vector<Swarm*>();
+}
+
 SwarmManager::~SwarmManager()
 {
 }
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
-    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState);
+    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
     for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
         en = *ite;
-        colMgr->addMesh(en->getEntity());
+        colMgr->addMesh(sceneNodeMgr->getEntity(en));
     }
     
     activeSwarms.push_back(s);
@@ -54,22 +74,59 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 std::vector<Enemy*> SwarmManager::getAllEnemies()
 {
     Swarm *s;
+    Enemy *enemy;
     std::vector<Enemy*> out = std::vector<Enemy*>();
+
     for(std::vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
         s = *it;
         std::vector<Enemy*> ents = s->getAllEnemies();
-        Enemy *en;
+
         for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
-            en = *ite;
-            out.push_back(en);
+            enemy = *ite;
+            out.push_back(enemy);
         }
     }
 
     return out;
 }
 
+std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
+    Enemy *enemy;
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+
+    std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
+    for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+        enemy = (Enemy*) *it;
+        out.push_back(enemy);
+    }
+
+    return out;
+}
+
+void SwarmManager::updateRemoteSwarms() {
+    if (mapMgr == 0) {
+        std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
+        for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+            Enemy *enemy = (Enemy*) *it;
+            sceneNodeMgr->createNode(enemy);
+            if (enemy->health < 0) {
+                sceneNodeMgr->deleteNode(enemy);
+                delete enemy;
+            }
+        }
+    } else {
+        std::vector<Enemy*> allEnemies = getAllEnemies();
+        for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
+            networkingMgr->replicate(*it);
+        }
+    }
+}
+
 void SwarmManager::tick() 
 {
+    updateRemoteSwarms();
+    if (mapMgr == 0) return;
+
     int sp = gamePM->getParameter("SPAWN");
 
 

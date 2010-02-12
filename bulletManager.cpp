@@ -1,12 +1,29 @@
 #include "bulletManager.h"
 #include "const.h"
 
+BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
+                GunState *pilotGunState, GunState *engineerGunState,
+                GunState *navigatorGunState, CollisionManager *colMgr,
+                SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr)
+    : shipState(shipState)
+    , sceneMgr(sceneMgr)
+    , pilotGunState(pilotGunState)
+    , engineerGunState(engineerGunState)
+    , navigatorGunState(navigatorGunState)
+    , colMgr(colMgr)
+    , swarmMgr(swarmMgr)
+    , sceneNodeMgr(sceneNodeMgr)
+    , bnum(0)
+{
+    activeBullets = new std::vector<Bullet*>();
+    colMgr->addMesh( sceneNodeMgr->getEntity(shipState) );
+}
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
 void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
 {
-	string bullName = "Bullet";
+    string bullName = "Bullet";
     string bname = "Bill";
     string lname = "Light";
     string rname = "Ribbon";
@@ -48,20 +65,20 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;
 
-	bool isEnemy = false;
+    bool isEnemy = false;
     Enemy *hurtEnemy = NULL;
     if(swarmMgr) {
-	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
-	    Enemy *e;
-	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-	        e = *it;
-	        double temp = colMgr->rayCollideWithTransform(pos,&direction,e->getEntity());
-	        if(temp<t && temp > 0.0) {
-	        	t = temp;
-	        	isEnemy = true;
-	        	hurtEnemy = e;
-	        }
-		}
+        std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+        Enemy *e;
+        for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+            e = *it;
+            double temp = colMgr->rayCollideWithTransform(pos,&direction,sceneNodeMgr->getEntity(e));
+            if(temp<t && temp > 0.0) {
+                t = temp;
+                isEnemy = true;
+                hurtEnemy = e;
+            }
+        }
     }
 
     //cout << t << endl;
@@ -90,23 +107,6 @@ void BulletManager::updateBullets() {
     }
 }
 
-BulletManager::BulletManager(SceneNode *shipSceneNode, SceneManager *sceneMgr, 
-                GunState *pilotGunState, GunState *engineerGunState, 
-                GunState *navigatorGunState, CollisionManager *colMgr, 
-        	SwarmManager *swarmMgr)
-    : shipSceneNode(shipSceneNode)
-    , sceneMgr(sceneMgr)
-    , pilotGunState(pilotGunState)
-    , engineerGunState(engineerGunState)
-    , navigatorGunState(navigatorGunState)
-    , colMgr(colMgr)
-    , swarmMgr(swarmMgr)
-    , bnum(0)
-{
-    activeBullets = new std::vector<Bullet*>();
-    colMgr->addMesh( sceneMgr->getEntity("ourship") );
-}
-
 BulletManager::~BulletManager() {
     cout << "...activeBullets" << endl;
     delete activeBullets;
@@ -124,29 +124,28 @@ void BulletManager::handleGun(GunState *gun) {
     }
 }
 
+void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
+	Enemy *e;
+	for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	    e = *it;
+	        
+	    if(e->fire) {
+            e->fire = false;
+	        fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	    }
+	}
+}
+
 void BulletManager::tick()
 {
-    // Shoot if neccessary
+    // Guns shoot if neccessary
     handleGun(pilotGunState);
     handleGun(engineerGunState);
     handleGun(navigatorGunState);
     
-    // Check if any enemies are shooting
-    
-    // Loop for all enemies
-    if(swarmMgr) {
-	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
-	    Enemy *e;
-	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-	        e = *it;
-	        
-	        if(e->fire) {
-	        	fire(e->getLocation(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
-	        }
-	    }
-    }
-    
-    
+    // Enemies shoot if neccessary
+    handleEnemies(swarmMgr->getAllEnemies());
+    handleEnemies(swarmMgr->getReplicatedEnemies());  
     
     updateBullets();
 }

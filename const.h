@@ -51,12 +51,12 @@ public:
     static const double SPAWN_DELAY=1.0 / TICK_PERIOD;
 
     // Constants for bulletManager
-    
+
     // Constants for flying
     /* static const double SHIP_MASS = 100.0; // KG
     static const double SHIP_FORWARD_THRUST = 100.0; // N
     //static const int SHIP_REVERSE_THRUST = -10; // N
-    static const double SHIP_ROTATE_THRUST = 0.05; // 
+    static const double SHIP_ROTATE_THRUST = 0.05; //
     static const double SHIP_SIDE_THRUST = 100.0; // N
     static const double SHIP_UP_THRUST = 100.0; // N
     //static const int SHIP_DOWN_THRUST = 10; // N

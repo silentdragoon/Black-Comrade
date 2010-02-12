@@ -44,7 +44,7 @@ public:
     
     //working for now. may need to be looked at later
     Collision shipMapCollision(Vector3 *shipPos);
-    
+
     //working stuff thats unneccesary for now
     //dFloat getRCDistBetweenPoints( Vector3 *start, Vector3 * end, Entity* collideAgainst );
     // dFloat getRCDistAlongRay( Vector3 *start, Real Pitch, Real Yaw, dFloat maxDist, Entity* collideAgainst );
