@@ -162,15 +162,9 @@ Main::Main() {
     gameLoop->addTickable(networkingManager,"networkingManager");
 
 	// Bullet Manager
-	//if(collabInfo->getGameRole() == PILOT) {
-	    bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
-            engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr);
-	    //networkingManager->replicate(bulletMgr);
-	    gameLoop->addTickable(bulletMgr,"bulletManager");
-    //} else {
-    	//bulletMgr = 
-    	//	(BulletManager*) networkingManager->getReplica("BulletManager",true);
-    //}
+	bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
+        engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr);
+	gameLoop->addTickable(bulletMgr,"bulletManager");
 
 	// Audio
 	//soundMgr = new SoundManager();

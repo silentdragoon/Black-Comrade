@@ -47,6 +47,7 @@ void SceneNodeManager::deleteNode(IDrawable *object) {
     if (toDelete != NULL) {
         sceneMgr->destroySceneNode(toDelete);
         nodes.erase(object);
+        entities.erase(object);
     }
 }
 
