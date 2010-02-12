@@ -81,13 +81,13 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
         }
     }
 
-    bool isShip = false;
-    Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
-    double distToShip = colMgr->rayCollideWithTransform(pos,&direction,shipEntity);
-    if (distToShip < t && distToShip > 0.0) {
-        isShip = true;
-        isEnemy = false;
-    }
+    //bool isShip = false;
+    //Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+    //double distToShip = colMgr->rayCollideWithTransform(pos,&direction,shipEntity);
+    //if (distToShip < t && distToShip > 0.0) {
+    //    isShip = true;
+    //    isEnemy = false;
+    //}
 
     //cout << t << endl;
     
@@ -98,7 +98,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
         b->hitEnemy = true;
         b->enemy = hurtEnemy;
     }
-    if (isShip) b->hitShip = true;
+    //if (isShip) b->hitShip = true;
 	activeBullets->push_back(b);
 }
 
