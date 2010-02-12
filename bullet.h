@@ -39,6 +39,8 @@ class Bullet
         void updateLocation();
         
         Enemy *enemy;
+        bool hitEnemy;
+        bool hitShip;
 };
 
 #endif

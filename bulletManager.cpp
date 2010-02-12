@@ -81,12 +81,24 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
         }
     }
 
+    bool isShip = false;
+    Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+    double distToShip = colMgr->rayCollideWithTransform(pos,&direction,shipEntity);
+    if (distToShip < t && distToShip > 0.0) {
+        isShip = true;
+        isEnemy = false;
+    }
+
     //cout << t << endl;
     
     // FIRE THE BULLET!
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,
     	Const::FRONT_BULLET_SPEED,t);
-	b->enemy = hurtEnemy;
+	if (isEnemy) {
+        b->hitEnemy = true;
+        b->enemy = hurtEnemy;
+    }
+    if (isShip) b->hitShip = true;
 	activeBullets->push_back(b);
 }
 
@@ -96,10 +108,12 @@ void BulletManager::updateBullets() {
         b->updateLocation();
         if(b->distanceTravelled>b->distanceToTravel) {
         
-        	// Hurt Enemy
-			if(b->enemy != NULL) {
+        	// Hurt Enemy or Ship
+			if(b->enemy != NULL && b->hitEnemy) {
 				b->enemy->health -= 1;
-			}
+			} else if (b->hitShip) {
+                std::cout << "ship hurt!" << std::endl;
+            }
         
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
