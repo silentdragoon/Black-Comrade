@@ -21,7 +21,8 @@ private:
     int count;
     long latestSlack;
     
-    std::map <ITickable*,string> tickables;
+    std::map <ITickable*,string> names;
+    std::vector <ITickable*> tickables;
    
 public:
     

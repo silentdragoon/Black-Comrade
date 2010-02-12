@@ -62,7 +62,8 @@ void StateUpdate::startLoop()
 
 void StateUpdate::addTickable(ITickable* t, string name)
 {
-    tickables.insert(pair<ITickable*,string>(t,name));
+    tickables.push_back(t);
+    names.insert(pair<ITickable*,string>(t,name));
 }
 
 long StateUpdate::getSlack()
@@ -75,22 +76,19 @@ bool StateUpdate::tick()
 {
     Timer timer;
 
-    // std::cout << "Tick " << ++count << std::endl;
-    std::map<ITickable*,string>::iterator i;
-    ITickable *t;
-    string n;    
-    
-    for(i = tickables.begin(); i != tickables.end(); i++) {
+    for(std::vector<ITickable*>::const_iterator it=tickables.begin();it!=tickables.end();++it) {
         if (running == false) break;
-        //std::cout << "Tick " << ++count << std::endl;
-        t = (*i).first;
-        n = (*i).second;
-        //std::cout << n << ": ";
+
+        ITickable *t = *it;
+        std::map<ITickable *,string>::const_iterator findname = names.find(t);
+        string n = findname->second;
+
+        std::cout << n << ": ";
         long t1 = timer.getMilliseconds();
         t->tick();
         long t2 = timer.getMilliseconds();
         long ticktime = t2-t1;
-        //std::cout << ticktime << "\n";
+        std::cout << ticktime << "\n";
     }
 
 	return running;
