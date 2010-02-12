@@ -26,6 +26,10 @@ Main::Main() {
     // Game Loop
     gameLoop = new StateUpdate();
 
+    // Damage State
+    DamageState *damageState = new DamageState();
+    gameLoop->addTickable(damageState, "damageState");
+
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
@@ -69,7 +73,7 @@ Main::Main() {
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
-    inputState = new InputState(window, false, this,true,true);
+    inputState = new InputState(window, false, this,true,false);
     gameLoop->addTickable(inputState,"inputState");
 
     // Pilot Controls

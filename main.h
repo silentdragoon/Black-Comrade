@@ -36,6 +36,7 @@
 #include "guiManager.h"
 #include "guiStatusUpdater.h"
 #include "sceneNodeManager.h"
+#include "damageState.h"
 
 //include networking stuff
 #include <string.h>
