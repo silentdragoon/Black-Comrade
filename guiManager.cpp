@@ -1,6 +1,7 @@
 #include "guiManager.h"
 
-GuiManager::GuiManager()
+GuiManager::GuiManager(MapManager *mapMgr) :
+    mapMgr(mapMgr)
 {
     CEGUI::OgreRenderer::bootstrapSystem();
     CEGUI::Imageset::setDefaultResourceGroup("imagesets");
@@ -39,41 +40,63 @@ GuiManager::GuiManager()
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
 
     // Add minimap box to screen
+    minimap = buildMinimap();
+    guiRoot->addChildWindow(minimap);
+}
+
+GuiManager::~GuiManager(){}
+
+CEGUI::FrameWindow* GuiManager::buildMinimap() {
+    // CREATE MINIMAP
     CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
     CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery"); 
     
+    // GET MAP PARTS HERE WITH A LOOOOOOP
+    // -------------------------------------------------------------------
 
-    CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
-    ic.setImage("Minimap","mapTile-1-2-3-4");
+    for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
+        for(int ypos=0;ypos<Const::MAPSIZE;ypos++) {
+            CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
+            if(mapMgr->mts[xpos][ypos]->isEmpty()) {
+                ic.setImage("Minimap","mapTile-blank");
+            } else {
+                std::stringstream tile;
+                tile << "mapTile";
+                if(mapMgr->mts[xpos][ypos]->getAdjacent(1)!=0) {
+                    tile << "-1";
+                }
+                if(mapMgr->mts[xpos][ypos]->getAdjacent(2)!=0) {
+                    tile << "-2";
+                }
+                if(mapMgr->mts[xpos][ypos]->getAdjacent(3)!=0) {
+                    tile << "-3";
+                }
+                if(mapMgr->mts[xpos][ypos]->getAdjacent(4)!=0) {
+                    tile << "-4";
+                }
+                string name = tile.str();
+                ic.setImage("Minimap",name);
+            }
 
-    CEGUI::ImageryComponent ic2 = CEGUI::ImageryComponent();
-    ic2.setImage("Minimap","mapTile-1-2-4");
+            // TODO: SCALING HERE NEEDS FIXING SO IT DOESNT TAKE UP ALL OF THE SCREEEEN
+            CEGUI::ComponentArea ca = CEGUI::ComponentArea();
+            ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(xpos*30),CEGUI::DT_X_POSITION);
+            ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(ypos*30),CEGUI::DT_Y_POSITION);
+            ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
+            ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
 
-    CEGUI::ComponentArea ca = CEGUI::ComponentArea();
-    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_X_POSITION);
-    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_Y_POSITION);
-    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
-    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
-    
-    ic.setComponentArea(ca);
+            ic.setComponentArea(ca);
 
-    is.addImageryComponent(ic);
-    
-    ca = CEGUI::ComponentArea();
-    ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_X_POSITION);
-    ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(0),CEGUI::DT_Y_POSITION);
-    ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
-    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
-    
-    ic2.setComponentArea(ca);
-    
-    is.addImageryComponent(ic2);
+            is.addImageryComponent(ic);
+        }
+    }
+
+    // END LOOP SECTION
+    // ------------------------------------------------------------------
     
     lookFeel.addImagerySection(is);
-    //is.addImageryComponent(ic2);
 
     CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
-   
 
     CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(1);
     CEGUI::SectionSpecification ss = CEGUI::SectionSpecification("fullMiniMap","enabled_imagery","");
@@ -84,16 +107,15 @@ GuiManager::GuiManager()
     lookFeel.addStateSpecification(si);
 
     CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
-    CEGUI::WidgetLookManager::getSingleton().writeWidgetLookToStream("fullMiniMap",std::cout);
     
-    minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","efegfe"));
+    // Create the FrameWindow to return
+    CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","mini"));
     minimap->setLookNFeel(lookFeel.getName());
-    guiRoot->addChildWindow(minimap);
-    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
+    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.8f,0),CEGUI::UDim(0.8f,0)));
     minimap->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f,0),CEGUI::UDim(0.2f,0)));
-}
 
-GuiManager::~GuiManager(){}
+    return minimap;
+}
 
 void GuiManager::setStatus(std::string stat) {
     status->setText(stat);
@@ -101,6 +123,5 @@ void GuiManager::setStatus(std::string stat) {
 
 void GuiManager::moveMap()
 {
-
     minimap->setPosition(minimap->getPosition() + CEGUI::UVector2(CEGUI::UDim(-0.0001f,0),CEGUI::UDim(-0.0001f,0)));
 }

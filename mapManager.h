@@ -27,7 +27,6 @@ class MapManager {
 
 private:
     char geo[Const::MAPSIZE][Const::MAPSIZE]; // Store for the geography of the map
-    MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
     int endx,endy; // Index location of the end square of the map
 
 	SceneManager *sceneManager;
@@ -44,6 +43,7 @@ private:
 
 public:
     int startx,starty; // Index location of the start square of the map
+    MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager);
     bool outputMap(SceneNode *sceneNode);

@@ -15,5 +15,5 @@ void GuiStatusUpdater::tick() {
     s = out.str();
     guiMgr->setStatus(s);
 
-    guiMgr->moveMap();
+    //guiMgr->moveMap();
 }

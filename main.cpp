@@ -186,7 +186,7 @@ Main::Main() {
 	// Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager();    
+    guiMgr = new GuiManager(mapMgr);    
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 

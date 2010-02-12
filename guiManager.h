@@ -4,6 +4,9 @@
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <sstream>
+#include "mapManager.h"
+#include "const.h"
 
 class GuiManager {
 private:
@@ -12,8 +15,12 @@ private:
     CEGUI::FrameWindow *crossHair;
     CEGUI::Editbox *status;
     CEGUI::FrameWindow *minimap;
+    MapManager *mapMgr;
+
+    CEGUI::FrameWindow* buildMinimap();
+
 public:
-    GuiManager();
+    GuiManager(MapManager *mapMgr);
     ~GuiManager();
     void setStatus(std::string stat);
     void moveMap();
