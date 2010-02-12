@@ -1,6 +1,7 @@
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
 
+#include <OGRE/Ogre.h>
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
