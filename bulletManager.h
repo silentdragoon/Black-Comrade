@@ -32,6 +32,7 @@ class BulletManager : public ITickable
         
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
         void handleGun(GunState *gun);
+        void handleEnemies(std::vector<Enemy*> enemies);
         void updateBullets(); 
         
     public:

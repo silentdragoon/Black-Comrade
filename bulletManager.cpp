@@ -124,29 +124,28 @@ void BulletManager::handleGun(GunState *gun) {
     }
 }
 
+void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
+	Enemy *e;
+	for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+	    e = *it;
+	        
+	    if(e->fire) {
+            e->fire = false;
+	        fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	    }
+	}
+}
+
 void BulletManager::tick()
 {
-    // Shoot if neccessary
+    // Guns shoot if neccessary
     handleGun(pilotGunState);
     handleGun(engineerGunState);
     handleGun(navigatorGunState);
     
-    // Check if any enemies are shooting
-    
-    // Loop for all enemies
-    if(swarmMgr) {
-	    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
-	    Enemy *e;
-	    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-	        e = *it;
-	        
-	        if(e->fire) {
-	            fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
-	        }
-	    }
-    }
-    
-    
+    // Enemies shoot if neccessary
+    handleEnemies(swarmMgr->getAllEnemies());
+    handleEnemies(swarmMgr->getReplicatedEnemies());  
     
     updateBullets();
 }

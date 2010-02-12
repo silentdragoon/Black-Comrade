@@ -74,15 +74,30 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 std::vector<Enemy*> SwarmManager::getAllEnemies()
 {
     Swarm *s;
+    Enemy *enemy;
     std::vector<Enemy*> out = std::vector<Enemy*>();
+
     for(std::vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
         s = *it;
         std::vector<Enemy*> ents = s->getAllEnemies();
-        Enemy *en;
+
         for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
-            en = *ite;
-            out.push_back(en);
+            enemy = *ite;
+            out.push_back(enemy);
         }
+    }
+
+    return out;
+}
+
+std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
+    Enemy *enemy;
+    std::vector<Enemy*> out = std::vector<Enemy*>();
+
+    std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
+    for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+        enemy = (Enemy*) *it;
+        out.push_back(enemy);
     }
 
     return out;
