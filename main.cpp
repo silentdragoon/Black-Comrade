@@ -326,6 +326,8 @@ void Main::createViewPort() {
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
     //camera->setAspectRatio(1.17);
+
+    vp->update();
 }
 
 void Main::addCrossHair()
