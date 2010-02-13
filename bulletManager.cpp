@@ -110,7 +110,7 @@ void BulletManager::updateBullets() {
         
         	// Hurt Enemy or Ship
 			if(b->enemy != NULL && b->hitEnemy) {
-				b->enemy->health -= 1;
+				//b->enemy->health -= 1;
 			} else if (b->hitShip) {
                 std::cout << "ship hurt!" << std::endl;
             }

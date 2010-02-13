@@ -73,7 +73,7 @@ Main::Main() {
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
-    inputState = new InputState(window, false, this,true,false);
+    inputState = new InputState(window, false, this,true,true);
     gameLoop->addTickable(inputState,"inputState");
 
     // Pilot Controls
