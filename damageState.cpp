@@ -27,7 +27,7 @@ double DamageState::getHullHealth() { return hullHealth; }
 
 void DamageState::damage() {  
     if (shieldHealth <= 0 && hullHealth > 0) {
-        hullHealth = hullHealth - 5;
+        hullHealth = hullHealth - 4;
         print();
         return;
     }
@@ -38,7 +38,7 @@ void DamageState::damage() {
     switch(irand) {
         case 1:
             if (shieldHealth > 0) {
-                shieldHealth = shieldHealth - 5;
+                shieldHealth = shieldHealth - 2;
                 break;
             }
         case 2:
