@@ -105,7 +105,7 @@ Main::Main() {
 
 	// GameState
 	if(collabInfo->getGameRole() == PILOT) {
-	    gameStateMachine = new GameStateMachine(mapMgr,shipState);
+	    gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState);
 	    networkingManager->replicate(gameStateMachine);
 	    
     } else {

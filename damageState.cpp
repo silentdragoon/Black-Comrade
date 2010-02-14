@@ -15,6 +15,16 @@ void DamageState::tick() {
     //print();
 }
 
+double DamageState::getShieldHealth() { return shieldHealth; }
+
+double DamageState::getSensorHealth() { return sensorHealth; }
+
+double DamageState::getWeaponHealth() { return weaponHealth; }
+
+double DamageState::getEngineHealth() { return engineHealth; }
+
+double DamageState::getHullHealth() { return hullHealth; }
+
 void DamageState::damage() {
     if (shieldHealth > 0) {
         shieldHealth = shieldHealth - 5;

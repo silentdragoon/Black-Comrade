@@ -31,6 +31,12 @@ public:
     void tick();
     void damage();
 
+    double getShieldHealth();
+    double getSensorHealth();
+    double getWeaponHealth();
+    double getEngineHealth();
+    double getHullHealth();
+
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
     virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
