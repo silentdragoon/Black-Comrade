@@ -21,6 +21,7 @@ private:
     double sensorHealth;
     double weaponHealth;
     double engineHealth;
+    double hullHealth;
 
 public:
    
