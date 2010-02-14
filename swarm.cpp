@@ -5,7 +5,7 @@
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr, Lines *lines)
+	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -18,6 +18,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
     , lines(lines)
+    , collisionMgr(collisionMgr)
 {
 
 	rRayQuery = new RayQuery( sceneMgr );
@@ -297,8 +298,9 @@ void Swarm::turnEnemy(Enemy *e)
 	for(int j = 0; j < 15; ++j) {
 	    float a = 2 * j * PI / 15;
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
-	    
-	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+left), left, result);
+	    left.normalise();
+	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+2*left), left, result);
+	    result = (*e->getPosition()+2*left) + dist * left;
 	    if(dist > 0 && dist <= SEPERATION) {
 	        Vector3 wall = -(result - *e->getPosition());
 	        float weight = 100 * pow(1 - dist/SEPERATION,2);

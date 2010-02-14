@@ -61,7 +61,7 @@ SwarmManager::~SwarmManager()
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines);
+        ,lines,colMgr);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;

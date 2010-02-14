@@ -11,6 +11,7 @@
 #include "shipState.h"
 #include "sceneNodeManager.h"
 #include "lines.h"
+#include "collisionManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -33,6 +34,7 @@ class Swarm
     	SwarmState state;
     	ShipState *shipState;
     	Lines *lines;
+    	CollisionManager *collisionMgr;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
@@ -48,7 +50,7 @@ class Swarm
         int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines);
+			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();
