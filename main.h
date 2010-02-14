@@ -37,6 +37,7 @@
 #include "guiStatusUpdater.h"
 #include "sceneNodeManager.h"
 #include "damageState.h"
+#include "lines.h"
 
 //include networking stuff
 #include <string.h>
@@ -90,6 +91,8 @@ private:
     SwarmManager *swarmMgr;
     GuiManager *guiMgr;
     GuiStatusUpdater *guiStatusUpdater;
+    
+    Lines *lines;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

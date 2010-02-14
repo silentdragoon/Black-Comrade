@@ -21,6 +21,9 @@ Main::Main() {
     window = root->initialise(true, collabInfo->getGameRoleString());
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
 
+    // Static Lines class
+    lines = new Lines(sceneMgr);
+
     configResources();
 
     // Game Loop
@@ -156,7 +159,7 @@ Main::Main() {
 	// Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
 	    swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-		    shipState,collisionMgr,networkingManager);
+		    shipState,collisionMgr,networkingManager,lines);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
         	collisionMgr, networkingManager);

@@ -1,10 +1,11 @@
 
 #include "swarm.h"
 #include "const.h"
+#include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr)
+	SceneNodeManager *sceneNodeMgr, Lines *lines)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -16,7 +17,9 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, state(SS_PATROL)
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
+    , lines(lines)
 {
+
 	rRayQuery = new RayQuery( sceneMgr );
 
     for(int i=0;i<(size);i++) {
@@ -46,25 +49,28 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 
 void Swarm::tick()
 {
+    //std::cout << location << "\t" << yaw << "\n";
+    //std::cout << *shipState->getPosition() << "\t" << shipState->yaw << "\n";
+
 	removeDeadEnemies();
 
 	if(isShipInSight()) {
-		state = SS_ATTACK;
+	//	state = SS_ATTACK;
 	}
 	
 	// Change speed?
-	switch(state) {
+	/*switch(state) {
 		case SS_ATTACK:
 			speed = Const::ENEMY_ATTACK_SPEED;
 			break;
 		default:
 			speed = Const::ENEMY_PATROL_SPEED;
-	}
+	}*/
 
 	updateSwarmLocation();
 	updateEnemyLocations();
 	
-	shootAtShip();
+	//shootAtShip();
 }
 
 Swarm::~Swarm()
@@ -130,8 +136,8 @@ void Swarm::removeDeadEnemies()
 
 void Swarm::updateSwarmLocation()
 {
-	if(state == SS_PATROL) {
-	    Vector3 result(0,0,0);
+	if(true || state == SS_PATROL) {
+	    /*Vector3 result(0,0,0);
 	    float dRight, dLeft, tmp;
 
 	    Vector3 futPos( location.x+(speed*Const::LOOKA)*sin(yaw), location.y, location.z+(speed*Const::LOOKA)*cos(yaw));
@@ -147,10 +153,9 @@ void Swarm::updateSwarmLocation()
 	    yaw += 1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
 
 	    location.x += speed * sin(yaw);
-	    location.z += speed * cos(yaw);
+	    location.z += speed * cos(yaw);*/
 	}
-	
-	if(state == SS_ATTACK) {
+	else if(state == SS_ATTACK) {
 		
 		Vector3 lookDirection(sin(yaw),0,cos(yaw));
 		
@@ -220,6 +225,66 @@ void Swarm::shootAtShip()
 	}
 }
 
+void Swarm::turnEnemy(Enemy *e)
+{
+   #define SIGHT_RADIUS 8
+   #define TURN_RATE PI/4
+	Vector3 result;
+	Vector3 avg(0,0,0);
+	int count = 0;
+	
+	// Add target for forward momentum
+	Vector3 momentum(sin(yaw),0,cos(yaw));
+	momentum.normalise();
+	momentum *= 1000;
+	avg += momentum;
+	count++;
+	
+	// Send out rays to find obsticals
+	float dist;
+	for(int j = 0; j < 8; ++j) {
+	    float a = 2 * j * PI / 8;
+	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
+	    
+	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+left), left, result);
+	    if(dist > 0 && dist <= SIGHT_RADIUS) {
+	        Vector3 wall = -(result - *e->getPosition());
+	        float weight = 100 * pow(1 - dist/SIGHT_RADIUS,2);
+	        wall.normalise();
+	        wall *= weight;
+	        avg = avg + wall;
+	        count++;
+	    }
+	}
+	
+	// Needs to be done on a per enemy basis (not per swarm)
+	float newYaw = yaw;
+	
+	if(count) {
+	    avg = avg / count;
+	    newYaw = atan2(avg.x,avg.z);
+	    //cout << avg.z << "\t" << avg.x << "\n";
+	    cout << yaw << "\t" << newYaw << "\n";
+	    if(newYaw < 0) newYaw += 2.0*PI;
+		
+		// move yaw to be in the range [0,2PI]
+		while(yaw < 0) yaw += 2.0*PI;
+	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
+		float posDis = (newYaw >= yaw) ? newYaw - yaw : 2*PI + newYaw - yaw;
+		float negDis = (newYaw <= yaw) ? yaw - newYaw : 2*PI + yaw - newYaw;
+		
+		float move = (posDis <= negDis) ? posDis : -negDis;
+		
+		if(abs(move) < TURN_RATE) yaw += move;
+		else if(move > 0) yaw += TURN_RATE;
+		else yaw -= TURN_RATE;
+		
+	}
+	
+	location.x += speed * sin(yaw);
+    location.z += speed * cos(yaw);
+}
+
 void Swarm::updateEnemyLocations()
 {
 
@@ -232,9 +297,12 @@ void Swarm::updateEnemyLocations()
 	if(i != members.end()) {
 		e = *i;
 		
+		turnEnemy(e);
+		
 		e->setPosition(location);
 		e->setOrientation(roll,pitch,yaw);
 	}
+	
 	
 
 	// TODO: need to add the swarm behaviour here

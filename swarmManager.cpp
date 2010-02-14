@@ -3,7 +3,7 @@
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
 	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
-	CollisionManager* colMgr, NetworkingManager *networkingMgr) :
+	CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -13,7 +13,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     swarmTick(0),
     shipState(shipState),
     colMgr(colMgr),
-    networkingMgr(networkingMgr)
+    networkingMgr(networkingMgr),
+    lines(lines)
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -30,7 +31,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
             spawnPoint = *ite;
             Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
             createSwarm(1,sp);
-            //cout << "Created initial swarm..." << endl;
+            cout << "Created initial swarm..." << endl;
+            return;
         }
     }
     
@@ -58,7 +60,8 @@ SwarmManager::~SwarmManager()
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
-    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr);
+    Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
+        ,lines);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -124,6 +127,8 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
+    lines->clear();
+
     updateRemoteSwarms();
     if (mapMgr == 0) return;
 
