@@ -253,7 +253,7 @@ void Swarm::turnEnemy(Enemy *e)
 		    if(dist.length() <= SIGHT_RADIUS) {
 		        Vector3 momentum(sin(otherEnemy->yaw),0,cos(otherEnemy->yaw));
 	            momentum.normalise();
-	            momentum *= 00;
+	            momentum *= 100;
 	            avg += momentum;
 	            count++;
 	        }
@@ -284,7 +284,7 @@ void Swarm::turnEnemy(Enemy *e)
 		                (SIGHT_RADIUS / SEPERATION),2);
 		           
 		        } else {
-		            weight = - 100 * pow(1 - dist.length()/SEPERATION,2);
+		            weight = - 1000 * pow(1 - dist.length()/SEPERATION,2);
 		        }
 		        v *= weight;
                 avg += v;
@@ -299,8 +299,10 @@ void Swarm::turnEnemy(Enemy *e)
 	    float a = 2 * j * PI / 15;
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    left.normalise();
-	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+2*left), left, result);
-	    result = (*e->getPosition()+2*left) + dist * left;
+	    Vector3 p = (*e->getPosition()+2*left);
+	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
+	    result = p + dist * left;
 	    if(dist > 0 && dist <= SEPERATION) {
 	        Vector3 wall = -(result - *e->getPosition());
 	        float weight = 100 * pow(1 - dist/SEPERATION,2);
@@ -308,6 +310,7 @@ void Swarm::turnEnemy(Enemy *e)
 	        wall *= weight;
 	        avg = avg + wall;
 	        count++;
+	        //lines->addLine(e->getPosition(),&result);
 	    }
 	}
 	
