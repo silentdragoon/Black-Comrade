@@ -30,6 +30,8 @@ void DamageState::damage() {
 }
 
 void DamageState::damage(double multiplier) {
+    multiplier = abs(multiplier);
+
     if (shieldHealth <= 0 && hullHealth > 0) {
         hullHealth = hullHealth - (multiplier * 4);
         if (hullHealth < 0) hullHealth = 0.0;

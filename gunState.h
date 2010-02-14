@@ -9,6 +9,7 @@
 #include "ITickable.h"
 #include "IPlayerControls.h"
 #include "gameRole.h"
+#include "damageState.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -24,9 +25,10 @@ class GunState : public ITickable, public ReplicaObject
         GameRole owner;
 
         Vector3 position;
-        Quaternion orientation;    
+        Quaternion orientation;
         
         IPlayerControls *playerControls;
+        DamageState *damageState;
         
     public:
         bool fire();
@@ -37,7 +39,7 @@ class GunState : public ITickable, public ReplicaObject
         virtual void tick();
         
         GunState();
-        GunState(IPlayerControls *pilotControls, GameRole owner);
+        GunState(IPlayerControls *pilotControls, DamageState *damageState, GameRole owner);
         ~GunState();
 
         virtual RakNet::RakString GetName(void) const;
