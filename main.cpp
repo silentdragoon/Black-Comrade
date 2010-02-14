@@ -122,7 +122,7 @@ Main::Main() {
 
 	// Pilot Gun State
 	if(collabInfo->getGameRole() == PILOT) {
-	    pilotGunState = new GunState(pilotControls,collabInfo->getGameRole());
+	    pilotGunState = new GunState(pilotControls,damageState,collabInfo->getGameRole());
 	    networkingManager->replicate(pilotGunState);
 	} else {
     	pilotGunState = (GunState*) networkingManager->
@@ -132,7 +132,7 @@ Main::Main() {
     
     // Navigator Gun State
 	if(collabInfo->getGameRole() == NAVIGATOR) {
-	    navigatorGunState = new GunState(navigatorControls,collabInfo->getGameRole());
+	    navigatorGunState = new GunState(navigatorControls,damageState,collabInfo->getGameRole());
 	    networkingManager->replicate(navigatorGunState);
 	    gameLoop->addTickable(navigatorGunState,"navigatorGunState");
 	} else {
@@ -146,7 +146,7 @@ Main::Main() {
     
     // Engineer Gun State
 	if(collabInfo->getGameRole() == ENGINEER) {
-	    engineerGunState = new GunState(engineerControls,collabInfo->getGameRole());
+	    engineerGunState = new GunState(engineerControls,damageState,collabInfo->getGameRole());
 	    networkingManager->replicate(engineerGunState);
 	    gameLoop->addTickable(engineerGunState,"engineerGunState");
 	} else {
