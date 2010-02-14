@@ -231,7 +231,8 @@ void Swarm::shootAtShip()
 
 void Swarm::turnEnemy(Enemy *e)
 {
-   #define SIGHT_RADIUS 8
+   #define SIGHT_RADIUS 15
+   #define SEPERATION 8
    #define TURN_RATE PI/4
 	Vector3 result;
 	Vector3 avg(0,0,0);
@@ -246,6 +247,29 @@ void Swarm::turnEnemy(Enemy *e)
 	avg += momentum;
 	count++;
 	
+	// Move towards friends
+	std::vector<Enemy*>::iterator i;
+	Enemy *otherEnemy;
+	for(i = members.begin(); i != members.end(); ++i) {
+		otherEnemy = *i;
+		if(otherEnemy != e) {
+		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
+		    // Check that i can see my friend
+		    if(dist.length() <= SIGHT_RADIUS) {
+		        // Should I move closer?
+		        if(dist.length() > SEPERATION) {
+		            Vector3 v = dist;
+		            v.normalise();
+		            float weight = 100 * pow((dist.length() - SEPERATION)/
+		                (SIGHT_RADIUS / SEPERATION),2);
+		            v *= weight;
+		            avg += v;
+		            count++;
+		        }
+		    }
+		}
+	}
+	
 	// Send out rays to find obsticals
 	float dist;
 	for(int j = 0; j < 15; ++j) {
@@ -253,9 +277,9 @@ void Swarm::turnEnemy(Enemy *e)
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    
 	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+left), left, result);
-	    if(dist > 0 && dist <= SIGHT_RADIUS) {
+	    if(dist > 0 && dist <= SEPERATION) {
 	        Vector3 wall = -(result - *e->getPosition());
-	        float weight = 100 * pow(1 - dist/SIGHT_RADIUS,2);
+	        float weight = 100 * pow(1 - dist/SEPERATION,2);
 	        wall.normalise();
 	        wall *= weight;
 	        avg = avg + wall;
