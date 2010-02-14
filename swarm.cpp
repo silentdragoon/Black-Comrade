@@ -237,10 +237,28 @@ void Swarm::turnEnemy(Enemy *e)
 	Vector3 result;
 	Vector3 avg(0,0,0);
 	int count = 0;
+	Enemy *otherEnemy;
+	std::vector<Enemy*>::iterator itr;
 	
 	float yaw = e->yaw;
 	
-	// Add target for forward momentum
+	// Add target for forward momentum over all friends in sight range
+	
+	for(itr = members.begin(); itr != members.end(); ++itr) {
+		otherEnemy = *itr;
+		if(otherEnemy != e) {
+		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
+		    // Check that i can see my friend/myself
+		    if(dist.length() <= SIGHT_RADIUS) {
+		        Vector3 momentum(sin(otherEnemy->yaw),0,cos(otherEnemy->yaw));
+	            momentum.normalise();
+	            momentum *= 00;
+	            avg += momentum;
+	            count++;
+	        }
+	    }
+	}
+		
 	Vector3 momentum(sin(yaw),0,cos(yaw));
 	momentum.normalise();
 	momentum *= 1000;
@@ -248,10 +266,8 @@ void Swarm::turnEnemy(Enemy *e)
 	count++;
 	
 	// Move towards friends
-	std::vector<Enemy*>::iterator i;
-	Enemy *otherEnemy;
-	for(i = members.begin(); i != members.end(); ++i) {
-		otherEnemy = *i;
+	for(itr = members.begin(); itr != members.end(); ++itr) {
+		otherEnemy = *itr;
 		if(otherEnemy != e) {
 		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
 		    // Check that i can see my friend
