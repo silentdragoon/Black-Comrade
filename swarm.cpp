@@ -29,7 +29,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         ename += out.str();
 
         Enemy *e = new Enemy(1,0);
-        e->setPosition(location);
+        e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
+        e->roll = roll;
+        e->pitch = pitch;
+        e->yaw = 0;
+        
         sceneNodeMgr->createNode(e);
 
         members.push_back(e);
@@ -233,6 +237,8 @@ void Swarm::turnEnemy(Enemy *e)
 	Vector3 avg(0,0,0);
 	int count = 0;
 	
+	float yaw = e->yaw;
+	
 	// Add target for forward momentum
 	Vector3 momentum(sin(yaw),0,cos(yaw));
 	momentum.normalise();
@@ -242,8 +248,8 @@ void Swarm::turnEnemy(Enemy *e)
 	
 	// Send out rays to find obsticals
 	float dist;
-	for(int j = 0; j < 8; ++j) {
-	    float a = 2 * j * PI / 8;
+	for(int j = 0; j < 15; ++j) {
+	    float a = 2 * j * PI / 15;
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    
 	    dist = rRayQuery->RaycastFromPoint((*e->getPosition()+left), left, result);
@@ -258,13 +264,14 @@ void Swarm::turnEnemy(Enemy *e)
 	}
 	
 	// Needs to be done on a per enemy basis (not per swarm)
+	
 	float newYaw = yaw;
 	
 	if(count) {
 	    avg = avg / count;
 	    newYaw = atan2(avg.x,avg.z);
 	    //cout << avg.z << "\t" << avg.x << "\n";
-	    cout << yaw << "\t" << newYaw << "\n";
+	    //cout << yaw << "\t" << newYaw << "\n";
 	    if(newYaw < 0) newYaw += 2.0*PI;
 		
 		// move yaw to be in the range [0,2PI]
@@ -281,8 +288,8 @@ void Swarm::turnEnemy(Enemy *e)
 		
 	}
 	
-	location.x += speed * sin(yaw);
-    location.z += speed * cos(yaw);
+	e->yaw = yaw;
+	
 }
 
 void Swarm::updateEnemyLocations()
@@ -293,14 +300,18 @@ void Swarm::updateEnemyLocations()
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
-	i = members.begin();
-	if(i != members.end()) {
+	
+	for(i = members.begin(); i != members.end(); ++i) {
 		e = *i;
 		
 		turnEnemy(e);
 		
-		e->setPosition(location);
-		e->setOrientation(roll,pitch,yaw);
+		Vector3 newPosition = *e->getPosition();
+		
+		newPosition.x += speed * sin(e->yaw);
+        newPosition.z += speed * cos(e->yaw);
+        
+        e->setPosition(newPosition);
 	}
 	
 	

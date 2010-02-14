@@ -18,9 +18,7 @@ class Enemy : public IDrawable, public ReplicaObject
 {
     private:
         Vector3 *position;
-        Real roll;
-        Real pitch;
-        Real yaw;
+        
         SceneManager *sceneMgr;
         int id;
         
@@ -28,6 +26,10 @@ class Enemy : public IDrawable, public ReplicaObject
     	int health;
     	bool fire;
     	int fireDelay;
+    	
+    	Real roll;
+        Real pitch;
+        Real yaw;
     
         SceneNode *node;
         Enemy(int health, int id);

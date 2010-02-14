@@ -30,7 +30,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
         for(std::vector<Vector3*>::const_iterator ite=rings.begin();ite!=rings.end(); ++ite) {
             spawnPoint = *ite;
             Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
-            createSwarm(1,sp);
+            createSwarm(2,sp);
             cout << "Created initial swarm..." << endl;
             return;
         }
