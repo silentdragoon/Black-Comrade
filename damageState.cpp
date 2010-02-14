@@ -25,12 +25,39 @@ double DamageState::getEngineHealth() { return engineHealth; }
 
 double DamageState::getHullHealth() { return hullHealth; }
 
-void DamageState::damage() {
-    if (shieldHealth > 0) {
-        shieldHealth = shieldHealth - 5;
-    } else {
-        if (hullHealth > 0) hullHealth = hullHealth -5;
+void DamageState::damage() {  
+    if (shieldHealth <= 0 && hullHealth > 0) {
+        hullHealth = hullHealth - 5;
+        print();
+        return;
     }
+
+    srand ( time(NULL) );
+    int irand = rand() % 4 + 1;
+    
+    switch(irand) {
+        case 1:
+            if (shieldHealth > 0) {
+                shieldHealth = shieldHealth - 5;
+                break;
+            }
+        case 2:
+            if (sensorHealth > 0) {
+                sensorHealth = sensorHealth - 5;
+                break;
+            }
+        case 3:
+            if (weaponHealth > 0) {
+                weaponHealth = weaponHealth - 5;
+                break;
+            }
+        case 4:
+            if (engineHealth > 0) {
+                engineHealth = engineHealth - 5;
+                break;
+            }
+    }
+
     print();
 }
 

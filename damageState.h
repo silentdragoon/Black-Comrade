@@ -11,6 +11,8 @@
 #include "ReplicaManager3.h"
 #include <math.h>
 #include <string>
+#include <cstdlib>
+#include <time.h>
 
 using namespace Ogre;
 using namespace RakNet;
