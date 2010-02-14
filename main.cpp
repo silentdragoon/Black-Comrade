@@ -167,7 +167,8 @@ Main::Main() {
 
 	// Bullet Manager
 	bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
-        engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr);
+        engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
+        damageState);
 	gameLoop->addTickable(bulletMgr,"bulletManager");
 
 	// Audio

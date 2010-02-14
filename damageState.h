@@ -28,6 +28,7 @@ public:
 
     void print();
     void tick();
+    void damage();
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);

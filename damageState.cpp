@@ -14,6 +14,11 @@ void DamageState::tick() {
     //print();
 }
 
+void DamageState::damage() {
+    //shieldHealth = shieldHealth - 5;
+    //print();
+}
+
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
 
 RM3SerializationResult DamageState::Serialize(SerializeParameters *serializeParameters) {

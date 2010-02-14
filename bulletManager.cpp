@@ -4,7 +4,8 @@
 BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
                 GunState *pilotGunState, GunState *engineerGunState,
                 GunState *navigatorGunState, CollisionManager *colMgr,
-                SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr)
+                SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
+                DamageState *damageState)
     : shipState(shipState)
     , sceneMgr(sceneMgr)
     , pilotGunState(pilotGunState)
@@ -13,6 +14,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , sceneNodeMgr(sceneNodeMgr)
+    , damageState(damageState)
     , bnum(0)
 {
     activeBullets = new std::vector<Bullet*>();
@@ -110,7 +112,7 @@ void BulletManager::updateBullets() {
             if(b->enemy) {
                 b->enemy->health -= 1;
             } else if (b->hitShip) {
-                std::cout << "ship hurt!" << std::endl;
+                damageState->damage();
             }
         
             delete b;
