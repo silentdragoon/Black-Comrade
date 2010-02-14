@@ -7,6 +7,7 @@
 #include "pilotControls.h"
 #include "collisionManager.h"
 #include "shipState.h"
+#include "damageState.h"
 
 using namespace Ogre;
 using namespace std;
@@ -20,6 +21,7 @@ class Flying : public ITickable
         CollisionManager *colMgr;
         PilotControls *sc;
         ShipState *shipState;
+        DamageState *damageState;
         double vFactor;
 
         double zVel;
@@ -52,7 +54,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr);
+        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr);
 
         ~Flying();
 

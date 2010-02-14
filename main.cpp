@@ -86,7 +86,7 @@ Main::Main() {
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, collisionMgr );
+        flying = new Flying( pilotControls, shipState, damageState, collisionMgr );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }

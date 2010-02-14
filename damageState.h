@@ -32,6 +32,7 @@ public:
     void print();
     void tick();
     void damage();
+    void damage(double multiplier);
 
     double getShieldHealth();
     double getSensorHealth();
