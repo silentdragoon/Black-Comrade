@@ -16,8 +16,12 @@ void DamageState::tick() {
 }
 
 void DamageState::damage() {
-    //shieldHealth = shieldHealth - 5;
-    //print();
+    if (shieldHealth > 0) {
+        shieldHealth = shieldHealth - 5;
+    } else {
+        if (hullHealth > 0) hullHealth = hullHealth -5;
+    }
+    print();
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
@@ -39,7 +43,7 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(engineHealth);
     deserializeParameters->serializationBitstream[0].Read(hullHealth);
 
-    //print();
+    print();
 }
 
 void DamageState::print() {
