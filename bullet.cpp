@@ -22,7 +22,10 @@ Bullet::Bullet(SceneNode *bulletNode,
             direction(direction),
             velocity(velocity),
             distanceToTravel(dtt),
-            distanceTravelled(0.0)
+            distanceTravelled(0.0),
+            enemy(0),
+            hitEnemy(false),
+            hitShip(false)
 {
 }
 
