@@ -256,16 +256,22 @@ void Swarm::turnEnemy(Enemy *e)
 		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
 		    // Check that i can see my friend
 		    if(dist.length() <= SIGHT_RADIUS) {
-		        // Should I move closer?
+		    
+		        Vector3 v = dist;
+	            v.normalise();
+	            float weight;
+
+		        // Should I move closer or further away?
 		        if(dist.length() > SEPERATION) {
-		            Vector3 v = dist;
-		            v.normalise();
-		            float weight = 100 * pow((dist.length() - SEPERATION)/
+		            weight = 100 * pow((dist.length() - SEPERATION)/
 		                (SIGHT_RADIUS / SEPERATION),2);
-		            v *= weight;
-		            avg += v;
-		            count++;
+		           
+		        } else {
+		            weight = - 100 * pow(1 - dist.length()/SEPERATION,2);
 		        }
+		        v *= weight;
+                avg += v;
+                count++;
 		    }
 		}
 	}
