@@ -85,6 +85,7 @@ private:
     StateUpdate *gameLoop;
     SceneNode *shipSceneNode;
     ShipState *shipState;
+    DamageState *damageState;
     
     MapManager *mapMgr;
     SwarmManager *swarmMgr;

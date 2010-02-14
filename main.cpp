@@ -27,7 +27,13 @@ Main::Main() {
     gameLoop = new StateUpdate();
 
     // Damage State
-    DamageState *damageState = new DamageState();
+    if (collabInfo->getGameRole() == PILOT) {
+        damageState = new DamageState();
+        networkingManager->replicate(damageState);
+    } else {
+        damageState =
+                (DamageState*) networkingManager->getReplica("DamageState",true);
+    }
     gameLoop->addTickable(damageState, "damageState");
 
     // SceneNode Manager
