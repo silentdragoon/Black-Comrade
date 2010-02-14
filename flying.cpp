@@ -117,7 +117,7 @@ void Flying::updateShipState()
     shipState->setZ(position->z);
     
     shipState->yaw = yaw;
-    shipState->pitch = pitch;
+    shipState->pitch = -pitch;
     shipState->roll = roll;
 }
 

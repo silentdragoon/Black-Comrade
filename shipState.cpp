@@ -57,6 +57,8 @@ IDrawable* ShipState::getParentObject() { return NULL; }
 
 Vector3* ShipState::getOrientation() { return new Vector3(pitch,yaw,roll); }
 
+Vector3 *ShipState::getMeshOrientation() { return new Vector3(0,PI,0); }
+
 std::string ShipState::getMeshName() { return "ourship.mesh"; }
 
 void ShipState::setX(double newX) {

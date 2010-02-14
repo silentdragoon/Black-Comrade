@@ -292,7 +292,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     shipSceneNode->attachObject(camera);
 
     camera->setPosition(Vector3(0,0,0));
-    camera->lookAt(Vector3(0,0,1));
+    camera->lookAt(Vector3(0,0,-1));
     //camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(1);
     camera->setFarClipDistance(1500);

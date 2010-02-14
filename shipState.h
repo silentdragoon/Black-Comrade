@@ -7,6 +7,7 @@
 // #include "flying.h"
 #include "ITickable.h"
 #include "IDrawable.h"
+#include "const.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -42,6 +43,8 @@ public:
     
     Vector3 *getPosition();
     Vector3 *getOrientation();
+    Vector3 *getMeshOrientation();
+    
     IDrawable *getParentObject();
     std::string getMeshName();
 
