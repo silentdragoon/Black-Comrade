@@ -39,9 +39,32 @@ GuiManager::GuiManager(MapManager *mapMgr) :
     status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
 
+    // Health bars
+    shields = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","shields"));
+    sensors = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","sensors"));
+    weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
+    engine = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","engine"));
+    hull = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","hull"));
+    guiRoot->addChildWindow(shields);
+    guiRoot->addChildWindow(sensors);
+    guiRoot->addChildWindow(weapons);
+    guiRoot->addChildWindow(engine);
+    guiRoot->addChildWindow(hull);
+    shields->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.2f,0)));
+    sensors->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.3f,0)));
+    weapons->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.4f,0)));
+    engine->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.5f,0)));
+    hull->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.6f,0)));
+
     // Add minimap box to screen
     minimap = buildMinimap();
     guiRoot->addChildWindow(minimap);
+
 }
 
 GuiManager::~GuiManager(){}
@@ -138,4 +161,24 @@ void GuiManager::setStatus(std::string stat) {
 void GuiManager::moveMap()
 {
     minimap->setPosition(minimap->getPosition() + CEGUI::UVector2(CEGUI::UDim(-0.0001f,0),CEGUI::UDim(-0.0001f,0)));
+}
+
+void GuiManager::setShields(float yeah) {
+    shields->setProgress(yeah);
+}
+
+void GuiManager::setSensors(float yeah) {
+    sensors->setProgress(yeah);
+}
+
+void GuiManager::setWeapons(float yeah) {
+    weapons->setProgress(yeah);
+}
+
+void GuiManager::setEngines(float yeah) {
+    engine->setProgress(yeah);
+}
+
+void GuiManager::setHull(float yeah) {
+    hull->setProgress(yeah);
 }

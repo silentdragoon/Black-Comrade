@@ -4,14 +4,16 @@
 #include "ITickable.h"
 #include "guiManager.h"
 #include "stateUpdate.h"
+#include "damageState.h"
 #include <sstream>
 
 class GuiStatusUpdater : public ITickable {
     private:
         GuiManager *guiMgr;
         StateUpdate *stateUpdate;
+        DamageState *damageState;
     public:
-        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate);
+        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState);
         ~GuiStatusUpdater();
         virtual void tick();
 };

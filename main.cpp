@@ -187,7 +187,7 @@ Main::Main() {
 
     // CEGUI Stuff
     guiMgr = new GuiManager(mapMgr);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop

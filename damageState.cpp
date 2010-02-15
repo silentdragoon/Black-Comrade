@@ -35,7 +35,7 @@ void DamageState::damage(double multiplier) {
     if (shieldHealth <= 0 && hullHealth > 0) {
         hullHealth = hullHealth - (multiplier * 4);
         if (hullHealth < 0) hullHealth = 0.0;
-        print();
+        //print();
         return;
     }
 
@@ -69,7 +69,7 @@ void DamageState::damage(double multiplier) {
             }
     }
 
-    print();
+    //print();
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
@@ -91,7 +91,7 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(engineHealth);
     deserializeParameters->serializationBitstream[0].Read(hullHealth);
 
-    print();
+    //print();
 }
 
 void DamageState::print() {

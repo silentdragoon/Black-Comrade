@@ -16,6 +16,11 @@ private:
     CEGUI::FrameWindow *crossHair;
     CEGUI::Editbox *status;
     CEGUI::FrameWindow *minimap;
+    CEGUI::ProgressBar *shields;
+    CEGUI::ProgressBar *sensors;
+    CEGUI::ProgressBar *weapons;
+    CEGUI::ProgressBar *engine;
+    CEGUI::ProgressBar *hull;
     MapManager *mapMgr;
 
     CEGUI::FrameWindow* buildMinimap();
@@ -24,6 +29,11 @@ public:
     GuiManager(MapManager *mapMgr);
     ~GuiManager();
     void setStatus(std::string stat);
+    void setShields(float yeah);
+    void setSensors(float yeah);
+    void setWeapons(float yeah);
+    void setEngines(float yeah);
+    void setHull(float yeah);
     void moveMap();
 };
 
