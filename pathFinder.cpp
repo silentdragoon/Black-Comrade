@@ -3,11 +3,12 @@
 PathFinder::PathFinder(MapManager *mapMgr)
     : mapMgr(mapMgr)
 {
-    std::vector<MapTile*> path = findPath(mapMgr->mts[3][0], mapMgr->mts[8][9]);
-    for(std::vector<MapTile*>::const_iterator ite=path.begin();ite!=path.end();++ite) {
-        MapTile* tile = *ite;
-        std::cout << "maptile: " << tile->getX() << " " << tile->getY() << std::endl;
-    }   
+    // Example usage:
+    //std::vector<MapTile*> path = findPath(mapMgr->mts[3][0], mapMgr->mts[8][9]);
+    //for(std::vector<MapTile*>::const_iterator ite=path.begin();ite!=path.end();++ite) {
+    //    MapTile* tile = *ite;
+    //    std::cout << "maptile: " << tile->getX() << " " << tile->getY() << std::endl;
+    //}   
 }
 
 PathTile* PathFinder::chooseNextTile(std::vector<PathTile*> &tiles, PathTile* dest) {

@@ -6,7 +6,6 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "networkingManager.h"
-#include "pathFinder.h"
 
 using namespace RakNet;
 
@@ -44,8 +43,6 @@ Main::Main(  bool useKey, bool enemies, bool collisions  ) {
     // Create Map
     mapMgr = new MapManager("examplemap.txt",sceneMgr);
     mapMgr->outputMap(sceneMgr->getRootSceneNode());
-
-    PathFinder *pathFinder = new PathFinder(mapMgr);
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
