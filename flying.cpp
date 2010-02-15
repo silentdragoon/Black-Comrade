@@ -53,29 +53,24 @@ void Flying::updatePosition()
         zVel += col.penetration[0] * col.normals[2];
 
         damageState->damage(col.penetration[0]);
-
-/*         for( int i = 0; i < 1; i += 3 )
-        {
-
-            cout << "n["<<i<<"] "<< col.penetration[i] <<" xcomp: "<< col.penetration[0] * col.normals[i] <<" zcomp: "<< col.penetration[0] * col.normals[i+2] <<endl;
-            //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
-            //<<" "<< col.normals[i+2] <<" "<<endl;
-        } */
     }
 
     if( hitCountDown == 0 )
     {
         updateAngels();
-        //hack considering not all.
-        double xzFor =  EngineForce*sin(flyPitch);
-        xVel += xzFor*sin(flyYaw);
-        zVel += xzFor*cos(flyYaw);
-        double xzSide = SideForce*sin(flyRoll);
-        xVel -= xzSide*sin(flyYaw+1.57079633);
-        zVel -= xzSide*cos(flyYaw+1.57079633);
-
-        yVel += 0.025* sc->up();
-
+        //hack considering not all. Works fine though
+        if( damageState->getEngineHealth() > 0 )
+        {
+            double xzFor =  EngineForce*sin(flyPitch);
+            xVel += xzFor*sin(flyYaw);
+            zVel += xzFor*cos(flyYaw);
+            double xzSide = SideForce*sin(flyRoll);
+            xVel -= xzSide*sin(flyYaw+1.57079633);
+            zVel -= xzSide*cos(flyYaw+1.57079633);
+    
+            yVel += 0.025* sc->up();
+        }
+    
         addRoll = 0.0;
         addYaw = 0.0;
         addPitch = 0.0;
