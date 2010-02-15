@@ -1,6 +1,4 @@
 #include "pathFinder.h"
-#include <math.h>
-#include <limits>
 
 PathFinder::PathFinder(MapManager *mapMgr)
     : mapMgr(mapMgr)

@@ -7,6 +7,8 @@
 #include "mapTile.h"
 #include "pathTile.h"
 #include <vector>
+#include <math.h>
+#include <limits>
 
 class PathFinder {
 private:
