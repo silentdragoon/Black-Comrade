@@ -6,10 +6,14 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "networkingManager.h"
+#include "constManager.h"
 
 using namespace RakNet;
 
 Main::Main() {
+
+    // Load constants
+    ConstManager::getSingleton();
 
     // networking
     networkingManager = new NetworkingManager(this);

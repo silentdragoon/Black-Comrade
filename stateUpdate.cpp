@@ -19,7 +19,7 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
         timeSinceLastEvent += evt.timeSinceLastFrame;
         
         if(timeSinceLastEvent > ConstManager::getFloat("tick_period")) {
-        	std::cout << (timeSinceLastEvent - TICK_PERIOD) << std::endl;
+        	std::cout << (timeSinceLastEvent - ConstManager::getFloat("tick_period")) << std::endl;
             timeSinceLastEvent = 0;
             tick();
         }
@@ -54,7 +54,7 @@ void StateUpdate::startLoop()
         render = newtime - renderTime;
         //std::cout << "Rendertime: " << render << std::endl;
     	looptime = newtime - oldtime;
-    	sleep = (long)(1000 * TICK_PERIOD) - looptime;
+    	sleep = (long)(1000 * ConstManager::getFloat("tick_period")) - looptime;
     	//sleep = (sleep > 0) ? sleep : 0;
     	latestSlack = sleep;
     	while(timer.getMilliseconds() < newtime + sleep);
