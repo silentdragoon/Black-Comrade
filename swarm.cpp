@@ -305,7 +305,7 @@ void Swarm::turnEnemy(Enemy *e)
 	    result = p + dist * left;
 	    if(dist > 0 && dist <= SEPERATION) {
 	        Vector3 wall = -(result - *e->getPosition());
-	        float weight = 100 * pow(1 - dist/SEPERATION,2);
+	        float weight = 1000 * pow(1 - dist/SEPERATION,2);
 	        wall.normalise();
 	        wall *= weight;
 	        avg = avg + wall;
