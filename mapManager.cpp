@@ -261,6 +261,12 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
     }
 }    
 
+MapTile* MapManager::getMapTile(Vector3 *locn) {
+    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
+    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    return mts[x][y];    
+}
+
 string* MapManager::getWaypoint(Vector3 *locn) 
 {
     int x =(int) floor(locn->x/(double)Const::TILE_SIZE);

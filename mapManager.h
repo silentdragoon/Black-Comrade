@@ -54,7 +54,7 @@ public:
     Entity* getEntity(Vector3 *locn);
     void getMapEntities(Vector3 *locn, Entity** mps );
     
-    
+    MapTile* getMapTile(Vector3 *locn);
     string* getWaypoint(Vector3 *locn);
 
     std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
