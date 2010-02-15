@@ -5,7 +5,7 @@
 PathFinder::PathFinder(MapManager *mapMgr)
     : mapMgr(mapMgr)
 {
-    std::vector<MapTile*> path = findPath(mapMgr->mts[8][0], mapMgr->mts[3][3]);
+    std::vector<MapTile*> path = findPath(mapMgr->mts[3][0], mapMgr->mts[8][9]);
     for(std::vector<MapTile*>::const_iterator ite=path.begin();ite!=path.end();++ite) {
         MapTile* tile = *ite;
         std::cout << "maptile: " << tile->getX() << " " << tile->getY() << std::endl;

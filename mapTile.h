@@ -19,6 +19,10 @@ class MapTile
         Waypoint *w;
         bool waypoint;
         bool empty;
+        
+        bool southConn;
+        bool eastConn;
+        
         Vector3 *northSpawn;
         Vector3 *eastSpawn;
         Vector3 *southSpawn;
@@ -52,6 +56,9 @@ class MapTile
         Waypoint * getWaypoint();
         Entity* getEntity();
         SceneNode* getSceneNode();
+        
+        bool eastConnected();
+        bool southConnected();
 
         int getX();
         int getY();
