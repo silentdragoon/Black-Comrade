@@ -1,0 +1,13 @@
+
+tick_period = 0.01
+
+# Enemy Constants
+enemy_attack_speed = 5000
+enemy_patrol_speed = 10000
+enemy_sight_angle = 0.5236
+enemy_sight_dist = 150
+enemy_look_ahead = 15
+enemy_max_turn = 0.01
+enemy_ship_target_dist = 35
+
+# Flocking Constants
