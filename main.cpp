@@ -253,6 +253,9 @@ void Main::configResources()
                     "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
 
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    ResourceGroupManager::getSingleton().loadResourceGroup("General");
+
 }
 
 CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
