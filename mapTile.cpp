@@ -1,8 +1,10 @@
 #include "mapTile.h"
 
-MapTile::MapTile(SceneNode *node, Entity *e) :
+MapTile::MapTile(SceneNode *node, Entity *e, int x, int y) :
     node(node),
-    e(e)
+    e(e),
+    x(x),
+    y(y)
 {
     empty = false;
     waypoint = false;
@@ -17,6 +19,8 @@ MapTile::MapTile()
 {
     empty = true;
     waypoint = false;
+    x = 0;
+    y = 0;
 }
 
 MapTile::~MapTile()
@@ -96,6 +100,10 @@ MapTile* MapTile::getAdjacent(int i)
     if(i==4) return westTile;
     return NULL;
 }
+
+int MapTile::getX() { return x; }
+
+int MapTile::getY() { return y; }
 
 void MapTile::setConnections(std::vector<int> c)
 {

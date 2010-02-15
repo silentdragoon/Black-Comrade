@@ -24,6 +24,9 @@ class MapTile
         Vector3 *southSpawn;
         Vector3 *westSpawn;
 
+        int x;
+        int y;
+
         std::vector<int> conns;
 
         MapTile *northTile;
@@ -50,7 +53,10 @@ class MapTile
         Entity* getEntity();
         SceneNode* getSceneNode();
 
-        MapTile(SceneNode *node, Entity *e);
+        int getX();
+        int getY();
+
+        MapTile(SceneNode *node, Entity *e, int x, int y);
         MapTile();
         ~MapTile();
 };

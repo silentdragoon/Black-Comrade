@@ -202,7 +202,7 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	
 	node->setPosition(pos);
 
-    MapTile *m = new MapTile(node,e);
+    MapTile *m = new MapTile(node,e,x,y);
 
     Waypoint *w;
 
