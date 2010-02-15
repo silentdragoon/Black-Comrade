@@ -10,6 +10,7 @@
 #include "replicaObject.h"
 
 #include "sceneNodeManager.h"
+#include "const.h"
 
 using namespace Ogre;
 using namespace std;
@@ -39,6 +40,7 @@ class Enemy : public IDrawable, public ReplicaObject
 
         Vector3 *getPosition();
         Vector3 *getOrientation();
+        Vector3 *getMeshOrientation();
 
         std::string getMeshName();
         IDrawable *getParentObject();

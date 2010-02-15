@@ -3,10 +3,11 @@
 
 #include <iostream>
 
-GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState)
+GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState, DamageState *damageState)
 	: gameState(GS_STEALTH)
 	, mapManager(mapManager)
 	, shipState(shipState)
+        , damageState(damageState)
 	, mIsNewState(true)
 {}
 
@@ -33,19 +34,31 @@ void GameStateMachine::tick()
 
 	oldState = gameState;
         //std::cout << "Checking statemachine" << std::endl;
-	// Waypoint events
-	string *wp = mapManager->getWaypoint(shipState->getPosition());
-	if(wp != NULL) {
-		if(*wp == "wp_attack") {
-			switch(gameState) {
-				case GS_STEALTH:
-					gameState = GS_ATTACK;
-					break;
-			}
-		}
-	}
+
+        checkWaypoints();
+        checkHealth();
 
 	if(oldState != gameState) mIsNewState = true;
+}
+
+void GameStateMachine::checkWaypoints() {
+    // Waypoint events
+    string *wp = mapManager->getWaypoint(shipState->getPosition());
+    if(wp != NULL) {
+        if(*wp == "wp_attack") {
+            switch(gameState) {
+                case GS_STEALTH:
+                gameState = GS_ATTACK;
+                break;
+            }
+        }
+    }
+}
+
+void GameStateMachine::checkHealth() {
+    if (damageState->getHullHealth() <= 0) {
+        gameState = GS_GAME_OVER;
+    }
 }
 	
 GameState GameStateMachine::currentGameState()

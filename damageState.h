@@ -11,6 +11,8 @@
 #include "ReplicaManager3.h"
 #include <math.h>
 #include <string>
+#include <cstdlib>
+#include <time.h>
 
 using namespace Ogre;
 using namespace RakNet;
@@ -21,6 +23,7 @@ private:
     double sensorHealth;
     double weaponHealth;
     double engineHealth;
+    double hullHealth;
 
 public:
    
@@ -28,6 +31,14 @@ public:
 
     void print();
     void tick();
+    void damage();
+    void damage(double multiplier);
+
+    double getShieldHealth();
+    double getSensorHealth();
+    double getWeaponHealth();
+    double getEngineHealth();
+    double getHullHealth();
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);

@@ -20,9 +20,9 @@ void SceneNodeManager::updateNode(IDrawable *object, SceneNode *node) {
 	node->resetOrientation();
     node->setPosition(*object->getPosition());
 
-    Radian roll(object->getOrientation()->z);
-    Radian pitch(object->getOrientation()->x);
-    Radian yaw(object->getOrientation()->y);
+    Radian roll(object->getOrientation()->z + object->getMeshOrientation()->z);
+    Radian pitch(object->getOrientation()->x + object->getMeshOrientation()->x);
+    Radian yaw(object->getOrientation()->y + object->getMeshOrientation()->y);
 
     node->yaw(yaw);
     node->roll(roll);

@@ -4,7 +4,8 @@
 BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
                 GunState *pilotGunState, GunState *engineerGunState,
                 GunState *navigatorGunState, CollisionManager *colMgr,
-                SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr)
+                SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
+                DamageState *damageState)
     : shipState(shipState)
     , sceneMgr(sceneMgr)
     , pilotGunState(pilotGunState)
@@ -13,6 +14,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     , colMgr(colMgr)
     , swarmMgr(swarmMgr)
     , sceneNodeMgr(sceneNodeMgr)
+    , damageState(damageState)
     , bnum(0)
 {
     activeBullets = new std::vector<Bullet*>();
@@ -81,25 +83,24 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
         }
     }
 
-    //bool isShip = false;
-    //Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
-    //double distToShip = colMgr->rayCollideWithTransform(pos,&direction,shipEntity);
-    //if (distToShip < t && distToShip > 0.0) {
-    //    isShip = true;
-    //    isEnemy = false;
-    //}
-
-    //cout << t << endl;
+    bool isShip = false;
+    Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+    double distToShip = colMgr->rayCollideWithTransform(pos,&direction,shipEntity);
+    if (distToShip < t && distToShip > 1.0) {
+        isShip = true;
+        isEnemy = false;
+    }
     
     // FIRE THE BULLET!
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,
     	Const::FRONT_BULLET_SPEED,t);
-	if (isEnemy) {
+
+    if (isEnemy) {
         b->hitEnemy = true;
         b->enemy = hurtEnemy;
-    }
-    //if (isShip) b->hitShip = true;
-	activeBullets->push_back(b);
+    } else if (isShip) b->hitShip = true;
+
+    activeBullets->push_back(b);
 }
 
 void BulletManager::updateBullets() {
@@ -107,12 +108,11 @@ void BulletManager::updateBullets() {
         Bullet *b = activeBullets->at(i);
         b->updateLocation();
         if(b->distanceTravelled>b->distanceToTravel) {
-        
-        	// Hurt Enemy or Ship
-			if(b->enemy != NULL && b->hitEnemy) {
-				//b->enemy->health -= 1;
-			} else if (b->hitShip) {
-                std::cout << "ship hurt!" << std::endl;
+            // Hurt Enemy or Ship
+            if(b->enemy) {
+                b->enemy->health -= 1;
+            } else if (b->hitShip) {
+                damageState->damage();
             }
         
             delete b;

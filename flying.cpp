@@ -1,10 +1,11 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, CollisionManager *colMgr):
+Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
+    damageState(damageState),
     zVel(0.0),
     xVel(0.0),
     yVel(0.0),
@@ -50,6 +51,8 @@ void Flying::updatePosition()
         xVel += col.penetration[0] * col.normals[0];
         yVel += col.penetration[0] * col.normals[1];
         zVel += col.penetration[0] * col.normals[2];
+
+        damageState->damage(col.penetration[0]);
 
 /*         for( int i = 0; i < 1; i += 3 )
         {
@@ -114,8 +117,8 @@ void Flying::updateShipState()
     shipState->setZ(position->z);
     
     shipState->yaw = yaw;
-    shipState->pitch = pitch;
-    shipState->roll = roll;
+    shipState->pitch = -pitch;
+    shipState->roll = -roll;
 }
 
 void Flying::tick()

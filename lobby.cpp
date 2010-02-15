@@ -90,19 +90,19 @@ void Lobby::checkForRoleChoice() {
     if (kbhit())
     {
         char ch = getch();
-        if ((ch=='p' || ch=='P') && gameRole == NO_GAME_ROLE)
+        if ((ch=='p' || ch=='P') && gameRole == NO_GAME_ROLE && pilotTaken == false)
         {
             gameRole = PILOT;
             pilotTaken = true;
             printf("You chose to be the Pilot.\n");
         }
-        else if ((ch=='n' || ch=='N') && gameRole == NO_GAME_ROLE)
+        else if ((ch=='n' || ch=='N') && gameRole == NO_GAME_ROLE && navTaken == false)
         {
             gameRole = NAVIGATOR;
             navTaken = true;
             printf("You chose to be the Navigator.\n");
         }
-        else if ((ch=='e' || ch=='E') && gameRole == NO_GAME_ROLE)
+        else if ((ch=='e' || ch=='E') && gameRole == NO_GAME_ROLE && engTaken == false)
         {
             gameRole = ENGINEER;
             engTaken = true;

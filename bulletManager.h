@@ -12,6 +12,7 @@
 #include "collisionManager.h"
 #include "swarmManager.h"
 #include "shipState.h"
+#include "damageState.h"
 
 using namespace Ogre;
 using namespace std;
@@ -29,6 +30,7 @@ class BulletManager : public ITickable
         GunState *engineerGunState;
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
+        DamageState *damageState;
         
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
         void handleGun(GunState *gun);
@@ -39,7 +41,8 @@ class BulletManager : public ITickable
         BulletManager(ShipState *shipState, SceneManager *sceneMgr,
             GunState *pilotGunState, GunState *engineerGunState,
             GunState *navigatorGunState, CollisionManager *colMgr,
-            SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr);
+            SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
+            DamageState *damageState);
 
         ~BulletManager();
             

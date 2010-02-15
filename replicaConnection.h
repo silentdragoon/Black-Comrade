@@ -6,6 +6,7 @@
 #include "gunState.h"
 #include "enemy.h"
 #include "gameStateMachine.h"
+#include "damageState.h"
 
 using namespace RakNet;
 
