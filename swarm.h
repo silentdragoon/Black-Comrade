@@ -12,6 +12,7 @@
 #include "sceneNodeManager.h"
 #include "lines.h"
 #include "collisionManager.h"
+#include "constManager.h"
 
 using namespace Ogre;
 using namespace std;
