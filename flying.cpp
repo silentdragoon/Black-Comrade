@@ -118,7 +118,7 @@ void Flying::updateShipState()
     
     shipState->yaw = yaw;
     shipState->pitch = -pitch;
-    shipState->roll = roll;
+    shipState->roll = -roll;
 }
 
 void Flying::tick()
