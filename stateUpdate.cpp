@@ -1,6 +1,7 @@
 
 #include "stateUpdate.h"
 #include "const.h"
+#include "constManager.h"
 
 #include <iostream>
 
@@ -17,7 +18,7 @@ bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
 
         timeSinceLastEvent += evt.timeSinceLastFrame;
         
-        if(timeSinceLastEvent > TICK_PERIOD) {
+        if(timeSinceLastEvent > ConstManager::getFloat("tick_period")) {
         	std::cout << (timeSinceLastEvent - TICK_PERIOD) << std::endl;
             timeSinceLastEvent = 0;
             tick();
