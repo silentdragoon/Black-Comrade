@@ -1,11 +1,12 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr):
+Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool useCollisions):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
     damageState(damageState),
+    useCollisions(useCollisions),
     zVel(0.0),
     xVel(0.0),
     yVel(0.0),
@@ -43,7 +44,7 @@ void Flying::updatePosition()
 {
     //Collision col = colMgr->collideWithMapPiece((Entity*)shipState->shipSceneNode->getAttachedObject(1) );
     Collision col = colMgr->shipMapCollision(position);
-    if(col.isCollided)
+    if(col.isCollided && useCollisions)
     {
         vFactor = 0.05;
         hitCountDown = static_cast<int> (100.0*col.penetration[0]);

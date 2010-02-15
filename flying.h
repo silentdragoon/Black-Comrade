@@ -16,6 +16,8 @@ class Flying : public ITickable
 {
     private:
         void updateShipState();
+        
+        bool useCollisions;
     
         int hitCountDown;
         CollisionManager *colMgr;
@@ -56,7 +58,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr);
+        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool collisions);
 
         ~Flying();
 
