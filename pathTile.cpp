@@ -1,7 +1,8 @@
 #include "pathTile.h"
 
 PathTile::PathTile(MapTile* mapTile) :
-    mapTile(mapTile)
+    mapTile(mapTile),
+    parent(0)
 {
     x = mapTile->getX();
     y = mapTile->getY();
@@ -14,18 +15,16 @@ int PathTile::getY() { return y; }
 
 void PathTile::setParent(PathTile *newParent) {
     parent = newParent;
-    std::cout << "set parent" << std::endl;
 }
 
 PathTile* PathTile::getParent() { return parent; }
 
 std::vector<MapTile*> PathTile::getPath() {
-    std::vector<MapTile*> path;
+    std::vector<MapTile*> path = std::vector<MapTile*>() ;
     if (parent == 0) {
         path = std::vector<MapTile*>();
     } else {
         path = parent->getPath();
-        std::cout << path.size() << std::endl;
     }
     path.push_back(getMapTile());
     return path;
@@ -52,13 +51,12 @@ double PathTile::getF(PathTile *dest) {
 }
 
 double PathTile::getH(PathTile *dest) {
-    return euclideanDistance(this,dest);
+    return euclideanDistance(dest);
 }
 
-double PathTile::euclideanDistance(PathTile *a, PathTile *b) {
+double PathTile::euclideanDistance(PathTile *b) {
     double result = 0.0;
-    result = sqrt(pow((double)a->getX()-b->getX(),2.0) + 
-                  pow((double)a->getY()-b->getY(),2.0));
-    std::cout << result << std::endl;
+    result = sqrt(pow((double)getX()-b->getX(),2.0) + 
+                  pow((double)getY()-b->getY(),2.0));
     return result;
 }

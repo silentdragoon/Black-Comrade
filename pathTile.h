@@ -13,7 +13,7 @@ private:
     double g;
     double h;
 
-    double euclideanDistance(PathTile *a, PathTile *b);
+    double euclideanDistance(PathTile *b);
 
 public:
     PathTile(MapTile *mapTile);

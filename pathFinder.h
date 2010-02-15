@@ -12,15 +12,11 @@ class PathFinder {
 private:
     MapManager *mapMgr;
 
-    std::vector<PathTile*> open;
-    std::vector<PathTile*> closed;
     PathTile* start;
     PathTile* end;
 
-    void initialize();
-    double euclideanDistance(PathTile *a, PathTile *b);
     std::vector<PathTile*> findNeighbours(PathTile* tile);
-    PathTile* chooseNextTile(std::vector<PathTile*> tiles, PathTile* dest);
+    PathTile* chooseNextTile(std::vector<PathTile*> &tiles, PathTile* dest);
     bool contains(std::vector<PathTile*> tiles, PathTile* tile);
 
 public:
