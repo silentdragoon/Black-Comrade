@@ -21,6 +21,11 @@ private:
     CEGUI::ProgressBar *weapons;
     CEGUI::ProgressBar *engine;
     CEGUI::ProgressBar *hull;
+    CEGUI::FrameWindow *shieldText;
+    CEGUI::FrameWindow *sensorText;
+    CEGUI::FrameWindow *weaponText;
+    CEGUI::FrameWindow *engineText;
+    CEGUI::FrameWindow *hullText;
     MapManager *mapMgr;
 
     CEGUI::FrameWindow* buildMinimap();
@@ -33,6 +38,11 @@ public:
     void setSensors(float yeah);
     void setWeapons(float yeah);
     void setEngines(float yeah);
+    void setShieldText(string mess);
+    void setSensorText(string mess);
+    void setWeaponText(string mess);
+    void setEngineText(string mess);
+    void setHullText(string mess);
     void setHull(float yeah);
     void moveMap();
 };

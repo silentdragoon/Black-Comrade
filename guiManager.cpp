@@ -9,7 +9,6 @@ GuiManager::GuiManager(MapManager *mapMgr) :
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
     CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
     CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-    //CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
 
     CEGUI::XMLParser *parser = CEGUI::System::getSingleton().getXMLParser();
     if(parser->isPropertyPresent("SchemaDefaultResourceGroup")) {
@@ -19,7 +18,6 @@ GuiManager::GuiManager(MapManager *mapMgr) :
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
     // Set the scheme we want to use for skinning the gui and getting layouts and stuff
-    //CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
     CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
@@ -37,29 +35,62 @@ GuiManager::GuiManager(MapManager *mapMgr) :
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/Editbox","status"));
     guiRoot->addChildWindow(status);
     status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
-    status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0),CEGUI::UDim(0.05f,0)));
+    status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.95f,0)));
 
-    // Health bars
+    // Health bars + Text for them
     shields = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","shields"));
     sensors = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","sensors"));
     weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
     engine = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","engine"));
     hull = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","hull"));
+
     guiRoot->addChildWindow(shields);
     guiRoot->addChildWindow(sensors);
     guiRoot->addChildWindow(weapons);
     guiRoot->addChildWindow(engine);
     guiRoot->addChildWindow(hull);
+
+    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.0f,0)));
+    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.06f,0)));
+    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.09f,0)));
+    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.12f,0)));
+
     shields->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.2f,0)));
     sensors->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.3f,0)));
     weapons->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.4f,0)));
     engine->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.5f,0)));
     hull->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.6f,0)));
+
+    shieldText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","shieldtext"));
+    guiRoot->addChildWindow(shieldText);
+    shieldText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    shieldText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.0f,0)));
+    shieldText->setText("1: Shields");
+
+    sensorText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","sensortext"));
+    guiRoot->addChildWindow(sensorText);
+    sensorText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    sensorText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.03f,0)));
+    sensorText->setText("2: Sensors");
+
+    weaponText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","weapontext"));
+    guiRoot->addChildWindow(weaponText);
+    weaponText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    weaponText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.06f,0)));
+    weaponText->setText("3: Weapons");
+
+    engineText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","enginetext"));
+    guiRoot->addChildWindow(engineText);
+    engineText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    engineText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.09f,0)));
+    engineText->setText("4: Engines");
+
+    hullText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","hulltext"));
+    guiRoot->addChildWindow(hullText);
+    hullText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    hullText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.12f,0)));
+    hullText->setText("5: Hull");
 
     // Add minimap box to screen
     minimap = buildMinimap();
@@ -109,12 +140,6 @@ CEGUI::FrameWindow* GuiManager::buildMinimap() {
 
             // TODO: SCALING HERE NEEDS FIXING SO IT DOESNT TAKE UP ALL OF THE SCREEEEN
             CEGUI::ComponentArea ca = CEGUI::ComponentArea();
-            /*
-            ca.d_left = CEGUI::Dimension(CEGUI::AbsoluteDim(xpos*30),CEGUI::DT_X_POSITION);
-            ca.d_top = CEGUI::Dimension(CEGUI::AbsoluteDim(ypos*30),CEGUI::DT_Y_POSITION);
-            ca.d_right_or_width = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_WIDTH);
-            ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::AbsoluteDim(30),CEGUI::DT_HEIGHT);
-            */
 
             ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(xpos*0.015/ratio,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
             ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(ypos*0.015,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
@@ -181,4 +206,24 @@ void GuiManager::setEngines(float yeah) {
 
 void GuiManager::setHull(float yeah) {
     hull->setProgress(yeah);
+}
+
+void GuiManager::setShieldText(string mess) {
+    shieldText->setText(mess);
+}
+
+void GuiManager::setSensorText(string mess) {
+    sensorText->setText(mess);
+}
+
+void GuiManager::setWeaponText(string mess) {
+    weaponText->setText(mess);
+}
+
+void GuiManager::setEngineText(string mess) {
+    engineText->setText(mess);
+}
+
+void GuiManager::setHullText(string mess) {
+    hullText->setText(mess);
 }
