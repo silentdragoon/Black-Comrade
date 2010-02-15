@@ -120,7 +120,7 @@ CEGUI::FrameWindow* GuiManager::buildMinimap() {
     lookFeel.addStateSpecification(si);
 
     CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
-    
+    // TODO:: Almost certain some of these should be constants
     // Create the FrameWindow to return
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","mini"));
     minimap->setLookNFeel(lookFeel.getName());
