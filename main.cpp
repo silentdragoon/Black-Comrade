@@ -186,8 +186,8 @@ Main::Main(  bool useKey, bool enemies, bool collisions  ) {
 	// Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager(mapMgr);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState);
+    guiMgr = new GuiManager(mapMgr,shipState);    
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole());
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop
