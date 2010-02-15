@@ -1,9 +1,11 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
-    damageState(damageState)
+    damageState(damageState),
+    navigatorControls(navigatorControls),
+    gameRole(gameRole)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -28,9 +30,19 @@ void GuiStatusUpdater::tick() {
     guiMgr->setEngines(engineHealth);
     guiMgr->setHull(hullHealth);
 
-    if(shieldHealth<0.25f) guiMgr->setShieldText("1: CRITICAL");
-    if(sensorHealth<0.25f) guiMgr->setSensorText("2: CRITICAL");
-    if(weaponHealth<0.25f) guiMgr->setWeaponText("3: CRITICAL");
-    if(engineHealth<0.25f) guiMgr->setEngineText("4: CRITICAL");
-    if(hullHealth<0.25f) guiMgr->setHullText("5: CRITICAL");
+    if(gameRole==NAVIGATOR) {
+        if(navigatorControls->isMap()) {
+            guiMgr->toggleMap(true);
+        } else {
+            guiMgr->toggleMap(false);
+        }
+    }
+
+    //if(shieldHealth<0.25f) guiMgr->setShieldText("1: SHIELD CRITICAL");
+    //if(sensorHealth<0.25f) guiMgr->setSensorText("2: SENSORS CRITICAL");
+    //if(weaponHealth<0.25f) guiMgr->setWeaponText("3: WEAPONS CRITICAL");
+    //if(engineHealth<0.25f) guiMgr->setEngineText("4: ENGINE CRITICAL");
+    //if(hullHealth<0.25f) guiMgr->setHullText("5: HULL CRITICAL");
+
+    //guiMgr->switchMap();
 }

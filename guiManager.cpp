@@ -1,6 +1,7 @@
 #include "guiManager.h"
 
-GuiManager::GuiManager(MapManager *mapMgr) :
+GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
+    shipState(shipState),
     mapMgr(mapMgr)
 {
     CEGUI::OgreRenderer::bootstrapSystem();
@@ -50,11 +51,11 @@ GuiManager::GuiManager(MapManager *mapMgr) :
     guiRoot->addChildWindow(engine);
     guiRoot->addChildWindow(hull);
 
-    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.0f,0)));
-    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.06f,0)));
-    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.09f,0)));
-    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.12f,0)));
+    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.0f,0)));
+    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
+    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.06f,0)));
+    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.09f,0)));
+    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.12f,0)));
 
     shields->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
     sensors->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
@@ -64,43 +65,44 @@ GuiManager::GuiManager(MapManager *mapMgr) :
 
     shieldText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","shieldtext"));
     guiRoot->addChildWindow(shieldText);
-    shieldText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    shieldText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     shieldText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.0f,0)));
     shieldText->setText("1: Shields");
 
     sensorText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","sensortext"));
     guiRoot->addChildWindow(sensorText);
-    sensorText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    sensorText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     sensorText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.03f,0)));
     sensorText->setText("2: Sensors");
 
     weaponText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","weapontext"));
     guiRoot->addChildWindow(weaponText);
-    weaponText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    weaponText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     weaponText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.06f,0)));
     weaponText->setText("3: Weapons");
 
     engineText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","enginetext"));
     guiRoot->addChildWindow(engineText);
-    engineText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    engineText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     engineText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.09f,0)));
     engineText->setText("4: Engines");
 
     hullText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","hulltext"));
     guiRoot->addChildWindow(hullText);
-    hullText->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+    hullText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     hullText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.12f,0)));
     hullText->setText("5: Hull");
 
-    // Add minimap box to screen
-    minimap = buildMinimap();
-    guiRoot->addChildWindow(minimap);
+    // Create the full map 
+    fullmap = buildFullMap();
+    guiRoot->addChildWindow(fullmap);
+    fullmap->setVisible(false);
 
 }
 
 GuiManager::~GuiManager(){}
 
-CEGUI::FrameWindow* GuiManager::buildMinimap() {
+CEGUI::FrameWindow* GuiManager::buildFullMap() {
     // CREATE MINIMAP
     CEGUI::WidgetLookFeel lookFeel("fullMiniMap");
     CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery"); 
@@ -173,7 +175,6 @@ CEGUI::FrameWindow* GuiManager::buildMinimap() {
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","mini"));
     minimap->setLookNFeel(lookFeel.getName());
     minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-30*0.015/ratio/2,0),CEGUI::UDim(0.5-30*0.015/2,0)));
-    //minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
     minimap->setSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0),CEGUI::UDim(1.0f,0)));
 
     return minimap;
@@ -183,9 +184,13 @@ void GuiManager::setStatus(std::string stat) {
     status->setText(stat);
 }
 
-void GuiManager::moveMap()
+void GuiManager::toggleMap(bool tog)
 {
-    minimap->setPosition(minimap->getPosition() + CEGUI::UVector2(CEGUI::UDim(-0.0001f,0),CEGUI::UDim(-0.0001f,0)));
+    if(tog) {
+        fullmap->setVisible(true);
+    } else {
+        fullmap->setVisible(false);
+    }
 }
 
 void GuiManager::setShields(float yeah) {

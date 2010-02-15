@@ -7,14 +7,17 @@
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
 #include "mapManager.h"
+#include "shipState.h"
 #include "const.h"
 
 class GuiManager {
 private:
+
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
     CEGUI::FrameWindow *crossHair;
     CEGUI::Editbox *status;
+    CEGUI::FrameWindow *fullmap;
     CEGUI::FrameWindow *minimap;
     CEGUI::ProgressBar *shields;
     CEGUI::ProgressBar *sensors;
@@ -26,12 +29,14 @@ private:
     CEGUI::FrameWindow *weaponText;
     CEGUI::FrameWindow *engineText;
     CEGUI::FrameWindow *hullText;
-    MapManager *mapMgr;
 
-    CEGUI::FrameWindow* buildMinimap();
+    MapManager *mapMgr;
+    ShipState *shipState;
+
+    CEGUI::FrameWindow* buildFullMap();
 
 public:
-    GuiManager(MapManager *mapMgr);
+    GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
     void setStatus(std::string stat);
     void setShields(float yeah);
@@ -44,7 +49,7 @@ public:
     void setEngineText(string mess);
     void setHullText(string mess);
     void setHull(float yeah);
-    void moveMap();
+    void toggleMap(bool tog);
 };
 
 #endif
