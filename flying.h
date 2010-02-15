@@ -39,6 +39,8 @@ class Flying : public ITickable
         
         static const double EngineForce = 0.5;
         static const double SideForce = 0.13;
+        
+        double damage;
 
         void updateAngels();
 
