@@ -267,6 +267,13 @@ MapTile* MapManager::getMapTile(Vector3 *locn) {
     return mts[x][y];    
 }
 
+Vector3 MapManager::getActualPosition(MapTile* mapTile) {
+    int half = (int) floor((double)Const::TILE_SIZE / 2.0);
+    int x = (int)(mapTile->getX() * Const::TILE_SIZE) + half;
+    int y = (int)(mapTile->getY() * Const::TILE_SIZE) + half;
+    return Vector3(x,0,y);
+}
+
 string* MapManager::getWaypoint(Vector3 *locn) 
 {
     int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
