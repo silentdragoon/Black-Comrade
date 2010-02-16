@@ -8,6 +8,7 @@
 #include "ITickable.h"
 #include "gunState.h"
 #include "soundManager.h"
+#include "const.h"
 
 using namespace Ogre;
 using namespace std;

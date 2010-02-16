@@ -7,7 +7,7 @@ void SoundManager::errCheck(FMOD_RESULT result) {
 }
 
 SoundManager::SoundManager() {
-    Ogre::LogManager::getSingleton().logMessage("Starting sound system...");
+    Ogre::LogManager::getSingleton().logMessage("Starting FMODEX sound system...");
 
     errCheck( FMOD::System_Create(&system) );
 
@@ -17,23 +17,28 @@ SoundManager::SoundManager() {
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
-    FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
-    errCheck( system->setReverbAmbientProperties(&prop) );
-
     loadSoundFiles();
     
-    Ogre::LogManager::getSingleton().logMessage("Sound system OK.");
+    Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
 
 void SoundManager::loadSoundFiles() {
-    errCheck( system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &sound1) );
+    FMOD::Sound *tempsound;
 
-    errCheck( sound1->set3DMinMaxDistance(0.0f, 10000.0f) );
+    // Frontgun sound
+    errCheck(system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    errCheck(tempsound->setMode(FMOD_LOOP_OFF));
+    int vag = Const::SOUND_FRONTGUN;
+    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
 
-    errCheck( sound1->setMode(FMOD_LOOP_OFF) );
+    // Background music
+    errCheck(system->createStream("./sounds/background.mp3", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
+    vag = Const::SOUND_BACKGROUNDMUSIC;
+    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
 }
 
-void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
+void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
     Vector3 shipPos = shipNode->getPosition();
     Vector3 soundPos = soundNode->getPosition();
     
@@ -46,14 +51,19 @@ void SoundManager::playSound(int file, SceneNode *shipNode, SceneNode *soundNode
     
     FMOD::Channel *channel1;
 
-    errCheck( system->playSound(FMOD_CHANNEL_FREE, sound1, true, &channel1) );
+    FMOD::Sound *temp = sounds[constName];
+    errCheck( system->playSound(FMOD_CHANNEL_FREE, temp, true, &channel1) );
     
     errCheck( channel1->set3DAttributes(&pos, &vel) );
 
     errCheck( channel1->setVolume(volume) );
 
     if(reverb==true) {
-        // TODO: FMOD::DSP or something
+        // I think this works. 
+        FMOD::DSP *reverb;
+        system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb);
+        reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0);
+        channel1->addDSP(reverb,0);
     }
 
     errCheck( channel1->setPaused(false) );
@@ -65,8 +75,7 @@ void SoundManager::tick() {
 }
 
 SoundManager::~SoundManager() {
-    cout << "deleting soundMgr...";
+    Ogre::LogManager::getSingleton().logMessage("Closing FMODEX sound system...");
     errCheck(system->release());
-    cout << "sound closed." << endl;
+    Ogre::LogManager::getSingleton().logMessage("FMODEX closed.");
 }
-    
