@@ -127,10 +127,10 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
-    lines->clear();
-
     updateRemoteSwarms();
     if (mapMgr == 0) return;
+
+    lines->clear();
 
     int sp = gamePM->getParameter("SPAWN");
 
