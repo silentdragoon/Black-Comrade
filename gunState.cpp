@@ -17,7 +17,7 @@ void GunState::tick()
     orientation = playerControls->cameraOrientation();
 
     if(playerControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD
-        && damageState->getWeaponHealth() > 50.0) {
+        && damageState->getWeaponHealth() > 0.0) {
         isFire = true;
         timeSinceLastFire = 0;
     }

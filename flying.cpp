@@ -1,11 +1,12 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr):
+Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool useCollisions):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
     damageState(damageState),
+    useCollisions(useCollisions),
     zVel(0.0),
     xVel(0.0),
     yVel(0.0),
@@ -43,7 +44,7 @@ void Flying::updatePosition()
 {
     //Collision col = colMgr->collideWithMapPiece((Entity*)shipState->shipSceneNode->getAttachedObject(1) );
     Collision col = colMgr->shipMapCollision(position);
-    if(col.isCollided)
+    if(col.isCollided && useCollisions)
     {
         vFactor = 0.05;
         hitCountDown = static_cast<int> (100.0*col.penetration[0]);
@@ -53,29 +54,24 @@ void Flying::updatePosition()
         zVel += col.penetration[0] * col.normals[2];
 
         damageState->damage(col.penetration[0]);
-
-/*         for( int i = 0; i < 1; i += 3 )
-        {
-
-            cout << "n["<<i<<"] "<< col.penetration[i] <<" xcomp: "<< col.penetration[0] * col.normals[i] <<" zcomp: "<< col.penetration[0] * col.normals[i+2] <<endl;
-            //cout << "n["<<i<<"] "<< col.normals[i] <<" "<< col.normals[i+1]
-            //<<" "<< col.normals[i+2] <<" "<<endl;
-        } */
     }
 
     if( hitCountDown == 0 )
     {
         updateAngels();
-        //hack considering not all.
-        double xzFor =  EngineForce*sin(flyPitch);
-        xVel += xzFor*sin(flyYaw);
-        zVel += xzFor*cos(flyYaw);
-        double xzSide = SideForce*sin(flyRoll);
-        xVel -= xzSide*sin(flyYaw+1.57079633);
-        zVel -= xzSide*cos(flyYaw+1.57079633);
-
-        yVel += 0.025* sc->up();
-
+        //hack considering not all. Works fine though
+        if( damageState->getEngineHealth() > 0 )
+        {
+            double xzFor =  EngineForce*sin(flyPitch);
+            xVel += xzFor*sin(flyYaw);
+            zVel += xzFor*cos(flyYaw);
+            double xzSide = SideForce*sin(flyRoll);
+            xVel -= xzSide*sin(flyYaw+1.57079633);
+            zVel -= xzSide*cos(flyYaw+1.57079633);
+    
+            yVel += 0.025* sc->up();
+        }
+    
         addRoll = 0.0;
         addYaw = 0.0;
         addPitch = 0.0;

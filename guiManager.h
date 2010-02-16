@@ -7,24 +7,53 @@
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
 #include "mapManager.h"
+#include "shipState.h"
 #include "const.h"
 
 class GuiManager {
 private:
+
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
     CEGUI::FrameWindow *crossHair;
     CEGUI::Editbox *status;
+    CEGUI::FrameWindow *fullmap;
     CEGUI::FrameWindow *minimap;
-    MapManager *mapMgr;
+    CEGUI::ProgressBar *shields;
+    CEGUI::ProgressBar *sensors;
+    CEGUI::ProgressBar *weapons;
+    CEGUI::ProgressBar *engine;
+    CEGUI::ProgressBar *hull;
+    CEGUI::FrameWindow *shieldText;
+    CEGUI::FrameWindow *sensorText;
+    CEGUI::FrameWindow *weaponText;
+    CEGUI::FrameWindow *engineText;
+    CEGUI::FrameWindow *hullText;
+    int prevX;
+    int prevY;
 
-    CEGUI::FrameWindow* buildMinimap();
+    MapManager *mapMgr;
+    ShipState *shipState;
+
+    CEGUI::FrameWindow* buildFullMap();
+    CEGUI::FrameWindow* buildMiniMap();
 
 public:
-    GuiManager(MapManager *mapMgr);
+    GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
     void setStatus(std::string stat);
-    void moveMap();
+    void setShields(float yeah);
+    void setSensors(float yeah);
+    void setWeapons(float yeah);
+    void setEngines(float yeah);
+    void setShieldText(string mess);
+    void setSensorText(string mess);
+    void setWeaponText(string mess);
+    void setEngineText(string mess);
+    void setHullText(string mess);
+    void setHull(float yeah);
+    void toggleMap(bool tog);
+    void updateMiniMap();
 };
 
 #endif

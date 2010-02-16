@@ -40,6 +40,7 @@ private:
     void attachTile(SceneNode *sceneNode, string *file, int x, int y);
     void fetchTile(string dir, std::vector<int> connections, int x, int y,SceneNode *sceneNode);
     void setSpawnPoints();
+    void attachLight( Real x, Real z);
 
 public:
     int startx,starty; // Index location of the start square of the map
@@ -53,13 +54,13 @@ public:
     Entity* getEntity(Vector3 *locn);
     void getMapEntities(Vector3 *locn, Entity** mps );
     
-    
+    MapTile* getMapTile(Vector3 *locn);
     string* getWaypoint(Vector3 *locn);
 
     std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
     std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
     
-    void makeConPieces( int x, int y );
+    void makeConPieces();
 
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
 };

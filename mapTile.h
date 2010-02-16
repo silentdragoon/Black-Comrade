@@ -19,10 +19,17 @@ class MapTile
         Waypoint *w;
         bool waypoint;
         bool empty;
+        
+        bool southConn;
+        bool eastConn;
+        
         Vector3 *northSpawn;
         Vector3 *eastSpawn;
         Vector3 *southSpawn;
         Vector3 *westSpawn;
+
+        int x;
+        int y;
 
         std::vector<int> conns;
 
@@ -49,8 +56,14 @@ class MapTile
         Waypoint * getWaypoint();
         Entity* getEntity();
         SceneNode* getSceneNode();
+        
+        bool eastConnected();
+        bool southConnected();
 
-        MapTile(SceneNode *node, Entity *e);
+        int getX();
+        int getY();
+
+        MapTile(SceneNode *node, Entity *e, int x, int y);
         MapTile();
         ~MapTile();
 };

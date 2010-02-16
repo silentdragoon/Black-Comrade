@@ -30,12 +30,12 @@ void DamageState::damage() {
 }
 
 void DamageState::damage(double multiplier) {
-    multiplier = abs(multiplier);
+    multiplier = fabs(multiplier);
 
     if (shieldHealth <= 0 && hullHealth > 0) {
         hullHealth = hullHealth - (multiplier * 4);
         if (hullHealth < 0) hullHealth = 0.0;
-        print();
+        //print();
         return;
     }
 
@@ -69,7 +69,7 @@ void DamageState::damage(double multiplier) {
             }
     }
 
-    print();
+    //print();
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
@@ -85,13 +85,19 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
 }
 
 void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(shieldHealth);
-    deserializeParameters->serializationBitstream[0].Read(sensorHealth);
-    deserializeParameters->serializationBitstream[0].Read(weaponHealth);
-    deserializeParameters->serializationBitstream[0].Read(engineHealth);
-    deserializeParameters->serializationBitstream[0].Read(hullHealth);
+    double temp;
+    deserializeParameters->serializationBitstream[0].Read(temp);
+    if (temp < shieldHealth) shieldHealth = temp;
+    deserializeParameters->serializationBitstream[0].Read(temp);
+    if (temp < sensorHealth) sensorHealth = temp;
+    deserializeParameters->serializationBitstream[0].Read(temp);
+    if (temp < weaponHealth) weaponHealth = temp;
+    deserializeParameters->serializationBitstream[0].Read(temp);
+    if (temp < engineHealth) engineHealth = temp;
+    deserializeParameters->serializationBitstream[0].Read(temp);
+    if (temp < hullHealth) hullHealth = temp;
 
-    print();
+    //print();
 }
 
 void DamageState::print() {

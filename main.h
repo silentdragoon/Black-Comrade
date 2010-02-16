@@ -104,7 +104,8 @@ private:
     void configResources();
     
 public:
-    Main();
+    //enemies cannot be turned off yet
+    Main( bool useKey, bool useMouse, bool enemies, bool collisions );
     ~Main();
     
     void exit();

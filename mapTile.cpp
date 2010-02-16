@@ -1,8 +1,12 @@
 #include "mapTile.h"
 
-MapTile::MapTile(SceneNode *node, Entity *e) :
+MapTile::MapTile(SceneNode *node, Entity *e, int x, int y) :
     node(node),
-    e(e)
+    e(e),
+    x(x),
+    y(y),
+    eastConn(false),
+    southConn(false)
 {
     empty = false;
     waypoint = false;
@@ -13,10 +17,14 @@ MapTile::MapTile(SceneNode *node, Entity *e) :
     westTile = NULL;
 }
 
-MapTile::MapTile()
+MapTile::MapTile() :
+    eastConn(false),
+    southConn(false)
 {
     empty = true;
     waypoint = false;
+    x = 0;
+    y = 0;
 }
 
 MapTile::~MapTile()
@@ -83,8 +91,8 @@ Vector3* MapTile::getSpawn(int i)
 void MapTile::setAdjacent(int i, MapTile *adj)
 {
     if(i==1) northTile = adj;
-    if(i==2) eastTile = adj;
-    if(i==3) southTile = adj;
+    if(i==2){eastTile = adj; eastConn = true;}
+    if(i==3){southTile = adj; southConn = true;}
     if(i==4) westTile = adj;
 }
 
@@ -97,6 +105,10 @@ MapTile* MapTile::getAdjacent(int i)
     return NULL;
 }
 
+int MapTile::getX() { return x; }
+
+int MapTile::getY() { return y; }
+
 void MapTile::setConnections(std::vector<int> c)
 {
     conns = c;
@@ -107,3 +119,13 @@ std::vector<int> MapTile::getConnections()
     random_shuffle(conns.begin(),conns.end());
     return conns;
 }
+
+bool MapTile::eastConnected()
+{
+    return eastConn;
+}
+bool MapTile::southConnected()
+{
+    return southConn;
+}
+

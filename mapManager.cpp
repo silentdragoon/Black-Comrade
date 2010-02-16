@@ -158,6 +158,7 @@ bool MapManager::outputMap(SceneNode *sceneNode)
     }
 
     setSpawnPoints();
+    //makeConPieces();
 
     return true;
 }
@@ -202,7 +203,7 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	
 	node->setPosition(pos);
 
-    MapTile *m = new MapTile(node,e);
+    MapTile *m = new MapTile(node,e,x,y);
 
     Waypoint *w;
 
@@ -259,6 +260,12 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
         }
     }
 }    
+
+MapTile* MapManager::getMapTile(Vector3 *locn) {
+    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
+    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    return mts[x][y];    
+}
 
 string* MapManager::getWaypoint(Vector3 *locn) 
 {
@@ -336,29 +343,73 @@ void MapManager::setSpawnPoints()
                 }
             }
             mts[x][y]->assignSpawnPoints(places);
-            
-            makeConPieces( x, y );
         }
     }
 }
 
-void MapManager::makeConPieces( int x, int y )
+
+void MapManager::makeConPieces()
 {
-    MapTile* mt = mts[x][y];
-    if(mt->getAdjacent(2) != NULL)
+    for(int y=0;y<Const::MAPSIZE;y++) 
     {
-        /* SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
-        string name = "conPiece";
-        std::stringstream out;
-        out << "-" << x << "-" << y << "-2";
-        name += out.str();
-        Entity *e = sceneManager->createEntity(name, "enemy.mesh");
-        node->attachObject(e);
-        //needs Tuning
-        Vector3 pos(x * Const::TILE_SIZE+600,0 , y * Const::TILE_SIZE+300);
-        node->setPosition(pos); */
+        for(int x=0;x<Const::MAPSIZE;x++) 
+        {
+            if(!(mts[x][y]->isEmpty()))
+            {
+                if(mts[x][y]->eastConnected())
+                {
+                    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+                    string name = "eConPiece";
+                    std::stringstream out;
+                    out << "-" << x << "-" << y << "-2";
+                    name += out.str();
+                    Entity *e = sceneManager->createEntity(name, "polySurfaceShape7.mesh");
+                    node->attachObject(e);
+                    node->yaw( Radian(PI/2.0) );
+                    //needs Tuning
+                    Vector3 pos( x * Const::TILE_SIZE + Const::TILE_SIZE,0 , y * Const::TILE_SIZE + (Const::TILE_SIZE/2.0));
+                    node->setPosition(pos);
+                    //attachLight( pos.x, pos.z);
+                }
+                if(mts[x][y]->southConnected())
+                {
+                    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+                    string name = "sConPiece";
+                    std::stringstream out;
+                    out << "-" << x << "-" << y << "-3";
+                    name += out.str();
+                    Entity *e = sceneManager->createEntity(name,  "polySurfaceShape7.mesh");
+                    node->attachObject(e);
+                    //needs Tuning
+                    Vector3 pos(x * Const::TILE_SIZE + (Const::TILE_SIZE/2.0) ,0 , y * Const::TILE_SIZE +(Const::TILE_SIZE));
+                    node->setPosition(pos);
+                    //attachLight( pos.x, pos.z);
+                }
+            }
+        }
     }
-    if(mt->getAdjacent(3) != NULL);
+}
+
+void MapManager::attachLight( Real x, Real z )
+{
+    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+    
+    std::stringstream out;
+    out << "-" << x << "-" << z;
+    
+    string lightS = "light";
+    lightS += out.str();
+    
+    Light* light = sceneManager->createLight(lightS);
+    light->setType(Light::LT_SPOTLIGHT);
+    light->setDiffuseColour(ColourValue(25.25f,25.25f,25.0f));
+    light->setSpecularColour(ColourValue(25.25f,25.25f,25.0f));
+    light->setAttenuation( 100, 1.0, 0.045, 0.0075);
+    light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
+    light->setDirection(Vector3::NEGATIVE_UNIT_Y);
+    node->attachObject(light);
+    Vector3 pos(x, 23 , z);
+    node->setPosition(pos);
 }
 
 std::vector<Vector3*> MapManager::getInitialSpawnPoints()

@@ -10,7 +10,7 @@
 
 using namespace RakNet;
 
-Main::Main() {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Load constants
     ConstManager::getSingleton();
@@ -86,14 +86,14 @@ Main::Main() {
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
-    inputState = new InputState(window, false, this,true,true);
+    inputState = new InputState(window, false, this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr );
+        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, collisions );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
@@ -193,8 +193,8 @@ Main::Main() {
 	// Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager(mapMgr);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop);
+    guiMgr = new GuiManager(mapMgr,shipState);    
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole());
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop
@@ -260,6 +260,9 @@ void Main::configResources()
                     "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
 
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    ResourceGroupManager::getSingleton().loadResourceGroup("General");
+
 }
 
 CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
@@ -360,12 +363,32 @@ void Main::addCrossHair()
 
 }
 
-
-
-
-int main()
+int main(int argc,char *argv[])
 {
-    Main *main = new Main();
+    bool useKey = true;
+    bool useMouse = true;
+    bool enemies = true;
+    bool collisions = true;
+    cout << "argc=" << argc << endl;
+    cout << argv[0] << endl;
+    for (int i=1;i<argc;i++) 
+    {
+        if (string(argv[i]) == "-nk") {
+            useKey = false;
+            cout << "Keys are not bound." <<endl; 
+        } else if (string(argv[i]) == "-ne") {
+            enemies = false; //not done yet
+            cout << "Flag for no enemies entered." <<endl; 
+        } else if (string(argv[i]) == "-nc") {
+            collisions = false;
+            cout << "Disabling ship-wall collisions." <<endl; 
+        } else if (string(argv[i]) == "-nm") {
+            useMouse = false;
+            cout << "Mouse is not bound" <<endl; 
+        }
+    }
+
+    Main *main = new Main(useKey, useMouse, enemies, collisions);
 
     delete main;
 }

@@ -5,7 +5,8 @@ NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
     cam(cam),
     enabled(true),
-    isFire(false)
+    isFire(false),
+    isFullMap(false)
 {}
 
 NavigatorControls::~NavigatorControls()
@@ -13,6 +14,10 @@ NavigatorControls::~NavigatorControls()
 
 bool NavigatorControls::fire() {
     return isFire;
+}
+
+bool NavigatorControls::isMap() {
+    return isFullMap; 
 }
 
 Vector3 NavigatorControls::cameraPosition() {
@@ -33,5 +38,6 @@ void NavigatorControls::tick()
         cam->pitch(Degree(Const::TURRET_SPEED * y));
 
         isFire = inputState->isMouseButtonDown(OIS::MB_Left);
+        isFullMap = inputState->isKeyDown(OIS::KC_TAB);
     }
 }
