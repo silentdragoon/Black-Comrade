@@ -31,6 +31,8 @@ class SceneNodeManager : public ITickable
 
         static Vector3 rollPitchYawToDirection(Real roll, Real pitch, 
 		Real yaw);
+		
+		static Vector3 directionToOrientationVector(Vector3 direction);
 
 };
 

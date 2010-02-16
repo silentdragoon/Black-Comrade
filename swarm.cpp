@@ -243,6 +243,7 @@ void Swarm::turnEnemy(Enemy *e)
 	std::vector<Enemy*>::iterator itr;
 	
 	float yaw = e->yaw;
+	float pitch = e->pitch;
 	
 	// Add target for forward momentum over all friends in sight range
 	
@@ -252,7 +253,9 @@ void Swarm::turnEnemy(Enemy *e)
 		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
 		    // Check that i can see my friend/myself
 		    if(dist.length() <= ConstManager::getFloat("flock_detect_dist")) {
-		        Vector3 momentum(sin(otherEnemy->yaw),0,cos(otherEnemy->yaw));
+		        Vector3 momentum =
+		            SceneNodeManager::rollPitchYawToDirection(0.0,
+		            otherEnemy->pitch, otherEnemy->yaw);
 	            momentum.normalise();
 	            momentum *= 
 	            ConstManager::getFloat("flock_friend_direction_weight");
@@ -262,7 +265,7 @@ void Swarm::turnEnemy(Enemy *e)
 	    }
 	}
 		
-	Vector3 momentum(sin(yaw),0,cos(yaw));
+	Vector3 momentum = SceneNodeManager::rollPitchYawToDirection(0.0,pitch,yaw);
 	momentum.normalise();
 	momentum *= ConstManager::getFloat("flock_momentum_weight");
 	avg += momentum;
@@ -329,7 +332,8 @@ void Swarm::turnEnemy(Enemy *e)
 	
 	if(count) {
 	    avg = avg / count;
-	    newYaw = atan2(avg.x,avg.z);
+	    Vector3 orient = SceneNodeManager::directionToOrientationVector(avg);
+	    newYaw = orient.z;
 	    //cout << avg.z << "\t" << avg.x << "\n";
 	    //cout << yaw << "\t" << newYaw << "\n";
 	    if(newYaw < 0) newYaw += 2.0*PI;
@@ -349,7 +353,7 @@ void Swarm::turnEnemy(Enemy *e)
 	}
 	
 	e->yaw = yaw;
-	
+	e->pitch = pitch;
 }
 
 void Swarm::updateEnemyLocations()
