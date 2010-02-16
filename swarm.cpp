@@ -254,7 +254,8 @@ void Swarm::turnEnemy(Enemy *e)
 		    if(dist.length() <= ConstManager::getFloat("flock_detect_dist")) {
 		        Vector3 momentum(sin(otherEnemy->yaw),0,cos(otherEnemy->yaw));
 	            momentum.normalise();
-	            momentum *= 100;
+	            momentum *= 
+	            ConstManager::getFloat("flock_friend_direction_weight");
 	            avg += momentum;
 	            count++;
 	        }
@@ -263,7 +264,7 @@ void Swarm::turnEnemy(Enemy *e)
 		
 	Vector3 momentum(sin(yaw),0,cos(yaw));
 	momentum.normalise();
-	momentum *= 1000;
+	momentum *= ConstManager::getFloat("flock_momentum_weight");
 	avg += momentum;
 	count++;
 	
@@ -281,13 +282,16 @@ void Swarm::turnEnemy(Enemy *e)
 
 		        // Should I move closer or further away?
 		        if(dist.length() > ConstManager::getFloat("flock_seperation")) {
-		            weight = 100 * pow((dist.length() - 
+		            weight = ConstManager::getFloat("flock_friend_closer_weight")
+		                * pow((dist.length() - 
 		                ConstManager::getFloat("flock_seperation"))/
 		                (ConstManager::getFloat("flock_detect_dist") / 
 		                ConstManager::getFloat("flock_seperation")),2);
 		           
 		        } else {
-		            weight = - 1000 * pow(1 - dist.length()/
+		            weight = - ConstManager::getFloat
+		                ("flock_friend_further_weight")
+		                * pow(1 - dist.length()/
 		                ConstManager::getFloat("flock_seperation"),2);
 		        }
 		        v *= weight;
@@ -309,7 +313,7 @@ void Swarm::turnEnemy(Enemy *e)
 	    result = p + dist * left;
 	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
 	        Vector3 wall = -(result - *e->getPosition());
-	        float weight = 1000 * 
+	        float weight = ConstManager::getFloat("flock_avoid_wall_weight") * 
 	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
 	        wall.normalise();
 	        wall *= weight;
