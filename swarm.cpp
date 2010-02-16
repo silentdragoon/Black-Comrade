@@ -1,6 +1,5 @@
 
 #include "swarm.h"
-#include "const.h"
 #include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
@@ -13,7 +12,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, roll(roll)
 	, pitch(pitch)
 	, yaw(yaw)
-	, speed(Const::ENEMY_PATROL_SPEED)
+	, speed(ConstManager::getFloat("enemy_patrol_speed") * 
+	    ConstManager::getFloat("tick_period"))
 	, state(SS_PATROL)
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
@@ -66,10 +66,12 @@ void Swarm::tick()
 	// Change speed?
 	/*switch(state) {
 		case SS_ATTACK:
-			speed = Const::ENEMY_ATTACK_SPEED;
+			speed = ConstManager::getFloat("enemy_attack_speed") *
+			    ConstManager::getFloat("tick_period");
 			break;
 		default:
-			speed = Const::ENEMY_PATROL_SPEED;
+			speed = ConstManager::getFloat("enemy_patrol_speed") *
+			    ConstManager::getFloat("tick_period");
 	}*/
 
 	updateSwarmLocation();
@@ -109,11 +111,11 @@ bool Swarm::isShipInSight()
 {
 	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
-	Radian sightAngle(Const::ENEMY_SIGHT_ANGLE);
+	Radian sightAngle(ConstManager::getFloat("enemy_sight_dist"));
 	
 	Vector3 lineToShip = *(shipState->getPosition()) -location;
 	
-	if(lineToShip.length() < Const::ENEMY_SIGHT_DIS) {
+	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
 		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
 			return true;
 		}
@@ -145,7 +147,7 @@ void Swarm::updateSwarmLocation()
 	    /*Vector3 result(0,0,0);
 	    float dRight, dLeft, tmp;
 
-	    Vector3 futPos( location.x+(speed*Const::LOOKA)*sin(yaw), location.y, location.z+(speed*Const::LOOKA)*cos(yaw));
+	    Vector3 futPos( location.x+(speed*ConstManager::getFloat("enemy_look_ahead"))*sin(yaw), location.y, location.z+(speed*ConstManager::getFloat("enemy_look_ahead"))*cos(yaw));
 
 	    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
 	    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
@@ -155,7 +157,8 @@ void Swarm::updateSwarmLocation()
 
 	    tmp = (dLeft + dRight) /2 - dRight;
 
-	    yaw += 1.0f/2.0f*atan(tmp/(speed*Const::LOOKA));
+	    yaw += 1.0f/2.0f*atan(tmp/(speed*
+	        ConstManager::getFloat("enemy_look_ahead')));
 
 	    location.x += speed * sin(yaw);
 	    location.z += speed * cos(yaw);*/
@@ -177,16 +180,17 @@ void Swarm::updateSwarmLocation()
 		
 		float move = (posDis <= negDis) ? posDis : -negDis;
 		
-		if(abs(move) < Const::TURN_TO_LOOK_STEP) yaw += move;
-		else if(move > 0) yaw += Const::TURN_TO_LOOK_STEP;
-		else yaw -= Const::TURN_TO_LOOK_STEP;
+		if(abs(move) < ConstManager::getFloat("enemy_max_turn")) yaw += move;
+		else if(move > 0) yaw += ConstManager::getFloat("enemy_max_turn");
+		else yaw -= ConstManager::getFloat("enemy_max_turn");
 		
 		// Check if its pointing at the ship
 		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
 		if(angleTo < PI/2) {
 		
 			// Move towards ship
-			float disToMove = lineToShip.length() - Const::SWARM_TARGET_DIS;
+			float disToMove = lineToShip.length() - 
+			    ConstManager::getFloat("enemy_ship_target_dist");
 			float adjustedSpeed = speed * cos(angleTo);
 			adjustedSpeed = (abs(disToMove) < adjustedSpeed) ? 
 				disToMove : adjustedSpeed;
@@ -217,8 +221,8 @@ void Swarm::shootAtShip()
 		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
 		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
 		
-		if(lineToShip.length() < Const::ENEMY_SIGHT_DIS && 
-				angleTo < Const::ENEMY_SIGHT_ANGLE) {
+		if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist") && 
+				angleTo < ConstManager::getFloat("enemy_sight_angle")) {
 			if(e->fireDelay <= 0) {
 				e->fireDelay = 50;
 				e->fire = true;
