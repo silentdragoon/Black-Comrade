@@ -236,9 +236,6 @@ void Swarm::shootAtShip()
 
 void Swarm::turnEnemy(Enemy *e)
 {
-   #define SIGHT_RADIUS 15
-   #define SEPERATION 8
-   #define TURN_RATE PI/4
 	Vector3 result;
 	Vector3 avg(0,0,0);
 	int count = 0;
@@ -254,7 +251,7 @@ void Swarm::turnEnemy(Enemy *e)
 		if(otherEnemy != e) {
 		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
 		    // Check that i can see my friend/myself
-		    if(dist.length() <= SIGHT_RADIUS) {
+		    if(dist.length() <= ConstManager::getFloat("flock_detect_dist")) {
 		        Vector3 momentum(sin(otherEnemy->yaw),0,cos(otherEnemy->yaw));
 	            momentum.normalise();
 	            momentum *= 100;
@@ -276,19 +273,22 @@ void Swarm::turnEnemy(Enemy *e)
 		if(otherEnemy != e) {
 		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
 		    // Check that i can see my friend
-		    if(dist.length() <= SIGHT_RADIUS) {
+		    if(dist.length() <= ConstManager::getFloat("flock_detect_dist")) {
 		    
 		        Vector3 v = dist;
 	            v.normalise();
 	            float weight;
 
 		        // Should I move closer or further away?
-		        if(dist.length() > SEPERATION) {
-		            weight = 100 * pow((dist.length() - SEPERATION)/
-		                (SIGHT_RADIUS / SEPERATION),2);
+		        if(dist.length() > ConstManager::getFloat("flock_seperation")) {
+		            weight = 100 * pow((dist.length() - 
+		                ConstManager::getFloat("flock_seperation"))/
+		                (ConstManager::getFloat("flock_detect_dist") / 
+		                ConstManager::getFloat("flock_seperation")),2);
 		           
 		        } else {
-		            weight = - 1000 * pow(1 - dist.length()/SEPERATION,2);
+		            weight = - 1000 * pow(1 - dist.length()/
+		                ConstManager::getFloat("flock_seperation"),2);
 		        }
 		        v *= weight;
                 avg += v;
@@ -307,9 +307,10 @@ void Swarm::turnEnemy(Enemy *e)
 	    dist = collisionMgr->getRCMapDist(&p, &left);
 	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
 	    result = p + dist * left;
-	    if(dist > 0 && dist <= SEPERATION) {
+	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
 	        Vector3 wall = -(result - *e->getPosition());
-	        float weight = 1000 * pow(1 - dist/SEPERATION,2);
+	        float weight = 1000 * 
+	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
 	        wall.normalise();
 	        wall *= weight;
 	        avg = avg + wall;
@@ -337,9 +338,9 @@ void Swarm::turnEnemy(Enemy *e)
 		
 		float move = (posDis <= negDis) ? posDis : -negDis;
 		
-		if(abs(move) < TURN_RATE) yaw += move;
-		else if(move > 0) yaw += TURN_RATE;
-		else yaw -= TURN_RATE;
+		if(abs(move) < ConstManager::getFloat("flock_turn_rate")) yaw += move;
+		else if(move > 0) yaw += ConstManager::getFloat("flock_turn_rate");
+		else yaw -= ConstManager::getFloat("flock_turn_rate");
 		
 	}
 	
