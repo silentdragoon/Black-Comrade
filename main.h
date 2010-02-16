@@ -102,7 +102,7 @@ private:
     
 public:
     //enemies cannot be turned off yet
-    Main( bool useKey, bool enemies, bool collisions );
+    Main( bool useKey, bool useMouse, bool enemies, bool collisions );
     ~Main();
     
     void exit();

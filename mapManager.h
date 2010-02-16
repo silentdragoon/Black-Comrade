@@ -40,7 +40,7 @@ private:
     void attachTile(SceneNode *sceneNode, string *file, int x, int y);
     void fetchTile(string dir, std::vector<int> connections, int x, int y,SceneNode *sceneNode);
     void setSpawnPoints();
-    void attachLight( int x, int z);
+    void attachLight( Real x, Real z);
 
 public:
     int startx,starty; // Index location of the start square of the map

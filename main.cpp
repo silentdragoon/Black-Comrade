@@ -9,7 +9,7 @@
 
 using namespace RakNet;
 
-Main::Main(  bool useKey, bool enemies, bool collisions  ) {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // networking
     networkingManager = new NetworkingManager(this);
@@ -79,7 +79,7 @@ Main::Main(  bool useKey, bool enemies, bool collisions  ) {
 	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
-    inputState = new InputState(window, false, this,useKey,useKey);
+    inputState = new InputState(window, false, this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Pilot Controls
@@ -359,6 +359,7 @@ void Main::addCrossHair()
 int main(int argc,char *argv[])
 {
     bool useKey = true;
+    bool useMouse = true;
     bool enemies = true;
     bool collisions = true;
     cout << "argc=" << argc << endl;
@@ -374,10 +375,13 @@ int main(int argc,char *argv[])
         } else if (string(argv[i]) == "-nc") {
             collisions = false;
             cout << "Disabling ship-wall collisions." <<endl; 
+        } else if (string(argv[i]) == "-nm") {
+            useMouse = false;
+            cout << "Mouse is not bound" <<endl; 
         }
     }
 
-    Main *main = new Main(useKey,enemies,collisions);
+    Main *main = new Main(useKey, useMouse, enemies, collisions);
 
     delete main;
 }
