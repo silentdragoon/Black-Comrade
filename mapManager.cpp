@@ -369,7 +369,7 @@ void MapManager::makeConPieces()
                     //needs Tuning
                     Vector3 pos( x * Const::TILE_SIZE + Const::TILE_SIZE,0 , y * Const::TILE_SIZE + (Const::TILE_SIZE/2.0));
                     node->setPosition(pos);
-                    //attachLight((x+1) * Const::TILE_SIZE +( Const::TILE_SIZE/2), y * Const::TILE_SIZE +Const::TILE_SIZE);
+                    //attachLight( pos.x, pos.z);
                 }
                 if(mts[x][y]->southConnected())
                 {
@@ -383,13 +383,14 @@ void MapManager::makeConPieces()
                     //needs Tuning
                     Vector3 pos(x * Const::TILE_SIZE + (Const::TILE_SIZE/2.0) ,0 , y * Const::TILE_SIZE +(Const::TILE_SIZE));
                     node->setPosition(pos);
+                    //attachLight( pos.x, pos.z);
                 }
             }
         }
     }
 }
 
-void MapManager::attachLight( int x, int z )
+void MapManager::attachLight( Real x, Real z )
 {
     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
     
@@ -401,13 +402,13 @@ void MapManager::attachLight( int x, int z )
     
     Light* light = sceneManager->createLight(lightS);
     light->setType(Light::LT_SPOTLIGHT);
-    light->setDiffuseColour(ColourValue(0.25f,0.25f,25.0f));
-    light->setSpecularColour(ColourValue(0.25f,0.25f,25.0f));
-    light->setAttenuation(8000,1,0.0005,0);
-    light->setSpotlightRange(Ogre::Degree(60), Ogre::Degree(70));
+    light->setDiffuseColour(ColourValue(25.25f,25.25f,25.0f));
+    light->setSpecularColour(ColourValue(25.25f,25.25f,25.0f));
+    light->setAttenuation( 100, 1.0, 0.045, 0.0075);
+    light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
     light->setDirection(Vector3::NEGATIVE_UNIT_Y);
     node->attachObject(light);
-    Vector3 pos(x, 100 , z);
+    Vector3 pos(x, 23 , z);
     node->setPosition(pos);
 }
 
