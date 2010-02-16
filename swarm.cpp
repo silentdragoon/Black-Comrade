@@ -31,8 +31,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         Enemy *e = new Enemy(1,0);
         e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
-        e->roll = roll;
-        e->pitch = -0.2;
+        e->roll = 0;
+        e->pitch = 0;
         e->yaw = 0;
         
         sceneNodeMgr->createNode(e);
@@ -77,7 +77,7 @@ void Swarm::tick()
 	updateSwarmLocation();
 	updateEnemyLocations();
 	
-	//shootAtShip();
+	shootAtShip();
 }
 
 Swarm::~Swarm()
