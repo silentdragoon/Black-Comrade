@@ -38,6 +38,8 @@ void GuiStatusUpdater::tick() {
         }
     }
 
+    guiMgr->updateMiniMap();
+
     //if(shieldHealth<0.25f) guiMgr->setShieldText("1: SHIELD CRITICAL");
     //if(sensorHealth<0.25f) guiMgr->setSensorText("2: SENSORS CRITICAL");
     //if(weaponHealth<0.25f) guiMgr->setWeaponText("3: WEAPONS CRITICAL");

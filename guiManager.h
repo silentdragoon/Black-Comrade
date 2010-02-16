@@ -29,11 +29,14 @@ private:
     CEGUI::FrameWindow *weaponText;
     CEGUI::FrameWindow *engineText;
     CEGUI::FrameWindow *hullText;
+    int prevX;
+    int prevY;
 
     MapManager *mapMgr;
     ShipState *shipState;
 
     CEGUI::FrameWindow* buildFullMap();
+    CEGUI::FrameWindow* buildMiniMap();
 
 public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
@@ -50,6 +53,7 @@ public:
     void setHullText(string mess);
     void setHull(float yeah);
     void toggleMap(bool tog);
+    void updateMiniMap();
 };
 
 #endif
