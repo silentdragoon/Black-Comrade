@@ -24,6 +24,7 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
     CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
+    CEGUI::ImagesetManager::getSingleton().create("Minimapnow.imageset");
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
@@ -261,7 +262,11 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
             ic.setImage("Minimap","mapTile-blank");
         } else {
             std::stringstream tile;
-            tile << "mapTile";
+            if(i==0) {
+                tile << "mapTileN";
+            } else {
+                tile << "mapTile";
+            }
             if(mapMgr->mts[xpos][ypos]->getAdjacent(1)!=0) {
                 tile << "-1";
             }
@@ -275,7 +280,11 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
                 tile << "-4";
             }
             string name = tile.str();
-            ic.setImage("Minimap",name);
+            if(i==0) {
+                ic.setImage("Minimapnow",name);
+            } else {
+                ic.setImage("Minimap",name);
+            }
         }
 
         ic.setVerticalFormatting(CEGUI::VF_STRETCHED);
