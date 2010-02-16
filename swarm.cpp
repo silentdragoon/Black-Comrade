@@ -32,7 +32,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         Enemy *e = new Enemy(1,0);
         e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
         e->roll = roll;
-        e->pitch = pitch;
+        e->pitch = -0.2;
         e->yaw = 0;
         
         sceneNodeMgr->createNode(e);
@@ -371,9 +371,11 @@ void Swarm::updateEnemyLocations()
 		turnEnemy(e);
 		
 		Vector3 newPosition = *e->getPosition();
-		
-		newPosition.x += speed * sin(e->yaw);
-        newPosition.z += speed * cos(e->yaw);
+		Vector3 direction = 
+		    SceneNodeManager::rollPitchYawToDirection(0.0,e->pitch,e->yaw);
+		direction.normalise();
+        
+        newPosition += speed * direction;
         
         e->setPosition(newPosition);
 	}

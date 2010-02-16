@@ -4,6 +4,16 @@ SceneNodeManager::SceneNodeManager(SceneManager *sceneMgr)
     : sceneMgr(sceneMgr)
 {
     madeShip = false;
+    
+    // Tests
+    /*Vector3 a(.15,-.3,0);
+    Vector3 b = 
+    SceneNodeManager::directionToOrientationVector(
+    SceneNodeManager::rollPitchYawToDirection(a.z, a.x, a.y));
+
+    std::cout << a << std::endl;
+    std::cout << b << std::endl;
+    exit(0);*/
 
 }
 
@@ -92,8 +102,10 @@ Vector3 SceneNodeManager::directionToOrientationVector(Vector3 d)
     float yaw,pitch;
 
 	yaw = atan2(d.x,d.z);
+	
+	pitch = atan2(d.y,sqrt(d.x*d.x+d.z*d.z));
 
-    return Vector3(0,pitch,yaw);
+    return Vector3(pitch,yaw,0);
 }
 
 Vector3 SceneNodeManager::rollPitchYawToDirection(Real roll, Real pitch, 
@@ -103,7 +115,7 @@ Vector3 SceneNodeManager::rollPitchYawToDirection(Real roll, Real pitch,
 	
 	// TODO: when pitch and roll actully get used, they may need
 	// to be negated or some such.
-	Matrix3 rotateX(1,0,0,0,cos(pitch),-sin(pitch),0,sin(pitch),cos(pitch));
+	Matrix3 rotateX(1,0,0,0,cos(-pitch),-sin(-pitch),0,sin(-pitch),cos(-pitch));
 	Matrix3 rotateY(cos(-yaw),0,-sin(-yaw),0,1,0,-sin(-yaw),0,cos(-yaw));
 	//Matrix3 rotateZ(cos(roll),-sin(roll),0,sin(roll),cos(roll),0,0,0,1);
 	
