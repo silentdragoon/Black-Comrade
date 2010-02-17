@@ -54,6 +54,8 @@ class Swarm
     	
     	void turnEnemy(Enemy *e);
     	
+    	float calcNewAngle(float old, float target, float step);
+    	
     public:
         int size;
 

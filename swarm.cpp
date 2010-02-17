@@ -349,33 +349,40 @@ void Swarm::turnEnemy(Enemy *e)
 	}
 	
 	// Needs to be done on a per enemy basis (not per swarm)
-	
-	float newYaw = yaw;
-	
+
+    float targetYaw;	
 	if(count) {
 	    avg = avg / count;
 	    Vector3 orient = SceneNodeManager::directionToOrientationVector(avg);
-	    newYaw = orient.y;
-	    //cout << avg.z << "\t" << avg.x << "\n";
-	    //cout << yaw << "\t" << newYaw << "\n";
-	    if(newYaw < 0) newYaw += 2.0*PI;
+	    targetYaw = orient.y;
 		
-		// move yaw to be in the range [0,2PI]
-		while(yaw < 0) yaw += 2.0*PI;
-	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
-		float posDis = (newYaw >= yaw) ? newYaw - yaw : 2*PI + newYaw - yaw;
-		float negDis = (newYaw <= yaw) ? yaw - newYaw : 2*PI + yaw - newYaw;
-		
-		float move = (posDis <= negDis) ? posDis : -negDis;
-		
-		if(abs(move) < ConstManager::getFloat("flock_turn_rate")) yaw += move;
-		else if(move > 0) yaw += ConstManager::getFloat("flock_turn_rate");
-		else yaw -= ConstManager::getFloat("flock_turn_rate");
+		yaw = calcNewAngle(yaw, targetYaw, 
+		    ConstManager::getFloat("flock_turn_rate"));
 		
 	}
 	
 	e->yaw = yaw;
 	e->pitch = pitch;
+}
+
+float Swarm::calcNewAngle(float old, float target, float step)
+{
+    float result = old;
+
+    while(target < 0) target += 2.0*PI;
+		
+	while(old < 0) old += 2.0*PI;
+    while(old > 2.0*PI) old -= 2.0*PI;
+	float posDis = (target >= old) ? target - old : 2*PI + target - old;
+	float negDis = (target <= old) ? old - target : 2*PI + old - target;
+	
+	float move = (posDis <= negDis) ? posDis : -negDis;
+	
+	if(abs(move) < step) result += move;
+	else if(move > 0) result += step;
+	else result -= step;
+	
+	return result;
 }
 
 void Swarm::updateEnemyLocations()
