@@ -72,6 +72,10 @@ public:
 
     // Ship turrets
     static const double TURRET_SPEED = -0.2;
+
+    // Sound constants
+    static const int SOUND_FRONTGUN = 1;
+    static const int SOUND_BACKGROUNDMUSIC = 2;
 };
 
 #endif

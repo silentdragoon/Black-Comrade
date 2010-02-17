@@ -5,7 +5,9 @@
 #include <fmod_errors.h>
 #include <OGRE/Ogre.h>
 #include <iostream>
+#include <map>
 #include "ITickable.h"
+#include "const.h"
 
 #define MAX_SOUND_CHANNELS  200
 
@@ -15,8 +17,10 @@ using namespace std;
 class SoundManager : public ITickable
 {
 private:
+
+    std::map<int,FMOD::Sound*> sounds;
+
     FMOD::System *system;
-    FMOD::Sound *sound1;
 
     void errCheck(FMOD_RESULT result);
     void loadSoundFiles();
