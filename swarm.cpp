@@ -333,7 +333,7 @@ void Swarm::turnEnemy(Enemy *e)
 	if(count) {
 	    avg = avg / count;
 	    Vector3 orient = SceneNodeManager::directionToOrientationVector(avg);
-	    newYaw = orient.z;
+	    newYaw = orient.y;
 	    //cout << avg.z << "\t" << avg.x << "\n";
 	    //cout << yaw << "\t" << newYaw << "\n";
 	    if(newYaw < 0) newYaw += 2.0*PI;
