@@ -5,7 +5,7 @@
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
 	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
-    MapManager *mapMgr)
+    MapManager *mapMgr, GameParameterMap *gameParameterMap)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -21,6 +21,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , lines(lines)
     , collisionMgr(collisionMgr) 
     , mapMgr(mapMgr)
+    , gameParameterMap(gameParameterMap)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -154,18 +155,24 @@ void Swarm::updateTargetLocation() {
     MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
     MapTile *swarmTile = mapMgr->getMapTile(&location);
     MapTile *targetTile = mapMgr->getMapTile(&target);
-    if (shipTile->getX() != targetTile->getX() || shipTile->getY() != targetTile->getY()) {
-        //New path needs to be calculated
-        path = pathFinder->findPath(shipTile,swarmTile);
-        std::cout << path.size() << std::endl;
-        if (path.size() > 2) {
-            targetTile = path.at(1);
-            target = mapMgr->getActualPosition(targetTile);
-        } else { // What to do if im close (tempory)
-            targetTile = path.at(0);
-            target = mapMgr->getActualPosition(targetTile);
-        }
-        //std::cout << target.x << " " << target.y << " " << target.z << std::endl;
+    
+    // Find the ship
+    if(true || gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
+        if (shipTile->getX() != targetTile->getX() || shipTile->getY() != targetTile->getY()) {
+            //New path needs to be calculated
+            path = pathFinder->findPath(shipTile,swarmTile);
+            std::cout << path.size() << std::endl;
+            if (path.size() > 2) {
+                targetTile = path.at(1);
+                target = mapMgr->getActualPosition(targetTile);
+            } else { // What to do if im close (tempory)
+                targetTile = path.at(0);
+                target = mapMgr->getActualPosition(targetTile);
+            }
+            //std::cout << target.x << " " << target.y << " " << target.z << std::endl;
+        } 
+    } else { // Move through the map randomly
+        
     }
 }
 

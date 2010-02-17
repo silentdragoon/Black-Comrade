@@ -21,6 +21,19 @@ int GameParameterMap::getParameter(string name){
 				return 0;
 		}
 	}
+	
+	// SWARMS_FIND_SHIP Parameter
+	if(name.compare("SWARMS_FIND_SHIP") == 0) {
+	    switch(gameStateMachine->currentGameState()) {
+	        case GS_ATTACK:
+	        case GS_FLEE:
+	            return 1;
+	            break;
+	        default:
+	            return 0;
+	            break;
+	    }
+	}
 
 	return -1;
 }

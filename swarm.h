@@ -15,6 +15,7 @@
 #include "constManager.h"
 #include "mapManager.h"
 #include "pathFinder.h"
+#include "gameParameterMap.h"
 
 using namespace Ogre;
 using namespace std;
@@ -42,6 +43,7 @@ class Swarm
     	CollisionManager *collisionMgr;
         MapManager *mapMgr;
         PathFinder *pathFinder;
+        GameParameterMap *gameParameterMap;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
@@ -61,7 +63,7 @@ class Swarm
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines,
-            CollisionManager *collisionMgr, MapManager *mapMgr);
+            CollisionManager *collisionMgr, MapManager *mapMgr, GameParameterMap *gameParameterMap);
         ~Swarm();
 
         Vector3 getAverageAlignment();
