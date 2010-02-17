@@ -17,6 +17,7 @@ flock_turn_rate = 0.785398
 
 flock_friend_direction_weight = 100
 flock_momentum_weight = 1000
-flock_friend_closer_weight = 100
+flock_friend_closer_weight = 10
 flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
+flock_target_weight = 40

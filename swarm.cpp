@@ -269,6 +269,13 @@ void Swarm::turnEnemy(Enemy *e)
 	float yaw = e->yaw;
 	float pitch = e->pitch;
 	
+	// Add target vector in
+	Vector3 t = target;
+	t.normalise();
+	t *= ConstManager::getFloat("flock_target_weight");
+	avg += t;
+	count++;
+	
 	// Add target for forward momentum over all friends in sight range
 	
 	for(itr = members.begin(); itr != members.end(); ++itr) {
