@@ -13,6 +13,8 @@
 #include "lines.h"
 #include "collisionManager.h"
 #include "constManager.h"
+#include "mapManager.h"
+#include "pathFinder.h"
 
 using namespace Ogre;
 using namespace std;
@@ -25,8 +27,10 @@ class Swarm
         SceneManager *sceneMgr;
         SceneNodeManager *sceneNodeMgr;
         std::vector<Enemy*> members;
+        std::vector<MapTile*> path;
         int id;
         Vector3 location;
+        Vector3 target;
     	Real roll;
     	Real pitch;
     	Real yaw;
@@ -36,9 +40,12 @@ class Swarm
     	ShipState *shipState;
     	Lines *lines;
     	CollisionManager *collisionMgr;
+        MapManager *mapMgr;
+        PathFinder *pathFinder;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
+        void updateTargetLocation();
 
     	void removeDeadEnemies();
     	void shootAtShip();
@@ -51,7 +58,8 @@ class Swarm
         int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr);
+			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines,
+            CollisionManager *collisionMgr, MapManager *mapMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();

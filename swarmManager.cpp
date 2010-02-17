@@ -61,7 +61,7 @@ SwarmManager::~SwarmManager()
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines,colMgr);
+        ,lines,colMgr,mapMgr);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -127,10 +127,10 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
-    lines->clear();
-
     updateRemoteSwarms();
     if (mapMgr == 0) return;
+
+    lines->clear();
 
     int sp = gamePM->getParameter("SPAWN");
 

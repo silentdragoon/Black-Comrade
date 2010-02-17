@@ -4,7 +4,8 @@
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr)
+	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
+    MapManager *mapMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -19,8 +20,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , sceneNodeMgr(sceneNodeMgr)
     , lines(lines)
     , collisionMgr(collisionMgr)
+    , mapMgr(mapMgr)
 {
-
+    pathFinder = new PathFinder(mapMgr);
+    path = std::vector<MapTile*>();
+    target = location;
 	rRayQuery = new RayQuery( sceneMgr );
 
     for(int i=0;i<(size);i++) {
@@ -30,9 +34,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         ename += out.str();
 
         Enemy *e = new Enemy(1,0);
-        e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
-        e->roll = 0;
-        e->pitch = 0;
+        //e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
+        e->setPosition(location);
+        e->roll = roll;
+        e->pitch = pitch;
+
         e->yaw = 0;
         
         sceneNodeMgr->createNode(e);
@@ -74,6 +80,7 @@ void Swarm::tick()
 			    ConstManager::getFloat("tick_period");
 	}*/
 
+    updateTargetLocation();
 	updateSwarmLocation();
 	updateEnemyLocations();
 	
@@ -138,6 +145,21 @@ void Swarm::removeDeadEnemies()
         } else if (e->health == 0) {
             e->health = -1;
         }
+    }
+}
+
+void Swarm::updateTargetLocation() {
+    MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
+    MapTile *swarmTile = mapMgr->getMapTile(&location);
+    MapTile *targetTile = mapMgr->getMapTile(&target);
+    if (shipTile->getX() != targetTile->getX() || shipTile->getY() != targetTile->getY()) {
+        //New path needs to be calculated
+        path = pathFinder->findPath(shipTile,swarmTile);
+        if (path.size() > 1) {
+            targetTile = path.at(1);
+            target = mapMgr->getActualPosition(targetTile);
+        }
+        //std::cout << target.x << " " << target.y << " " << target.z << std::endl;
     }
 }
 
