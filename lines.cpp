@@ -27,14 +27,14 @@ void Lines::addLine( double ax, double ay, double az, double bx, double by, doub
 
 void Lines::addCross(  Vector3 *a )
 {
-    lines->addPoint( a->x-1000,a->y,a->z );
-    lines->addPoint( a->x+1000,a->y,a->z );
+    lines->addPoint( a->x-2,a->y,a->z );
+    lines->addPoint( a->x+2,a->y,a->z );
 
-    lines->addPoint( a->x,a->y-1000,a->z );
-    lines->addPoint( a->x,a->y+1000,a->z );
+    lines->addPoint( a->x,a->y-2,a->z );
+    lines->addPoint( a->x,a->y+2,a->z );
 
-    lines->addPoint( a->x,a->y,a->z-1000 );
-    lines->addPoint( a->x,a->y,a->z+1000 );
+    lines->addPoint( a->x,a->y,a->z-2 );
+    lines->addPoint( a->x,a->y,a->z+2 );
 
     lines->update();
     linesNode->needUpdate();

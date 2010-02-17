@@ -19,7 +19,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
     , lines(lines)
-    , collisionMgr(collisionMgr)
+    , collisionMgr(collisionMgr) 
     , mapMgr(mapMgr)
 {
     pathFinder = new PathFinder(mapMgr);
@@ -113,7 +113,7 @@ Vector3 Swarm::getAverageAlignment()
 
 Vector3 Swarm::getAveragePosition()
 {
-    return location;
+    return location; 
 }
 
 bool Swarm::isShipInSight()
@@ -131,7 +131,7 @@ bool Swarm::isShipInSight()
 	}
 	
 	return false;
-}
+} 
 
 void Swarm::removeDeadEnemies()
 {
@@ -157,8 +157,12 @@ void Swarm::updateTargetLocation() {
     if (shipTile->getX() != targetTile->getX() || shipTile->getY() != targetTile->getY()) {
         //New path needs to be calculated
         path = pathFinder->findPath(shipTile,swarmTile);
-        if (path.size() > 1) {
+        std::cout << path.size() << std::endl;
+        if (path.size() > 2) {
             targetTile = path.at(1);
+            target = mapMgr->getActualPosition(targetTile);
+        } else { // What to do if im close (tempory)
+            targetTile = path.at(0);
             target = mapMgr->getActualPosition(targetTile);
         }
         //std::cout << target.x << " " << target.y << " " << target.z << std::endl;
@@ -195,7 +199,7 @@ void Swarm::updateSwarmLocation()
 		Vector3 lineToShip = *(shipState->getPosition()) -location;
 		float newYaw = atan2(lineToShip.x,lineToShip.z);
 		if(newYaw < 0) newYaw += 2.0*PI;
-		
+		 
 		// move yaw to be in the range [0,2PI]
 		while(yaw < 0) yaw += 2.0*PI;
 	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
@@ -219,7 +223,7 @@ void Swarm::updateSwarmLocation()
 			adjustedSpeed = (abs(disToMove) < adjustedSpeed) ? 
 				disToMove : adjustedSpeed;
 			
-			if(disToMove > 0) {
+			if(disToMove > 0) { 
 				location.x += adjustedSpeed * sin(yaw);
 		    	location.z += adjustedSpeed * cos(yaw);
 			} else {
@@ -236,7 +240,7 @@ void Swarm::shootAtShip()
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
-	i = members.begin();
+	i = members.begin(); 
 	if(i != members.end()) {
 		e = *i;
 		
@@ -270,11 +274,20 @@ void Swarm::turnEnemy(Enemy *e)
 	float pitch = e->pitch;
 	
 	// Add target vector in
-	Vector3 t = target;
+	Vector3 t = target - *e->getPosition();
 	t.normalise();
 	t *= ConstManager::getFloat("flock_target_weight");
 	avg += t;
 	count++;
+	
+	t.normalise();
+	t *= 8;
+	t = *e->getPosition() + t;
+	
+	if(e == members[0]) {
+    	lines->addLine(e->getPosition(),&target);
+    	lines->addCross(&target);
+	}
 	
 	// Add target for forward momentum over all friends in sight range
 	
