@@ -35,11 +35,13 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         Enemy *e = new Enemy(1,0);
         //e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
+        //e->setPosition(location+i*Vector3(0,1,0));
         e->setPosition(location);
         e->roll = roll;
-        e->pitch = pitch;
-
-        e->yaw = 0;
+        //e->pitch = pitch;
+        e->pitch = pitch + 0.01 * i;
+        
+        e->yaw = yaw;
         
         sceneNodeMgr->createNode(e);
 
@@ -328,6 +330,7 @@ void Swarm::turnEnemy(Enemy *e)
 	
 	// Send out rays to find obsticals
 	float dist;
+	// Horizontal ring
 	for(int j = 0; j < 15; ++j) {
 	    float a = 2 * j * PI / 15;
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
@@ -347,18 +350,42 @@ void Swarm::turnEnemy(Enemy *e)
 	        //lines->addLine(e->getPosition(),&result);
 	    }
 	}
+	// Vertical ring
+	for(int j = 0; j < 15; ++j) {
+	    float a = 2 * j * PI / 15;
+	    Vector3 left(0,sin(a+yaw),cos(a+yaw));
+	    left.normalise();
+	    Vector3 p = (*e->getPosition()+2*left);
+	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
+	    result = p + dist * left;
+	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
+	        Vector3 wall = -(result - *e->getPosition());
+	        float weight = ConstManager::getFloat("flock_avoid_wall_weight") * 
+	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
+	        wall.normalise();
+	        wall *= weight;
+	        avg = avg + wall;
+	        count++;
+	        //lines->addLine(e->getPosition(),&result);
+	    }
+	}
 	
 	// Needs to be done on a per enemy basis (not per swarm)
 
-    float targetYaw;	
+    float targetYaw;
+    float targetPitch;
 	if(count) {
 	    avg = avg / count;
 	    Vector3 orient = SceneNodeManager::directionToOrientationVector(avg);
 	    targetYaw = orient.y;
+	    targetPitch = orient.x;
 		
-		yaw = calcNewAngle(yaw, targetYaw, 
+		yaw = calcNewAngle(yaw, targetYaw,
 		    ConstManager::getFloat("flock_turn_rate"));
 		
+		pitch = calcNewAngle(pitch, targetPitch,
+		    ConstManager::getFloat("flock_turn_rate"));
 	}
 	
 	e->yaw = yaw;
