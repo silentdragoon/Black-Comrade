@@ -66,28 +66,28 @@ void Swarm::tick()
     //std::cout << location << "\t" << yaw << "\n";
     //std::cout << *shipState->getPosition() << "\t" << shipState->yaw << "\n";
 
-	removeDeadEnemies();
+    removeDeadEnemies();
 
-	if(isShipInSight()) {
-	//	state = SS_ATTACK;
-	}
+    if(isShipInSight()) {
+        //state = SS_ATTACK;
+    }
 	
-	// Change speed?
-	/*switch(state) {
-		case SS_ATTACK:
-			speed = ConstManager::getFloat("enemy_attack_speed") *
-			    ConstManager::getFloat("tick_period");
-			break;
-		default:
-			speed = ConstManager::getFloat("enemy_patrol_speed") *
-			    ConstManager::getFloat("tick_period");
-	}*/
+    // Change speed?
+    /*switch(state) {
+        case SS_ATTACK:
+            speed = ConstManager::getFloat("enemy_attack_speed") *
+            ConstManager::getFloat("tick_period");
+            break;
+        default:
+            speed = ConstManager::getFloat("enemy_patrol_speed") *
+            ConstManager::getFloat("tick_period");
+    }*/
 
     updateTargetLocation();
-	updateSwarmLocation();
-	updateEnemyLocations();
-	
-	shootAtShip();
+    updateSwarmLocation();
+    updateEnemyLocations();
+
+    shootAtShip();
 }
 
 Swarm::~Swarm()
@@ -114,7 +114,18 @@ Vector3 Swarm::getAverageAlignment()
 
 Vector3 Swarm::getAveragePosition()
 {
-    return location; 
+    std::vector<Enemy*>::iterator i;
+    Enemy *e;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+    for(i = members.begin(); i != members.end(); ++i) {
+        e = *i;
+        x = x + e->getPosition()->x;
+        y = y + e->getPosition()->y;
+        z = z + e->getPosition()->z;
+    }
+    return Vector3(x/size,y/size,z/size);
 }
 
 bool Swarm::isShipInSight()
@@ -153,24 +164,28 @@ void Swarm::removeDeadEnemies()
 
 void Swarm::updateTargetLocation() {
     MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
-    MapTile *swarmTile = mapMgr->getMapTile(&location);
+    Vector3 swarmPosition = getAveragePosition();
+    MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
     MapTile *targetTile = mapMgr->getMapTile(&target);
-    
+
     // Find the ship
     if(true || gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
-        if (shipTile->getX() != targetTile->getX() || shipTile->getY() != targetTile->getY()) {
-            //New path needs to be calculated
-            path = pathFinder->findPath(shipTile,swarmTile);
-            std::cout << path.size() << std::endl;
-            if (path.size() > 2) {
-                targetTile = path.at(1);
-                target = mapMgr->getActualPosition(targetTile);
-            } else { // What to do if im close (tempory)
-                targetTile = path.at(0);
-                target = mapMgr->getActualPosition(targetTile);
+        if (oldShipTile != shipTile) {
+            // New path must be found
+            oldShipTile = shipTile;
+            path = pathFinder->findPath(swarmTile,shipTile);
+        }
+        if (path.size() == 1 || path.size() == 2) {
+            // In the current tile or adjacent tile
+            target = mapMgr->getActualPosition(shipTile);
+        } else if (path.size() >=3) {
+            // At least 1 tile between the swarm and the ship
+            if (targetTile == swarmTile) {
+                path.erase(path.begin()+1);
             }
-            //std::cout << target.x << " " << target.y << " " << target.z << std::endl;
-        } 
+            targetTile = path.at(1);
+            target = mapMgr->getActualPosition(targetTile);
+        }
     } else { // Move through the map randomly
         
     }
