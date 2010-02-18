@@ -5,7 +5,12 @@ EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
     cam(cam),
     enabled(true),
-    isFire(false)
+    isFire(false),
+    isChangeShield(false),
+    isChangeWeapons(false),
+    isChangeSensors(false),
+    isTransferShields(false),
+    isTransferWeapons(false)
 {}
 
 EngineerControls::~EngineerControls()
@@ -13,6 +18,26 @@ EngineerControls::~EngineerControls()
 
 bool EngineerControls::fire() {
     return isFire;
+}
+
+bool EngineerControls::isShield() {
+    return isChangeShield;
+}
+
+bool EngineerControls::isWeapons() {
+    return isChangeWeapons;
+}
+
+bool EngineerControls::isSensors() {
+    return isChangeSensors;
+}
+
+bool EngineerControls::transferShields() {
+    return isTransferShields;
+}
+
+bool EngineerControls::transferWeapons() {
+    return isTransferWeapons;
 }
 
 Vector3 EngineerControls::cameraPosition() {
@@ -32,5 +57,10 @@ void EngineerControls::tick()
         cam->pitch(Degree(Const::TURRET_SPEED * y));
 
         isFire = inputState->isMouseButtonDown(OIS::MB_Left);
+        isChangeShield = inputState->isKeyDown(OIS::KC_A);
+        isChangeWeapons = inputState->isKeyDown(OIS::KC_S);
+        isChangeSensors = inputState->isKeyDown(OIS::KC_D);
+        isTransferShields = inputState->isKeyDown(OIS::KC_Q);
+        isTransferWeapons = inputState->isKeyDown(OIS::KC_W);
     }
 }

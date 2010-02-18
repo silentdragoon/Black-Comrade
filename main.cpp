@@ -108,6 +108,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == ENGINEER) {
 	    engineerControls = new EngineerControls(inputState,camera);
 	    gameLoop->addTickable(engineerControls,"engineerControls");
+
+        systemManager = new SystemManager(engineerControls);
+        gameLoop->addTickable(systemManager,"systemManager");
     }
 
 	// GameState
