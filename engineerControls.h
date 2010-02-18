@@ -19,6 +19,8 @@ class EngineerControls : public ITickable, public IPlayerControls
         bool isChangeShield;
         bool isChangeWeapons;
         bool isChangeSensors;
+        bool isTransferShields;
+        bool isTransferWeapons;
 
         Camera *cam;
         InputState *inputState;
@@ -28,6 +30,8 @@ class EngineerControls : public ITickable, public IPlayerControls
         virtual bool isShield();
         virtual bool isWeapons();
         virtual bool isSensors();
+        virtual bool transferShields();
+        virtual bool transferWeapons();
 
         virtual Vector3 cameraPosition();
         virtual Quaternion cameraOrientation();

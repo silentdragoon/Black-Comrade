@@ -7,30 +7,48 @@ SystemManager::SystemManager(EngineerControls *engCon) :
     sensorRate(0.5),
     engineRate(1.5),
     weaponCharge(0),
-    shieldCharge(0)
+    shieldCharge(0),
+    timeSinceLastPress(100)
 {}
 
 void SystemManager::tick() {
-    // TODO: Do the decharging and recharging here
+
+    timeSinceLastPress++;
+
+    double chargeModifier = 0.1;
+
     double decharge = 0.5;
-    weaponCharge += (weaponRate-decharge);
-    shieldCharge += (shieldRate-decharge);
+    weaponCharge += (weaponRate-decharge)*chargeModifier;
+    shieldCharge += (shieldRate-decharge)*chargeModifier;
 
     if(weaponCharge<0) weaponCharge = 0;
     if(shieldCharge<0) shieldCharge = 0;
     if(weaponCharge>100) weaponCharge = 100;
     if(shieldCharge>100) shieldCharge = 100;
 
-    if(engCon->isShield()) {
+    if((engCon->isShield())&&(timeSinceLastPress>10)) {
         incShieldRate();
+        timeSinceLastPress=0;
     }
 
-    if(engCon->isWeapons()) {
+    if((engCon->isWeapons())&&(timeSinceLastPress>10)) {
         incWeaponRate();
+        timeSinceLastPress=0;
     }
 
-    if(engCon->isSensors()) {
+    if((engCon->isSensors())&&(timeSinceLastPress>10)) {
         incSensorRate();
+        timeSinceLastPress=0;
+    }
+
+    if((engCon->transferShields())&&(timeSinceLastPress>10)) {
+        transferWeaponsToShields();
+        timeSinceLastPress=0;
+    }
+
+    if((engCon->transferWeapons())&&(timeSinceLastPress>10)) {
+        transferShieldsToWeapons();
+        timeSinceLastPress=0;
     }
 }
 
@@ -94,4 +112,28 @@ double SystemManager::getWeaponCharge() {
 
 double SystemManager::getShieldCharge() {
     return shieldCharge;
+}
+
+void SystemManager::transferShieldsToWeapons() {
+    if(shieldCharge>19) {
+        shieldCharge -= 20;
+        weaponCharge += 20;
+        if(weaponCharge>100) weaponCharge = 100;
+    } else {
+        weaponCharge = weaponCharge + shieldCharge;
+        shieldCharge = 0;
+        if(weaponCharge>100) weaponCharge = 100;
+    }
+}
+
+void SystemManager::transferWeaponsToShields() {
+    if(weaponCharge>19) {
+        weaponCharge -= 20;
+        shieldCharge += 20;
+        if(shieldCharge>100) shieldCharge = 100;
+    } else {
+        shieldCharge = shieldCharge + weaponCharge;
+        weaponCharge = 0;
+        if(shieldCharge>100) shieldCharge = 100;
+    }
 }

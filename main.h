@@ -38,6 +38,7 @@
 #include "sceneNodeManager.h"
 #include "damageState.h"
 #include "lines.h"
+#include "systemManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -87,6 +88,7 @@ private:
     SceneNode *shipSceneNode;
     ShipState *shipState;
     DamageState *damageState;
+    SystemManager *systemManager;
     
     MapManager *mapMgr;
     SwarmManager *swarmMgr;

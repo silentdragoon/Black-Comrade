@@ -17,6 +17,8 @@ private:
     double weaponCharge; // 0 - 100 ?
     double shieldCharge; // 0 - 100 ?
 
+    int timeSinceLastPress;
+
     EngineerControls *engCon;
 public:
     
@@ -37,6 +39,9 @@ public:
              
     double getWeaponCharge();
     double getShieldCharge();
+
+    void transferShieldsToWeapons();
+    void transferWeaponsToShields();
 };
 
 #endif
