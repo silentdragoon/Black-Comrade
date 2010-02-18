@@ -127,6 +127,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 	printState = new PrintState(gameStateMachine);
 	gameLoop->addTickable(printState,"printState");
 
+    // Notifications
+    if (collabInfo->getGameRole() == NAVIGATOR || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
+        notificationMgr = new NotificationManager(gameStateMachine, mapMgr, shipState, damageState);
+        networkingManager->replicate(notificationMgr);
+    } else {
+        notificationMgr = (NotificationManager*) networkingManager->
+            getReplica("NotificationManager",true);
+    }
+    gameLoop->addTickable(notificationMgr,"notifications");
+
 	// Pilot Gun State
 	if(collabInfo->getGameRole() == PILOT) {
 	    pilotGunState = new GunState(pilotControls,damageState,collabInfo->getGameRole());

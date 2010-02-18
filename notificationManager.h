@@ -7,7 +7,9 @@
 #include "shipState.h"
 #include "mapManager.h"
 #include "damageState.h"
+#include "constManager.h"
 #include <vector>
+#include <limits>
 
 #include "replicaObject.h"
 
@@ -19,7 +21,8 @@ private:
 	Notification notification;
     Notification oldNotification;
 
-    std::vector<Notification> notificationQueue;
+    std::vector<Notification> queue;
+    std::map <Notification,int> recency;
 
     GameStateMachine *stateMachine;
 	MapManager *mapManager;
@@ -27,9 +30,15 @@ private:
     DamageState *damageState;
 	bool mIsNewNotification;
 
+    int tickcount;
+
     void checkGameState();
     void checkShipPosition();
     void checkHealth();
+
+    int getTimeSince(Notification notification);
+    void updateRecencies();
+    void notify();
 	
 public:
     NotificationManager();

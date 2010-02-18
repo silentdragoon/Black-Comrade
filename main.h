@@ -38,6 +38,7 @@
 #include "sceneNodeManager.h"
 #include "damageState.h"
 #include "lines.h"
+#include "notificationManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -72,6 +73,7 @@ private:
     GameStateMachine *gameStateMachine;
     GameParameterMap *gameParameterMap;
     PrintState *printState;
+    NotificationManager *notificationMgr;
     
     PilotControls *pilotControls;
     NavigatorControls *navigatorControls;

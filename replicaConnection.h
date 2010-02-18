@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "gameStateMachine.h"
 #include "damageState.h"
+#include "notificationManager.h"
 
 using namespace RakNet;
 
