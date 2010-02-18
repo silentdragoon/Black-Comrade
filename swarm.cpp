@@ -163,6 +163,7 @@ void Swarm::removeDeadEnemies()
 }
 
 void Swarm::updateTargetLocation() {
+    if (members.size() == 0) return;
     MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
     Vector3 swarmPosition = getAveragePosition();
     MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
