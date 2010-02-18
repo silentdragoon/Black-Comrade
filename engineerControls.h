@@ -16,12 +16,18 @@ class EngineerControls : public ITickable, public IPlayerControls
     private:
         bool enabled;
         bool isFire;
+        bool isChangeShield;
+        bool isChangeWeapons;
+        bool isChangeSensors;
 
         Camera *cam;
         InputState *inputState;
     public:
         virtual void tick();
         virtual bool fire();
+        virtual bool isShield();
+        virtual bool isWeapons();
+        virtual bool isSensors();
 
         virtual Vector3 cameraPosition();
         virtual Quaternion cameraOrientation();
