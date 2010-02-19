@@ -7,6 +7,7 @@
 #include "damageState.h"
 #include "navigatorControls.h"
 #include "gameRole.h"
+#include "systemManager.h"
 #include <sstream>
 
 class GuiStatusUpdater : public ITickable {
@@ -16,8 +17,9 @@ class GuiStatusUpdater : public ITickable {
         DamageState *damageState;
         NavigatorControls *navigatorControls;
         GameRole gameRole;
+        SystemManager *systemManager;
     public:
-        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole);
+        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger);
         ~GuiStatusUpdater();
         virtual void tick();
 };

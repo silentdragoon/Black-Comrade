@@ -3,6 +3,7 @@
 
 Enemy::Enemy(int health, int id) :
     health(health),
+    isReplicated(false),
     fire(false),
     fireDelay(0),
     position(new Vector3()),
@@ -12,6 +13,7 @@ Enemy::Enemy(int health, int id) :
 {}
 
 Enemy::Enemy() :
+    isReplicated(false),
     health(100),
     fire(false),
     fireDelay(0),
@@ -60,6 +62,7 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
 
 RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
+    isReplicated = true;
     serializeParameters->outputBitstream[0].Write(position->x);
     serializeParameters->outputBitstream[0].Write(position->y);
     serializeParameters->outputBitstream[0].Write(position->z);
