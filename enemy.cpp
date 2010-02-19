@@ -62,7 +62,7 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
 
 RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
-    isReplicated = true;
+    
     serializeParameters->outputBitstream[0].Write(position->x);
     serializeParameters->outputBitstream[0].Write(position->y);
     serializeParameters->outputBitstream[0].Write(position->z);
