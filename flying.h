@@ -60,7 +60,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions);
+        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions, double x, double y, double z);
 
         ~Flying();
 

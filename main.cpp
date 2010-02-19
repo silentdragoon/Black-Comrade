@@ -104,7 +104,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, systemManager, collisions );
+        //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
+        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
@@ -232,6 +233,10 @@ Root *Main::configRoot()
 void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("map_file_path"),"FileSystem", "General");
+
+    
+    ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
     // Set the paths to look for various resources
@@ -269,7 +274,8 @@ void Main::configResources()
                     "cegui/lua_scripts", "FileSystem", "lua_scripts"); 
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/schemes", "FileSystem", "schemes"); 
+                    "cegui/schemes", "FileSystem", "schemes");
+    
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
