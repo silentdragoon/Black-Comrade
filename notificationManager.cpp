@@ -61,9 +61,14 @@ void NotificationManager::tick()
     mIsNewNotification = false;
 
     if (mapManager == 0) {
-        if (lastNotification->getType() != notification->getType()) {
+        if (lastNotification->getType() != nextType) {
             mIsNewNotification = true;
             prepareNotification();
+            // Print the notification to the terminal for now. Will be removed
+            // when linked in with GUI/sound
+            if (getCurrentNotification()->getType() != NT_NONE) {
+                std::cout << getCurrentNotification()->getConsoleText();
+            }
             if (nextType != NT_NONE) lastNotification = notification;
         }
         return;
@@ -242,4 +247,5 @@ RM3SerializationResult NotificationManager::Serialize(SerializeParameters *seria
 
 void NotificationManager::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(nextType);
+    //std::cout << nextType << std::endl;
 }
