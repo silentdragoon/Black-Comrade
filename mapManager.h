@@ -18,7 +18,7 @@
 #include "mapTile.h"
 #include "const.h"
 
-#define MAPROOT "./mapparts/"
+#define MAPROOT "/home/user-pool/users/jw7082/mapparts/"
 
 using namespace std;
 using namespace Ogre;

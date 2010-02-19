@@ -235,6 +235,10 @@ void Main::configResources()
     // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "/home/user-pool/users/jw7082/mapparts/",
+                    "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "sounds", "FileSystem", "General");
@@ -267,7 +271,8 @@ void Main::configResources()
                     "cegui/lua_scripts", "FileSystem", "lua_scripts"); 
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/schemes", "FileSystem", "schemes"); 
+                    "cegui/schemes", "FileSystem", "schemes");
+    
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
