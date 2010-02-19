@@ -11,23 +11,24 @@
 #include <vector>
 #include <limits>
 #include <cstdlib>
+#include <string>
+#include <sstream>
 
 #include "replicaObject.h"
 #include "collaborationInfo.h"
 
-enum Notification { NT_NONE, NT_CONTROLS, NT_UNDER_ATTACK,
-                    NT_HULL_CRITICAL, NT_ENGINES_CRITICAL, NT_WEAPONS_CRITICAL,
-                    NT_OBJECTIVE_SEEK, NT_OBJECTIVE_DESTROY, NT_OBJECTIVE_ESCAPE,
-                    NT_COMMENT_ONE, NT_COMMENT_TWO, NT_COMMENT_THREE };
+#include "notificationType.h"
+#include "notification.h"
 
 class NotificationManager : public ITickable, public ReplicaObject
 {
 private:
-    Notification notification;
-    Notification lastNotification;
+    NotificationType nextType;
+    Notification *notification;
+    Notification *lastNotification;
 
     std::vector<Notification> queue;
-    std::map <Notification,int> recency;
+    std::map <NotificationType,int> recency;
 
     CollaborationInfo *collabInfo;
     GameStateMachine *stateMachine;
@@ -48,11 +49,11 @@ private:
     void checkShipPosition();
     void checkHealth();
 
-    bool isTimely(Notification notification, int delaySinceMe, int delaySinceLast);
-    int getTimeSince(Notification notification);
+    bool isTimely(NotificationType notification, int delaySinceMe, int delaySinceLast);
+    int getTimeSince(NotificationType notification);
     int getTimeSinceLast();
     void updateRecencies();
-    void notify();
+    void prepareNotification();
 	
 public:
     NotificationManager();
@@ -61,7 +62,7 @@ public:
                         DamageState *damageState);
     void tick();
 	
-    Notification getCurrentNotification();
+    Notification *getCurrentNotification();
     bool hasNewNotification();
 
     void setCollaborationInfo(CollaborationInfo *collabInfo);
