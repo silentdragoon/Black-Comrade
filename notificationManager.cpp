@@ -15,6 +15,7 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
     , damageState(damageState)
     , mIsNewNotification(false)
     , lastStateNotified(GS_END)
+    , nextType(NT_NONE)
     , controlsDisplayed(false)
     , tickcount(2000)
 {
@@ -35,6 +36,7 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
 NotificationManager::NotificationManager()
     : notification(new Notification(NT_NONE,"",-1,0))
     , lastNotification(new Notification(NT_NONE,"",-1,0))
+    , nextType(NT_NONE)
     , collabInfo(0)
     , stateMachine(0)
     , mapManager(0)
@@ -247,5 +249,4 @@ RM3SerializationResult NotificationManager::Serialize(SerializeParameters *seria
 
 void NotificationManager::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(nextType);
-    //std::cout << nextType << std::endl;
 }
