@@ -17,8 +17,9 @@
 #include "waypoint.h"
 #include "mapTile.h"
 #include "const.h"
+#include "constManager.h"
 
-#define MAPROOT "/home/user-pool/users/jw7082/mapparts/"
+//#define MAPROOT "/home/user-pool/users/jw7082/mapparts/"
 
 using namespace std;
 using namespace Ogre;
@@ -28,7 +29,7 @@ class MapManager {
 private:
     char geo[Const::MAPSIZE][Const::MAPSIZE]; // Store for the geography of the map
     int endx,endy; // Index location of the end square of the map
-
+    string MAPROOT;
 	SceneManager *sceneManager;
     std::vector<Entity*> mapEntities;
     std::vector<Waypoint*> waypoints;

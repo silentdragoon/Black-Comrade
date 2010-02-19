@@ -559,6 +559,7 @@ int MapManager::cavernChecker(int x, int y, char type)
 MapManager::MapManager(char* file, SceneManager *sceneManager)
 	: sceneManager(sceneManager)
 {
+    MAPROOT = ConstManager::getString("map_file_path");
     if(buildMap(file)) {
     } else {
         cerr << "Something to do with reading the map went horribly wrong." << endl;
