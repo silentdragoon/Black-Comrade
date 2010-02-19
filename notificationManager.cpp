@@ -123,7 +123,7 @@ void NotificationManager::prepareNotification() {
             consoleText << "----------> Random comment 2." << std::endl;
             break;
         case NT_COMMENT_THREE:
-            consoleText<< "----------> Random comment 3." << std::endl;
+            consoleText << "----------> Random comment 3." << std::endl;
             break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
