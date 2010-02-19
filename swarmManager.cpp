@@ -120,7 +120,7 @@ void SwarmManager::updateRemoteSwarms() {
     } else {
         std::vector<Enemy*> allEnemies = getAllEnemies();
         for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
-            if (!(*it)->isReplicated) networkingMgr->replicate(*it);
+            networkingMgr->replicate(*it);
         }
     }
 }

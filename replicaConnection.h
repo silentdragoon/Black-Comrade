@@ -8,6 +8,7 @@
 #include "gameStateMachine.h"
 #include "damageState.h"
 #include "notificationManager.h"
+#include "systemManager.h"
 
 using namespace RakNet;
 

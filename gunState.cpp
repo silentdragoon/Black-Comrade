@@ -18,8 +18,10 @@ void GunState::tick()
 
     if(playerControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD
         && damageState->getWeaponHealth() > 0.0) {
-        systemManager->fireWeapon();
-        isFire = true;
+        if(systemManager->getWeaponCharge()>1.0) {
+            systemManager->fireWeapon();
+            isFire = true;
+        }
         timeSinceLastFire = 0;
     }
 

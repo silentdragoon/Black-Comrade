@@ -67,7 +67,7 @@ void Flying::updatePosition()
             double xzFor =  (engineRate+0.5)*EngineForce*sin(flyPitch);
             xVel += xzFor*sin(flyYaw);
             zVel += xzFor*cos(flyYaw);
-            double xzSide = engineRate*SideForce*sin(flyRoll);
+            double xzSide = (engineRate+0.5)*SideForce*sin(flyRoll);
             xVel -= xzSide*sin(flyYaw+1.57079633);
             zVel -= xzSide*cos(flyYaw+1.57079633);
     

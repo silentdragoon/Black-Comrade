@@ -96,8 +96,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
         systemManager = new SystemManager(engineerControls);
         gameLoop->addTickable(systemManager,"systemManager");
+        networkingManager->replicate(systemManager);
     } else {
-        systemManager = new SystemManager(); // TODO: Networking for systemManager here
+        if (collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
+            systemManager = new SystemManager();
+        } else {
+            systemManager = (SystemManager*) networkingManager->
+                getReplica("SystemManager",true);
+        }
     }
 
     // Pilot Controls
