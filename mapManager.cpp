@@ -560,8 +560,7 @@ MapManager::MapManager(char* file, SceneManager *sceneManager)
 	: sceneManager(sceneManager)
 {
     MAPROOT = ConstManager::getString("map_file_path");
-    ResourceGroupManager::getSingleton().addResourceLocation( MAPROOT,"FileSystem", "General");
-    
+
     if(buildMap(file)) {
     } else {
         cerr << "Something to do with reading the map went horribly wrong." << endl;

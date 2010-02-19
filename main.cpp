@@ -230,6 +230,10 @@ Root *Main::configRoot()
 void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("map_file_path"),"FileSystem", "General");
+
+    
+    ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
     // Set the paths to look for various resources
