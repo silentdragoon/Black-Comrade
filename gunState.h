@@ -10,6 +10,7 @@
 #include "IPlayerControls.h"
 #include "gameRole.h"
 #include "damageState.h"
+#include "systemManager.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -29,6 +30,7 @@ class GunState : public ITickable, public ReplicaObject
         
         IPlayerControls *playerControls;
         DamageState *damageState;
+        SystemManager *systemManager;
         
     public:
         bool fire();
@@ -39,13 +41,13 @@ class GunState : public ITickable, public ReplicaObject
         virtual void tick();
         
         GunState();
-        GunState(IPlayerControls *pilotControls, DamageState *damageState, GameRole owner);
+        GunState(IPlayerControls *pilotControls, DamageState *damageState, SystemManager *systemManger, GameRole owner);
         ~GunState();
 
         virtual RakNet::RakString GetName(void) const;
         virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
         virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
-	virtual void SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection);
+        virtual void SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection);
         virtual bool DeserializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *sourceConnection);
 };
 

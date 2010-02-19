@@ -22,6 +22,7 @@ private:
     EngineerControls *engCon;
 public:
     
+    SystemManager();
     SystemManager(EngineerControls *engCon);
     void tick();
 
@@ -29,10 +30,10 @@ public:
     void incWeaponRate();
     void incSensorRate();
 
-    double getShieldRate();
-    double getWeaponRate();
-    double getSensorRate();
-    double getEngineRate();
+    double getShieldRate(); //
+    double getWeaponRate(); //
+    double getSensorRate(); //
+    double getEngineRate(); // Returns 0 - 1
 
     void fireWeapon();
     void damageShield();

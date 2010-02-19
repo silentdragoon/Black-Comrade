@@ -89,11 +89,22 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     inputState = new InputState(window, false, this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
+    // Engineer Controls
+    if(collabInfo->getGameRole() == ENGINEER) {
+        engineerControls = new EngineerControls(inputState,camera);
+        gameLoop->addTickable(engineerControls,"engineerControls");
+
+        systemManager = new SystemManager(engineerControls);
+        gameLoop->addTickable(systemManager,"systemManager");
+    } else {
+        systemManager = new SystemManager(); // TODO: Networking for systemManager here
+    }
+
     // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, collisions );
+        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, systemManager, collisions );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
@@ -102,15 +113,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
         gameLoop->addTickable(navigatorControls,"navigatorControls");
-    }
-    
-    // Engineer Controls
-    if(collabInfo->getGameRole() == ENGINEER) {
-        engineerControls = new EngineerControls(inputState,camera);
-        gameLoop->addTickable(engineerControls,"engineerControls");
-
-        systemManager = new SystemManager(engineerControls);
-        gameLoop->addTickable(systemManager,"systemManager");
     }
 
     // GameState
@@ -142,7 +144,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Pilot Gun State
     if(collabInfo->getGameRole() == PILOT) {
-        pilotGunState = new GunState(pilotControls,damageState,collabInfo->getGameRole());
+        pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(pilotGunState);
     } else {
         pilotGunState = (GunState*) networkingManager->
@@ -152,7 +154,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     
     // Navigator Gun State
     if(collabInfo->getGameRole() == NAVIGATOR) {
-        navigatorGunState = new GunState(navigatorControls,damageState,collabInfo->getGameRole());
+        navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(navigatorGunState);
         gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     } else {
@@ -166,7 +168,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     
     // Engineer Gun State
     if(collabInfo->getGameRole() == ENGINEER) {
-        engineerGunState = new GunState(engineerControls,damageState,collabInfo->getGameRole());
+        engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(engineerGunState);
         gameLoop->addTickable(engineerGunState,"engineerGunState");
     } else {

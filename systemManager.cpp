@@ -1,5 +1,17 @@
 #include "systemManager.h"
 
+SystemManager::SystemManager() :
+    engCon(0),
+    shieldRate(0.5),
+    weaponRate(0.5),
+    sensorRate(0.5),
+    engineRate(1.5),
+    weaponCharge(0),
+    shieldCharge(0),
+    timeSinceLastPress(100)
+{
+}
+
 SystemManager::SystemManager(EngineerControls *engCon) :
     engCon(engCon),
     shieldRate(0.5),
@@ -9,46 +21,48 @@ SystemManager::SystemManager(EngineerControls *engCon) :
     weaponCharge(0),
     shieldCharge(0),
     timeSinceLastPress(100)
-{}
+{
+}
 
 void SystemManager::tick() {
+    if(engCon!=0) {
+        timeSinceLastPress++;
 
-    timeSinceLastPress++;
+        double chargeModifier = 0.1;
 
-    double chargeModifier = 0.1;
+        double decharge = 0.5;
+        weaponCharge += (weaponRate-decharge)*chargeModifier;
+        shieldCharge += (shieldRate-decharge)*chargeModifier;
 
-    double decharge = 0.5;
-    weaponCharge += (weaponRate-decharge)*chargeModifier;
-    shieldCharge += (shieldRate-decharge)*chargeModifier;
+        if(weaponCharge<0) weaponCharge = 0;
+        if(shieldCharge<0) shieldCharge = 0;
+        if(weaponCharge>100) weaponCharge = 100;
+        if(shieldCharge>100) shieldCharge = 100;
 
-    if(weaponCharge<0) weaponCharge = 0;
-    if(shieldCharge<0) shieldCharge = 0;
-    if(weaponCharge>100) weaponCharge = 100;
-    if(shieldCharge>100) shieldCharge = 100;
+        if((engCon->isShield())&&(timeSinceLastPress>10)) {
+            incShieldRate();
+            timeSinceLastPress=0;
+        }
 
-    if((engCon->isShield())&&(timeSinceLastPress>10)) {
-        incShieldRate();
-        timeSinceLastPress=0;
-    }
+        if((engCon->isWeapons())&&(timeSinceLastPress>10)) {
+            incWeaponRate();
+            timeSinceLastPress=0;
+        }
 
-    if((engCon->isWeapons())&&(timeSinceLastPress>10)) {
-        incWeaponRate();
-        timeSinceLastPress=0;
-    }
+        if((engCon->isSensors())&&(timeSinceLastPress>10)) {
+            incSensorRate();
+            timeSinceLastPress=0;
+        }
 
-    if((engCon->isSensors())&&(timeSinceLastPress>10)) {
-        incSensorRate();
-        timeSinceLastPress=0;
-    }
+        if((engCon->transferShields())&&(timeSinceLastPress>10)) {
+            transferWeaponsToShields();
+            timeSinceLastPress=0;
+        }
 
-    if((engCon->transferShields())&&(timeSinceLastPress>10)) {
-        transferWeaponsToShields();
-        timeSinceLastPress=0;
-    }
-
-    if((engCon->transferWeapons())&&(timeSinceLastPress>10)) {
-        transferShieldsToWeapons();
-        timeSinceLastPress=0;
+        if((engCon->transferWeapons())&&(timeSinceLastPress>10)) {
+            transferShieldsToWeapons();
+            timeSinceLastPress=0;
+        }
     }
 }
 
@@ -95,11 +109,12 @@ double SystemManager::getSensorRate() {
 }
 
 double SystemManager::getEngineRate() {
-    return engineRate;
+    double blarg = engineRate/3.0;
+    return blarg;
 }
 
 void SystemManager::fireWeapon() {
-    weaponCharge -= 0.1; // TODO: Fiddle this number or something
+    weaponCharge -= 1.0; // TODO: Fiddle this number or something
 }
 
 void SystemManager::damageShield() {

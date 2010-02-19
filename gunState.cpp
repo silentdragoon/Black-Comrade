@@ -18,6 +18,7 @@ void GunState::tick()
 
     if(playerControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD
         && damageState->getWeaponHealth() > 0.0) {
+        systemManager->fireWeapon();
         isFire = true;
         timeSinceLastFire = 0;
     }
@@ -27,9 +28,10 @@ void GunState::tick()
 Vector3 GunState::getPosition() { return position; }
 Quaternion GunState::getOrientation() { return orientation; }
         
-GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, GameRole owner)
+GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, SystemManager *systemManager, GameRole owner)
     : playerControls(playerControls)
     , damageState(damageState)
+    , systemManager(systemManager)
     , isFire(false)
     , timeSinceLastFire(0)
     , owner(owner)

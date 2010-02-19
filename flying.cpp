@@ -1,11 +1,12 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool useCollisions):
+Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool useCollisions):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
     damageState(damageState),
+    systemManager(systemManager),
     useCollisions(useCollisions),
     zVel(0.0),
     xVel(0.0),
@@ -62,10 +63,11 @@ void Flying::updatePosition()
         //hack considering not all. Works fine though
         if( damageState->getEngineHealth() > 0 )
         {
-            double xzFor =  EngineForce*sin(flyPitch);
+            double engineRate = systemManager->getEngineRate();
+            double xzFor =  engineRate*EngineForce*sin(flyPitch);
             xVel += xzFor*sin(flyYaw);
             zVel += xzFor*cos(flyYaw);
-            double xzSide = SideForce*sin(flyRoll);
+            double xzSide = engineRate*SideForce*sin(flyRoll);
             xVel -= xzSide*sin(flyYaw+1.57079633);
             zVel -= xzSide*cos(flyYaw+1.57079633);
     
