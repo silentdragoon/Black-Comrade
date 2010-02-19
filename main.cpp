@@ -235,10 +235,6 @@ void Main::configResources()
     // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "models", "FileSystem", "General");
-                    
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "/home/user-pool/users/jw7082/mapparts/",
-                    "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "sounds", "FileSystem", "General");
