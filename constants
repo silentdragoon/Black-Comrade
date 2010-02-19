@@ -1,5 +1,7 @@
 
-tick_period = 0.01
+INCLUDE = constMapPath
+
+tick_period = 0.0166666667
 
 # Enemy Constants
 enemy_patrol_speed = 50

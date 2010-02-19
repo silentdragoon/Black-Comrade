@@ -10,43 +10,62 @@
 #include "constManager.h"
 #include <vector>
 #include <limits>
+#include <cstdlib>
+#include <string>
+#include <sstream>
 
 #include "replicaObject.h"
+#include "collaborationInfo.h"
 
-enum Notification { NT_NONE, NT_CONTROLS, NT_ATTACK, NT_HULL_CRITICAL, NT_ENGINES_CRITICAL, NT_WEAPONS_CRITICAL };
+#include "notificationType.h"
+#include "notification.h"
 
 class NotificationManager : public ITickable, public ReplicaObject
 {
 private:
-	Notification notification;
-    Notification oldNotification;
+    NotificationType nextType;
+    Notification *notification;
+    Notification *lastNotification;
 
     std::vector<Notification> queue;
-    std::map <Notification,int> recency;
+    std::map <NotificationType,int> recency;
 
+    CollaborationInfo *collabInfo;
     GameStateMachine *stateMachine;
-	MapManager *mapManager;
-	ShipState *shipState;
+    GameState lastStateNotified;
+    MapManager *mapManager;
+    ShipState *shipState;
     DamageState *damageState;
-	bool mIsNewNotification;
+    bool mIsNewNotification;
 
     int tickcount;
+    int maxDelay;
 
+    bool controlsDisplayed;
+    bool stateChangePending;
+
+    void checkComments();
     void checkGameState();
     void checkShipPosition();
     void checkHealth();
 
-    int getTimeSince(Notification notification);
+    bool isTimely(NotificationType notification, int delaySinceMe, int delaySinceLast);
+    int getTimeSince(NotificationType notification);
+    int getTimeSinceLast();
     void updateRecencies();
-    void notify();
+    void prepareNotification();
 	
 public:
     NotificationManager();
-	NotificationManager(GameStateMachine *stateMachine, MapManager *mapManager, ShipState *shipState, DamageState *damageState);
-	void tick();
+    NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
+                        MapManager *mapManager, ShipState *shipState,
+                        DamageState *damageState);
+    void tick();
 	
-	Notification currentNotification();
-	bool isNewNotification();
+    Notification *getCurrentNotification();
+    bool hasNewNotification();
+
+    void setCollaborationInfo(CollaborationInfo *collabInfo);
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);

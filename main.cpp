@@ -53,11 +53,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
-	    shipState = new ShipState(shipSceneNode);
-	    networkingManager->replicate(shipState);
+        shipState = new ShipState(shipSceneNode);
+        networkingManager->replicate(shipState);
     } else {
-    	shipState = 
-    		(ShipState*) networkingManager->getReplica("ShipState",true);
+        shipState = 
+            (ShipState*) networkingManager->getReplica("ShipState",true);
     }
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
@@ -66,7 +66,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
-	Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+    Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);
     }
@@ -83,7 +83,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     createViewPort();
 
     // Collision Manager
-	collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
     inputState = new InputState(window, false, this,useKey,useMouse);
@@ -100,114 +100,114 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     
     // Navigator Controls
     if(collabInfo->getGameRole() == NAVIGATOR) {
-	    navigatorControls = new NavigatorControls(inputState,camera);
-	    gameLoop->addTickable(navigatorControls,"navigatorControls");
+        navigatorControls = new NavigatorControls(inputState,camera);
+        gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
     
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
-	    engineerControls = new EngineerControls(inputState,camera);
-	    gameLoop->addTickable(engineerControls,"engineerControls");
+        engineerControls = new EngineerControls(inputState,camera);
+        gameLoop->addTickable(engineerControls,"engineerControls");
 
         systemManager = new SystemManager(engineerControls);
         gameLoop->addTickable(systemManager,"systemManager");
     }
 
-	// GameState
-	if(collabInfo->getGameRole() == PILOT) {
-	    gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState);
-	    networkingManager->replicate(gameStateMachine);
-	    
+    // GameState
+    if(collabInfo->getGameRole() == PILOT) {
+        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState);
+        networkingManager->replicate(gameStateMachine);    
     } else {
-    	gameStateMachine = 
-    		(GameStateMachine*) networkingManager->
-    			getReplica("GameStateMachine",true);
+        gameStateMachine = 
+            (GameStateMachine*) networkingManager->
+                getReplica("GameStateMachine",true);
     }
-	gameLoop->addTickable(gameStateMachine,"gameStateMachine");
-	gameParameterMap = new GameParameterMap(gameStateMachine);
+    gameLoop->addTickable(gameStateMachine,"gameStateMachine");
+    gameParameterMap = new GameParameterMap(gameStateMachine);
 
-	// Print Game State changes
-	printState = new PrintState(gameStateMachine);
-	gameLoop->addTickable(printState,"printState");
+    // Print Game State changes
+    printState = new PrintState(gameStateMachine);
+    gameLoop->addTickable(printState,"printState");
 
     // Notifications
     if (collabInfo->getGameRole() == NAVIGATOR || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
-        notificationMgr = new NotificationManager(gameStateMachine, mapMgr, shipState, damageState);
+        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState, damageState);
         networkingManager->replicate(notificationMgr);
     } else {
         notificationMgr = (NotificationManager*) networkingManager->
             getReplica("NotificationManager",true);
+        notificationMgr->setCollaborationInfo(collabInfo);
     }
     gameLoop->addTickable(notificationMgr,"notifications");
 
-	// Pilot Gun State
-	if(collabInfo->getGameRole() == PILOT) {
-	    pilotGunState = new GunState(pilotControls,damageState,collabInfo->getGameRole());
-	    networkingManager->replicate(pilotGunState);
-	} else {
-    	pilotGunState = (GunState*) networkingManager->
-    		getReplica("PilotGunState",true);
+    // Pilot Gun State
+    if(collabInfo->getGameRole() == PILOT) {
+        pilotGunState = new GunState(pilotControls,damageState,collabInfo->getGameRole());
+        networkingManager->replicate(pilotGunState);
+    } else {
+        pilotGunState = (GunState*) networkingManager->
+        getReplica("PilotGunState",true);
     }
     gameLoop->addTickable(pilotGunState,"pilotGunState");
     
     // Navigator Gun State
-	if(collabInfo->getGameRole() == NAVIGATOR) {
-	    navigatorGunState = new GunState(navigatorControls,damageState,collabInfo->getGameRole());
-	    networkingManager->replicate(navigatorGunState);
-	    gameLoop->addTickable(navigatorGunState,"navigatorGunState");
-	} else {
-    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
-    	    navigatorGunState = (GunState*) networkingManager->
-    	        getReplica("NavigatorGunState",true);
-    	        std::cout << "Got nav gun from net" << std::endl;
-    	    gameLoop->addTickable(navigatorGunState,"navigatorGunState");
-    	}
+    if(collabInfo->getGameRole() == NAVIGATOR) {
+        navigatorGunState = new GunState(navigatorControls,damageState,collabInfo->getGameRole());
+        networkingManager->replicate(navigatorGunState);
+        gameLoop->addTickable(navigatorGunState,"navigatorGunState");
+    } else {
+        if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+            navigatorGunState = (GunState*) networkingManager->
+                getReplica("NavigatorGunState",true);
+                std::cout << "Got nav gun from net" << std::endl;
+            gameLoop->addTickable(navigatorGunState,"navigatorGunState");
+        }
     }
     
     // Engineer Gun State
-	if(collabInfo->getGameRole() == ENGINEER) {
-	    engineerGunState = new GunState(engineerControls,damageState,collabInfo->getGameRole());
-	    networkingManager->replicate(engineerGunState);
-	    gameLoop->addTickable(engineerGunState,"engineerGunState");
-	} else {
-    	if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
-    	    engineerGunState = (GunState*) networkingManager->
-    		    getReplica("EngineerGunState",true);
-    		    std::cout << "Got eng gun from net" << std::endl;
-    		gameLoop->addTickable(engineerGunState,"engineerGunState");
+    if(collabInfo->getGameRole() == ENGINEER) {
+        engineerGunState = new GunState(engineerControls,damageState,collabInfo->getGameRole());
+        networkingManager->replicate(engineerGunState);
+        gameLoop->addTickable(engineerGunState,"engineerGunState");
+    } else {
+        if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+            engineerGunState = (GunState*) networkingManager->
+                getReplica("EngineerGunState",true);
+                std::cout << "Got eng gun from net" << std::endl;
+            gameLoop->addTickable(engineerGunState,"engineerGunState");
         }
     }
 
-	// TODO: start the enemies pointing towards the ship?
-	// Swarm Manager
+    // TODO: start the enemies pointing towards the ship?
+    // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
-	    swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-		    shipState,collisionMgr,networkingManager,lines);
+        swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
+            shipState,collisionMgr,networkingManager,lines);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-        	collisionMgr, networkingManager);
+            collisionMgr, networkingManager);
     }
-	gameLoop->addTickable(swarmMgr, "swarmMgr");
+    gameLoop->addTickable(swarmMgr, "swarmMgr");
 
     gameLoop->addTickable(networkingManager,"networkingManager");
 
-	// Bullet Manager
-	bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
+    // Bullet Manager
+    bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState);
-	gameLoop->addTickable(bulletMgr,"bulletManager");
+    gameLoop->addTickable(bulletMgr,"bulletManager");
 
-	// Audio
-	soundMgr = new SoundManager();
-	gameLoop->addTickable(soundMgr,"soundManager");
-	audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
-	gameLoop->addTickable(audioState,"audioState");
+    // Audio
+    soundMgr = new SoundManager();
+    gameLoop->addTickable(soundMgr,"soundManager");
+    audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
+    gameLoop->addTickable(audioState,"audioState");
 
-	// Last class to be added to the game loop
+    // Last class to be added to the game loop
 
     // CEGUI Stuff
     guiMgr = new GuiManager(mapMgr,shipState);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole());
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop
@@ -219,7 +219,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
 Root *Main::configRoot()
 {
-	Root *root = new Root();
+    Root *root = new Root();
 
     if (!root->restoreConfig())
         root->showConfigDialog();
@@ -229,7 +229,7 @@ Root *Main::configRoot()
 
 void Main::configResources()
 {
-	ResourceGroupManager::getSingleton().addResourceLocation(
+    ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
     // Set the paths to look for various resources
