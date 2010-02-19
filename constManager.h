@@ -16,11 +16,14 @@ using namespace std;
 class ConstManager
 {
 private:
-	std::map<std::string, float> constMap;
+	std::map<std::string, string*> constMap;
 	static ConstManager *singleton;
 	
 	int getIntInternal(std::string name);
     float getFloatInternal(std::string name);
+    string getStringInternal(std::string name);
+
+    void parseFile(const char *fileName);
 
 protected:
     ConstManager(char *fileName);
@@ -28,8 +31,9 @@ protected:
 public:
     static int getInt(std::string name);
     static float getFloat(std::string name);
+    static string getString(std::string name);
     
-    void add(std::string name, float value);
+    void add(std::string name, string *value);
     
     static ConstManager *getSingleton();
     

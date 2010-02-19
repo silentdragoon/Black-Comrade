@@ -6,6 +6,11 @@ ConstManager *ConstManager::singleton = NULL;
 
 ConstManager::ConstManager(char *fileName)
 {   
+    parseFile(fileName);    
+}
+
+void ConstManager::parseFile(const char *fileName)
+{
     // Read the file
     ifstream fin(fileName);
     
@@ -20,43 +25,68 @@ ConstManager::ConstManager(char *fileName)
             label = boost::algorithm::trim_copy(label);
             
             if(label[0] != '#' && getline(iss,value)) {
-                std::istringstream convert(value);
-                float vFloat;
-                convert >> vFloat;
-                add(label,vFloat);
+                
+                value = boost::algorithm::trim_copy(value);
+                
+                // Check for include 
+                if(label.compare("INCLUDE") == 0) {
+                    
+                    parseFile(value.c_str());
+                } else {
+                    
+                    add(label,new string(value.c_str()));
+                }
             }
         }
         
     } else {
-        std::cerr << "Unable to open constant file." << std::endl;
+        std::cerr << "Unable to open constant file '"
+            << fileName << "'" << std::endl;
     }
 }
     
-void ConstManager::add(std::string name, float value)
+void ConstManager::add(std::string name, string *value)
 {
-    constMap.insert(std::pair<std::string, float>(name,value));
-    std::cout << name << " = " << value << std::endl;
+    constMap.insert(std::pair<std::string, string*>(name,value));
+    std::cout << name << " = " << *value << std::endl;
 }
    
 int ConstManager::getIntInternal(std::string name)
 {
-    std::map<std::string, float>::const_iterator itr;
-    itr = constMap.find(name);
-    
-    float result = 0;
-    
-    if(itr != constMap.end()) result = itr->second;
-    
-    return static_cast<int>(result);
+    float vFloat = getFloatInternal(name);
+
+    return static_cast<int>(vFloat);
 }
 
 float ConstManager::getFloatInternal(std::string name)
 {
-    std::map<std::string, float>::const_iterator itr;
+    std::map<std::string, string*>::const_iterator itr;
     itr = constMap.find(name);
     
-    if(itr != constMap.end()) return itr->second;
-    else return 0.0;
+    string *value;
+    
+    if(itr != constMap.end()) value = itr->second;
+    
+    std::istringstream convert(*value);
+    float vFloat;
+    convert >> vFloat;
+
+    return vFloat;
+}
+
+string ConstManager::getStringInternal(std::string name)
+{
+    std::map<std::string, string*>::const_iterator itr;
+    itr = constMap.find(name);
+    
+    string *value;itr->second;
+    
+    if(itr != constMap.end()) {
+        return *itr->second;
+    } else {
+        return string();    
+    }
+    
 }
 
 ConstManager *ConstManager::getSingleton()
@@ -75,4 +105,9 @@ int ConstManager::getInt(std::string name)
 float ConstManager::getFloat(std::string name)
 {
     return getSingleton()->getFloatInternal(name);
+}
+
+string ConstManager::getString(std::string name)
+{
+    return getSingleton()->getStringInternal(name);
 }
