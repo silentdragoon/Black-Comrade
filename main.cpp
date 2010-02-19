@@ -207,7 +207,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // CEGUI Stuff
     guiMgr = new GuiManager(mapMgr,shipState);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole());
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Start Rendering Loop

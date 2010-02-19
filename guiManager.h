@@ -29,6 +29,11 @@ private:
     CEGUI::FrameWindow *weaponText;
     CEGUI::FrameWindow *engineText;
     CEGUI::FrameWindow *hullText;
+    CEGUI::ProgressBar *shieldRate;
+    CEGUI::ProgressBar *sensorRate;
+    CEGUI::ProgressBar *weaponRate;
+    CEGUI::ProgressBar *engineRate;
+    CEGUI::ProgressBar *weaponCharge;
     int prevX;
     int prevY;
 
@@ -54,6 +59,11 @@ public:
     void setHull(float yeah);
     void toggleMap(bool tog);
     void updateMiniMap();
+    void setShieldRate(float yeah);
+    void setSensorRate(float yeah);
+    void setWeaponRate(float yeah);
+    void setEngineRate(float yeah);
+    void setWeaponCharge(float yeah);
 };
 
 #endif
