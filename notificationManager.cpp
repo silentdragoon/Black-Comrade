@@ -80,9 +80,12 @@ void NotificationManager::tick()
         checkGameState();
 
         prepareNotification();
-    if (getCurrentNotification()->getType() != NT_NONE) {
-        std::cout << getCurrentNotification()->getConsoleText();
-    }
+
+        // Print the notification to the terminal for now. Will be removed
+        // when linked in with GUI/sound
+        if (getCurrentNotification()->getType() != NT_NONE) {
+            std::cout << getCurrentNotification()->getConsoleText();
+        }
     }
 
 }
