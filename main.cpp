@@ -93,7 +93,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, collisions );
+        //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
+        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }

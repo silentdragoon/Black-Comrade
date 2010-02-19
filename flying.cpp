@@ -1,7 +1,7 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool useCollisions):
+Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, bool useCollisions, double iXPos, double iYPos, double iZPos):
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
@@ -22,7 +22,7 @@ Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState
     addYaw(0.0),
     yawMom(0.0)
 {
-    position = new Vector3(1400.0, 0.0, 100.0 );
+    position = new Vector3(iXPos, iYPos, iZPos );
 }
 
 Flying::~Flying()
