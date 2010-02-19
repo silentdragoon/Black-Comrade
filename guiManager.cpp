@@ -248,7 +248,7 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
             mapx = 1;
             mapy = 2;
         }
-        if(y==8) {
+        if(i==8) {
             xpos = x+1;
             ypos = y+1;
             mapx = 2;
@@ -292,10 +292,10 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
 
         CEGUI::ComponentArea ca = CEGUI::ComponentArea();
 
-        ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapx*0.35/ratio,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
-        ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapy*0.35,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
-        ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.35/ratio,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
-        ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.35,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
+        ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapx*0.3/ratio,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
+        ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapy*0.3,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
+        ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.3/ratio,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
+        ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.3,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
 
         ic.setComponentArea(ca);
 
