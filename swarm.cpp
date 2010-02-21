@@ -182,7 +182,6 @@ void Swarm::updateTargetLocation() {
             // New path must be found
             oldShipTile = shipTile;
             path = pathFinder->findPath(swarmTile,shipTile);
-            std::cout << "Finding ship..." << std::endl;
         }
         if (path.size() == 1 || path.size() == 2) {
             // In the current tile or adjacent tile
