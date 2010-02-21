@@ -32,7 +32,9 @@ class Swarm
         int id;
         Vector3 location;
         Vector3 target;
+        MapTile* currentSwarmTile;
         MapTile* oldShipTile;
+        MapTile* oldSwarmTile;
     	Real roll;
     	Real pitch;
     	Real yaw;

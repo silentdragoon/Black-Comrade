@@ -26,6 +26,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
     target = location;
+    oldSwarmTile = 0;
 	rRayQuery = new RayQuery( sceneMgr );
 
     for(int i=0;i<(size);i++) {
@@ -48,6 +49,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         members.push_back(e);
     }
+    currentSwarmTile = mapMgr->getMapTile(&location);
 }
 
 std::vector<Enemy*> Swarm::getAllEnemies() {
@@ -169,12 +171,18 @@ void Swarm::updateTargetLocation() {
     MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
     MapTile *targetTile = mapMgr->getMapTile(&target);
 
+    if (currentSwarmTile != swarmTile) {
+        oldSwarmTile = currentSwarmTile;
+        currentSwarmTile = swarmTile;
+    }
+
     // Find the ship
-    if(true || gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
+    if(gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
         if (oldShipTile != shipTile) {
             // New path must be found
             oldShipTile = shipTile;
             path = pathFinder->findPath(swarmTile,shipTile);
+            std::cout << "Finding ship..." << std::endl;
         }
         if (path.size() == 1 || path.size() == 2) {
             // In the current tile or adjacent tile
@@ -188,7 +196,10 @@ void Swarm::updateTargetLocation() {
             target = mapMgr->getActualPosition(targetTile);
         }
     } else { // Move through the map randomly
-        
+        if (targetTile == swarmTile) {
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            target = mapMgr->getActualPosition(targetTile);
+        }
     }
 }
 
