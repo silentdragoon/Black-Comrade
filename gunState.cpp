@@ -13,6 +13,7 @@ void GunState::tick()
     if((isFire)&&(systemManager!=0)) systemManager->fireWeapon();
 
     isFire = false;
+
     if (playerControls == 0) return;
 
     position = playerControls->cameraPosition();

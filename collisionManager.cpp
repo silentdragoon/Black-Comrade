@@ -6,10 +6,15 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
 {
     cd = new CollisionDetection();
     std::vector<Entity*> pc = mp->getMapPieces();
+    double percInc = 100.0/pc.size();
+    double percDone = 0;
     for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
     {
+        cout << "Map pieces loaded: "<< int(percDone) <<"%"<<endl;
+        percDone += percInc;
         cd->addStaticTreeCollisionMesh(*it);
     }
+    cout << "Map pieces loaded: 100%"<<endl;
 }
 
 

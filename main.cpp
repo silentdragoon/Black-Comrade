@@ -82,7 +82,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     createViewPort();
 
-    // Collision Manager
+    // Collision Manager (takes 99% of our loading time)
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
@@ -202,7 +202,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             collisionMgr, networkingManager);
@@ -357,7 +357,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     sp->setDiffuseColour(0.6,0.6,1.0);
     sp->setSpecularColour(0.6,0.6,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
     //Light *spot = sceneMgr->createLight("shipSpot");
     //spot->setType(Light::LT_SPOTLIGHT);

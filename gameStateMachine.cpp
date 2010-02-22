@@ -7,7 +7,10 @@ GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState,
 	: gameState(GS_STEALTH)
 	, mapManager(mapManager)
 	, shipState(shipState)
-        , damageState(damageState)
+    , damageState(damageState)
+    , hullDamage(100.0)
+    , waypointName(NULL)
+    , isShipInSight(false)
 	, mIsNewState(true)
 {}
 
@@ -24,21 +27,40 @@ void GameStateMachine::tick()
 
 	mIsNewState = false;
 
-        if (mapManager == 0) {
-            if (oldState != gameState) {
-                mIsNewState = true;
-                oldState = gameState;
-            }
-            return;
+    if (mapManager == 0) {
+        if (oldState != gameState) {
+            mIsNewState = true;
+            oldState = gameState;
         }
+        return;
+    }
 
 	oldState = gameState;
-        //std::cout << "Checking statemachine" << std::endl;
+    //std::cout << "Checking statemachine" << std::endl;
 
-        checkWaypoints();
-        checkHealth();
+    checkWaypoints();
+    checkSwarms();
+    checkHealth();
 
 	if(oldState != gameState) mIsNewState = true;
+}
+
+void GameStateMachine::setWaypointName(std::string *mWaypointName) {
+    waypointName = mWaypointName;
+}
+
+std::string* GameStateMachine::getWaypointName() { return waypointName; }
+
+void GameStateMachine::setIsShipInSight(bool mIsShipInSight) {
+    isShipInSight = mIsShipInSight;
+}
+
+bool GameStateMachine::getIsShipInSight() { return isShipInSight; }
+
+double GameStateMachine::getHullDamage() { return hullDamage; }
+
+void GameStateMachine::setHullDamage(double mHullDamage) {
+    hullDamage = mHullDamage;
 }
 
 void GameStateMachine::checkWaypoints() {
@@ -58,6 +80,14 @@ void GameStateMachine::checkWaypoints() {
 void GameStateMachine::checkHealth() {
     if (damageState->getHullHealth() <= 0) {
         gameState = GS_GAME_OVER;
+    }
+}
+
+void GameStateMachine::checkSwarms() {
+    switch(gameState) {
+        case GS_STEALTH:
+            if (isShipInSight) gameState = GS_ATTACK;
+        break;
     }
 }
 	

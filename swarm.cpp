@@ -136,7 +136,7 @@ bool Swarm::isShipInSight()
 	
 	Radian sightAngle(ConstManager::getFloat("enemy_sight_dist"));
 	
-	Vector3 lineToShip = *(shipState->getPosition()) -location;
+	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
 	
 	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
 		if(lineToShip.angleBetween(lookDirection) < sightAngle) {

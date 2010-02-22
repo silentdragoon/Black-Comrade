@@ -3,7 +3,8 @@
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
 	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
-	CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines) :
+	CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines,
+    GameStateMachine *gameStateMachine) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -14,7 +15,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     shipState(shipState),
     colMgr(colMgr),
     networkingMgr(networkingMgr),
-    lines(lines)
+    gameStateMachine(gameStateMachine)
+    ,lines(lines)
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -153,6 +155,7 @@ void SwarmManager::tick()
     // Here we are updating the locations of the swarms and the enemies within
     for(int i=0;i<activeSwarms.size();i++) {
         Swarm *s = activeSwarms.at(i);
+        if (s->isShipInSight()) gameStateMachine->setIsShipInSight(true);
         if(s->size==0) {
             delete s;
             activeSwarms.erase(activeSwarms.begin()+(i));

@@ -11,6 +11,7 @@
 #include "shipState.h"
 #include "collisionManager.h"
 #include "lines.h"
+#include "gameStateMachine.h"
 
 #include "networkingManager.h"
 
@@ -30,6 +31,7 @@ class SwarmManager : public ITickable
         CollisionManager *colMgr;
         NetworkingManager *networkingMgr;
         Lines *lines;
+        GameStateMachine *gameStateMachine;
 
         int id;
 
@@ -40,7 +42,8 @@ class SwarmManager : public ITickable
     public:
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
-        	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines);
+        	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr, NetworkingManager *networkingMgr,
+            Lines *lines, GameStateMachine *gameStateMachine);
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	CollisionManager* colMgr, NetworkingManager *networkingMgr);
