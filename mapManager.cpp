@@ -376,7 +376,7 @@ void MapManager::makeConPieces()
                     //needs Tuning
                     Vector3 pos( x * Const::TILE_SIZE + Const::TILE_SIZE,0 , y * Const::TILE_SIZE + (Const::TILE_SIZE/2.0));
                     node->setPosition(pos);
-                    //attachLight( pos.x, pos.z);
+                    attachLight( pos.x, pos.z);
                 }
                 if(mts[x][y]->southConnected())
                 {
@@ -390,7 +390,7 @@ void MapManager::makeConPieces()
                     //needs Tuning
                     Vector3 pos(x * Const::TILE_SIZE + (Const::TILE_SIZE/2.0) ,0 , y * Const::TILE_SIZE +(Const::TILE_SIZE));
                     node->setPosition(pos);
-                    //attachLight( pos.x, pos.z);
+                    attachLight( pos.x, pos.z);
                 }
             }
         }
