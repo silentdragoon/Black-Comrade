@@ -42,6 +42,10 @@ GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, Sy
 {
 }
 
+void GunState::setSystemManager(SystemManager *sysMan) {
+    systemManager = sysMan;
+}
+
 GunState::GunState()
     : playerControls(0)
     , isFire(false)
