@@ -20,13 +20,11 @@ void GunState::tick()
     orientation = playerControls->cameraOrientation();
 
     if(playerControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD
-        && damageState->getWeaponHealth() > 0.0) {
-        if(systemManager->getWeaponCharge()>1.0) {
-            isFire = true;
-        }
+        && damageState->getWeaponHealth() > 0.0
+        && systemManager->getWeaponCharge() >1.0) {
+        isFire = true;
         timeSinceLastFire = 0;
     }
-
 }
 
 Vector3 GunState::getPosition() { return position; }
