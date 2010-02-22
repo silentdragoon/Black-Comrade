@@ -349,8 +349,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
     
     // Add some sexy fog
-    ColourValue fadeColour(0.1,0.1,0.1);
-    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    ColourValue fadeColour(0.2,0.2,0.2);
+    sceneMgr->setFog(FOG_EXP, fadeColour, 0.01);
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
