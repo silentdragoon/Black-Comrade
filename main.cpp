@@ -423,8 +423,6 @@ int main(int argc,char *argv[])
 Main::~Main()
 {
     delete inputState;
-    delete shipState;
-    delete gameLoop;
     delete soundMgr;
 
     OGRE_DELETE root;
