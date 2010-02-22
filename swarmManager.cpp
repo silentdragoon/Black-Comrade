@@ -41,7 +41,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
 }
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
-    CollisionManager* colMgr, NetworkingManager *networkingMgr) :
+    NetworkingManager *networkingMgr) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -50,7 +50,6 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     dynSwarmSize(0),
     swarmTick(0),
     shipState(shipState),
-    colMgr(colMgr),
     networkingMgr(networkingMgr)
 {
     activeSwarms = std::vector<Swarm*>();
