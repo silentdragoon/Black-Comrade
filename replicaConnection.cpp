@@ -31,6 +31,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="NotificationManager") {
         return new NotificationManager;
     }
+    else if (typeName=="SystemManager") {
+        return new SystemManager;
+    }
     ((OurReplicaManager *) replicaManager3)->doUpdate();
     return 0;
 }

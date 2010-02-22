@@ -26,6 +26,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
     target = location;
+    oldSwarmTile = 0;
 	rRayQuery = new RayQuery( sceneMgr );
 
     for(int i=0;i<(size);i++) {
@@ -48,6 +49,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
         members.push_back(e);
     }
+    currentSwarmTile = mapMgr->getMapTile(&location);
 }
 
 std::vector<Enemy*> Swarm::getAllEnemies() {
@@ -169,8 +171,13 @@ void Swarm::updateTargetLocation() {
     MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
     MapTile *targetTile = mapMgr->getMapTile(&target);
 
+    if (currentSwarmTile != swarmTile) {
+        oldSwarmTile = currentSwarmTile;
+        currentSwarmTile = swarmTile;
+    }
+
     // Find the ship
-    if(true || gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
+    if(gameParameterMap->getParameter("SWARMS_FIND_SHIP")) {
         if (oldShipTile != shipTile) {
             // New path must be found
             oldShipTile = shipTile;
@@ -188,7 +195,10 @@ void Swarm::updateTargetLocation() {
             target = mapMgr->getActualPosition(targetTile);
         }
     } else { // Move through the map randomly
-        
+        if (targetTile == swarmTile) {
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            target = mapMgr->getActualPosition(targetTile);
+        }
     }
 }
 
@@ -307,10 +317,10 @@ void Swarm::turnEnemy(Enemy *e)
 	t *= 8;
 	t = *e->getPosition() + t;
 	
-	if(e == members[0]) {
+	/*if(e == members[0]) {
     	lines->addLine(e->getPosition(),&target);
     	lines->addCross(&target);
-	}
+	}*/
 	
 	// Add target for forward momentum over all friends in sight range
 	

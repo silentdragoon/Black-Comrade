@@ -5,6 +5,9 @@ using namespace std;
 using namespace RakNet;
 
 Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
+    : pilotTaken(false)
+    , navTaken(false)
+    , engTaken(false)
 {
     rakPeer = rp;
     networkRole = nr;

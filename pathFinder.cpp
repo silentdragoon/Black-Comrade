@@ -105,3 +105,22 @@ std::vector<MapTile*> PathFinder::findPath(MapTile* mapStart, MapTile* mapEnd) {
         return currentBest->getPath();
     }
 }
+
+MapTile* PathFinder::pickNextTile(MapTile *currentMap, MapTile *lastMap) {
+    PathTile *current = new PathTile(currentMap);
+    std::vector<PathTile*> options = findNeighbours(current);
+    if (options.size() == 0) {
+        // Unlikely case - stay where you are
+        return currentMap;
+    } else if (options.size() == 1) {
+        // Dead end or possible initial game state
+        if (lastMap == 0) return options.at(0)->getMapTile();
+        return lastMap;
+    } else {
+        // We have some options
+        if (options.at(0)->getMapTile() != lastMap) return options.at(0)->getMapTile();
+        if (options.at(1)->getMapTile() != lastMap) return options.at(1)->getMapTile();
+        if (options.at(2)->getMapTile() != lastMap) return options.at(2)->getMapTile();
+        return options.at(3)->getMapTile();
+    }
+}
