@@ -10,7 +10,7 @@ void GunState::tick()
 {
     timeSinceLastFire++;
 
-    if (isFire) systemManager->fireWeapon();
+    if((isFire)&&(systemManager!=0)) systemManager->fireWeapon();
 
     isFire = false;
 
@@ -46,8 +46,9 @@ GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, Sy
 
 GunState::GunState()
     : playerControls(0)
-    , isFire(false),
-      owner(NO_GAME_ROLE)
+    , isFire(false)
+    , systemManager(0)
+    , owner(NO_GAME_ROLE)
 {}
 
 GunState::~GunState() {}
