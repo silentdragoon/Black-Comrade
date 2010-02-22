@@ -422,6 +422,7 @@ int main(int argc,char *argv[])
 
 Main::~Main()
 {
+    delete soundMgr;
 }
 
 void Main::exit()

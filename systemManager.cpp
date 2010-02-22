@@ -18,8 +18,8 @@ SystemManager::SystemManager(EngineerControls *engCon) :
     weaponRate(0.5),
     sensorRate(0.5),
     engineRate(1.5),
-    weaponCharge(0),
-    shieldCharge(0),
+    weaponCharge(100),
+    shieldCharge(100),
     timeSinceLastPress(100)
 {
 }
