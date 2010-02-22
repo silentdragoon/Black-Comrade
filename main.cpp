@@ -191,7 +191,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             collisionMgr, networkingManager);
