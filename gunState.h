@@ -37,6 +37,7 @@ class GunState : public ITickable, public ReplicaObject
 
         Vector3 getPosition();
         Quaternion getOrientation();
+        void setSystemManager(SystemManager *sysMan);
         
         virtual void tick();
         

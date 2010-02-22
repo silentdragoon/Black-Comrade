@@ -153,6 +153,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == PILOT) {
         pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(pilotGunState);
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+        pilotGunState = (GunState*) networkingManager->
+            getReplica("PilotGunState",true);
+        pilotGunState->setSystemManager(systemManager);
+        std::cout << "Got nav gun from net" << std::endl;
     } else {
         pilotGunState = (GunState*) networkingManager->
         getReplica("PilotGunState",true);
@@ -163,6 +168,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(navigatorGunState);
+        gameLoop->addTickable(navigatorGunState,"navigatorGunState");
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+        navigatorGunState = (GunState*) networkingManager->
+            getReplica("NavigatorGunState",true);
+        navigatorGunState->setSystemManager(systemManager);
+        std::cout << "Got nav gun from net" << std::endl;
         gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     } else {
         if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
