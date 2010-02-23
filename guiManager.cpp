@@ -224,8 +224,8 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;
-    int x =(int) floor(shipState->getPosition()->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(shipState->getPosition()->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
     prevX = x;
     prevY = y;
     int mapx = 1;
@@ -429,8 +429,8 @@ void GuiManager::setStatus(std::string stat) {
 }
 
 void GuiManager::updateMiniMap() {
-    int x =(int) floor(shipState->getPosition()->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(shipState->getPosition()->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
 
     if((x!=prevX)||(y!=prevY)) {
         guiRoot->removeChildWindow(minimap);

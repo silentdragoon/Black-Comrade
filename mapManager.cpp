@@ -64,8 +64,8 @@ bool MapManager::outputMap(SceneNode *sceneNode)
     for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
         for(int ypos=0;ypos<Const::MAPSIZE;ypos++) {
             if(geo[xpos][ypos] == 's') {
-                startx = (xpos * Const::TILE_SIZE)+(Const::TILE_SIZE/2);
-                starty = (ypos * Const::TILE_SIZE)+(Const::TILE_SIZE/2);
+                startx = (xpos * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
+                starty = (ypos * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
 
                 cout << "Startx: " << startx << " Start y: " << starty << endl;
 
@@ -197,9 +197,9 @@ void MapManager::attachTile(SceneNode *sceneNode, string *file, int x, int y)
 	
 	node->attachObject(e);
 
-    cout << file << ": " << (x * Const::TILE_SIZE) << " " << (y * Const::TILE_SIZE) << endl;
+    cout << file << ": " << (x * ConstManager::getInt("map_tile_size")) << " " << (y * ConstManager::getInt("map_tile_size")) << endl;
 	
-	Vector3 pos(x * Const::TILE_SIZE,0 , y * Const::TILE_SIZE);
+	Vector3 pos(x * ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size"));
 	
 	node->setPosition(pos);
 
@@ -224,16 +224,16 @@ std::vector<Entity*> MapManager::getMapPieces()
 
 Entity* MapManager::getEntity(Vector3 *locn) 
 {
-    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
     return mts[x][y]->getEntity();
 }
 
 void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
 
-    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
     mps[0] = mts[x][y]->getEntity();
     std::vector<int> adj = mts[x][y]->getConnections();
@@ -262,22 +262,22 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps ) {
 }    
 
 MapTile* MapManager::getMapTile(Vector3 *locn) {
-    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
     return mts[x][y];    
 }
 
 Vector3 MapManager::getActualPosition(MapTile* mapTile) {
-    int half = (int) floor((double)Const::TILE_SIZE / 2.0);
-    int x = (int)(mapTile->getX() * Const::TILE_SIZE) + half;
-    int y = (int)(mapTile->getY() * Const::TILE_SIZE) + half;
+    int half = (int) floor((double)ConstManager::getInt("map_tile_size") / 2.0);
+    int x = (int)(mapTile->getX() * ConstManager::getInt("map_tile_size")) + half;
+    int y = (int)(mapTile->getY() * ConstManager::getInt("map_tile_size")) + half;
     return Vector3(x,0,y);
 }
 
 string* MapManager::getWaypoint(Vector3 *locn) 
 {
-    int x =(int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y =(int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
     
     if(mts[x][y]->hasWaypoint()) {
         return mts[x][y]->getWaypoint()->getName();
@@ -288,8 +288,8 @@ string* MapManager::getWaypoint(Vector3 *locn)
 
 std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn)
 {
-    int x = (int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y = (int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x = (int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y = (int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
     return mts[x][y]->getSpawnPoints(); 
 }
@@ -302,8 +302,8 @@ void MapManager::setSpawnPoints()
 
             mts[x][y]->setConnections(conns);
 
-            double xx = x * Const::TILE_SIZE;
-            double yy = y * Const::TILE_SIZE; // Actually z in ogre coords
+            double xx = x * ConstManager::getInt("map_tile_size");
+            double yy = y * ConstManager::getInt("map_tile_size"); // Actually z in ogre coords
             double zz = 0.0;
 
             std::vector<Vector3*> places = std::vector<Vector3*>();
@@ -313,7 +313,7 @@ void MapManager::setSpawnPoints()
                 if(c==1) {
                     double xxx;
                     double yyy = yy;
-                    xxx = xx + (0.5*Const::TILE_SIZE);
+                    xxx = xx + (0.5*ConstManager::getInt("map_tile_size"));
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
@@ -322,8 +322,8 @@ void MapManager::setSpawnPoints()
                 if(c==2) {
                     double xxx;
                     double yyy;
-                    xxx = xx + (Const::TILE_SIZE);
-                    yyy = yy + (0.5*Const::TILE_SIZE);
+                    xxx = xx + (ConstManager::getInt("map_tile_size"));
+                    yyy = yy + (0.5*ConstManager::getInt("map_tile_size"));
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
@@ -332,8 +332,8 @@ void MapManager::setSpawnPoints()
                 if(c==3) {
                     double xxx;
                     double yyy;
-                    xxx = xx + (0.5*Const::TILE_SIZE);
-                    yyy = yy + (Const::TILE_SIZE);
+                    xxx = xx + (0.5*ConstManager::getInt("map_tile_size"));
+                    yyy = yy + (ConstManager::getInt("map_tile_size"));
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
@@ -342,7 +342,7 @@ void MapManager::setSpawnPoints()
                 if(c==4) {
                     double xxx = xx;
                     double yyy;
-                    yyy = yy + (0.5*Const::TILE_SIZE);
+                    yyy = yy + (0.5*ConstManager::getInt("map_tile_size"));
                     Vector3 *v = new Vector3(xxx,zz,yyy);
                     places.push_back(v);
                     mts[x][y]->setSpawn(c,v);
@@ -374,7 +374,7 @@ void MapManager::makeConPieces()
                     node->attachObject(e);
                     node->yaw( Radian(PI/2.0) );
                     //needs Tuning
-                    Vector3 pos( x * Const::TILE_SIZE + Const::TILE_SIZE,0 , y * Const::TILE_SIZE + (Const::TILE_SIZE/2.0));
+                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
                     node->setPosition(pos);
                     attachLight( pos.x, pos.z);
                 }
@@ -388,7 +388,7 @@ void MapManager::makeConPieces()
                     Entity *e = sceneManager->createEntity(name,  "polySurfaceShape7.mesh");
                     node->attachObject(e);
                     //needs Tuning
-                    Vector3 pos(x * Const::TILE_SIZE + (Const::TILE_SIZE/2.0) ,0 , y * Const::TILE_SIZE +(Const::TILE_SIZE));
+                    Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) ,0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
                     node->setPosition(pos);
                     attachLight( pos.x, pos.z);
                 }
@@ -431,8 +431,8 @@ std::vector<Vector3*> MapManager::getInitialSpawnPoints()
             int x = w->getX();
             int y = w->getY();
 
-            double xx = (x * (Const::TILE_SIZE)) + (0.5*Const::TILE_SIZE);
-            double yy = (y * (Const::TILE_SIZE)) + (0.5*Const::TILE_SIZE);
+            double xx = (x * (ConstManager::getInt("map_tile_size"))) + (0.5*ConstManager::getInt("map_tile_size"));
+            double yy = (y * (ConstManager::getInt("map_tile_size"))) + (0.5*ConstManager::getInt("map_tile_size"));
 
             Vector3 *v = new Vector3(xx,0.0,yy);
 
@@ -444,8 +444,8 @@ std::vector<Vector3*> MapManager::getInitialSpawnPoints()
 }
 
 Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
-    int x = (int) floor(locn->x/(double)Const::TILE_SIZE);
-    int y = (int) floor(locn->z/(double)Const::TILE_SIZE);
+    int x = (int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y = (int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
     std::vector<int> conns = mts[x][y]->getConnections();
     int c = conns.at(0);
