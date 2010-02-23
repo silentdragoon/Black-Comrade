@@ -55,8 +55,6 @@ class Swarm
     	void removeDeadEnemies();
     	void shootAtShip();
     	
-    	bool isShipInSight();
-    	
     	void turnEnemy(Enemy *e);
     	
     	float calcNewAngle(float old, float target, float step);
@@ -71,6 +69,7 @@ class Swarm
 
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
+    	bool isShipInSight();
 
         std::vector<Enemy*> getAllEnemies();
         

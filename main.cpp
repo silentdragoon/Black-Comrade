@@ -82,7 +82,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     createViewPort();
 
-    // Collision Manager
+    // Collision Manager (takes 99% of our loading time)
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
@@ -153,6 +153,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == PILOT) {
         pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(pilotGunState);
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+        pilotGunState = (GunState*) networkingManager->
+            getReplica("PilotGunState",true);
+        pilotGunState->setSystemManager(systemManager);
+        std::cout << "Got nav gun from net" << std::endl;
     } else {
         pilotGunState = (GunState*) networkingManager->
         getReplica("PilotGunState",true);
@@ -163,6 +168,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo->getGameRole());
         networkingManager->replicate(navigatorGunState);
+        gameLoop->addTickable(navigatorGunState,"navigatorGunState");
+    } else if(collabInfo->getGameRole() == ENGINEER) {
+        navigatorGunState = (GunState*) networkingManager->
+            getReplica("NavigatorGunState",true);
+        navigatorGunState->setSystemManager(systemManager);
+        std::cout << "Got nav gun from net" << std::endl;
         gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     } else {
         if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
@@ -191,10 +202,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-            collisionMgr, networkingManager);
+            networkingManager);
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
@@ -336,21 +347,21 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     camera->lookAt(Vector3(0,0,-1));
     //camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(1);
-    camera->setFarClipDistance(1500);
+    camera->setFarClipDistance(2500);
     
     // Lighting
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
     
     // Add some sexy fog
-    ColourValue fadeColour(0.1,0.1,0.1);
-    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.0, 0, 300);
+    ColourValue fadeColour(0.2,0.2,0.2);
+    sceneMgr->setFog(FOG_EXP, fadeColour, 0.01);
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(0.6,0.6,1.0);
     sp->setSpecularColour(0.6,0.6,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation(10000, 0.7, 0.000025, 0.0000045);
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
     //Light *spot = sceneMgr->createLight("shipSpot");
     //spot->setType(Light::LT_SPOTLIGHT);
@@ -426,6 +437,10 @@ int main(int argc,char *argv[])
 
 Main::~Main()
 {
+    delete inputState;
+    delete soundMgr;
+
+    OGRE_DELETE root;
 }
 
 void Main::exit()

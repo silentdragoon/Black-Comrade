@@ -10,21 +10,21 @@ void GunState::tick()
 {
     timeSinceLastFire++;
 
+    if((isFire)&&(systemManager!=0)) systemManager->fireWeapon();
+
     isFire = false;
+
     if (playerControls == 0) return;
 
     position = playerControls->cameraPosition();
     orientation = playerControls->cameraOrientation();
 
     if(playerControls->fire() && timeSinceLastFire >= Const::MIN_SHOOT_PERIOD
-        && damageState->getWeaponHealth() > 0.0) {
-        if(systemManager->getWeaponCharge()>1.0) {
-            systemManager->fireWeapon();
-            isFire = true;
-        }
+        && damageState->getWeaponHealth() > 0.0
+        && systemManager->getWeaponCharge() >1.0) {
+        isFire = true;
         timeSinceLastFire = 0;
     }
-
 }
 
 Vector3 GunState::getPosition() { return position; }
@@ -42,10 +42,15 @@ GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, Sy
 {
 }
 
+void GunState::setSystemManager(SystemManager *sysMan) {
+    systemManager = sysMan;
+}
+
 GunState::GunState()
     : playerControls(0)
-    , isFire(false),
-      owner(NO_GAME_ROLE)
+    , isFire(false)
+    , systemManager(0)
+    , owner(NO_GAME_ROLE)
 {}
 
 GunState::~GunState() {}

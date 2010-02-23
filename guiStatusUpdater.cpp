@@ -57,7 +57,7 @@ void GuiStatusUpdater::tick() {
         guiMgr->setShieldRate(shieldRate);
         guiMgr->setSensorRate(sensorRate);
         guiMgr->setWeaponRate(weaponRate);
-        guiMgr->setEngineRate(engineRate/3.0);
+        guiMgr->setEngineRate(engineRate);
         guiMgr->setWeaponCharge(weaponCharge/100.0);
     }
 }
