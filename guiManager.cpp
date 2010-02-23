@@ -1,5 +1,10 @@
 #include "guiManager.h"
 
+CEGUI::Window *GuiManager::getRootWindow()
+{
+    return guiRoot;
+}
+
 GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     shipState(shipState),
     prevX(10000),
@@ -351,6 +356,72 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
     minimap->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f,0),CEGUI::UDim(0.2f,0)));
 
     return minimap;
+}
+
+void GuiManager::addStaticImage(char *name, float xCenter, float yCenter,
+                                float width,   float height,
+                                char *imageSet, char *imageName)
+{
+    guiMgr = CEGUI::WindowManager::getSingletonPtr();
+    
+    CEGUI::WidgetLookFeel lookFeel(name);
+    CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery");
+    
+    CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
+    ic.setImage(imageSet,imageName);
+    
+    ic.setVerticalFormatting(CEGUI::VF_STRETCHED);
+    ic.setHorizontalFormatting(CEGUI::HF_STRETCHED);
+
+    CEGUI::ComponentArea ca = CEGUI::ComponentArea();
+    
+    ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(
+        CEGUI::UDim(-0.5,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
+    ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(
+        CEGUI::UDim(-0.5,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
+    ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(
+        CEGUI::UDim(1,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
+    ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(
+        CEGUI::UDim(1,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
+        
+    ic.setComponentArea(ca);
+
+    is.addImageryComponent(ic);
+    
+    lookFeel.addImagerySection(is);
+
+    CEGUI::StateImagery si = CEGUI::StateImagery("Enabled");
+
+    CEGUI::LayerSpecification ls = CEGUI::LayerSpecification(1);
+    CEGUI::SectionSpecification ss = 
+        CEGUI::SectionSpecification(name,"enabled_imagery","");
+    
+    ls.addSectionSpecification(ss);
+    si.addLayer(ls);
+    
+    lookFeel.addStateSpecification(si);
+
+    CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
+    // TODO:: Almost certain some of these should be constants
+    // Create the FrameWindow to return
+    
+    string frameName("BlackComrade/");
+    frameName += string(name);
+    
+    CEGUI::FrameWindow *radarWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow(frameName.c_str(),name));
+    radarWindow->setLookNFeel(lookFeel.getName());
+    radarWindow->setPosition(CEGUI::UVector2(
+        CEGUI::UDim(xCenter,0),CEGUI::UDim(yCenter,0)));
+    
+    int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    float ratio = winWidth / (float)winHeight;
+    
+    radarWindow->setSize(CEGUI::UVector2(
+        CEGUI::UDim(width,0),
+        CEGUI::UDim(height,0)));
+    
+    guiRoot->addChildWindow(radarWindow);
 }
 
 void GuiManager::setStatus(std::string stat) {

@@ -40,6 +40,7 @@
 #include "lines.h"
 #include "notificationManager.h"
 #include "systemManager.h"
+#include "radarGui.h"
 
 //include networking stuff
 #include <string.h>
@@ -96,6 +97,7 @@ private:
     SwarmManager *swarmMgr;
     GuiManager *guiMgr;
     GuiStatusUpdater *guiStatusUpdater;
+    RadarGui *radarGui;
     
     Lines *lines;
 

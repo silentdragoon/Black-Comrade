@@ -219,6 +219,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
+    // Radar GUI
+    radarGui = new RadarGui(guiMgr);
+    
+
     // Start Rendering Loop
     
     gameLoop->startLoop();

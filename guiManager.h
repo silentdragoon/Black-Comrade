@@ -46,6 +46,11 @@ private:
 public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
+    
+    void addStaticImage(char *name, float xCenter, float yCenter,
+                                float width,   float height,
+                                char *imageSet, char *imageName);
+    
     void setStatus(std::string stat);
     void setShields(float yeah);
     void setSensors(float yeah);
@@ -64,6 +69,8 @@ public:
     void setWeaponRate(float yeah);
     void setEngineRate(float yeah);
     void setWeaponCharge(float yeah);
+    
+    CEGUI::Window *getRootWindow();
 };
 
 #endif
