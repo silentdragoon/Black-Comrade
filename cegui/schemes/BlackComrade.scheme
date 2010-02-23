@@ -10,6 +10,7 @@
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />
     <FalagardMapping WindowType="BlackComrade/Radar" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Radar" />
+    <FalagardMapping WindowType="BlackComrade/Enemy" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Enemy" />
     <FalagardMapping WindowType="BlackComrade/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="BlackComrade/Button" />
 	<FalagardMapping WindowType="BlackComrade/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="BlackComrade/Checkbox" />
 	<FalagardMapping WindowType="BlackComrade/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="BlackComrade/ImageButton" />
