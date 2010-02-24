@@ -33,8 +33,12 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
 }
 
 bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
+    
     if (arg.text == 13) {
         console->enterCommand();
+        return true;
+    } else if (arg.key == OIS::KC_BACK) {
+        console->backSpace();
         return true;
     }
 
