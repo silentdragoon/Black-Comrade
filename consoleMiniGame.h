@@ -2,11 +2,13 @@
 #define CONSOLE_MINIGAME_H
 
 #include <iostream>
+#include <string>
 #include "IMiniGame.h"
 #include "console.h"
 #include "inputState.h"
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
+#include <boost/algorithm/string/trim.hpp>
 
 class ConsoleMiniGame : public IMiniGame, public OIS::KeyListener
 {
@@ -14,8 +16,12 @@ class ConsoleMiniGame : public IMiniGame, public OIS::KeyListener
         InputState *inputState;
         Console *console;
 
+        std::string command;
+
         bool isEnd;
         int score;
+
+        void processCommand();
         
     public:       
         void tick();
