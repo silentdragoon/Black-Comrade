@@ -34,7 +34,7 @@ class Console : public ITickable
         void append(std::string c);
         void tick();
         void setVisible(bool visible);
-        void typeShit(std::string c);
+        void typeShit(char c);
         void enterCommand();
 };
 

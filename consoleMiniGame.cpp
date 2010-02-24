@@ -33,7 +33,18 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
 }
 
 bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
-    std::cout << arg.key << std::endl;
+    if (arg.text == 13) {
+        console->enterCommand();
+        return true;
+    }
+
+    char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
+    for(int c=0;c<sizeof(legalchars);c++){
+       if(legalchars[c]==arg.text){
+          console->typeShit(arg.text);
+          break;
+        }
+    }
     return true;
 }
 

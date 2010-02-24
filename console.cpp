@@ -4,7 +4,7 @@ Console::Console(SceneManager *sceneMgr) :
     sceneMgr(sceneMgr),
     rollTick(0),
     isVisible(false),
-    prompt("")
+    prompt(">> ")
 {
     lines = new std::list<std::string>();
     height=0;
@@ -86,12 +86,13 @@ void Console::displayText() {
         tmp.append("\n");
         output.append(tmp);
     }
+	output.append(prompt);
     textbox->setCaption(output);
 }
 
-void Console::typeShit(std::string c) {
+void Console::typeShit(char c) {
     std::string current = textbox->getCaption();
-    prompt.append(c);     
+    prompt += c;
     current.append(prompt);
     textbox->setCaption(current);
 }
@@ -99,5 +100,5 @@ void Console::typeShit(std::string c) {
 void Console::enterCommand() {
     // Clears the prompt buffer thing and appends to command history
     append(prompt);
-    prompt="";
+    prompt=">> ";
 }
