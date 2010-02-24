@@ -23,6 +23,8 @@ private:
     CEGUI::ProgressBar *shields;
     
     ShipState *shipState;
+    
+    void setDotPos(CEGUI::FrameWindow *dot, float x, float y);
 
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState);

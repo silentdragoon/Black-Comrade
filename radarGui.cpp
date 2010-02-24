@@ -1,6 +1,9 @@
 
 #include "radarGui.h"
 
+#define RADAR_TOP_FRAC 0.03
+#define DOT_Y_OFFSET_FRAC 0.9
+
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState)
     : guiManager(guiManager)
     , shipState(shipState)
@@ -70,7 +73,26 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState)
     
     guiManager->getRootWindow()->addChildWindow(radarWindow);
     
-    CEGUI::FrameWindow *enemyWindow = guiManager->addStaticImage("Enemy",0.5,0.5,0.05/ratio,0.05,"Radar","enemy");
+    //CEGUI::FrameWindow *enemyWindow = guiManager->addStaticImage("Enemy",0.5,0.5,0.05/ratio,0.05,"Radar","enemy");
     
-    enemyWindow->setRotation(CEGUI::Vector3(0,0,0));
+    CEGUI::FrameWindow *enemyWindow = guiManager->addStaticImage("Enemy",0.5,0.5,1,1,"Radar","enemy");
+    
+    //enemyWindow->setRotation(CEGUI::Vector3(0,0,10));
+    
+    //setDotPos(enemyWindow,0.5,0);
+}
+
+void RadarGui::setDotPos(CEGUI::FrameWindow *dot, float x, float y)
+{
+    float globalX, globalY;
+    
+    globalX = x * width + xCenter - width/2;
+    
+    globalY = y * height + yCenter - width/2;
+    globalY *= DOT_Y_OFFSET_FRAC;
+    
+
+    dot->setPosition(CEGUI::UVector2( 
+        CEGUI::UDim( x, 0 ), 
+        CEGUI::UDim( 1-RADAR_TOP_FRAC, 0 ) ) );
 }
