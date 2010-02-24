@@ -6,6 +6,7 @@ void ConsoleMiniGame:: tick() {
         score = score + 1;
     }
     if(inputState->isKeyDown(OIS::KC_2)) {
+        inputState->clearKeyListener();
         isEnd = true;
         console->append("");
         console->setVisible(false);
@@ -24,10 +25,20 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
     , isEnd(false)
     , score(0)
 {
+    inputState->addKeyListener(this);
     console->setVisible(true);
     console->append("---------------------------------------");
     console->append("BlackComrade System Repair v0.5 (beta)");
     console->append("---------------------------------------");
+}
+
+bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
+    std::cout << arg.key << std::endl;
+    return true;
+}
+
+bool ConsoleMiniGame::keyReleased (const OIS::KeyEvent &arg) {
+    return false;
 }
 
 ConsoleMiniGame::~ConsoleMiniGame() {}

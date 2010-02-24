@@ -86,7 +86,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // User Input
-    inputState = new InputState(window, false, this,useKey,useMouse);
+    inputState = new InputState(window,true,this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Engineer Controls

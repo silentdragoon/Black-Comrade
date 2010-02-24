@@ -21,13 +21,16 @@ class InputState : public ITickable
         
         IExit *mExit;
         
-    public:    
+    public:
         bool isKeyDown(OIS::KeyCode keyCode);
         bool isMouseMoved(const OIS::MouseEvent &e);
 
         bool isMouseButtonDown(OIS::MouseButtonID buttonID);
         int getMouseX();
         int getMouseY();
+
+        void addKeyListener(OIS::KeyListener *listener);
+        void clearKeyListener();
         
         virtual void tick();
         
