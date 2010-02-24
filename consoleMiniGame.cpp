@@ -2,11 +2,12 @@
 
 void ConsoleMiniGame:: tick() {
     if(inputState->isKeyDown(OIS::KC_0)) {
-        std::cout << "score" << std::endl;
+        console->append("Score");
         score = score + 1;
     }
     if(inputState->isKeyDown(OIS::KC_2)) {
         isEnd = true;
+        console->setVisible(false);
     }
 }
 
@@ -22,9 +23,8 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
     , isEnd(false)
     , score(0)
 {
-    std::cout << "New console minigame" << std::endl;
+    console->setVisible(true);
+    console->append("Welcome to the repair system");
 }
 
-ConsoleMiniGame::~ConsoleMiniGame() {
-    delete console;
-}
+ConsoleMiniGame::~ConsoleMiniGame() {}

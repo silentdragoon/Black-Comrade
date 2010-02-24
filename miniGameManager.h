@@ -27,7 +27,9 @@ public:
 
     void tick();
     
-    MiniGameManager(Console *console, InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager);
+    MiniGameManager(Console *console,
+                    InputState *inputState, IPlayerControls *playerControls,
+                    SceneManager *sceneManager);
 };
 
 #endif

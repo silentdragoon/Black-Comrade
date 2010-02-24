@@ -20,14 +20,16 @@ void MiniGameManager::tick()
     }
 
     if(currentMiniGame == NULL) {
-        if(inputState->isKeyDown(OIS::KC_1)) {
+        if(inputState->isKeyDown(OIS::KC_F1)) {
             currentMiniGame = new ConsoleMiniGame(console, inputState);
             playerControls->setEnabled(false);
         }
     } 
 }
     
-MiniGameManager::MiniGameManager(Console *console, InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager)
+MiniGameManager::MiniGameManager(Console *console,
+                                 InputState *inputState, IPlayerControls *playerControls,
+                                 SceneManager *sceneManager)
     : currentMiniGame(NULL)
     , console(console)
     , inputState(inputState)

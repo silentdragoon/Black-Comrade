@@ -236,7 +236,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
     gameLoop->addTickable(cons,"console");
-    cons->setVisible(true);
 
     // Minigame manager
     IPlayerControls *myControls;
