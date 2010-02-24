@@ -1,6 +1,6 @@
 
 #include "miniGameManager.h"
-#include "testMiniGame.h"
+#include "consoleMiniGame.h"
 
 void MiniGameManager::tick()
 {
@@ -9,9 +9,10 @@ void MiniGameManager::tick()
         currentMiniGame->tick();
         
         if(currentMiniGame->end()) {
-            currentMiniGame->getOverlay()->hide();
-            std::cout << currentMiniGame->getScore() << std::endl;
+            std::cout << "Ending console minigame with score "
+                      << currentMiniGame->getScore() << std::endl;
             delete currentMiniGame;
+
             currentMiniGame = NULL;
             playerControls->setEnabled(true);
 
@@ -20,10 +21,7 @@ void MiniGameManager::tick()
 
     if(currentMiniGame == NULL) {
         if(inputState->isKeyDown(OIS::KC_1)) {
-            currentMiniGame = new TestMiniGame(inputState, sceneManager);
-            
-            currentMiniGame->getOverlay()->show();
-            
+            currentMiniGame = new ConsoleMiniGame(console, inputState);
             playerControls->setEnabled(false);
         }
     } 
