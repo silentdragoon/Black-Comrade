@@ -47,7 +47,7 @@ public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
     
-    void addStaticImage(char *name, float xCenter, float yCenter,
+    CEGUI::FrameWindow *addStaticImage(char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
     
