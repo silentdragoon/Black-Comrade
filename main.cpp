@@ -231,7 +231,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Radar GUI
-    //radarGui = new RadarGui(guiMgr, shipState);
+    // radarGui = new RadarGui(guiMgr, shipState);
+
+    // HUD
+    hud = new HUD(guiMgr, shipState);
     
 
     // Start Rendering Loop
