@@ -4,6 +4,10 @@
 #include <OGRE/Ogre.h>
 #include "ITickable.h"
 #include <string>
+#include <list>
+
+#define CONSOLE_LENGTH 60
+#define CONSOLE_HEIGHT 15
 
 using namespace Ogre;
 
@@ -19,8 +23,9 @@ class Console : public ITickable
         float height;
         int rollTick;
         bool isVisible;
+        std::list<std::string> *lines;
 
-
+        void displayText();
     public:
         Console(SceneManager *sceneMgr);
         ~Console();
