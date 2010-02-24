@@ -39,6 +39,7 @@ class PilotControls : public ITickable, public IAccelerationState, public IPlaye
         virtual Quaternion cameraOrientation();
         
         void setEnabled(bool b);
+        bool isEnabled();
         
         virtual void tick();
         

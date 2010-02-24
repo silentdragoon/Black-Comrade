@@ -236,6 +236,21 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // HUD
     hud = new HUD(guiMgr, shipState);
     
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
+    gameLoop->addTickable(cons,"console");
+
+    // Minigame manager
+    IPlayerControls *myControls;
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;   
+    }
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
     
@@ -440,6 +455,7 @@ int main(int argc,char *argv[])
 
 Main::~Main()
 {
+    delete cons;
     delete inputState;
     delete soundMgr;
 
