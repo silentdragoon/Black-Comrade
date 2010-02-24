@@ -378,13 +378,13 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(char *name, float xCenter, float 
     CEGUI::ComponentArea ca = CEGUI::ComponentArea();
     
     ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(
-        CEGUI::UDim(-0.5,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
+        CEGUI::UDim(-(width/2),0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
     ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(
-        CEGUI::UDim(-0.5,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
+        CEGUI::UDim(-(height/2),0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
     ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(
-        CEGUI::UDim(1,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
+        CEGUI::UDim(width,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
     ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(
-        CEGUI::UDim(1,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
+        CEGUI::UDim(height,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
         
     ic.setComponentArea(ca);
 
@@ -416,8 +416,8 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(char *name, float xCenter, float 
         CEGUI::UDim(xCenter,0),CEGUI::UDim(yCenter,0)));
     
     radarWindow->setSize(CEGUI::UVector2(
-        CEGUI::UDim(width,0),
-        CEGUI::UDim(height,0)));
+        CEGUI::UDim(1,0),
+        CEGUI::UDim(1,0)));
     
     guiRoot->addChildWindow(radarWindow);
     

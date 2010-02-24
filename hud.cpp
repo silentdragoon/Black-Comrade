@@ -14,5 +14,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;
 
+
     CEGUI::FrameWindow *xcrosshair = guiManager->addStaticImage("XCrosshair", 0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
+    CEGUI::FrameWindow *overlay = guiManager->addStaticImage("Overlay", 0.5, 0.5, 1.6/ratio, 1.0, "Overlay", "Overlay");
 }
