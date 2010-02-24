@@ -22,6 +22,17 @@ bool InputState::isKeyDown(OIS::KeyCode keyCode) {
     	return false;
 }
 
+void InputState::addKeyListener(OIS::KeyListener *listener) {
+    if (mKeyboard) {
+        mKeyboard->setEventCallback(listener);
+        std::cout << "adding listener" << std::endl;
+    }
+}
+
+void InputState::clearKeyListener() {
+    if (mKeyboard) mKeyboard->setEventCallback(0);
+}
+
 bool InputState::isMouseButtonDown(OIS::MouseButtonID buttonID) {
     if (mMouse)
         return mMouse->getMouseState().buttonDown(buttonID);
@@ -69,7 +80,7 @@ InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
     mInputManager = OIS::InputManager::createInputSystem(pl);
     
     if(initKeyboard) {
-    	mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys)); 
+    	mKeyboard = static_cast<OIS::Keyboard*> (mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys));
     }
     if(initMouse) {
     	mMouse = static_cast<OIS::Mouse*> (mInputManager->createInputObject(OIS::OISMouse, bufferedKeys));

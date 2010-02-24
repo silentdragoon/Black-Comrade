@@ -86,11 +86,8 @@ void RadarGui::setDotPos(CEGUI::FrameWindow *dot, float x, float y)
 {
     float globalX, globalY;
     
-    globalX = x * width + xCenter - width/2;
-    
     globalY = y * height + yCenter - width/2;
     globalY *= DOT_Y_OFFSET_FRAC;
-    
 
     dot->setPosition(CEGUI::UVector2( 
         CEGUI::UDim( x, 0 ), 

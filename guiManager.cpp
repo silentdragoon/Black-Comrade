@@ -30,15 +30,17 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
     CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
     CEGUI::ImagesetManager::getSingleton().create("Minimapnow.imageset");
+    CEGUI::ImagesetManager::getSingleton().create("Crosshair.xml");
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
     // Add the crosshair to the default frame and centre it
-    crossHair = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","crossHair"));
-    guiRoot->addChildWindow(crossHair);
-    crossHair->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
+    // crossHair = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","crossHair"));
+    // guiRoot->addChildWindow(crossHair);
+    // crossHair->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
+
 
     // Add status output window to screen
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/Editbox","status"));
@@ -420,6 +422,7 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(char *name, float xCenter, float 
     guiRoot->addChildWindow(radarWindow);
     
     return radarWindow;
+
 }
 
 void GuiManager::setStatus(std::string stat) {
@@ -474,12 +477,12 @@ void GuiManager::setSensorRate(float yeah) {
     sensorRate->setProgress(yeah);
 }
 
-void GuiManager::setWeaponRate(float yeah) {
-    weaponRate->setProgress(yeah);
+void GuiManager::setWeaponRate(float what) {
+    weaponRate->setProgress(what);
 }
 
-void GuiManager::setEngineRate(float yeah) {
-    engineRate->setProgress(yeah);
+void GuiManager::setEngineRate(float alright) {
+    engineRate->setProgress(alright);
 }
 
 void GuiManager::setWeaponCharge(float yeah) {
