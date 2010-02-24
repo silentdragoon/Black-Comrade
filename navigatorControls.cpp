@@ -28,6 +28,13 @@ Quaternion NavigatorControls::cameraOrientation() {
     return cam->getRealOrientation();
 }
 
+void NavigatorControls::setEnabled(bool b)
+{
+    enabled = b;
+}
+
+bool NavigatorControls::isEnabled() { return enabled; }
+
 void NavigatorControls::tick()
 {
     if(enabled) {

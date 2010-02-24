@@ -28,6 +28,9 @@ class NavigatorControls : public ITickable, public IPlayerControls
         virtual Vector3 cameraPosition();
         virtual Quaternion cameraOrientation();
 
+        void setEnabled(bool b);
+        bool isEnabled();
+
         NavigatorControls(InputState *inputState, Camera *cam);
         ~NavigatorControls();
 };

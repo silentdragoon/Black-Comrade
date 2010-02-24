@@ -8,6 +8,7 @@
 TestMiniGame::TestMiniGame(InputState *inputState, SceneManager *sceneManager)
     : isEnd(false)
     , inputState(inputState)
+    , score(0)
 {
     
     std::cout << "Create\n";
@@ -76,8 +77,12 @@ void TestMiniGame::createScene()
 
 void TestMiniGame::tick()
 {
-    std::cout << "Test\n";
+    //std::cout << "Test\n";
     
+    if(inputState->isKeyDown(OIS::KC_0)) {
+        std::cout << "score" << std::endl;
+        score = score + 1;
+    }
     if(inputState->isKeyDown(OIS::KC_2)) {
         isEnd = true;
     }
@@ -87,6 +92,8 @@ bool TestMiniGame::end()
 {
     return isEnd;
 }
+
+int TestMiniGame::getScore() { return score; }
 
 Overlay *TestMiniGame::getOverlay()
 {

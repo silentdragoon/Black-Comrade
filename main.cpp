@@ -238,6 +238,18 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(cons,"console");
     cons->setVisible(true);
 
+    // Minigame manager
+    IPlayerControls *myControls;
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;   
+    }
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
     // Start Rendering Loop
     
     gameLoop->startLoop();
