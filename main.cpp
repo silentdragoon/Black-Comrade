@@ -245,7 +245,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     } else if (collabInfo->getGameRole() == ENGINEER) {
         myControls = engineerControls;   
     }
-    miniGameMgr = new MiniGameManager(inputState,myControls,sceneMgr);
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop

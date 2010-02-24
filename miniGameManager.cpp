@@ -29,8 +29,9 @@ void MiniGameManager::tick()
     } 
 }
     
-MiniGameManager::MiniGameManager(InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager)
+MiniGameManager::MiniGameManager(Console *console, InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager)
     : currentMiniGame(NULL)
+    , console(console)
     , inputState(inputState)
     , playerControls(playerControls)
     , sceneManager(sceneManager)
