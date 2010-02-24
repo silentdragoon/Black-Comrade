@@ -233,6 +233,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Radar GUI
     //radarGui = new RadarGui(guiMgr, shipState);
     
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
 
     // Start Rendering Loop
     
@@ -437,6 +439,7 @@ int main(int argc,char *argv[])
 
 Main::~Main()
 {
+    delete cons;
     delete inputState;
     delete soundMgr;
 

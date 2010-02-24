@@ -1,0 +1,7 @@
+Console
+{
+    type    truetype
+    source  DroidSansMono.ttf
+    size    22
+    resolution  55
+}
