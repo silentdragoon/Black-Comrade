@@ -7,7 +7,7 @@
 
 #include "ITickable.h"
 #include "inputState.h"
-#include "pilotControls.h"
+#include "IPlayerControls.h"
 #include "IMiniGame.h"
 
 using namespace Ogre;
@@ -15,7 +15,7 @@ using namespace std;
 
 class MiniGameManager : public ITickable {
 private:
-    PilotControls *pilotControls;
+    IPlayerControls *playerControls;
     InputState *inputState;
     SceneManager *sceneManager;
     
@@ -25,7 +25,7 @@ public:
 
     void tick();
     
-    MiniGameManager(InputState *inputState, PilotControls *pilotControls, SceneManager *sceneManager);
+    MiniGameManager(InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager);
 };
 
 #endif

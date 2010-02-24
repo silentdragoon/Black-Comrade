@@ -11,6 +11,7 @@ class IMiniGame {
 public:
     virtual void tick() = 0;
     virtual bool end() = 0;
+    virtual int getScore() = 0;
     
     virtual Overlay *getOverlay() = 0;
 };

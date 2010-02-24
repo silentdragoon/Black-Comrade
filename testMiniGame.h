@@ -14,11 +14,14 @@ class TestMiniGame : public IMiniGame {
 private:
     Overlay *overlay;
     bool isEnd;
+    int score;
     
     InputState *inputState;
 public:
     void tick();
     bool end();
+    int getScore();
+
     Overlay *getOverlay();
     
     TestMiniGame(InputState *inputState, SceneManager *sceneManager);

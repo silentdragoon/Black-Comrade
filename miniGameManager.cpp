@@ -10,8 +10,11 @@ void MiniGameManager::tick()
         
         if(currentMiniGame->end()) {
             currentMiniGame->getOverlay()->hide();
+            std::cout << currentMiniGame->getScore() << std::endl;
+            delete currentMiniGame;
             currentMiniGame = NULL;
-            pilotControls->setEnabled(true);
+            playerControls->setEnabled(true);
+
         }
     }
 
@@ -21,15 +24,15 @@ void MiniGameManager::tick()
             
             currentMiniGame->getOverlay()->show();
             
-            pilotControls->setEnabled(false);
+            playerControls->setEnabled(false);
         }
     } 
 }
     
-MiniGameManager::MiniGameManager(InputState *inputState, PilotControls *pilotControls, SceneManager *sceneManager)
+MiniGameManager::MiniGameManager(InputState *inputState, IPlayerControls *playerControls, SceneManager *sceneManager)
     : currentMiniGame(NULL)
     , inputState(inputState)
-    , pilotControls(pilotControls)
+    , playerControls(playerControls)
     , sceneManager(sceneManager)
 {
     

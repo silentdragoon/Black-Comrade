@@ -46,6 +46,8 @@ void PilotControls::setEnabled(bool b)
     enabled = b;
 }
 
+bool PilotControls::isEnabled() { return enabled; }
+
 void PilotControls::tick()
 {
     if(enabled) {

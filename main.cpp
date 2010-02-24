@@ -233,7 +233,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Radar GUI
     //radarGui = new RadarGui(guiMgr, shipState);
     
-
+    if (collabInfo->getGameRole() == PILOT) {
+        miniGameMgr = new MiniGameManager(inputState,pilotControls,sceneMgr);
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        miniGameMgr = new MiniGameManager(inputState,navigatorControls,sceneMgr);
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        miniGameMgr = new MiniGameManager(inputState,engineerControls,sceneMgr);    
+    }
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
     // Start Rendering Loop
     
     gameLoop->startLoop();

@@ -48,6 +48,13 @@ Quaternion EngineerControls::cameraOrientation() {
     return cam->getRealOrientation();
 }
 
+void EngineerControls::setEnabled(bool b)
+{
+    enabled = b;
+}
+
+bool EngineerControls::isEnabled() { return enabled; }
+
 void EngineerControls::tick()
 {
     if(enabled) {
