@@ -5,7 +5,7 @@ void ConsoleMiniGame:: tick() {
         console->append("Score");
         score = score + 1;
     }
-    if(inputState->isKeyDown(OIS::KC_2)) {
+    if(inputState->isKeyDown(OIS::KC_F2)) {
         inputState->clearKeyListener();
         isEnd = true;
         console->append("");
@@ -33,20 +33,22 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
 }
 
 bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
-    
+    std::cout << arg.text << std::endl;
     if (arg.text == 13) {
         console->enterCommand();
         return true;
     } else if (arg.key == OIS::KC_BACK) {
         console->backSpace();
         return true;
+    } else if (arg.text == 0) {
+        return true;
     }
 
     char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
     for(int c=0;c<sizeof(legalchars);c++){
-       if(legalchars[c]==arg.text){
-          console->typeShit(arg.text);
-          break;
+        if(legalchars[c]==arg.text){
+            console->typeShit(arg.text);
+            break;
         }
     }
     return true;

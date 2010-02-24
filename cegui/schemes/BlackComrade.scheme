@@ -5,7 +5,6 @@
     <Imageset Filename="Minimap.imageset" />
     <Imageset Filename="Radar.imageset" />
     <Imageset Filename="Crosshair.xml" />
-    <Imageset Filename="Overlay.imageset" />
     <Font Filename="DejaVuSans-6.font" />
     <LookNFeel Filename="BlackComrade.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
