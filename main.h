@@ -41,7 +41,9 @@
 #include "notificationManager.h"
 #include "systemManager.h"
 #include "radarGui.h"
+#include "hud.h"
 #include "console.h"
+
 
 //include networking stuff
 #include <string.h>
@@ -99,8 +101,8 @@ private:
     GuiManager *guiMgr;
     GuiStatusUpdater *guiStatusUpdater;
     RadarGui *radarGui;
+    HUD *hud;
     Console *cons;
-    
     Lines *lines;
 
     Camera *createCamera(SceneNode *shipSceneNode);

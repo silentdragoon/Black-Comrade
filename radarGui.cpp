@@ -72,5 +72,6 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState)
     
     CEGUI::FrameWindow *enemyWindow = guiManager->addStaticImage("Enemy",0.5,0.5,0.05/ratio,0.05,"Radar","enemy");
     
+    
     enemyWindow->setRotation(CEGUI::Vector3(0,0,0));
 }
