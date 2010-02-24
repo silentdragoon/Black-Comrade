@@ -233,14 +233,21 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Radar GUI
     //radarGui = new RadarGui(guiMgr, shipState);
     
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
+
+    // Minigame manager
+    IPlayerControls *myControls;
     if (collabInfo->getGameRole() == PILOT) {
-        miniGameMgr = new MiniGameManager(inputState,pilotControls,sceneMgr);
+        myControls = pilotControls;
     } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        miniGameMgr = new MiniGameManager(inputState,navigatorControls,sceneMgr);
+        myControls = navigatorControls;
     } else if (collabInfo->getGameRole() == ENGINEER) {
-        miniGameMgr = new MiniGameManager(inputState,engineerControls,sceneMgr);    
+        myControls = engineerControls;   
     }
+    miniGameMgr = new MiniGameManager(inputState,myControls,sceneMgr);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
     // Start Rendering Loop
     
     gameLoop->startLoop();
@@ -444,6 +451,7 @@ int main(int argc,char *argv[])
 
 Main::~Main()
 {
+    delete cons;
     delete inputState;
     delete soundMgr;
 
