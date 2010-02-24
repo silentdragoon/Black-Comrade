@@ -92,7 +92,9 @@ void Console::displayText() {
 
 void Console::typeShit(char c) {
     std::string current = textbox->getCaption();
-    prompt += c;
+    if(prompt.size()<CONSOLE_LENGTH) {
+        prompt += c;
+    }
     current.append(prompt);
     textbox->setCaption(current);
 }

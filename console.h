@@ -7,7 +7,7 @@
 #include <list>
 
 #define CONSOLE_LENGTH 60
-#define CONSOLE_HEIGHT 15
+#define CONSOLE_HEIGHT 23 
 
 using namespace Ogre;
 
