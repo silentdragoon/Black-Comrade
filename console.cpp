@@ -102,3 +102,9 @@ void Console::enterCommand() {
     append(prompt);
     prompt=">> ";
 }
+
+void Console::backSpace() {
+    if(prompt.size()>3) {
+        prompt=prompt.substr(0,prompt.length()-1);
+    }
+}

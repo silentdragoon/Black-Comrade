@@ -36,6 +36,7 @@ class Console : public ITickable
         void setVisible(bool visible);
         void typeShit(char c);
         void enterCommand();
+        void backSpace();
 };
 
 #endif
