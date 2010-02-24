@@ -7,6 +7,7 @@ void ConsoleMiniGame:: tick() {
     }
     if(inputState->isKeyDown(OIS::KC_2)) {
         isEnd = true;
+        console->append("");
         console->setVisible(false);
     }
 }
@@ -24,7 +25,9 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
     , score(0)
 {
     console->setVisible(true);
-    console->append("Welcome to the repair system");
+    console->append("---------------------------------------");
+    console->append("BlackComrade System Repair v0.5 (beta)");
+    console->append("---------------------------------------");
 }
 
 ConsoleMiniGame::~ConsoleMiniGame() {}
