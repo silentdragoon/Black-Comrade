@@ -24,6 +24,7 @@ class Console : public ITickable
         int rollTick;
         bool isVisible;
         std::list<std::string> *lines;
+        std::string prompt;
 
         void displayText();
     public:
@@ -33,6 +34,8 @@ class Console : public ITickable
         void append(std::string c);
         void tick();
         void setVisible(bool visible);
+        void typeShit(std::string c);
+        void enterCommand();
 };
 
 #endif

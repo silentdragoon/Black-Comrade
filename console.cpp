@@ -3,7 +3,8 @@
 Console::Console(SceneManager *sceneMgr) :
     sceneMgr(sceneMgr),
     rollTick(0),
-    isVisible(false)
+    isVisible(false),
+    prompt("")
 {
     lines = new std::list<std::string>();
     height=0;
@@ -17,8 +18,10 @@ Console::Console(SceneManager *sceneMgr) :
 
     textbox=OverlayManager::getSingleton().createOverlayElement("TextArea","ConsoleText");
     textbox->setCaption("");
+    textbox->hide();
     textbox->setMetricsMode(GMM_RELATIVE);
     textbox->setPosition(0.25,0);
+    textbox->setDimensions(0.5,0.5);
     textbox->setParameter("font_name","Console");
     textbox->setParameter("colour_top","1 1 1");
     textbox->setParameter("colour_bottom","1 1 1");
@@ -58,10 +61,11 @@ void Console::tick() {
 
     if(rollTick==10) {
         // Show text
+        textbox->show();
         displayText();
     } else {
         // Hide Text
-        textbox->setCaption("");
+        textbox->hide();
     }
 
     // Check to see if too many lines stored and remove from list
@@ -83,4 +87,17 @@ void Console::displayText() {
         output.append(tmp);
     }
     textbox->setCaption(output);
+}
+
+void Console::typeShit(std::string c) {
+    std::string current = textbox->getCaption();
+    prompt.append(c);     
+    current.append(prompt);
+    textbox->setCaption(current);
+}
+
+void Console::enterCommand() {
+    // Clears the prompt buffer thing and appends to command history
+    append(prompt);
+    prompt="";
 }
