@@ -45,12 +45,14 @@ void Console::tick() {
     if((isVisible)&&(rollTick<10)) {
         // Roll out
         height+=0.1;
+        rect->setCorners(-0.5,1,0.5,1-height);
         rollTick++;        
     }
 
     if((!isVisible)&&(rollTick>0)) {
         // Roll in
         height-=0.1;
+        rect->setCorners(-0.5,1,0.5,1-height);
         rollTick--;
     }
 
