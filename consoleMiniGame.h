@@ -10,7 +10,7 @@
 #include <OIS/OIS.h>
 #include <boost/algorithm/string/trim.hpp>
 
-class ConsoleMiniGame : public IMiniGame, public OIS::KeyListener
+class ConsoleMiniGame : public IMiniGame
 {
     private:
         InputState *inputState;
@@ -30,8 +30,7 @@ class ConsoleMiniGame : public IMiniGame, public OIS::KeyListener
     
         Overlay *getOverlay();
 
-        bool keyPressed (const OIS::KeyEvent &arg);
-        bool keyReleased (const OIS::KeyEvent &arg);
+        void keyPressed (const OIS::KeyEvent &arg);
     
         ConsoleMiniGame(Console *console, InputState *inputState);
         ~ConsoleMiniGame();

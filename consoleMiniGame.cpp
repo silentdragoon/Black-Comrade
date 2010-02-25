@@ -7,7 +7,6 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
     , command("")
     , score(0)
 {
-    inputState->addKeyListener(this);
     console->setVisible(true);
     console->appendLine("---------------------------------------");
     console->appendLine("BlackComrade System Repair v0.5 (beta)");
@@ -20,7 +19,6 @@ void ConsoleMiniGame:: tick() {
         score = score + 1;
     }
     if(inputState->isKeyDown(OIS::KC_F2)) {
-        inputState->clearKeyListener();
         isEnd = true;
         console->appendLine("");
         console->setVisible(false);
@@ -48,20 +46,20 @@ void ConsoleMiniGame::processCommand() {
     command = "";
 }
 
-bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
+void ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
 
     if (arg.key == OIS::KC_RETURN) {
         console->returnKeyPrompt();
         processCommand();
-        return true;
+        return;
     } else if (arg.key == OIS::KC_BACK) {
         console->backSpacePrompt();
         if(command.size()>0) {
             command=command.substr(0,command.length()-1);
         }
-        return true;
+        return;
     } else if (arg.text == 0) {
-        return true;
+        return;
     }
 
     char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
@@ -72,11 +70,6 @@ bool ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
             break;
         }
     }
-    return true;
-}
-
-bool ConsoleMiniGame::keyReleased (const OIS::KeyEvent &arg) {
-    return false;
 }
 
 ConsoleMiniGame::~ConsoleMiniGame() {}
