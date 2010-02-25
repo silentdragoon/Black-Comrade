@@ -1,6 +1,5 @@
 
 #include "miniGameManager.h"
-#include "consoleMiniGame.h"
 
 void MiniGameManager::tick()
 {
@@ -21,7 +20,8 @@ void MiniGameManager::tick()
 
     if(currentMiniGame == NULL) {
         if(inputState->isKeyDown(OIS::KC_F1)) {
-            currentMiniGame = new ConsoleMiniGame(console, inputState);
+            //currentMiniGame = new ConsoleMiniGame(console, inputState);
+            currentMiniGame = new QuickTimeMiniGame(console, inputState);
             playerControls->setEnabled(false);
         }
     } 

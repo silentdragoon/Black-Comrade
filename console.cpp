@@ -110,3 +110,15 @@ void Console::backSpace() {
         prompt=prompt.substr(0,prompt.length()-1);
     }
 }
+
+void Console::appendToPrompt(std::string c) {
+    std::string current = textbox->getCaption();
+    prompt.append(c);
+    current.append(prompt);
+    textbox->setCaption(current);
+}
+
+void Console::clearPrompt() {
+    prompt = prompt.substr(0,3);
+}
+

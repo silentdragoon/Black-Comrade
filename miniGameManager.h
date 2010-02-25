@@ -10,6 +10,8 @@
 #include "IPlayerControls.h"
 #include "IMiniGame.h"
 #include "console.h"
+#include "consoleMiniGame.h"
+#include "quickTimeMiniGame.h"
 
 using namespace Ogre;
 using namespace std;

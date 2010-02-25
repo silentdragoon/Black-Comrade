@@ -37,6 +37,8 @@ class Console : public ITickable
         void typeShit(char c);
         void enterCommand();
         void backSpace();
+        void appendToPrompt(std::string c);
+        void clearPrompt();
 };
 
 #endif
