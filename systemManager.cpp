@@ -67,8 +67,6 @@ void SystemManager::tick() {
             timeSinceLastPress=0;
         }
     }
-
-    std::cout << shieldCharge << std::endl;
 }
 
 void SystemManager::incShieldRate() {

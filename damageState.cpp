@@ -70,7 +70,6 @@ void DamageState::damage(double multiplier) {
             }
     }
 
-	std::cout << "got sho0t or something" << std::endl;
     isDamaged = true;
 }
 

@@ -212,13 +212,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
 
-    gameLoop->addTickable(systemManager,"systemManager");
-
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState);
     gameLoop->addTickable(bulletMgr,"bulletManager");
+    
+    gameLoop->addTickable(systemManager,"systemManager");
 
     // Audio
     soundMgr = new SoundManager();
