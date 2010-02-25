@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="Left" Imagefile="left.png" AutoScaled="true" >
+    <Image Name="Eng" XPos="440" YPos="177" Width="120" Height="34" />
+    <Image Name="Hul" XPos="440" YPos="223" Width="120" Height="34" />
+    <Image Name="Log" XPos="9" YPos="45" Width="300" Height="205" />
+    <Image Name="Sen" XPos="440" YPos="131" Width="120" Height="34" />
+    <Image Name="She" XPos="440" YPos="85" Width="120" Height="34" />
+    <Image Name="Wep" XPos="440" YPos="40" Width="120" Height="34" />
+    <Image Name="Main" XPost="0" YPos="0" Width="563" Height="263" />
+</Imageset>
