@@ -4,8 +4,12 @@
     <Imageset Filename="TaharezLook.imageset" />
     <Imageset Filename="Minimap.imageset" />
     <Imageset Filename="Radar.imageset" />
+
     <Imageset Filename="Crosshair.xml" />
     <Imageset Filename="Overlay.imageset" />
+    <Imageset Filename="Crew.xml" />
+    <Imageset Filename="Left.xml" />
+
     <Font Filename="DejaVuSans-6.font" />
     <LookNFeel Filename="BlackComrade.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
@@ -13,8 +17,16 @@
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />
     <FalagardMapping WindowType="BlackComrade/Radar" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Radar" />
     <FalagardMapping WindowType="BlackComrade/Enemy" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Enemy" />
+
     <FalagardMapping WindowType="BlackComrade/XCrosshair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/XCrosshair" />
     <FalagardMapping WindowType="BlackComrade/Overlay" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Overlay" />
+
+    <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
+    <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />
+    <FalagardMapping WindowType="BlackComrade/Crewav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav1" />
+    <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
+
+    <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
 
 
     <FalagardMapping WindowType="BlackComrade/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="BlackComrade/Button" />
