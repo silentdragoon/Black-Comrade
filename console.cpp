@@ -37,13 +37,6 @@ Console::~Console() {
     sceneMgr->destroySceneNode(node);
 }
 
-void Console::append(std::string c) {
-    if(c.size()>CONSOLE_LENGTH) {
-        // TODO: Do something about the length
-    }
-    lines->push_front(c);
-}
-
 void Console::tick() {
     if((isVisible)&&(rollTick<10)) {
         // Roll out
@@ -86,11 +79,18 @@ void Console::displayText() {
         tmp.append("\n");
         output.append(tmp);
     }
-	output.append(prompt);
+    output.append(prompt);
     textbox->setCaption(output);
 }
 
-void Console::typeShit(char c) {
+void Console::appendToPrompt(std::string s) {
+    std::string current = textbox->getCaption();
+    prompt.append(s);
+    current.append(prompt);
+    textbox->setCaption(current);
+}
+
+void Console::appendToPrompt(char c) {
     std::string current = textbox->getCaption();
     if(prompt.size()<CONSOLE_LENGTH) {
         prompt += c;
@@ -99,26 +99,26 @@ void Console::typeShit(char c) {
     textbox->setCaption(current);
 }
 
-void Console::enterCommand() {
+void Console::returnKeyPrompt() {
     // Clears the prompt buffer thing and appends to command history
-    append(prompt);
+    appendLine(prompt);
     prompt=">> ";
 }
 
-void Console::backSpace() {
+void Console::backSpacePrompt() {
     if(prompt.size()>3) {
         prompt=prompt.substr(0,prompt.length()-1);
     }
 }
 
-void Console::appendToPrompt(std::string c) {
-    std::string current = textbox->getCaption();
-    prompt.append(c);
-    current.append(prompt);
-    textbox->setCaption(current);
-}
-
 void Console::clearPrompt() {
     prompt = prompt.substr(0,3);
+}
+
+void Console::appendLine(std::string s) {
+    if(s.size()>CONSOLE_LENGTH) {
+        // TODO: Do something about the length
+    }
+    lines->push_front(s);
 }
 

@@ -27,17 +27,20 @@ class Console : public ITickable
         std::string prompt;
 
         void displayText();
+
     public:
         Console(SceneManager *sceneMgr);
         ~Console();
 
-        void append(std::string c);
         void tick();
         void setVisible(bool visible);
-        void typeShit(char c);
-        void enterCommand();
-        void backSpace();
-        void appendToPrompt(std::string c);
+
+        void appendLine(std::string s);
+
+        void returnKeyPrompt();
+        void backSpacePrompt();
+        void appendToPrompt(std::string s);
+        void appendToPrompt(char c);
         void clearPrompt();
 };
 
