@@ -70,7 +70,7 @@ void DamageState::damage(double multiplier) {
             }
     }
 
-    //print();
+    isDamaged = true;
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
