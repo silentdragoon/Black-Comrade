@@ -1479,7 +1479,7 @@
         <NamedArea name="ProgressArea">
             <Area>
                 <Dim type="LeftEdge" >
-                    <ImageDim imageset="TaharezLook" image="ProgressBarLeft" dimension="Width">
+                    <ImageDim imageset="HorizMenu" image="X" dimension="Width">
                         <DimOperator op="Divide">
                             <AbsoluteDim value="2" />
                         </DimOperator>
@@ -1489,9 +1489,9 @@
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="ProgressBarRight" dimension="Width">
+                            <ImageDim imageset="HorizMenu" image="X" dimension="Width">
                                 <DimOperator op="Divide">
-                                    <AbsoluteDim value="2" />
+                                    <AbsoluteDim value="1" />
                                 </DimOperator>
                             </ImageDim>
                         </DimOperator>
@@ -1522,7 +1522,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image imageset="TaharezLook" image="ProgressBarLitSegment" />
+                <Image imageset="HorizMenu" image="WepRed" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Tiled" />
             </ImageryComponent>

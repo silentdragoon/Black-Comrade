@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="VertMenu" Imagefile="vertmenu.png" AutoScaled="true" >
+    <Image Name="Border" XPos="0" YPos="0" Width="46" Height="126" />
+    <Image Name="WepRed" XPos="46" YPos="0" Width="34" Height="6" />
+    <Image Name="EngBlue" XPos="46" YPos="18" Width="34" Height="6" />
+    <Image Name="HullOra" XPos="46" YPos="24" Width="34" Height="6" />
+    <Image Name="SenTeal" XPos="46" YPos="12" Width="34" Height="6" />
+    <Image Name="SheGreen" XPos="46" YPos="6" Width="34" Height="6" />
+    <Image Name="Placement" XPos="6" YPos="3" Width="34" Height="120" />
+</Imageset>

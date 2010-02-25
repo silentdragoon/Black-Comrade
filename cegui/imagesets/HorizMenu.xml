@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="HorizMenu" Imagefile="horizmenu.png" AutoScaled="true" >
+    <Image Name="Border" XPos="0" YPos="0" Width="126" Height="100" />
+    <Image Name="EngBlu" XPos="144" YPos="0" Width="6" Height="34" />
+    <Image Name="WepRed" XPos="126" YPos="0" Width="6" Height="34" />
+    <Image Name="HullOra" XPos="150" YPos="0" Width="6" Height="34" />
+    <Image Name="SenTeal" XPos="138" YPos="0" Width="6" Height="34" />
+    <Image Name="SheLime" XPos="132" YPos="0" Width="6" Height="34" />
+    <Image Name="Placement" XPos="3" YPos="6" Width="120" Height="34" />
+    <Image Name="X" XPos="0" YPos="0" Width="0" Height="0" />
+</Imageset>

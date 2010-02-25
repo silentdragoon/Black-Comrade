@@ -34,4 +34,14 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
 
     // Left
     CEGUI::FrameWindow *left        = guiManager->addStaticImagePix("Left",         0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "Left",        "Main"  );
+
+    // Health Bars
+    // CEGUI::FrameWindow *wep        = guiManager->addStaticImagePix("redhoriz",      0.0 + 440 * wpixel, 1.0 - 263 * hpixel + 40 * hpixel, 6 * wpixel, 34 * hpixel, "HorizMenu",   "WepRed"  );
+    //CEGUI::FrameWindow *she        = guiManager->addStaticImagePix("yellhoriz",     0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "HorizMenu",   "SheLime"  );
+    //CEGUI::FrameWindow *sen        = guiManager->addStaticImagePix("tealhoriz",     0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "HorizMenu",   "SenTeal"  );
+    //CEGUI::FrameWindow *eng        = guiManager->addStaticImagePix("bluehoriz",     0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "HorizMenu",   "EngBlu"   );
+    //CEGUI::FrameWindow *hul        = guiManager->addStaticImagePix("oranhoriz",     0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "HorizMenu",   "HullOra"  );
+
+
+
 }

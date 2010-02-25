@@ -30,7 +30,7 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
     CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
     CEGUI::ImagesetManager::getSingleton().create("Minimapnow.imageset");
-    CEGUI::ImagesetManager::getSingleton().create("Crosshair.xml");
+    // CEGUI::ImagesetManager::getSingleton().create("Crosshair.xml");
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
@@ -48,7 +48,14 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.95f,0)));
 
+    int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    float wpixel = 1.0 / (float)winWidth;
+    float hpixel = 1.0 / (float)winHeight;
+
     // Health bars + Text for them
+/*
+
     shields = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","shields"));
     sensors = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","sensors"));
     weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
@@ -102,6 +109,15 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     hullText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
     hullText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.12f,0)));
     hullText->setText("5: Hull");
+*/
+
+    weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
+    guiRoot->addChildWindow(weapons);
+    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - 223 * hpixel,0)));
+    weapons->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+
+
+
 
     // Bars for power system stuff
     shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","shieldRate"));
@@ -513,7 +529,7 @@ void GuiManager::toggleMap(bool tog)
         fullmap->setVisible(false);
     }
 }
-
+/*
 void GuiManager::setShields(float yeah) {
     shields->setProgress(yeah);
 }
@@ -521,11 +537,11 @@ void GuiManager::setShields(float yeah) {
 void GuiManager::setSensors(float yeah) {
     sensors->setProgress(yeah);
 }
-
+*/
 void GuiManager::setWeapons(float yeah) {
     weapons->setProgress(yeah);
 }
-
+/*
 void GuiManager::setEngines(float yeah) {
     engine->setProgress(yeah);
 }
@@ -542,10 +558,12 @@ void GuiManager::setSensorRate(float yeah) {
     sensorRate->setProgress(yeah);
 }
 
+*/
 void GuiManager::setWeaponRate(float what) {
     weaponRate->setProgress(what);
 }
 
+/* 
 void GuiManager::setEngineRate(float alright) {
     engineRate->setProgress(alright);
 }
@@ -573,3 +591,4 @@ void GuiManager::setEngineText(string mess) {
 void GuiManager::setHullText(string mess) {
     hullText->setText(mess);
 }
+*/

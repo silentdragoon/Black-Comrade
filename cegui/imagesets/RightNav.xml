@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="RightEng" Imagefile="right_nav.png" AutoScaled="true" >
+    <Image Name="Map" XPos="191" YPos="44" Width="210" Height="210" />
+    <Image Name="EngBal" XPos="142" YPos="140" Width="35" Height="120" />
+    <Image Name="SenBal" XPos="98" YPos="140" Width="35" Height="120" />
+    <Image Name="SheBal" XPos="52" YPos="140" Width="35" Height="120" />
+    <Image Name="WepBal" XPos="6" YPos="140" Width="35" Height="120" />
+    <Image Name="SheCharge" XPos="127" YPos="35" Width="50" Height="35" />
+    <Image Name="WepCharge" XPos="6" YPos="35" Width="50" Height="35" />
+</Imageset>
