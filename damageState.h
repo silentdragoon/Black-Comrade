@@ -40,6 +40,8 @@ public:
     double getEngineHealth();
     double getHullHealth();
 
+    bool isDamaged;
+
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
     virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
