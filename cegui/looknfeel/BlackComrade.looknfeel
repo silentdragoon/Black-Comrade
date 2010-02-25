@@ -156,6 +156,203 @@
         </StateImagery>
     </WidgetLook>
 
+    <WidgetLook name="BlackComrade/Crewl">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="1920" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="1200" />
+                    </Dim>
+                </Area>
+                <Image imageset="Overlay" image="Overlay" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+    <WidgetLook name="BlackComrade/Crewr">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="1920" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="1200" />
+                    </Dim>
+                </Area>
+                <Image imageset="Overlay" image="Overlay" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+    <WidgetLook name="BlackComrade/Crewav1">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="100" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="100" />
+                    </Dim>
+                </Area>
+                <Image imageset="Overlay" image="Overlay" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+    <WidgetLook name="BlackComrade/Crewav2">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="100" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="100" />
+                    </Dim>
+                </Area>
+                <Image imageset="Overlay" image="Overlay" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+ <WidgetLook name="BlackComrade/Left">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="100" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="100" />
+                    </Dim>
+                </Area>
+                <Image imageset="Overlay" image="Overlay" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+
+
     <WidgetLook name="BlackComrade/Overlay">
         <ImagerySection name="enabled_imagery">
             <ImageryComponent>

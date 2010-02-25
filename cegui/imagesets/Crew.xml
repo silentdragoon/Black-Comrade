@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="Crew" Imagefile="crew.png" AutoScaled="true" >
+    <Image Name="Avatar1" XPos="104" YPos="2" Width="100" Height="100" />
+    <Image Name="Avatar2" XPos="204" YPos="2" Width="100" Height="100" />
+    <Image Name="Avatar3" XPos="304" YPos="2" Width="100" Height="100" />
+    <Image Name="EmptyBox" XPos="0" YPos="0" Width="104" Height="157" />
+    <Image Name="AvPlacement" XPos="2" YPos="2" Width="100" Height="100" />
+    <Image Name="TextPlacement" XPos="10" YPos="110" Width="84" Height="37" />
+</Imageset>

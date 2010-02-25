@@ -50,6 +50,10 @@ public:
     CEGUI::FrameWindow *addStaticImage(char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
+
+    CEGUI::FrameWindow *addStaticImagePix(char *name, float xCenter, float yCenter,
+                                float width,   float height,
+                                char *imageSet, char *imageName);
     
     void setStatus(std::string stat);
     void setShields(float yeah);
