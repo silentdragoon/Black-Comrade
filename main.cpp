@@ -226,16 +226,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager(mapMgr,shipState);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager);
+    guiMgr = new GuiManager(mapMgr,shipState);
+    hud = new HUD(guiMgr, shipState);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager,hud);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Radar GUI
     // radarGui = new RadarGui(guiMgr, shipState);
 
-    // HUD
-    hud = new HUD(guiMgr, shipState);
-    
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
     gameLoop->addTickable(cons,"console");

@@ -53,70 +53,12 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     float wpixel = 1.0 / (float)winWidth;
     float hpixel = 1.0 / (float)winHeight;
 
-    // Health bars + Text for them
+    // Health bars
+
+
+
+
 /*
-
-    shields = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","shields"));
-    sensors = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","sensors"));
-    weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
-    engine = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","engine"));
-    hull = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","hull"));
-
-    guiRoot->addChildWindow(shields);
-    guiRoot->addChildWindow(sensors);
-    guiRoot->addChildWindow(weapons);
-    guiRoot->addChildWindow(engine);
-    guiRoot->addChildWindow(hull);
-
-    shields->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.0f,0)));
-    sensors->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.06f,0)));
-    engine->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.09f,0)));
-    hull->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.12f,0)));
-
-    shields->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    sensors->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    weapons->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    engine->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-    hull->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
-
-    shieldText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","shieldtext"));
-    guiRoot->addChildWindow(shieldText);
-    shieldText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    shieldText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.0f,0)));
-    shieldText->setText("1: Shields");
-
-    sensorText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","sensortext"));
-    guiRoot->addChildWindow(sensorText);
-    sensorText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    sensorText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.03f,0)));
-    sensorText->setText("2: Sensors");
-
-    weaponText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","weapontext"));
-    guiRoot->addChildWindow(weaponText);
-    weaponText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    weaponText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.06f,0)));
-    weaponText->setText("3: Weapons");
-
-    engineText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","enginetext"));
-    guiRoot->addChildWindow(engineText);
-    engineText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    engineText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.09f,0)));
-    engineText->setText("4: Engines");
-
-    hullText = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText","hulltext"));
-    guiRoot->addChildWindow(hullText);
-    hullText->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.03f,0)));
-    hullText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.12f,0)));
-    hullText->setText("5: Hull");
-*/
-
-    weapons = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBar","weapons"));
-    guiRoot->addChildWindow(weapons);
-    weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - 223 * hpixel,0)));
-    weapons->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-
-
 
 
     // Bars for power system stuff
@@ -143,6 +85,8 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
     weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
     engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(0.07f,0),CEGUI::UDim(0.03f,0)));
+
+*/
 
     // Create the full map 
     fullmap = buildFullMap();
@@ -529,26 +473,8 @@ void GuiManager::toggleMap(bool tog)
         fullmap->setVisible(false);
     }
 }
-/*
-void GuiManager::setShields(float yeah) {
-    shields->setProgress(yeah);
-}
 
-void GuiManager::setSensors(float yeah) {
-    sensors->setProgress(yeah);
-}
-*/
-void GuiManager::setWeapons(float yeah) {
-    weapons->setProgress(yeah);
-}
-/*
-void GuiManager::setEngines(float yeah) {
-    engine->setProgress(yeah);
-}
 
-void GuiManager::setHull(float yeah) {
-    hull->setProgress(yeah);
-}
 
 void GuiManager::setShieldRate(float yeah) {
     shieldRate->setProgress(yeah);
@@ -558,12 +484,12 @@ void GuiManager::setSensorRate(float yeah) {
     sensorRate->setProgress(yeah);
 }
 
-*/
+
 void GuiManager::setWeaponRate(float what) {
     weaponRate->setProgress(what);
 }
 
-/* 
+
 void GuiManager::setEngineRate(float alright) {
     engineRate->setProgress(alright);
 }
@@ -591,4 +517,3 @@ void GuiManager::setEngineText(string mess) {
 void GuiManager::setHullText(string mess) {
     hullText->setText(mess);
 }
-*/

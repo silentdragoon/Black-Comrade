@@ -56,16 +56,13 @@ public:
                                 char *imageSet, char *imageName);
     
     void setStatus(std::string stat);
-    void setShields(float yeah);
-    void setSensors(float yeah);
-    void setWeapons(float yeah);
-    void setEngines(float yeah);
+
     void setShieldText(string mess);
     void setSensorText(string mess);
     void setWeaponText(string mess);
     void setEngineText(string mess);
     void setHullText(string mess);
-    void setHull(float yeah);
+
     void toggleMap(bool tog);
     void updateMiniMap();
     void setShieldRate(float yeah);
