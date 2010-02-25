@@ -11,6 +11,7 @@
 #include <string>
 #include <cstdlib>
 #include <time.h>
+#include "damageState.h"
 
 class SystemManager : public ITickable, public ReplicaObject {
 private:
@@ -25,10 +26,12 @@ private:
     int timeSinceLastPress;
 
     EngineerControls *engCon;
+    DamageState *damageState;
+
 public:
     
     SystemManager();
-    SystemManager(EngineerControls *engCon);
+    SystemManager(EngineerControls *engCon, DamageState *damageState);
     void tick();
 
     void incShieldRate();

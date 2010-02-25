@@ -94,7 +94,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         engineerControls = new EngineerControls(inputState,camera);
         gameLoop->addTickable(engineerControls,"engineerControls");
 
-        systemManager = new SystemManager(engineerControls);
+        systemManager = new SystemManager(engineerControls, damageState);
         gameLoop->addTickable(systemManager,"systemManager");
         networkingManager->replicate(systemManager);
     } else {
