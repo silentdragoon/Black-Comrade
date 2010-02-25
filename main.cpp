@@ -95,7 +95,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         gameLoop->addTickable(engineerControls,"engineerControls");
 
         systemManager = new SystemManager(engineerControls, damageState);
-        gameLoop->addTickable(systemManager,"systemManager");
+        
         networkingManager->replicate(systemManager);
     } else {
         if (collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -209,7 +209,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
+    // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
+
+    gameLoop->addTickable(systemManager,"systemManager");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
