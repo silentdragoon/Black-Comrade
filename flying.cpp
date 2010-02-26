@@ -127,6 +127,5 @@ void Flying::tick()
 
 double Flying::getSpeed()
 {
-    cout << "xVel: " << xVel << "yVel: " << yVel << endl;
-    return sqrt( xVel*xVel+yVel*yVel);
+    return sqrt( xVel*xVel+zVel*zVel);
 }

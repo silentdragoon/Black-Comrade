@@ -24,10 +24,10 @@ void GuiStatusUpdater::tick() {
     hud->setStatus(s);
 
     double speed = flying->getSpeed();
-    cout << speed << endl;
+    speed = speed * 3.6 * 60;
     std::string t;
     std::stringstream outt;
-    outt << " " << "m/s";
+    outt << int(speed) << " KPH";
     t = outt.str();
     hud->setSpeedIndicator(t);
 
