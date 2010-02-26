@@ -28,6 +28,10 @@ class ConsoleShell : public IConsoleInputReceiver
         std::vector<std::string> commands;
         int commandIndex;
 
+        void historyBack();
+        void historyForward();
+        void showCommand(int index);
+
         void processCommand();
         
     public:
