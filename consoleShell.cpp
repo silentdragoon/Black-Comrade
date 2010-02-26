@@ -70,7 +70,6 @@ void ConsoleShell::otherKeyPressed (const OIS::KeyEvent &arg) {
     } else if (arg.key == OIS::KC_DOWN) {
         historyForward();
     }
-    std::cout << commandIndex << std::endl;
 }
 
 void ConsoleShell::historyBack() {
