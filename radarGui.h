@@ -6,29 +6,45 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
+#include "ITickable.h"
 #include "guiManager.h"
 #include "shipState.h"
+#include "swarmManager.h"
+#include "swarm.h"
 
-class RadarGui {
+class RadarGui : public ITickable {
 private:
 
     float xCenter;
     float yCenter;
     float width;
     float height;
+    
+    int uIndex;
 
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
     CEGUI::FrameWindow *minimap;
     CEGUI::ProgressBar *shields;
+    CEGUI::FrameWindow *radarWindow;
+    
+    std::vector<CEGUI::FrameWindow*> enemyDots;
     
     ShipState *shipState;
+    SwarmManager *swarmManager;
     
     void setDotPos(CEGUI::FrameWindow *dot, float x, float y);
+    CEGUI::FrameWindow *createEnemyDot();
+    
+    CEGUI::FrameWindow *createWindow(
+    std::vector<std::pair<float,float> > *positions);
 
 public:
-    RadarGui(GuiManager *guiManager, ShipState *shipState);
-    ~RadarGui();
+    RadarGui(GuiManager *guiManager, ShipState *shipState,
+        SwarmManager *swarmManager);
+    //~RadarGui();
+    
+    void tick();
 };
 
 #endif

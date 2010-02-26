@@ -75,6 +75,11 @@ void SwarmManager::createSwarm(int size, Vector3 location)
     id++;
 }
 
+std::vector<Swarm*> SwarmManager::getAllSwarms()
+{
+    return activeSwarms;
+}
+
 std::vector<Enemy*> SwarmManager::getAllEnemies()
 {
     Swarm *s;
