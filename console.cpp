@@ -9,7 +9,7 @@ Console::Console(SceneManager *sceneMgr) :
     lines = new std::list<std::string>();
     height=0;
     rect = new Rectangle2D(true);
-    rect->setCorners(-0.5,1,0.5,1-height);
+    rect->setCorners(-0.65,1,0.65,1-height);
     rect->setMaterial("console/Background");
     rect->setRenderQueueGroup(RENDER_QUEUE_OVERLAY);
     rect->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE));
@@ -20,8 +20,7 @@ Console::Console(SceneManager *sceneMgr) :
     textbox->setCaption("");
     textbox->hide();
     textbox->setMetricsMode(GMM_RELATIVE);
-    textbox->setPosition(0.25,0);
-    textbox->setDimensions(0.5,0.5);
+    textbox->setPosition(0.18,0);
     textbox->setParameter("font_name","Console");
     textbox->setParameter("colour_top","1 1 1");
     textbox->setParameter("colour_bottom","1 1 1");
@@ -41,14 +40,14 @@ void Console::tick() {
     if((isVisible)&&(rollTick<10)) {
         // Roll out
         height+=0.1;
-        rect->setCorners(-0.5,1,0.5,1-height);
+        rect->setCorners(-0.65,1,0.65,1-height);
         rollTick++;        
     }
 
     if((!isVisible)&&(rollTick>0)) {
         // Roll in
         height-=0.1;
-        rect->setCorners(-0.5,1,0.5,1-height);
+        rect->setCorners(-0.65,1,0.65,1-height);
         rollTick--;
     }
 
@@ -122,5 +121,10 @@ void Console::appendLine(std::string s) {
         // TODO: Do something about the length
     }
     lines->push_front(s);
+
+    // Check to see if too many lines stored and remove from list
+    if(lines->size()>CONSOLE_HEIGHT) {
+        lines->pop_back();
+    }
 }
 
