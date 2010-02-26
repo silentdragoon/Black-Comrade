@@ -69,7 +69,8 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
         inputReceiver->backspaceKeyPressed();
         return true;
     } else if (arg.text == 0) {
-        return false;
+        inputReceiver->otherKeyPressed(arg);
+        return true;
     }
 
     char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";

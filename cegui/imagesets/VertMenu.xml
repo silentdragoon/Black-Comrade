@@ -8,4 +8,5 @@
     <Image Name="SenTeal" XPos="46" YPos="12" Width="34" Height="6" />
     <Image Name="SheGreen" XPos="46" YPos="6" Width="34" Height="6" />
     <Image Name="Placement" XPos="6" YPos="3" Width="34" Height="120" />
+    <Image Name="X" XPos="0" YPos="0" Width="0" Height="0" />
 </Imageset>

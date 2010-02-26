@@ -8,6 +8,7 @@
 #include <sstream>
 #include "guiManager.h"
 #include "shipState.h"
+#include "gameRole.h"
 
 class HUD {
 private:
@@ -23,13 +24,20 @@ private:
     CEGUI::ProgressBar *engine;
     CEGUI::ProgressBar *hull;
 
+    CEGUI::ProgressBar *shieldRate;
+    CEGUI::ProgressBar *sensorRate;
+    CEGUI::ProgressBar *weaponRate;
+    CEGUI::ProgressBar *engineRate;
+    CEGUI::ProgressBar *weaponCharge;
+    // CEGUI::ProgressBar *shieldCharge;
+
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
-    CEGUI::FrameWindow *minimap;
     ShipState *shipState;
+    GameRole gameRole;
 
 public:
-    HUD(GuiManager *guiManager, ShipState *shipState);
+    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole);
     ~HUD();
 
     void setShields(float yeah);
@@ -37,6 +45,13 @@ public:
     void setWeapons(float yeah);
     void setEngines(float yeah);
     void setHull(float yeah);
+
+    void setShieldRate(float yeah);
+    void setSensorRate(float yeah);
+    void setWeaponRate(float yeah);
+    void setEngineRate(float yeah);
+    void setWeaponCharge(float yeah);
+    // void setShieldCharge(float yeah);
 };
 
 #endif

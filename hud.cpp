@@ -1,9 +1,10 @@
 
 #include "hud.h"
 
-HUD::HUD(GuiManager *guiManager, ShipState *shipState)
+HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     : guiManager(guiManager)
     , shipState(shipState)
+    , gameRole(gameRole)
     , xCenter(0.5)
     , yCenter(0.47)
     , width(1)
@@ -20,15 +21,16 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
     float wpixel = 1.0 / (float)winWidth * g;
     float hpixel = 1.0 / (float)winHeight * g;
 
+
     // Background Elements
     CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
-    CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
+    //CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
 
     // Foreground Elements
 
     // Crew Background
-    CEGUI::FrameWindow *crewlb      = guiManager->addStaticImagePix("Crewl",        0.0,                 0.0,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
-    CEGUI::FrameWindow *crewrb      = guiManager->addStaticImagePix("Crewr",        1.0 - 104 * wpixel,  0.0,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
+    CEGUI::FrameWindow *crewlb      = guiManager->addStaticImagePix("Crewl",        0.0 + 0 * wpixel,    0.0 + 0 * hpixel,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
+    CEGUI::FrameWindow *crewrb      = guiManager->addStaticImagePix("Crewr",        1.0 - 104 * wpixel,  0.0 + 0 * hpixel,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
 
     // Crew Avatars
     CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Avatar1"  );
@@ -37,9 +39,18 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
     // Left
     CEGUI::FrameWindow *left        = guiManager->addStaticImagePix("Left",         0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "Left",        "Main"  );
 
+    // Right
+    if(gameRole==PILOT)
+    CEGUI::FrameWindow *rightPil    = guiManager->addStaticImagePix("RightPil",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightPil",    "Main"  );
+    if(gameRole==ENGINEER)
+    CEGUI::FrameWindow *rightEng    = guiManager->addStaticImagePix("RightEng",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightEng",    "Main"  );
+    if(gameRole==NAVIGATOR)
+    CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightNav",    "Main"  );
 
-    // Progress Bars (failed to move these from guiManager, keeping them there for now
-    // TODO: move progress bar code into this file
+
+    // Progress Bars
+
+    // Health
 
     shields = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarShe","shields"));
     sensors = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarSen","sensors"));
@@ -58,7 +69,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
     weapons->setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - (263 - 40) * hpixel,0)));
     engine-> setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - (263 - 177) * hpixel,0)));
     hull->   setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - (263 - 223) * hpixel,0)));
-    shields->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+
 
     shields->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     sensors->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
@@ -66,6 +77,40 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState)
     engine->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     hull->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
 
+    // Bars for power system stuff
+
+    shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldRate"));
+    sensorRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarSen","sensorRate"));
+    weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
+    engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
+    weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarWep","weaponCharge"));
+    // shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarShe","shieldCharge"));
+
+    shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    sensorRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    weaponRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    engineRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+
+    guiManager->getRootWindow()->addChildWindow(shieldRate);
+    guiManager->getRootWindow()->addChildWindow(sensorRate);
+    guiManager->getRootWindow()->addChildWindow(weaponRate);
+    guiManager->getRootWindow()->addChildWindow(engineRate);
+    guiManager->getRootWindow()->addChildWindow(weaponCharge);
+    // guiManager->getRootWindow()->addChildWindow(shieldCharge);
+
+    shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 52) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
+    weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
+    sensorRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 98) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
+    engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 142) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
+    // shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 127) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
+
+    shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
+    sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
+    weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
+    engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
+    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    // shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
 }
 
 void HUD::setShields(float yeah) {
@@ -86,4 +131,26 @@ void HUD::setEngines(float yeah) {
 
 void HUD::setHull(float yeah) {
     hull->setProgress(yeah);
+}
+
+void HUD::setShieldRate(float yeah) {
+    shieldRate->setProgress(yeah);
+}
+
+void HUD::setSensorRate(float yeah) {
+    sensorRate->setProgress(yeah);
+}
+
+
+void HUD::setWeaponRate(float what) {
+    weaponRate->setProgress(what);
+}
+
+
+void HUD::setEngineRate(float alright) {
+    engineRate->setProgress(alright);
+}
+
+void HUD::setWeaponCharge(float yeah) {
+    weaponCharge->setProgress(yeah);
 }
