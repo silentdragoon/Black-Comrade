@@ -25,7 +25,6 @@ bool InputState::isKeyDown(OIS::KeyCode keyCode) {
 void InputState::addKeyListener(OIS::KeyListener *listener) {
     if (mKeyboard) {
         mKeyboard->setEventCallback(listener);
-        std::cout << "adding listener" << std::endl;
     }
 }
 

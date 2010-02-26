@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="RightEng" Imagefile="right_pil.png" AutoScaled="true" >
+    <Image Name="Speed" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="EngBal" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="SenBal" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="SheBal" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="WepBal" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="SheCharge" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="WepCharge" XPos="0" YPos="0" Width="0" Height="0" />
+</Imageset>

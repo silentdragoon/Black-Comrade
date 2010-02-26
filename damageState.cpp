@@ -9,10 +9,11 @@ DamageState::DamageState()
     , weaponHealth(100.0)
     , engineHealth(100.0)
     , hullHealth(100.0)
+    , isDamaged(false)
 {}
 
 void DamageState::tick() {
-    //print();
+    isDamaged = false;
 }
 
 double DamageState::getShieldHealth() { return shieldHealth; }
@@ -69,7 +70,7 @@ void DamageState::damage(double multiplier) {
             }
     }
 
-    //print();
+    isDamaged = true;
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
@@ -80,6 +81,7 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(weaponHealth);
     serializeParameters->outputBitstream[0].Write(engineHealth);
     serializeParameters->outputBitstream[0].Write(hullHealth);
+    serializeParameters->outputBitstream[0].Write(isDamaged);
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -97,7 +99,9 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(temp);
     if (temp < hullHealth) hullHealth = temp;
 
-    //print();
+    bool isDamaged2 = false;
+    deserializeParameters->serializationBitstream[0].Read(isDamaged2);
+    if (isDamaged2) isDamaged = true;
 }
 
 void DamageState::print() {

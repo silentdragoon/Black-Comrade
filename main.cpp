@@ -94,8 +94,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         engineerControls = new EngineerControls(inputState,camera);
         gameLoop->addTickable(engineerControls,"engineerControls");
 
-        systemManager = new SystemManager(engineerControls);
-        gameLoop->addTickable(systemManager,"systemManager");
+        systemManager = new SystemManager(engineerControls, damageState);
+        
         networkingManager->replicate(systemManager);
     } else {
         if (collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -209,6 +209,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
+    // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
 
     // Bullet Manager
@@ -216,6 +217,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState);
     gameLoop->addTickable(bulletMgr,"bulletManager");
+    
+    gameLoop->addTickable(systemManager,"systemManager");
 
     // Audio
     soundMgr = new SoundManager();
@@ -226,16 +229,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager(mapMgr,shipState);    
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager);
+    guiMgr = new GuiManager(mapMgr,shipState);
+    hud = new HUD(guiMgr, shipState);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager,hud);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Radar GUI
     // radarGui = new RadarGui(guiMgr, shipState);
 
-    // HUD
-    hud = new HUD(guiMgr, shipState);
-    
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
     gameLoop->addTickable(cons,"console");

@@ -4,7 +4,7 @@ Console::Console(SceneManager *sceneMgr) :
     sceneMgr(sceneMgr),
     rollTick(0),
     isVisible(false),
-    prompt(">> ")
+    prompt("")
 {
     lines = new std::list<std::string>();
     height=0;
@@ -37,13 +37,6 @@ Console::~Console() {
     sceneMgr->destroySceneNode(node);
 }
 
-void Console::append(std::string c) {
-    if(c.size()>CONSOLE_LENGTH) {
-        // TODO: Do something about the length
-    }
-    lines->push_front(c);
-}
-
 void Console::tick() {
     if((isVisible)&&(rollTick<10)) {
         // Roll out
@@ -74,6 +67,8 @@ void Console::tick() {
     }
 }
 
+bool Console::getVisible() { return isVisible; }
+
 void Console::setVisible(bool visible) {
     isVisible = visible;
 }
@@ -86,11 +81,18 @@ void Console::displayText() {
         tmp.append("\n");
         output.append(tmp);
     }
-	output.append(prompt);
+    output.append(prompt);
     textbox->setCaption(output);
 }
 
-void Console::typeShit(char c) {
+void Console::appendToPrompt(std::string s) {
+    std::string current = textbox->getCaption();
+    prompt.append(s);
+    current.append(prompt);
+    textbox->setCaption(current);
+}
+
+void Console::appendToPrompt(char c) {
     std::string current = textbox->getCaption();
     if(prompt.size()<CONSOLE_LENGTH) {
         prompt += c;
@@ -99,14 +101,26 @@ void Console::typeShit(char c) {
     textbox->setCaption(current);
 }
 
-void Console::enterCommand() {
+void Console::returnKeyPrompt() {
     // Clears the prompt buffer thing and appends to command history
-    append(prompt);
-    prompt=">> ";
+    appendLine(prompt);
+    prompt="";
 }
 
-void Console::backSpace() {
-    if(prompt.size()>3) {
+void Console::backSpacePrompt() {
+    if(prompt.size()>0) {
         prompt=prompt.substr(0,prompt.length()-1);
     }
 }
+
+void Console::clearPrompt() {
+    prompt = "";
+}
+
+void Console::appendLine(std::string s) {
+    if(s.size()>CONSOLE_LENGTH) {
+        // TODO: Do something about the length
+    }
+    lines->push_front(s);
+}
+

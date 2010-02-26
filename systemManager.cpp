@@ -12,8 +12,9 @@ SystemManager::SystemManager() :
 {
 }
 
-SystemManager::SystemManager(EngineerControls *engCon) :
+SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState) :
     engCon(engCon),
+    damageState(damageState),
     shieldRate(0.5),
     weaponRate(0.5),
     sensorRate(0.5),
@@ -38,6 +39,8 @@ void SystemManager::tick() {
         if(shieldCharge<0) shieldCharge = 0;
         if(weaponCharge>100) weaponCharge = 100;
         if(shieldCharge>100) shieldCharge = 100;
+
+        if (damageState->isDamaged) damageShield();
 
         if((engCon->isShield())&&(timeSinceLastPress>10)) {
             incShieldRate();

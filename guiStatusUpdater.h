@@ -9,6 +9,7 @@
 #include "gameRole.h"
 #include "systemManager.h"
 #include <sstream>
+#include "hud.h"
 
 class GuiStatusUpdater : public ITickable {
     private:
@@ -18,8 +19,9 @@ class GuiStatusUpdater : public ITickable {
         NavigatorControls *navigatorControls;
         GameRole gameRole;
         SystemManager *systemManager;
+        HUD *hud;
     public:
-        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger);
+        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger, HUD *hud);
         ~GuiStatusUpdater();
         virtual void tick();
 };

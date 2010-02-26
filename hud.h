@@ -17,16 +17,26 @@ private:
     float width;
     float height;
 
+    CEGUI::ProgressBar *shields;
+    CEGUI::ProgressBar *sensors;
+    CEGUI::ProgressBar *weapons;
+    CEGUI::ProgressBar *engine;
+    CEGUI::ProgressBar *hull;
+
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
     CEGUI::FrameWindow *minimap;
-    CEGUI::ProgressBar *shields;
-    
     ShipState *shipState;
 
 public:
     HUD(GuiManager *guiManager, ShipState *shipState);
     ~HUD();
+
+    void setShields(float yeah);
+    void setSensors(float yeah);
+    void setWeapons(float yeah);
+    void setEngines(float yeah);
+    void setHull(float yeah);
 };
 
 #endif

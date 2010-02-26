@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="PlayerStatus" Imagefile="playerstatus.png" >
+    <Image Name="Placement" XPos="5" YPos="5" Width="290" Height="40" />
+    <Image Name="Background" XPos="0" YPos="0" Width="300" Height="50" />
+</Imageset>

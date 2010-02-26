@@ -1,12 +1,13 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
     navigatorControls(navigatorControls),
     gameRole(gameRole),
-    systemManager(systemManager)
+    systemManager(systemManager),
+    hud(hud)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -23,16 +24,16 @@ void GuiStatusUpdater::tick() {
 
     // Deal with the damage of various systems
     float shieldHealth = (float)(damageState->getShieldHealth()/100.0);
-    float sensorHealth = (float)(damageState->getSensorHealth()/100.0);       
+    float sensorHealth = (float)(damageState->getSensorHealth()/100.0);
     float weaponHealth = (float)(damageState->getWeaponHealth()/100.0);
     float engineHealth = (float)(damageState->getEngineHealth()/100.0);
     float hullHealth = (float)(damageState->getHullHealth()/100.0); 
 
-    guiMgr->setShields(shieldHealth);
-    guiMgr->setSensors(sensorHealth);
-    guiMgr->setWeapons(weaponHealth);
-    guiMgr->setEngines(engineHealth);
-    guiMgr->setHull(hullHealth);
+    hud->setShields(shieldHealth);
+    hud->setSensors(sensorHealth);
+    hud->setWeapons(weaponHealth);
+    hud->setEngines(engineHealth);
+    hud->setHull(hullHealth);
 
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
