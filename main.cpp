@@ -236,7 +236,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Radar GUI
     radarGui = new RadarGui(guiMgr, shipState, swarmMgr);
-    //gameLoop->addTickable(radarGui,"Radar");
+    gameLoop->addTickable(radarGui,"Radar");
 
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
@@ -252,7 +252,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         myControls = engineerControls;   
     }
     miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
-    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+    //gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
     
