@@ -8,26 +8,32 @@ Console::Console(SceneManager *sceneMgr) :
 {
     lines = new std::list<std::string>();
     height=0;
-    rect = new Rectangle2D(true);
-    rect->setCorners(-0.65,1,0.65,1-height);
-    rect->setMaterial("console/Background");
-    rect->setRenderQueueGroup(RENDER_QUEUE_OVERLAY);
-    rect->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE));
-    node = sceneMgr->getRootSceneNode()->createChildSceneNode("#Console");
-    node->attachObject(rect);
+
+    openHeight = 0.5;
+    slideTicks = 10;
+
+    // Create a panel
+    panel = static_cast<OverlayContainer*>(
+        OverlayManager::getSingleton().createOverlayElement("Panel", "ConsoleBackground"));
+    panel->setMetricsMode(Ogre::GMM_RELATIVE);
+    panel->setPosition(0.15, 0); 
+    panel->setDimensions(0.7, 0.0);
+    panel->setMaterialName("console/Background");
 
     textbox=OverlayManager::getSingleton().createOverlayElement("TextArea","ConsoleText");
     textbox->setCaption("");
     textbox->hide();
     textbox->setMetricsMode(GMM_RELATIVE);
-    textbox->setPosition(0.18,0);
+    textbox->setPosition(0.005,0);
     textbox->setParameter("font_name","Console");
-    textbox->setParameter("colour_top","1 1 1");
-    textbox->setParameter("colour_bottom","1 1 1");
+    textbox->setParameter("colour_top","0 0 0");
+    textbox->setParameter("colour_bottom","0 0 0");
     textbox->setParameter("char_height","0.02");
 
+    panel->addChild(textbox);
+
     overlay=OverlayManager::getSingleton().create("Console");   
-    overlay->add2D((OverlayContainer*)textbox);
+    overlay->add2D(panel);
     overlay->show();
 }
 
@@ -37,21 +43,21 @@ Console::~Console() {
 }
 
 void Console::tick() {
-    if((isVisible)&&(rollTick<10)) {
-        // Roll out
-        height+=0.1;
-        rect->setCorners(-0.65,1,0.65,1-height);
-        rollTick++;        
+    if((isVisible)&&(rollTick<slideTicks)) {
+        // Open
+        height+= openHeight / slideTicks;
+        panel->setHeight(height);
+        rollTick++;
     }
 
     if((!isVisible)&&(rollTick>0)) {
-        // Roll in
-        height-=0.1;
-        rect->setCorners(-0.65,1,0.65,1-height);
+        // Close
+        height-= openHeight / slideTicks;
+        panel->setHeight(height);
         rollTick--;
     }
 
-    if(rollTick==10) {
+    if(rollTick==slideTicks) {
         // Show text
         textbox->show();
         displayText();
