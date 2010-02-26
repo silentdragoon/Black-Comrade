@@ -31,6 +31,8 @@ private:
     CEGUI::ProgressBar *weaponCharge;
     // CEGUI::ProgressBar *shieldCharge;
 
+    CEGUI::Editbox *status;
+
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
     ShipState *shipState;
@@ -39,6 +41,8 @@ private:
 public:
     HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole);
     ~HUD();
+
+    void setStatus(std::string stat);
 
     void setShields(float yeah);
     void setSensors(float yeah);

@@ -21,10 +21,9 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     float wpixel = 1.0 / (float)winWidth * g;
     float hpixel = 1.0 / (float)winHeight * g;
 
-
     // Background Elements
     CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
-    //CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
+    CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
 
     // Foreground Elements
 
@@ -33,8 +32,22 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     CEGUI::FrameWindow *crewrb      = guiManager->addStaticImagePix("Crewr",        1.0 - 104 * wpixel,  0.0 + 0 * hpixel,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
 
     // Crew Avatars
-    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Avatar1"  );
-    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav2",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Avatar2"  );
+
+    if (gameRole==PILOT) {
+    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav2",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav2"  );
+    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav3",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav3"  );
+    }
+    if (gameRole==NAVIGATOR) {
+    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav1"  );
+    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav3",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav3"  );
+    }
+    if (gameRole==ENGINEER) {
+    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav1"  );
+    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav2",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav2"  );
+    }
+
+
+
 
     // Left
     CEGUI::FrameWindow *left        = guiManager->addStaticImagePix("Left",         0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "Left",        "Main"  );
@@ -47,6 +60,12 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     if(gameRole==NAVIGATOR)
     CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightNav",    "Main"  );
 
+    // Status Box
+
+    status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","status"));
+    guiManager->getRootWindow()->addChildWindow(status);
+    status->setSize(CEGUI::UVector2(CEGUI::UDim(80 * wpixel,0),CEGUI::UDim(20 * hpixel,0)));             //
+    status->setPosition(CEGUI::UVector2(CEGUI::UDim(233 * wpixel,0),CEGUI::UDim(1 - 253 * hpixel,0)));     // 240,10 to 310, 25
 
     // Progress Bars
 
@@ -111,6 +130,10 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     // shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+}
+
+void HUD::setStatus(std::string stat) {
+    status->setText(stat);
 }
 
 void HUD::setShields(float yeah) {

@@ -31,6 +31,7 @@
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />
     <FalagardMapping WindowType="BlackComrade/Crewav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav1" />
     <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
+    <FalagardMapping WindowType="BlackComrade/Crewav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav3" />
 
     <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
     <FalagardMapping WindowType="BlackComrade/RightPil" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightPil" />
@@ -45,6 +46,8 @@
 	<FalagardMapping WindowType="BlackComrade/Titlebar"     TargetType="CEGUI/Titlebar"    Renderer="Falagard/Titlebar"     LookNFeel="BlackComrade/Titlebar" />
 	<FalagardMapping WindowType="BlackComrade/SystemButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button" LookNFeel="BlackComrade/Button" />
 	<FalagardMapping WindowType="BlackComrade/Editbox"          TargetType="CEGUI/Editbox"          Renderer="Falagard/Editbox"          LookNFeel="BlackComrade/Editbox" />
+	<FalagardMapping WindowType="BlackComrade/IEditbox"          TargetType="CEGUI/Editbox"          Renderer="Falagard/Editbox"          LookNFeel="BlackComrade/IEditbox" />
+
 	<FalagardMapping WindowType="BlackComrade/MultiLineEditbox" TargetType="CEGUI/MultiLineEditbox" Renderer="Falagard/MultiLineEditbox" LookNFeel="BlackComrade/MultiLineEditbox" />
 	<FalagardMapping WindowType="BlackComrade/Menubar"   TargetType="CEGUI/Menubar"   Renderer="Falagard/Menubar"   LookNFeel="BlackComrade/Menubar" />
 	<FalagardMapping WindowType="BlackComrade/PopupMenu" TargetType="CEGUI/PopupMenu" Renderer="Falagard/PopupMenu" LookNFeel="BlackComrade/PopupMenu" />
