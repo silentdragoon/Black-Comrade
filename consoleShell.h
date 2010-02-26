@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "IConsoleInputReceiver.h"
 #include "IMiniGame.h"
 #include "ITickable.h"
@@ -24,16 +25,19 @@ class ConsoleShell : public IConsoleInputReceiver
 
         std::string defaultPrompt;
         std::string command;
+        std::vector<std::string> commands;
+        int commandIndex;
 
         void processCommand();
         
-    public:       
+    public:
         void tick();
         IMiniGame* getGameToPlay();
 
         void alphaNumKeyPressed (const OIS::KeyEvent &arg);
         void backspaceKeyPressed();
         void returnKeyPressed();
+        void otherKeyPressed (const OIS::KeyEvent &arg);
 
         void showPrompt();
     

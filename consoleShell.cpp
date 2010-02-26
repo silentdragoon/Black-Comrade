@@ -4,6 +4,7 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState)
     : console(console)
     , inputState(inputState)
     , command("")
+    , commandIndex(0)
     , defaultPrompt(">> ")
     , gameToPlay(NULL)
 {
@@ -24,8 +25,10 @@ void ConsoleShell::processCommand() {
     boost::algorithm::trim(command);
     if (command == "") return;
     
+    commands.push_back(command);
     if (command == "help") {
-        console->appendLine("repair");
+        console->appendLine("Available commands:");
+        console->appendLine(" repair	Launches BlackComrade System Repair");
     } else if (command == "repair" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState);
     } else {
@@ -33,6 +36,7 @@ void ConsoleShell::processCommand() {
         console->appendLine(command);
     }
     command = "";
+    commandIndex = commands.size() - 1;
 }
 
 void ConsoleShell::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
@@ -53,6 +57,15 @@ void ConsoleShell::returnKeyPressed() {
     console->clearPrompt();
     console->appendToPrompt(defaultPrompt);
     processCommand();
+}
+
+void ConsoleShell::otherKeyPressed (const OIS::KeyEvent &arg) {
+    if (arg.key == OIS::KC_UP && commands.size() > 0) {
+        showPrompt();
+        command = commands.at(commandIndex);
+        console->appendToPrompt(command);
+        if (commandIndex > 0) commandIndex -= 1;
+    }
 }
 
 void ConsoleShell::showPrompt() {
