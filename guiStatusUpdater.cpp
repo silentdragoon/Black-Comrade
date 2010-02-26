@@ -20,7 +20,7 @@ void GuiStatusUpdater::tick() {
     std::stringstream out;
     out << "Slack: " << slack << "ms";
     s = out.str();
-    guiMgr->setStatus(s);
+    hud->setStatus(s);
 
     // Deal with the damage of various systems
     float shieldHealth = (float)(damageState->getShieldHealth()/100.0);
