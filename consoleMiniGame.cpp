@@ -5,23 +5,20 @@ ConsoleMiniGame::ConsoleMiniGame(Console *console, InputState *inputState)
     , inputState(inputState)
     , isEnd(false)
     , command("")
+    , defaultPrompt(">> ")
     , score(0)
 {
-    console->setVisible(true);
     console->appendLine("---------------------------------------");
-    console->appendLine("BlackComrade System Repair v0.5 (beta)");
+    console->appendLine("BlackComrade Ship System v0.5 (beta)");
     console->appendLine("---------------------------------------");
+    console->appendLine("Type 'help' for a list of available commands");
+    console->appendToPrompt(defaultPrompt);
 }
 
 void ConsoleMiniGame:: tick() {
     if(inputState->isKeyDown(OIS::KC_0)) {
         console->appendLine("Score");
         score = score + 1;
-    }
-    if(inputState->isKeyDown(OIS::KC_F2)) {
-        isEnd = true;
-        console->appendLine("");
-        console->setVisible(false);
     }
 }
 
@@ -32,9 +29,7 @@ int ConsoleMiniGame::getScore() {
 }
 
 void ConsoleMiniGame::processCommand() {
-    boost::algorithm::trim(command);
-    if (command == "") return;
-    if (command == "dir" || command == "ls") {
+    if (command == "help") {
         console->appendLine("repair");
     } else if (command == "cd repair") {
     } else if (command == "sudo repairbot activate") {
@@ -46,30 +41,26 @@ void ConsoleMiniGame::processCommand() {
     command = "";
 }
 
-void ConsoleMiniGame::keyPressed (const OIS::KeyEvent &arg) {
+void ConsoleMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
+    command += arg.text;
+    console->appendToPrompt(arg.text);
+}
 
-    if (arg.key == OIS::KC_RETURN) {
-        console->returnKeyPrompt();
-        processCommand();
-        return;
-    } else if (arg.key == OIS::KC_BACK) {
-        console->backSpacePrompt();
-        if(command.size()>0) {
-            command=command.substr(0,command.length()-1);
-        }
-        return;
-    } else if (arg.text == 0) {
-        return;
-    }
+void ConsoleMiniGame::backspaceKeyPressed () {
+    if (command.length() == 0) return;
+    command = command.substr(0,command.length() -1);
+    console->backSpacePrompt();
+}
 
-    char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
-    for(int c=0;c<sizeof(legalchars);c++){
-        if(legalchars[c]==arg.text){
-            console->appendToPrompt(arg.text);
-            command += arg.text;
-            break;
-        }
-    }
+void ConsoleMiniGame::returnKeyPressed() {
+    boost::algorithm::trim(command);
+    if (command == "") return;
+    console->clearPrompt();
+    std::string toAdd = defaultPrompt;
+    toAdd += command;
+    console->appendLine(toAdd);
+    processCommand();
+    console->appendToPrompt(defaultPrompt);
 }
 
 ConsoleMiniGame::~ConsoleMiniGame() {}

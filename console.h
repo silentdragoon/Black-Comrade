@@ -33,6 +33,8 @@ class Console : public ITickable
         ~Console();
 
         void tick();
+
+        bool getVisible();
         void setVisible(bool visible);
 
         void appendLine(std::string s);

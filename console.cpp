@@ -4,7 +4,7 @@ Console::Console(SceneManager *sceneMgr) :
     sceneMgr(sceneMgr),
     rollTick(0),
     isVisible(false),
-    prompt(">> ")
+    prompt("")
 {
     lines = new std::list<std::string>();
     height=0;
@@ -67,6 +67,8 @@ void Console::tick() {
     }
 }
 
+bool Console::getVisible() { return isVisible; }
+
 void Console::setVisible(bool visible) {
     isVisible = visible;
 }
@@ -102,17 +104,17 @@ void Console::appendToPrompt(char c) {
 void Console::returnKeyPrompt() {
     // Clears the prompt buffer thing and appends to command history
     appendLine(prompt);
-    prompt=">> ";
+    prompt="";
 }
 
 void Console::backSpacePrompt() {
-    if(prompt.size()>3) {
+    if(prompt.size()>0) {
         prompt=prompt.substr(0,prompt.length()-1);
     }
 }
 
 void Console::clearPrompt() {
-    prompt = prompt.substr(0,3);
+    prompt = "";
 }
 
 void Console::appendLine(std::string s) {

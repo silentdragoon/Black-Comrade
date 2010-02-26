@@ -16,6 +16,7 @@ class ConsoleMiniGame : public IMiniGame
         InputState *inputState;
         Console *console;
 
+        std::string defaultPrompt;
         std::string command;
 
         bool isEnd;
@@ -30,7 +31,9 @@ class ConsoleMiniGame : public IMiniGame
     
         Overlay *getOverlay();
 
-        void keyPressed (const OIS::KeyEvent &arg);
+        void alphaNumKeyPressed (const OIS::KeyEvent &arg);
+        void backspaceKeyPressed();
+        void returnKeyPressed();
     
         ConsoleMiniGame(Console *console, InputState *inputState);
         ~ConsoleMiniGame();

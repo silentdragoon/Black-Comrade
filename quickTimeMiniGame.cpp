@@ -8,7 +8,7 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
     , ticks(0)
     , begin(false)
 {
-    console->setVisible(true);
+    //console->setVisible(true);
     console->appendLine("========================================");
     console->appendLine("Repairbot Quick Task Helper v0.78 (beta)");
     console->appendLine("========================================");
@@ -93,7 +93,7 @@ void QuickTimeMiniGame::tick() {
 
         if(ticks>1320) {
             isEnd = true;
-            console->setVisible(false);
+            //console->setVisible(false);
         }
     }
 
@@ -104,7 +104,7 @@ void QuickTimeMiniGame::tick() {
     if(inputState->isKeyDown(OIS::KC_F2)) {
         isEnd = true;
         console->appendLine("");
-        console->setVisible(false);
+        //console->setVisible(false);
     }
 }
 
