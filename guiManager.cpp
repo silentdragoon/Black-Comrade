@@ -320,7 +320,7 @@ CEGUI::FrameWindow* GuiManager::buildMiniMap() {
     return minimap;
 }
 
-CEGUI::FrameWindow *GuiManager::addStaticImage(char *name, float xCenter, float yCenter,
+CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName)
 {
@@ -385,7 +385,7 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(char *name, float xCenter, float 
 
 }
 
-CEGUI::FrameWindow *GuiManager::addStaticImagePix(char *name, float xCenter, float yCenter,
+CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName)
 {

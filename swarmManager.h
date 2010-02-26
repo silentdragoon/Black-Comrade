@@ -56,6 +56,8 @@ class SwarmManager : public ITickable
 
         std::vector<Enemy*> getAllEnemies();
         std::vector<Enemy*> getReplicatedEnemies();
+        
+        std::vector<Swarm*> getAllSwarms();
 
         virtual void tick();
 

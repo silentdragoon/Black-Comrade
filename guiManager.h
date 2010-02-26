@@ -47,11 +47,11 @@ public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
     
-    CEGUI::FrameWindow *addStaticImage(char *name, float xCenter, float yCenter,
+    CEGUI::FrameWindow *addStaticImage(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
 
-    CEGUI::FrameWindow *addStaticImagePix(char *name, float xCenter, float yCenter,
+    CEGUI::FrameWindow *addStaticImagePix(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
     

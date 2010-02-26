@@ -235,7 +235,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Radar GUI
-    // radarGui = new RadarGui(guiMgr, shipState);
+    radarGui = new RadarGui(guiMgr, shipState, swarmMgr);
+    //gameLoop->addTickable(radarGui,"Radar");
 
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
