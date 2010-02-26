@@ -124,3 +124,9 @@ void Flying::tick()
     updatePosition();
     updateShipState();
 }
+
+double Flying::getSpeed()
+{
+    cout << "xVel: " << xVel << "yVel: " << yVel << endl;
+    return sqrt( xVel*xVel+yVel*yVel);
+}
