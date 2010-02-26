@@ -430,7 +430,124 @@
         <StateImagery name="DisabledBackground">
         </StateImagery>
     </WidgetLook>
-    
+
+    <WidgetLook name="BlackComrade/RightPil">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="50" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="50" />
+                    </Dim>
+                </Area>
+                <Image imageset="Radar" image="background" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+    <WidgetLook name="BlackComrade/RightNav">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="50" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="50" />
+                    </Dim>
+                </Area>
+                <Image imageset="Radar" image="background" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
+    <WidgetLook name="BlackComrade/RightEng">
+        <ImagerySection name="enabled_imagery">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <AbsoluteDim value="0" />
+                    </Dim>
+                    <Dim type="Width">
+                    	<AbsoluteDim value="50" />
+                    </Dim>  
+                    <Dim type="Height">
+                    	<AbsoluteDim value="50" />
+                    </Dim>
+                </Area>
+                <Image imageset="Radar" image="background" />
+                <VertFormat type="centre" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="enabled_imagery">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+        </StateImagery>
+        <StateImagery name="EnabledBackground">
+        </StateImagery>
+        <StateImagery name="DisabledBackground">
+        </StateImagery>
+    </WidgetLook>
+
     <!--
     ***************************************************
         BlackComrade/Button
@@ -1508,9 +1625,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="TaharezLook" image="ProgressBarLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="ProgressBarRight" />
-                <Image type="Background" imageset="TaharezLook" image="ProgressBarMiddle" />
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
                 <HorzFormat type="Tiled" />
             </FrameComponent>
         </ImagerySection>
@@ -1552,6 +1669,341 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
+
+
+    <!--
+    ***************************************************
+        BlackComrade/VProgressBarWep
+    ***************************************************
+    -->
+    <WidgetLook name="BlackComrade/VProgressBarWep">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                        <DimOperator op="Divide">
+                            <AbsoluteDim value="2" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                                <DimOperator op="Divide">
+                                    <AbsoluteDim value="2" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="VertMenu" image="WepRed" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
+    <!--
+    ***************************************************
+        BlackComrade/VProgressBarShe
+    ***************************************************
+    -->
+    <WidgetLook name="BlackComrade/VProgressBarShe">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                        <DimOperator op="Divide">
+                            <AbsoluteDim value="2" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                                <DimOperator op="Divide">
+                                    <AbsoluteDim value="2" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="VertMenu" image="SheLime" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
+    <!--
+    ***************************************************
+        BlackComrade/VProgressBarSen
+    ***************************************************
+    -->
+    <WidgetLook name="BlackComrade/VProgressBarSen">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                        <DimOperator op="Divide">
+                            <AbsoluteDim value="2" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                                <DimOperator op="Divide">
+                                    <AbsoluteDim value="2" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="VertMenu" image="SenTeal" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
+
+    <!--
+    ***************************************************
+        BlackComrade/VProgressBarEng
+    ***************************************************
+    -->
+    <WidgetLook name="BlackComrade/VProgressBarEng">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                        <DimOperator op="Divide">
+                            <AbsoluteDim value="2" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="VertMenu" image="X" dimension="Width">
+                                <DimOperator op="Divide">
+                                    <AbsoluteDim value="2" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="VertMenu" image="EngBlu" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
 
 <!--
     ***************************************************
@@ -1762,9 +2214,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="TaharezLook" image="ProgressBarLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="ProgressBarRight" />
-                <Image type="Background" imageset="TaharezLook" image="ProgressBarMiddle" />
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
                 <HorzFormat type="Tiled" />
             </FrameComponent>
         </ImagerySection>
@@ -1845,9 +2297,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="TaharezLook" image="ProgressBarLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="ProgressBarRight" />
-                <Image type="Background" imageset="TaharezLook" image="ProgressBarMiddle" />
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
                 <HorzFormat type="Tiled" />
             </FrameComponent>
         </ImagerySection>
@@ -1929,9 +2381,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="TaharezLook" image="ProgressBarLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="ProgressBarRight" />
-                <Image type="Background" imageset="TaharezLook" image="ProgressBarMiddle" />
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
                 <HorzFormat type="Tiled" />
             </FrameComponent>
         </ImagerySection>
@@ -2012,9 +2464,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="TaharezLook" image="ProgressBarLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="ProgressBarRight" />
-                <Image type="Background" imageset="TaharezLook" image="ProgressBarMiddle" />
+                <Image type="LeftEdge" imageset="VertMenu" image="X" />
+                <Image type="RightEdge" imageset="VertMenu" image="X" />
+                <Image type="Background" imageset="VertMenu" image="X" />
                 <HorzFormat type="Tiled" />
             </FrameComponent>
         </ImagerySection>

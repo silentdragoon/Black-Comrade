@@ -19,21 +19,6 @@ private:
     CEGUI::Editbox *status;
     CEGUI::FrameWindow *fullmap;
     CEGUI::FrameWindow *minimap;
-    CEGUI::ProgressBar *shields;
-    CEGUI::ProgressBar *sensors;
-    CEGUI::ProgressBar *weapons;
-    CEGUI::ProgressBar *engine;
-    CEGUI::ProgressBar *hull;
-    CEGUI::FrameWindow *shieldText;
-    CEGUI::FrameWindow *sensorText;
-    CEGUI::FrameWindow *weaponText;
-    CEGUI::FrameWindow *engineText;
-    CEGUI::FrameWindow *hullText;
-    CEGUI::ProgressBar *shieldRate;
-    CEGUI::ProgressBar *sensorRate;
-    CEGUI::ProgressBar *weaponRate;
-    CEGUI::ProgressBar *engineRate;
-    CEGUI::ProgressBar *weaponCharge;
     int prevX;
     int prevY;
 
@@ -46,7 +31,7 @@ private:
 public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
     ~GuiManager();
-    
+
     CEGUI::FrameWindow *addStaticImage(char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
@@ -54,23 +39,11 @@ public:
     CEGUI::FrameWindow *addStaticImagePix(char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
-    
     void setStatus(std::string stat);
-
-    void setShieldText(string mess);
-    void setSensorText(string mess);
-    void setWeaponText(string mess);
-    void setEngineText(string mess);
-    void setHullText(string mess);
 
     void toggleMap(bool tog);
     void updateMiniMap();
-    void setShieldRate(float yeah);
-    void setSensorRate(float yeah);
-    void setWeaponRate(float yeah);
-    void setEngineRate(float yeah);
-    void setWeaponCharge(float yeah);
-    
+
     CEGUI::Window *getRootWindow();
 };
 
