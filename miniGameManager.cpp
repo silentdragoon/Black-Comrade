@@ -10,7 +10,10 @@ MiniGameManager::MiniGameManager(Console *console,
     , inputReceiver(NULL)
     , playerControls(playerControls)
     , sceneManager(sceneManager)
-{}
+{
+    consoleShell = new ConsoleShell(console,inputState);
+    inputReceiver = consoleShell;
+}
 
 void MiniGameManager::tick()
 {
@@ -22,13 +25,11 @@ void MiniGameManager::tick()
     } else {
         if (inputState->isKeyDown(OIS::KC_F1)) {
             setConsoleState(true);
-            currentMiniGame = new QuickTimeMiniGame(console,inputState);
-            console->clearPrompt();
-            inputReceiver = currentMiniGame;
         } else { return; }
     }
 
     if (currentMiniGame != NULL) {
+        inputReceiver = currentMiniGame;
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
             std::cout << "Ended minigame with score "
@@ -36,8 +37,16 @@ void MiniGameManager::tick()
                       << std::endl;
             delete currentMiniGame;
             currentMiniGame = NULL;
-            inputReceiver = NULL;
+            inputReceiver = consoleShell;
+            consoleShell->showPrompt();
         }
+    } else {
+        IMiniGame *gameToPlay = consoleShell->getGameToPlay();
+        if (gameToPlay != NULL) {
+            currentMiniGame = gameToPlay;
+            console->clearPrompt();
+        }
+        consoleShell->tick();
     }
 }
 
@@ -66,7 +75,6 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
     char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
     for(int c=0;c<sizeof(legalchars);c++){
         if(legalchars[c]==arg.text){
-            std::cout << arg.text << std::endl;
             inputReceiver->alphaNumKeyPressed(arg);
             break;
         }

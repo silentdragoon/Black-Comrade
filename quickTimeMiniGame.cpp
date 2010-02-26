@@ -97,10 +97,6 @@ void QuickTimeMiniGame::tick() {
         }
     }
 
-    if(inputState->isKeyDown(OIS::KC_RETURN)) {
-        begin = true; 
-    }
-
     if(inputState->isKeyDown(OIS::KC_F2)) {
         isEnd = true;
         console->appendLine("");
@@ -109,6 +105,10 @@ void QuickTimeMiniGame::tick() {
 }
 
 bool QuickTimeMiniGame::end() { return isEnd; }
+
+void QuickTimeMiniGame::returnKeyPressed() {
+    begin = true; 
+}
 
 int QuickTimeMiniGame::getScore() { return score; }
 

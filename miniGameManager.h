@@ -11,7 +11,7 @@
 #include "IMiniGame.h"
 #include "IConsoleInputReceiver.h"
 #include "console.h"
-#include "consoleMiniGame.h"
+#include "consoleShell.h"
 #include "quickTimeMiniGame.h"
 
 using namespace Ogre;
@@ -24,6 +24,7 @@ private:
     IConsoleInputReceiver *inputReceiver;
     SceneManager *sceneManager;
     Console *console;
+    ConsoleShell *consoleShell;
     
     IMiniGame *currentMiniGame;
 
