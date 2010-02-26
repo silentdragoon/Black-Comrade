@@ -10,6 +10,7 @@
 #include "damageState.h"
 #include "systemManager.h"
 
+
 using namespace Ogre;
 using namespace std;
 
@@ -63,6 +64,8 @@ class Flying : public ITickable
         Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions, double x, double y, double z);
 
         ~Flying();
+
+        double getSpeed();
 
         virtual void tick();
 };

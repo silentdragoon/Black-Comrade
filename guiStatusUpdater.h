@@ -10,6 +10,7 @@
 #include "systemManager.h"
 #include <sstream>
 #include "hud.h"
+#include "flying.h"
 
 class GuiStatusUpdater : public ITickable {
     private:
@@ -20,8 +21,9 @@ class GuiStatusUpdater : public ITickable {
         GameRole gameRole;
         SystemManager *systemManager;
         HUD *hud;
+        Flying *flying;
     public:
-        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger, HUD *hud);
+        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger, HUD *hud, Flying *flying);
         ~GuiStatusUpdater();
         virtual void tick();
 };

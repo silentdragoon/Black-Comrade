@@ -32,6 +32,8 @@ private:
     // CEGUI::ProgressBar *shieldCharge;
 
     CEGUI::Editbox *status;
+    CEGUI::Editbox *log;
+    CEGUI::Editbox *indicator;
 
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
@@ -43,6 +45,8 @@ public:
     ~HUD();
 
     void setStatus(std::string stat);
+    void setLog(std::string wang);
+    void setSpeedIndicator(std::string giraffe);
 
     void setShields(float yeah);
     void setSensors(float yeah);

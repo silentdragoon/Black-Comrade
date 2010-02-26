@@ -84,12 +84,12 @@ bool StateUpdate::tick()
         std::map<ITickable *,string>::const_iterator findname = names.find(t);
         string n = findname->second;
 
-        std::cout << n << ": ";
+        // std::cout << n << ": ";
         long t1 = timer.getMilliseconds();
         t->tick();
         long t2 = timer.getMilliseconds();
         long ticktime = t2-t1;
-        std::cout << ticktime << "\n";
+        // std::cout << ticktime << "\n";
     }
 
 	return running;

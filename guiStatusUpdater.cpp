@@ -1,26 +1,35 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
     navigatorControls(navigatorControls),
     gameRole(gameRole),
     systemManager(systemManager),
-    hud(hud)
+    hud(hud),
+    flying(flying)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
 
 void GuiStatusUpdater::tick() {
 
-    // Display the slack in the gmae time
+    // Display the slack in the game time
     long slack = stateUpdate->getSlack();
     std::string s;
     std::stringstream out;
     out << "Slack: " << slack << "ms";
     s = out.str();
     hud->setStatus(s);
+
+    double speed = flying->getSpeed();
+    speed = speed * 3.6 * 60;
+    std::string t;
+    std::stringstream outt;
+    outt << int(speed) << " KPH";
+    t = outt.str();
+    hud->setSpeedIndicator(t);
 
     // Deal with the damage of various systems
     float shieldHealth = (float)(damageState->getShieldHealth()/100.0);

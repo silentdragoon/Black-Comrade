@@ -60,12 +60,26 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     if(gameRole==NAVIGATOR)
     CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightNav",    "Main"  );
 
-    // Status Box
+    // Slack Box
 
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","status"));
     guiManager->getRootWindow()->addChildWindow(status);
-    status->setSize(CEGUI::UVector2(CEGUI::UDim(80 * wpixel,0),CEGUI::UDim(20 * hpixel,0)));             //
-    status->setPosition(CEGUI::UVector2(CEGUI::UDim(233 * wpixel,0),CEGUI::UDim(1 - 253 * hpixel,0)));     // 240,10 to 310, 25
+    status->setSize(CEGUI::UVector2(CEGUI::UDim(80 * wpixel,0),CEGUI::UDim(20 * hpixel,0)));
+    status->setPosition(CEGUI::UVector2(CEGUI::UDim(233 * wpixel,0),CEGUI::UDim(1 - 255 * hpixel,0)));
+
+    // Transmission Log
+
+    log = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","log"));
+    guiManager->getRootWindow()->addChildWindow(log);
+    log->setSize(CEGUI::UVector2(CEGUI::UDim(300 * wpixel,0),CEGUI::UDim(205 * hpixel,0)));
+    log->setPosition(CEGUI::UVector2(CEGUI::UDim(9 * wpixel,0),CEGUI::UDim(1 - 218 * hpixel,0)));
+
+    // Speed Indicator
+
+    indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
+    guiManager->getRootWindow()->addChildWindow(indicator);
+    indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+    indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
 
     // Progress Bars
 
@@ -134,6 +148,14 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
 
 void HUD::setStatus(std::string stat) {
     status->setText(stat);
+}
+
+void HUD::setLog(std::string wang) {
+    log->setText(wang);
+}
+
+void HUD::setSpeedIndicator(std::string giraffe) {
+    indicator->setText(giraffe);
 }
 
 void HUD::setShields(float yeah) {
