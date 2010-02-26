@@ -142,13 +142,14 @@ void RadarGui::tick()
             
         }
     }
-    
-    if(radarWindow) {
+
+    if(radarWindow != NULL) {
         guiManager->getRootWindow()->removeChildWindow(radarWindow);
-        cout << "Removed Window\n";
+        guiMgr->destroyWindow(radarWindow);
     }
-    
-    cout << "Create Window\n";
+
+    guiMgr = CEGUI::WindowManager::getSingletonPtr();
+
     radarWindow = createWindow(&positions);
     guiManager->getRootWindow()->addChildWindow(radarWindow);
 }
