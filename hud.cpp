@@ -64,8 +64,8 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
 
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","status"));
     guiManager->getRootWindow()->addChildWindow(status);
-    status->setSize(CEGUI::UVector2(CEGUI::UDim(70 * wpixel,0),CEGUI::UDim(15 * hpixel,0)));             //
-    status->setPosition(CEGUI::UVector2(CEGUI::UDim(240 * wpixel,0),CEGUI::UDim(1 - 253 * hpixel,0)));     // 240,10 to 310, 25
+    status->setSize(CEGUI::UVector2(CEGUI::UDim(80 * wpixel,0),CEGUI::UDim(20 * hpixel,0)));             //
+    status->setPosition(CEGUI::UVector2(CEGUI::UDim(233 * wpixel,0),CEGUI::UDim(1 - 253 * hpixel,0)));     // 240,10 to 310, 25
 
     // Progress Bars
 

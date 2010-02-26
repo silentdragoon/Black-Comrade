@@ -571,10 +571,10 @@
         <Property name="MouseCursorImage" value="set:TaharezLook image:MouseTextBar" />
         <NamedArea name="TextArea">
             <Area>
-                <Dim type="LeftEdge" ><AbsoluteDim value="5" /></Dim>
-                <Dim type="TopEdge" ><AbsoluteDim value="5" /></Dim>
-                <Dim type="RightEdge" ><UnifiedDim scale="1.0" offset="-5" type="RightEdge" /></Dim>
-                <Dim type="BottomEdge" ><UnifiedDim scale="1.0" offset="-5" type="BottomEdge" /></Dim>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1.0" offset="0" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1.0" offset="0" type="BottomEdge" /></Dim>
             </Area>
         </NamedArea>
         <ImagerySection name="container_normal">
