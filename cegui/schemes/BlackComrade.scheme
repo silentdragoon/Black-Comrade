@@ -10,6 +10,10 @@
     <Imageset Filename="Crew.xml" />
     <Imageset Filename="Left.xml" />
     <Imageset Filename="HorizMenu.xml" />
+    <Imageset Filename="RightPil.xml" />
+    <Imageset Filename="RightEng.xml" />
+    <Imageset Filename="RightNav.xml" />
+    <Imageset Filename="VertMenu.xml" />
 
 
     <Font Filename="DejaVuSans-6.font" />
@@ -29,8 +33,9 @@
     <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
 
     <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
-
-
+    <FalagardMapping WindowType="BlackComrade/RightPil" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightPil" />
+    <FalagardMapping WindowType="BlackComrade/RightEng" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightEng" />
+    <FalagardMapping WindowType="BlackComrade/RightNav" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightNav" />
 
     <FalagardMapping WindowType="BlackComrade/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="BlackComrade/Button" />
 	<FalagardMapping WindowType="BlackComrade/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="BlackComrade/Checkbox" />
@@ -52,6 +57,12 @@
     <FalagardMapping WindowType="BlackComrade/ProgressBarHul"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarHul" />
     <FalagardMapping WindowType="BlackComrade/ProgressBarSen"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarSen" />
     <FalagardMapping WindowType="BlackComrade/ProgressBarShe"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarShe" />
+
+    
+    <FalagardMapping WindowType="BlackComrade/VProgressBarWep"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VProgressBarWep" />
+    <FalagardMapping WindowType="BlackComrade/VProgressBarEng"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VProgressBarEng" />
+    <FalagardMapping WindowType="BlackComrade/VProgressBarSen"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VProgressBarSen" />
+    <FalagardMapping WindowType="BlackComrade/VProgressBarShe"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VProgressBarShe" />
 
 	<FalagardMapping WindowType="BlackComrade/VUMeter"              TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VUMeter" />
 	<FalagardMapping WindowType="BlackComrade/VerticalScrollbar"   TargetType="CEGUI/Scrollbar" Renderer="Falagard/Scrollbar" LookNFeel="BlackComrade/VerticalScrollbar" />

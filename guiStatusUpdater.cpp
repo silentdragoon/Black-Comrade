@@ -45,20 +45,23 @@ void GuiStatusUpdater::tick() {
     }
 
     // Updates the images on the minimap
-    guiMgr->updateMiniMap();
+    // guiMgr->updateMiniMap();
 
     // Update the state of the power system bars
-    if(gameRole==ENGINEER) {
+    // if(gameRole==ENGINEER) {
         float shieldRate = (float)(systemManager->getShieldRate());
         float weaponRate = (float)(systemManager->getWeaponRate());
         float sensorRate = (float)(systemManager->getSensorRate());
         float engineRate = (float)(systemManager->getEngineRate());
         float weaponCharge = (float)(systemManager->getWeaponCharge());
         
-        guiMgr->setShieldRate(shieldRate);
-        guiMgr->setSensorRate(sensorRate);
-        guiMgr->setWeaponRate(weaponRate);
-        guiMgr->setEngineRate(engineRate);
-        guiMgr->setWeaponCharge(weaponCharge/100.0);
-    }
+        hud->setShieldRate(shieldRate);
+        hud->setSensorRate(sensorRate);
+        hud->setWeaponRate(weaponRate);
+        hud->setEngineRate(engineRate);
+        hud->setWeaponCharge(weaponCharge/100.0);
+
+
+    // }
+
 }
