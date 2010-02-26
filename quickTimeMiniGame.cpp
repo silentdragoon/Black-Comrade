@@ -8,7 +8,6 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
     , ticks(0)
     , begin(false)
 {
-    //console->setVisible(true);
     console->appendLine("========================================");
     console->appendLine("Repairbot Quick Task Helper v0.78 (beta)");
     console->appendLine("========================================");
@@ -18,6 +17,7 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
     console->appendLine("r: Reboot bot");
     console->appendLine("o: Override safeties");
     console->appendLine("s: Self repair");
+    console->appendLine("q: Quit");
     console->appendLine("");
     console->appendLine("Enter to begin repairs...");
     saveTick = 0;
@@ -82,6 +82,7 @@ void QuickTimeMiniGame::tick() {
             if(inputState->isKeyDown(OIS::KC_R)&&(broke==2)) win=true;
             if(inputState->isKeyDown(OIS::KC_O)&&(broke==3)) win=true;
             if(inputState->isKeyDown(OIS::KC_S)&&(broke==4)) win=true;
+            
             if(win) {
                 broke=0;
                 score++;
@@ -93,15 +94,9 @@ void QuickTimeMiniGame::tick() {
 
         if(ticks>1320) {
             isEnd = true;
-            //console->setVisible(false);
         }
     }
-
-    if(inputState->isKeyDown(OIS::KC_F2)) {
-        isEnd = true;
-        console->appendLine("");
-        //console->setVisible(false);
-    }
+    if(inputState->isKeyDown(OIS::KC_Q)) isEnd=true;
 }
 
 bool QuickTimeMiniGame::end() { return isEnd; }
