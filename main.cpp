@@ -231,7 +231,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // CEGUI Stuff
     guiMgr = new GuiManager(mapMgr,shipState);
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole());
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,collabInfo->getGameRole(),systemManager,hud,flying);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
+                                            collabInfo->getGameRole(),systemManager,hud,
+                                            flying,notificationMgr);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     // Radar GUI

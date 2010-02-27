@@ -1,6 +1,6 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -8,7 +8,8 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, 
     gameRole(gameRole),
     systemManager(systemManager),
     hud(hud),
-    flying(flying)
+    flying(flying),
+    notificationMgr(notificationMgr)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -72,5 +73,14 @@ void GuiStatusUpdater::tick() {
 
 
     // }
+
+    // Update transmission log
+
+    if (notificationMgr->hasNewNotification()) {
+        Notification *notification = notificationMgr->getCurrentNotification();
+        if (notification->getType() != NT_NONE) {
+            hud->setLog(notification->getConsoleText());
+        }
+    }
 
 }
