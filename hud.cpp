@@ -69,10 +69,11 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
 
     // Transmission Log
 
-    log = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","log"));
+    log = static_cast<CEGUI::MultiLineEditbox*>(guiMgr->createWindow("BlackComrade/MultiLineEditbox","log"));
     guiManager->getRootWindow()->addChildWindow(log);
     log->setSize(CEGUI::UVector2(CEGUI::UDim(300 * wpixel,0),CEGUI::UDim(205 * hpixel,0)));
     log->setPosition(CEGUI::UVector2(CEGUI::UDim(9 * wpixel,0),CEGUI::UDim(1 - 218 * hpixel,0)));
+    log->setWordWrapping(true);
 
     // Speed Indicator
 
@@ -151,7 +152,13 @@ void HUD::setStatus(std::string stat) {
 }
 
 void HUD::setLog(std::string wang) {
-    log->setText(wang);
+    if (wang == "") return;
+    std::string newLog = log->getText().c_str();
+    newLog += wang;
+    newLog += '\n';
+    log->setText(newLog);
+    log->setCaratIndex(log->getText().size() - 1);
+    log->ensureCaratIsVisible();
 }
 
 void HUD::setSpeedIndicator(std::string giraffe) {

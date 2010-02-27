@@ -103,29 +103,29 @@ void NotificationManager::prepareNotification() {
     int soundLength = 0;
     switch(nextType) {
         case NT_CONTROLS:
-            consoleText << "----------> Here's a reminder of your " << collabInfo->getGameRoleString()
+            consoleText << "Here's a reminder of your " << collabInfo->getGameRoleString()
                       << " controls, " << collabInfo->getNick() << std::endl;
             break;
         case NT_UNDER_ATTACK:
-            consoleText << "----------> They're coming for us! You may want to increase shield and weapon power..." << std::endl;
+            consoleText << "They're coming for us! You may want to increase shield and weapon power..." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
-            consoleText << "----------> Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
+            consoleText << "Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
             break;
         case NT_WEAPONS_CRITICAL:
-            consoleText << "----------> Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
+            consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
-            consoleText << "----------> The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
+            consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
         case NT_COMMENT_ONE:
-            consoleText << "----------> Random comment 1." << std::endl;
+            consoleText << "Random comment 1." << std::endl;
             break;
         case NT_COMMENT_TWO:
-            consoleText << "----------> Random comment 2." << std::endl;
+            consoleText << "Random comment 2." << std::endl;
             break;
         case NT_COMMENT_THREE:
-            consoleText << "----------> Random comment 3." << std::endl;
+            consoleText << "Random comment 3." << std::endl;
             break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);

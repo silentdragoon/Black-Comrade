@@ -32,7 +32,7 @@ private:
     // CEGUI::ProgressBar *shieldCharge;
 
     CEGUI::Editbox *status;
-    CEGUI::Editbox *log;
+    CEGUI::MultiLineEditbox *log;
     CEGUI::Editbox *indicator;
 
     CEGUI::WindowManager *guiMgr;
