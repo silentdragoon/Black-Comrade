@@ -26,8 +26,8 @@ Console::Console(SceneManager *sceneMgr) :
     textbox->setMetricsMode(GMM_RELATIVE);
     textbox->setPosition(0.005,0);
     textbox->setParameter("font_name","Console");
-    textbox->setParameter("colour_top","0 0 0");
-    textbox->setParameter("colour_bottom","0 0 0");
+    textbox->setParameter("colour_top","0.85 0.85 0.85");
+    textbox->setParameter("colour_bottom","0.85 0.85 0.85");
     textbox->setParameter("char_height","0.02");
 
     panel->addChild(textbox);
