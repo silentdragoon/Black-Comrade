@@ -57,7 +57,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
-    gameLoop->addTickable(damageState, "damageState");
+    
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
@@ -225,8 +225,27 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
+    gameLoop->addTickable(cons,"console");
+
+
+    // Minigame manager
+    IPlayerControls *myControls;
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;   
+    }
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
     // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
+
+    gameLoop->addTickable(damageState, "damageState");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
@@ -256,21 +275,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     radarGui = new RadarGui(guiMgr, shipState, swarmMgr);
     //gameLoop->addTickable(radarGui,"Radar");
 
-    // TODO: Console test area needs fiddling
-    cons = new Console(sceneMgr);
-    gameLoop->addTickable(cons,"console");
-
-    // Minigame manager
-    IPlayerControls *myControls;
-    if (collabInfo->getGameRole() == PILOT) {
-        myControls = pilotControls;
-    } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        myControls = navigatorControls;
-    } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;   
-    }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
-    gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
     

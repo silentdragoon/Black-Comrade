@@ -125,17 +125,12 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
 }
 
 void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    double temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < shieldHealth) shieldHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < sensorHealth) sensorHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < weaponHealth) weaponHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < engineHealth) engineHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < hullHealth) hullHealth = temp;
+
+    deserializeParameters->serializationBitstream[0].Read(shieldHealth);
+    deserializeParameters->serializationBitstream[0].Read(sensorHealth);
+    deserializeParameters->serializationBitstream[0].Read(weaponHealth);
+    deserializeParameters->serializationBitstream[0].Read(engineHealth);
+    deserializeParameters->serializationBitstream[0].Read(hullHealth);
 
     bool isDamaged2 = false;
     deserializeParameters->serializationBitstream[0].Read(isDamaged2);
