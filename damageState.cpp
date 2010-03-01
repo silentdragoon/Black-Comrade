@@ -10,10 +10,43 @@ DamageState::DamageState()
     , engineHealth(100.0)
     , hullHealth(100.0)
     , isDamaged(false)
+    , pilotInfo(0)
+    , engineerInfo(0)
+    , navigatorInfo(0)
+{}
+
+DamageState::DamageState(CollaborationInfo *pilotInfo,
+                         CollaborationInfo *engineerInfo,
+                         CollaborationInfo *navigatorInfo)
+    : shieldHealth(100.0)
+    , sensorHealth(100.0)
+    , weaponHealth(100.0)
+    , engineHealth(100.0)
+    , hullHealth(100.0)
+    , isDamaged(false)
+    , pilotInfo(pilotInfo)
+    , engineerInfo(pilotInfo)
+    , navigatorInfo(pilotInfo)
 {}
 
 void DamageState::tick() {
     isDamaged = false;
+    if (pilotInfo == 0) return;
+
+    checkForRepairs(pilotInfo);
+    checkForRepairs(engineerInfo);
+    checkForRepairs(navigatorInfo);
+}
+
+void DamageState::checkForRepairs(CollaborationInfo *repairer) {
+    ShipSystem toRepair = repairer->toRepair;
+
+    switch(toRepair) {
+        case(SS_NONE):
+            return;
+        case(SS_SHIELD_GENERATOR):
+            repairShieldGenerator(repairer->repairAmount);
+    }
 }
 
 double DamageState::getShieldHealth() { return shieldHealth; }
@@ -71,6 +104,11 @@ void DamageState::damage(double multiplier) {
     }
 
     isDamaged = true;
+}
+
+void DamageState::repairShieldGenerator(int amount) {
+    shieldHealth += amount;
+    if (shieldHealth > 100) shieldHealth = 100;
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}

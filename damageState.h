@@ -8,7 +8,9 @@
 
 // include Raknet classes
 #include "replicaObject.h"
+#include "collaborationInfo.h"
 #include "ReplicaManager3.h"
+#include "shipSystem.h"
 #include <math.h>
 #include <string>
 #include <cstdlib>
@@ -25,14 +27,23 @@ private:
     double engineHealth;
     double hullHealth;
 
+    CollaborationInfo *pilotInfo;
+    CollaborationInfo *engineerInfo;
+    CollaborationInfo *navigatorInfo;
+
+    void checkForRepairs(CollaborationInfo *repairer);
+
 public:
-   
+
+    DamageState(CollaborationInfo *pilotInfo,CollaborationInfo *engineerInfo,CollaborationInfo *navigatorInfo);
     DamageState();
 
     void print();
     void tick();
     void damage();
     void damage(double multiplier);
+
+    void repairShieldGenerator(int amount);
 
     double getShieldHealth();
     double getSensorHealth();

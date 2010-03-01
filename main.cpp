@@ -51,7 +51,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT) {
-        damageState = new DamageState();
+        damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
         networkingManager->replicate(damageState);
     } else {
         damageState =
@@ -269,7 +269,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     } else if (collabInfo->getGameRole() == ENGINEER) {
         myControls = engineerControls;   
     }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
