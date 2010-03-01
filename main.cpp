@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Other players' state
     networkingManager->replicate(collabInfo);
-    if (collabInfo->getGameRole() == PILOT) {
+    if (collabInfo->getGameRole() == PILOT && collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
         CollaborationInfo *engInfo = (CollaborationInfo *) networkingManager->getReplica("EngineerInfo",true);
         CollaborationInfo *navInfo = (CollaborationInfo *) networkingManager->getReplica("NavigatorInfo",true);
         std::cout << "Your engineer is " << engInfo->getNick() << std::endl;
