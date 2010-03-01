@@ -1,12 +1,14 @@
 #include "quickTimeMiniGame.h"
 
-QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
+QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
+                                     ShipSystem system)
     : console(console)
     , inputState(inputState)
     , isEnd(false)
     , score(0)
     , ticks(0)
     , begin(false)
+    , system(system)
 {
     console->appendLine("========================================");
     console->appendLine("Repairbot Quick Task Helper v0.78 (beta)");
@@ -24,7 +26,7 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
 }
 
 ShipSystem QuickTimeMiniGame::getSystem() {
-    return SS_SHIELD_GENERATOR;
+    return system;
 }
 
 void QuickTimeMiniGame::tick() {

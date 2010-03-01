@@ -44,6 +44,9 @@ public:
     void damage(double multiplier);
 
     void repairShieldGenerator(int amount);
+    void repairEngines(int amount);
+    void repairWeapons(int amount);
+    void repairSensors(int amount);
 
     double getShieldHealth();
     double getSensorHealth();

@@ -52,13 +52,13 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             repairShieldGenerator(repairer->repairAmount);
             break;
         case (SS_ENGINES):
-            //repairEngines(repairer->repairAmount);
+            repairEngines(repairer->repairAmount);
             break;
         case (SS_SENSORS):
-            //repairSensors(repairer->repairAmount);
+            repairSensors(repairer->repairAmount);
             break;
         case (SS_WEAPONS):
-            //repairWeapons(repairer->repairAmount);
+            repairWeapons(repairer->repairAmount);
             break;
     }
 
@@ -126,6 +126,21 @@ void DamageState::damage(double multiplier) {
 void DamageState::repairShieldGenerator(int amount) {
     shieldHealth += amount;
     if (shieldHealth > 100) shieldHealth = 100;
+}
+
+void DamageState::repairWeapons(int amount) {
+    weaponHealth += amount;
+    if (weaponHealth > 100) weaponHealth = 100;
+}
+
+void DamageState::repairSensors(int amount) {
+    sensorHealth += amount;
+    if (sensorHealth > 100) sensorHealth = 100;
+}
+
+void DamageState::repairEngines(int amount) {
+    engineHealth += amount;
+    if (engineHealth > 100) engineHealth = 100;
 }
 
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}

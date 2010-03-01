@@ -32,10 +32,19 @@ void ConsoleShell::processCommand() {
     commands.push_back(command);
     if (command == "help") {
         console->appendLine("Available commands:");
-        console->appendLine(" repair                Launches BlackComrade System Repair");
+        console->appendLine(" repair SYSNAME        Launches System Repair for the specified system");
         console->appendLine(" help                  Shows available commands");
     } else if (command == "repair" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState);
+        console->appendLine("Error: No target system specified.");
+        console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
+    } else if (command == "repair shieldgen" ) {
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SHIELD_GENERATOR);
+    } else if (command == "repair weapons" ) {
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_WEAPONS);
+    } else if (command == "repair sensors" ) {
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
+    } else if (command == "repair engines" ) {
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
     } else {
         command += ": command not found";
         console->appendLine(command);
