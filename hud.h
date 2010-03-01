@@ -19,6 +19,9 @@ private:
     float width;
     float height;
 
+    int prevX;
+    int prevY;
+
     CEGUI::ProgressBar *shields;
     CEGUI::ProgressBar *sensors;
     CEGUI::ProgressBar *weapons;

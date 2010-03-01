@@ -51,14 +51,14 @@ void GuiStatusUpdater::tick() {
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
         if(navigatorControls->isMap()) {
-            guiMgr->toggleMap(true);
+            hud->toggleMap(true);
         } else {
-            guiMgr->toggleMap(false);
+            hud->toggleMap(false);
         }
     }
 
     // Updates the images on the minimap
-    // guiMgr->updateMiniMap();
+    hud->updateMiniMap();
 
     // Update the state of the power system bars
     // if(gameRole==ENGINEER) {
