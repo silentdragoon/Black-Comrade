@@ -57,7 +57,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
-    
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);

@@ -25,17 +25,21 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
     , hullHealth(100.0)
     , isDamaged(false)
     , pilotInfo(pilotInfo)
-    , engineerInfo(pilotInfo)
-    , navigatorInfo(pilotInfo)
+    , engineerInfo(engineerInfo)
+    , navigatorInfo(navigatorInfo)
 {}
 
 void DamageState::tick() {
     isDamaged = false;
-    if (pilotInfo == 0) return;
-
-    checkForRepairs(pilotInfo);
-    checkForRepairs(engineerInfo);
-    checkForRepairs(navigatorInfo);
+    if (pilotInfo != 0) {
+        checkForRepairs(pilotInfo);
+    }
+    if (engineerInfo != 0) {
+        checkForRepairs(engineerInfo);
+    }
+    if (navigatorInfo != 0) {
+        checkForRepairs(navigatorInfo);
+    }
 }
 
 void DamageState::checkForRepairs(CollaborationInfo *repairer) {
@@ -46,7 +50,20 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             return;
         case(SS_SHIELD_GENERATOR):
             repairShieldGenerator(repairer->repairAmount);
+            break;
+        case (SS_ENGINES):
+            //repairEngines(repairer->repairAmount);
+            break;
+        case (SS_SENSORS):
+            //repairSensors(repairer->repairAmount);
+            break;
+        case (SS_WEAPONS):
+            //repairWeapons(repairer->repairAmount);
+            break;
     }
+
+    repairer->toRepair = SS_NONE;
+    repairer->repairAmount = 0;
 }
 
 double DamageState::getShieldHealth() { return shieldHealth; }
