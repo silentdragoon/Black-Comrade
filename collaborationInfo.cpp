@@ -5,7 +5,10 @@ using namespace std;
 CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameRole gameRole) :
     nick(nick),
     networkRole(networkRole),
-    gameRole(gameRole)
+    gameRole(gameRole),
+    toRepair(SS_NONE),
+    repairAmount(0),
+    killCount(0)
 {
 }
 
@@ -13,6 +16,9 @@ CollaborationInfo::CollaborationInfo()
     : networkRole(NO_NETWORK_ROLE)
     , gameRole(NO_GAME_ROLE)
     , nick("")
+    , toRepair(SS_NONE)
+    , repairAmount(0)
+    , killCount(0)
 {}
 
 string CollaborationInfo::getNick() { return nick; }
@@ -56,9 +62,14 @@ RakNet::RakString CollaborationInfo::GetName(void) const {
 }
 
 RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(toRepair);
+    serializeParameters->outputBitstream[0].Write(repairAmount);
+    serializeParameters->outputBitstream[0].Write(killCount);
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
 void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-
+    deserializeParameters->serializationBitstream[0].Read(toRepair);
+    deserializeParameters->serializationBitstream[0].Read(repairAmount);
+    deserializeParameters->serializationBitstream[0].Read(killCount);
 }
