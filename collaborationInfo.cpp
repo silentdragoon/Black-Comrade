@@ -36,12 +36,14 @@ string CollaborationInfo::getNetworkRoleString() {
 
 void CollaborationInfo::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {
     constructionBitstream->Write(gameRole);
-    //constructionBitstream->Write(nick);
+    constructionBitstream->Write(RakNet::RakString(nick.c_str()));
 }
 
 bool CollaborationInfo::DeserializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *sourceConnection) {
     constructionBitstream->Read(gameRole);
-    //constructionBitstream->Read(nick);
+    RakNet::RakString raknick;
+    constructionBitstream->Read(raknick);
+    nick = raknick.C_String();
     return true;
 }
 
