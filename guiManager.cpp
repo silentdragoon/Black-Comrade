@@ -27,7 +27,8 @@ GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
 
     // Set the scheme we want to use for skinning the gui and getting layouts and stuff
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
-    CEGUI::FontManager::getSingleton().create("DejaVuSans-6.font");
+    CEGUI::FontManager::getSingleton().create("DroidSansMono.font");
+    CEGUI::FontManager::getSingleton().create("DroidSansMono-big.font");
     CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
     CEGUI::ImagesetManager::getSingleton().create("Minimapnow.imageset");
     // CEGUI::ImagesetManager::getSingleton().create("Crosshair.xml");
