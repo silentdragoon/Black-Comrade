@@ -9,6 +9,7 @@ ButtonMashMiniGame::ButtonMashMiniGame(Console *console, InputState *inputState)
     , tickLimit(1000)
     , broke(0)
     , begin(false)
+    , isEnd(false)
 {
     console->appendLine("========================================");
     console->appendLine("Some other tool (beta)");
@@ -38,12 +39,17 @@ void ButtonMashMiniGame::returnKeyPressed() {
 void ButtonMashMiniGame::tick() {
     if (!begin) return;
     ticks++;
-    if (ticks > tickLimit) isEnd = true;
+    if (ticks > tickLimit) {
+        isEnd = true;
+        std::stringstream out;
+        out << "Final score: " << broke;
+        console->appendLine(out.str());
+    }
 
 }
 
 ShipSystem ButtonMashMiniGame::getSystem() {
-    return SS_ENGINES;
+    return SS_WEAPONS;
 }
 
 bool ButtonMashMiniGame::end() {
