@@ -24,13 +24,16 @@ void GuiStatusUpdater::tick() {
     s = out.str();
     hud->setStatus(s);
 
-    double speed = flying->getSpeed();
-    speed = speed * 3.6 * 60;
-    std::string t;
-    std::stringstream outt;
-    outt << int(speed) << " KPH";
-    t = outt.str();
-    hud->setSpeedIndicator(t);
+    // Ship speed
+    if(gameRole==PILOT) {
+        double speed = flying->getSpeed();
+        speed = speed * 3.6 * 60;
+        std::string t;
+        std::stringstream outt;
+        outt << int(speed) << " KPH";
+        t = outt.str();
+        hud->setSpeedIndicator(t);
+    }
 
     // Deal with the damage of various systems
     float shieldHealth = (float)(damageState->getShieldHealth()/100.0);

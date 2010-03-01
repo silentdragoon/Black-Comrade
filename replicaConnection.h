@@ -9,6 +9,7 @@
 #include "damageState.h"
 #include "notificationManager.h"
 #include "systemManager.h"
+#include "collaborationInfo.h"
 
 using namespace RakNet;
 
