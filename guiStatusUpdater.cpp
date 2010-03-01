@@ -67,12 +67,14 @@ void GuiStatusUpdater::tick() {
         float sensorRate = (float)(systemManager->getSensorRate());
         float engineRate = (float)(systemManager->getEngineRate());
         float weaponCharge = (float)(systemManager->getWeaponCharge());
+        float shieldCharge = (float)(systemManager->getShieldCharge());
         
         hud->setShieldRate(shieldRate);
         hud->setSensorRate(sensorRate);
         hud->setWeaponRate(weaponRate);
         hud->setEngineRate(engineRate);
         hud->setWeaponCharge(weaponCharge/100.0);
+        hud->setShieldCharge(shieldCharge/100.0);
 
 
     // }

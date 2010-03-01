@@ -384,8 +384,8 @@ void Swarm::turnEnemy(Enemy *e)
 	// Send out rays to find obsticals
 	float dist;
 	// Horizontal ring
-	for(int j = 0; j < 15; ++j) {
-	    float a = 2 * j * PI / 15;
+	for(int j = -4; j <=4; ++j) {
+	    float a = j * PI / 6;
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    left.normalise();
 	    Vector3 p = (*e->getPosition()+2*left);
@@ -404,8 +404,9 @@ void Swarm::turnEnemy(Enemy *e)
 	    }
 	}
 	// Vertical ring
-	for(int j = 0; j < 15; ++j) {
-	    float a = 2 * j * PI / 15;
+	for(int j = -4; j <=4; ++j) {
+	    float a = j * PI / 6;
+	    if(j == 0) continue;
 	    Vector3 left(0,sin(a+yaw),cos(a+yaw));
 	    left.normalise();
 	    Vector3 p = (*e->getPosition()+2*left);
