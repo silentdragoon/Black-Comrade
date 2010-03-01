@@ -1,10 +1,11 @@
 
 #include "hud.h"
 
-HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
+HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr)
     : guiManager(guiManager)
     , shipState(shipState)
     , gameRole(gameRole)
+    , mapMgr(mapMgr)
     , xCenter(0.5)
     , yCenter(0.47)
     , width(1)
