@@ -8,6 +8,7 @@ ButtonMashMiniGame::ButtonMashMiniGame(Console *console, InputState *inputState)
     , ticks(0)
     , tickLimit(1000)
     , broke(0)
+    , begin(false)
 {
     console->appendLine("========================================");
     console->appendLine("Some other tool (beta)");
