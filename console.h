@@ -15,14 +15,12 @@ class Console : public ITickable
 {
     private:
         SceneManager *sceneMgr;
-        Rectangle2D *rect;
         OverlayContainer *panel;
-        SceneNode *node;
         OverlayElement *textbox;
         Overlay *overlay;
 
         int slideTicks;
-        float openHeight; 
+        float openHeight;
         float height;
         int rollTick;
         bool isVisible;

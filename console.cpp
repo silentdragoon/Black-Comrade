@@ -39,7 +39,6 @@ Console::Console(SceneManager *sceneMgr) :
 
 Console::~Console() {
     OverlayManager::getSingleton().destroy(overlay);
-    sceneMgr->destroySceneNode(node);
 }
 
 void Console::tick() {
