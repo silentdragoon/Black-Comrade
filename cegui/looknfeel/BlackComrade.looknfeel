@@ -1416,7 +1416,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image imageset="VertMenu" image="SheLime" />
+                <Image imageset="VertMenu" image="SheGreen" />
                 <VertFormat type="Tiled" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -1583,7 +1583,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image imageset="VertMenu" image="EngBlu" />
+                <Image imageset="VertMenu" image="EngBlue" />
                 <VertFormat type="Tiled" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>

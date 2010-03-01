@@ -118,7 +118,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
     engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
     weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarWep","weaponCharge"));
-    // shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarShe","shieldCharge"));
+    shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarShe","shieldCharge"));
 
     shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
     sensorRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
@@ -130,21 +130,21 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     guiManager->getRootWindow()->addChildWindow(weaponRate);
     guiManager->getRootWindow()->addChildWindow(engineRate);
     guiManager->getRootWindow()->addChildWindow(weaponCharge);
-    // guiManager->getRootWindow()->addChildWindow(shieldCharge);
+    guiManager->getRootWindow()->addChildWindow(shieldCharge);
 
     shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 52) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
     weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
     sensorRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 98) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
     engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 142) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
     weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
-    // shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 127) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
+    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 127) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
 
     shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-    // shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
 }
 
 void HUD::setStatus(std::string stat) {
@@ -193,11 +193,9 @@ void HUD::setSensorRate(float yeah) {
     sensorRate->setProgress(yeah);
 }
 
-
 void HUD::setWeaponRate(float what) {
     weaponRate->setProgress(what);
 }
-
 
 void HUD::setEngineRate(float alright) {
     engineRate->setProgress(alright);
@@ -205,4 +203,8 @@ void HUD::setEngineRate(float alright) {
 
 void HUD::setWeaponCharge(float yeah) {
     weaponCharge->setProgress(yeah);
+}
+
+void HUD::setShieldCharge(float yeah) {
+    shieldCharge->setProgress(yeah);
 }
