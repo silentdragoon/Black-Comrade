@@ -143,8 +143,8 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
     engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
-    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(60 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(50 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(50 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
 }
 
 void HUD::setStatus(std::string stat) {
