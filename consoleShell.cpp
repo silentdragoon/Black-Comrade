@@ -54,6 +54,8 @@ void ConsoleShell::processCommand() {
 }
 
 void ConsoleShell::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
+    if (command.length() > (CONSOLE_LENGTH - defaultPrompt.length() - 1)) return;
+
     command += arg.text;
     console->appendToPrompt(arg.text);
 }
