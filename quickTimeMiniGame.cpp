@@ -23,6 +23,10 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState)
     saveTick = 0;
 }
 
+ShipSystem QuickTimeMiniGame::getSystem() {
+    return SS_SHIELD_GENERATOR;
+}
+
 void QuickTimeMiniGame::tick() {
     if(begin) {
         // Gameplay here

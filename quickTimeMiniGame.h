@@ -30,6 +30,8 @@ class QuickTimeMiniGame : public IMiniGame
         bool end();
         int getScore();
 
+        ShipSystem getSystem();
+
         void returnKeyPressed();
 
         QuickTimeMiniGame(Console *console, InputState *inputState);
