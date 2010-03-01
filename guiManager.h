@@ -15,18 +15,9 @@ private:
 
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
-    CEGUI::FrameWindow *crossHair;
-    CEGUI::Editbox *status;
-    CEGUI::FrameWindow *fullmap;
-    CEGUI::FrameWindow *minimap;
-    int prevX;
-    int prevY;
 
     MapManager *mapMgr;
     ShipState *shipState;
-
-    CEGUI::FrameWindow* buildFullMap();
-    CEGUI::FrameWindow* buildMiniMap();
 
 public:
     GuiManager(MapManager *mapMgr, ShipState *shipState);
@@ -41,10 +32,6 @@ public:
                                 float width,   float height,
                                 char *imageSet, char *imageName);
     void setStatus(std::string stat);
-
-    void toggleMap(bool tog);
-    void updateMiniMap();
-
     CEGUI::Window *getRootWindow();
 };
 
