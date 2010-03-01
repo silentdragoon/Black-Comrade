@@ -26,7 +26,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
     // Background Elements
     CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
-    CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
+    // CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
 
     // Foreground Elements
 
@@ -247,6 +247,12 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;
+    
+    float g = (1.0*winWidth)/1680.0;
+    float wpixel = 1.0 / (float)winWidth * g;
+    float hpixel = 1.0 / (float)winHeight * g;
+
+
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
     prevX = x;
@@ -345,10 +351,10 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
 
         CEGUI::ComponentArea ca = CEGUI::ComponentArea();
 
-        ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapx*0.3/ratio,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
-        ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapy*0.3,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
-        ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.3/ratio,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
-        ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(0.3,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
+        ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapx* 70 * wpixel,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
+        ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(mapy* 70 * hpixel,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
+        ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(70 * wpixel,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
+        ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(CEGUI::UDim(70 * hpixel,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
 
         ic.setComponentArea(ca);
 
@@ -375,8 +381,8 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
     // Create the FrameWindow to return
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     minimap->setLookNFeel(lookFeel.getName());
-    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.75,0),CEGUI::UDim(0.75,0)));
-    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f,0),CEGUI::UDim(0.2f,0)));
+    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
+    // minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
 
     return minimap;
 }
