@@ -16,7 +16,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;
     float noscale = 1.6 / ratio;
-    float g = 1;
+    float g = (1.0*winWidth)/1680.0;
 
     float wpixel = 1.0 / (float)winWidth * g;
     float hpixel = 1.0 / (float)winHeight * g;
