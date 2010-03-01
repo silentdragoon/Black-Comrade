@@ -79,12 +79,13 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     log->setWordWrapping(true);
 
     // Speed Indicator
-
-    indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
-    //indicator->setFont("DroidSansMono-big.font");
-    guiManager->getRootWindow()->addChildWindow(indicator);
-    indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
-    indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
+    if(gameRole==PILOT) {
+        indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
+        //indicator->setFont("DroidSansMono-big.font");
+        guiManager->getRootWindow()->addChildWindow(indicator);
+        indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+        indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
+    }
 
     // Progress Bars
 
@@ -152,13 +153,15 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
     // Minimap
 
-    fullmap = buildFullMap();
-    guiManager->getRootWindow()->addChildWindow(fullmap);
-    fullmap->setVisible(false);
+    if (gameRole==NAVIGATOR) {
+        fullmap = buildFullMap();
+        guiManager->getRootWindow()->addChildWindow(fullmap);
+        fullmap->setVisible(false);
 
-    // Create the minimap
-    minimap = buildMiniMap();
-    guiManager->getRootWindow()->addChildWindow(minimap);
+        // Create the minimap
+        minimap = buildMiniMap();
+        guiManager->getRootWindow()->addChildWindow(minimap);
+    }
 }
 
 CEGUI::FrameWindow* HUD::buildFullMap() {

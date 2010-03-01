@@ -55,10 +55,9 @@ void GuiStatusUpdater::tick() {
         } else {
             hud->toggleMap(false);
         }
-    }
-
-    // Updates the images on the minimap
-    hud->updateMiniMap();
+        // Updates the images on the minimap
+        hud->updateMiniMap();
+   }
 
     // Update the state of the power system bars
     // if(gameRole==ENGINEER) {
