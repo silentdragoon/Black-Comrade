@@ -33,6 +33,25 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Game Loop
     gameLoop = new StateUpdate();
 
+    // Other players' state
+    networkingManager->replicate(collabInfo);
+    if (collabInfo->getGameRole() == PILOT && collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+        CollaborationInfo *engInfo = (CollaborationInfo *) networkingManager->getReplica("EngineerInfo",true);
+        CollaborationInfo *navInfo = (CollaborationInfo *) networkingManager->getReplica("NavigatorInfo",true);
+        std::cout << "Your engineer is " << engInfo->getNick() << std::endl;
+        std::cout << "Your navigator is " << navInfo->getNick() << std::endl;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        CollaborationInfo *pilotInfo = (CollaborationInfo *) networkingManager->getReplica("PilotInfo",true);
+        CollaborationInfo *navInfo = (CollaborationInfo *) networkingManager->getReplica("NavigatorInfo",true);
+        std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
+        std::cout << "Your navigator is " << navInfo->getNick() << std::endl;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        CollaborationInfo *engInfo = (CollaborationInfo *) networkingManager->getReplica("EngineerInfo",true);
+        CollaborationInfo *pilotInfo = (CollaborationInfo *) networkingManager->getReplica("PilotInfo",true);
+        std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
+        std::cout << "Your engineer is " << engInfo->getNick() << std::endl;
+    }
+
     // Damage State
     if (collabInfo->getGameRole() == PILOT) {
         damageState = new DamageState();

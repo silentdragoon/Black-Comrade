@@ -29,7 +29,7 @@ private:
     CEGUI::ProgressBar *weaponRate;
     CEGUI::ProgressBar *engineRate;
     CEGUI::ProgressBar *weaponCharge;
-    // CEGUI::ProgressBar *shieldCharge;
+    CEGUI::ProgressBar *shieldCharge;
 
     CEGUI::Editbox *status;
     CEGUI::MultiLineEditbox *log;
@@ -59,7 +59,7 @@ public:
     void setWeaponRate(float yeah);
     void setEngineRate(float yeah);
     void setWeaponCharge(float yeah);
-    // void setShieldCharge(float yeah);
+    void setShieldCharge(float yeah);
 };
 
 #endif
