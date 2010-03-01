@@ -45,6 +45,13 @@ void ConsoleShell::processCommand() {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
     } else if (command == "repair engines" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
+    } else if (command == "access main program" ) {
+        console->appendLine("access: PERMISSION DENIED.");
+    } else if (command == "access main program grid" ) {
+        console->appendLine("access: PERMISSION DENIED. and...");
+        gameToPlay = new MagicWordMiniGame(console,inputState);
+    } else if (command == "access main security" ) {
+        console->appendLine("access: PERMISSION DENIED.");
     } else {
         command += ": command not found";
         console->appendLine(command);

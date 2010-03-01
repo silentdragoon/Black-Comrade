@@ -14,6 +14,7 @@
 #include <boost/algorithm/string/trim.hpp>
 
 #include "quickTimeMiniGame.h"
+#include "magicWordMiniGame.h"
 
 class ConsoleShell : public IConsoleInputReceiver
 {
