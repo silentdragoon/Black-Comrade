@@ -31,8 +31,9 @@ Console::Console(SceneManager *sceneMgr) :
 
     panel->addChild(textbox);
 
-    overlay=OverlayManager::getSingleton().create("Console");   
+    overlay=OverlayManager::getSingleton().create("Console");
     overlay->add2D(panel);
+    overlay->setZOrder(649);
     overlay->show();
 }
 
