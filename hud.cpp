@@ -78,6 +78,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole)
     // Speed Indicator
 
     indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
+    //indicator->setFont("DroidSansMono-big.font");
     guiManager->getRootWindow()->addChildWindow(indicator);
     indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
     indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));

@@ -16,7 +16,8 @@
     <Imageset Filename="VertMenu.xml" />
 
 
-    <Font Filename="DejaVuSans-6.font" />
+    <Font Filename="DroidSansMono.font" />
+    <Font Filename="DroidSansMono-big.font" />
     <LookNFeel Filename="BlackComrade.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
