@@ -4,6 +4,8 @@
 #include "gameRole.h"
 #include "networkRole.h"
 #include "replicaObject.h"
+#include "shipSystem.h"
+
 #include <string>
 
 using namespace std;
@@ -15,9 +17,14 @@ class CollaborationInfo : public ReplicaObject
     GameRole gameRole;
     NetworkRole networkRole;
 
+    int killCount;
+
     public:
     CollaborationInfo(string nick, NetworkRole networkRole, GameRole gameRole);
     CollaborationInfo();
+
+    ShipSystem toRepair;
+    int repairAmount;
 
     string getNick();
     GameRole getGameRole();
