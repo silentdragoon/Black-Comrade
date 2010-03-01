@@ -9,6 +9,12 @@ CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameR
 {
 }
 
+CollaborationInfo::CollaborationInfo()
+    : networkRole(NO_NETWORK_ROLE)
+    , gameRole(NO_GAME_ROLE)
+    , nick("")
+{}
+
 string CollaborationInfo::getNick() { return nick; }
 
 NetworkRole CollaborationInfo::getNetworkRole() { return networkRole; }
@@ -26,4 +32,31 @@ string CollaborationInfo::getNetworkRoleString() {
     if (networkRole == SERVER) return "Server";
     else if (networkRole == CLIENT) return "Client";
     else return "";
+}
+
+void CollaborationInfo::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {
+    constructionBitstream->Write(gameRole);
+    //constructionBitstream->Write(nick);
+}
+
+bool CollaborationInfo::DeserializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *sourceConnection) {
+    constructionBitstream->Read(gameRole);
+    //constructionBitstream->Read(nick);
+    return true;
+}
+
+RakNet::RakString CollaborationInfo::GetName(void) const {
+    if (gameRole == PILOT) return RakNet::RakString("PilotInfo");
+    if (gameRole == NAVIGATOR) return RakNet::RakString("NavigatorInfo");
+    if (gameRole == ENGINEER) return RakNet::RakString("EngineerInfo");
+
+    return RakNet::RakString("");
+}
+
+RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *serializeParameters) {
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+
 }
