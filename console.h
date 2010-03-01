@@ -21,7 +21,7 @@ class Console : public ITickable
 
         int slideTicks;
         float openHeight;
-        float height;
+        float top;
         int rollTick;
         bool isVisible;
 

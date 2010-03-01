@@ -7,22 +7,21 @@ Console::Console(SceneManager *sceneMgr) :
     prompt("")
 {
     lines = new std::list<std::string>();
-    height=0;
 
     openHeight = 0.5;
     slideTicks = 10;
+    top=-openHeight;
 
     // Create a panel
     panel = static_cast<OverlayContainer*>(
         OverlayManager::getSingleton().createOverlayElement("Panel", "ConsoleBackground"));
     panel->setMetricsMode(Ogre::GMM_RELATIVE);
-    panel->setPosition(0.15, 0); 
-    panel->setDimensions(0.7, 0.0);
+    panel->setPosition(0.15, -openHeight); 
+    panel->setDimensions(0.7, openHeight);
     panel->setMaterialName("console/Background");
 
     textbox=OverlayManager::getSingleton().createOverlayElement("TextArea","ConsoleText");
     textbox->setCaption("");
-    textbox->hide();
     textbox->setMetricsMode(GMM_RELATIVE);
     textbox->setPosition(0.005,0);
     textbox->setParameter("font_name","Console");
@@ -44,26 +43,19 @@ Console::~Console() {
 void Console::tick() {
     if((isVisible)&&(rollTick<slideTicks)) {
         // Open
-        height+= openHeight / slideTicks;
-        panel->setHeight(height);
+        top+= openHeight / slideTicks;
+        panel->setTop(top);
         rollTick++;
     }
 
     if((!isVisible)&&(rollTick>0)) {
         // Close
-        height-= openHeight / slideTicks;
-        panel->setHeight(height);
+        top-= openHeight / slideTicks;
+        panel->setTop(top);
         rollTick--;
     }
 
-    if(rollTick==slideTicks) {
-        // Show text
-        textbox->show();
-        displayText();
-    } else {
-        // Hide Text
-        textbox->hide();
-    }
+    displayText();
 
     // Check to see if too many lines stored and remove from list
     if(lines->size()>CONSOLE_HEIGHT) {
