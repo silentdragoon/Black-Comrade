@@ -40,7 +40,7 @@ void ConsoleShell::processCommand() {
     } else if (command == "repair shieldgen" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SHIELD_GENERATOR);
     } else if (command == "repair weapons" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_WEAPONS);
+        gameToPlay = new ButtonMashMiniGame(console,inputState);
     } else if (command == "repair sensors" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
     } else if (command == "repair engines" ) {

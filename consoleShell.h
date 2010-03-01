@@ -15,6 +15,7 @@
 
 #include "quickTimeMiniGame.h"
 #include "magicWordMiniGame.h"
+#include "buttonMashMiniGame.h"
 
 class ConsoleShell : public IConsoleInputReceiver
 {
