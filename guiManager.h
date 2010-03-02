@@ -9,16 +9,20 @@
 #include "mapManager2.h"
 #include "shipState.h"
 #include "const.h"
+#include "CEGUIRQListener.h"
 
 class GuiManager {
 private:
 
+    CEGUI::OgreRenderer* d_renderer;
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
+    CEGUIRQListener *renderQueueListener;
+    SceneManager *sceneMgr;
 
 
 public:
-    GuiManager();
+    GuiManager(SceneManager *sceneMgr);
     ~GuiManager();
 
     CEGUI::FrameWindow *addStaticImage(const char *name, 
@@ -31,6 +35,8 @@ public:
                                 char *imageSet, char *imageName);
 
     CEGUI::Window *getRootWindow();
+
+    void setOverlayAboveCEGUI(bool above);
 };
 
 #endif

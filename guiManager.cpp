@@ -5,9 +5,14 @@ CEGUI::Window *GuiManager::getRootWindow()
     return guiRoot;
 }
 
-GuiManager::GuiManager()
+GuiManager::GuiManager(SceneManager *sceneMgr)
+    : sceneMgr(sceneMgr)
 {
-    CEGUI::OgreRenderer::bootstrapSystem();
+    CEGUI::OgreRenderer *ogreRenderer = &(CEGUI::OgreRenderer::bootstrapSystem());
+    ogreRenderer->setRenderingEnabled(false);
+    renderQueueListener = new CEGUIRQListener(ogreRenderer, Ogre::RENDER_QUEUE_OVERLAY, false);
+    sceneMgr->addRenderQueueListener(renderQueueListener);
+
     CEGUI::Imageset::setDefaultResourceGroup("imagesets");
     CEGUI::Font::setDefaultResourceGroup("fonts");
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
@@ -63,7 +68,9 @@ GuiManager::GuiManager()
 
 GuiManager::~GuiManager(){}
 
-
+void GuiManager::setOverlayAboveCEGUI(bool above) {
+    renderQueueListener->setPostRenderQueue(!above);
+}
 
 CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, float yCenter,
                                 float width,   float height,

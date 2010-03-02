@@ -44,7 +44,6 @@
 #include "hud.h"
 #include "console.h"
 
-
 //include networking stuff
 #include <string.h>
 #include <string>

@@ -26,7 +26,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     configResources();
 
-    guiMgr = new GuiManager();
+    guiMgr = new GuiManager(sceneMgr);
 
     // Networking
     networkingManager = new NetworkingManager(this);
