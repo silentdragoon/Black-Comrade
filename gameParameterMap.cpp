@@ -12,7 +12,7 @@ int GameParameterMap::getParameter(string name){
 	if(name.compare("SPAWN") == 0) {
 		switch(gameStateMachine->currentGameState()) {
 			case GS_ATTACK:
-                return 5;
+                return 4;
                 break;
 			case GS_FLEE:
 				return 10;

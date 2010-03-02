@@ -51,13 +51,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT) {
-        damageState = new DamageState();
+        damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
         networkingManager->replicate(damageState);
     } else {
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
-    gameLoop->addTickable(damageState, "damageState");
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
@@ -225,8 +224,27 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
+    gameLoop->addTickable(cons,"console");
+
+
+    // Minigame manager
+    IPlayerControls *myControls;
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;   
+    }
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
     // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
+
+    gameLoop->addTickable(damageState, "damageState");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
@@ -241,7 +259,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
     gameLoop->addTickable(audioState,"audioState");
-
+	
     // Last class to be added to the game loop
 
     // CEGUI Stuff
@@ -251,26 +269,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
-
+	
     // Radar GUI
-    radarGui = new RadarGui(guiMgr, shipState, swarmMgr);
-    //gameLoop->addTickable(radarGui,"Radar");
+    if (collabInfo->getGameRole() == ENGINEER) {
+    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
+    	gameLoop->addTickable(radarGui,"Radar");
+	}
 
-    // TODO: Console test area needs fiddling
-    cons = new Console(sceneMgr);
-    gameLoop->addTickable(cons,"console");
-
-    // Minigame manager
-    IPlayerControls *myControls;
-    if (collabInfo->getGameRole() == PILOT) {
-        myControls = pilotControls;
-    } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        myControls = navigatorControls;
-    } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;   
-    }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
-    gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
     

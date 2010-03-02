@@ -3,12 +3,12 @@
 
 #define RADAR_TOP_FRAC 0.03
 #define DOT_Y_OFFSET_FRAC 0.9
-#define DOT_HEIGHT 0.1
+#define DOT_HEIGHT 0.12
 #define RADAR_SIGHT_DIST 500
 #define RADAR_ANGLE 1.570796
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
-    SwarmManager *swarmManager)
+    SwarmManager *swarmManager, HUD *hud)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -18,6 +18,8 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , height(0.5)
     , uIndex(0)
     , radarWindow(NULL)
+    , hud(hud)
+    , fullScreen(false)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
     
@@ -53,6 +55,8 @@ CEGUI::FrameWindow *RadarGui::createWindow(
     CEGUI::WidgetLookFeel lookFeel(name);
     CEGUI::ImagerySection is = CEGUI::ImagerySection("enabled_imagery");
     
+    // BACKGROUND
+    
     CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
     ic.setImage(imageSet,imageName);
     
@@ -73,6 +77,48 @@ CEGUI::FrameWindow *RadarGui::createWindow(
     ic.setComponentArea(ca);
 
     is.addImageryComponent(ic);
+    
+    // DOTS
+
+    for(std::vector<std::pair<float,float> >::const_iterator it=
+        positions->begin(); it!=positions->end();++it) {
+        
+        std::pair<float,float> pair = *it;
+    
+        float size;
+        size = DOT_HEIGHT * height;
+    
+        // TODO: actully put stuff in the right place!
+    
+        float xPos, yPos;
+        xPos = pair.first * sin(pair.second) - size;
+        yPos = pair.first * cos(pair.second) - 0.5
+            + 2 * size * DOT_Y_OFFSET_FRAC;
+        cout << xPos << " - " << yPos << endl;
+        ic = CEGUI::ImageryComponent();
+        ic.setImage(imageSet,"enemy");
+        
+        ic.setVerticalFormatting(CEGUI::VF_STRETCHED);
+        ic.setHorizontalFormatting(CEGUI::HF_STRETCHED);
+
+        ca = CEGUI::ComponentArea();
+        
+        ca.d_left = CEGUI::Dimension(CEGUI::UnifiedDim(
+            CEGUI::UDim(xPos*width,0),CEGUI::DT_X_POSITION),CEGUI::DT_X_POSITION);
+        ca.d_top = CEGUI::Dimension(CEGUI::UnifiedDim(
+            CEGUI::UDim(-yPos*height,0),CEGUI::DT_Y_POSITION),CEGUI::DT_Y_POSITION);
+        ca.d_right_or_width = CEGUI::Dimension(CEGUI::UnifiedDim(
+            CEGUI::UDim(size,0),CEGUI::DT_WIDTH),CEGUI::DT_WIDTH);
+        ca.d_bottom_or_height = CEGUI::Dimension(CEGUI::UnifiedDim(
+            CEGUI::UDim(size,0),CEGUI::DT_HEIGHT),CEGUI::DT_HEIGHT);
+            
+        ic.setComponentArea(ca);
+
+        is.addImageryComponent(ic);
+        
+    }
+    
+    // Add to window..
     
     lookFeel.addImagerySection(is);
 
@@ -121,6 +167,25 @@ CEGUI::FrameWindow *RadarGui::createEnemyDot()
 
 void RadarGui::tick()
 {
+    int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    float ratio = winWidth / (float)winHeight;
+    float noscale = 1.6 / ratio;
+    float g = (1.0*winWidth)/1680.0;
+
+    float wpixel = 1.0 / (float)winWidth * g;
+    float hpixel = 1.0 / (float)winHeight * g;
+
+    if(fullScreen) {
+    
+    } else {
+        width = 210 * wpixel;
+        height = 210 * hpixel;
+    
+        xCenter = 1 - (191 + 27) * wpixel + width / 2;
+        yCenter = 1 - (219 - 0) * hpixel + height / 2;
+    }
+
     std::vector<Swarm*> swarms = swarmManager->getAllSwarms();
     
     std::vector<std::pair<float,float> > positions;
@@ -134,7 +199,7 @@ void RadarGui::tick()
             *shipState->getPosition();
             
         float dist = displacement.length() / RADAR_SIGHT_DIST;
-        float angle = 0;//atan2(displacement.x,displacement.z);
+        float angle = shipState->yaw - atan2(displacement.x,displacement.z);
         
         if(dist < 1 && abs(angle) < RADAR_ANGLE/2) {
             
@@ -150,6 +215,9 @@ void RadarGui::tick()
 
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
+    //positions.clear();
+    //positions.push_back(std::pair<float,float>(0.4, -PI/4));
+    
     radarWindow = createWindow(&positions);
     guiManager->getRootWindow()->addChildWindow(radarWindow);
 }

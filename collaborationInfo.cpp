@@ -1,4 +1,5 @@
 #include "collaborationInfo.h"
+#include <iostream>
 
 using namespace std;
 
@@ -69,7 +70,12 @@ RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *seriali
 }
 
 void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(toRepair);
-    deserializeParameters->serializationBitstream[0].Read(repairAmount);
+    ShipSystem toRepair2 = SS_NONE;
+    int repairAmount2 = 0;
+
+    deserializeParameters->serializationBitstream[0].Read(toRepair2);
+    if (toRepair2 != SS_NONE) toRepair = toRepair2;
+    deserializeParameters->serializationBitstream[0].Read(repairAmount2);
+    if (repairAmount2 != 0) repairAmount = repairAmount2;
     deserializeParameters->serializationBitstream[0].Read(killCount);
 }

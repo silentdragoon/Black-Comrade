@@ -10,10 +10,60 @@ DamageState::DamageState()
     , engineHealth(100.0)
     , hullHealth(100.0)
     , isDamaged(false)
+    , pilotInfo(0)
+    , engineerInfo(0)
+    , navigatorInfo(0)
+{}
+
+DamageState::DamageState(CollaborationInfo *pilotInfo,
+                         CollaborationInfo *engineerInfo,
+                         CollaborationInfo *navigatorInfo)
+    : shieldHealth(100.0)
+    , sensorHealth(100.0)
+    , weaponHealth(100.0)
+    , engineHealth(100.0)
+    , hullHealth(100.0)
+    , isDamaged(false)
+    , pilotInfo(pilotInfo)
+    , engineerInfo(engineerInfo)
+    , navigatorInfo(navigatorInfo)
 {}
 
 void DamageState::tick() {
     isDamaged = false;
+    if (pilotInfo != 0) {
+        checkForRepairs(pilotInfo);
+    }
+    if (engineerInfo != 0) {
+        checkForRepairs(engineerInfo);
+    }
+    if (navigatorInfo != 0) {
+        checkForRepairs(navigatorInfo);
+    }
+}
+
+void DamageState::checkForRepairs(CollaborationInfo *repairer) {
+    ShipSystem toRepair = repairer->toRepair;
+
+    switch(toRepair) {
+        case(SS_NONE):
+            return;
+        case(SS_SHIELD_GENERATOR):
+            repairShieldGenerator(repairer->repairAmount);
+            break;
+        case (SS_ENGINES):
+            repairEngines(repairer->repairAmount);
+            break;
+        case (SS_SENSORS):
+            repairSensors(repairer->repairAmount);
+            break;
+        case (SS_WEAPONS):
+            repairWeapons(repairer->repairAmount);
+            break;
+    }
+
+    repairer->toRepair = SS_NONE;
+    repairer->repairAmount = 0;
 }
 
 double DamageState::getShieldHealth() { return shieldHealth; }
@@ -73,6 +123,26 @@ void DamageState::damage(double multiplier) {
     isDamaged = true;
 }
 
+void DamageState::repairShieldGenerator(int amount) {
+    shieldHealth += amount;
+    if (shieldHealth > 100) shieldHealth = 100;
+}
+
+void DamageState::repairWeapons(int amount) {
+    weaponHealth += amount;
+    if (weaponHealth > 100) weaponHealth = 100;
+}
+
+void DamageState::repairSensors(int amount) {
+    sensorHealth += amount;
+    if (sensorHealth > 100) sensorHealth = 100;
+}
+
+void DamageState::repairEngines(int amount) {
+    engineHealth += amount;
+    if (engineHealth > 100) engineHealth = 100;
+}
+
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
 
 RM3SerializationResult DamageState::Serialize(SerializeParameters *serializeParameters) {
@@ -87,17 +157,12 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
 }
 
 void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    double temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < shieldHealth) shieldHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < sensorHealth) sensorHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < weaponHealth) weaponHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < engineHealth) engineHealth = temp;
-    deserializeParameters->serializationBitstream[0].Read(temp);
-    if (temp < hullHealth) hullHealth = temp;
+
+    deserializeParameters->serializationBitstream[0].Read(shieldHealth);
+    deserializeParameters->serializationBitstream[0].Read(sensorHealth);
+    deserializeParameters->serializationBitstream[0].Read(weaponHealth);
+    deserializeParameters->serializationBitstream[0].Read(engineHealth);
+    deserializeParameters->serializationBitstream[0].Read(hullHealth);
 
     bool isDamaged2 = false;
     deserializeParameters->serializationBitstream[0].Read(isDamaged2);

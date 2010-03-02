@@ -11,6 +11,7 @@
 #include "shipState.h"
 #include "swarmManager.h"
 #include "swarm.h"
+#include "hud.h"
 
 class RadarGui : public ITickable {
 private:
@@ -21,9 +22,12 @@ private:
     float height;
     
     int uIndex;
+    
+    bool fullScreen;
 
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
+    HUD *hud;
     CEGUI::FrameWindow *minimap;
     CEGUI::ProgressBar *shields;
     CEGUI::FrameWindow *radarWindow;
@@ -41,7 +45,7 @@ private:
 
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState,
-        SwarmManager *swarmManager);
+        SwarmManager *swarmManager, HUD *hud);
     //~RadarGui();
     
     void tick();

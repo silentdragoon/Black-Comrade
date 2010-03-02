@@ -8,6 +8,7 @@
 #include <OIS/OIS.h>
 #include <cstdlib>
 #include <time.h>
+#include "shipSystem.h"
 
 class QuickTimeMiniGame : public IMiniGame
 {
@@ -24,15 +25,19 @@ class QuickTimeMiniGame : public IMiniGame
         int ticks;
         int saveTick;
         int gameTick;
+
+        ShipSystem system;
         
     public:
         void tick();
         bool end();
         int getScore();
 
+        ShipSystem getSystem();
+
         void returnKeyPressed();
 
-        QuickTimeMiniGame(Console *console, InputState *inputState);
+        QuickTimeMiniGame(Console *console, InputState *inputState, ShipSystem system);
         ~QuickTimeMiniGame();
 };
 
