@@ -16,11 +16,9 @@ private:
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
 
-    MapManager *mapMgr;
-    ShipState *shipState;
 
 public:
-    GuiManager(MapManager *mapMgr, ShipState *shipState);
+    GuiManager();
     ~GuiManager();
 
     CEGUI::FrameWindow *addStaticImage(const char *name, 
@@ -31,7 +29,7 @@ public:
     CEGUI::FrameWindow *addStaticImagePix(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
-    void setStatus(std::string stat);
+
     CEGUI::Window *getRootWindow();
 };
 

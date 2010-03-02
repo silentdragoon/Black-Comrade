@@ -11,18 +11,14 @@
 using namespace RakNet;
 
 Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
+    // Start Ogre
+    root = configRoot();
 
     // Load constants
     ConstManager::getSingleton();
 
-    // networking
-    networkingManager = new NetworkingManager(this);
-    collabInfo = runLoby(networkingManager);
-
-    // Start Ogre
-    root = configRoot();
     sceneMgr = root->createSceneManager(ST_GENERIC);
-    window = root->initialise(true, collabInfo->getGameRoleString());
+    window = root->initialise(true, "BlackComrade");
     //sceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
 
     // Static Lines class
@@ -30,8 +26,18 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     configResources();
 
+    guiMgr = new GuiManager();
+
+    // Networking
+    networkingManager = new NetworkingManager(this);
+    collabInfo = runLobby(networkingManager);
+
     // Game Loop
     gameLoop = new StateUpdate();
+
+    // User Input
+    inputState = new InputState(window,true,this,useKey,useMouse);
+    gameLoop->addTickable(inputState,"inputState");
 
     // Other players' state
     networkingManager->replicate(collabInfo);
@@ -99,10 +105,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Collision Manager (takes 99% of our loading time)
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
-
-    // User Input
-    inputState = new InputState(window,true,this,useKey,useMouse);
-    gameLoop->addTickable(inputState,"inputState");
 
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
@@ -224,10 +226,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
-    // TODO: Console test area needs fiddling
+    // Console
     cons = new Console(sceneMgr);
     gameLoop->addTickable(cons,"console");
-
 
     // Minigame manager
     IPlayerControls *myControls;
@@ -263,7 +264,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Last class to be added to the game loop
 
     // CEGUI Stuff
-    guiMgr = new GuiManager(mapMgr,shipState);
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
                                             collabInfo->getGameRole(),systemManager,hud,
@@ -350,7 +350,7 @@ void Main::configResources()
 
 }
 
-CollaborationInfo *Main::runLoby(NetworkingManager *networkingManager) {
+CollaborationInfo *Main::runLobby(NetworkingManager *networkingManager) {
     
     CollaborationInfo *collabInfo;
 
