@@ -113,7 +113,7 @@ private:
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
-    CollaborationInfo *runLoby(NetworkingManager *networkingManager);
+    CollaborationInfo *runLobby(NetworkingManager *networkingManager);
     void addCrossHair();
     Root *configRoot();
     void configResources();

@@ -5,9 +5,7 @@ CEGUI::Window *GuiManager::getRootWindow()
     return guiRoot;
 }
 
-GuiManager::GuiManager(MapManager *mapMgr, ShipState *shipState) :
-    shipState(shipState),
-    mapMgr(mapMgr)
+GuiManager::GuiManager()
 {
     CEGUI::OgreRenderer::bootstrapSystem();
     CEGUI::Imageset::setDefaultResourceGroup("imagesets");
