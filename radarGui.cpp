@@ -177,7 +177,11 @@ void RadarGui::tick()
     float hpixel = 1.0 / (float)winHeight * g;
 
     if(fullScreen) {
+    	width = 0.5 / ratio;
+        height = 0.5;
     
+        xCenter = 0.25;
+        yCenter = 0.5;
     } else {
         width = 210 * wpixel;
         height = 210 * hpixel;
@@ -200,6 +204,9 @@ void RadarGui::tick()
             
         float dist = displacement.length() / RADAR_SIGHT_DIST;
         float angle = shipState->yaw - atan2(displacement.x,displacement.z);
+        
+        while(angle > PI) angle -= 2 * PI;
+        while(angle < -PI) angle += 2 * PI;
         
         if(dist < 1 && abs(angle) < RADAR_ANGLE/2) {
             

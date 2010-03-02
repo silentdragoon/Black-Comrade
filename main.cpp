@@ -255,11 +255,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(systemManager,"systemManager");
 
     // Audio
-    soundMgr = new SoundManager();
+    /*soundMgr = new SoundManager();
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
     gameLoop->addTickable(audioState,"audioState");
-	
+	*/
     // Last class to be added to the game loop
 
     // CEGUI Stuff
@@ -271,11 +271,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 	
     // Radar GUI
-    if (collabInfo->getGameRole() == ENGINEER) {
+    if (true || collabInfo->getGameRole() == ENGINEER) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
     	gameLoop->addTickable(radarGui,"Radar");
 	}
-
 
     // Start Rendering Loop
     
