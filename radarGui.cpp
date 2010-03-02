@@ -8,7 +8,7 @@
 #define RADAR_ANGLE 1.570796
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
-    SwarmManager *swarmManager)
+    SwarmManager *swarmManager, HUD *hud)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -18,6 +18,8 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , height(0.5)
     , uIndex(0)
     , radarWindow(NULL)
+    , hud(hud)
+    , fullScreen(false)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
     
@@ -165,6 +167,25 @@ CEGUI::FrameWindow *RadarGui::createEnemyDot()
 
 void RadarGui::tick()
 {
+    int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    float ratio = winWidth / (float)winHeight;
+    float noscale = 1.6 / ratio;
+    float g = (1.0*winWidth)/1680.0;
+
+    float wpixel = 1.0 / (float)winWidth * g;
+    float hpixel = 1.0 / (float)winHeight * g;
+
+    if(fullScreen) {
+    
+    } else {
+        width = 210 * wpixel;
+        height = 210 * hpixel;
+    
+        xCenter = 1 - (191 + 27) * wpixel + width / 2;
+        yCenter = 1 - (219 - 0) * hpixel + height / 2;
+    }
+
     std::vector<Swarm*> swarms = swarmManager->getAllSwarms();
     
     std::vector<std::pair<float,float> > positions;

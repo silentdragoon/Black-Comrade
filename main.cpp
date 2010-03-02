@@ -244,7 +244,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode);
     gameLoop->addTickable(audioState,"audioState");
-
+	
     // Last class to be added to the game loop
 
     // CEGUI Stuff
@@ -254,10 +254,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
-
+	
     // Radar GUI
-    radarGui = new RadarGui(guiMgr, shipState, swarmMgr);
-    gameLoop->addTickable(radarGui,"Radar");
+    if (collabInfo->getGameRole() == ENGINEER) {
+    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
+    	gameLoop->addTickable(radarGui,"Radar");
+	}
 
     // TODO: Console test area needs fiddling
     cons = new Console(sceneMgr);
