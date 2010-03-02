@@ -13,6 +13,7 @@
 #include "console.h"
 #include "consoleShell.h"
 #include "quickTimeMiniGame.h"
+#include "collaborationInfo.h"
 
 using namespace Ogre;
 using namespace std;
@@ -25,6 +26,7 @@ private:
     SceneManager *sceneManager;
     Console *console;
     ConsoleShell *consoleShell;
+    CollaborationInfo *player;
     
     IMiniGame *currentMiniGame;
 
@@ -36,7 +38,7 @@ public:
     
     MiniGameManager(Console *console,
                     InputState *inputState, IPlayerControls *playerControls,
-                    SceneManager *sceneManager);
+                    SceneManager *sceneManager, CollaborationInfo *player);
 
     bool keyPressed(const OIS::KeyEvent &arg);
     bool keyReleased(const OIS::KeyEvent &arg);

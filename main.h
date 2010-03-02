@@ -63,7 +63,12 @@ private:
     RenderWindow *window;
     NetworkingManager *networkingManager;
     bool isServer;
+
     CollaborationInfo *collabInfo;
+    CollaborationInfo *pilotInfo;
+    CollaborationInfo *engineerInfo;
+    CollaborationInfo *navigatorInfo;
+
     SoundManager *soundMgr;
     AccelerationState *as;
     MotionState *ms;

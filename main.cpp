@@ -35,32 +35,28 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Other players' state
     networkingManager->replicate(collabInfo);
-    if (collabInfo->getGameRole() == PILOT && collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
-        CollaborationInfo *engInfo = (CollaborationInfo *) networkingManager->getReplica("EngineerInfo",true);
-        CollaborationInfo *navInfo = (CollaborationInfo *) networkingManager->getReplica("NavigatorInfo",true);
-        std::cout << "Your engineer is " << engInfo->getNick() << std::endl;
-        std::cout << "Your navigator is " << navInfo->getNick() << std::endl;
-    } else if (collabInfo->getGameRole() == ENGINEER) {
-        CollaborationInfo *pilotInfo = (CollaborationInfo *) networkingManager->getReplica("PilotInfo",true);
-        CollaborationInfo *navInfo = (CollaborationInfo *) networkingManager->getReplica("NavigatorInfo",true);
-        std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
-        std::cout << "Your navigator is " << navInfo->getNick() << std::endl;
-    } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        CollaborationInfo *engInfo = (CollaborationInfo *) networkingManager->getReplica("EngineerInfo",true);
-        CollaborationInfo *pilotInfo = (CollaborationInfo *) networkingManager->getReplica("PilotInfo",true);
-        std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
-        std::cout << "Your engineer is " << engInfo->getNick() << std::endl;
+    pilotInfo = (CollaborationInfo*) networkingManager->getReplica("PilotInfo",true);
+
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+        engineerInfo = (CollaborationInfo*) networkingManager->getReplica("EngineerInfo",true);
+        navigatorInfo = (CollaborationInfo*) networkingManager->getReplica("NavigatorInfo",true);
+    } else {
+        engineerInfo = new CollaborationInfo("Engineer",CLIENT,ENGINEER);
+        navigatorInfo = new CollaborationInfo("Navigator",CLIENT,NAVIGATOR);
     }
+
+    std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
+    std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
+    std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT) {
-        damageState = new DamageState();
+        damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
         networkingManager->replicate(damageState);
     } else {
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
-    gameLoop->addTickable(damageState, "damageState");
 
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
@@ -228,8 +224,27 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
+    // TODO: Console test area needs fiddling
+    cons = new Console(sceneMgr);
+    gameLoop->addTickable(cons,"console");
+
+
+    // Minigame manager
+    IPlayerControls *myControls;
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;   
+    }
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
     // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
+
+    gameLoop->addTickable(damageState, "damageState");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
@@ -249,7 +264,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // CEGUI Stuff
     guiMgr = new GuiManager(mapMgr,shipState);
-    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole());
+    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr);
@@ -261,21 +276,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     	gameLoop->addTickable(radarGui,"Radar");
 	}
 
-    // TODO: Console test area needs fiddling
-    cons = new Console(sceneMgr);
-    gameLoop->addTickable(cons,"console");
-
-    // Minigame manager
-    IPlayerControls *myControls;
-    if (collabInfo->getGameRole() == PILOT) {
-        myControls = pilotControls;
-    } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        myControls = navigatorControls;
-    } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;   
-    }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr);
-    gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Start Rendering Loop
     

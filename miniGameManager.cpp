@@ -3,13 +3,15 @@
 
 MiniGameManager::MiniGameManager(Console *console,
                                  InputState *inputState, IPlayerControls *playerControls,
-                                 SceneManager *sceneManager)
+                                 SceneManager *sceneManager,
+                                 CollaborationInfo *player)
     : currentMiniGame(NULL)
     , console(console)
     , inputState(inputState)
     , inputReceiver(NULL)
     , playerControls(playerControls)
     , sceneManager(sceneManager)
+    , player(player)
 {
     consoleShell = new ConsoleShell(console,inputState);
     inputReceiver = consoleShell;
@@ -17,6 +19,9 @@ MiniGameManager::MiniGameManager(Console *console,
 
 void MiniGameManager::tick()
 {
+    player->toRepair = SS_NONE;
+    player->repairAmount = 0;
+
     if (console->getVisible()) {
         if (inputState->isKeyDown(OIS::KC_F2)) {
             setConsoleState(false);
@@ -35,6 +40,8 @@ void MiniGameManager::tick()
             std::cout << "Ended minigame with score "
                       << currentMiniGame->getScore()
                       << std::endl;
+            player->toRepair = currentMiniGame->getSystem();
+            player->repairAmount = currentMiniGame->getScore();
             delete currentMiniGame;
             currentMiniGame = NULL;
             inputReceiver = consoleShell;

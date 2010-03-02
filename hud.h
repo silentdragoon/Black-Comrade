@@ -9,6 +9,7 @@
 #include "guiManager.h"
 #include "shipState.h"
 #include "gameRole.h"
+#include "mapManager.h"
 
 class HUD {
 private:
@@ -17,6 +18,9 @@ private:
     float yCenter;
     float width;
     float height;
+
+    int prevX;
+    int prevY;
 
     CEGUI::ProgressBar *shields;
     CEGUI::ProgressBar *sensors;
@@ -35,13 +39,21 @@ private:
     CEGUI::MultiLineEditbox *log;
     CEGUI::Editbox *indicator;
 
+    CEGUI::FrameWindow *fullmap;
+    CEGUI::FrameWindow *minimap;
+
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
+    MapManager *mapMgr;
     ShipState *shipState;
+
+    CEGUI::FrameWindow* buildFullMap();
+    CEGUI::FrameWindow* buildMiniMap();
+
     GameRole gameRole;
 
 public:
-    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole);
+    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr);
     ~HUD();
 
     void setStatus(std::string stat);
@@ -60,6 +72,9 @@ public:
     void setEngineRate(float yeah);
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
+
+    void toggleMap(bool tog);
+    void updateMiniMap();
 };
 
 #endif
