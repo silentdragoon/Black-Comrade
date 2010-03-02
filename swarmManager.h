@@ -7,7 +7,7 @@
 #include "ITickable.h"
 #include "swarm.h"
 #include "gameParameterMap.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "shipState.h"
 #include "collisionManager.h"
 #include "lines.h"

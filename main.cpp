@@ -69,8 +69,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
     // Create Map
-    mapMgr = new MapManager("examplemap.txt",sceneMgr);
-    mapMgr->outputMap(sceneMgr->getRootSceneNode());
+    mapMgr = new MapManager("examplemap_new.txt",sceneMgr);
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {

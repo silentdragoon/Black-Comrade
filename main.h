@@ -20,7 +20,7 @@
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "audioState.h"
 #include "miniGameManager.h"
 #include "IExit.h"
