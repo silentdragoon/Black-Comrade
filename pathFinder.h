@@ -3,7 +3,7 @@
 
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "mapTile.h"
 #include "pathTile.h"
 #include <vector>

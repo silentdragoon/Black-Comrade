@@ -6,7 +6,7 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "shipState.h"
 #include "const.h"
 
