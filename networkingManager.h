@@ -23,11 +23,12 @@
 class NetworkingManager : public ITickable {
 
 private:
+
         GameRole chosenGameRole;
         NetworkRole networkRole;
         Packet *packet;
         DiscoveryAgent *discoveryAgent;
-        Lobby *lobby;
+
         SocketDescriptor sd;
 
         NetworkIDManager networkIdManager;
@@ -38,19 +39,25 @@ private:
 
         IExit *mExit;
 
-
+        bool inLobby;
         void startGame();
         int numConnections;
 
 
 public:
+        Lobby *lobby;
 
+        CollaborationInfo *collabInfo;
         NetworkingManager(IExit *mExit);
         ~NetworkingManager();
 
         OurReplicaManager replicaManager;
         virtual void tick();
-        CollaborationInfo *startNetworking(NetworkRole desiredRole);
+
+        bool startNetworking(NetworkRole desiredRole);
+
+        void runLobby();
+
         void stopNetworking();
 
         bool replicate(ReplicaObject *object);

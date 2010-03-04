@@ -28,16 +28,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     guiMgr = new GuiManager(sceneMgr);
 
-    // Networking
-    networkingManager = new NetworkingManager(this);
-    collabInfo = runLobby(networkingManager);
-
     // Game Loop
     gameLoop = new StateUpdate();
 
     // User Input
     inputState = new InputState(window,true,this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
+
+    // Networking
+    networkingManager = new NetworkingManager(this);
+
+    PreGame *preGame = new PreGame(inputState,networkingManager);
+
+    collabInfo = preGame->run();
 
     // Other players' state
     networkingManager->replicate(collabInfo);
@@ -350,36 +353,6 @@ void Main::configResources()
 
 }
 
-CollaborationInfo *Main::runLobby(NetworkingManager *networkingManager) {
-    
-    CollaborationInfo *collabInfo;
-
-    char ch;
-    printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
-
-    while(true) {
-        ch=getch();
-        if (ch=='c' || ch=='C')
-        {
-            collabInfo = networkingManager->startNetworking(CLIENT);
-            break;
-        }
-        else if (ch=='d' || ch=='D')
-        {
-            collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
-            printf("DEVELOPMENT SERVER\n");
-            break;
-        }
-        else if (ch=='s' || ch=='S')
-        {
-            collabInfo = networkingManager->startNetworking(SERVER);
-            break;
-        }
-    }
-    
-    return collabInfo;
-}
-
 Camera *Main::createCamera(SceneNode *shipSceneNode) {
 
     Camera *camera = sceneMgr->createCamera("mainCam");
@@ -447,24 +420,6 @@ void Main::createViewPort() {
     //camera->setAspectRatio(1.17);
 
     vp->update();
-}
-
-void Main::addCrossHair()
-{
-    ManualObject* manual = sceneMgr->createManualObject("manual");
-    
-    manual->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    manual->setUseIdentityProjection(true);
-    manual->setUseIdentityView(true);
-    manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
-    manual->position(-3, 0, 1);
-    manual->position(3, 0, 1);
-    manual->position(0, -3, 1);
-    manual->position(0, +3, 1);
-    manual->end();
-    
-    sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
-
 }
 
 int main(int argc,char *argv[])

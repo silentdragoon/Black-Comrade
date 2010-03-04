@@ -13,6 +13,7 @@ Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
     networkRole = nr;
     discoveryAgent = da;
     gameRole = NO_GAME_ROLE;
+    chosenGameRole = NO_GAME_ROLE;
 }
 
 void Lobby::enter() {
@@ -20,9 +21,7 @@ void Lobby::enter() {
         nick = "Player";
         return;
     }
-    std::cout << "Please type a nickname:" << std::endl;
-    getline(cin, nick);
-    std::cout << "Welcome to the lobby, " << nick << "! Just wait here while the other players connect..." << std::endl;
+    std::cout << "Welcome to the lobby" << std::endl;
     if (networkRole == SERVER) offerGameRoleChoices();
 }
 
@@ -32,13 +31,13 @@ string Lobby::getChosenNick() { return nick; }
 
 void Lobby::offerGameRoleChoices() {
     if (gameRole != NO_GAME_ROLE) return;
-    printf("Please choose a game role from the list below:\n");
+    printf("Available roles:\n");
     if (!pilotTaken) printf("(P)ilot\n");
     if (!navTaken) printf("(N)avigator\n");
     if (!engTaken) printf("(E)ngineer\n");
 }
 
-void Lobby::connect(string serverAddress, int port) {
+bool Lobby::connect(string serverAddress, int port) {
     rakPeer->Connect(serverAddress.c_str(),port,0,0,0);
     bool connected = false;
 
@@ -46,7 +45,6 @@ void Lobby::connect(string serverAddress, int port) {
         for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
             switch (packet->data[0]) {
                 case ID_CONNECTION_ATTEMPT_FAILED:
-                    exit(1);
                     break;
                 case ID_CONNECTION_REQUEST_ACCEPTED:
                     connected = true;
@@ -54,6 +52,15 @@ void Lobby::connect(string serverAddress, int port) {
             }
         }
     }
+    return connected;
+}
+
+void Lobby::chooseNick(string mNick) {
+    nick = mNick;
+}
+
+void Lobby::chooseGameRole(GameRole role) {
+    chosenGameRole = role;
 }
 
 bool Lobby::wait() {
@@ -90,33 +97,33 @@ bool Lobby::wait() {
 }
 
 void Lobby::checkForRoleChoice() {
-    if (kbhit())
-    {
-        char ch = getch();
-        if ((ch=='p' || ch=='P') && gameRole == NO_GAME_ROLE && pilotTaken == false)
-        {
-            gameRole = PILOT;
-            pilotTaken = true;
-            printf("You chose to be the Pilot.\n");
-        }
-        else if ((ch=='n' || ch=='N') && gameRole == NO_GAME_ROLE && navTaken == false)
-        {
-            gameRole = NAVIGATOR;
-            navTaken = true;
-            printf("You chose to be the Navigator.\n");
-        }
-        else if ((ch=='e' || ch=='E') && gameRole == NO_GAME_ROLE && engTaken == false)
-        {
-            gameRole = ENGINEER;
-            engTaken = true;
-            printf("You chose to be the Engineer.\n");
-        }
+    if (chosenGameRole == NO_GAME_ROLE) return;
 
-        if (networkRole == CLIENT) {
-            sendGameRoleChoice(gameRole);
-        }
-        else if (networkRole == SERVER) sendGameRoleChoices();
+    if (chosenGameRole == PILOT && gameRole == NO_GAME_ROLE && pilotTaken == false)
+    {
+        gameRole = PILOT;
+        pilotTaken = true;
+        printf("You chose to be the Pilot.\n");
     }
+    else if (chosenGameRole == NAVIGATOR && gameRole == NO_GAME_ROLE && navTaken == false)
+    {
+        gameRole = NAVIGATOR;
+        navTaken = true;
+        printf("You chose to be the Navigator.\n");
+    }
+    else if (chosenGameRole == ENGINEER && gameRole == NO_GAME_ROLE && engTaken == false)
+    {
+        gameRole = ENGINEER;
+        engTaken = true;
+        printf("You chose to be the Engineer.\n");
+    }
+
+    if (networkRole == CLIENT) {
+        sendGameRoleChoice(gameRole);
+    }
+    else if (networkRole == SERVER) sendGameRoleChoices();
+
+    chosenGameRole = NO_GAME_ROLE;
 }
 
 void Lobby::process() {
