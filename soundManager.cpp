@@ -27,6 +27,9 @@ void SoundManager::loadSoundFiles() {
     // Frontgun sound
     loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false);
 
+    // Frontgun sound
+    loadSoundFile("/sounds/enemygun1.wav",ConstManager::getInt("sound_enemygun"),false);
+
     // Attack mode
     loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false);
 
@@ -57,9 +60,9 @@ void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soun
 
     //TODO: Take account of rotation
     
-    float x = (soundPos.x - shipPos.x) / 100;
-    float y = (soundPos.y - shipPos.y) / 100;
-    float z = (soundPos.z - shipPos.z) / 100;
+    float x = (soundPos.x - shipPos.x) / 50;
+    float y = (soundPos.y - shipPos.y) / 50;
+    float z = (soundPos.z - shipPos.z) / 50;
 
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};

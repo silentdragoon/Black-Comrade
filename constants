@@ -30,3 +30,4 @@ sound_frontgun = 1
 sound_backgroundmusic = 2
 sound_incomingswarms = 3
 sound_hullfailing = 4
+sound_enemygun = 5

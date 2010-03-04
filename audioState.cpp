@@ -17,13 +17,13 @@ void AudioState::tick()
     }
 
     if(bulletMgr->enemyFire) {
-        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,bulletMgr->enemyNode,0.5,true);
+        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),shipNode,bulletMgr->enemyNode,0.3,true);
     }
 
     if(notificationMgr->hasNewNotification()) {
         Notification *newNotification = notificationMgr->getCurrentNotification();
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
-            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,shipNode,0.5,true);
+            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,shipNode,2,true);
         }
     }
 }
