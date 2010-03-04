@@ -31,13 +31,17 @@ class BulletManager : public ITickable
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
         DamageState *damageState;
-        
+       
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);
         void updateBullets(); 
         
     public:
+        bool playerFire;
+        bool enemyFire;
+        SceneNode *enemyNode;
+
         BulletManager(ShipState *shipState, SceneManager *sceneMgr,
             GunState *pilotGunState, GunState *engineerGunState,
             GunState *navigatorGunState, CollisionManager *colMgr,

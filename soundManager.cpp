@@ -54,10 +54,12 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
     Vector3 shipPos = shipNode->getPosition();
     Vector3 soundPos = soundNode->getPosition();
+
+    //TODO: Take account of rotation
     
-    float x = soundPos.x - shipPos.x;
-    float y = soundPos.y - shipPos.y;
-    float z = soundPos.z - shipPos.z;
+    float x = (soundPos.x - shipPos.x) / 100;
+    float y = (soundPos.y - shipPos.y) / 100;
+    float z = (soundPos.z - shipPos.z) / 100;
 
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};

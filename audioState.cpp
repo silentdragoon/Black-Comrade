@@ -2,17 +2,22 @@
 #include "audioState.h"
 
 AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
-                       NotificationManager *notificationMgr)
+                       NotificationManager *notificationMgr, BulletManager *bulletMgr)
     : gunState(gunState),
       sndMgr(sndMgr),
       shipNode(shipNode),
-      notificationMgr(notificationMgr)
+      notificationMgr(notificationMgr),
+      bulletMgr(bulletMgr)
 {}
 
 void AudioState::tick()
 {
-    if(gunState->fire()) {
+    if(bulletMgr->playerFire) {
         sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,shipNode,0.5,true);
+    }
+
+    if(bulletMgr->enemyFire) {
+        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,bulletMgr->enemyNode,0.5,true);
     }
 
     if(notificationMgr->hasNewNotification()) {
