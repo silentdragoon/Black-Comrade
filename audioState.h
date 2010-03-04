@@ -9,6 +9,7 @@
 #include "gunState.h"
 #include "soundManager.h"
 #include "const.h"
+#include "constManager.h"
 #include "notificationManager.h"
 
 using namespace Ogre;

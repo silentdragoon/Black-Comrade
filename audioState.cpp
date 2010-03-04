@@ -12,7 +12,7 @@ AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *ship
 void AudioState::tick()
 {
     if(gunState->fire()) {
-        sndMgr->playSound(Const::SOUND_FRONTGUN,shipNode,shipNode,0.5,true);
+        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,shipNode,0.5,true);
     }
 
     if(notificationMgr->hasNewNotification()) {
