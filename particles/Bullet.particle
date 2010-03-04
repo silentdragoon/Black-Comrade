@@ -27,10 +27,10 @@ particle_system PE/Bullet
 particle_system FX/Explosion
 {
 	quota	1
-	material	PE/Streak
+	material	FX/Flame
 	particle_width	6
 	particle_height	6
-	cull_each	false
+	cull_each   true	
 	renderer	billboard
 	billboard_type	point
 
@@ -38,13 +38,13 @@ particle_system FX/Explosion
 	{
 		angle	0.5
 		colour	0 1 0 1
-		colour_range_start	0 1 0 1
-		colour_range_end	0 1 0 1
+		colour_range_start	1 0 0 1
+		colour_range_end	1 0 0 1
 		direction	0 0 1
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	2000
+		time_to_live	200
 		duration	10
 	}
 }

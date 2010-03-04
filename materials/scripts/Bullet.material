@@ -36,3 +36,21 @@ material PE/LightRibbonTrail
     }
 }
 
+material FX/Flame
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+
+            texture_unit
+            {
+                texture bigflame.png
+            }
+        }
+    }
+}
+

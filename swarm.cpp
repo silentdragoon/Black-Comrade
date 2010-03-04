@@ -154,7 +154,6 @@ void Swarm::removeDeadEnemies()
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
         if(e->health < 0) {
-            std::cout << "MAKE BOOM BOOM" << std::endl;
             //Make Explosion here
             Vector3 *pos = e->getPosition();
             particleSystemEffectManager->createExplosion(*pos);
