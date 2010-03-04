@@ -6,6 +6,8 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
     MAPROOT = ConstManager::getString("map_file_path");
 
     cout << "Opening map: " << file << endl;
+
+    objective = false;
     
     ifstream map (file);
     if(map.is_open()) {
@@ -83,8 +85,56 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
                         connections.push_back(4);
                         createTile("ends/",connections,x,y);
                     } else if(line[x]=='0') {
-                        // TODO: Special case for objective 
-
+                        for(int ox=0;ox<3;ox++) {
+                            for(int oy=0;oy<3;oy++) {
+                                if(ox==0) {
+                                    if(oy==0) {
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                    } else if(oy==1) {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    } else {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                    }
+                                } else if(ox==1) {
+                                    if(oy==0) {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    } else if(oy==1) {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    } else {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    }
+                                } else {
+                                    if(oy==0) {
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    } else if(oy==1) {
+                                        connections.push_back(1);
+                                        connections.push_back(2);
+                                        connections.push_back(3);
+                                        connections.push_back(4);
+                                    } else {
+                                        connections.push_back(1);
+                                        connections.push_back(4);
+                                    }
+                                }
+                                createObjectiveTile(connections,x+ox,y+oy);                                    
+                            }
+                        }
                     }
 
                 }
@@ -174,6 +224,29 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
 
 std::vector<Entity*> MapManager::getMapPieces() {
     return mapEntities;
+}
+
+void MapManager::createObjectiveTile(std::vector<int> connections, int x, int y) {
+    if(!objective) {
+        objective=true;
+
+        objectiveNode = sceneManager->getRootSceneNode()->createChildSceneNode();
+        string name = "mapTile";
+        std::stringstream out;
+        out << "-" << x << "-" << y;
+        name += out.str();
+        string path = MAPROOT+"objec/1-2-3-4/objective.mesh";
+        objectiveEntity = sceneManager->createEntity(name, path);
+        mapEntities.push_back(objectiveEntity);
+        objectiveNode->attachObject(objectiveEntity);
+
+        Vector3 pos(x * ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size"));
+        objectiveNode->setPosition(pos);
+    }
+
+    MapTile *m = new MapTile(objectiveNode,objectiveEntity,x,y);
+    m->setConnections(connections);
+    mts[x][y] = m;
 }
 
 Entity* MapManager::getEntity(Vector3 *locn) {
