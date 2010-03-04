@@ -12,6 +12,7 @@ MiniGameManager::MiniGameManager(Console *console,
     , playerControls(playerControls)
     , sceneManager(sceneManager)
     , player(player)
+    , aKeyPressed(false)
 {
     consoleShell = new ConsoleShell(console,inputState);
     inputReceiver = consoleShell;
@@ -71,9 +72,11 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
 
     if (arg.key == OIS::KC_RETURN) {
         inputReceiver->returnKeyPressed();
+        aKeyPressed = true;
         return true;
     } else if (arg.key == OIS::KC_BACK) {
         inputReceiver->backspaceKeyPressed();
+        aKeyPressed = true;
         return true;
     } else if (arg.text == 0) {
         inputReceiver->otherKeyPressed(arg);
@@ -84,6 +87,7 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
     for(int c=0;c<sizeof(legalchars);c++){
         if(legalchars[c]==arg.text){
             inputReceiver->alphaNumKeyPressed(arg);
+            aKeyPressed = true;
             break;
         }
     }

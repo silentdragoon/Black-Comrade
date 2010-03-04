@@ -2,12 +2,14 @@
 #include "audioState.h"
 
 AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
-                       NotificationManager *notificationMgr, BulletManager *bulletMgr)
+                       NotificationManager *notificationMgr, BulletManager *bulletMgr,
+                       MiniGameManager *miniGameMgr)
     : gunState(gunState),
       sndMgr(sndMgr),
       shipNode(shipNode),
       notificationMgr(notificationMgr),
-      bulletMgr(bulletMgr)
+      bulletMgr(bulletMgr),
+      miniGameMgr(miniGameMgr)
 {}
 
 void AudioState::tick()
@@ -25,6 +27,11 @@ void AudioState::tick()
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
             sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,shipNode,2,true);
         }
+    }
+
+    if (miniGameMgr->aKeyPressed) {
+        miniGameMgr->aKeyPressed = false;
+        sndMgr->playSound(ConstManager::getInt("sound_consolekeypress"),shipNode,shipNode,0.1,true);
     }
 }
 
