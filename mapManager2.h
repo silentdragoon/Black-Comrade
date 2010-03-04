@@ -31,8 +31,12 @@ private:
 	SceneManager *sceneManager;
     std::vector<Entity*> mapEntities;
     std::vector<Waypoint*> waypoints;
+    bool objective;
+    Entity *objectiveEntity;
+    SceneNode *objectiveNode;
 
     void createTile(string dir, std::vector<int> connections, int x, int y);
+    void createObjectiveTile(std::vector<int> connections, int x, int y);
     void setSpawnPoints();
     void attachLight( Real x, Real z);
 
