@@ -135,6 +135,7 @@ void BulletManager::handleGun(GunState *gun) {
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
         fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+        playerFire = true;
     }
 }
 
@@ -146,12 +147,17 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	    if(e->fire) {
             e->fire = false;
 	        fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+            enemyFire = true;
+            enemyNode = sceneNodeMgr->getNode(e);
 	    }
 	}
 }
 
 void BulletManager::tick()
 {
+    playerFire = false;
+    enemyFire = false;
+
     // Guns shoot if neccessary
     handleGun(pilotGunState);
     handleGun(engineerGunState);

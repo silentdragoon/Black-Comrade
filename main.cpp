@@ -262,7 +262,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Audio
     soundMgr = new SoundManager();
     gameLoop->addTickable(soundMgr,"soundManager");
-    audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,notificationMgr);
+    audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
+                                notificationMgr,bulletMgr,miniGameMgr);
     gameLoop->addTickable(audioState,"audioState");
 	
     // Last class to be added to the game loop
