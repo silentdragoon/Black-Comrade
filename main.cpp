@@ -41,9 +41,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Networking
     networkingManager = new NetworkingManager(this);
 
-    PreGame *preGame = new PreGame(inputState,networkingManager);
+    // Pre-game environment
+    PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager);
 
     collabInfo = preGame->run();
+
+    //TODO Release keyboard and mouse here if in nk/nm mode
 
     // Other players' state
     networkingManager->replicate(collabInfo);

@@ -60,6 +60,10 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Overlay">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/NetworkRoleMenu">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/GameRoleMenu">
+    </WidgetLook>
     <WidgetLook name="BlackComrade/XCrosshair">
     </WidgetLook>
     <WidgetLook name="BlackComrade/RightPil">
