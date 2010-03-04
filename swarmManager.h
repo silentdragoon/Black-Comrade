@@ -12,6 +12,7 @@
 #include "collisionManager.h"
 #include "lines.h"
 #include "gameStateMachine.h"
+#include "particleSystemEffectManager.h"
 
 #include "networkingManager.h"
 
@@ -32,6 +33,7 @@ class SwarmManager : public ITickable
         NetworkingManager *networkingMgr;
         Lines *lines;
         GameStateMachine *gameStateMachine;
+        ParticleSystemEffectManager *particleSystemEffectManager;
 
         int id;
 
@@ -43,7 +45,8 @@ class SwarmManager : public ITickable
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr, NetworkingManager *networkingMgr,
-            Lines *lines, GameStateMachine *gameStateMachine);
+            Lines *lines, GameStateMachine *gameStateMachine,
+            ParticleSystemEffectManager *particleSystemEffectManager);
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	NetworkingManager *networkingMgr);

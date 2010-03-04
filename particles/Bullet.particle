@@ -18,8 +18,33 @@ particle_system PE/Bullet
 		direction	0 0 1
 		emission_rate	1
 		position	0 0 0
-		velocity	500
+		velocity	0
 		time_to_live	20
-		duration	1
+		duration	10
+	}
+}
+
+particle_system FX/Explosion
+{
+	quota	1
+	material	PE/Streak
+	particle_width	6
+	particle_height	6
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	0.5
+		colour	0 1 0 1
+		colour_range_start	0 1 0 1
+		colour_range_end	0 1 0 1
+		direction	0 0 1
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live	2000
+		duration	10
 	}
 }

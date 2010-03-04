@@ -16,6 +16,7 @@
 #include "mapManager2.h"
 #include "pathFinder.h"
 #include "gameParameterMap.h"
+#include "particleSystemEffectManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -47,6 +48,7 @@ class Swarm
         MapManager *mapMgr;
         PathFinder *pathFinder;
         GameParameterMap *gameParameterMap;
+        ParticleSystemEffectManager *particleSystemEffectManager;
     
     	void updateSwarmLocation();
     	void updateEnemyLocations();
@@ -64,7 +66,8 @@ class Swarm
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines,
-            CollisionManager *collisionMgr, MapManager *mapMgr, GameParameterMap *gameParameterMap);
+            CollisionManager *collisionMgr, MapManager *mapMgr, GameParameterMap *gameParameterMap,
+            ParticleSystemEffectManager *particleSystemEffectManager);
         ~Swarm();
 
         Vector3 getAverageAlignment();

@@ -5,7 +5,7 @@
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
 	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
-    MapManager *mapMgr, GameParameterMap *gameParameterMap)
+    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -22,6 +22,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , collisionMgr(collisionMgr) 
     , mapMgr(mapMgr)
     , gameParameterMap(gameParameterMap)
+    , particleSystemEffectManager(particleSystemEffectManager)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -153,6 +154,10 @@ void Swarm::removeDeadEnemies()
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
         if(e->health < 0) {
+            std::cout << "MAKE BOOM BOOM" << std::endl;
+            //Make Explosion here
+            Vector3 *pos = e->getPosition();
+            particleSystemEffectManager->createExplosion(*pos);
             sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));
