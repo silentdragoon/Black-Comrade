@@ -8,6 +8,7 @@
 #include <map>
 #include "ITickable.h"
 #include "const.h"
+#include "constManager.h"
 
 #define MAX_SOUND_CHANNELS  200
 
@@ -24,6 +25,7 @@ private:
 
     void errCheck(FMOD_RESULT result);
     void loadSoundFiles();
+    void loadSoundFile(string relativePath, int constName, bool loop);
 
 public:
     SoundManager();

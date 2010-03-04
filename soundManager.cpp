@@ -24,18 +24,28 @@ SoundManager::SoundManager() {
 
 void SoundManager::loadSoundFiles() {
     FMOD::Sound *tempsound;
-
     // Frontgun sound
-    errCheck(system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
-    errCheck(tempsound->setMode(FMOD_LOOP_OFF));
-    int vag = Const::SOUND_FRONTGUN;
-    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
+    loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false);
+
+    // Attack mode
+    loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false);
 
     // Background music
-    errCheck(system->createStream("./sounds/background.mp3", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
-    errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
-    vag = Const::SOUND_BACKGROUNDMUSIC;
-    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
+    loadSoundFile("/sounds/background.mp3",ConstManager::getInt("sound_backgroundmusic"), false);
+}
+
+void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
+    FMOD::Sound *tempsound;
+    string soundsPath = ConstManager::getString("sound_file_path");
+
+    string fullPath = soundsPath + relativePath;
+    errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    if (!loop) {
+        errCheck(tempsound->setMode(FMOD_LOOP_OFF));
+    } else {
+        errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
+    }
+    sounds.insert(pair<int,FMOD::Sound*>(constName,tempsound));
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {

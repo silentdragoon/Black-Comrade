@@ -107,6 +107,7 @@ void NotificationManager::prepareNotification() {
                       << " controls, " << collabInfo->getNick() << std::endl;
             break;
         case NT_UNDER_ATTACK:
+            soundNameConst = 3;
             consoleText << "They're coming for us! You may want to increase shield and weapon power..." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
