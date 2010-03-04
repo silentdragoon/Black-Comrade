@@ -30,6 +30,9 @@ void SoundManager::loadSoundFiles() {
     // Attack mode
     loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false);
 
+    // Hull critical
+    loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false);
+
     // Background music
     loadSoundFile("/sounds/background.mp3",ConstManager::getInt("sound_backgroundmusic"), false);
 }
