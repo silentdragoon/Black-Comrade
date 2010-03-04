@@ -44,6 +44,7 @@
 #include "hud.h"
 #include "console.h"
 #include "preGame.h"
+#include "particleSystemEffectManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -109,6 +110,7 @@ private:
     HUD *hud;
     Console *cons;
     Lines *lines;
+    ParticleSystemEffectManager *particleSystemEffectManager;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

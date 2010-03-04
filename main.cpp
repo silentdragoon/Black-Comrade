@@ -28,6 +28,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     guiMgr = new GuiManager(sceneMgr);
 
+    // Explosion creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr);
+
     // Game Loop
     gameLoop = new StateUpdate();
 
@@ -221,7 +224,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines,gameStateMachine);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             networkingManager);
@@ -248,6 +251,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop->addTickable(networkingManager,"networkingManager");
 
     gameLoop->addTickable(damageState, "damageState");
+
+    gameLoop->addTickable(particleSystemEffectManager, "psem");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
