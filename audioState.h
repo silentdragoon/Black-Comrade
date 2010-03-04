@@ -9,6 +9,7 @@
 #include "gunState.h"
 #include "soundManager.h"
 #include "const.h"
+#include "notificationManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -19,12 +20,14 @@ class AudioState : public ITickable
         GunState *gunState;
         SoundManager *sndMgr;
         SceneNode *shipNode;
+        NotificationManager *notificationMgr;
         
     public:
         
         void tick();
         
-        AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode);
+        AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
+                   NotificationManager *notificationMgr);
         ~AudioState();
 };
 
