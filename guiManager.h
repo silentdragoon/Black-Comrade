@@ -6,21 +6,23 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "shipState.h"
 #include "const.h"
+#include "CEGUIRQListener.h"
 
 class GuiManager {
 private:
 
+    CEGUI::OgreRenderer* d_renderer;
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
+    CEGUIRQListener *renderQueueListener;
+    SceneManager *sceneMgr;
 
-    MapManager *mapMgr;
-    ShipState *shipState;
 
 public:
-    GuiManager(MapManager *mapMgr, ShipState *shipState);
+    GuiManager(SceneManager *sceneMgr);
     ~GuiManager();
 
     CEGUI::FrameWindow *addStaticImage(const char *name, 
@@ -31,8 +33,10 @@ public:
     CEGUI::FrameWindow *addStaticImagePix(const char *name, float xCenter, float yCenter,
                                 float width,   float height,
                                 char *imageSet, char *imageName);
-    void setStatus(std::string stat);
+
     CEGUI::Window *getRootWindow();
+
+    void setOverlayAboveCEGUI(bool above);
 };
 
 #endif

@@ -23,3 +23,11 @@ flock_friend_closer_weight = 10
 flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 40
+
+sound_file_path = .
+
+sound_frontgun = 1
+sound_backgroundmusic = 2
+sound_incomingswarms = 3
+sound_hullfailing = 4
+sound_enemygun = 5

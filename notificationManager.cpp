@@ -107,6 +107,7 @@ void NotificationManager::prepareNotification() {
                       << " controls, " << collabInfo->getNick() << std::endl;
             break;
         case NT_UNDER_ATTACK:
+            soundNameConst = ConstManager::getInt("sound_incomingswarms");
             consoleText << "They're coming for us! You may want to increase shield and weapon power..." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
@@ -116,6 +117,7 @@ void NotificationManager::prepareNotification() {
             consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
+            soundNameConst = ConstManager::getInt("sound_hullfailing");
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
         case NT_COMMENT_ONE:

@@ -24,27 +24,45 @@ SoundManager::SoundManager() {
 
 void SoundManager::loadSoundFiles() {
     FMOD::Sound *tempsound;
+    // Frontgun sound
+    loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false);
 
     // Frontgun sound
-    errCheck(system->createSound("./sounds/shipgun1.wav", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
-    errCheck(tempsound->setMode(FMOD_LOOP_OFF));
-    int vag = Const::SOUND_FRONTGUN;
-    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
+    loadSoundFile("/sounds/enemygun1.wav",ConstManager::getInt("sound_enemygun"),false);
+
+    // Attack mode
+    loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false);
+
+    // Hull critical
+    loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false);
 
     // Background music
-    errCheck(system->createStream("./sounds/background.mp3", (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
-    errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
-    vag = Const::SOUND_BACKGROUNDMUSIC;
-    sounds.insert(pair<int,FMOD::Sound*>(vag,tempsound));
+    loadSoundFile("/sounds/background.mp3",ConstManager::getInt("sound_backgroundmusic"), false);
+}
+
+void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
+    FMOD::Sound *tempsound;
+    string soundsPath = ConstManager::getString("sound_file_path");
+
+    string fullPath = soundsPath + relativePath;
+    errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    if (!loop) {
+        errCheck(tempsound->setMode(FMOD_LOOP_OFF));
+    } else {
+        errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
+    }
+    sounds.insert(pair<int,FMOD::Sound*>(constName,tempsound));
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
     Vector3 shipPos = shipNode->getPosition();
     Vector3 soundPos = soundNode->getPosition();
+
+    //TODO: Take account of rotation
     
-    float x = soundPos.x - shipPos.x;
-    float y = soundPos.y - shipPos.y;
-    float z = soundPos.z - shipPos.z;
+    float x = (soundPos.x - shipPos.x) / 50;
+    float y = (soundPos.y - shipPos.y) / 50;
+    float z = (soundPos.z - shipPos.z) / 50;
 
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};

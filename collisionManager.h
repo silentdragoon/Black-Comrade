@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "collisionDetection.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "collision.h"
 
 using namespace Ogre;

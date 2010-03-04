@@ -13,7 +13,7 @@
 #include "lines.h"
 #include "collisionManager.h"
 #include "constManager.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "pathFinder.h"
 #include "gameParameterMap.h"
 

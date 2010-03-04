@@ -9,7 +9,7 @@
 #include "guiManager.h"
 #include "shipState.h"
 #include "gameRole.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 
 class HUD {
 private:

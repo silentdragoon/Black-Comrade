@@ -20,7 +20,7 @@
 #include "accelerationState.h"
 #include "motionState.h"
 #include "soundManager.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "audioState.h"
 #include "miniGameManager.h"
 #include "IExit.h"
@@ -43,7 +43,6 @@
 #include "radarGui.h"
 #include "hud.h"
 #include "console.h"
-
 
 //include networking stuff
 #include <string.h>
@@ -113,7 +112,7 @@ private:
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
-    CollaborationInfo *runLoby(NetworkingManager *networkingManager);
+    CollaborationInfo *runLobby(NetworkingManager *networkingManager);
     void addCrossHair();
     Root *configRoot();
     void configResources();

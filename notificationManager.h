@@ -5,7 +5,7 @@
 #include "ITickable.h"
 #include "gameStateMachine.h"
 #include "shipState.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "damageState.h"
 #include "constManager.h"
 #include <vector>

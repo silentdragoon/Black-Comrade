@@ -3,7 +3,7 @@
 #define GAME_STATE_MACHINE_H
 
 #include "ITickable.h"
-#include "mapManager.h"
+#include "mapManager2.h"
 #include "shipState.h"
 #include "replicaObject.h"
 #include "damageState.h"
