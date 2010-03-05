@@ -260,7 +260,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
-        damageState);
+        damageState,particleSystemEffectManager);
     gameLoop->addTickable(bulletMgr,"bulletManager");
     
     gameLoop->addTickable(systemManager,"systemManager");
