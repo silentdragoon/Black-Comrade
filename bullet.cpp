@@ -7,6 +7,10 @@ void Bullet::updateLocation() {
         sqrt(pow(direction.x*velocity,2)+pow(direction.y*velocity,2)+pow(direction.z*velocity,2)); 
 }
 
+Vector3 Bullet::getDeathSpark() {
+    return deathSpark;
+}
+
 Bullet::Bullet(SceneNode *bulletNode,
         SceneManager *sceneMgr,
         string name,
@@ -27,6 +31,7 @@ Bullet::Bullet(SceneNode *bulletNode,
             hitEnemy(false),
             hitShip(false)
 {
+    deathSpark = Vector3(bulletNode->getPosition().x+(direction.x*dtt),bulletNode->getPosition().y+(direction.y*dtt),bulletNode->getPosition().z+(direction.z*dtt));
 }
 
 Bullet::~Bullet() {

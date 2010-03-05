@@ -48,3 +48,28 @@ particle_system FX/Explosion
 		duration	10
 	}
 }
+
+particle_system FX/Sparks
+{
+	quota	1
+	material	FX/Flame
+	particle_width	6
+	particle_height	6
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	0.5
+		colour	0 1 0 1
+		colour_range_start	1 0 0 1
+		colour_range_end	1 0 0 1
+		direction	0 0 1
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live	200
+		duration	10
+	}
+}

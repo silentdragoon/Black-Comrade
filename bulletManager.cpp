@@ -5,7 +5,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
                 GunState *pilotGunState, GunState *engineerGunState,
                 GunState *navigatorGunState, CollisionManager *colMgr,
                 SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
-                DamageState *damageState)
+                DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager)
     : shipState(shipState)
     , sceneMgr(sceneMgr)
     , pilotGunState(pilotGunState)
@@ -15,6 +15,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     , swarmMgr(swarmMgr)
     , sceneNodeMgr(sceneNodeMgr)
     , damageState(damageState)
+    , particleSystemEffectManager(particleSystemEffectManager)
     , bnum(0)
 {
     activeBullets = new std::vector<Bullet*>();
@@ -114,7 +115,8 @@ void BulletManager::updateBullets() {
             } else if (b->hitShip) {
                 damageState->damage();
             }
-        
+            Vector3 pos = b->getDeathSpark();         
+            particleSystemEffectManager->createSparks(pos);
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
