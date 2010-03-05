@@ -9,6 +9,7 @@
 #include "stateUpdate.h"
 #include "IExit.h"
 #include "ITickable.h"
+#include "mapManager2.h"
 
 class PreGame : public IExit, public ITickable {
 private:
@@ -41,6 +42,8 @@ public:
             NetworkingManager *networkingMgr);
 
     CollaborationInfo *run();
+
+    MapManager* loadGame();
 
     void tick();
     void exit();

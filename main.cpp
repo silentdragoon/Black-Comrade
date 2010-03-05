@@ -46,6 +46,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     collabInfo = preGame->run();
 
+    mapMgr = preGame->loadGame();
+
     if (!useMouse) inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -77,9 +79,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
-
-    // Create Map
-    mapMgr = new MapManager("examplemap_new.txt",sceneMgr);
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
