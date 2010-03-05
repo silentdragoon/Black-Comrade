@@ -29,6 +29,9 @@ class InputState : public ITickable
         int getMouseX();
         int getMouseY();
 
+        void releaseMouse();
+        void releaseKeyboard();
+
         void addKeyListener(OIS::KeyListener *listener);
         void clearKeyListener();
         

@@ -10,7 +10,7 @@
 
 using namespace RakNet;
 
-Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Start Ogre
     root = configRoot();
 
@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop = new StateUpdate();
 
     // User Input
-    inputState = new InputState(window,true,this,useKey,useMouse);
+    inputState = new InputState(window,true,this,true,true);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -46,7 +46,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     collabInfo = preGame->run();
 
-    //TODO Release keyboard and mouse here if in nk/nm mode
+    if (!useMouse) inputState->releaseMouse();
+    if (!useKey) inputState->releaseKeyboard();
 
     // Other players' state
     networkingManager->replicate(collabInfo);
@@ -245,7 +246,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     } else if (collabInfo->getGameRole() == NAVIGATOR) {
         myControls = navigatorControls;
     } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;   
+        myControls = engineerControls;
     }
     miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
@@ -382,8 +383,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.6,0.6,1.0);
-    sp->setSpecularColour(0.6,0.6,1.0);
+    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
