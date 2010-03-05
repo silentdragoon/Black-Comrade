@@ -46,8 +46,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     collabInfo = preGame->run();
 
-    if (!useMouse) inputState->disableMouse();
-    if (!useKey) inputState->disableKeyboard();
+    if (!useMouse) inputState->releaseMouse();
+    if (!useKey) inputState->releaseKeyboard();
 
     // Other players' state
     networkingManager->replicate(collabInfo);

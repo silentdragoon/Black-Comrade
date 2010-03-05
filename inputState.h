@@ -18,9 +18,6 @@ class InputState : public ITickable
         OIS::Mouse* mMouse;
         OIS::InputManager* mInputManager;
         RenderWindow *mWindow;
-
-        bool useKeyboard;
-        bool useMouse;
         
         IExit *mExit;
         
@@ -32,8 +29,8 @@ class InputState : public ITickable
         int getMouseX();
         int getMouseY();
 
-        void disableMouse();
-        void disableKeyboard();
+        void releaseMouse();
+        void releaseKeyboard();
 
         void addKeyListener(OIS::KeyListener *listener);
         void clearKeyListener();
