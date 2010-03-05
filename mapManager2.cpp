@@ -171,7 +171,7 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
         map.close();
 
         setSpawnPoints();
-        //makeConPieces();
+        makeConPieces();
 
         cout << "Map " << file << " loaded..." << endl;
     } else {
@@ -378,12 +378,12 @@ void MapManager::attachLight( Real x, Real z )
     lightS += out.str();
     
     Light* light = sceneManager->createLight(lightS);
-    light->setType(Light::LT_SPOTLIGHT);
+    light->setType(Light::LT_POINT);
     light->setDiffuseColour(ColourValue(25.25f,25.25f,25.0f));
     light->setSpecularColour(ColourValue(25.25f,25.25f,25.0f));
     light->setAttenuation( 100, 1.0, 0.045, 0.0075);
-    light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
-    light->setDirection(Vector3::NEGATIVE_UNIT_Y);
+    //light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
+    //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
     node->attachObject(light);
     Vector3 pos(x, 23 , z);
     node->setPosition(pos);

@@ -309,6 +309,12 @@ void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("map_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("scripts_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("textures_file_path"),"FileSystem", "General");
 
     
     ResourceGroupManager::getSingleton().addResourceLocation(
@@ -322,13 +328,7 @@ void Main::configResources()
                     "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/scripts", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/programs", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/textures", "FileSystem", "General");
                     
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "particles", "FileSystem", "General"); 
@@ -382,8 +382,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.6,0.6,1.0);
-    sp->setSpecularColour(0.6,0.6,1.0);
+    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
