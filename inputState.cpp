@@ -8,7 +8,7 @@ void InputState::tick()
     if(mMouse)
         mMouse->capture();
 
-    if(mKeyboard) {
+    if(mKeyboard && useKeyboard) {
         mKeyboard->capture();
         if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
 	        mExit->exit();
@@ -59,6 +59,16 @@ int InputState::getMouseY() {
 
     int relY = mouse_state.Y.rel;
     return relY;
+}
+
+void InputState::disableMouse() {
+    mInputManager->destroyInputObject(mMouse);
+    mMouse = 0;
+}
+
+void InputState::disableKeyboard() {
+    mInputManager->destroyInputObject(mKeyboard);
+    mKeyboard = 0;
 }
 
 InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
