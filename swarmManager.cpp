@@ -4,7 +4,7 @@
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
 	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
 	CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines,
-    GameStateMachine *gameStateMachine) :
+    GameStateMachine *gameStateMachine, ParticleSystemEffectManager *particleSystemEffectManager) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -15,8 +15,9 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     shipState(shipState),
     colMgr(colMgr),
     networkingMgr(networkingMgr),
-    gameStateMachine(gameStateMachine)
-    ,lines(lines)
+    gameStateMachine(gameStateMachine),
+    particleSystemEffectManager(particleSystemEffectManager),
+    lines(lines)
 {
 
     activeSwarms = std::vector<Swarm*>();
@@ -62,7 +63,7 @@ SwarmManager::~SwarmManager()
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines,colMgr,mapMgr,gamePM);
+        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -119,6 +120,9 @@ void SwarmManager::updateRemoteSwarms() {
             Enemy *enemy = (Enemy*) *it;
             sceneNodeMgr->createNode(enemy);
             if (enemy->health < 0) {
+                //Make Explosion here
+                Vector3 *pos = enemy->getPosition();
+                particleSystemEffectManager->createExplosion(*pos);
                 sceneNodeMgr->deleteNode(enemy);
                 delete enemy;
             }

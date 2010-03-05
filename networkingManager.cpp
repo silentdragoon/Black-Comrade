@@ -16,11 +16,14 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
     serverAddress(""),
     numConnections(0),
     chosenGameRole(NO_GAME_ROLE),
-    mExit(mExit)
+    mExit(mExit),
+    inLobby(true)
 {
     sd.port = 0;
     replicaManager.SetDefaultPacketReliability(RELIABLE_ORDERED);
     replicaManager.SetAutoSerializeInterval(1);
+
+    collabInfo = new CollaborationInfo("",NO_NETWORK_ROLE,NO_GAME_ROLE);
 }
 
 NetworkingManager::~NetworkingManager() {
@@ -34,6 +37,12 @@ NetworkingManager::~NetworkingManager() {
 
 void NetworkingManager::tick() {
     bool quit = false;
+
+    if (inLobby) {
+        runLobby();
+        return;
+    }
+
     for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
             switch (packet->data[0]) {
                 case ID_CONNECTION_ATTEMPT_FAILED:
@@ -68,7 +77,7 @@ NetworkRole NetworkingManager::determineRole(NetworkRole desiredRole) {
     else if (desiredRole == DEVELOPMENTSERVER) { return DEVELOPMENTSERVER; }
 }
 
-CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
+bool NetworkingManager::startNetworking(NetworkRole desiredRole) {
     NetworkRole actualRole = NO_NETWORK_ROLE;
     discoveryAgent = new DiscoveryAgent();
     actualRole = determineRole(desiredRole);
@@ -88,11 +97,15 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
 
     lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
 
-    if (actualRole == CLIENT) lobby->connect(serverAddress, Const::SERVER_PORT);
+    if (actualRole == CLIENT) {
+        return lobby->connect(serverAddress, Const::SERVER_PORT);
+    }
 
-    lobby->enter();
+    return true;
+}
 
-    while (!lobby->wait()){}
+void NetworkingManager::runLobby() {
+    if (!lobby->wait()) return;
     
     if (networkRole == SERVER) {
         startGame();
@@ -100,8 +113,8 @@ CollaborationInfo *NetworkingManager::startNetworking(NetworkRole desiredRole) {
     }
     chosenGameRole = lobby->getChosenGameRole();
     if (chosenGameRole == NO_GAME_ROLE) chosenGameRole = PILOT;
-    CollaborationInfo *collabInfo = new CollaborationInfo(lobby->getChosenNick(), networkRole, chosenGameRole); 
-    return collabInfo;
+    collabInfo = new CollaborationInfo(lobby->getChosenNick(), networkRole, chosenGameRole);
+    inLobby = false;
 }
 
 void NetworkingManager::startGame() {

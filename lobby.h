@@ -36,6 +36,8 @@ class Lobby {
     RakPeerInterface *rakPeer;
     Packet *packet;
     DiscoveryAgent *discoveryAgent;
+
+    GameRole chosenGameRole;
     GameRole gameRole;
     NetworkRole networkRole;
     void checkForRoleChoice();
@@ -55,9 +57,13 @@ class Lobby {
 
     public:
     Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr);
+
     void enter();
     bool wait();
-    void connect(string address, int port);
+    void chooseNick(string nick);
+    void chooseGameRole(GameRole role);
+
+    bool connect(string address, int port);
     GameRole getChosenGameRole();
     string getChosenNick();
 };

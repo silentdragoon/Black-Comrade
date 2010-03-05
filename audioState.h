@@ -12,6 +12,7 @@
 #include "constManager.h"
 #include "bulletManager.h"
 #include "notificationManager.h"
+#include "miniGameManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -24,13 +25,16 @@ class AudioState : public ITickable
         SoundManager *sndMgr;
         SceneNode *shipNode;
         NotificationManager *notificationMgr;
+        MiniGameManager *miniGameMgr;
         
     public:
         
         void tick();
         
         AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
-                   NotificationManager *notificationMgr, BulletManager *bulletMgr);
+                   NotificationManager *notificationMgr, BulletManager *bulletMgr,
+                   MiniGameManager *miniGameManager);
+
         ~AudioState();
 };
 

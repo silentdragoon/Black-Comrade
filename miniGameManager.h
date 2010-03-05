@@ -33,6 +33,7 @@ private:
     void setConsoleState(bool isOpen);
     
 public:
+    bool aKeyPressed;
 
     void tick();
     

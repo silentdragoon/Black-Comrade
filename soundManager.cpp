@@ -38,6 +38,9 @@ void SoundManager::loadSoundFiles() {
 
     // Background music
     loadSoundFile("/sounds/background.mp3",ConstManager::getInt("sound_backgroundmusic"), false);
+
+    // Console key press
+    loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
 }
 
 void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {

@@ -28,9 +28,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     guiMgr = new GuiManager(sceneMgr);
 
-    // Networking
-    networkingManager = new NetworkingManager(this);
-    collabInfo = runLobby(networkingManager);
+    // Explosion creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr);
 
     // Game Loop
     gameLoop = new StateUpdate();
@@ -38,6 +37,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // User Input
     inputState = new InputState(window,true,this,useKey,useMouse);
     gameLoop->addTickable(inputState,"inputState");
+
+    // Networking
+    networkingManager = new NetworkingManager(this);
+
+    // Pre-game environment
+    PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager);
+
+    collabInfo = preGame->run();
+
+    //TODO Release keyboard and mouse here if in nk/nm mode
 
     // Other players' state
     networkingManager->replicate(collabInfo);
@@ -218,7 +227,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines,gameStateMachine);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             networkingManager);
@@ -246,6 +255,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     gameLoop->addTickable(damageState, "damageState");
 
+    gameLoop->addTickable(particleSystemEffectManager, "psem");
+
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
@@ -258,7 +269,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     soundMgr = new SoundManager();
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
-                                notificationMgr,bulletMgr);
+                                notificationMgr,bulletMgr,miniGameMgr);
     gameLoop->addTickable(audioState,"audioState");
 	
     // Last class to be added to the game loop
@@ -349,36 +360,6 @@ void Main::configResources()
 
 }
 
-CollaborationInfo *Main::runLobby(NetworkingManager *networkingManager) {
-    
-    CollaborationInfo *collabInfo;
-
-    char ch;
-    printf("Start as (c)lient, (s)erver or (d)evelopment server?\n");
-
-    while(true) {
-        ch=getch();
-        if (ch=='c' || ch=='C')
-        {
-            collabInfo = networkingManager->startNetworking(CLIENT);
-            break;
-        }
-        else if (ch=='d' || ch=='D')
-        {
-            collabInfo = networkingManager->startNetworking(DEVELOPMENTSERVER);
-            printf("DEVELOPMENT SERVER\n");
-            break;
-        }
-        else if (ch=='s' || ch=='S')
-        {
-            collabInfo = networkingManager->startNetworking(SERVER);
-            break;
-        }
-    }
-    
-    return collabInfo;
-}
-
 Camera *Main::createCamera(SceneNode *shipSceneNode) {
 
     Camera *camera = sceneMgr->createCamera("mainCam");
@@ -446,24 +427,6 @@ void Main::createViewPort() {
     //camera->setAspectRatio(1.17);
 
     vp->update();
-}
-
-void Main::addCrossHair()
-{
-    ManualObject* manual = sceneMgr->createManualObject("manual");
-    
-    manual->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    manual->setUseIdentityProjection(true);
-    manual->setUseIdentityView(true);
-    manual->begin("BaseWhiteNoLighting", RenderOperation::OT_LINE_LIST);
-    manual->position(-3, 0, 1);
-    manual->position(3, 0, 1);
-    manual->position(0, -3, 1);
-    manual->position(0, +3, 1);
-    manual->end();
-    
-    sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(manual);
-
 }
 
 int main(int argc,char *argv[])

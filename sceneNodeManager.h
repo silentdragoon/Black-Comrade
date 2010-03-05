@@ -2,6 +2,10 @@
 #define SCENE_NODE_MANAGER_H
 
 #include <OGRE/Ogre.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/CEGUIBase.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+
 #include "ITickable.h"
 #include "IDrawable.h"
 #include <map>

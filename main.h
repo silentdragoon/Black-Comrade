@@ -43,6 +43,8 @@
 #include "radarGui.h"
 #include "hud.h"
 #include "console.h"
+#include "preGame.h"
+#include "particleSystemEffectManager.h"
 
 //include networking stuff
 #include <string.h>
@@ -108,12 +110,12 @@ private:
     HUD *hud;
     Console *cons;
     Lines *lines;
+    ParticleSystemEffectManager *particleSystemEffectManager;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();
     void createViewPort();
-    CollaborationInfo *runLobby(NetworkingManager *networkingManager);
-    void addCrossHair();
+
     Root *configRoot();
     void configResources();
     
