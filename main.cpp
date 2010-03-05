@@ -260,7 +260,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
-        damageState);
+        damageState,particleSystemEffectManager);
     gameLoop->addTickable(bulletMgr,"bulletManager");
     
     gameLoop->addTickable(systemManager,"systemManager");
@@ -309,6 +309,12 @@ void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("map_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("scripts_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("textures_file_path"),"FileSystem", "General");
 
     
     ResourceGroupManager::getSingleton().addResourceLocation(
@@ -322,13 +328,7 @@ void Main::configResources()
                     "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/scripts", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/programs", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/textures", "FileSystem", "General");
                     
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "particles", "FileSystem", "General"); 

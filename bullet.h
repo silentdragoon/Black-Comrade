@@ -19,6 +19,7 @@ class Bullet
         SceneManager *sceneMgr;
 
         Vector3 direction;
+        Vector3 deathSpark;
         int velocity;
 
                
@@ -37,6 +38,7 @@ class Bullet
         ~Bullet();
 
         void updateLocation();
+        Vector3 getDeathSpark();
         
         Enemy *enemy;
         bool hitEnemy;

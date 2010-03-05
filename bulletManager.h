@@ -31,6 +31,7 @@ class BulletManager : public ITickable
         CollisionManager *colMgr;
         SwarmManager *swarmMgr;
         DamageState *damageState;
+        ParticleSystemEffectManager *particleSystemEffectManager;
        
         void fire(Vector3 origin, Vector3 direction, ColourValue c);
         void handleGun(GunState *gun);
@@ -46,7 +47,7 @@ class BulletManager : public ITickable
             GunState *pilotGunState, GunState *engineerGunState,
             GunState *navigatorGunState, CollisionManager *colMgr,
             SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
-            DamageState *damageState);
+            DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager);
 
         ~BulletManager();
             
