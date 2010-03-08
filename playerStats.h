@@ -8,6 +8,7 @@
 class PlayerStats : public ReplicaObject {
 private:
     GameRole owner;
+    int collisions;
 
 public:
     PlayerStats();
@@ -18,7 +19,7 @@ public:
     int enemiesDestroyed;
 
     double averageSpeed;
-    int collisions;
+
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
