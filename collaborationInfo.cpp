@@ -9,7 +9,8 @@ CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameR
     gameRole(gameRole),
     toRepair(SS_NONE),
     repairAmount(0),
-    killCount(0)
+    killCount(0),
+    stats(0)
 {
 }
 
@@ -20,6 +21,7 @@ CollaborationInfo::CollaborationInfo()
     , toRepair(SS_NONE)
     , repairAmount(0)
     , killCount(0)
+    , stats(0)
 {}
 
 string CollaborationInfo::getNick() { return nick; }
@@ -39,6 +41,12 @@ string CollaborationInfo::getNetworkRoleString() {
     if (networkRole == SERVER) return "Server";
     else if (networkRole == CLIENT) return "Client";
     else return "";
+}
+
+PlayerStats * CollaborationInfo::getPlayerStats() { return stats; }
+
+void CollaborationInfo::setPlayerStats(PlayerStats *mStats) {
+    stats = mStats;
 }
 
 void CollaborationInfo::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {

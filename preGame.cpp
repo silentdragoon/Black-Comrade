@@ -41,6 +41,11 @@ CollaborationInfo* PreGame::run() {
     return collabInfo;
 }
 
+MapManager *PreGame::loadGame() {
+    MapManager *mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
+    return mapMgr;
+}
+
 void PreGame::showMainMenu() {
     std::cout << "Main menu displayed...\n";
 

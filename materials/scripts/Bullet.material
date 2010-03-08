@@ -45,10 +45,30 @@ material FX/Flame
             lighting off
             scene_blend add
             depth_write off
+            fog_override true 
 
             texture_unit
             {
                 texture bigflame.png
+            }
+        }
+    }
+}
+
+material FX/Muzzle
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            fog_override true 
+
+            texture_unit
+            {
+                texture muzzleflash.png
             }
         }
     }

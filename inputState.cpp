@@ -61,6 +61,16 @@ int InputState::getMouseY() {
     return relY;
 }
 
+void InputState::releaseMouse() {
+    mInputManager->destroyInputObject(mMouse);
+    mMouse = 0;
+}
+
+void InputState::releaseKeyboard() {
+    mInputManager->destroyInputObject(mKeyboard);
+    mKeyboard = 0;
+}
+
 InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
         	bool initKeyboard, bool initMouse) 
     : mKeyboard(0)

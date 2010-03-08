@@ -16,12 +16,14 @@ class ParticleSystemEffectManager : public ITickable {
         int num;
         SceneManager *sceneMgr;
 
+        std::string createUnique(std::string name);
     public:
         ParticleSystemEffectManager(SceneManager *sceneMgr);
         ~ParticleSystemEffectManager();
 
         void createExplosion(Vector3 pos);
         void createSparks(Vector3 pos);
+        void createMuzzleFlash(Vector3 pos);
         void updateEffects();
         void tick();
 };

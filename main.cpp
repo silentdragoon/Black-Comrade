@@ -10,7 +10,7 @@
 
 using namespace RakNet;
 
-Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Start Ogre
     root = configRoot();
 
@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     gameLoop = new StateUpdate();
 
     // User Input
-    inputState = new InputState(window,true,this,useKey,useMouse);
+    inputState = new InputState(window,true,this,true,true);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -46,9 +46,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     collabInfo = preGame->run();
 
-    //TODO Release keyboard and mouse here if in nk/nm mode
+    mapMgr = preGame->loadGame();
 
-    // Other players' state
+    if (!useMouse) inputState->releaseMouse();
+    if (!useKey) inputState->releaseKeyboard();
+
+    // Player info
     networkingManager->replicate(collabInfo);
     pilotInfo = (CollaborationInfo*) networkingManager->getReplica("PilotInfo",true);
 
@@ -59,6 +62,28 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
         engineerInfo = new CollaborationInfo("Engineer",CLIENT,ENGINEER);
         navigatorInfo = new CollaborationInfo("Navigator",CLIENT,NAVIGATOR);
     }
+
+    // Player stats
+    PlayerStats *myStats = new PlayerStats(collabInfo->getGameRole());
+    PlayerStats *pilotStats, *engStats, *navStats;
+    collabInfo->setPlayerStats(myStats);
+    networkingManager->replicate(myStats);
+    pilotStats = (PlayerStats*) networkingManager->getReplica("PilotStats",true);
+    pilotInfo->setPlayerStats(pilotStats);
+
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+        engStats = (PlayerStats*) networkingManager->getReplica("EngineerStats",true);
+        engineerInfo->setPlayerStats(engStats);
+        navStats = (PlayerStats*) networkingManager->getReplica("NavigatorStats",true);
+        navigatorInfo->setPlayerStats(navStats);
+    } else {
+        engStats = new PlayerStats(ENGINEER);
+        engineerInfo->setPlayerStats(engStats);
+        navStats = new PlayerStats(NAVIGATOR);
+
+    }
+
+    navigatorInfo->setPlayerStats(navStats);
 
     std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
@@ -76,9 +101,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // SceneNode Manager
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
-
-    // Create Map
-    mapMgr = new MapManager("examplemap_new.txt",sceneMgr);
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
@@ -176,7 +198,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
 
     // Pilot Gun State
     if(collabInfo->getGameRole() == PILOT) {
-        pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo->getGameRole());
+        pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(pilotGunState);
     } else if(collabInfo->getGameRole() == ENGINEER) {
         pilotGunState = (GunState*) networkingManager->
@@ -191,7 +213,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     
     // Navigator Gun State
     if(collabInfo->getGameRole() == NAVIGATOR) {
-        navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo->getGameRole());
+        navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(navigatorGunState);
         gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     } else if(collabInfo->getGameRole() == ENGINEER) {
@@ -211,7 +233,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     
     // Engineer Gun State
     if(collabInfo->getGameRole() == ENGINEER) {
-        engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo->getGameRole());
+        engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(engineerGunState);
         gameLoop->addTickable(engineerGunState,"engineerGunState");
     } else {
@@ -245,7 +267,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     } else if (collabInfo->getGameRole() == NAVIGATOR) {
         myControls = navigatorControls;
     } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;   
+        myControls = engineerControls;
     }
     miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
@@ -260,7 +282,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
-        damageState);
+        damageState,particleSystemEffectManager);
     gameLoop->addTickable(bulletMgr,"bulletManager");
     
     gameLoop->addTickable(systemManager,"systemManager");
@@ -285,12 +307,21 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions  ) {
     if (collabInfo->getGameRole() == ENGINEER) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
     	gameLoop->addTickable(radarGui,"Radar");
-	}
+    }
 
     // Start Rendering Loop
     
     gameLoop->startLoop();
-    //root->startRendering();
+
+    std::cout << "Pilot stats:" << "\n";
+    pilotInfo->getPlayerStats()->print();
+
+    std::cout << "Nav stats:" << "\n";
+    navigatorInfo->getPlayerStats()->print();
+
+    std::cout << "Eng stats:" << "\n";
+    engineerInfo->getPlayerStats()->print();
+
     networkingManager->stopNetworking();
 }
 
@@ -308,8 +339,13 @@ void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("map_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("scripts_file_path"),"FileSystem", "General");
+                    
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    ConstManager::getString("textures_file_path"),"FileSystem", "General");
 
-    
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
@@ -321,13 +357,7 @@ void Main::configResources()
                     "sounds", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/scripts", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/programs", "FileSystem", "General");
-
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "materials/textures", "FileSystem", "General");
                     
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "particles", "FileSystem", "General"); 
@@ -381,8 +411,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(0.6,0.6,1.0);
-    sp->setSpecularColour(0.6,0.6,1.0);
+    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
 

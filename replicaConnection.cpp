@@ -22,6 +22,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="PilotInfo" || typeName == "EngineerInfo" || typeName == "NavigatorInfo") {
         return new CollaborationInfo;
     }
+    else if (typeName=="PilotStats" || typeName == "EngineerStats" || typeName == "NavigatorStats") {
+        return new PlayerStats;
+    }
     else if (typeName=="GameStateMachine") {
         return new GameStateMachine;
     }

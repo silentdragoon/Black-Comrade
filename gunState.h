@@ -8,7 +8,8 @@
 #include <iostream>
 #include "ITickable.h"
 #include "IPlayerControls.h"
-#include "gameRole.h"
+#include "collaborationInfo.h"
+#include "playerStats.h"
 #include "damageState.h"
 #include "systemManager.h"
 
@@ -23,6 +24,7 @@ class GunState : public ITickable, public ReplicaObject
     private:
         int timeSinceLastFire;
         bool isFire;
+
         GameRole owner;
 
         Vector3 position;
@@ -38,11 +40,12 @@ class GunState : public ITickable, public ReplicaObject
         Vector3 getPosition();
         Quaternion getOrientation();
         void setSystemManager(SystemManager *sysMan);
+        PlayerStats *stats;
         
         virtual void tick();
         
         GunState();
-        GunState(IPlayerControls *pilotControls, DamageState *damageState, SystemManager *systemManger, GameRole owner);
+        GunState(IPlayerControls *pilotControls, DamageState *damageState, SystemManager *systemManger, CollaborationInfo *ownerInfo);
         ~GunState();
 
         virtual RakNet::RakString GetName(void) const;

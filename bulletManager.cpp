@@ -5,7 +5,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
                 GunState *pilotGunState, GunState *engineerGunState,
                 GunState *navigatorGunState, CollisionManager *colMgr,
                 SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
-                DamageState *damageState)
+                DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager)
     : shipState(shipState)
     , sceneMgr(sceneMgr)
     , pilotGunState(pilotGunState)
@@ -15,6 +15,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     , swarmMgr(swarmMgr)
     , sceneNodeMgr(sceneNodeMgr)
     , damageState(damageState)
+    , particleSystemEffectManager(particleSystemEffectManager)
     , bnum(0)
 {
     activeBullets = new std::vector<Bullet*>();
@@ -23,7 +24,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
+bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
 {
     string bullName = "Bullet";
     string bname = "Bill";
@@ -63,6 +64,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     bulletNode->attachObject(l);
 
     Vector3 *pos = new Vector3(origin.x,origin.y,origin.z);
+    particleSystemEffectManager->createMuzzleFlash(*pos);
 
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;
@@ -101,6 +103,12 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     } else if (false && isShip) b->hitShip = true;
 
     activeBullets->push_back(b);
+
+    // TODO: Return enum rather than bool so we can record friendly fire
+    if (isEnemy)
+        return true;
+    else
+        return false;
 }
 
 void BulletManager::updateBullets() {
@@ -114,7 +122,8 @@ void BulletManager::updateBullets() {
             } else if (b->hitShip) {
                 damageState->damage();
             }
-        
+            Vector3 pos = b->getDeathSpark();         
+            particleSystemEffectManager->createSparks(pos);
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -130,11 +139,15 @@ void BulletManager::handleGun(GunState *gun) {
     if (!gun) return;
 
     if (gun->fire()) {
+        if (gun->stats != 0) gun->stats->shotsFired += 1;
+
         Vector3 position = gun->getPosition();
         position.y = position.y - 2;
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
-        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+        position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
+        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
+            if (gun->stats != 0) gun->stats->shotsHit += 1;
         playerFire = true;
     }
 }
