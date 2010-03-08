@@ -30,13 +30,15 @@ void GunState::tick()
 Vector3 GunState::getPosition() { return position; }
 Quaternion GunState::getOrientation() { return orientation; }
         
-GunState::GunState(IPlayerControls *playerControls, DamageState *damageState, SystemManager *systemManager, GameRole owner)
+GunState::GunState(IPlayerControls *playerControls, DamageState *damageState,
+                   SystemManager *systemManager, CollaborationInfo *ownerInfo)
     : playerControls(playerControls)
     , damageState(damageState)
     , systemManager(systemManager)
     , isFire(false)
     , timeSinceLastFire(0)
-    , owner(owner)
+    , owner(ownerInfo->getGameRole())
+    , stats(ownerInfo->getPlayerStats())
     , position(Vector3(0.0,0.0,0.0))
     , orientation(Quaternion(1.0,0.0,0.0,0.0))
 {

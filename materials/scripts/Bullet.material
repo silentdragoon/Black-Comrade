@@ -55,3 +55,22 @@ material FX/Flame
     }
 }
 
+material FX/Muzzle
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            fog_override true 
+
+            texture_unit
+            {
+                texture muzzleflash.png
+            }
+        }
+    }
+}
+

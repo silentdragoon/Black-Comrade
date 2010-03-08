@@ -24,7 +24,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
+bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
 {
     string bullName = "Bullet";
     string bname = "Bill";
@@ -64,6 +64,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     bulletNode->attachObject(l);
 
     Vector3 *pos = new Vector3(origin.x,origin.y,origin.z);
+    particleSystemEffectManager->createMuzzleFlash(*pos);
 
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;
@@ -102,6 +103,12 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     } else if (isShip) b->hitShip = true;
 
     activeBullets->push_back(b);
+
+    // TODO: Return enum rather than bool so we can record friendly fire
+    if (isEnemy)
+        return true;
+    else
+        return false;
 }
 
 void BulletManager::updateBullets() {
@@ -132,11 +139,14 @@ void BulletManager::handleGun(GunState *gun) {
     if (!gun) return;
 
     if (gun->fire()) {
+        gun->stats->shotsFired += 1;
+
         Vector3 position = gun->getPosition();
         position.y = position.y - 2;
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
-        fire(position,direction,ColourValue(0.7f,0.4f,0.0f));
+        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
+            gun->stats->shotsHit += 1;
         playerFire = true;
     }
 }

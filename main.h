@@ -45,6 +45,7 @@
 #include "console.h"
 #include "preGame.h"
 #include "particleSystemEffectManager.h"
+#include "playerStats.h"
 
 //include networking stuff
 #include <string.h>

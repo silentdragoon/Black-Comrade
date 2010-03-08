@@ -5,6 +5,7 @@
 #include "networkRole.h"
 #include "replicaObject.h"
 #include "shipSystem.h"
+#include "playerStats.h"
 
 #include <string>
 
@@ -16,12 +17,16 @@ class CollaborationInfo : public ReplicaObject
     string nick;
     GameRole gameRole;
     NetworkRole networkRole;
+    PlayerStats *stats;
 
     int killCount;
 
     public:
     CollaborationInfo(string nick, NetworkRole networkRole, GameRole gameRole);
     CollaborationInfo();
+
+    void setPlayerStats(PlayerStats* stats);
+    PlayerStats * getPlayerStats();
 
     ShipSystem toRepair;
     int repairAmount;
