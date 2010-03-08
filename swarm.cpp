@@ -66,31 +66,26 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 
 void Swarm::tick()
 {
-    //std::cout << location << "\t" << yaw << "\n";
-    //std::cout << *shipState->getPosition() << "\t" << shipState->yaw << "\n";
-
     removeDeadEnemies();
+    
+    if(isShipInSight()) state = SS_ATTACK;
 
-    if(isShipInSight()) {
-        //state = SS_ATTACK;
-    }
-	
-    // Change speed?
-    /*switch(state) {
-        case SS_ATTACK:
-            speed = ConstManager::getFloat("enemy_attack_speed") *
-            ConstManager::getFloat("tick_period");
+    switch(state) {
+        case SS_PATROL:
+         
+            updateTargetLocation();
+    
+            updateEnemyLocationsFlocking();
+
             break;
-        default:
-            speed = ConstManager::getFloat("enemy_patrol_speed") *
-            ConstManager::getFloat("tick_period");
-    }*/
+        case SS_ATTACK:
 
-    updateTargetLocation();
-    updateSwarmLocation();
-    updateEnemyLocations();
+            updateEnemyLocationsAttack();
 
-    shootAtShip();
+            shootAtShip();
+
+            break;
+    }
 }
 
 Swarm::~Swarm()
@@ -206,79 +201,12 @@ void Swarm::updateTargetLocation() {
     }
 }
 
-void Swarm::updateSwarmLocation()
-{
-	if(true || state == SS_PATROL) {
-	    /*Vector3 result(0,0,0);
-	    float dRight, dLeft, tmp;
-
-	    Vector3 futPos( location.x+(speed*ConstManager::getFloat("enemy_look_ahead"))*sin(yaw), location.y, location.z+(speed*ConstManager::getFloat("enemy_look_ahead"))*cos(yaw));
-
-	    Vector3 left(sin(yaw+1.57),0,cos(yaw+1.57));
-	    dLeft = rRayQuery->RaycastFromPoint(futPos, left, result);
-
-	    Vector3 right(sin(yaw-1.57),0,cos(yaw-1.57));
-	    dRight = rRayQuery->RaycastFromPoint(futPos, right, result);
-
-	    tmp = (dLeft + dRight) /2 - dRight;
-
-	    yaw += 1.0f/2.0f*atan(tmp/(speed*
-	        ConstManager::getFloat("enemy_look_ahead')));
-
-	    location.x += speed * sin(yaw);
-	    location.z += speed * cos(yaw);*/
-	}
-	else if(state == SS_ATTACK) {
-		
-		Vector3 lookDirection(sin(yaw),0,cos(yaw));
-		
-		// Point at ship
-		Vector3 lineToShip = *(shipState->getPosition()) -location;
-		float newYaw = atan2(lineToShip.x,lineToShip.z);
-		if(newYaw < 0) newYaw += 2.0*PI;
-		 
-		// move yaw to be in the range [0,2PI]
-		while(yaw < 0) yaw += 2.0*PI;
-	    while(yaw > 2.0*PI) yaw -= 2.0*PI;
-		float posDis = (newYaw >= yaw) ? newYaw - yaw : 2*PI + newYaw - yaw;
-		float negDis = (newYaw <= yaw) ? yaw - newYaw : 2*PI + yaw - newYaw;
-		
-		float move = (posDis <= negDis) ? posDis : -negDis;
-		
-		if(abs(move) < ConstManager::getFloat("enemy_max_turn")) yaw += move;
-		else if(move > 0) yaw += ConstManager::getFloat("enemy_max_turn");
-		else yaw -= ConstManager::getFloat("enemy_max_turn");
-		
-		// Check if its pointing at the ship
-		float angleTo = lineToShip.angleBetween(lookDirection).valueRadians();
-		if(angleTo < PI/2) {
-		
-			// Move towards ship
-			float disToMove = lineToShip.length() - 
-			    ConstManager::getFloat("enemy_ship_target_dist");
-			float adjustedSpeed = speed * cos(angleTo);
-			adjustedSpeed = (abs(disToMove) < adjustedSpeed) ? 
-				disToMove : adjustedSpeed;
-			
-			if(disToMove > 0) { 
-				location.x += adjustedSpeed * sin(yaw);
-		    	location.z += adjustedSpeed * cos(yaw);
-			} else {
-				location.x -= adjustedSpeed * sin(yaw);
-		    	location.z -= adjustedSpeed * cos(yaw);
-			}
-		}
-		
-	}
-}
-
 void Swarm::shootAtShip()
 {
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
 	
-	i = members.begin(); 
-	if(i != members.end()) {
+	for(i = members.begin(); i != members.end(); ++i) {
 		e = *i;
 		
 		e->fire = false;
@@ -470,14 +398,10 @@ float Swarm::calcNewAngle(float old, float target, float step)
 	return result;
 }
 
-void Swarm::updateEnemyLocations()
+void Swarm::updateEnemyLocationsFlocking()
 {
-
-	// Tempory one enemy per swarm solution
-	
 	std::vector<Enemy*>::iterator i;
 	Enemy *e;
-	
 	
 	for(i = members.begin(); i != members.end(); ++i) {
 		e = *i;
@@ -493,11 +417,73 @@ void Swarm::updateEnemyLocations()
         
         e->setPosition(newPosition);
 	}
-	
-	
+}
 
-	// TODO: need to add the swarm behaviour here
-    // SEPARATION : To avoid flockmates
-    // ALIGNMENT : Steer towards the average heading of local flockmates
-    // COHESION : Steer to move towards the average position of local flockmates
+void Swarm::updateEnemyLocationsAttack()
+{	
+	std::vector<Enemy*>::iterator i;
+	Enemy *e;	
+	
+	for(i = members.begin(); i != members.end(); ++i) {
+		e = *i;
+		
+		attackProcess(e);
+		pointAtShip(e);
+	}
+}
+
+void Swarm::pointAtShip(Enemy *e)
+{
+    Vector3 lineToShip = *shipState->getPosition() - *e->getPosition();
+    
+    Vector3 orientation = 
+        SceneNodeManager::directionToOrientationVector(lineToShip);
+        
+    float newYaw = orientation.z;
+    float newPitch = orientation.y;
+    
+    float yaw = e->yaw;
+    float pitch = e->pitch;
+    
+    yaw = calcNewAngle( yaw, newYaw, ConstManager::getFloat("enemy_max_turn"));
+    pitch = 
+        calcNewAngle( pitch, newPitch, ConstManager::getFloat("enemy_max_turn"));
+    e->yaw = yaw;
+    e->pitch = pitch;
+}
+
+void Swarm::attackProcess(Enemy *e)
+{
+	Vector3 v;
+	Vector3 avg(0,0,0);
+	Enemy *otherEnemy;
+	std::vector<Enemy*>::iterator itr;
+	float weight;
+	
+	float yaw = e->yaw;
+	float pitch = e->pitch;
+	
+	// Move to the ship
+	v = *shipState->getPosition() - *e->getPosition();
+	
+	if(v.length() > ConstManager::getFloat("enemy_ship_target_dist")) {
+        weight = 100
+        * pow((v.length() - 
+        ConstManager::getFloat("enemy_ship_target_dist"))/
+        (ConstManager::getFloat("enemy_sight_dist") /
+        ConstManager::getFloat("enemy_ship_target_dist")),2);
+
+    } else {
+        weight = - 100
+        * pow(1 - v.length()/
+        ConstManager::getFloat("enemy_ship_target_dist"),2);
+    }
+    v.normalise();
+    v *= weight;
+    avg += v;
+	
+	avg.normalise();
+	avg *= speed;
+	
+	e->setPosition(*e->getPosition() + avg);
 }
