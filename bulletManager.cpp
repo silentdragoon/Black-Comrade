@@ -145,6 +145,7 @@ void BulletManager::handleGun(GunState *gun) {
         position.y = position.y - 2;
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
+        position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
         if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
             gun->stats->shotsHit += 1;
         playerFire = true;
