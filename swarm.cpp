@@ -459,6 +459,7 @@ void Swarm::attackProcess(Enemy *e)
 	Enemy *otherEnemy;
 	std::vector<Enemy*>::iterator itr;
 	float weight;
+	int count = 0;
 	
 	float yaw = e->yaw;
 	float pitch = e->pitch;
@@ -481,6 +482,7 @@ void Swarm::attackProcess(Enemy *e)
     v.normalise();
     v *= weight;
     avg += v;
+    ++count;
 	
 	// Avoid other enemies
 	for(itr = members.begin(); itr != members.end(); ++itr) {
@@ -509,6 +511,7 @@ void Swarm::attackProcess(Enemy *e)
 		        }
 		        v *= weight;
                 avg += v;
+                ++count;
 		    }
 		}
 	}
@@ -531,6 +534,7 @@ void Swarm::attackProcess(Enemy *e)
 	        wall.normalise();
 	        wall *= weight;
 	        avg = avg + wall;
+	        count++;
 	        //lines->addLine(e->getPosition(),&result);
 	    }
 	}
@@ -551,12 +555,19 @@ void Swarm::attackProcess(Enemy *e)
 	        wall.normalise();
 	        wall *= weight;
 	        avg = avg + wall;
+	        count++;
 	        //lines->addLine(e->getPosition(),&result);
 	    }
 	}
 	
+	avg /= count;
+	
+	float speedFrac = avg.length() / 10;
+	
+	speedFrac = speedFrac < 1 ? speedFrac : 1;
+	
 	avg.normalise();
-	avg *= speed;
+	avg *= speed * speedFrac;
 	
 	e->setPosition(*e->getPosition() + avg);
 }
