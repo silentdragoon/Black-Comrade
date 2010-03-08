@@ -68,7 +68,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     collabInfo->setPlayerStats(stats);
     networkingManager->replicate(stats);
     stats = (PlayerStats*) networkingManager->getReplica("PilotStats",true);
-    pilotInfo->setPlayerStats(stats); 
+    pilotInfo->setPlayerStats(stats);
 
     if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
         stats = (PlayerStats*) networkingManager->getReplica("EngineerStats",true);

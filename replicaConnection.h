@@ -10,6 +10,7 @@
 #include "notificationManager.h"
 #include "systemManager.h"
 #include "collaborationInfo.h"
+#include "playerStats.h"
 
 using namespace RakNet;
 
