@@ -439,8 +439,8 @@ void Swarm::pointAtShip(Enemy *e)
     Vector3 orientation = 
         SceneNodeManager::directionToOrientationVector(lineToShip);
         
-    float newYaw = orientation.z;
-    float newPitch = orientation.y;
+    float newYaw = orientation.y;
+    float newPitch = orientation.x;
     
     float yaw = e->yaw;
     float pitch = e->pitch;
@@ -467,20 +467,93 @@ void Swarm::attackProcess(Enemy *e)
 	v = *shipState->getPosition() - *e->getPosition();
 	
 	if(v.length() > ConstManager::getFloat("enemy_ship_target_dist")) {
-        weight = 100
+        weight = 10
         * pow((v.length() - 
         ConstManager::getFloat("enemy_ship_target_dist"))/
         (ConstManager::getFloat("enemy_sight_dist") /
         ConstManager::getFloat("enemy_ship_target_dist")),2);
 
     } else {
-        weight = - 100
+        weight = - 10
         * pow(1 - v.length()/
         ConstManager::getFloat("enemy_ship_target_dist"),2);
     }
     v.normalise();
     v *= weight;
     avg += v;
+	
+	// Avoid other enemies
+	for(itr = members.begin(); itr != members.end(); ++itr) {
+		otherEnemy = *itr;
+		if(otherEnemy != e) {
+		    Vector3 dist = *otherEnemy->getPosition() - *e->getPosition();
+		    // Check that i can see my friend
+		    if(dist.length() <= ConstManager::getFloat("flock_detect_dist")) {
+		    
+		        Vector3 v = dist;
+	            v.normalise();
+	            float weight;
+
+		        // Should I move closer or further away?
+		        if(dist.length() > ConstManager::getFloat("enemy_attack_seperation")) {
+		            weight = 100
+		                * pow((dist.length() - 
+		                ConstManager::getFloat("enemy_attack_seperation"))/
+		                (ConstManager::getFloat("flock_detect_dist") / 
+		                ConstManager::getFloat("enemy_attack_seperation")),2);
+		           
+		        } else {
+		            weight = - 100
+		                * pow(1 - dist.length()/
+		                ConstManager::getFloat("enemy_attack_seperation"),2);
+		        }
+		        v *= weight;
+                avg += v;
+		    }
+		}
+	}
+	
+	// Send out rays to find obsticals
+	float dist;
+	// Horizontal ring
+	for(int j = -4; j <=4; ++j) {
+	    float a = j * PI / 6;
+	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
+	    left.normalise();
+	    Vector3 p = (*e->getPosition()+2*left);
+	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
+	    v = p + dist * left;
+	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
+	        Vector3 wall = -(v - *e->getPosition());
+	        float weight = 100 * 
+	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
+	        wall.normalise();
+	        wall *= weight;
+	        avg = avg + wall;
+	        //lines->addLine(e->getPosition(),&result);
+	    }
+	}
+	// Vertical ring
+	for(int j = -4; j <=4; ++j) {
+	    float a = j * PI / 6;
+	    if(j == 0) continue;
+	    Vector3 left(0,sin(a+yaw),cos(a+yaw));
+	    left.normalise();
+	    Vector3 p = (*e->getPosition()+2*left);
+	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
+	    v = p + dist * left;
+	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
+	        Vector3 wall = -(v - *e->getPosition());
+	        float weight = 100 * 
+	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
+	        wall.normalise();
+	        wall *= weight;
+	        avg = avg + wall;
+	        //lines->addLine(e->getPosition(),&result);
+	    }
+	}
 	
 	avg.normalise();
 	avg *= speed;

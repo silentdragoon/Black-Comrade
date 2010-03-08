@@ -98,7 +98,7 @@ void BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     if (isEnemy) {
         b->hitEnemy = true;
         b->enemy = hurtEnemy;
-    } else if (isShip) b->hitShip = true;
+    } else if (false && isShip) b->hitShip = true;
 
     activeBullets->push_back(b);
 }

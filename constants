@@ -11,6 +11,7 @@ enemy_sight_dist = 150
 enemy_look_ahead = 15
 enemy_max_turn = 0.01
 enemy_ship_target_dist = 35
+enemy_attack_seperation = 10
 
 # Flocking Constants
 flock_detect_dist = 15
