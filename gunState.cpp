@@ -53,6 +53,7 @@ GunState::GunState()
     , isFire(false)
     , systemManager(0)
     , owner(NO_GAME_ROLE)
+    , stats(0)
 {}
 
 GunState::~GunState() {}
