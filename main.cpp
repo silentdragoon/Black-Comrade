@@ -51,7 +51,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     if (!useMouse) inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
-    // Other players' state
+    // Player info
     networkingManager->replicate(collabInfo);
     pilotInfo = (CollaborationInfo*) networkingManager->getReplica("PilotInfo",true);
 
@@ -61,6 +61,25 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     } else {
         engineerInfo = new CollaborationInfo("Engineer",CLIENT,ENGINEER);
         navigatorInfo = new CollaborationInfo("Navigator",CLIENT,NAVIGATOR);
+    }
+
+    // Player stats
+    PlayerStats *stats = new PlayerStats(collabInfo->getGameRole());
+    collabInfo->setPlayerStats(stats);
+    networkingManager->replicate(stats);
+    stats = (PlayerStats*) networkingManager->getReplica("PilotStats",true);
+    pilotInfo->setPlayerStats(stats); 
+
+    if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
+        stats = (PlayerStats*) networkingManager->getReplica("EngineerStats",true);
+        engineerInfo->setPlayerStats(stats);
+        stats = (PlayerStats*) networkingManager->getReplica("NavigatorStats",true);
+        navigatorInfo->setPlayerStats(stats);
+    } else {
+        stats = new PlayerStats(ENGINEER);
+        engineerInfo->setPlayerStats(stats);
+        stats = new PlayerStats(NAVIGATOR);
+        navigatorInfo->setPlayerStats(stats);
     }
 
     std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
@@ -176,7 +195,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Pilot Gun State
     if(collabInfo->getGameRole() == PILOT) {
-        pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo->getGameRole());
+        pilotGunState = new GunState(pilotControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(pilotGunState);
     } else if(collabInfo->getGameRole() == ENGINEER) {
         pilotGunState = (GunState*) networkingManager->
@@ -191,7 +210,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     
     // Navigator Gun State
     if(collabInfo->getGameRole() == NAVIGATOR) {
-        navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo->getGameRole());
+        navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(navigatorGunState);
         gameLoop->addTickable(navigatorGunState,"navigatorGunState");
     } else if(collabInfo->getGameRole() == ENGINEER) {
@@ -211,7 +230,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     
     // Engineer Gun State
     if(collabInfo->getGameRole() == ENGINEER) {
-        engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo->getGameRole());
+        engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo);
         networkingManager->replicate(engineerGunState);
         gameLoop->addTickable(engineerGunState,"engineerGunState");
     } else {
@@ -285,13 +304,21 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     if (collabInfo->getGameRole() == ENGINEER) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
     	gameLoop->addTickable(radarGui,"Radar");
-	}
-
+    }
 
     // Start Rendering Loop
     
     gameLoop->startLoop();
-    //root->startRendering();
+
+    std::cout << "Pilot stats:" << "\n";
+    pilotInfo->getPlayerStats()->print();
+
+    std::cout << "Nav stats:" << "\n";
+    navigatorInfo->getPlayerStats()->print();
+
+    std::cout << "Eng stats:" << "\n";
+    engineerInfo->getPlayerStats()->print();
+
     networkingManager->stopNetworking();
 }
 
