@@ -64,6 +64,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     bulletNode->attachObject(l);
 
     Vector3 *pos = new Vector3(origin.x,origin.y,origin.z);
+    particleSystemEffectManager->createMuzzleFlash(*pos);
 
     double t = colMgr->getRCMapDist(pos,&direction);
     if(t<0) t=10000;

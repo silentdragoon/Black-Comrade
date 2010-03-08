@@ -11,13 +11,16 @@ ParticleSystemEffectManager::~ParticleSystemEffectManager() {
     delete activeEffects;
 }
 
-void ParticleSystemEffectManager::createExplosion(Vector3 pos) {
-    std::string nname = "enode";
-    std::string pname = "effect";
+std::string ParticleSystemEffectManager::createUnique(std::string name) {
     std::stringstream out;
     out << num++;
-    nname += out.str();
-    pname += out.str();
+    name+=out.str();
+    return name;
+}
+
+void ParticleSystemEffectManager::createExplosion(Vector3 pos) {
+    std::string nname = createUnique("enode");
+    std::string pname = createUnique("effect");
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
@@ -26,16 +29,22 @@ void ParticleSystemEffectManager::createExplosion(Vector3 pos) {
 }
 
 void ParticleSystemEffectManager::createSparks(Vector3 pos) {
-    std::string nname = "enode";
-    std::string pname = "effect";
-    std::stringstream out;
-    out << num++;
-    nname += out.str();
-    pname += out.str();
+    std::string nname = createUnique("enode");
+    std::string pname = createUnique("effect");
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Sparks");
+    activeEffects->push_back(pse);
+}
+
+void ParticleSystemEffectManager::createMuzzleFlash(Vector3 pos) {
+    std::string nname = createUnique("enode");
+    std::string pname = createUnique("effect");
+
+    SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode->setPosition(pos);
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Muzzle");
     activeEffects->push_back(pse);
 }
 

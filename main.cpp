@@ -343,7 +343,6 @@ void Main::configResources()
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("textures_file_path"),"FileSystem", "General");
 
-    
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
