@@ -139,7 +139,7 @@ void BulletManager::handleGun(GunState *gun) {
     if (!gun) return;
 
     if (gun->fire()) {
-        gun->stats->shotsFired += 1;
+        if (gun->stats != 0) gun->stats->shotsFired += 1;
 
         Vector3 position = gun->getPosition();
         position.y = position.y - 2;
@@ -147,7 +147,7 @@ void BulletManager::handleGun(GunState *gun) {
         Vector3 direction = -orientation.zAxis();
         position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
         if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
-            gun->stats->shotsHit += 1;
+            if (gun->stats != 0) gun->stats->shotsHit += 1;
         playerFire = true;
     }
 }

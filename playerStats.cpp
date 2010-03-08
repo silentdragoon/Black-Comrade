@@ -2,10 +2,20 @@
 
 PlayerStats::PlayerStats()
     : owner(NO_GAME_ROLE)
+    , shotsFired(0)
+    , shotsHit(0)
+    , enemiesDestroyed(0)
+    , collisions(0)
+    , averageSpeed(0.0)
 {}
 
 PlayerStats::PlayerStats(GameRole owner)
     : owner(owner)
+    , shotsFired(0)
+    , shotsHit(0)
+    , enemiesDestroyed(0)
+    , collisions(0)
+    , averageSpeed(0.0)
 {}
 
 void PlayerStats::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {

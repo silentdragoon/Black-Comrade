@@ -9,7 +9,8 @@ CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameR
     gameRole(gameRole),
     toRepair(SS_NONE),
     repairAmount(0),
-    killCount(0)
+    killCount(0),
+    stats(0)
 {
 }
 
@@ -20,6 +21,7 @@ CollaborationInfo::CollaborationInfo()
     , toRepair(SS_NONE)
     , repairAmount(0)
     , killCount(0)
+    , stats(0)
 {}
 
 string CollaborationInfo::getNick() { return nick; }
