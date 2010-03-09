@@ -252,7 +252,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
             shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-            networkingManager);
+            networkingManager,particleSystemEffectManager);
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 

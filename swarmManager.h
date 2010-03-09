@@ -49,7 +49,7 @@ class SwarmManager : public ITickable
             ParticleSystemEffectManager *particleSystemEffectManager);
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
-        	NetworkingManager *networkingMgr);
+        	NetworkingManager *networkingMgr,ParticleSystemEffectManager *particleSystemEffectManager);
 
         ~SwarmManager();
 
