@@ -64,23 +64,26 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
 
     // Player stats
-    PlayerStats *stats = new PlayerStats(collabInfo->getGameRole());
-    collabInfo->setPlayerStats(stats);
-    networkingManager->replicate(stats);
-    stats = (PlayerStats*) networkingManager->getReplica("PilotStats",true);
-    pilotInfo->setPlayerStats(stats);
+    PlayerStats *myStats = new PlayerStats(collabInfo->getGameRole());
+    PlayerStats *pilotStats, *engStats, *navStats;
+    collabInfo->setPlayerStats(myStats);
+    networkingManager->replicate(myStats);
+    pilotStats = (PlayerStats*) networkingManager->getReplica("PilotStats",true);
+    pilotInfo->setPlayerStats(pilotStats);
 
     if (collabInfo->getNetworkRole() != DEVELOPMENTSERVER) {
-        stats = (PlayerStats*) networkingManager->getReplica("EngineerStats",true);
-        engineerInfo->setPlayerStats(stats);
-        stats = (PlayerStats*) networkingManager->getReplica("NavigatorStats",true);
-        navigatorInfo->setPlayerStats(stats);
+        engStats = (PlayerStats*) networkingManager->getReplica("EngineerStats",true);
+        engineerInfo->setPlayerStats(engStats);
+        navStats = (PlayerStats*) networkingManager->getReplica("NavigatorStats",true);
+        navigatorInfo->setPlayerStats(navStats);
     } else {
-        stats = new PlayerStats(ENGINEER);
-        engineerInfo->setPlayerStats(stats);
-        stats = new PlayerStats(NAVIGATOR);
-        navigatorInfo->setPlayerStats(stats);
+        engStats = new PlayerStats(ENGINEER);
+        engineerInfo->setPlayerStats(engStats);
+        navStats = new PlayerStats(NAVIGATOR);
+
     }
+
+    navigatorInfo->setPlayerStats(navStats);
 
     std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
@@ -249,7 +252,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
             shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-            networkingManager);
+            networkingManager,particleSystemEffectManager);
     }
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 

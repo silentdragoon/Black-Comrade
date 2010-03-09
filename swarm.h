@@ -50,14 +50,16 @@ class Swarm
         GameParameterMap *gameParameterMap;
         ParticleSystemEffectManager *particleSystemEffectManager;
     
-    	void updateSwarmLocation();
-    	void updateEnemyLocations();
         void updateTargetLocation();
+        void updateEnemyLocationsFlocking();
+        void updateEnemyLocationsAttack();
 
     	void removeDeadEnemies();
     	void shootAtShip();
+    	void pointAtShip(Enemy *e);
     	
     	void turnEnemy(Enemy *e);
+    	void attackProcess(Enemy *e);
     	
     	float calcNewAngle(float old, float target, float step);
     	
