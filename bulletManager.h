@@ -34,6 +34,8 @@ class BulletManager : public ITickable
         ParticleSystemEffectManager *particleSystemEffectManager;
        
         bool fire(Vector3 origin, Vector3 direction, ColourValue c);
+        bool fire(Vector3 origin, Vector3 direction, ColourValue c, PlayerStats *stats);
+
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);
         void updateBullets(); 

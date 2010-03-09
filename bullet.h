@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include "enemy.h"
+#include "playerStats.h"
 
 using namespace Ogre;
 using namespace std;
@@ -17,6 +18,7 @@ class Bullet
         string name;
         string rname;
         SceneManager *sceneMgr;
+
 
         Vector3 direction;
         Vector3 deathSpark;
@@ -33,7 +35,8 @@ class Bullet
             string rname,
             Vector3 direction, 
             int velocity,
-            double dtt); // Distance to travel
+            double dtt,
+            PlayerStats *playerStats); // Distance to travel
 
         ~Bullet();
 
@@ -43,6 +46,8 @@ class Bullet
         Enemy *enemy;
         bool hitEnemy;
         bool hitShip;
+
+        PlayerStats *playerStats;
 };
 
 #endif

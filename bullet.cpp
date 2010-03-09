@@ -17,7 +17,8 @@ Bullet::Bullet(SceneNode *bulletNode,
         string rname,
         Vector3 direction,
         int velocity,
-        double dtt)
+        double dtt,
+        PlayerStats *mPlayerStats)
         : 
             bulletNode(bulletNode),
             sceneMgr(sceneMgr),
@@ -29,7 +30,8 @@ Bullet::Bullet(SceneNode *bulletNode,
             distanceTravelled(0.0),
             enemy(0),
             hitEnemy(false),
-            hitShip(false)
+            hitShip(false),
+            playerStats(mPlayerStats)
 {
     deathSpark = Vector3(bulletNode->getPosition().x+(direction.x*dtt),bulletNode->getPosition().y+(direction.y*dtt),bulletNode->getPosition().z+(direction.z*dtt));
 }
