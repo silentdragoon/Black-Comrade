@@ -7,6 +7,7 @@ PlayerStats::PlayerStats()
     , enemiesDestroyed(0)
     , collisions(0)
     , averageSpeed(0.0)
+    , friendlyFire(0)
 {}
 
 PlayerStats::PlayerStats(GameRole owner)
@@ -16,6 +17,7 @@ PlayerStats::PlayerStats(GameRole owner)
     , enemiesDestroyed(0)
     , collisions(0)
     , averageSpeed(0.0)
+    , friendlyFire(0)
 {}
 
 void PlayerStats::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {
@@ -41,6 +43,7 @@ RM3SerializationResult PlayerStats::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(enemiesDestroyed);
     serializeParameters->outputBitstream[0].Write(collisions);
     serializeParameters->outputBitstream[0].Write(averageSpeed);
+    serializeParameters->outputBitstream[0].Write(friendlyFire);
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -51,6 +54,7 @@ void PlayerStats::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(enemiesDestroyed);
     deserializeParameters->serializationBitstream[0].Read(collisions);
     deserializeParameters->serializationBitstream[0].Read(averageSpeed);
+    deserializeParameters->serializationBitstream[0].Read(friendlyFire);
 }
 
 void PlayerStats::print() {
@@ -61,4 +65,5 @@ void PlayerStats::print() {
     std::cout << "Shots fired: " << shotsFired << "\n";
     std::cout << "..on target: " << shotsHit << "\n";
     std::cout << "Enemies destroyed: " << enemiesDestroyed << "\n";
+    std::cout << "Friendly fire: " << friendlyFire << "\n";
 }

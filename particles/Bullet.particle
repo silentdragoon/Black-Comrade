@@ -63,7 +63,7 @@ particle_system FX/Sparks
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	200
+		time_to_live	10
 		duration	10
 	}
 }
@@ -85,7 +85,7 @@ particle_system FX/Muzzle
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	10
-		duration	10
+		time_to_live	2
+		duration	2
 	}
 }
