@@ -24,7 +24,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
+bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin)
 {
     string bullName = "Bullet";
     string bname = "Bill";
@@ -38,7 +38,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     rname += out.str();
 
     SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
-    bulletNode->setPosition(origin);
+    bulletNode->setPosition(trailOrigin);
 
     BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
     bbbs->setMaterialName("PE/Streak");
@@ -63,7 +63,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     bulletNode->attachObject(bbbs);
     bulletNode->attachObject(l);
 
-    Vector3 *pos = new Vector3(origin.x,origin.y,origin.z);
+    Vector3 *pos = new Vector3(trailOrigin.x,trailOrigin.y,trailOrigin.z);
     particleSystemEffectManager->createMuzzleFlash(*pos);
 
     double t = colMgr->getRCMapDist(pos,&direction);
@@ -76,7 +76,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
         Enemy *e;
         for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
             e = *it;
-            double temp = colMgr->rayCollideWithTransform(pos,&direction,sceneNodeMgr->getEntity(e));
+            double temp = colMgr->rayCollideWithTransform(&origin,&direction,sceneNodeMgr->getEntity(e));
             if(temp<t && temp > 0.0) {
                 t = temp;
                 isEnemy = true;
@@ -142,11 +142,12 @@ void BulletManager::handleGun(GunState *gun) {
         if (gun->stats != 0) gun->stats->shotsFired += 1;
 
         Vector3 position = gun->getPosition();
-        position.y = position.y - 2;
+        Vector3 trailPos = position;
+        trailPos.y -= 2;
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
         position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
-        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
+        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f), trailPos))
             if (gun->stats != 0) gun->stats->shotsHit += 1;
         playerFire = true;
     }
@@ -159,7 +160,7 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	        
 	    if(e->fire) {
             e->fire = false;
-	        fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f));
+	        fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
             enemyFire = true;
             enemyNode = sceneNodeMgr->getNode(e);
 	    }
