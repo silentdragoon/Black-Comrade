@@ -24,7 +24,11 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
 
 // TODO: Does this contain numbers which should be constants in const.h?
 
-bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) 
+bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c) {
+    return fire(origin,direction,c,0);
+} 
+
+bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, PlayerStats *stats) 
 {
     string bullName = "Bullet";
     string bname = "Bill";
@@ -95,7 +99,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c)
     
     // FIRE THE BULLET!
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,
-    	Const::FRONT_BULLET_SPEED,t);
+    	Const::FRONT_BULLET_SPEED,t,stats);
 
     if (isEnemy) {
         b->hitEnemy = true;
@@ -119,7 +123,12 @@ void BulletManager::updateBullets() {
             // Hurt Enemy or Ship
             if(b->enemy) {
                 b->enemy->health -= 1;
+                if (b->playerStats != 0 && b->enemy->health <= 0) {
+                    std::cout << "enemy destroyed" << std::endl;
+                    b->playerStats->enemiesDestroyed ++;
+                }
             } else if (b->hitShip) {
+                if (b->playerStats != 0) b->playerStats->friendlyFire ++;
                 damageState->damage();
             }
             Vector3 pos = b->getDeathSpark();         
@@ -146,8 +155,8 @@ void BulletManager::handleGun(GunState *gun) {
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
         position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
-        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f)))
-            if (gun->stats != 0) gun->stats->shotsHit += 1;
+        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f),gun->stats))
+        if (gun->stats != 0) gun->stats->shotsHit += 1;
         playerFire = true;
     }
 }

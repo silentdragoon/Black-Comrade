@@ -3404,16 +3404,12 @@
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="StaticTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticRight" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticBottom" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3424,16 +3420,12 @@
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="StaticTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticRight" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3444,16 +3436,12 @@
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="StaticTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticBottom" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3464,16 +3452,12 @@
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="StaticTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3493,9 +3477,7 @@
                 <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3506,9 +3488,7 @@
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
@@ -3520,16 +3500,12 @@
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-                        </DimOperator>
+
                     </UnifiedDim>
                 </Dim>
             </Area>
@@ -3566,12 +3542,12 @@
         </StateImagery>
         <StateImagery name="WithFrameEnabledBackground">
             <Layer>
-                <Section look="BlackComrade/StaticShared" section="background" />
+                <Section look="BlackComrade/StaticShared" section="background_noframe" />
             </Layer>
         </StateImagery>
         <StateImagery name="WithFrameDisabledBackground">
             <Layer>
-                <Section look="BlackComrade/StaticShared" section="background" />
+                <Section look="BlackComrade/StaticShared" section="background_noframe" />
             </Layer>
         </StateImagery>
         <StateImagery name="NoFrameEnabledBackground">
