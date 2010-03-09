@@ -202,3 +202,24 @@ CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCente
 
 }
 
+CEGUI::FrameWindow * GuiManager::addStaticText(std::string text, float xCenter, float yCenter,
+                                               int size) {
+
+
+    CEGUI::FrameWindow *textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText"));
+    textWindow->setPosition(CEGUI::UVector2(
+        CEGUI::UDim(xCenter,-(textWindow->getFont()->getTextExtent( text ) + 12)/2),
+        CEGUI::UDim(yCenter,-(textWindow->getFont()->getFontHeight() + 12 )/2)));
+
+    textWindow->setSize(CEGUI::UVector2(
+        CEGUI::UDim(0,textWindow->getFont()->getTextExtent( text ) + 12),
+        CEGUI::UDim(0,textWindow->getFont()->getFontHeight() + 12 )));
+    
+
+    textWindow->setText(text);
+    
+    guiRoot->addChildWindow(textWindow);
+
+    return textWindow;
+}
+

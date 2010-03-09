@@ -29,8 +29,6 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
 
 CollaborationInfo* PreGame::run() {
 
-    std::cout << "***Input is now capured by the main window!***\n"; 
-
     showMainMenu();
     preGameLoop->startLoop();
 
@@ -100,6 +98,7 @@ void PreGame::processGameRoleMenu() {
     } else if (inputState->isKeyDown(OIS::KC_E))	 {
         networkingMgr->lobby->chooseGameRole(ENGINEER);
     } else if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
+
         std::exit(0);
     }
 }
