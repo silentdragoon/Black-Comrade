@@ -17,11 +17,14 @@
 #include "magicWordMiniGame.h"
 #include "buttonMashMiniGame.h"
 
+#include "IExit.h"
+
 class ConsoleShell : public IConsoleInputReceiver
 {
     private:
         InputState *inputState;
         Console *console;
+        IExit *exit;
 
         IMiniGame *gameToPlay;
 
@@ -47,7 +50,7 @@ class ConsoleShell : public IConsoleInputReceiver
 
         void showPrompt();
     
-        ConsoleShell(Console *console, InputState *inputState);
+        ConsoleShell(Console *console, InputState *inputState, IExit *exit);
         ~ConsoleShell();
 };
 

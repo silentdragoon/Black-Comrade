@@ -269,7 +269,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     } else if (collabInfo->getGameRole() == ENGINEER) {
         myControls = engineerControls;
     }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Networking
