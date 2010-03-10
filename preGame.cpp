@@ -79,15 +79,24 @@ void PreGame::processNetworkRoleMenu() {
 }
 
 void PreGame::showGameRoleMenu() {
-    CEGUI::FrameWindow *overlay     = guiMgr->addStaticImage("GameRoleMenu", 0.5, 0.5, 1.0, 1.0, "GameRoleMenu","GameRoleMenu" );
+    clearMenuUI();
+    //CEGUI::FrameWindow *overlay     = guiMgr->addStaticImage("GameRoleMenu", 0.5, 0.5, 1.0, 1.0, "GameRoleMenu","GameRoleMenu" );
     std::cout << "Pick game role [ P | E | N ]\n";
     currentMenu = PGM_CHOOSE_GAME_ROLE;
 }
 
 void PreGame::processGameRoleMenu() {
 
+    if (networkingMgr->lobby->roleOptionsChanged) {
+        // Present the user with the current options
+        clearMenuUI();
+        if (!networkingMgr->lobby->pilotTaken)
+            guiMgr->addStaticText("PilotRoleText", "(P)ilot",0.5, 0.25, 1);
+        if (!networkingMgr->lobby->engTaken) guiMgr->addStaticText("EngRoleText", "(E)ngineer",0.5, 0.5, 1);
+        if (!networkingMgr->lobby->navTaken) guiMgr->addStaticText("NavRoleText", "(N)avigator",0.5, 0.75, 1);
+    }
+
     collabInfo = runLobby();
-    
     if (collabInfo->getGameRole() != NO_GAME_ROLE) {
         clearMenuUI();
         showLoadingScreen();
@@ -109,6 +118,10 @@ void PreGame::clearMenuUI() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NetworkRoleMenu");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameRoleMenu");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("LoadingText");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PilotRoleText");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("EngRoleText");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChosenRoleText");
 }
 
 void PreGame::processMainMenu() {

@@ -8,6 +8,7 @@ Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
     : pilotTaken(false)
     , navTaken(false)
     , engTaken(false)
+    , roleOptionsChanged(true)
 {
     rakPeer = rp;
     networkRole = nr;
@@ -27,9 +28,12 @@ void Lobby::enter() {
 
 GameRole Lobby::getChosenGameRole() { return gameRole; }
 
+bool Lobby::hasChosenRole() { return (gameRole != NO_GAME_ROLE); }
+
 string Lobby::getChosenNick() { return nick; }
 
 void Lobby::offerGameRoleChoices() {
+    roleOptionsChanged = true;
     if (gameRole != NO_GAME_ROLE) return;
     printf("Available roles:\n");
     if (!pilotTaken) printf("(P)ilot\n");
@@ -64,6 +68,7 @@ void Lobby::chooseGameRole(GameRole role) {
 }
 
 bool Lobby::wait() {
+    roleOptionsChanged = false;
     if (networkRole == CLIENT) {
             unsigned char packetID;
             for (packet = rakPeer->Receive(); packet; rakPeer->DeallocatePacket(packet), packet = rakPeer->Receive()) {
@@ -104,18 +109,21 @@ void Lobby::checkForRoleChoice() {
         gameRole = PILOT;
         pilotTaken = true;
         printf("You chose to be the Pilot.\n");
+        roleOptionsChanged = true;
     }
     else if (chosenGameRole == NAVIGATOR && gameRole == NO_GAME_ROLE && navTaken == false)
     {
         gameRole = NAVIGATOR;
         navTaken = true;
         printf("You chose to be the Navigator.\n");
+        roleOptionsChanged = true;
     }
     else if (chosenGameRole == ENGINEER && gameRole == NO_GAME_ROLE && engTaken == false)
     {
         gameRole = ENGINEER;
         engTaken = true;
         printf("You chose to be the Engineer.\n");
+        roleOptionsChanged = true;
     }
 
     if (networkRole == CLIENT) {
