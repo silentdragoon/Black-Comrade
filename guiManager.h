@@ -34,7 +34,7 @@ public:
                                 float width,   float height,
                                 char *imageSet, char *imageName);
 
-    CEGUI::FrameWindow *addStaticText(std::string text, float xCenter, float yCenter,
+    CEGUI::FrameWindow *addStaticText(std::string name, std::string text, float xCenter, float yCenter,
                                       int size);
 
     CEGUI::Window *getRootWindow();

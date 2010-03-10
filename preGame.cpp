@@ -41,6 +41,7 @@ CollaborationInfo* PreGame::run() {
 
 MapManager *PreGame::loadGame() {
     MapManager *mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
+    clearMenuUI();
     return mapMgr;
 }
 
@@ -89,6 +90,7 @@ void PreGame::processGameRoleMenu() {
     
     if (collabInfo->getGameRole() != NO_GAME_ROLE) {
         clearMenuUI();
+        showLoadingScreen();
         exit();
     }
     if (inputState->isKeyDown(OIS::KC_P)) {
@@ -106,10 +108,19 @@ void PreGame::processGameRoleMenu() {
 void PreGame::clearMenuUI() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NetworkRoleMenu");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameRoleMenu");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("LoadingText");
 }
 
 void PreGame::processMainMenu() {
 
+}
+
+void PreGame::showLoadingScreen() {
+    CEGUI::FrameWindow *loadingText = guiMgr->addStaticText("LoadingText", "Loading...",0.5, 0.5, 1);
+}
+
+void PreGame::processLoadingScreen() {
+    
 }
 
 void PreGame::tick() {
