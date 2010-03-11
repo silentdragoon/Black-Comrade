@@ -44,7 +44,7 @@ void PostGame::clearMenuUI() {
 //}
 
 void PostGame::tick() {
-    std::cout << "ticking postgame" << std::endl;
+
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
             // Hide + End it

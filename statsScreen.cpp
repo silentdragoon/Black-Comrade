@@ -14,9 +14,7 @@ void StatsScreen::tick() {
     // Check for key presses etc
     if (inputState->isKeyDown(OIS::KC_SPACE)) {
         isEnd = true;
-        std::cout << "got space" << std::endl;
     }
-    std::cout << "ticking stats" << std::endl;
 }
 
 MenuType::StatsScreen::nextMenu() {
