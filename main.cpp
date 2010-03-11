@@ -324,7 +324,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     engineerInfo->getPlayerStats()->print();
 
     // Post-game environment
-    PostGame *postGame = new PostGame(sceneMgr,window,inputState,guiMgr,networkingManager);
+    PostGame *postGame = new PostGame(sceneMgr,window,inputState,
+                                      guiMgr,networkingManager,
+                                      pilotInfo,navigatorInfo,
+                                      engineerInfo);
 
     postGame->run();
 

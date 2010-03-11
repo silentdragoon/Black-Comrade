@@ -1,11 +1,17 @@
 #include "statsScreen.h"
 #include "IMenuScreen.h"
 
-StatsScreen::StatsScreen(InputState *inputState, GuiManager *guiMgr)
+StatsScreen::StatsScreen(InputState *inputState, GuiManager *guiMgr,
+                         CollaborationInfo *pilotInfo,
+                         CollaborationInfo *navInfo,
+                         CollaborationInfo *engInfo)
     : inputState(inputState)
     , guiMgr(guiMgr)
     , isEnd(false)
     , isVisible(false)
+    , pilotInfo(pilotInfo)
+    , navInfo(navInfo)
+    , engInfo(engInfo)
 {
     //CEGUI::ImagesetManager::getSingleton().create("LoadingScreen.imageset");
 }

@@ -4,6 +4,7 @@
 #include "IMenuScreen.h"
 #include "inputState.h"
 #include "guiManager.h"
+#include "collaborationInfo.h"
 #include <math.h>
 
 class StatsScreen : public IMenuScreen
@@ -14,6 +15,10 @@ class StatsScreen : public IMenuScreen
 
         bool isVisible;
         bool isEnd;
+
+        CollaborationInfo *pilotInfo;
+        CollaborationInfo *navInfo;
+        CollaborationInfo *engInfo;
         
     public:
         void tick();
@@ -26,7 +31,11 @@ class StatsScreen : public IMenuScreen
 
         MenuType nextMenu();
 
-        StatsScreen(InputState *inputState, GuiManager *guiManager);
+        StatsScreen(InputState *inputState, GuiManager *guiManager,
+                    CollaborationInfo *pilotInfo,
+                    CollaborationInfo *navInfo,
+                    CollaborationInfo *engInfo);
+
         ~StatsScreen();
 };
 

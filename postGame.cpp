@@ -1,13 +1,20 @@
 #include "postGame.h"
 
-PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState *inputState, 
-        GuiManager *guiMgr, NetworkingManager *networkingMgr)
+PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
+                   InputState *inputState,GuiManager *guiMgr,
+                   NetworkingManager *networkingMgr,
+                   CollaborationInfo *pilotInfo,
+                   CollaborationInfo *navInfo,
+                   CollaborationInfo *engInfo)
     : sceneMgr(sceneMgr)
     , window(window)
     , inputState(inputState)
     , guiMgr(guiMgr)
     , networkingMgr(networkingMgr)
     , currentMenuScreen(0)
+    , pilotInfo(pilotInfo)
+    , navInfo(navInfo)
+    , engInfo(engInfo)
 {
     postGameLoop = new StateUpdate();
 
@@ -23,7 +30,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputStat
     postGameLoop->addTickable(inputState,"inputState");
     postGameLoop->addTickable(this,"postGame");
 
-    statsScreen = new StatsScreen(inputState,guiMgr);
+    statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo);
 }
 
 void PostGame::run() {

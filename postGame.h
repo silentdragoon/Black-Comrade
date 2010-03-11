@@ -9,6 +9,7 @@
 #include "stateUpdate.h"
 #include "IExit.h"
 #include "ITickable.h"
+#include "collaborationInfo.h"
 
 #include "statsScreen.h"
 
@@ -21,6 +22,9 @@ private:
     NetworkingManager *networkingMgr;
     Ogre::RenderWindow *window;
     StateUpdate *postGameLoop;
+    CollaborationInfo *pilotInfo;
+    CollaborationInfo *navInfo;
+    CollaborationInfo *engInfo;
 
     void clearMenuUI();
 
@@ -33,7 +37,10 @@ private:
 public:
     PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
             InputState *inputState,GuiManager *guiMgr,
-            NetworkingManager *networkingMgr);
+            NetworkingManager *networkingMgr,
+            CollaborationInfo *pilotInfo,
+            CollaborationInfo *navInfo,
+            CollaborationInfo *engInfo);
 
     void run();
 
