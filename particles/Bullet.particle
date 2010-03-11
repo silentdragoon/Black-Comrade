@@ -108,27 +108,18 @@ particle_system FX/Explodder
         colour_range_start   1 0.4 0.4 1
         colour_range_end   1 1 0 1
         direction         0 1 0
-        emission_rate      100
-        velocity         .02
-        velocity_min      .01
-        velocity_max      .03
-        time_to_live_min   25.15
-        time_to_live_max   25.20
-        duration         25
-        duration_min      25.75
-        duration_max      25.75
-        repeat_delay      0
+        emission_rate      10
+        velocity_min      0
+        velocity_max      0
+        time_to_live_min   5
+        time_to_live_max   5
+        duration_min      1
+        duration_max      1
         repeat_delay_min   0
         repeat_delay_max   0
         width   0.3
         height   0.3
         depth   0.3
-    }
-
-    affector LinearForce
-    {
-        force_vector   0 0 0
-        force_application   add
     }
 
     affector ColourFader
@@ -142,5 +133,53 @@ particle_system FX/Explodder
     affector DirectionRandomiser
     {
         randomness 100
+    }
+}
+
+particle_system FX/awesomesauce
+{
+    quota 10
+    material Particles/explosion
+    particle_width 20 
+    particle_height 20
+    cull_each false 
+    renderer billboard
+    sorted false
+    local_space false
+    iteration_interval 0
+    nonvisible_update_timeout 0
+    billboard_type point
+    billboard_origin center
+    billboard_rotation_type texcoord
+    common_up_vector 0 1 0
+    point_rendering false
+    accurate_facing false
+
+    emitter Ellipsoid
+    {
+        angle 90
+        colour 1 1 1 1
+        colour_range_start 1 1 1 1
+        colour_range_end 1 1 1 1
+        direction 0 0 0
+        emission_rate 10
+        position 0 0 0
+        velocity 0
+        velocity_min 0
+        velocity_max 0
+        time_to_live_min 5
+        time_to_live_max 6
+        duration_min 1
+        duration_max 2
+        repeat_delay_min 0
+        repeat_delay_max 0
+        width 5
+        height 5
+        depth 5
+    }
+
+    affector Scaler
+    {
+        rate -10
     }
 }
