@@ -52,10 +52,10 @@ void StatsScreen::show() {
     out << pilotInfo->getPlayerStats()->shotsFired;
     guiMgr->addStaticText("PilotShotsFired", out.str(), 0.4, 0.4, 1);
     out.str("");
-    out << navInfo->getPlayerStats()->shotsHit;
+    out << pilotInfo->getPlayerStats()->shotsHit;
     guiMgr->addStaticText("PilotOnTarget", out.str(), 0.4, 0.45, 1);
     out.str("");
-    out << navInfo->getPlayerStats()->enemiesDestroyed;
+    out << pilotInfo->getPlayerStats()->enemiesDestroyed;
     guiMgr->addStaticText("PilotEnemiesDestroyed", out.str(), 0.4, 0.5, 1);
 
     out.str("");
