@@ -26,6 +26,20 @@ void ParticleSystemEffectManager::createExplosion(Vector3 pos) {
     effectNode->setPosition(pos);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/awesomesauce");
     activeEffects->push_back(pse);
+
+    nname = createUnique("enode");
+    pname = createUnique("effect");
+    SceneNode *effectNode1 = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode1->setPosition(pos);
+    ParticleSystemEffect *pse1 = new ParticleSystemEffect(sceneMgr, effectNode1, pname, "FX/ExplosionSparks");
+    activeEffects->push_back(pse1);
+
+    nname = createUnique("enode");
+    pname = createUnique("effect");
+    SceneNode *effectNode2 = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode2->setPosition(pos);
+    ParticleSystemEffect *pse2 = new ParticleSystemEffect(sceneMgr, effectNode2, pname, "FX/Smoke");
+    activeEffects->push_back(pse2);
 }
 
 void ParticleSystemEffectManager::createSparks(Vector3 pos) {
@@ -34,7 +48,7 @@ void ParticleSystemEffectManager::createSparks(Vector3 pos) {
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
-    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/awesomesauce");
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Sparks");
     activeEffects->push_back(pse);
 }
 

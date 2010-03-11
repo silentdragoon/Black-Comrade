@@ -46,26 +46,119 @@ particle_system FX/Explosion
 	}
 }
 
-particle_system FX/Sparks
+particle_system FX/ExplosionSparks
 {
 	quota	1
-	material	FX/Flame
-	particle_width	6
-	particle_height	6
+	material	FX/Sparks
+	particle_width	3
+	particle_height	3
 	cull_each   true	
 	renderer	billboard
 	billboard_type	point
 
 	emitter Point
 	{
-		angle	0.5
+		angle	50
 		direction	0 0 1
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	10
-		duration	10
+		time_to_live  4	
+		duration	1
 	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+
+    affector Scaler
+    {
+        rate 2 
+    }
+
+    affector Rotator
+    {
+        rotator_range_start 0
+        rotator_range_end 360
+    }
+}
+
+particle_system FX/Sparks
+{
+	quota	1
+	material	FX/Sparks
+	particle_width	3
+	particle_height	3
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	50
+		direction	0 0 1
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live  4	
+		duration	1
+	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+
+    affector Scaler
+    {
+        rate 1 
+    }
+
+    affector Rotator
+    {
+        rotator_range_start 0
+        rotator_range_end 360
+    }
+}
+
+particle_system FX/Smoke
+{
+	quota	100
+	material	Particles/smoke
+	particle_width	30
+	particle_height 30
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point 
+	{
+        colour 1 1 1 0.4
+		angle 180	
+		direction	0 0 1
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live  120	
+		duration 1	
+	}
+
+    affector Scaler
+    {
+        rate 0.2 
+    }
+
+    affector ColourFader
+    {
+        alpha -0.008
+    }
+
+    affector Rotator
+    {
+        rotator_range_start 0
+        rotator_range_end 360
+    }
 }
 
 particle_system FX/Muzzle
@@ -92,7 +185,7 @@ particle_system FX/Muzzle
 
 particle_system FX/Explodder
 {
-    quota            100
+    quota            10
     material         FX/Explodder
     particle_width      2
     particle_height      2
@@ -108,11 +201,11 @@ particle_system FX/Explodder
         colour_range_start   1 0.4 0.4 1
         colour_range_end   1 1 0 1
         direction         0 1 0
-        emission_rate      10
+        emission_rate      1
         velocity_min      0
         velocity_max      0
-        time_to_live_min   5
-        time_to_live_max   5
+        time_to_live_min   4
+        time_to_live_max   4
         duration_min      1
         duration_max      1
         repeat_delay_min   0
@@ -120,14 +213,6 @@ particle_system FX/Explodder
         width   0.3
         height   0.3
         depth   0.3
-    }
-
-    affector ColourFader
-    {
-        red      10.0
-        green   -10.0
-        blue   -10.0
-        alpha   -5.0
     }
     
     affector DirectionRandomiser
@@ -180,6 +265,12 @@ particle_system FX/awesomesauce
 
     affector Scaler
     {
-        rate -10
+        rate -1.5
+    }
+
+    affector Rotator
+    {
+        rotator_range_start 0
+        rotator_range_end 360
     }
 }
