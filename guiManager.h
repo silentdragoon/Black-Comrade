@@ -40,6 +40,8 @@ public:
     CEGUI::Window *getRootWindow();
 
     void setOverlayAboveCEGUI(bool above);
+
+    void destroyAllWindows();
 };
 
 #endif

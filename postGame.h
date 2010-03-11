@@ -10,9 +10,7 @@
 #include "IExit.h"
 #include "ITickable.h"
 
-#include "networkRoleMenu.h"
-#include "gameRoleMenu.h"
-#include "loadingScreen.h"
+#include "statsScreen.h"
 
 class PostGame : public IExit, public ITickable {
 private:

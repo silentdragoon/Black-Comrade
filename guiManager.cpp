@@ -223,3 +223,9 @@ CEGUI::FrameWindow * GuiManager::addStaticText(std::string name, std::string tex
     return textWindow;
 }
 
+void GuiManager::destroyAllWindows() {
+    guiMgr->destroyAllWindows();
+    guiRoot = guiMgr->createWindow("DefaultWindow","root");
+    CEGUI::System::getSingleton().setGUISheet(guiRoot);
+}
+

@@ -12,6 +12,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputStat
     postGameLoop = new StateUpdate();
 
     Camera *camera = sceneMgr->createCamera("postGameCam");
+    window->removeAllViewports();
     Viewport *vp = window->addViewport(camera);
     vp->setBackgroundColour(ColourValue(0,0,0));
     camera->setAspectRatio(
@@ -22,16 +23,16 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputStat
     postGameLoop->addTickable(inputState,"inputState");
     postGameLoop->addTickable(this,"postGame");
 
-    statsScreen = 0;
+    statsScreen = new StatsScreen(inputState,guiMgr);
 }
 
 void PostGame::run() {
 
+    guiMgr->destroyAllWindows();
+
     currentMenuScreen = statsScreen;
 
     postGameLoop->startLoop();
-
-    window->removeAllViewports();
 }
 
 void PostGame::clearMenuUI() {
@@ -43,7 +44,7 @@ void PostGame::clearMenuUI() {
 //}
 
 void PostGame::tick() {
-
+    std::cout << "ticking postgame" << std::endl;
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
             // Hide + End it
