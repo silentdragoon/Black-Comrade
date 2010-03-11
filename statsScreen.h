@@ -5,6 +5,7 @@
 #include "inputState.h"
 #include "guiManager.h"
 #include "collaborationInfo.h"
+#include <sstream>
 #include <math.h>
 
 class StatsScreen : public IMenuScreen
