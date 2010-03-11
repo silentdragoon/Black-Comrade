@@ -1,6 +1,6 @@
 #include <OGRE/Ogre.h>
 
-#include "preGameMenu.h"
+#include "menuType.h"
 #include "guiManager.h"
 #include "inputState.h"
 #include "networkingManager.h"
@@ -18,7 +18,6 @@
 class PreGame : public IExit, public ITickable {
 private:
 
-    PreGameMenu currentMenu;
     SceneManager *sceneMgr;
     GuiManager *guiMgr;
     InputState *inputState;

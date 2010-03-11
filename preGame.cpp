@@ -84,10 +84,10 @@ void PreGame::loadNextMenu() {
     }
 
     switch (currentMenuScreen->nextMenu()) {
-        case PGM_CHOOSE_GAME_ROLE :
+        case MT_CHOOSE_GAME_ROLE :
             currentMenuScreen = gameRoleMenu;
             break;
-        case PGM_NONE :
+        case MT_NONE :
             // Start the game
             loadingScreen->show();
             exit();

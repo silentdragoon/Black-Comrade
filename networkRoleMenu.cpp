@@ -34,8 +34,8 @@ void NetworkRoleMenu::tick() {
     }
 }
 
-PreGameMenu::NetworkRoleMenu::nextMenu() {
-    return PGM_CHOOSE_GAME_ROLE;
+MenuType::NetworkRoleMenu::nextMenu() {
+    return MT_CHOOSE_GAME_ROLE;
 }
 
 void NetworkRoleMenu::show() {

@@ -6,7 +6,7 @@
 #include "networkingManager.h"
 #include "networkRole.h"
 #include "guiManager.h"
-#include "preGameMenu.h"
+#include "menuType.h"
 #include <OIS/OIS.h>
 #include <math.h>
 
@@ -31,7 +31,7 @@ class GameRoleMenu : public IMenuScreen
 
         bool visible();
 
-        PreGameMenu nextMenu();
+        MenuType nextMenu();
 
         GameRoleMenu(InputState *inputState,NetworkingManager *networkingMgr, GuiManager *guiMgr);
         ~GameRoleMenu();

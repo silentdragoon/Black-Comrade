@@ -15,8 +15,8 @@ void LoadingScreen::tick() {
     }
 }
 
-PreGameMenu::LoadingScreen::nextMenu() {
-    return PGM_NONE;
+MenuType::LoadingScreen::nextMenu() {
+    return MT_NONE;
 }
 
 void LoadingScreen::show() {

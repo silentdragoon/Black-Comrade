@@ -24,7 +24,7 @@ class LoadingScreen : public IMenuScreen
 
         bool visible();
 
-        PreGameMenu nextMenu();
+        MenuType nextMenu();
 
         LoadingScreen(InputState *inputState, GuiManager *guiManager);
         ~LoadingScreen();

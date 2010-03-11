@@ -1,5 +1,4 @@
 #include "gameRoleMenu.h"
-#include "IMenuScreen.h"
 
 GameRoleMenu::GameRoleMenu(InputState *inputState,
                            NetworkingManager *networkingMgr,
@@ -52,8 +51,8 @@ void GameRoleMenu::updateOptions() {
         guiMgr->addStaticText("NavRoleText", "(N)avigator",0.5, 0.75, 1);
 }
 
-PreGameMenu GameRoleMenu::nextMenu() {
-    return PGM_NONE;
+MenuType GameRoleMenu::nextMenu() {
+    return MT_NONE;
 }
 
 void GameRoleMenu::show() {
