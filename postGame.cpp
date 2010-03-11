@@ -59,21 +59,20 @@ void PostGame::tick() {
     }
 }
 
-void PreGame::loadNextMenu() {
+void PostGame::loadNextMenu() {
     if (currentMenuScreen == 0) {
-        currentMenuScreen = networkRoleMenu;
+        currentMenuScreen = statsScreen;
         return;
     }
 
     switch (currentMenuScreen->nextMenu()) {
         case MT_NONE :
-            // Start the game
-            loadingScreen->show();
+            // Properly exit the game
             exit();
             break;
     }
 }
 
-void PreGame::exit() {
-    preGameLoop->running = false;
+void PostGame::exit() {
+    postGameLoop->running = false;
 }
