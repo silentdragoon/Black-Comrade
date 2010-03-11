@@ -4,6 +4,7 @@
 
 #include <OGRE/Ogre.h>
 #include <OIS/OIS.h>
+#include "menuType.h"
 #include "IConsoleInputReceiver.h"
 
 using namespace Ogre;
@@ -15,6 +16,10 @@ public:
 
     virtual void show() = 0;
     virtual void hide() = 0;
+
+    virtual bool visible() = 0;
+
+    virtual MenuType nextMenu() = 0;
 
     virtual void alphaNumKeyPressed(const OIS::KeyEvent &arg) {};
     virtual void returnKeyPressed() {};

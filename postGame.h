@@ -9,13 +9,12 @@
 #include "stateUpdate.h"
 #include "IExit.h"
 #include "ITickable.h"
-#include "mapManager2.h"
 
 #include "networkRoleMenu.h"
 #include "gameRoleMenu.h"
 #include "loadingScreen.h"
 
-class PreGame : public IExit, public ITickable {
+class PostGame : public IExit, public ITickable {
 private:
 
     SceneManager *sceneMgr;
@@ -23,26 +22,22 @@ private:
     InputState *inputState;
     NetworkingManager *networkingMgr;
     Ogre::RenderWindow *window;
-    StateUpdate *preGameLoop;
+    StateUpdate *postGameLoop;
 
     void clearMenuUI();
 
     void loadNextMenu();
 
     IMenuScreen *currentMenuScreen;
-    IMenuScreen *networkRoleMenu;
-    IMenuScreen *gameRoleMenu;
-    IMenuScreen *loadingScreen;
+    IMenuScreen *statsScreen;
 
 
 public:
-    PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
+    PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
             InputState *inputState,GuiManager *guiMgr,
             NetworkingManager *networkingMgr);
 
-    CollaborationInfo *run();
-
-    MapManager* loadGame();
+    void run();
 
     void tick();
     void exit();
