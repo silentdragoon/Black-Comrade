@@ -11,6 +11,10 @@
 #include "ITickable.h"
 #include "mapManager2.h"
 
+#include "networkRoleMenu.h"
+#include "gameRoleMenu.h"
+#include "loadingScreen.h"
+
 class PreGame : public IExit, public ITickable {
 private:
 
@@ -21,23 +25,16 @@ private:
     NetworkingManager *networkingMgr;
     Ogre::RenderWindow *window;
     StateUpdate *preGameLoop;
-    CollaborationInfo *collabInfo;
-
-    CollaborationInfo *runLobby();
-
-    void showMainMenu();
-    void processMainMenu();
-
-    void showNetworkRoleMenu();
-    void processNetworkRoleMenu();
-
-    void showGameRoleMenu();
-    void processGameRoleMenu();
-
-    void showLoadingScreen();
-    void processLoadingScreen();
 
     void clearMenuUI();
+
+    void loadNextMenu();
+
+    IMenuScreen *currentMenuScreen;
+    IMenuScreen *networkRoleMenu;
+    IMenuScreen *gameRoleMenu;
+    IMenuScreen *loadingScreen;
+
 
 public:
     PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
