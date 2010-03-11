@@ -44,11 +44,15 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Pre-game environment
     PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager);
 
+    // Post-game environment
+    PostGame *postGame = new PostGame(sceneMgr,window,inputState,guiMgr,networkingManager);
+
     collabInfo = preGame->run();
 
     mapMgr = preGame->loadGame();
 
-    if (!useMouse) inputState->releaseMouse();
+    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+        inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
     // Player info
@@ -321,6 +325,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
+
+    //postGame->run();
 
     networkingManager->stopNetworking();
 }

@@ -11,7 +11,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputStat
 {
     postGameLoop = new StateUpdate();
 
-    Camera *camera = sceneMgr->createCamera("preGameCam");
+    Camera *camera = sceneMgr->createCamera("postGameCam");
     Viewport *vp = window->addViewport(camera);
     vp->setBackgroundColour(ColourValue(0,0,0));
     camera->setAspectRatio(
@@ -20,7 +20,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputStat
     vp->update();
 
     postGameLoop->addTickable(inputState,"inputState");
-    postGameLoop->addTickable(this,"preGame");
+    postGameLoop->addTickable(this,"postGame");
 
     statsScreen = 0;
 }
