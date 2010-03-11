@@ -23,6 +23,10 @@ MapTile::MapTile() :
 {
     empty = true;
     waypoint = false;
+    northTile = NULL;
+    eastTile = NULL;
+    southTile = NULL;
+    westTile = NULL;
     x = 0;
     y = 0;
 }
