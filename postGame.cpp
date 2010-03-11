@@ -1,0 +1,79 @@
+#include "postGame.h"
+
+PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState *inputState, 
+        GuiManager *guiMgr, NetworkingManager *networkingMgr)
+    : sceneMgr(sceneMgr)
+    , window(window)
+    , inputState(inputState)
+    , guiMgr(guiMgr)
+    , networkingMgr(networkingMgr)
+    , currentMenuScreen(0)
+{
+    postGameLoop = new StateUpdate();
+
+    Camera *camera = sceneMgr->createCamera("preGameCam");
+    Viewport *vp = window->addViewport(camera);
+    vp->setBackgroundColour(ColourValue(0,0,0));
+    camera->setAspectRatio(
+        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
+
+    vp->update();
+
+    postGameLoop->addTickable(inputState,"inputState");
+    postGameLoop->addTickable(this,"preGame");
+
+    statsScreen = 0;
+}
+
+void PostGame::run() {
+
+    currentMenuScreen = statsScreen;
+
+    postGameLoop->startLoop();
+
+    window->removeAllViewports();
+}
+
+void PostGame::clearMenuUI() {
+
+}
+
+//void PreGame::showLoadingScreen() {
+//    CEGUI::FrameWindow *loadingText = guiMgr->addStaticText("LoadingText", "Loading...",0.5, 0.5, 1);
+//}
+
+void PostGame::tick() {
+
+    if (currentMenuScreen) {
+        if (currentMenuScreen->end()) {
+            // Hide + End it
+            currentMenuScreen->hide();
+            loadNextMenu();
+        } else if (!currentMenuScreen->visible()) {
+            // Show it
+            currentMenuScreen->show();
+        } else {
+            // Process it
+            currentMenuScreen->tick();
+        }	
+    }
+}
+
+void PreGame::loadNextMenu() {
+    if (currentMenuScreen == 0) {
+        currentMenuScreen = networkRoleMenu;
+        return;
+    }
+
+    switch (currentMenuScreen->nextMenu()) {
+        case MT_NONE :
+            // Start the game
+            loadingScreen->show();
+            exit();
+            break;
+    }
+}
+
+void PreGame::exit() {
+    preGameLoop->running = false;
+}
