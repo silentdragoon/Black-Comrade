@@ -34,6 +34,9 @@ private:
     void showGameRoleMenu();
     void processGameRoleMenu();
 
+    void showLoadingScreen();
+    void processLoadingScreen();
+
     void clearMenuUI();
 
 public:

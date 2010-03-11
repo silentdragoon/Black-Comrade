@@ -89,3 +89,58 @@ particle_system FX/Muzzle
 		duration	2
 	}
 }
+
+particle_system FX/Explodder
+{
+    quota            100
+    material         FX/Explodder
+    particle_width      2
+    particle_height      2
+    cull_each         true
+    renderer         billboard
+    billboard_type      point
+    accurate_facing      on
+
+    emitter Ellipsoid
+    {
+        angle            180
+        colour            1 0.4 0.4 1
+        colour_range_start   1 0.4 0.4 1
+        colour_range_end   1 1 0 1
+        direction         0 1 0
+        emission_rate      100
+        velocity         .02
+        velocity_min      .01
+        velocity_max      .03
+        time_to_live_min   25.15
+        time_to_live_max   25.20
+        duration         25
+        duration_min      25.75
+        duration_max      25.75
+        repeat_delay      0
+        repeat_delay_min   0
+        repeat_delay_max   0
+        width   0.3
+        height   0.3
+        depth   0.3
+    }
+
+    affector LinearForce
+    {
+        force_vector   0 0 0
+        force_application   add
+    }
+
+    affector ColourFader
+    {
+        red      10.0
+        green   -10.0
+        blue   -10.0
+        alpha   -5.0
+    }
+    
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+}

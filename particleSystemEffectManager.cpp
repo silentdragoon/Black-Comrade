@@ -44,7 +44,7 @@ void ParticleSystemEffectManager::createMuzzleFlash(Vector3 pos) {
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
-    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Muzzle");
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Explodder");
     activeEffects->push_back(pse);
 }
 
