@@ -209,7 +209,21 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     std::stringstream out2;
     out2 << "-" << x << "-" << y;
     name += out2.str();
-    Entity *e = sceneManager->createEntity(name, files.at(0));
+    
+    MeshPtr pMesh = MeshManager::getSingleton().load(files.at(0),
+          ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    
+          HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+          HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+          true, true);
+
+    unsigned short src, dest;
+    if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
+    {
+       pMesh->buildTangentVectors(VES_TANGENT, src, dest);
+    }
+    
+    Entity *e = sceneManager->createEntity(name, pMesh->getName() );
+
     mapEntities.push_back(e);
     node->attachObject(e);
     
