@@ -84,6 +84,33 @@ particle_system FX/ExplosionSparks
     }
 }
 
+particle_system FX/MultiSparks
+{
+	quota	5
+	material	FX/MultiSpark
+	particle_width  0.5	
+	particle_height	0.5
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		direction	0 0 1
+		emission_rate	5
+		position	0 0 0
+		velocity	5
+		time_to_live  3	
+		duration	1
+	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+        keep_velocity true
+    }
+}
+
 particle_system FX/Sparks
 {
 	quota	1
