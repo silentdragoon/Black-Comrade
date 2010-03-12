@@ -2,8 +2,8 @@
 
 SystemManager::SystemManager() :
     engCon(0),
-    shieldRate(0.5),
-    weaponRate(0.5),
+    shieldRate(0.0),
+    weaponRate(1.0),
     sensorRate(0.5),
     engineRate(1.5),
     weaponCharge(100),
@@ -15,8 +15,8 @@ SystemManager::SystemManager() :
 SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState) :
     engCon(engCon),
     damageState(damageState),
-    shieldRate(0.5),
-    weaponRate(0.5),
+    shieldRate(0.0),
+    weaponRate(1.0),
     sensorRate(0.5),
     engineRate(1.5),
     weaponCharge(100),
