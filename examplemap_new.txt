@@ -33,7 +33,7 @@ wp 9 5 wp_end
 wp 3 2 wp_attack
 wp 5 2 wp_attack
 
-wp 4 1 en_spawn
+wp 4 0 en_spawn
 wp 3 2 en_spawn
 wp 2 2 en_spawn
 wp 4 3 en_spawn
