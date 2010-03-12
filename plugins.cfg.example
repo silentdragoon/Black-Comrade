@@ -3,3 +3,4 @@ PluginFolder=/home/user-pool/users/jw7082/lib/usr/lib/OGRE
 
 Plugin=RenderSystem_GL.so
 Plugin=Plugin_ParticleFX.so
+Plugin=Plugin_CgProgramManager.so
