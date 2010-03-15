@@ -20,7 +20,7 @@ void GuiStatusUpdater::tick() {
     long slack = stateUpdate->getSlack();
     std::string s;
     std::stringstream out;
-    out << "Slack: " << slack << "ms";
+    out << slack << "ms";
     s = out.str();
     hud->setStatus(s);
 
