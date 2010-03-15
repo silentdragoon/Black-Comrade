@@ -36,6 +36,7 @@ CollaborationInfo* PreGame::run() {
     networkingMgr->lobby->chooseNick("Player");
 
     window->removeAllViewports();
+    sceneMgr->destroyCamera("preGameCam");
 
     return networkingMgr->collabInfo;
 }

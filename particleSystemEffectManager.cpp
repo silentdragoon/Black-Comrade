@@ -48,8 +48,16 @@ void ParticleSystemEffectManager::createSparks(Vector3 pos) {
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
-    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/Sparks");
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/MultiSparks");
     activeEffects->push_back(pse);
+
+    nname = createUnique("enode");
+    pname = createUnique("effect");
+
+    SceneNode *effectNode1 = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode1->setPosition(pos);
+    ParticleSystemEffect *pse1 = new ParticleSystemEffect(sceneMgr, effectNode1, pname, "FX/Sparks");
+    activeEffects->push_back(pse1);
 }
 
 void ParticleSystemEffectManager::createMuzzleFlash(Vector3 pos) {
