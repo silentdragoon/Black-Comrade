@@ -64,10 +64,10 @@ void EngineerControls::tick()
         cam->pitch(Degree(Const::TURRET_SPEED * y));
 
         isFire = inputState->isMouseButtonDown(OIS::MB_Left);
-        isChangeShield = inputState->isKeyDown(OIS::KC_A);
-        isChangeWeapons = inputState->isKeyDown(OIS::KC_S);
+        isChangeShield = inputState->isKeyDown(OIS::KC_S);
+        isChangeWeapons = inputState->isKeyDown(OIS::KC_A);
         isChangeSensors = inputState->isKeyDown(OIS::KC_D);
-        isTransferShields = inputState->isKeyDown(OIS::KC_Q);
-        isTransferWeapons = inputState->isKeyDown(OIS::KC_W);
+        isTransferShields = inputState->isKeyDown(OIS::KC_W);
+        isTransferWeapons = inputState->isKeyDown(OIS::KC_Q);
     }
 }

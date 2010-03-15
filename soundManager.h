@@ -23,9 +23,24 @@ private:
 
     FMOD::System *system;
 
+    // Pointers to the music sounds
+    FMOD::Sound *stealthMusic;
+    FMOD::Sound *attackMusic;
+    FMOD::Sound *fleeMusic;
+    FMOD::Sound *themeMusic;
+    FMOD::Channel *stealthChannel;
+    FMOD::Channel *attackChannel;
+    FMOD::Channel *fleeChannel;
+    FMOD::Channel *themeChannel;
+
+    // Things for stuff
+    int playingSound;
+
     void errCheck(FMOD_RESULT result);
     void loadSoundFiles();
+    void loadMusic();
     void loadSoundFile(string relativePath, int constName, bool loop);
+    void crossFade();
 
 public:
     SoundManager();
@@ -34,6 +49,7 @@ public:
     virtual void tick();
 
     void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb);
+    void changeMusic(int file);
 };
 
 #endif 

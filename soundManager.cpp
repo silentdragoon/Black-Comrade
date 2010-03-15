@@ -18,6 +18,8 @@ SoundManager::SoundManager() {
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
     loadSoundFiles();
+
+    playingSound = 0;
     
     Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
@@ -36,11 +38,11 @@ void SoundManager::loadSoundFiles() {
     // Hull critical
     loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false);
 
-    // Background music
-    loadSoundFile("/sounds/background.mp3",ConstManager::getInt("sound_backgroundmusic"), false);
-
     // Console key press
     loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
+
+    // Music section
+    loadMusic();
 }
 
 void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
@@ -55,6 +57,30 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) 
         errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
     }
     sounds.insert(pair<int,FMOD::Sound*>(constName,tempsound));
+}
+
+void SoundManager::loadMusic() {
+    string musicPath = ConstManager::getString("sound_file_path") + "/sounds/stealth.mp3";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &stealthMusic));
+    errCheck(stealthMusic->setMode(FMOD_LOOP_NORMAL));
+
+    musicPath = ConstManager::getString("sound_file_path") + "/sounds/attack.mp3";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &attackMusic));
+    errCheck(attackMusic->setMode(FMOD_LOOP_NORMAL));
+
+    musicPath = ConstManager::getString("sound_file_path") + "/sounds/flee.mp3";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &fleeMusic));
+    errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
+
+    musicPath = ConstManager::getString("sound_file_path") + "/sounds/theme.mp3";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &themeMusic));
+    errCheck(themeMusic->setMode(FMOD_LOOP_NORMAL));
+
+    // Start the musics
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,stealthMusic,true,&stealthChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
@@ -91,7 +117,19 @@ void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soun
     
 }
 
+void SoundManager::changeMusic(int file) {
+    // 1: Stealth
+    // 2: Attack
+    // 3: Flee
+    // 4: Theme
+    playingSound = file;
+}
+
+void SoundManager::crossFade() {
+}
+
 void SoundManager::tick() {
+    crossFade();
     errCheck( system->update() );
 }
 
