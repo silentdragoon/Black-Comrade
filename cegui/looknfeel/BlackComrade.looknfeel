@@ -72,6 +72,12 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/RightEng">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/SelectRole">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Scores">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Loading">
+    </WidgetLook>
 
     <!--
     ***************************************************

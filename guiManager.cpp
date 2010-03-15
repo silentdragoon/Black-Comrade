@@ -38,32 +38,6 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
-    // Add the crosshair to the default frame and centre it
-    // crossHair = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","crossHair"));
-    // guiRoot->addChildWindow(crossHair);
-    // crossHair->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
-
-
-    // Add status output window to screen
-    // status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/Editbox","status"));
-    // guiRoot->addChildWindow(status);
-    // status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
-    // status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.95f,0)));
-
-
-
-
-    // Create the full map 
-    // fullmap = buildFullMap();
-    // guiRoot->addChildWindow(fullmap);
-    // fullmap->setVisible(false);
-
-    // Create the minimap
-    // minimap = buildMiniMap();
-    // guiRoot->addChildWindow(minimap);
-    // minimap->setVisible(false);             // TODO: remove this once it's in hud.cpp
-
-
 }
 
 GuiManager::~GuiManager(){}
