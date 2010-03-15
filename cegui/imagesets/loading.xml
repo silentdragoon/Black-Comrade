@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   
+<Imageset Name="Loading" Imagefile="loading.png" AutoScaled="false" >
+    <Image Name="Whole" XPos="0" YPos="0" Width="1680" Height="1050" />
+</Imageset>
