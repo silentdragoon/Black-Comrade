@@ -9,6 +9,7 @@
 #include "menuType.h"
 #include <OIS/OIS.h>
 #include <math.h>
+#include <vector>
 
 class NetworkRoleMenu : public IMenuScreen
 {
@@ -19,6 +20,8 @@ class NetworkRoleMenu : public IMenuScreen
 
         bool isVisible;
         bool isEnd;
+
+        std::vector<string> servers;
         
     public:
         void tick();

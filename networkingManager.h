@@ -60,6 +60,10 @@ public:
 
         void stopNetworking();
 
+        bool hostGame(bool development);
+        std::vector<string> findGames();
+        bool connectToGame(int i);
+
         bool replicate(ReplicaObject *object);
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);

@@ -2,6 +2,8 @@
 #define DISCOVERYAGENT_H
 
 #include <string>
+#include <vector>
+
 #include "RakPeerInterface.h"
 
 using namespace RakNet;
@@ -16,6 +18,7 @@ class DiscoveryAgent {
   public:
     DiscoveryAgent();
     string findServer(int serverPort, int clientPort, int timeout);
+    std::vector<string> findServers(int serverPort, int clientPort, int timeout);
     void beServer();
     void destroyServer();
 };

@@ -3,6 +3,7 @@
 #include "networkRole.h"
 #include "collaborationInfo.h"
 #include "gameRole.h"
+#include <vector>
 #include <stdio.h>
 #include "lobby.h"
 #include "const.h"
@@ -67,7 +68,7 @@ NetworkRole NetworkingManager::determineRole(NetworkRole desiredRole) {
         return SERVER;
     }
     else if (desiredRole == CLIENT) {
-        serverAddress = discoveryAgent->findServer(6001,6000,5);
+        serverAddress = discoveryAgent->findServer(6001,6000,1);
         if (serverAddress.compare("") == 0) {
             printf("No servers could be found. You are now the server.\n");
             return SERVER;
@@ -102,6 +103,43 @@ bool NetworkingManager::startNetworking(NetworkRole desiredRole) {
     }
 
     return true;
+}
+
+bool NetworkingManager::hostGame(bool development) {
+    NetworkRole actualRole = NO_NETWORK_ROLE;
+    discoveryAgent = new DiscoveryAgent();
+    if (development)
+        networkRole = DEVELOPMENTSERVER;
+    else
+        networkRole = SERVER;
+
+    rakPeer = RakNetworkFactory::GetRakPeerInterface();
+
+    rakPeer->SetNetworkIDManager(&networkIdManager);
+    networkIdManager.SetIsNetworkIDAuthority((networkRole == SERVER || networkRole == DEVELOPMENTSERVER));
+    
+    if (actualRole == SERVER) sd.port = Const::SERVER_PORT;
+
+    rakPeer->Startup(3,100,&sd,1);
+    rakPeer->AttachPlugin(&replicaManager);
+    rakPeer->SetMaximumIncomingConnections(3);
+
+    lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
+    return true;
+}
+
+std::vector<string> NetworkingManager::findGames() {
+    std::vector<string> servers = discoveryAgent->findServers(6001,6000,1);
+    for(std::vector<string>::const_iterator it=servers.begin();it!=servers.end(); ++it) {
+        std::cout << *it << std::endl;
+        serverAddress = *it;
+    }
+    return servers;
+}
+
+bool NetworkingManager::connectToGame(int id) {
+    lobby = new Lobby(rakPeer, discoveryAgent, CLIENT);
+    return lobby->connect(serverAddress, Const::SERVER_PORT);
 }
 
 void NetworkingManager::runLobby() {
