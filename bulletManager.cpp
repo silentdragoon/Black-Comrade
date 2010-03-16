@@ -152,7 +152,7 @@ void BulletManager::handleGun(GunState *gun) {
 
         Vector3 position = gun->getPosition();
         Vector3 trailPos = position;
-        trailPos.y -= 2;
+        //trailPos.y -= 2;
         Quaternion orientation = gun->getOrientation();
         Vector3 direction = -orientation.zAxis();
         position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));

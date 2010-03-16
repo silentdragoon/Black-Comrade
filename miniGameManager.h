@@ -7,7 +7,7 @@
 
 #include "ITickable.h"
 #include "inputState.h"
-#include "IPlayerControls.h"
+#include "gunnerControls.h"
 #include "IMiniGame.h"
 #include "IConsoleInputReceiver.h"
 #include "console.h"
@@ -20,7 +20,7 @@ using namespace std;
 
 class MiniGameManager : public ITickable, public OIS::KeyListener {
 private:
-    IPlayerControls *playerControls;
+    GunnerControls *playerControls;
     InputState *inputState;
     IConsoleInputReceiver *inputReceiver;
     SceneManager *sceneManager;
@@ -38,7 +38,7 @@ public:
     void tick();
     
     MiniGameManager(Console *console,
-                    InputState *inputState, IPlayerControls *playerControls,
+                    InputState *inputState, GunnerControls *playerControls,
                     SceneManager *sceneManager, CollaborationInfo *player);
 
     bool keyPressed(const OIS::KeyEvent &arg);

@@ -261,7 +261,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     gameLoop->addTickable(cons,"console");
 
     // Minigame manager
-    IPlayerControls *myControls;
+    GunnerControls *myControls;
     if (collabInfo->getGameRole() == PILOT) {
         myControls = pilotControls;
     } else if (collabInfo->getGameRole() == NAVIGATOR) {

@@ -33,3 +33,5 @@ sound_incomingswarms = 3
 sound_hullfailing = 4
 sound_enemygun = 5
 sound_consolekeypress = 6
+
+ship_turrent_speed = -0.01;

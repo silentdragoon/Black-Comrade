@@ -9,21 +9,17 @@
 #include "ITickable.h"
 #include "IAccelerationState.h"
 #include "inputState.h"
-#include "IPlayerControls.h"
+#include "gunnerControls.h"
 
-class PilotControls : public ITickable, public IAccelerationState, public IPlayerControls
+class PilotControls : public ITickable, public IAccelerationState, public GunnerControls
 {
     private:
-        Camera *cam;
 
         double mForward;
         double mSide;
         double mUp;
         double mYaw;
         double mPitch;
-        
-        bool isFire;
-        bool enabled;
         
         InputState *inputState;
         
@@ -33,13 +29,6 @@ class PilotControls : public ITickable, public IAccelerationState, public IPlaye
         virtual double up();
         virtual double yaw();
         virtual double pitch();
-        virtual bool fire();
-
-        virtual Vector3 cameraPosition();
-        virtual Quaternion cameraOrientation();
-        
-        void setEnabled(bool b);
-        bool isEnabled();
         
         virtual void tick();
         

@@ -14,6 +14,8 @@
 #include "shipState.h"
 #include "damageState.h"
 
+#include <boost/random/normal_distribution.hpp>
+
 using namespace Ogre;
 using namespace std;
 

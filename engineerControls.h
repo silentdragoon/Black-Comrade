@@ -6,38 +6,30 @@
 #include <iostream>
 #include "ITickable.h"
 #include "inputState.h"
-#include "IPlayerControls.h"
+#include "gunnerControls.h"
 
 using namespace Ogre;
 using namespace std;
 
-class EngineerControls : public ITickable, public IPlayerControls
+class EngineerControls : public ITickable, public GunnerControls
 {
     private:
-        bool enabled;
-        bool isFire;
+       
+       InputState *inputState;
+       
         bool isChangeShield;
         bool isChangeWeapons;
         bool isChangeSensors;
         bool isTransferShields;
         bool isTransferWeapons;
-
-        Camera *cam;
-        InputState *inputState;
+  
     public:
         virtual void tick();
-        virtual bool fire();
         virtual bool isShield();
         virtual bool isWeapons();
         virtual bool isSensors();
         virtual bool transferShields();
         virtual bool transferWeapons();
-
-        virtual Vector3 cameraPosition();
-        virtual Quaternion cameraOrientation();
-
-        void setEnabled(bool b);
-        bool isEnabled();
 
         EngineerControls(InputState *inputState, Camera *cam);
         ~EngineerControls();
