@@ -65,13 +65,17 @@ void GameStateMachine::setHullDamage(double mHullDamage) {
 
 void GameStateMachine::checkWaypoints() {
     // Waypoint events
-    string *wp = mapManager->getWaypoint(shipState->getPosition());
-    if(wp != NULL) {
-        if(*wp == "wp_attack") {
-            switch(gameState) {
-                case GS_STEALTH:
-                gameState = GS_ATTACK;
-                break;
+    std::vector<string*> strs;
+    strs = mapManager->getWaypoints(shipState->getPosition());
+    if(!strs.empty()) {
+        for(std::vector<string*>::const_iterator it=strs.begin();it!=strs.end(); ++it) {
+            string *wp = *it;
+            if(*wp == "wp_attack") {
+                switch(gameState) {
+                    case GS_STEALTH:
+                        gameState = GS_ATTACK;
+                        break;
+                }
             }
         }
     }
