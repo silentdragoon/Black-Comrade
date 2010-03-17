@@ -19,6 +19,7 @@ class MapTile
         std::vector<Waypoint*> w;
         bool waypoint;
         bool empty;
+        bool obj;
         
         bool southConn;
         bool eastConn;
@@ -41,6 +42,9 @@ class MapTile
     public:
         bool hasWaypoint();
         bool isEmpty();
+        bool isObj();
+
+        void setObjective();
 
         void assignWaypoint(Waypoint *wa);
         void assignSpawnPoints(std::vector<Vector3*> sp);

@@ -186,7 +186,7 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
     if(iter != collisionsMap.end()) {
         return NewtonCollisionRayCast( iter->second, p0, p1, normal, att);
     } else {
-        cout << "enemy not found" << endl;
+        cout << "Mesh not found: " << endl;
     	return -1;
     }
 }

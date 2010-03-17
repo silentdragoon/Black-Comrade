@@ -11,6 +11,8 @@ SoundManager::SoundManager() {
 
     errCheck( FMOD::System_Create(&system) );
 
+    errCheck( system->setDriver(0) );
+
     errCheck( system->setOutput(FMOD_OUTPUTTYPE_ALSA) );
 
     errCheck( system->setSoftwareChannels(100) );
@@ -42,7 +44,7 @@ void SoundManager::loadSoundFiles() {
     loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
 
     // Music section
-    loadMusic();
+    //loadMusic();
 }
 
 void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {

@@ -10,6 +10,7 @@ MapTile::MapTile(SceneNode *node, Entity *e, int x, int y) :
 {
     empty = false;
     waypoint = false;
+    obj = false;
 
     northTile = NULL;
     eastTile = NULL;
@@ -23,6 +24,8 @@ MapTile::MapTile() :
 {
     empty = true;
     waypoint = false;
+    obj = false;
+
     northTile = NULL;
     eastTile = NULL;
     southTile = NULL;
@@ -57,6 +60,16 @@ bool MapTile::hasWaypoint()
 bool MapTile::isEmpty()
 {
     return empty;
+}
+
+bool MapTile::isObj()
+{
+    return obj;
+}
+
+void MapTile::setObjective() 
+{
+    obj = true;
 }
 
 void MapTile::assignWaypoint(Waypoint *wa)
