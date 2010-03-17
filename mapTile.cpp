@@ -23,6 +23,10 @@ MapTile::MapTile() :
 {
     empty = true;
     waypoint = false;
+    northTile = NULL;
+    eastTile = NULL;
+    southTile = NULL;
+    westTile = NULL;
     x = 0;
     y = 0;
 }
@@ -40,7 +44,7 @@ SceneNode* MapTile::getSceneNode()
     return node;    
 }
 
-Waypoint * MapTile::getWaypoint()
+std::vector<Waypoint*> MapTile::getWaypoints()
 {
     return w;
 }
@@ -57,7 +61,7 @@ bool MapTile::isEmpty()
 
 void MapTile::assignWaypoint(Waypoint *wa)
 {
-    w = wa;
+    w.push_back(wa);
     waypoint = true;
 }
 

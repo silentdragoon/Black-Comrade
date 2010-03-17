@@ -43,10 +43,10 @@ void EngineerControls::tick()
     tickGunnerControls();
 
     if(isEnabled()) {
-        isChangeShield = inputState->isKeyDown(OIS::KC_A);
-        isChangeWeapons = inputState->isKeyDown(OIS::KC_S);
+        isChangeShield = inputState->isKeyDown(OIS::KC_S);
+        isChangeWeapons = inputState->isKeyDown(OIS::KC_A);
         isChangeSensors = inputState->isKeyDown(OIS::KC_D);
-        isTransferShields = inputState->isKeyDown(OIS::KC_Q);
-        isTransferWeapons = inputState->isKeyDown(OIS::KC_W);
+        isTransferShields = inputState->isKeyDown(OIS::KC_W);
+        isTransferWeapons = inputState->isKeyDown(OIS::KC_Q);
     }
 }

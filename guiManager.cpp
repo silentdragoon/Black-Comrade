@@ -38,32 +38,6 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
-    // Add the crosshair to the default frame and centre it
-    // crossHair = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","crossHair"));
-    // guiRoot->addChildWindow(crossHair);
-    // crossHair->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0),CEGUI::UDim(0.5f,0)));
-
-
-    // Add status output window to screen
-    // status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/Editbox","status"));
-    // guiRoot->addChildWindow(status);
-    // status->setSize(CEGUI::UVector2(CEGUI::UDim(0.1f,0),CEGUI::UDim(0.05f,0)));
-    // status->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0),CEGUI::UDim(0.95f,0)));
-
-
-
-
-    // Create the full map 
-    // fullmap = buildFullMap();
-    // guiRoot->addChildWindow(fullmap);
-    // fullmap->setVisible(false);
-
-    // Create the minimap
-    // minimap = buildMiniMap();
-    // guiRoot->addChildWindow(minimap);
-    // minimap->setVisible(false);             // TODO: remove this once it's in hud.cpp
-
-
 }
 
 GuiManager::~GuiManager(){}
@@ -200,5 +174,32 @@ CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCente
     
     return radarWindow;
 
+}
+
+CEGUI::FrameWindow * GuiManager::addStaticText(std::string name, std::string text, float xCenter, float yCenter,
+                                               int size) {
+
+
+    CEGUI::FrameWindow *textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText",name));
+    textWindow->setPosition(CEGUI::UVector2(
+        CEGUI::UDim(xCenter,-(textWindow->getFont()->getTextExtent( text ) + 12)/2),
+        CEGUI::UDim(yCenter,-(textWindow->getFont()->getFontHeight() + 12 )/2)));
+
+    textWindow->setSize(CEGUI::UVector2(
+        CEGUI::UDim(0,textWindow->getFont()->getTextExtent( text ) + 12),
+        CEGUI::UDim(0,textWindow->getFont()->getFontHeight() + 12 )));
+    
+
+    textWindow->setText(text);
+    
+    guiRoot->addChildWindow(textWindow);
+
+    return textWindow;
+}
+
+void GuiManager::destroyAllWindows() {
+    guiMgr->destroyAllWindows();
+    guiRoot = guiMgr->createWindow("DefaultWindow","root");
+    CEGUI::System::getSingleton().setGUISheet(guiRoot);
 }
 

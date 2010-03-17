@@ -175,6 +175,8 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
 
     // GET MAP PARTS HERE WITH A LOOOOOOP
     // -------------------------------------------------------------------
+    int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
 
     for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
         for(int ypos=0;ypos<Const::MAPSIZE;ypos++) {
@@ -183,7 +185,11 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 ic.setImage("Minimap","mapTile-blank");
             } else {
                 std::stringstream tile;
-                tile << "mapTile";
+                if((xpos==x)&&(ypos==y)) {
+                    tile << "mapTileN";
+                } else {
+                    tile << "mapTile";
+                }
                 if(mapMgr->mts[xpos][ypos]->getAdjacent(1)!=0) {
                     tile << "-1";
                 }
@@ -197,7 +203,11 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                     tile << "-4";
                 }
                 string name = tile.str();
-                ic.setImage("Minimap",name);
+                if((xpos==x)&&(ypos==y)) {
+                    ic.setImage("Minimapnow",name);
+                } else {
+                    ic.setImage("Minimap",name);
+                }
             }
             ic.setVerticalFormatting(CEGUI::VF_STRETCHED);
             ic.setHorizontalFormatting(CEGUI::HF_STRETCHED);
@@ -233,7 +243,7 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
     CEGUI::WidgetLookManager::getSingleton().addWidgetLook(lookFeel);
     // TODO:: Almost certain some of these should be constants
     // Create the FrameWindow to return
-    CEGUI::FrameWindow *fullmap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair","full"));
+    CEGUI::FrameWindow *fullmap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     fullmap->setLookNFeel(lookFeel.getName());
     fullmap->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-30*0.015/ratio/2,0),CEGUI::UDim(0.5-30*0.015/2,0)));
     fullmap->setSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0),CEGUI::UDim(1.0f,0)));
@@ -460,6 +470,9 @@ void HUD::updateMiniMap() {
         guiManager->getRootWindow()->removeChildWindow(minimap);
         minimap = buildMiniMap();
         guiManager->getRootWindow()->addChildWindow(minimap);
+        guiManager->getRootWindow()->removeChildWindow(fullmap);
+        fullmap = buildFullMap();
+        guiManager->getRootWindow()->addChildWindow(fullmap);
     }
 }
 

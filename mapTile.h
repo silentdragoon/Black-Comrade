@@ -16,7 +16,7 @@ class MapTile
         std::vector<Vector3*> spawnPoints;
         SceneNode *node;
         Entity *e;
-        Waypoint *w;
+        std::vector<Waypoint*> w;
         bool waypoint;
         bool empty;
         
@@ -53,7 +53,7 @@ class MapTile
         std::vector<int> getConnections();
         std::vector<Vector3*> getSpawnPoints();
 
-        Waypoint * getWaypoint();
+        std::vector<Waypoint*> getWaypoints();
         Entity* getEntity();
         SceneNode* getSceneNode();
         

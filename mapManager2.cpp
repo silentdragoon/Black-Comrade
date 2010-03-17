@@ -209,7 +209,21 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     std::stringstream out2;
     out2 << "-" << x << "-" << y;
     name += out2.str();
-    Entity *e = sceneManager->createEntity(name, files.at(0));
+    
+    MeshPtr pMesh = MeshManager::getSingleton().load(files.at(0),
+          ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    
+          HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+          HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+          true, true);
+
+    unsigned short src, dest;
+    if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
+    {
+       pMesh->buildTangentVectors(VES_TANGENT, src, dest);
+    }
+    
+    Entity *e = sceneManager->createEntity(name, pMesh->getName() );
+
     mapEntities.push_back(e);
     node->attachObject(e);
     
@@ -296,13 +310,18 @@ Vector3 MapManager::getActualPosition(MapTile *mapTile) {
     return Vector3(x,0,y);
 }
 
-string* MapManager::getWaypoint(Vector3 *locn) {
+std::vector<string*> MapManager::getWaypoints(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
+    std::vector<string*> names;
     if(mts[x][y]->hasWaypoint()) {
-        return mts[x][y]->getWaypoint()->getName();
+        std::vector<Waypoint*> wps = mts[x][y]->getWaypoints();
+        for(std::vector<Waypoint*>::const_iterator it=wps.begin();it!=wps.end(); ++it) {
+            Waypoint *w = *it;
+            names.push_back(w->getName());
+        }
     }
-    return NULL;
+    return names;
 }
 
 std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn) {

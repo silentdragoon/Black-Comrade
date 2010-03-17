@@ -1,12 +1,13 @@
 #include "consoleShell.h"
 
-ConsoleShell::ConsoleShell(Console *console, InputState *inputState)
+ConsoleShell::ConsoleShell(Console *console, InputState *inputState, IExit *exit)
     : console(console)
     , inputState(inputState)
     , command("")
     , commandIndex(-1)
     , defaultPrompt(">> ")
     , gameToPlay(NULL)
+    , exit(exit)
 {
     commands = std::vector<std::string>();
     console->appendLine("---------------------------------------");
@@ -34,6 +35,7 @@ void ConsoleShell::processCommand() {
         console->appendLine("Available commands:");
         console->appendLine(" repair SYSNAME        Launches System Repair for the specified system");
         console->appendLine(" help                  Shows available commands");
+        console->appendLine(" reboot                Reboot the ship's systems (may cause unpredictable results)");
     } else if (command == "repair" ) {
         console->appendLine("Error: No target system specified.");
         console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
@@ -52,6 +54,9 @@ void ConsoleShell::processCommand() {
         gameToPlay = new MagicWordMiniGame(console,inputState);
     } else if (command == "access main security" ) {
         console->appendLine("access: PERMISSION DENIED.");
+    } else if (command == "reboot") {
+        console->appendLine("Rebooting system...");
+        exit->exit();
     } else {
         command += ": command not found";
         console->appendLine(command);

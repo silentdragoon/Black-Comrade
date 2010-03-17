@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string>
+#include <vector>
 #include "discoveryAgent.h"
 
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
@@ -48,7 +49,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
             {
                 RakNetTime time;
                 memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
-		string temp = p->systemAddress.ToString();
+                string temp = p->systemAddress.ToString();
                 serverIP = temp.substr(0, temp.find(":"));
                 break;
             }
@@ -59,6 +60,50 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
 
     RakNetworkFactory::DestroyRakPeerInterface(client);
     return serverIP;
+}
+
+std::vector<string> DiscoveryAgent::findServers(int serverPort, int clientPort, int timeout) {
+    std::vector<string> servers;
+
+    RakPeerInterface *client;
+    Packet *p;
+    string serverIP = "";
+    client=RakNetworkFactory::GetRakPeerInterface();
+
+    SocketDescriptor socketDescriptor(clientPort,0);
+    client->Startup(1, 30, &socketDescriptor, 1);
+
+    client->Ping("255.255.255.255", serverPort, true);
+
+    printf("Looking for servers...\n");
+
+    RakNetTime quitTime = RakNet::GetTime() + (timeout * 1000);
+
+    while (RakNet::GetTime() < quitTime)
+    {
+        p = client->Receive();
+        if (p==0)
+        {
+            SLEEP(30);
+            continue;
+        }
+        else
+        {
+            if (p->data[0]==ID_PONG)
+            {
+                RakNetTime time;
+                memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
+                string temp = p->systemAddress.ToString();
+                serverIP = temp.substr(0, temp.find(":"));
+                servers.push_back(serverIP);
+            }
+            client->DeallocatePacket(p);
+        }
+        SLEEP(30);
+    }
+
+    RakNetworkFactory::DestroyRakPeerInterface(client);
+    return servers;
 }
 
 void DiscoveryAgent::beServer() {

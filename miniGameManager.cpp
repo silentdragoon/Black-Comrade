@@ -4,7 +4,8 @@
 MiniGameManager::MiniGameManager(Console *console,
                                  InputState *inputState, GunnerControls *playerControls,
                                  SceneManager *sceneManager,
-                                 CollaborationInfo *player)
+                                 CollaborationInfo *player,
+                                 IExit *exit)
     : currentMiniGame(NULL)
     , console(console)
     , inputState(inputState)
@@ -13,8 +14,9 @@ MiniGameManager::MiniGameManager(Console *console,
     , sceneManager(sceneManager)
     , player(player)
     , aKeyPressed(false)
+    , exit(exit)
 {
-    consoleShell = new ConsoleShell(console,inputState);
+    consoleShell = new ConsoleShell(console,inputState,exit);
     inputReceiver = consoleShell;
 }
 

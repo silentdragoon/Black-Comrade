@@ -48,7 +48,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     mapMgr = preGame->loadGame();
 
-    if (!useMouse) inputState->releaseMouse();
+    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+        inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
     // Player info
@@ -269,7 +270,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     } else if (collabInfo->getGameRole() == ENGINEER) {
         myControls = engineerControls;
     }
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo);
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Networking
@@ -321,6 +322,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
+
+    // Post-game environment
+    PostGame *postGame = new PostGame(sceneMgr,window,inputState,
+                                      guiMgr,networkingManager,
+                                      pilotInfo,navigatorInfo,
+                                      engineerInfo);
+
+    postGame->run();
 
     networkingManager->stopNetworking();
 }

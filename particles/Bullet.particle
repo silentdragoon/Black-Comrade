@@ -46,26 +46,126 @@ particle_system FX/Explosion
 	}
 }
 
-particle_system FX/Sparks
+particle_system FX/ExplosionSparks
 {
 	quota	1
-	material	FX/Flame
-	particle_width	6
-	particle_height	6
+	material	FX/Sparks
+	particle_width	3
+	particle_height	3
 	cull_each   true	
 	renderer	billboard
 	billboard_type	point
 
 	emitter Point
 	{
-		angle	0.5
+		angle	50
 		direction	0 0 1
 		emission_rate	1
 		position	0 0 0
 		velocity	0
-		time_to_live	10
-		duration	10
+		time_to_live  3	
+		duration	1
 	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+
+    affector Scaler
+    {
+        rate 2 
+    }
+}
+
+particle_system FX/MultiSparks
+{
+	quota	5
+	material	FX/MultiSpark
+	particle_width  0.5	
+	particle_height	0.5
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		direction	0 0 1
+		emission_rate	5
+		position	0 0 0
+		velocity	5
+		time_to_live  3	
+		duration	1
+	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+        keep_velocity true
+    }
+}
+
+particle_system FX/Sparks
+{
+	quota	1
+	material	FX/Sparks
+	particle_width	2
+	particle_height	2
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live  3	
+		duration	1
+	}
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+
+    affector Scaler
+    {
+        rate 1 
+    }
+}
+
+particle_system FX/Smoke
+{
+	quota	100
+	material	Particles/smoke
+	particle_width	30
+	particle_height 30
+	cull_each   true	
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point 
+	{
+        colour 1 1 1 0.4
+		angle 180	
+		direction	0 0 1
+		emission_rate	1
+		position	0 0 0
+		velocity	0
+		time_to_live  120	
+		duration 1	
+	}
+
+    affector Scaler
+    {
+        rate 0.2 
+    }
+
+    affector ColourFader
+    {
+        alpha -0.008
+    }
 }
 
 particle_system FX/Muzzle
@@ -88,4 +188,95 @@ particle_system FX/Muzzle
 		time_to_live	2
 		duration	2
 	}
+}
+
+particle_system FX/Explodder
+{
+    quota            10
+    material         FX/Explodder
+    particle_width      2
+    particle_height      2
+    cull_each         true
+    renderer         billboard
+    billboard_type      point
+    accurate_facing      on
+
+    emitter Ellipsoid
+    {
+        angle            180
+        colour            1 0.4 0.4 1
+        colour_range_start   1 0.4 0.4 1
+        colour_range_end   1 1 0 1
+        direction         0 1 0
+        emission_rate      1
+        velocity_min      0
+        velocity_max      0
+        time_to_live_min   4
+        time_to_live_max   4
+        duration_min      1
+        duration_max      1
+        repeat_delay_min   0
+        repeat_delay_max   0
+        width   0.3
+        height   0.3
+        depth   0.3
+    }
+    
+    affector DirectionRandomiser
+    {
+        randomness 100
+    }
+}
+
+particle_system FX/awesomesauce
+{
+    quota 10
+    material Particles/explosion
+    particle_width 2 
+    particle_height 2
+    cull_each false 
+    renderer billboard
+    sorted false
+    local_space false
+    iteration_interval 0
+    nonvisible_update_timeout 0
+    billboard_type point
+    billboard_origin center
+    billboard_rotation_type texcoord
+    common_up_vector 0 1 0
+    point_rendering false
+    accurate_facing false
+
+    emitter Ellipsoid
+    {
+        angle 90
+        colour 1 1 1 1
+        colour_range_start 1 1 1 1
+        colour_range_end 1 1 1 1
+        direction 0 0 0
+        emission_rate 10
+        position 0 0 0
+        velocity 0
+        velocity_min 0
+        velocity_max 0
+        time_to_live_min 5
+        time_to_live_max 5
+        duration_min 1
+        duration_max 1
+        repeat_delay_min 0
+        repeat_delay_max 0
+        width 5
+        height 5
+        depth 5
+    }
+
+    affector ColourFader
+    {
+        alpha -0.8
+    }
+
+    affector Scaler
+    {
+        rate 3.5
+    }
 }

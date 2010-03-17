@@ -49,19 +49,21 @@ class Lobby {
     void sendGameRoleChoices(SystemAddress recipient);
     void sendGameRoleChoices();
 
-    bool pilotTaken;
-    bool navTaken;
-    bool engTaken;
-
     string nick;
 
     public:
     Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr);
+    bool roleOptionsChanged;
+    bool pilotTaken;
+    bool navTaken;
+    bool engTaken;
 
     void enter();
     bool wait();
     void chooseNick(string nick);
     void chooseGameRole(GameRole role);
+
+    bool hasChosenRole();
 
     bool connect(string address, int port);
     GameRole getChosenGameRole();
