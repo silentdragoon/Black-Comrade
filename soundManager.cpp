@@ -44,7 +44,7 @@ void SoundManager::loadSoundFiles() {
     loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
 
     // Music section
-    //loadMusic();
+    loadMusic();
 }
 
 void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
