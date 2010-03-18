@@ -5,7 +5,7 @@ ParticleSystemEffect::ParticleSystemEffect(SceneManager *sceneMgr, SceneNode *ef
     node(effect)
 {
     particleSystem = sceneMgr->createParticleSystem(pName,eName);
-    particleSystem->setSpeedFactor(50.0f);
+    //particleSystem->setSpeedFactor(50.0f);
     //particleSystem->createParticle();
     node->attachObject(particleSystem);
     ticksToLive = (int)particleSystem->getEmitter(0)->getDuration() + (int)particleSystem->getEmitter(0)->getTimeToLive();

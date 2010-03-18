@@ -83,6 +83,8 @@ void SoundManager::loadMusic() {
     errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
+    errCheck(themeChannel->setVolume(0.5));
+    errCheck(themeChannel->setPaused(false));
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
