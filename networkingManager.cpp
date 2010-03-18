@@ -25,6 +25,7 @@ NetworkingManager::NetworkingManager(IExit *mExit) :
     replicaManager.SetAutoSerializeInterval(1);
 
     collabInfo = new CollaborationInfo("",NO_NETWORK_ROLE,NO_GAME_ROLE);
+    discoveryAgent = new DiscoveryAgent();
 }
 
 NetworkingManager::~NetworkingManager() {
@@ -107,7 +108,7 @@ bool NetworkingManager::startNetworking(NetworkRole desiredRole) {
 
 bool NetworkingManager::hostGame(bool development) {
     NetworkRole actualRole = NO_NETWORK_ROLE;
-    discoveryAgent = new DiscoveryAgent();
+
     if (development)
         networkRole = DEVELOPMENTSERVER;
     else
@@ -116,9 +117,9 @@ bool NetworkingManager::hostGame(bool development) {
     rakPeer = RakNetworkFactory::GetRakPeerInterface();
 
     rakPeer->SetNetworkIDManager(&networkIdManager);
-    networkIdManager.SetIsNetworkIDAuthority((networkRole == SERVER || networkRole == DEVELOPMENTSERVER));
+    networkIdManager.SetIsNetworkIDAuthority(true);
     
-    if (actualRole == SERVER) sd.port = Const::SERVER_PORT;
+    if (networkRole == SERVER) sd.port = Const::SERVER_PORT;
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
@@ -131,13 +132,23 @@ bool NetworkingManager::hostGame(bool development) {
 std::vector<string> NetworkingManager::findGames() {
     std::vector<string> servers = discoveryAgent->findServers(6001,6000,1);
     for(std::vector<string>::const_iterator it=servers.begin();it!=servers.end(); ++it) {
-        std::cout << *it << std::endl;
         serverAddress = *it;
     }
     return servers;
 }
 
 bool NetworkingManager::connectToGame(int id) {
+    std::cout << "About to connect to " << serverAddress << "\n";
+
+    rakPeer = RakNetworkFactory::GetRakPeerInterface();
+
+    rakPeer->SetNetworkIDManager(&networkIdManager);
+    networkIdManager.SetIsNetworkIDAuthority(false);
+
+    rakPeer->Startup(3,100,&sd,1);
+    rakPeer->AttachPlugin(&replicaManager);
+    rakPeer->SetMaximumIncomingConnections(3);
+
     lobby = new Lobby(rakPeer, discoveryAgent, CLIENT);
     return lobby->connect(serverAddress, Const::SERVER_PORT);
 }

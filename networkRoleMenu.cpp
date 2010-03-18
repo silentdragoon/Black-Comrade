@@ -11,6 +11,8 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
     , isEnd(false)
 {
     CEGUI::ImagesetManager::getSingleton().create("NetworkRoleMenu.imageset");
+    gameRefreshDelay = 200;
+    lastRefresh = gameRefreshDelay;
 }
 
 void NetworkRoleMenu::tick() {
@@ -18,19 +20,38 @@ void NetworkRoleMenu::tick() {
     NetworkRole desiredRole = NO_NETWORK_ROLE;
 
     if (inputState->isKeyDown(OIS::KC_D)) {
-        desiredRole = DEVELOPMENTSERVER;
+        bool hosted = networkingMgr->hostGame(true);
+        if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_S)) {
-        desiredRole = SERVER;
+        bool hosted = networkingMgr->hostGame(false);
+        if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_C))	 {
-        desiredRole = CLIENT;
+        bool joined = networkingMgr->connectToGame(0);
+        if (joined) {
+            isEnd = true;
+        }
+        else
+        {
+            std::cout << "failed" << std::endl;
+            //SLEEP(30);
+        }
     } else if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(-1);
     }
-    if (desiredRole != NO_NETWORK_ROLE) {
-        if (!networkingMgr->startNetworking(desiredRole)) {
-            std::cout << "Could not start networking." << std::endl;
-            std::exit(0);
-        } else isEnd = true;
+
+    if (lastRefresh == gameRefreshDelay) {
+        // Refresh games
+        std::cout << "Refreshing game list\n";
+        refreshGameList();
+        lastRefresh = 0;
+    } else { lastRefresh ++; }
+}
+
+void NetworkRoleMenu::refreshGameList() {
+    std::vector<string> games = networkingMgr->findGames();
+    std::cout << games.size() << " games found:\n";
+    for(std::vector<string>::const_iterator it=games.begin();it!=games.end(); ++it) {
+        std::cout << *it << "\n";
     }
 }
 

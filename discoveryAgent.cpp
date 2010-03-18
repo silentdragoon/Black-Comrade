@@ -40,7 +40,7 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
         p = client->Receive();
         if (p==0)
         {
-            SLEEP(30);
+            SLEEP(10);
             continue;
         }
         else
@@ -55,7 +55,6 @@ string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
             }
             client->DeallocatePacket(p);
         }
-        SLEEP(30);
     }
 
     RakNetworkFactory::DestroyRakPeerInterface(client);
