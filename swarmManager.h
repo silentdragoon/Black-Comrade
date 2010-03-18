@@ -4,6 +4,7 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include <vector>
+#include <deque>
 #include "ITickable.h"
 #include "swarm.h"
 #include "gameParameterMap.h"
@@ -27,7 +28,7 @@ class SwarmManager : public ITickable
         SceneNodeManager *sceneNodeMgr;
         GameParameterMap *gamePM;
         MapManager *mapMgr;
-        std::vector<Swarm*> activeSwarms;
+        std::deque<Swarm*> activeSwarms;
         ShipState *shipState;
         CollisionManager *colMgr;
         NetworkingManager *networkingMgr;
@@ -60,7 +61,7 @@ class SwarmManager : public ITickable
         std::vector<Enemy*> getAllEnemies();
         std::vector<Enemy*> getReplicatedEnemies();
         
-        std::vector<Swarm*> getAllSwarms();
+        std::deque<Swarm*> getAllSwarms();
 
         virtual void tick();
 

@@ -6,6 +6,7 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
+#include <deque>
 #include "ITickable.h"
 #include "guiManager.h"
 #include "shipState.h"

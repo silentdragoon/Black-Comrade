@@ -3,6 +3,7 @@
 
 #include <OGRE/Ogre.h>
 #include <string>
+#include <deque>
 #include <sstream>
 #include <iostream>
 #include <math.h>
@@ -28,7 +29,7 @@ class Swarm
     private:
         SceneManager *sceneMgr;
         SceneNodeManager *sceneNodeMgr;
-        std::vector<Enemy*> members;
+        std::deque<Enemy*> members;
         std::vector<MapTile*> path;
         int id;
         Vector3 location;

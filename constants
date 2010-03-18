@@ -1,7 +1,7 @@
 
 INCLUDE = constMapPath
 
-tick_period = 0.0166666667
+tick_period = 0.01666666667
 
 # Enemy Constants
 enemy_patrol_speed = 50

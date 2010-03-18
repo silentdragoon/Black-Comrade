@@ -107,6 +107,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
     } else if (false && isShip) b->hitShip = true;
 
     activeBullets->push_back(b);
+    std::cout << "ActiveBullets: " << activeBullets->size() << std::endl;
 
     // TODO: Return enum rather than bool so we can record friendly fire
     if (isEnemy)
