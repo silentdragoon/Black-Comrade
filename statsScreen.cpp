@@ -36,6 +36,7 @@ void StatsScreen::show() {
     for (int i = 0; i < 130; i ++) {
         out << '*';
     }
+    guiMgr->addStaticImage("Scores",0.5, 0.5,1.0, 1.0,"Scores","Whole");
 
     guiMgr->addStaticText("StatsHeader", "Stats",0.5, 0.25, 1);
     guiMgr->addStaticText("StatsUnderline",out.str(),0.5,0.30, 1);

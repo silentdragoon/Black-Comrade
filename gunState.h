@@ -7,7 +7,7 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include "ITickable.h"
-#include "IPlayerControls.h"
+#include "gunnerControls.h"
 #include "collaborationInfo.h"
 #include "playerStats.h"
 #include "damageState.h"
@@ -30,7 +30,7 @@ class GunState : public ITickable, public ReplicaObject
         Vector3 position;
         Quaternion orientation;
         
-        IPlayerControls *playerControls;
+        GunnerControls *playerControls;
         DamageState *damageState;
         SystemManager *systemManager;
         
@@ -45,7 +45,7 @@ class GunState : public ITickable, public ReplicaObject
         virtual void tick();
         
         GunState();
-        GunState(IPlayerControls *pilotControls, DamageState *damageState, SystemManager *systemManger, CollaborationInfo *ownerInfo);
+        GunState(GunnerControls *pilotControls, DamageState *damageState, SystemManager *systemManger, CollaborationInfo *ownerInfo);
         ~GunState();
 
         virtual RakNet::RakString GetName(void) const;

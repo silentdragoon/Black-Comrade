@@ -2,7 +2,7 @@
 #include "miniGameManager.h"
 
 MiniGameManager::MiniGameManager(Console *console,
-                                 InputState *inputState, IPlayerControls *playerControls,
+                                 InputState *inputState, GunnerControls *playerControls,
                                  SceneManager *sceneManager,
                                  CollaborationInfo *player,
                                  IExit *exit)

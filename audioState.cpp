@@ -27,6 +27,10 @@ void AudioState::tick()
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
             sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,shipNode,2,true);
         }
+        if (newNotification->getMusic() != -1) {
+            std::cout << "MUSIC: " << newNotification->getMusic() << std::endl;
+            sndMgr->changeMusic(newNotification->getMusic());
+        }
     }
 
     if (miniGameMgr->aKeyPressed) {

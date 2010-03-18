@@ -44,6 +44,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Pre-game environment
     PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager);
 
+    // Sound manager
+    soundMgr = new SoundManager();
+
     collabInfo = preGame->run();
 
     mapMgr = preGame->loadGame();
@@ -260,7 +263,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     gameLoop->addTickable(cons,"console");
 
     // Minigame manager
-    IPlayerControls *myControls;
+    GunnerControls *myControls;
     if (collabInfo->getGameRole() == PILOT) {
         myControls = pilotControls;
     } else if (collabInfo->getGameRole() == NAVIGATOR) {
@@ -287,7 +290,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     gameLoop->addTickable(systemManager,"systemManager");
 
     // Audio
-    soundMgr = new SoundManager();
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
                                 notificationMgr,bulletMgr,miniGameMgr);

@@ -30,7 +30,7 @@ void GunState::tick()
 Vector3 GunState::getPosition() { return position; }
 Quaternion GunState::getOrientation() { return orientation; }
         
-GunState::GunState(IPlayerControls *playerControls, DamageState *damageState,
+GunState::GunState(GunnerControls *playerControls, DamageState *damageState,
                    SystemManager *systemManager, CollaborationInfo *ownerInfo)
     : playerControls(playerControls)
     , damageState(damageState)

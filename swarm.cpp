@@ -529,7 +529,7 @@ void Swarm::attackProcess(Enemy *e)
 	    v = p + dist * left;
 	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
 	        Vector3 wall = -(v - *e->getPosition());
-	        float weight = 100 * 
+	        float weight = 1000 * 
 	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
 	        wall.normalise();
 	        wall *= weight;
@@ -550,7 +550,7 @@ void Swarm::attackProcess(Enemy *e)
 	    v = p + dist * left;
 	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
 	        Vector3 wall = -(v - *e->getPosition());
-	        float weight = 100 * 
+	        float weight = 1000 * 
 	            pow(1 - dist/ConstManager::getFloat("flock_seperation"),2);
 	        wall.normalise();
 	        wall *= weight;

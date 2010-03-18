@@ -14,6 +14,8 @@
 #include "shipState.h"
 #include "damageState.h"
 
+#include <boost/random/normal_distribution.hpp>
+
 using namespace Ogre;
 using namespace std;
 
@@ -33,8 +35,8 @@ class BulletManager : public ITickable
         DamageState *damageState;
         ParticleSystemEffectManager *particleSystemEffectManager;
        
-        bool fire(Vector3 origin, Vector3 direction, ColourValue c);
-        bool fire(Vector3 origin, Vector3 direction, ColourValue c, PlayerStats *stats);
+        bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin);
+        bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin, PlayerStats *stats);
 
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);

@@ -78,6 +78,8 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Loading">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/Scores">
+    </WidgetLook>
 
     <!--
     ***************************************************
@@ -3922,11 +3924,6 @@
     -->
     <WidgetLook name="BlackComrade/MultiLineEditbox">
         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
-        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
-        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
-        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
-        <Property name="MouseCursorImage" value="set:TaharezLook image:MouseTextBar" />
-        <Property name="SelectionBrushImage" value="set:TaharezLook image:MultiLineEditboxSelectionBrush" />
         <NamedArea name="TextArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
@@ -3949,12 +3946,12 @@
         </NamedArea>
         <NamedArea name="TextAreaHScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim  imageset="HorizMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="HorizMenu" image="X" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="MultiLineEditboxRight" dimension="Width" />
+                            <ImageDim  imageset="HorizMenu" image="X" dimension="Width" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3969,8 +3966,8 @@
         </NamedArea>
         <NamedArea name="TextAreaVScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim  imageset="HorizMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim  imageset="HorizMenu" image="X" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
@@ -3981,7 +3978,7 @@
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="MultiLineEditboxBottom" dimension="Height" />
+                            <ImageDim  imageset="HorizMenu" image="X" dimension="Height" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3989,8 +3986,8 @@
         </NamedArea>
         <NamedArea name="TextAreaHVScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="HorizMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim  imageset="HorizMenu" image="X" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
@@ -4020,8 +4017,8 @@
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><AbsoluteDim value="12" /></Dim>
-                <Dim type="Height" ><UnifiedDim scale="1" offset="-12" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="0" offset="-12" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
         </Child>
@@ -4033,15 +4030,15 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="TaharezLook" image="MultiLineEditboxTopLeft" />
-                <Image type="TopRightCorner" imageset="TaharezLook" image="MultiLineEditboxTopRight" />
-                <Image type="BottomLeftCorner" imageset="TaharezLook" image="MultiLineEditboxBottomLeft" />
-                <Image type="BottomRightCorner" imageset="TaharezLook" image="MultiLineEditboxBottomRight" />
-                <Image type="LeftEdge" imageset="TaharezLook" image="MultiLineEditboxLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="MultiLineEditboxRight" />
-                <Image type="TopEdge" imageset="TaharezLook" image="MultiLineEditboxTop" />
-                <Image type="BottomEdge" imageset="TaharezLook" image="MultiLineEditboxBottom" />
-                <Image type="Background" imageset="TaharezLook" image="MultiLineEditboxBackdrop" />
+                <Image type="TopLeftCorner"  imageset="HorizMenu" image="X" />
+                <Image type="TopRightCorner"  imageset="HorizMenu" image="X" />
+                <Image type="BottomLeftCorner"  imageset="HorizMenu" image="X" />
+                <Image type="BottomRightCorner"  imageset="HorizMenu" image="X"/>
+                <Image type="LeftEdge"  imageset="HorizMenu" image="X"/>
+                <Image type="RightEdge"  imageset="HorizMenu" image="X" />
+                <Image type="TopEdge"  imageset="HorizMenu" image="X" />
+                <Image type="BottomEdge"  imageset="HorizMenu" image="X" />
+                <Image type="Background"  imageset="HorizMenu" image="X" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="Carat">
@@ -4049,10 +4046,10 @@
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><ImageDim imageset="TaharezLook" image="EditBoxCarat" dimension="Width" /></Dim>
+                    <Dim type="Width" ><ImageDim  imageset="HorizMenu" image="X" dimension="Width" /></Dim>
                     <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
                 </Area>
-                <Image imageset="TaharezLook" image="EditBoxCarat" />
+                <Image  imageset="HorizMenu" image="X" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -4084,7 +4081,7 @@
     <WidgetLook name="BlackComrade/Tooltip">
         <NamedArea name="TextArea">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="TooltipLeftEdge" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="horizmenu" image="X" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="TooltipTopEdge" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">

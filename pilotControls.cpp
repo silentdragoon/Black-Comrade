@@ -28,29 +28,11 @@ double PilotControls::pitch()
     return mPitch;
 }
 
-bool PilotControls::fire()
-{
-    return isFire;
-}
-
-Vector3 PilotControls::cameraPosition() {
-    return cam->getRealPosition();
-}
-
-Quaternion PilotControls::cameraOrientation() {
-    return cam->getRealOrientation();
-}
-
-void PilotControls::setEnabled(bool b)
-{
-    enabled = b;
-}
-
-bool PilotControls::isEnabled() { return enabled; }
-
 void PilotControls::tick()
 {
-    if(enabled) {
+    tickGunnerControls();
+
+    if(isEnabled()) {
         if(inputState->isKeyDown(OIS::KC_W))
             mForward = 1.0;
        	else if(inputState->isKeyDown(OIS::KC_S))
@@ -85,16 +67,16 @@ void PilotControls::tick()
        		mYaw = -1.0;
        	else
        		mYaw = 0.0;
-       		
-        isFire = inputState->isKeyDown(OIS::KC_RCONTROL);
     }
 }
 
 PilotControls::PilotControls(InputState *inputState, Camera *cam)
     : inputState(inputState)
-    , cam(cam)
-    , enabled(true)
-{}
+    , GunnerControls(inputState, cam, false)
+{
+    setYawLimits(31 * PI / 16, PI / 16);
+    setPitchLimits(31 * PI / 16, PI / 16);
+}
 
 PilotControls::~PilotControls() {}
 

@@ -20,6 +20,7 @@
     <Imageset Filename="loading.xml" />
     <Imageset Filename="scores.xml" />
     <Imageset Filename="selectrole.xml" />
+    <Imageset Filename="scores.xml" />
 
 
     <Font Filename="DroidSansMono.font" />
@@ -36,6 +37,7 @@
     <FalagardMapping WindowType="BlackComrade/GameRoleMenu" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/GameRoleMenu" />
     <FalagardMapping WindowType="BlackComrade/NetworkRoleMenu" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/NetworkRoleMenu" />
     <FalagardMapping WindowType="BlackComrade/Loading" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Loading" />
+    <FalagardMapping WindowType="BlackComrade/Scores" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Scores" />
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />

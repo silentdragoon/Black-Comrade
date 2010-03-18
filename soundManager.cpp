@@ -11,6 +11,8 @@ SoundManager::SoundManager() {
 
     errCheck( FMOD::System_Create(&system) );
 
+    errCheck( system->setDriver(0) );
+
     errCheck( system->setOutput(FMOD_OUTPUTTYPE_ALSA) );
 
     errCheck( system->setSoftwareChannels(100) );
@@ -19,7 +21,7 @@ SoundManager::SoundManager() {
 
     loadSoundFiles();
 
-    playingSound = 0;
+    playingSound = 4; // We are playing the theme music at the start
     
     Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
@@ -81,6 +83,15 @@ void SoundManager::loadMusic() {
     errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
+    errCheck(stealthChannel->setVolume(0.0));
+    errCheck(attackChannel->setVolume(0.0));
+    errCheck(fleeChannel->setVolume(0.0));
+    errCheck(themeChannel->setVolume(0.5));
+
+    errCheck(stealthChannel->setPaused(false));
+    errCheck(attackChannel->setPaused(false));
+    errCheck(fleeChannel->setPaused(false));
+    errCheck(themeChannel->setPaused(false));
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
@@ -122,10 +133,62 @@ void SoundManager::changeMusic(int file) {
     // 2: Attack
     // 3: Flee
     // 4: Theme
+    std::cout << "SoumndMGR, MUSIC: " << file << std::endl;
     playingSound = file;
 }
 
 void SoundManager::crossFade() {
+    double maxVol = ConstManager::getFloat("sound_musicvolume");
+
+    float stealthAdjust;
+    float attackAdjust;
+    float fleeAdjust;
+    float themeAdjust;
+    if(playingSound==1) {
+        stealthAdjust = 0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = -0.001;
+        themeAdjust = -0.001;
+    } else if(playingSound==2) {
+        stealthAdjust = -0.001;
+        attackAdjust = 0.001;
+        fleeAdjust = -0.001;
+        themeAdjust = -0.001;
+    } else if(playingSound==3) {
+        stealthAdjust = -0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = 0.001;
+        themeAdjust = -0.001;
+    } else {
+        stealthAdjust = -0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = -0.001;
+        themeAdjust = 0.001;
+    }
+    float volume;
+    errCheck(stealthChannel->getVolume(&volume));
+    volume=volume+stealthAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(stealthChannel->setVolume(volume));
+
+    errCheck(attackChannel->getVolume(&volume));
+    volume=volume+attackAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(attackChannel->setVolume(volume));
+
+    errCheck(fleeChannel->getVolume(&volume));
+    volume=volume+fleeAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(fleeChannel->setVolume(volume));
+
+    errCheck(themeChannel->getVolume(&volume));
+    volume=volume+themeAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(themeChannel->setVolume(volume));
 }
 
 void SoundManager::tick() {

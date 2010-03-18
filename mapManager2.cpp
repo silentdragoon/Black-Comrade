@@ -85,54 +85,55 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
                         connections.push_back(4);
                         createTile("ends/",connections,x,y);
                     } else if(line[x]=='0') {
-                        for(int ox=0;ox<3;ox++) {
-                            for(int oy=0;oy<3;oy++) {
-                                if(ox==0) {
-                                    if(oy==0) {
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                    } else if(oy==1) {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
+                        if(!objective) {
+                            for(int ox=0;ox<3;ox++) {
+                                for(int oy=0;oy<3;oy++) {
+                                    if(ox==0) {
+                                        if(oy==0) {
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                        } else if(oy==1) {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        } else {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                        }
+                                    } else if(ox==1) {
+                                        if(oy==0) {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        } else if(oy==1) {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        } else {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        }
                                     } else {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
+                                        if(oy==0) {
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        } else if(oy==1) {
+                                            connections.push_back(1);
+                                            connections.push_back(2);
+                                            connections.push_back(3);
+                                            connections.push_back(4);
+                                        } else {
+                                            connections.push_back(1);
+                                            connections.push_back(4);
+                                        }
                                     }
-                                } else if(ox==1) {
-                                    if(oy==0) {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
-                                    } else if(oy==1) {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
-                                    } else {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
-                                    }
-                                } else {
-                                    if(oy==0) {
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
-                                    } else if(oy==1) {
-                                        connections.push_back(1);
-                                        connections.push_back(2);
-                                        connections.push_back(3);
-                                        connections.push_back(4);
-                                    } else {
-                                        connections.push_back(1);
-                                        connections.push_back(4);
-                                    }
+                                    createObjectiveTile(connections,x+ox,y+oy);                                    
                                 }
-                                createObjectiveTile(connections,x+ox,y+oy);                                    
                             }
                         }
                     }
@@ -245,10 +246,7 @@ void MapManager::createObjectiveTile(std::vector<int> connections, int x, int y)
         objective=true;
 
         objectiveNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-        string name = "mapTile";
-        std::stringstream out;
-        out << "-" << x << "-" << y;
-        name += out.str();
+        string name = "mapTile-OBJ";
         string path = MAPROOT+"objec/1-2-3-4/objective.mesh";
         objectiveEntity = sceneManager->createEntity(name, path);
         mapEntities.push_back(objectiveEntity);
@@ -257,9 +255,10 @@ void MapManager::createObjectiveTile(std::vector<int> connections, int x, int y)
         Vector3 pos(x * ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size"));
         objectiveNode->setPosition(pos);
     }
-
+    cout << "=====OBJ TILE=====" << endl;
     MapTile *m = new MapTile(objectiveNode,objectiveEntity,x,y);
     m->setConnections(connections);
+    m->setObjective();
     mts[x][y] = m;
 }
 
@@ -274,25 +273,67 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
-    mps[0] = mts[x][y]->getEntity();
-    std::vector<int> adj = mts[x][y]->getConnections();
+    if(mts[x][y]->isObj()) {
+        mps[0] = mts[x][y]->getEntity();
+        //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
+        std::vector<int> adj = mts[x][y]->getConnections();
 
-    mps[1] = NULL;
-    mps[2] = NULL;
-    mps[3] = NULL;
-    mps[4] = NULL;
+        mps[1] = NULL;
+        mps[2] = NULL;
+        mps[3] = NULL;
+        mps[4] = NULL;
 
-    for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
-        int c = *it;
-        if(c==1) {
-            mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
-        } else if(c==2) {
-            mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
-        } else if(c==3) {
-            mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
-        } else if(c==4) {
-            mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
-        } else {
+        for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
+            int c = *it;
+            if(c==1) {
+                if(!mts[x][y]->getAdjacent(c)->isObj()) {
+                    //cout << "1: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                    mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
+                }
+            } else if(c==2) {
+                if(!mts[x][y]->getAdjacent(c)->isObj()) {
+                    //cout << "2: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                    mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
+                }
+            } else if(c==3) {
+                if(!mts[x][y]->getAdjacent(c)->isObj()) {
+                    //cout << "3: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                    mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
+                }
+            } else if(c==4) {
+                if(!mts[x][y]->getAdjacent(c)->isObj()) {
+                    //cout << "4: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                    mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
+                }
+            } else {
+            }
+        }
+    } else {
+        mps[0] = mts[x][y]->getEntity();
+        //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
+        std::vector<int> adj = mts[x][y]->getConnections();
+
+        mps[1] = NULL;
+        mps[2] = NULL;
+        mps[3] = NULL;
+        mps[4] = NULL;
+
+        for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
+            int c = *it;
+            if(c==1) {
+                //cout << "1: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
+            } else if(c==2) {
+                //cout << "2: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
+            } else if(c==3) {
+                //cout << "3: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
+            } else if(c==4) {
+                //cout << "4: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+                mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
+            } else {
+            }
         }
     }
 }
@@ -310,13 +351,18 @@ Vector3 MapManager::getActualPosition(MapTile *mapTile) {
     return Vector3(x,0,y);
 }
 
-string* MapManager::getWaypoint(Vector3 *locn) {
+std::vector<string*> MapManager::getWaypoints(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
+    std::vector<string*> names;
     if(mts[x][y]->hasWaypoint()) {
-        return mts[x][y]->getWaypoint()->getName();
+        std::vector<Waypoint*> wps = mts[x][y]->getWaypoints();
+        for(std::vector<Waypoint*>::const_iterator it=wps.begin();it!=wps.end(); ++it) {
+            Waypoint *w = *it;
+            names.push_back(w->getName());
+        }
     }
-    return NULL;
+    return names;
 }
 
 std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn) {
