@@ -21,7 +21,7 @@ SoundManager::SoundManager() {
 
     loadSoundFiles();
 
-    playingSound = 0;
+    playingSound = 4; // We are playing the theme music at the start
     
     Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
@@ -83,7 +83,12 @@ void SoundManager::loadMusic() {
     errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
+    errCheck(stealthChannel->setVolume(0.0));
+    errCheck(attackChannel->setVolume(0.0));
+    errCheck(fleeChannel->setVolume(0.0));
     errCheck(themeChannel->setVolume(0.5));
+
+    // Play the theme music on load
     errCheck(themeChannel->setPaused(false));
 }
 
@@ -130,6 +135,47 @@ void SoundManager::changeMusic(int file) {
 }
 
 void SoundManager::crossFade() {
+    float stealthAdjust;
+    float attackAdjust;
+    float fleeAdjust;
+    float themeAdjust;
+    if(playingSound==1) {
+        stealthAdjust = 0.005;
+        attackAdjust = -0.005;
+        fleeAdjust = -0.005;
+        themeAdjust = -0.005;
+    } else if(playingSound==2) {
+        stealthAdjust = -0.005;
+        attackAdjust = 0.005;
+        fleeAdjust = -0.005;
+        themeAdjust = -0.005;
+    } else if(playingSound==3) {
+        stealthAdjust = -0.005;
+        attackAdjust = -0.005;
+        fleeAdjust = 0.005;
+        themeAdjust = -0.005;
+    } else {
+        stealthAdjust = -0.005;
+        attackAdjust = -0.005;
+        fleeAdjust = -0.005;
+        themeAdjust = 0.005;
+    }
+    float volume;
+    errCheck(stealthChannel->getVolume(&volume));
+    if(volume<0.5) volume=volume+stealthAdjust;
+    errCheck(stealthChannel->setVolume(volume));
+
+    errCheck(attackChannel->getVolume(&volume));
+    if(volume<0.5) volume=volume+attackAdjust;
+    errCheck(attackChannel->setVolume(volume));
+
+    errCheck(fleeChannel->getVolume(&volume));
+    if(volume<0.5) volume=volume+fleeAdjust;
+    errCheck(fleeChannel->setVolume(volume));
+
+    errCheck(themeChannel->getVolume(&volume));
+    if(volume<0.5) volume=volume+themeAdjust;
+    errCheck(themeChannel->setVolume(volume));
 }
 
 void SoundManager::tick() {
