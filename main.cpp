@@ -258,7 +258,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             networkingManager,particleSystemEffectManager);
     }
-    gameLoop->addTickable(swarmMgr, "swarmMgr");
 
     // Console
     cons = new Console(sceneMgr);
@@ -288,6 +287,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState,particleSystemEffectManager);
     gameLoop->addTickable(bulletMgr,"bulletManager");
+    gameLoop->addTickable(swarmMgr, "swarmMgr");
     
     gameLoop->addTickable(systemManager,"systemManager");
 
