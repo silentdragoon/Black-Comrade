@@ -34,7 +34,11 @@ Bullet::Bullet(SceneNode *bulletNode,
             playerStats(mPlayerStats)
 {
     deathSpark = Vector3(bulletNode->getPosition().x+(direction.x*dtt),bulletNode->getPosition().y+(direction.y*dtt),bulletNode->getPosition().z+(direction.z*dtt));
+    origin = bulletNode->getPosition();
+    madeNoise = false;
 }
+
+Vector3 Bullet::getOrigin() { return origin; }
 
 Bullet::~Bullet() {
     sceneMgr->destroySceneNode(name);

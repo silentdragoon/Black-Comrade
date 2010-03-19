@@ -13,6 +13,8 @@
 #include "bulletManager.h"
 #include "notificationManager.h"
 #include "miniGameManager.h"
+#include <vector>
+#include "bullet.h"
 
 using namespace Ogre;
 using namespace std;

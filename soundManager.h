@@ -48,6 +48,7 @@ public:
 
     virtual void tick();
 
+    void playSound(int file, SceneNode *shipNode, Vector3 position, float volume, bool reverb);
     void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb);
     void changeMusic(int file);
 };

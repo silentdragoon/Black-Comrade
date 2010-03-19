@@ -15,7 +15,7 @@ SoundManager::SoundManager() {
 
     errCheck( system->setOutput(FMOD_OUTPUTTYPE_ALSA) );
 
-    errCheck( system->setSoftwareChannels(100) );
+    errCheck( system->setSoftwareChannels(50) );
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
@@ -95,8 +95,11 @@ void SoundManager::loadMusic() {
 }
 
 void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
+    playSound(constName,shipNode,soundNode->getPosition(),volume,reverb);
+}
+
+void SoundManager::playSound(int constName, SceneNode *shipNode, Vector3 soundPos, float volume, bool reverb) {
     Vector3 shipPos = shipNode->getPosition();
-    Vector3 soundPos = soundNode->getPosition();
 
     //TODO: Take account of rotation
     
