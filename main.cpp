@@ -34,6 +34,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Game Loop
     gameLoop = new StateUpdate();
 
+    // SceneNode Manager
+    sceneNodeMgr = new SceneNodeManager(sceneMgr);
+
     // User Input
     inputState = new InputState(window,true,this,true,false);
     gameLoop->addTickable(inputState,"inputState");
@@ -100,9 +103,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
 
-    // SceneNode Manager
-    sceneNodeMgr = new SceneNodeManager(sceneMgr);
-    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
@@ -256,7 +256,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
             networkingManager,particleSystemEffectManager);
     }
-    gameLoop->addTickable(swarmMgr, "swarmMgr");
 
     // Console
     cons = new Console(sceneMgr);
@@ -286,6 +285,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState,particleSystemEffectManager);
     gameLoop->addTickable(bulletMgr,"bulletManager");
+    gameLoop->addTickable(swarmMgr, "swarmMgr");
     
     gameLoop->addTickable(systemManager,"systemManager");
 
@@ -309,6 +309,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
     	gameLoop->addTickable(radarGui,"Radar");
     }
+    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
     // Start Rendering Loop
     
@@ -331,6 +332,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     networkingManager->stopNetworking();
 
     //postGame->run();
+    
+    postGame->run();
+
 }
 
 Root *Main::configRoot()

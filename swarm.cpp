@@ -56,7 +56,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 std::vector<Enemy*> Swarm::getAllEnemies() {
     Enemy *e;
     std::vector<Enemy*> out = std::vector<Enemy*>();
-    for(std::vector<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
+    for(std::deque<Enemy*>::const_iterator it=members.begin();it!=members.end();++it) {
         e = *it;
         out.push_back(e);
     }
@@ -98,7 +98,7 @@ Vector3 Swarm::getAverageAlignment()
     double y = 0.0;
     double z = 0.0;
 
-    std::vector<Enemy*>::iterator it;
+    std::deque<Enemy*>::iterator it;
     for(it = members.begin();it != members.end(); it++) {
         Enemy *e = *(it);
         Vector3 direction = e->getDirection();
@@ -112,7 +112,7 @@ Vector3 Swarm::getAverageAlignment()
 
 Vector3 Swarm::getAveragePosition()
 {
-    std::vector<Enemy*>::iterator i;
+    std::deque<Enemy*>::iterator i;
     Enemy *e;
     double x = 0.0;
     double y = 0.0;
@@ -203,28 +203,34 @@ void Swarm::updateTargetLocation() {
 
 void Swarm::shootAtShip()
 {
-	std::vector<Enemy*>::iterator i;
+	std::deque<Enemy*>::iterator i;
 	Enemy *e;
 	
-	for(i = members.begin(); i != members.end(); ++i) {
-		e = *i;
-		
-		e->fire = false;
-		
-		Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
-		float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
-		
-		if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist") && 
-				angleTo < ConstManager::getFloat("enemy_sight_angle")) {
-			if(e->fireDelay <= 0) {
-				e->fireDelay = 50;
-				e->fire = true;
-				//std::cout << "Bang!\n";
-			}
-		}
-		
-		if(e->fireDelay > 0) e->fireDelay -= 1;
-	}
+	//for(i = members.begin(); i != members.end(); ++i) {
+		//e = *i;
+    for(int i=0; i<=(members.size()/4);i++) {
+        if(!members.empty()) {
+            e = members.front();
+            members.pop_front();
+
+            e->fire = false;
+
+            Vector3 lineToShip = *(shipState->getPosition()) - *e->getPosition();
+            float angleTo = lineToShip.angleBetween(e->getDirection()).valueRadians();
+
+            if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist") && 
+                    angleTo < ConstManager::getFloat("enemy_sight_angle")) {
+                if(e->fireDelay <= 0) {
+                    e->fireDelay = 25;
+                    e->fire = true;
+                    //std::cout << "Bang!\n";
+                }
+            }
+
+            if(e->fireDelay > 0) e->fireDelay -= 1;
+            members.push_back(e);
+        }
+    }
 }
 
 void Swarm::turnEnemy(Enemy *e)
@@ -233,7 +239,7 @@ void Swarm::turnEnemy(Enemy *e)
 	Vector3 avg(0,0,0);
 	int count = 0;
 	Enemy *otherEnemy;
-	std::vector<Enemy*>::iterator itr;
+	std::deque<Enemy*>::iterator itr;
 	
 	float yaw = e->yaw;
 	float pitch = e->pitch;
@@ -400,13 +406,20 @@ float Swarm::calcNewAngle(float old, float target, float step)
 
 void Swarm::updateEnemyLocationsFlocking()
 {
-	std::vector<Enemy*>::iterator i;
+	std::deque<Enemy*>::iterator i;
 	Enemy *e;
 	
+    for(int i=0;i<=(members.size()/3);i++) {
+        if(!members.empty()) {		
+            e = members.front();
+            members.pop_front();
+            turnEnemy(e);
+            members.push_back(e);
+        }
+    }
+    
 	for(i = members.begin(); i != members.end(); ++i) {
 		e = *i;
-		
-		turnEnemy(e);
 		
 		Vector3 newPosition = *e->getPosition();
 		Vector3 direction = 
@@ -416,12 +429,13 @@ void Swarm::updateEnemyLocationsFlocking()
         newPosition += speed * direction;
         
         e->setPosition(newPosition);
-	}
+    }
+	
 }
 
 void Swarm::updateEnemyLocationsAttack()
 {	
-	std::vector<Enemy*>::iterator i;
+	std::deque<Enemy*>::iterator i;
 	Enemy *e;	
 	
 	for(i = members.begin(); i != members.end(); ++i) {
@@ -457,7 +471,7 @@ void Swarm::attackProcess(Enemy *e)
 	Vector3 v;
 	Vector3 avg(0,0,0);
 	Enemy *otherEnemy;
-	std::vector<Enemy*>::iterator itr;
+	std::deque<Enemy*>::iterator itr;
 	float weight;
 	int count = 0;
 	

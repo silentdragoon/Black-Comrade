@@ -190,11 +190,11 @@ void RadarGui::tick()
         yCenter = 1 - (219 - 0) * hpixel + height / 2;
     }
 
-    std::vector<Swarm*> swarms = swarmManager->getAllSwarms();
+    std::deque<Swarm*> swarms = swarmManager->getAllSwarms();
     
     std::vector<std::pair<float,float> > positions;
     
-    for(std::vector<Swarm*>::const_iterator it=swarms.begin();
+    for(std::deque<Swarm*>::const_iterator it=swarms.begin();
         it!=swarms.end();++it) {
         
         Swarm *s = *it;

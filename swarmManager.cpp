@@ -20,7 +20,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     lines(lines)
 {
 
-    activeSwarms = std::vector<Swarm*>();
+    activeSwarms = std::deque<Swarm*>();
 
     std::vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
 
@@ -54,7 +54,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     networkingMgr(networkingMgr),
     particleSystemEffectManager(particleSystemEffectManager)
 {
-    activeSwarms = std::vector<Swarm*>();
+    activeSwarms = std::deque<Swarm*>();
 }
 
 SwarmManager::~SwarmManager()
@@ -63,6 +63,7 @@ SwarmManager::~SwarmManager()
 
 void SwarmManager::createSwarm(int size, Vector3 location)
 {
+    std::cout << "Created Swarm of size: " << size << std::endl;
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
         ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager);
 
@@ -77,7 +78,7 @@ void SwarmManager::createSwarm(int size, Vector3 location)
     id++;
 }
 
-std::vector<Swarm*> SwarmManager::getAllSwarms()
+std::deque<Swarm*> SwarmManager::getAllSwarms()
 {
     return activeSwarms;
 }
@@ -88,8 +89,11 @@ std::vector<Enemy*> SwarmManager::getAllEnemies()
     Enemy *enemy;
     std::vector<Enemy*> out = std::vector<Enemy*>();
 
-    for(std::vector<Swarm*>::const_iterator it=activeSwarms.begin();it!=activeSwarms.end();++it) {
-        s = *it;
+    //std::cout << "ACTIVESWARMS SIZE: " << activeSwarms.size() << std::endl;
+
+    for(int i=0; i<activeSwarms.size(); i++) {
+        s = activeSwarms.at(i);
+        //std::cout << "SWARM SIZE: " << s->size << std::endl;
         std::vector<Enemy*> ents = s->getAllEnemies();
 
         for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
@@ -162,15 +166,14 @@ void SwarmManager::tick()
     }
 
     // Here we are updating the locations of the swarms and the enemies within
-    for(int i=0;i<activeSwarms.size();i++) {
-        Swarm *s = activeSwarms.at(i);
-        if (s->isShipInSight()) gameStateMachine->setIsShipInSight(true);
-        if(s->size==0) {
-            delete s;
-            activeSwarms.erase(activeSwarms.begin()+(i));
-            cout << "Swarms: " << activeSwarms.size() << endl;
-        } else {
-            s->tick();
+    for(int i = 0; i<=activeSwarms.size(); i++) {
+        if(!activeSwarms.empty()) {
+            Swarm *s = activeSwarms.front();
+            activeSwarms.pop_front();
+            if(s->size!=0) {
+                s->tick();
+                activeSwarms.push_back(s);
+            }
         }
     }
 }
