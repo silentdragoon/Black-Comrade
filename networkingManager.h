@@ -27,7 +27,7 @@ private:
         GameRole chosenGameRole;
         NetworkRole networkRole;
         Packet *packet;
-        DiscoveryAgent *discoveryAgent;
+
 
         SocketDescriptor sd;
 
@@ -35,7 +35,7 @@ private:
         bool isServer;
         RakPeerInterface *rakPeer;
         string serverAddress;
-        NetworkRole determineRole(NetworkRole desiredRole);
+        //NetworkRole determineRole(NetworkRole desiredRole);
 
         IExit *mExit;
 
@@ -46,6 +46,7 @@ private:
 
 public:
         Lobby *lobby;
+        DiscoveryAgent *discoveryAgent;
 
         CollaborationInfo *collabInfo;
         NetworkingManager(IExit *mExit);
@@ -54,14 +55,11 @@ public:
         OurReplicaManager replicaManager;
         virtual void tick();
 
-        bool startNetworking(NetworkRole desiredRole);
-
         void runLobby();
 
         void stopNetworking();
 
         bool hostGame(bool development);
-        std::vector<string> findGames();
         bool connectToGame(int i);
 
         bool replicate(ReplicaObject *object);

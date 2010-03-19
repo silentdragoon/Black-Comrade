@@ -1,8 +1,10 @@
 #ifndef DISCOVERYAGENT_H
 #define DISCOVERYAGENT_H
 
+#include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "RakPeerInterface.h"
 
@@ -12,15 +14,21 @@ using namespace std;
 class DiscoveryAgent {
   private:
     RakPeerInterface *server;
+    RakPeerInterface *searchClient;
     bool createServer(int port);
     int numConnections;
+
+    std::vector<string> servers;
     
   public:
     DiscoveryAgent();
-    string findServer(int serverPort, int clientPort, int timeout);
-    std::vector<string> findServers(int serverPort, int clientPort, int timeout);
+
     void beServer();
     void destroyServer();
+
+    void startServerListUpdate(int serverPort);
+    void updateServerList();
+    std::vector<string> getServerList();
 };
 
 #endif

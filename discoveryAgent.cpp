@@ -15,95 +15,40 @@
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
 
 DiscoveryAgent::DiscoveryAgent() :
-    server(0) {}
+    server(0)
+{
+    searchClient=RakNetworkFactory::GetRakPeerInterface();
+
+    SocketDescriptor socketDescriptor(6000,0);
+    searchClient->Startup(1, 30, &socketDescriptor, 1);
+}
 
 using namespace std;
 
-string DiscoveryAgent::findServer(int serverPort, int clientPort, int timeout)
-{
-    RakPeerInterface *client;
-    Packet *p;
-    string serverIP = "";
-    client=RakNetworkFactory::GetRakPeerInterface();
-
-    SocketDescriptor socketDescriptor(clientPort,0);
-    client->Startup(1, 30, &socketDescriptor, 1);
-
-    client->Ping("255.255.255.255", serverPort, true);
-
-    printf("Looking for servers...\n");
-
-    RakNetTime quitTime = RakNet::GetTime() + (timeout * 1000);
-
-    while (RakNet::GetTime() < quitTime)
-    {
-        p = client->Receive();
-        if (p==0)
-        {
-            SLEEP(10);
-            continue;
-        }
-        else
-        {
-            if (p->data[0]==ID_PONG)
-            {
-                RakNetTime time;
-                memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
-                string temp = p->systemAddress.ToString();
-                serverIP = temp.substr(0, temp.find(":"));
-                break;
-            }
-            client->DeallocatePacket(p);
-        }
-    }
-
-    RakNetworkFactory::DestroyRakPeerInterface(client);
-    return serverIP;
+void DiscoveryAgent::startServerListUpdate(int serverPort) {
+    std::cout << "Pinging..." << std::endl;
+    searchClient->Ping("255.255.255.255",serverPort,true);
 }
 
-std::vector<string> DiscoveryAgent::findServers(int serverPort, int clientPort, int timeout) {
-    std::vector<string> servers;
+void DiscoveryAgent::updateServerList() {
 
-    RakPeerInterface *client;
-    Packet *p;
-    string serverIP = "";
-    client=RakNetworkFactory::GetRakPeerInterface();
-
-    SocketDescriptor socketDescriptor(clientPort,0);
-    client->Startup(1, 30, &socketDescriptor, 1);
-
-    client->Ping("255.255.255.255", serverPort, true);
-
-    printf("Looking for servers...\n");
-
-    RakNetTime quitTime = RakNet::GetTime() + (timeout * 1000);
-
-    while (RakNet::GetTime() < quitTime)
-    {
-        p = client->Receive();
-        if (p==0)
-        {
-            SLEEP(30);
-            continue;
+    Packet *p = searchClient->Receive();
+    if (p==0) {
+        return;
+    }
+    else {
+       if (p->data[0]==ID_PONG) {
+            string temp = p->systemAddress.ToString();
+            string serverIP = temp.substr(0, temp.find(":"));
+            servers.push_back(serverIP);
+            // TODO: Only add to the list if the server does not already exist in it
         }
-        else
-        {
-            if (p->data[0]==ID_PONG)
-            {
-                RakNetTime time;
-                memcpy((char*)&time, p->data+1, sizeof(RakNetTime));
-                string temp = p->systemAddress.ToString();
-                serverIP = temp.substr(0, temp.find(":"));
-                servers.push_back(serverIP);
-            }
-            client->DeallocatePacket(p);
-        }
-        SLEEP(30);
+        searchClient->DeallocatePacket(p);
     }
 
-    RakNetworkFactory::DestroyRakPeerInterface(client);
-    return servers;
 }
+
+std::vector<string> DiscoveryAgent::getServerList() { return servers; }
 
 void DiscoveryAgent::beServer() {
     if (server == 0) createServer(6001);

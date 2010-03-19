@@ -42,17 +42,14 @@ void NetworkRoleMenu::tick() {
     if (lastRefresh == gameRefreshDelay) {
         // Refresh games
         std::cout << "Refreshing game list\n";
-        refreshGameList();
+        networkingMgr->discoveryAgent->startServerListUpdate(6001);
         lastRefresh = 0;
     } else { lastRefresh ++; }
+
+    networkingMgr->discoveryAgent->updateServerList();
 }
 
 void NetworkRoleMenu::refreshGameList() {
-    std::vector<string> games = networkingMgr->findGames();
-    std::cout << games.size() << " games found:\n";
-    for(std::vector<string>::const_iterator it=games.begin();it!=games.end(); ++it) {
-        std::cout << *it << "\n";
-    }
 }
 
 MenuType::NetworkRoleMenu::nextMenu() {

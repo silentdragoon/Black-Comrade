@@ -172,8 +172,6 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	    if(e->fire) {
             e->fire = false;
             if(activeBullets->size()<7) {
-                //enemyFire = true;
-                //enemyNode = sceneNodeMgr->getNode(e);
                 fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
             }
 	    }
