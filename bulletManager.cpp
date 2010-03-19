@@ -184,6 +184,8 @@ std::vector<Bullet*> * BulletManager::getActiveBullets() {
 
 void BulletManager::tick()
 {
+    updateBullets();
+
     playerFire = false;
     enemyFire = false;
 
@@ -196,5 +198,4 @@ void BulletManager::tick()
     handleEnemies(swarmMgr->getAllEnemies());
     handleEnemies(swarmMgr->getReplicatedEnemies());  
     
-    updateBullets();
 }
