@@ -87,6 +87,8 @@ bool NetworkingManager::hostGame(bool development) {
 }
 
 bool NetworkingManager::connectToGame(int id) {
+    if (discoveryAgent->getServerList().size() == 0) return false;
+
     std::cout << "About to connect to " << discoveryAgent->getServerList().at(0) << "\n";
 
     rakPeer = RakNetworkFactory::GetRakPeerInterface();
