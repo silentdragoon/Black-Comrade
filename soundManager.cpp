@@ -19,6 +19,8 @@ SoundManager::SoundManager() {
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
 
+    errCheck( FMOD::Memory_Initialize(malloc(32*1024*1024), 32*1024*1024, 0,0,0) );
+
     loadSoundFiles();
 
     playingSound = 4; // We are playing the theme music at the start
@@ -112,8 +114,7 @@ void SoundManager::playSound(int constName, SceneNode *shipNode, Vector3 soundPo
     
     FMOD::Channel *channel1;
 
-    FMOD::Sound *temp = sounds[constName];
-    errCheck( system->playSound(FMOD_CHANNEL_FREE, temp, true, &channel1) );
+    errCheck( system->playSound(FMOD_CHANNEL_FREE, sounds[constName], false, &channel1) );
     
     errCheck( channel1->set3DAttributes(&pos, &vel) );
 
@@ -196,6 +197,7 @@ void SoundManager::crossFade() {
 
 void SoundManager::tick() {
     crossFade();
+    // TODO: errCheck( system->set3DListenerAttributes()
     errCheck( system->update() );
 }
 
