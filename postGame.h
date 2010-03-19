@@ -3,7 +3,6 @@
 #include "menuType.h"
 #include "guiManager.h"
 #include "inputState.h"
-#include "networkingManager.h"
 #include "networkRole.h"
 #include "gameRole.h"
 #include "stateUpdate.h"
@@ -19,7 +18,6 @@ private:
     SceneManager *sceneMgr;
     GuiManager *guiMgr;
     InputState *inputState;
-    NetworkingManager *networkingMgr;
     Ogre::RenderWindow *window;
     StateUpdate *postGameLoop;
     CollaborationInfo *pilotInfo;
@@ -37,7 +35,6 @@ private:
 public:
     PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
             InputState *inputState,GuiManager *guiMgr,
-            NetworkingManager *networkingMgr,
             CollaborationInfo *pilotInfo,
             CollaborationInfo *navInfo,
             CollaborationInfo *engInfo);

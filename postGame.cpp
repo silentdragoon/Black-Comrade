@@ -2,7 +2,6 @@
 
 PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
                    InputState *inputState,GuiManager *guiMgr,
-                   NetworkingManager *networkingMgr,
                    CollaborationInfo *pilotInfo,
                    CollaborationInfo *navInfo,
                    CollaborationInfo *engInfo)
@@ -10,22 +9,12 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
     , window(window)
     , inputState(inputState)
     , guiMgr(guiMgr)
-    , networkingMgr(networkingMgr)
     , currentMenuScreen(0)
     , pilotInfo(pilotInfo)
     , navInfo(navInfo)
     , engInfo(engInfo)
 {
     postGameLoop = new StateUpdate();
-
-    Camera *camera = sceneMgr->createCamera("postGameCam");
-    window->removeAllViewports();
-    Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-    camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
-
-    vp->update();
 
     postGameLoop->addTickable(inputState,"inputState");
     postGameLoop->addTickable(this,"postGame");
@@ -36,6 +25,15 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
 void PostGame::run() {
 
     guiMgr->destroyAllWindows();
+
+    Camera *camera = sceneMgr->createCamera("postGameCam");
+    window->removeAllViewports();
+    Viewport *vp = window->addViewport(camera);
+    vp->setBackgroundColour(ColourValue(0,0,0));
+    camera->setAspectRatio(
+        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
+
+    vp->update();
 
     currentMenuScreen = statsScreen;
 

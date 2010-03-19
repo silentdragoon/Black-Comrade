@@ -21,6 +21,9 @@ class NetworkRoleMenu : public IMenuScreen
         bool isVisible;
         bool isEnd;
 
+        int gameRefreshDelay;
+        int lastRefresh;
+
         std::vector<string> servers;
         
     public:
@@ -29,6 +32,8 @@ class NetworkRoleMenu : public IMenuScreen
 
         void show();
         void hide();
+
+        void refreshGameList();
 
         bool visible();
 

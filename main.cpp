@@ -38,7 +38,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,true);
+    inputState = new InputState(window,true,this,true,false);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -87,10 +87,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         engStats = new PlayerStats(ENGINEER);
         engineerInfo->setPlayerStats(engStats);
         navStats = new PlayerStats(NAVIGATOR);
-
+        navigatorInfo->setPlayerStats(navStats);
     }
-
-    navigatorInfo->setPlayerStats(navStats);
 
     std::cout << "Your pilot is " << pilotInfo->getNick() << std::endl;
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
@@ -328,13 +326,15 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
-                                      guiMgr,networkingManager,
-                                      pilotInfo,navigatorInfo,
+                                      guiMgr,pilotInfo,navigatorInfo,
                                       engineerInfo);
 
     networkingManager->stopNetworking();
+
+    //postGame->run();
     
     postGame->run();
+
 }
 
 Root *Main::configRoot()
