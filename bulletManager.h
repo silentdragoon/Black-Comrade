@@ -56,6 +56,7 @@ class BulletManager : public ITickable
         ~BulletManager();
             
         virtual void tick();
+        std::vector<Bullet*>* getActiveBullets();
 };
 
 

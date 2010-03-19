@@ -101,13 +101,12 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,
     	Const::FRONT_BULLET_SPEED,t,stats);
 
-    if ((isEnemy)&&(enemyFire)) { // Switch enemyFire to not to stop enemy friendly fire
+    if (isEnemy) { // Switch enemyFire to not to stop enemy friendly fire
         b->hitEnemy = true;
         b->enemy = hurtEnemy;
     } else if (false && isShip) b->hitShip = true;
 
     activeBullets->push_back(b);
-    std::cout << "ActiveBullets: " << activeBullets->size() << std::endl;
 
     // TODO: Return enum rather than bool so we can record friendly fire
     if (isEnemy)
@@ -173,12 +172,16 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	    if(e->fire) {
             e->fire = false;
             if(activeBullets->size()<7) {
-                enemyFire = true;
+                //enemyFire = true;
+                //enemyNode = sceneNodeMgr->getNode(e);
                 fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
-                enemyNode = sceneNodeMgr->getNode(e);
-            } else { enemyFire = false; }
+            }
 	    }
 	}
+}
+
+std::vector<Bullet*> * BulletManager::getActiveBullets() {
+    return activeBullets;
 }
 
 void BulletManager::tick()

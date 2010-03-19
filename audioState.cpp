@@ -14,13 +14,23 @@ AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *ship
 
 void AudioState::tick()
 {
-    if(bulletMgr->playerFire) {
-        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,shipNode,0.5,true);
-    }
-
-    if(bulletMgr->enemyFire) {
-        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),shipNode,bulletMgr->enemyNode,0.3,true);
-    }
+    // Process bullets
+    Bullet *b;
+    std::vector<Bullet*> *bullets = bulletMgr->getActiveBullets();
+   	for(std::vector<Bullet*>::const_iterator it=bullets->begin();it!=bullets->end();++it) {
+	    b = *it;
+	    if (b->madeNoise) continue;
+	    
+	    if (b->playerStats == 0) {
+	        // Enemy bullet
+	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),shipNode,b->getOrigin(),0.3,true);
+	    } else {
+	        // Player bullet
+	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,b->getOrigin(),0.5,true);
+	    }
+	    
+	    b->madeNoise = true;
+	}
 
     if(notificationMgr->hasNewNotification()) {
         Notification *newNotification = notificationMgr->getCurrentNotification();

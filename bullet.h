@@ -19,7 +19,7 @@ class Bullet
         string rname;
         SceneManager *sceneMgr;
 
-
+        Vector3 origin;
         Vector3 direction;
         Vector3 deathSpark;
         int velocity;
@@ -28,6 +28,8 @@ class Bullet
    public:
         double distanceTravelled;
         double distanceToTravel;
+        
+        bool madeNoise;
 
         Bullet(SceneNode *bulletNode,
             SceneManager *sceneMgr,
@@ -41,6 +43,7 @@ class Bullet
         ~Bullet();
 
         void updateLocation();
+        Vector3 getOrigin();
         Vector3 getDeathSpark();
         
         Enemy *enemy;
