@@ -43,12 +43,14 @@ void MiniGameManager::tick()
             std::cout << "Ended minigame with score "
                       << currentMiniGame->getScore()
                       << std::endl;
-            player->toRepair = currentMiniGame->getSystem();
-            player->repairAmount = currentMiniGame->getScore();
             delete currentMiniGame;
             currentMiniGame = NULL;
             inputReceiver = consoleShell;
             consoleShell->showPrompt();
+        } else {
+            // Game has not ended, so get the score for this tick
+            player->toRepair = currentMiniGame->getSystem();
+            player->repairAmount = currentMiniGame->getScore();
         }
     } else {
         IMiniGame *gameToPlay = consoleShell->getGameToPlay();

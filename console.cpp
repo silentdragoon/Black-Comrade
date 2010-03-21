@@ -41,6 +41,10 @@ Console::~Console() {
     OverlayManager::getSingleton().destroy(overlay);
 }
 
+void Console::forceHide() {
+    panel->setTop(-openHeight);
+}
+
 void Console::tick() {
     if((isVisible)&&(rollTick<slideTicks)) {
         // Open

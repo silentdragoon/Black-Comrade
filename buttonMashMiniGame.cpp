@@ -23,8 +23,7 @@ void ButtonMashMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {
     if (begin) {
         dscore = dscore + 0.1;
         broke ++;
-        score = (int) floor(dscore);
-        std::string s;
+        //score = (int) floor(dscore);
         std::stringstream out;
         out << broke;
         console->clearPrompt();
@@ -34,10 +33,13 @@ void ButtonMashMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {
 
 void ButtonMashMiniGame::returnKeyPressed() {
     begin = true;
+    console->appendLine("Go!");
 }
 
 void ButtonMashMiniGame::tick() {
     if (!begin) return;
+
+    score = 0;
     ticks++;
     if (ticks > tickLimit) {
         isEnd = true;
@@ -45,7 +47,10 @@ void ButtonMashMiniGame::tick() {
         out << "Final score: " << broke;
         console->appendLine(out.str());
     }
-
+    if (dscore > 1) {
+        dscore = 0;
+        score = 1;
+    }
 }
 
 ShipSystem ButtonMashMiniGame::getSystem() {

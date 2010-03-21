@@ -39,6 +39,8 @@ class Console : public ITickable
         bool getVisible();
         void setVisible(bool visible);
 
+        void forceHide();
+
         void appendLine(std::string s);
 
         void returnKeyPrompt();
