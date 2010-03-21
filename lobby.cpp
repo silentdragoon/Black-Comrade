@@ -160,6 +160,8 @@ void Lobby::process() {
                 sendGameRoleChoices();
                 offerGameRoleChoices();
                 break;
+            case ID_PING:
+                sendGameInfo(packet->systemAddress);
         }
     }
 }
@@ -194,4 +196,15 @@ void Lobby::sendGameRoleChoice(GameRole chosenGameRole) {
     if (chosenGameRole == NAVIGATOR) dataStream.Write(true); else dataStream.Write(false);
     if (chosenGameRole == ENGINEER) dataStream.Write(true); else dataStream.Write(false);
     rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, rakPeer->GetSystemAddressFromIndex(0), false);
+}
+
+void Lobby::sendGameInfo(SystemAddress recipient) {
+    RakNet::BitStream dataStream;
+
+    dataStream.Write(GAME_INFO);
+    dataStream.Write(pilotTaken);
+    dataStream.Write(navTaken);
+    dataStream.Write(engTaken);
+
+    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, recipient, false);
 }

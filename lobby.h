@@ -27,6 +27,8 @@
 const unsigned char START_GAME = 100;
 const unsigned char GAME_ROLE_CHOICES = 101;
 const unsigned char GAME_ROLE_CHOICE = 102;
+const unsigned char GAME_INFO_REQUEST = 103;
+const unsigned char GAME_INFO = 104;
 
 using namespace std;
 using namespace RakNet;
@@ -48,6 +50,8 @@ class Lobby {
     void offerGameRoleChoices();
     void sendGameRoleChoices(SystemAddress recipient);
     void sendGameRoleChoices();
+
+    void sendGameInfo(SystemAddress recipient);
 
     string nick;
 

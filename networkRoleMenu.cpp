@@ -22,17 +22,19 @@ void NetworkRoleMenu::tick() {
     if (inputState->isKeyDown(OIS::KC_D)) {
         bool hosted = networkingMgr->hostGame(true);
         if (hosted) isEnd = true;
-    } else if (inputState->isKeyDown(OIS::KC_S)) {
-        networkingMgr->discoveryAgent->destroyClient();
+    } else if (inputState->isKeyDown(OIS::KC_S)) {      
         bool hosted = networkingMgr->hostGame(false);
-        if (hosted) isEnd = true;
+        if (hosted) {
+            isEnd = true;
+            networkingMgr->discoveryAgent->destroyClient();
+        }
     } else if (inputState->isKeyDown(OIS::KC_C))	 {
         bool joined = networkingMgr->connectToGame(0);
         if (joined) {
             isEnd = true;
+            networkingMgr->discoveryAgent->destroyClient();
         }
-        else
-        {
+        else {
             std::cout << "failed" << std::endl;
             //SLEEP(30);
         }
