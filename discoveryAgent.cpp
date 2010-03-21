@@ -14,6 +14,8 @@
 
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
 
+using namespace std;
+
 DiscoveryAgent::DiscoveryAgent() :
     server(0)
 {
@@ -23,10 +25,9 @@ DiscoveryAgent::DiscoveryAgent() :
     searchClient->Startup(1, 30, &socketDescriptor, 1);
 }
 
-using namespace std;
-
 void DiscoveryAgent::startServerListUpdate(int serverPort) {
-    std::cout << "Pinging..." << std::endl;
+    // TODO: Work out a nice way of removing dead servers from the list
+    // without disrupting the relative position of the others in the list
     searchClient->Ping("255.255.255.255",serverPort,true);
 }
 
@@ -40,12 +41,19 @@ void DiscoveryAgent::updateServerList() {
        if (p->data[0]==ID_PONG) {
             string temp = p->systemAddress.ToString();
             string serverIP = temp.substr(0, temp.find(":"));
-            servers.push_back(serverIP);
-            // TODO: Only add to the list if the server does not already exist in it
+            
+            if (!alreadyListed(serverIP)) servers.push_back(serverIP);
         }
         searchClient->DeallocatePacket(p);
     }
 
+}
+
+bool DiscoveryAgent::alreadyListed(std::string address) {
+    for(std::vector<std::string>::const_iterator ite=servers.begin();ite!=servers.end();++ite) {
+        if (ite->compare(address) == 0) return true;
+    }
+    return false;
 }
 
 std::vector<string> DiscoveryAgent::getServerList() { return servers; }
@@ -55,12 +63,10 @@ void DiscoveryAgent::beServer() {
     Packet *p;
 
     p = server->Receive();
-    if (p==0)
-    {
+    if (p==0) {
         SLEEP(30);
     }
-    else
-    {
+    else {
         server->DeallocatePacket(p);
     }
 }
@@ -81,5 +87,9 @@ bool DiscoveryAgent::createServer(int port) {
 
 void DiscoveryAgent::destroyServer() {
     RakNetworkFactory::DestroyRakPeerInterface(server);
+}
+
+void DiscoveryAgent::destroyClient() {
+    RakNetworkFactory::DestroyRakPeerInterface(searchClient);
 }
 

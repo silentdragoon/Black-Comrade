@@ -23,6 +23,7 @@ void NetworkRoleMenu::tick() {
         bool hosted = networkingMgr->hostGame(true);
         if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_S)) {
+        networkingMgr->discoveryAgent->destroyClient();
         bool hosted = networkingMgr->hostGame(false);
         if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_C))	 {
@@ -39,17 +40,19 @@ void NetworkRoleMenu::tick() {
         std::exit(-1);
     }
 
-    if (lastRefresh == gameRefreshDelay) {
+    if (lastRefresh == gameRefreshDelay && !isEnd) {
         // Refresh games
-        std::cout << "Refreshing game list\n";
-        networkingMgr->discoveryAgent->startServerListUpdate(6001);
+        refreshGameList();
         lastRefresh = 0;
     } else { lastRefresh ++; }
 
-    networkingMgr->discoveryAgent->updateServerList();
+    if (!isEnd) networkingMgr->discoveryAgent->updateServerList();
 }
 
 void NetworkRoleMenu::refreshGameList() {
+    std::cout << "Refreshing game list\n";
+    networkingMgr->discoveryAgent->startServerListUpdate(6001);
+    std::cout << "Found " << networkingMgr->discoveryAgent->getServerList().size() << "\n";
 }
 
 MenuType::NetworkRoleMenu::nextMenu() {

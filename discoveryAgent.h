@@ -18,6 +18,8 @@ class DiscoveryAgent {
     bool createServer(int port);
     int numConnections;
 
+    bool alreadyListed(std::string address);
+
     std::vector<string> servers;
     
   public:
@@ -25,6 +27,8 @@ class DiscoveryAgent {
 
     void beServer();
     void destroyServer();
+
+    void destroyClient();
 
     void startServerListUpdate(int serverPort);
     void updateServerList();
