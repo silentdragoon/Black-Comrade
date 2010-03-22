@@ -32,16 +32,14 @@ private:
     std::vector<Entity*> mapEntities;
     std::vector<Waypoint*> waypoints;
     bool objective;
-    Entity *objectiveEntity;
-    SceneNode *objectiveNode;
 
     void createTile(string dir, std::vector<int> connections, int x, int y);
-    void createObjectiveTile(std::vector<int> connections, int x, int y);
     void setSpawnPoints();
     void attachLight( Real x, Real z);
 
 public:
     int startx,starty; // Index location of the start square of the map
+    int objx,objy; // Location of the objective tile
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager);
