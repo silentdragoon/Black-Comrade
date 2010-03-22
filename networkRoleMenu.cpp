@@ -31,6 +31,7 @@ void NetworkRoleMenu::tick() {
     } else if (inputState->isKeyDown(OIS::KC_C))	 {
         bool joined = false;
         while(!joined) {
+            if (networkingMgr->discoveryAgent->getServerList().size() == 0) break;
             if (networkingMgr->discoveryAgent->getServerList().size() == 1
                 || inputState->isKeyDown(OIS::KC_1)) {
                 joined = networkingMgr->connectToGame(1);
