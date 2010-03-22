@@ -124,7 +124,7 @@ void SwarmManager::updateRemoteSwarms() {
         for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
             Enemy *enemy = (Enemy*) *it;
 
-            if (enemy->health < 0) {
+            if (enemy->isDead) {
                 //Make Explosion here
                 Vector3 *pos = enemy->getPosition();
                 particleSystemEffectManager->createExplosion(*pos);
