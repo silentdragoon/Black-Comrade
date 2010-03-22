@@ -9,6 +9,8 @@ void SoundManager::errCheck(FMOD_RESULT result) {
 SoundManager::SoundManager() {
     Ogre::LogManager::getSingleton().logMessage("Starting FMODEX sound system...");
 
+    errCheck( FMOD::Memory_Initialize(malloc(16*1024*1024), 16*1024*1024, 0,0,0) );
+
     errCheck( FMOD::System_Create(&system) );
 
     errCheck( system->setDriver(0) );
@@ -18,8 +20,6 @@ SoundManager::SoundManager() {
     errCheck( system->setSoftwareChannels(50) );
 
     errCheck( system->init(MAX_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0) );
-
-    errCheck( FMOD::Memory_Initialize(malloc(32*1024*1024), 32*1024*1024, 0,0,0) );
 
     loadSoundFiles();
 
