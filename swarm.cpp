@@ -66,7 +66,10 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 
 void Swarm::tick()
 {
+    // Removing must be done before marking (for syncing)
     removeDeadEnemies();
+    
+    markDeadEnemies();
     
     if(isShipInSight()) state = SS_ATTACK;
 
@@ -143,12 +146,22 @@ bool Swarm::isShipInSight()
 	return false;
 } 
 
-void Swarm::removeDeadEnemies()
+void Swarm::markDeadEnemies()
 {
-   
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
-        if(e->health < 0) {
+        if(e->health <= 0) {
+            //Mark Enemy as Dead
+            e->isDead = true;
+        } 
+    }
+}
+
+void Swarm::removeDeadEnemies()
+{
+    for(int i=0;i<members.size();i++) {
+    	Enemy *e = members.at(i);
+        if(e->isDead) {
             //Make Explosion here
             Vector3 *pos = e->getPosition();
             particleSystemEffectManager->createExplosion(*pos);
@@ -157,8 +170,6 @@ void Swarm::removeDeadEnemies()
         	members.erase(members.begin()+(i));
             size--;
         	std::cout << "Remove\n";
-        } else if (e->health == 0) {
-            e->health = -1;
         }
     }
 }

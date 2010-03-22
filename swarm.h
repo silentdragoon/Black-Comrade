@@ -56,6 +56,8 @@ class Swarm
         void updateEnemyLocationsAttack();
 
     	void removeDeadEnemies();
+    	void markDeadEnemies();
+    	
     	void shootAtShip();
     	void pointAtShip(Enemy *e);
     	
