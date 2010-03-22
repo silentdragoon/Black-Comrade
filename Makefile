@@ -75,7 +75,8 @@ networkRoleMenu.cpp \
 gameRoleMenu.cpp \
 loadingScreen.cpp \
 postGame.cpp \
-statsScreen.cpp
+statsScreen.cpp \
+gameEnder.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

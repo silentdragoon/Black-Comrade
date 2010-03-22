@@ -310,6 +310,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
+    // Game ender
+    if (collabInfo->getGameRole() == PILOT) {
+        gameEnder = new GameEnder(gameStateMachine,this);
+        gameLoop->addTickable(gameEnder,"gameEnder");
+    }
+
     // Start Rendering Loop
     
     gameLoop->startLoop();
