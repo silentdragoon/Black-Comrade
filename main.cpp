@@ -332,9 +332,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     networkingManager->stopNetworking();
 
     //postGame->run();
-    
-    postGame->run();
-
 }
 
 Root *Main::configRoot()
