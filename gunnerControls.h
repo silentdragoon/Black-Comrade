@@ -53,6 +53,8 @@ public:
     void setYawLimits(float min, float max);
     void setPitchLimits(float min, float max);
     
+    void setLook(float yaw, float pitch);
+    
     Vector3 cameraPosition();
     Quaternion cameraOrientation();
 };
