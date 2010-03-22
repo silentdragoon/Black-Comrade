@@ -27,6 +27,7 @@ class Enemy : public IDrawable, public ReplicaObject
     	int health;
     	bool fire;
         bool isReplicated;
+        bool isDead;
     	int fireDelay;
     	
     	Real roll;

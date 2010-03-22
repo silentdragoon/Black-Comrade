@@ -21,7 +21,8 @@ Enemy::Enemy() :
     id(-1),
     yaw(0),
     pitch(0),
-    roll(0)
+    roll(0),
+    isDead(false)
 {}
 
 Enemy::~Enemy()
