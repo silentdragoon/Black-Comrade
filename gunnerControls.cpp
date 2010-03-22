@@ -32,6 +32,12 @@ void GunnerControls::setPitchLimits(float min, float max)
     maxPitch = max;
 }
 
+void GunnerControls::setLook(float yaw, float pitch)
+{
+    this->yaw = yaw;
+    this->pitch = pitch;
+}
+
 bool GunnerControls::fire() {
     return isFire;
 }

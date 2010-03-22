@@ -12,7 +12,7 @@ EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     , GunnerControls(inputState, cam)
 {
     setYawLimits(0, PI);
-    setPitchLimits(3 * PI / 4, PI / 4);
+    setPitchLimits(3 * PI / 2,PI / 2);
 }
 
 EngineerControls::~EngineerControls()
