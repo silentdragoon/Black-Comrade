@@ -24,6 +24,11 @@ SoundManager::SoundManager() {
     loadSoundFiles();
 
     playingSound = 4; // We are playing the theme music at the start
+
+    for(int i=0;i<50;i++) {
+        FMOD::Channel *chan;
+        inactiveChannels.push_back(chan);
+    }
     
     Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
@@ -112,24 +117,28 @@ void SoundManager::playSound(int constName, SceneNode *shipNode, Vector3 soundPo
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};
     
-    FMOD::Channel *channel1;
+    //FMOD::Channel *channel1;
+    if(!inactiveChannels.empty()) {
+        FMOD::Channel *channel1 = inactiveChannels.front();
+        inactiveChannels.pop_front();
 
-    errCheck( system->playSound(FMOD_CHANNEL_FREE, sounds[constName], false, &channel1) );
-    
-    errCheck( channel1->set3DAttributes(&pos, &vel) );
+        errCheck( system->playSound(FMOD_CHANNEL_REUSE, sounds[constName], false, &channel1) );
 
-    errCheck( channel1->setVolume(volume) );
+        errCheck( channel1->set3DAttributes(&pos, &vel) );
 
-    if(reverb==true) {
-        // I think this works. 
-        FMOD::DSP *reverb;
-        system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb);
-        reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0);
-        channel1->addDSP(reverb,0);
+        errCheck( channel1->setVolume(volume) );
+
+        if(reverb==true) {
+            // I think this works. 
+            //FMOD::DSP *reverb;
+            //system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb);
+            //reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0);
+            //channel1->addDSP(reverb,0);
+        }
+
+        errCheck( channel1->setPaused(false) );
+        activeChannels.push_back(channel1);
     }
-
-    errCheck( channel1->setPaused(false) );
-    
 }
 
 void SoundManager::changeMusic(int file) {
@@ -195,8 +204,24 @@ void SoundManager::crossFade() {
     errCheck(themeChannel->setVolume(volume));
 }
 
+void SoundManager::checkChannels() {
+    FMOD::Channel *current;
+    if(!activeChannels.empty()) {
+        bool playing;
+        current = activeChannels.front();
+        activeChannels.pop_front();
+        current->isPlaying(&playing);
+        if(playing) {
+            activeChannels.push_back(current);
+        } else {
+            inactiveChannels.push_back(current);
+        }
+    }
+}
+
 void SoundManager::tick() {
     crossFade();
+    checkChannels();
     // TODO: errCheck( system->set3DListenerAttributes()
     errCheck( system->update() );
 }

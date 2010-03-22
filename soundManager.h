@@ -6,6 +6,7 @@
 #include <OGRE/Ogre.h>
 #include <iostream>
 #include <map>
+#include <deque>
 #include "ITickable.h"
 #include "const.h"
 #include "constManager.h"
@@ -20,6 +21,9 @@ class SoundManager : public ITickable
 private:
 
     std::map<int,FMOD::Sound*> sounds;
+
+    std::deque<FMOD::Channel*> activeChannels;
+    std::deque<FMOD::Channel*> inactiveChannels;
 
     FMOD::System *system;
 
@@ -41,6 +45,7 @@ private:
     void loadMusic();
     void loadSoundFile(string relativePath, int constName, bool loop);
     void crossFade();
+    void checkChannels();
 
 public:
     SoundManager();
