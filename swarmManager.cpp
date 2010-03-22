@@ -123,7 +123,7 @@ void SwarmManager::updateRemoteSwarms() {
         std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
         for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
             Enemy *enemy = (Enemy*) *it;
-            std::cout << enemy->health << "\n";
+
             if (enemy->health < 0) {
                 //Make Explosion here
                 Vector3 *pos = enemy->getPosition();

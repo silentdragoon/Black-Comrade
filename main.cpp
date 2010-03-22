@@ -94,6 +94,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
+    // Collision Manager (takes 99% of our loading time)
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+
     // Damage State
     if (collabInfo->getGameRole() == PILOT) {
         damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
@@ -102,7 +105,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
-
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
@@ -134,9 +136,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         camera->setPosition(Vector3(-3.5,0,0));
     }
     createViewPort();
-
-    // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
@@ -315,6 +314,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     
     gameLoop->startLoop();
 
+    // Post-game environment
+    PostGame *postGame = new PostGame(sceneMgr,window,inputState,
+                                      guiMgr,pilotInfo,navigatorInfo,
+                                      engineerInfo);
+
     std::cout << "Pilot stats:" << "\n";
     pilotInfo->getPlayerStats()->print();
 
@@ -323,11 +327,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
-
-    // Post-game environment
-    PostGame *postGame = new PostGame(sceneMgr,window,inputState,
-                                      guiMgr,pilotInfo,navigatorInfo,
-                                      engineerInfo);
 
     networkingManager->stopNetworking();
 
