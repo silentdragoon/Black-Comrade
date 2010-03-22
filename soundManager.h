@@ -26,6 +26,7 @@ private:
     std::deque<FMOD::Channel*> inactiveChannels;
 
     FMOD::System *system;
+    SceneNode *shipNode;
 
     // Pointers to the music sounds
     FMOD::Sound *stealthMusic;
@@ -37,15 +38,20 @@ private:
     FMOD::Channel *fleeChannel;
     FMOD::Channel *themeChannel;
 
+    // Effects
+    FMOD::DSP *reverb;
+
     // Things for stuff
     int playingSound;
 
     void errCheck(FMOD_RESULT result);
+    void errCheck(FMOD_RESULT result,std::string from);
     void loadSoundFiles();
     void loadMusic();
     void loadSoundFile(string relativePath, int constName, bool loop);
     void crossFade();
     void checkChannels();
+    void updateShipPosition();
 
 public:
     SoundManager();
@@ -53,9 +59,10 @@ public:
 
     virtual void tick();
 
-    void playSound(int file, SceneNode *shipNode, Vector3 position, float volume, bool reverb);
-    void playSound(int file, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb);
+    void playSound(int file, Vector3 position, float volume);
+    void playSound(int file, SceneNode *soundNode, float volume);
     void changeMusic(int file);
+    void setShipNode(SceneNode *ship);
 };
 
 #endif 

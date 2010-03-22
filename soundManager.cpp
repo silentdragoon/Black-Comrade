@@ -1,15 +1,21 @@
 #include "soundManager.h"
 
-void SoundManager::errCheck(FMOD_RESULT result) {
+void SoundManager::errCheck(FMOD_RESULT result, std::string from) {
     if (result != FMOD_OK) {
-        cerr << "FMOD Error! " << result << " " << FMOD_ErrorString(result) << endl;
+        cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
     }
 }
 
+void SoundManager::errCheck(FMOD_RESULT result) {
+    errCheck(result,"");
+}
+
 SoundManager::SoundManager() {
+    shipNode = 0;
+
     Ogre::LogManager::getSingleton().logMessage("Starting FMODEX sound system...");
 
-    errCheck( FMOD::Memory_Initialize(malloc(16*1024*1024), 16*1024*1024, 0,0,0) );
+    errCheck( FMOD::Memory_Initialize(malloc(64*1024*1024), 64*1024*1024, 0,0,0) );
 
     errCheck( FMOD::System_Create(&system) );
 
@@ -25,11 +31,16 @@ SoundManager::SoundManager() {
 
     playingSound = 4; // We are playing the theme music at the start
 
+    // Create reverb effect
+    errCheck(system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb),"Create reverb");
+    errCheck(reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0),"Reverb param");
+
     for(int i=0;i<50;i++) {
         FMOD::Channel *chan;
+        errCheck(chan->addDSP(reverb,0),"Adding reverb");
         inactiveChannels.push_back(chan);
     }
-    
+
     Ogre::LogManager::getSingleton().logMessage("FMODEX OK.");
 }
 
@@ -70,19 +81,19 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) 
 
 void SoundManager::loadMusic() {
     string musicPath = ConstManager::getString("sound_file_path") + "/sounds/stealth.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &stealthMusic));
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &stealthMusic));
     errCheck(stealthMusic->setMode(FMOD_LOOP_NORMAL));
 
     musicPath = ConstManager::getString("sound_file_path") + "/sounds/attack.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &attackMusic));
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &attackMusic));
     errCheck(attackMusic->setMode(FMOD_LOOP_NORMAL));
 
     musicPath = ConstManager::getString("sound_file_path") + "/sounds/flee.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &fleeMusic));
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
     errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
 
     musicPath = ConstManager::getString("sound_file_path") + "/sounds/theme.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &themeMusic));
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &themeMusic));
     errCheck(themeMusic->setMode(FMOD_LOOP_NORMAL));
 
     // Start the musics
@@ -101,18 +112,15 @@ void SoundManager::loadMusic() {
     errCheck(themeChannel->setPaused(false));
 }
 
-void SoundManager::playSound(int constName, SceneNode *shipNode, SceneNode *soundNode, float volume, bool reverb) {
-    playSound(constName,shipNode,soundNode->getPosition(),volume,reverb);
+void SoundManager::playSound(int constName, SceneNode *soundNode, float volume) {
+    playSound(constName,soundNode->getPosition(),volume);
 }
 
-void SoundManager::playSound(int constName, SceneNode *shipNode, Vector3 soundPos, float volume, bool reverb) {
-    Vector3 shipPos = shipNode->getPosition();
+void SoundManager::playSound(int constName, Vector3 soundPos, float volume) {
 
-    //TODO: Take account of rotation
-    
-    float x = (soundPos.x - shipPos.x) / 50;
-    float y = (soundPos.y - shipPos.y) / 50;
-    float z = (soundPos.z - shipPos.z) / 50;
+    float x = soundPos.x/50.0;
+    float y = soundPos.y/50.0;
+    float z = soundPos.z/50.0;
 
     FMOD_VECTOR pos = {x,y,z};
     FMOD_VECTOR vel = {0.0f, 0.0f, 0.0f};
@@ -122,19 +130,11 @@ void SoundManager::playSound(int constName, SceneNode *shipNode, Vector3 soundPo
         FMOD::Channel *channel1 = inactiveChannels.front();
         inactiveChannels.pop_front();
 
-        errCheck( system->playSound(FMOD_CHANNEL_REUSE, sounds[constName], false, &channel1) );
+        errCheck( system->playSound(FMOD_CHANNEL_FREE, sounds[constName], false, &channel1) );
 
         errCheck( channel1->set3DAttributes(&pos, &vel) );
 
         errCheck( channel1->setVolume(volume) );
-
-        if(reverb==true) {
-            // I think this works. 
-            //FMOD::DSP *reverb;
-            //system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb);
-            //reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0);
-            //channel1->addDSP(reverb,0);
-        }
 
         errCheck( channel1->setPaused(false) );
         activeChannels.push_back(channel1);
@@ -207,10 +207,10 @@ void SoundManager::crossFade() {
 void SoundManager::checkChannels() {
     FMOD::Channel *current;
     if(!activeChannels.empty()) {
-        bool playing;
+        bool playing = true;
         current = activeChannels.front();
+        errCheck( current->isPlaying(&playing),"isPlaying Check");
         activeChannels.pop_front();
-        current->isPlaying(&playing);
         if(playing) {
             activeChannels.push_back(current);
         } else {
@@ -219,11 +219,43 @@ void SoundManager::checkChannels() {
     }
 }
 
+void SoundManager::updateShipPosition() {
+    if(shipNode!=0) {
+        FMOD_VECTOR position;
+        FMOD_VECTOR forward;
+        FMOD_VECTOR up;
+        FMOD_VECTOR velocity;
+        Vector3 vectorForward = shipNode->getOrientation().zAxis();
+        Vector3 vectorUp = shipNode->getOrientation().yAxis();
+        Vector3 vectorVelocity = Vector3(0,0,0);
+
+        position.x = shipNode->getPosition().x/50.0;
+        position.y = shipNode->getPosition().y/50.0;
+        position.z = shipNode->getPosition().z/50.0;
+
+        forward.x = vectorForward.x;
+        forward.y = vectorForward.y;
+        forward.z = vectorForward.z;
+
+        up.x = vectorUp.x;
+        up.y = vectorUp.y;
+        up.z = vectorUp.z;
+
+        velocity.x = vectorVelocity.x;
+        velocity.y = vectorVelocity.y;
+        velocity.z = vectorVelocity.z;
+
+        errCheck( system->set3DListenerAttributes(0,&position,&velocity,&forward,&up),"set3DListenerAttributes" );
+    }
+}
+
+void SoundManager::setShipNode(SceneNode *ship) { shipNode = ship; }
+
 void SoundManager::tick() {
     crossFade();
     checkChannels();
-    // TODO: errCheck( system->set3DListenerAttributes()
-    errCheck( system->update() );
+    updateShipPosition();
+    errCheck( system->update(),"System Update");
 }
 
 SoundManager::~SoundManager() {

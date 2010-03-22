@@ -121,6 +121,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
+    soundMgr->setShipNode(shipSceneNode);     
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);

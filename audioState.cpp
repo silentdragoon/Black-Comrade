@@ -23,10 +23,10 @@ void AudioState::tick()
 	    
 	    if (b->playerStats == 0) {
 	        // Enemy bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),shipNode,b->getOrigin(),0.2,true);
+	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.2);
 	    } else {
 	        // Player bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),shipNode,b->getOrigin(),0.5,true);
+	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.8);
 	    }
 	    
 	    b->madeNoise = true;
@@ -35,7 +35,7 @@ void AudioState::tick()
     if(notificationMgr->hasNewNotification()) {
         Notification *newNotification = notificationMgr->getCurrentNotification();
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
-            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,shipNode,2,true);
+            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,2);
         }
         if (newNotification->getMusic() != -1) {
             std::cout << "MUSIC: " << newNotification->getMusic() << std::endl;
@@ -45,7 +45,7 @@ void AudioState::tick()
 
     if (miniGameMgr->aKeyPressed) {
         miniGameMgr->aKeyPressed = false;
-        sndMgr->playSound(ConstManager::getInt("sound_consolekeypress"),shipNode,shipNode,0.1,true);
+        sndMgr->playSound(ConstManager::getInt("sound_consolekeypress"),shipNode,0.1);
     }
 }
 
