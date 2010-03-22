@@ -22,6 +22,8 @@ private:
     MapManager *mp;
     SceneManager* sceneMgr;
     
+    NewtonCollision *objCollision;
+    
 public:
 
     CollisionManager( SceneManager* sceneMgr, MapManager* mp );
@@ -36,6 +38,12 @@ public:
     //will add a convex hull for that entity. Will be about the origin, so any ray Cast option to it will need to use the transformed version.
     void addMesh( Entity* e);
     
+    //addds the an objective collision primitive that is only tested with getRCObjDist
+    void addObjMesh( Real x, Real y, Real z, Real radius);
+    
+    //method for getting the dist to objective
+    dFloat getRCObjDist( Vector3 *pos, Vector3 *direction );
+    
     //needs to be used for dynamic pieces
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* entity);
     
@@ -44,6 +52,9 @@ public:
     
     //working for now. may need to be looked at later
     Collision shipMapCollision(Vector3 *shipPos);
+    
+    
+    
 
     //working stuff thats unneccesary for now
     //dFloat getRCDistBetweenPoints( Vector3 *start, Vector3 * end, Entity* collideAgainst );
