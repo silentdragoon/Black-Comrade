@@ -7,7 +7,7 @@ NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam)
     , isFullMap(false)
 {
     setYawLimits(PI, 2 * PI);
-    setPitchLimits(3 * PI / 4, PI / 4);
+    setPitchLimits(3 * PI / 2,PI / 2);
 }
 
 NavigatorControls::~NavigatorControls()
