@@ -209,7 +209,7 @@ void SoundManager::checkChannels() {
     if(!activeChannels.empty()) {
         bool playing = true;
         current = activeChannels.front();
-        errCheck( current->isPlaying(&playing),"isPlaying Check");
+        current->isPlaying(&playing);
         activeChannels.pop_front();
         if(playing) {
             activeChannels.push_back(current);
