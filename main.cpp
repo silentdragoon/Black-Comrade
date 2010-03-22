@@ -314,6 +314,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     
     gameLoop->startLoop();
 
+    networkingManager->endGame();
+
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
                                       guiMgr,pilotInfo,navigatorInfo,
@@ -328,9 +330,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
 
+    postGame->run();
+    
     networkingManager->stopNetworking();
-
-    //postGame->run();
 }
 
 Root *Main::configRoot()
