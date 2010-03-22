@@ -38,7 +38,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,false);
+    inputState = new InputState(window,true,this,true,true);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -54,7 +54,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     mapMgr = preGame->loadGame();
 
-    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    if (!useMouse || false && collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -311,9 +311,17 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
+    // Game ender
+    if (collabInfo->getGameRole() == PILOT) {
+        gameEnder = new GameEnder(gameStateMachine,this);
+        gameLoop->addTickable(gameEnder,"gameEnder");
+    }
+
     // Start Rendering Loop
     
     gameLoop->startLoop();
+
+    networkingManager->endGame();
 
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
@@ -329,9 +337,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
 
+    postGame->run();
+    
     networkingManager->stopNetworking();
-
-    //postGame->run();
 }
 
 Root *Main::configRoot()

@@ -57,6 +57,10 @@ void NetworkingManager::tick() {
                     printf("You have been disconnected.\n");
                     quit = true;
                     break;
+                case END_GAME:
+                    printf("Ending the game...\n");
+                    quit = true;
+                    break;
             }
     }
     if (quit) mExit->exit();
@@ -121,6 +125,13 @@ void NetworkingManager::startGame() {
     RakNet::BitStream dataStream;
     
     dataStream.Write(START_GAME);
+    rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+}
+
+void NetworkingManager::endGame() {
+    RakNet::BitStream dataStream;
+    
+    dataStream.Write(END_GAME);
     rakPeer->Send(&dataStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 

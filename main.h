@@ -47,6 +47,7 @@
 #include "particleSystemEffectManager.h"
 #include "playerStats.h"
 #include "postGame.h"
+#include "gameEnder.h"
 
 //include networking stuff
 #include <string.h>
@@ -113,6 +114,8 @@ private:
     Console *cons;
     Lines *lines;
     ParticleSystemEffectManager *particleSystemEffectManager;
+
+    GameEnder *gameEnder;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

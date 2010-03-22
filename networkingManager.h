@@ -20,6 +20,8 @@
 #include <string>
 #include <cstdio>
 
+
+
 class NetworkingManager : public ITickable {
 
 private:
@@ -61,6 +63,8 @@ public:
 
         bool hostGame(bool development);
         bool connectToGame(int i);
+
+        void endGame();
 
         bool replicate(ReplicaObject *object);
         ReplicaObject *getReplica(string name, bool blocking);

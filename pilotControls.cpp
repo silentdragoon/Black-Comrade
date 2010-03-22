@@ -74,8 +74,9 @@ PilotControls::PilotControls(InputState *inputState, Camera *cam)
     : inputState(inputState)
     , GunnerControls(inputState, cam, false)
 {
-    setYawLimits(31 * PI / 16, PI / 16);
-    setPitchLimits(31 * PI / 16, PI / 16);
+    // Lock pilots camera
+    setYawLimits(0,0);
+    setPitchLimits(0,0);
 }
 
 PilotControls::~PilotControls() {}

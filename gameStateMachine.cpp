@@ -77,6 +77,11 @@ void GameStateMachine::checkWaypoints() {
                         break;
                 }
             }
+            if (*wp == "wp_end") {
+                // TODO: If the boss has not been destroyed,
+                //       don't end the game...
+                gameState = GS_END;
+            }
         }
     }
 }
