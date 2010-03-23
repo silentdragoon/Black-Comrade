@@ -83,7 +83,7 @@ bool NetworkingManager::hostGame(bool development) {
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
-    rakPeer->SetMaximumIncomingConnections(3);
+    rakPeer->SetMaximumIncomingConnections(2);
 
     lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
     return true;
