@@ -18,6 +18,11 @@ void DiscoveryAgent::startServerListUpdate(int serverPort) {
     // TODO: Work out a nice way of removing dead servers from the list
     // without disrupting the relative position of the others in the list
     searchClient->Ping("255.255.255.255",serverPort,true);
+
+    for(std::vector<ServerInfo*>::const_iterator ite=servers.begin();ite!=servers.end();++ite) {
+        ServerInfo *info = *ite;
+        info->setLastPonged(info->getLastPong() + 1);
+    }
 }
 
 void DiscoveryAgent::updateServerList() {
@@ -61,19 +66,18 @@ void DiscoveryAgent::handlePong(Packet *p) {
 }
 
 void DiscoveryAgent::handleServerInfo(ServerInfo *newInfo) {
-    //if (!alreadyListed(newInfo->getAddress()))
-    //    servers.push_back(newInfo);
 
     if (newInfo->getName().compare("") == 0)
         return; // Invalid game
 
     for(std::vector<ServerInfo*>::const_iterator ite=servers.begin();ite!=servers.end();++ite) {
-        ServerInfo *oldInfo = *ite	;
+        ServerInfo *oldInfo = *ite;
         if (oldInfo->getAddress().compare(newInfo->getAddress()) == 0) {
             //Update existing
             oldInfo->setPilotTaken(newInfo->isPilotTaken());
             oldInfo->setNavigatorTaken(newInfo->isNavigatorTaken());
             oldInfo->setEngineerTaken(newInfo->isEngineerTaken());
+            oldInfo->setLastPonged(0);
             return;
         }
     }
