@@ -92,6 +92,7 @@ void NetworkRoleMenu::refreshGameList() {
 bool NetworkRoleMenu::joinAGame() {
     try {
         ServerInfo *game = servers.at(selectedGame);
+        if (game->getLastPong() > 1) return false;
         return networkingMgr->connectToGame(game);
     } catch (...) { return false; }
 }
