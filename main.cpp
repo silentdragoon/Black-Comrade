@@ -122,6 +122,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
+    
+    // SCALE SHIP!!!!
+    shipScale = ConstManager::getFloat("ship_scale");
+    shipSceneNode->setScale(shipScale,shipScale,shipScale);
+    
     soundMgr->setShipNode(shipSceneNode);     
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
