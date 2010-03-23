@@ -26,6 +26,8 @@ class Enemy : public IDrawable, public ReplicaObject
     public:
     	int health;
     	bool fire;
+    	float yawScatter;
+    	float pitchScatter;
         bool isReplicated;
         bool isDead;        // Used so enemy deaths can be synched properly
     	int fireDelay;

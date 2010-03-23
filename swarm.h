@@ -67,6 +67,7 @@ class Swarm
     	void shootAtShip();
     	
     	int genFireDelay();
+    	float genScatterAngle();
     	
     	void pointAtShip(Enemy *e);
     	
