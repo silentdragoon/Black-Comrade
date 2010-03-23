@@ -62,6 +62,9 @@ void SoundManager::loadSoundFiles() {
     // Console key press
     loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
 
+    // Enemy explosion
+    loadSoundFile("/sounds/explosion6.wav",ConstManager::getInt("sound_explosion"), false);
+
     // Music section
     loadMusic();
 

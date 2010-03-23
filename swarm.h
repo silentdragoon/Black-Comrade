@@ -18,6 +18,7 @@
 #include "pathFinder.h"
 #include "gameParameterMap.h"
 #include "particleSystemEffectManager.h"
+#include "soundManager.h"
 
 #include <boost/math/distributions/normal.hpp>
 #include <boost/random.hpp>
@@ -53,6 +54,7 @@ class Swarm
         PathFinder *pathFinder;
         GameParameterMap *gameParameterMap;
         ParticleSystemEffectManager *particleSystemEffectManager;
+        SoundManager *soundMgr;
     
     	// Random Generator for firing
     	boost::mt19937 rng;
@@ -82,7 +84,7 @@ class Swarm
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines,
             CollisionManager *collisionMgr, MapManager *mapMgr, GameParameterMap *gameParameterMap,
-            ParticleSystemEffectManager *particleSystemEffectManager);
+            ParticleSystemEffectManager *particleSystemEffectManager, SoundManager *soundMgr);
         ~Swarm();
 
         Vector3 getAverageAlignment();

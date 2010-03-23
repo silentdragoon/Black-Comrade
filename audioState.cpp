@@ -26,7 +26,7 @@ void AudioState::tick()
 	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.2);
 	    } else {
 	        // Player bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.8);
+	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.6);
 	    }
 	    
 	    b->madeNoise = true;
