@@ -322,6 +322,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     
     gameLoop->startLoop();
 
+    cons->forceHide();
+
     networkingManager->endGame();
 
     // Post-game environment

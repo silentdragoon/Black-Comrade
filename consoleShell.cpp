@@ -56,7 +56,6 @@ void ConsoleShell::processCommand() {
         console->appendLine("access: PERMISSION DENIED.");
     } else if (command == "reboot") {
         console->appendLine("Rebooting system...");
-        console->forceHide();
         exit->exit();
     } else {
         command += ": command not found";
