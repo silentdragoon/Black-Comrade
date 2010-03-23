@@ -13,6 +13,30 @@ CollisionDetection::CollisionDetection()
     shapeID = 5;
 }
 
+void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius)
+{
+      objCollision = NewtonCreateSphere (newtonWorld, x, y, z, radius, NULL);
+      NewtonReleaseCollision (newtonWorld, objCollision);
+}
+
+dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
+{
+    dFloat p0[3];
+    dFloat p1[3];
+    p0[0] = start->x;
+    p0[1] = start->y;
+    p0[2] = start->z;
+    
+    p1[0] = end->x;
+    p1[1] = end->y;
+    p1[2] = end->z;
+    
+    dFloat normal[3];
+    int att[1];
+
+    return NewtonCollisionRayCast(objCollision, p0, p1, normal, att);
+}
+
 void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
 {
 	NewtonCollision *treeCollision;
@@ -248,15 +272,15 @@ void CollisionDetection::createConvexHull( Entity *entity )
 } */
 
 
-void CollisionDetection::createShipMesh( Entity * e )
+/* void CollisionDetection::createShipMesh( Entity * e )
 {
     NewtonCollision *shipCollision = NewtonCreateBox (newtonWorld, 8.0f, 8.0f, 8.0f,2, NULL); 
     NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, shipCollision);
-    NewtonReleaseCollision (newtonWorld, shipCollision);
+    NewtonReleaseCollision (newtonWorld, shipCollision);      
     
     collisionsMap.insert(pair<Entity*,NewtonCollision*>(e,shipCollision));
  	bodysMap.insert(pair<Entity*,NewtonBody*>(e,rigidBodyBox));
-}
+} */
 
 
 /*

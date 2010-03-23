@@ -28,6 +28,7 @@ private:
     Entity *enemy;
     
     NewtonCollision *enemyCol;
+    NewtonCollision *objCollision;
 
     //dFloat t[9]; 
     //dFloat shipPos[16];
@@ -57,10 +58,12 @@ public:
     
     //depreciated. Here for refrence
     //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
-     void createShipMesh( Entity* e );
+    //void createShipMesh( Entity* e );
     // void createEnemyMesh( Entity* e );
     
     void createConvexHull( Entity *entity );
+    void createObjPrimitive( Real x, Real y, Real z, Real radius);
+    dFloat objRayCollision(  Vector3 *start, Vector3 *end );
     
 };
 

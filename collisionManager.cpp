@@ -47,7 +47,22 @@ dFloat CollisionManager::getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat d
 
 void CollisionManager::addMesh( Entity *e)
 {
-    cd->createConvexHull(e);//cd->createEnemyMesh(e);
+    cd->createConvexHull(e);
+}
+
+void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
+{
+    cd->createObjPrimitive(x,y,z,radius);
+}
+
+dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
+{ 
+    dFloat dist = 2000;
+    double x = start->x + direction->x * dist;
+    double y = start->y + direction->y * dist;
+    double z = start->z + direction->z * dist;
+    Vector3 end = Vector3(x,y,z);
+    return cd->objRayCollision( start, &end )*dist;
 }
 
 dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* collideAgainst)

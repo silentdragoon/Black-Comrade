@@ -132,9 +132,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-5));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(3.5,0,0));
+        camera->setPosition(Vector3(0,10,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(-3.5,0,0));
+        camera->setPosition(Vector3(0,-10,0));
     }
     createViewPort();
 
@@ -366,9 +366,8 @@ void Main::configResources()
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ".", "FileSystem", "General");
 
-    // Set the paths to look for various resources
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "models", "FileSystem", "General");
+                    ConstManager::getString("models_file_path"), "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "sounds", "FileSystem", "General");
