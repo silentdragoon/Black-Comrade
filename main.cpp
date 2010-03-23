@@ -281,10 +281,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     gameLoop->addTickable(particleSystemEffectManager, "psem");
 
+    // Objective
+    objective = new Objective();
+
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
-        damageState,particleSystemEffectManager);
+        damageState,particleSystemEffectManager,objective);
     gameLoop->addTickable(bulletMgr,"bulletManager");
     gameLoop->addTickable(swarmMgr, "swarmMgr");
     

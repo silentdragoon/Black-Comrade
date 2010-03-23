@@ -76,7 +76,8 @@ gameRoleMenu.cpp \
 loadingScreen.cpp \
 postGame.cpp \
 statsScreen.cpp \
-gameEnder.cpp
+gameEnder.cpp \
+objective.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

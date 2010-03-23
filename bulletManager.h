@@ -13,6 +13,7 @@
 #include "swarmManager.h"
 #include "shipState.h"
 #include "damageState.h"
+#include "objective.h"
 
 #include <boost/random/normal_distribution.hpp>
 
@@ -34,6 +35,7 @@ class BulletManager : public ITickable
         SwarmManager *swarmMgr;
         DamageState *damageState;
         ParticleSystemEffectManager *particleSystemEffectManager;
+        Objective *objective;
        
         bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin);
         bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin, PlayerStats *stats);
@@ -51,7 +53,8 @@ class BulletManager : public ITickable
             GunState *pilotGunState, GunState *engineerGunState,
             GunState *navigatorGunState, CollisionManager *colMgr,
             SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
-            DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager);
+            DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager,
+            Objective *objective);
 
         ~BulletManager();
             
