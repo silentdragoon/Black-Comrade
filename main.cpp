@@ -28,9 +28,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     guiMgr = new GuiManager(sceneMgr);
 
-    // Explosion creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr);
-
     // Game Loop
     gameLoop = new StateUpdate();
 
@@ -54,7 +51,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     mapMgr = preGame->loadGame();
 
-    if (!useMouse || false && collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    // Explosion creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
+
+    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -118,6 +118,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
     gameLoop->addTickable(shipState, "shipState");
+    soundMgr->setShipState(shipState);
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
@@ -295,8 +296,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
                                 notificationMgr,bulletMgr,miniGameMgr);
     gameLoop->addTickable(audioState,"audioState");
 	
-    // Last class to be added to the game loop
-
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
@@ -317,8 +316,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         gameLoop->addTickable(gameEnder,"gameEnder");
     }
 
+    // Add the reactor core effects
+    particleSystemEffectManager->makeReactor();
+
     // Start Rendering Loop
-    
     gameLoop->startLoop();
 
     cons->forceHide();

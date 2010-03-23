@@ -9,6 +9,7 @@ ShipState::ShipState()
     roll=0.0;
     pitch=0.0;
     yaw=0.0;
+    speed=0.0;
 }
 
 Vector3 *ShipState::getPosition()
@@ -21,6 +22,7 @@ ShipState::ShipState(SceneNode *shipSceneNode ) :
     roll(0.0),
     pitch(0.0),
     yaw(0.0),
+    speed(0.0),
     shipSceneNode(shipSceneNode)
 {}
 
@@ -73,6 +75,10 @@ void ShipState::setZ(double newZ) {
     position->z = newZ;
 }
 
+void ShipState::setSpeed(double s) {
+    speed = s;
+}
+
 double ShipState::getX() {
     return position->x;
 }
@@ -85,6 +91,10 @@ double ShipState::getZ() {
     return position->z;
 }
 
+double ShipState::getSpeed() {
+    return speed;
+}
+
 RakNet::RakString ShipState::GetName(void) const {return RakNet::RakString("ShipState");}
 
 RM3SerializationResult ShipState::Serialize(SerializeParameters *serializeParameters) {
@@ -94,6 +104,7 @@ RM3SerializationResult ShipState::Serialize(SerializeParameters *serializeParame
     serializeParameters->outputBitstream[0].Write(roll);
     serializeParameters->outputBitstream[0].Write(pitch);
     serializeParameters->outputBitstream[0].Write(yaw);
+    serializeParameters->outputBitstream[0].Write(speed);
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -105,6 +116,7 @@ void ShipState::Deserialize(RakNet::DeserializeParameters *deserializeParameters
     deserializeParameters->serializationBitstream[0].Read(roll);
     deserializeParameters->serializationBitstream[0].Read(pitch);
     deserializeParameters->serializationBitstream[0].Read(yaw);
+    deserializeParameters->serializationBitstream[0].Read(speed);
 
     //print();
 }

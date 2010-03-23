@@ -10,6 +10,7 @@
 #include "ITickable.h"
 #include "const.h"
 #include "constManager.h"
+#include "shipState.h"
 
 #define MAX_SOUND_CHANNELS  200
 
@@ -27,6 +28,7 @@ private:
 
     FMOD::System *system;
     SceneNode *shipNode;
+    ShipState *shipState;
 
     // Pointers to the music sounds
     FMOD::Sound *stealthMusic;
@@ -38,20 +40,27 @@ private:
     FMOD::Channel *fleeChannel;
     FMOD::Channel *themeChannel;
 
+    // Pointers to specific things
+    FMOD::Channel *engineChannel;
+    FMOD::Sound *engineSound;
+
     // Effects
     FMOD::DSP *reverb;
 
     // Things for stuff
     int playingSound;
+    float engineFrequency;
 
     void errCheck(FMOD_RESULT result);
     void errCheck(FMOD_RESULT result,std::string from);
     void loadSoundFiles();
     void loadMusic();
+    void loadPermanent();
     void loadSoundFile(string relativePath, int constName, bool loop);
     void crossFade();
     void checkChannels();
     void updateShipPosition();
+    void updateEnginePitch();
 
 public:
     SoundManager();
@@ -63,6 +72,7 @@ public:
     void playSound(int file, SceneNode *soundNode, float volume);
     void changeMusic(int file);
     void setShipNode(SceneNode *ship);
+    void setShipState(ShipState *shipState);
 };
 
 #endif 

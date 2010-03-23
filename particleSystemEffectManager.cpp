@@ -1,7 +1,8 @@
 #include "particleSystemEffectManager.h"
 
-ParticleSystemEffectManager::ParticleSystemEffectManager(SceneManager *sceneMgr) :
+ParticleSystemEffectManager::ParticleSystemEffectManager(SceneManager *sceneMgr, MapManager *mapMgr) :
     sceneMgr(sceneMgr),
+    mapMgr(mapMgr),
     num(0)
 {
     activeEffects = new std::vector<ParticleSystemEffect*>(); 
@@ -16,6 +17,24 @@ std::string ParticleSystemEffectManager::createUnique(std::string name) {
     out << num++;
     name+=out.str();
     return name;
+}
+
+void ParticleSystemEffectManager::makeReactor() {
+    Vector3 pos = mapMgr->getObjectivePosition(); 
+
+    std::string nname = createUnique("enode");
+    std::string pname = createUnique("effect");
+
+    SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode->setPosition(pos);
+    Light *rl = sceneMgr->createLight("reactorLight");
+    rl->setType(Light::LT_POINT);
+    rl->setDiffuseColour(0.6,0.2,0.8);
+    rl->setSpecularColour(0.8,0.4,1.0);
+    rl->setAttenuation(600, 0, 1, 0);
+    rl->setPowerScale(2.0);
+    effectNode->attachObject(rl);
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactor");
 }
 
 void ParticleSystemEffectManager::createExplosion(Vector3 pos) {

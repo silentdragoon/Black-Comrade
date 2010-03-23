@@ -30,6 +30,9 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     oldSwarmTile = 0;
 	rRayQuery = new RayQuery( sceneMgr );
 
+	// Seed random generator
+	rng.seed();
+
     for(int i=0;i<(size);i++) {
         string ename = "follower";
         std::stringstream out;
@@ -43,6 +46,9 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         e->roll = roll;
         //e->pitch = pitch;
         e->pitch = pitch + 0.01 * i;
+        
+        // Add initial random fire delay
+        e->fireDelay = genFireDelay();
         
         e->yaw = yaw;
         
@@ -66,7 +72,10 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 
 void Swarm::tick()
 {
+    // Removing must be done before marking (for syncing)
     removeDeadEnemies();
+    
+    markDeadEnemies();
     
     if(isShipInSight()) state = SS_ATTACK;
 
@@ -143,12 +152,22 @@ bool Swarm::isShipInSight()
 	return false;
 } 
 
-void Swarm::removeDeadEnemies()
+void Swarm::markDeadEnemies()
 {
-   
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
-        if(e->health < 0) {
+        if(e->health <= 0) {
+            //Mark Enemy as Dead
+            e->isDead = true;
+        } 
+    }
+}
+
+void Swarm::removeDeadEnemies()
+{
+    for(int i=0;i<members.size();i++) {
+    	Enemy *e = members.at(i);
+        if(e->isDead) {
             //Make Explosion here
             Vector3 *pos = e->getPosition();
             particleSystemEffectManager->createExplosion(*pos);
@@ -157,8 +176,6 @@ void Swarm::removeDeadEnemies()
         	members.erase(members.begin()+(i));
             size--;
         	std::cout << "Remove\n";
-        } else if (e->health == 0) {
-            e->health = -1;
         }
     }
 }
@@ -204,14 +221,10 @@ void Swarm::updateTargetLocation() {
 void Swarm::shootAtShip()
 {
 	std::deque<Enemy*>::iterator i;
-	Enemy *e;
+	Enemy *e;	
 	
-	//for(i = members.begin(); i != members.end(); ++i) {
-		//e = *i;
-    for(int i=0; i<=(members.size()/4);i++) {
-        if(!members.empty()) {
-            e = members.front();
-            members.pop_front();
+	for(i = members.begin(); i != members.end(); ++i) {
+		e = *i;
 
             e->fire = false;
 
@@ -221,16 +234,49 @@ void Swarm::shootAtShip()
             if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist") && 
                     angleTo < ConstManager::getFloat("enemy_sight_angle")) {
                 if(e->fireDelay <= 0) {
-                    e->fireDelay = 25;
+              
+                    e->fireDelay = genFireDelay();
                     e->fire = true;
+                    
+                    e->yawScatter = genScatterAngle();
+                    e->pitchScatter = genScatterAngle();
+                    
                     //std::cout << "Bang!\n";
                 }
             }
 
             if(e->fireDelay > 0) e->fireDelay -= 1;
-            members.push_back(e);
-        }
     }
+}
+
+int Swarm::genFireDelay()
+{
+    double meanInv = (ConstManager::getFloat("enemy_fire_rate") 
+        * ConstManager::getFloat("tick_period"));
+
+    double mean = (meanInv) ? (1 / meanInv) : 100;
+
+    boost::normal_distribution<> nd(mean, 7);
+
+    boost::variate_generator<boost::mt19937&, 
+                            boost::normal_distribution<> > var_nom(rng, nd);
+
+    double d = var_nom();
+    
+    return (int)d;
+}
+
+float Swarm::genScatterAngle()
+{
+    boost::normal_distribution<> nd(0, 
+    	ConstManager::getFloat("enemy_inaccuracy"));
+
+    boost::variate_generator<boost::mt19937&, 
+                            boost::normal_distribution<> > var_nom(rng, nd);
+
+    double d = var_nom();
+    
+    return (float)d;
 }
 
 void Swarm::turnEnemy(Enemy *e)
