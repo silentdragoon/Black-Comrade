@@ -48,6 +48,7 @@
 #include "playerStats.h"
 #include "postGame.h"
 #include "gameEnder.h"
+#include "objective.h"
 
 //include networking stuff
 #include <string.h>
@@ -114,6 +115,7 @@ private:
     Console *cons;
     Lines *lines;
     ParticleSystemEffectManager *particleSystemEffectManager;
+    Objective *objective;
 
     GameEnder *gameEnder;
 

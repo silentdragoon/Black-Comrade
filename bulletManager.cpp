@@ -5,7 +5,8 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
                 GunState *pilotGunState, GunState *engineerGunState,
                 GunState *navigatorGunState, CollisionManager *colMgr,
                 SwarmManager *swarmMgr, SceneNodeManager *sceneNodeMgr,
-                DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager)
+                DamageState *damageState, ParticleSystemEffectManager *particleSystemEffectManager,
+                Objective *objective)
     : shipState(shipState)
     , sceneMgr(sceneMgr)
     , pilotGunState(pilotGunState)
@@ -16,6 +17,7 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     , sceneNodeMgr(sceneNodeMgr)
     , damageState(damageState)
     , particleSystemEffectManager(particleSystemEffectManager)
+    , objective(objective)
     , bnum(0)
 {
     activeBullets = new std::vector<Bullet*>();
@@ -103,7 +105,8 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
         isObjective = true;
         isEnemy = false;
         isShip = false;
-        std::cout << "REACTORRRRRRRRRR" << std::endl;
+        std::cout << "BLACK COMRADE!" << std::endl;
+        objective->damageObjective();
     }
     
     // FIRE THE BULLET!
