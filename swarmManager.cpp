@@ -4,7 +4,8 @@
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr,
 	GameParameterMap *gamePM, MapManager *mapMgr, ShipState *shipState,
 	CollisionManager* colMgr, NetworkingManager *networkingMgr, Lines *lines,
-    GameStateMachine *gameStateMachine, ParticleSystemEffectManager *particleSystemEffectManager) :
+    GameStateMachine *gameStateMachine, ParticleSystemEffectManager *particleSystemEffectManager,
+    SoundManager *soundMgr) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -17,6 +18,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     networkingMgr(networkingMgr),
     gameStateMachine(gameStateMachine),
     particleSystemEffectManager(particleSystemEffectManager),
+    soundMgr(soundMgr),
     lines(lines)
 {
 
@@ -42,7 +44,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
 }
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
-    NetworkingManager *networkingMgr, ParticleSystemEffectManager *particleSystemEffectManager) :
+    NetworkingManager *networkingMgr, ParticleSystemEffectManager *particleSystemEffectManager,
+    SoundManager *soundMgr) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -52,7 +55,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     swarmTick(0),
     shipState(shipState),
     networkingMgr(networkingMgr),
-    particleSystemEffectManager(particleSystemEffectManager)
+    particleSystemEffectManager(particleSystemEffectManager),
+    soundMgr(soundMgr)
 {
     activeSwarms = std::deque<Swarm*>();
 }
@@ -65,7 +69,7 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 {
     std::cout << "Created Swarm of size: " << size << std::endl;
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager);
+        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
