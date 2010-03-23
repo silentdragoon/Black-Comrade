@@ -470,3 +470,10 @@ void MapManager::setSpawnPoints() {
         }
     }
 }
+
+Vector3 MapManager::getObjectivePosition() {
+    double x = (objx*ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2.0);
+    double y = 0.0;
+    double z = (objy*ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2.0);
+    return Vector3(x,y,z);
+}

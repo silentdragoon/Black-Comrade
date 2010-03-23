@@ -27,6 +27,7 @@ using namespace Ogre;
 class MapManager {
 
 private:
+    int objx,objy; // Location of the objective tile
     string MAPROOT;
 	SceneManager *sceneManager;
     std::vector<Entity*> mapEntities;
@@ -39,7 +40,6 @@ private:
 
 public:
     int startx,starty; // Index location of the start square of the map
-    int objx,objy; // Location of the objective tile
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager);
@@ -53,6 +53,7 @@ public:
     std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
     void makeConPieces();
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
+    Vector3 getObjectivePosition();
 };
 
 #endif
