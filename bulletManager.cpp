@@ -168,11 +168,20 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	Enemy *e;
 	for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
 	    e = *it;
+	    
+	    Vector3 angles = SceneNodeManager::directionToOrientationVector(
+	    	e->getDirection());
+	    
+	    float bulletYaw = angles.y + e->yawScatter;
+	    float bulletPitch = angles.x + e->pitchScatter;
+	    
+	    Vector3 bulletDirection = SceneNodeManager::rollPitchYawToDirection(
+	    	0, bulletPitch, bulletYaw);
 	        
 	    if(e->fire) {
             e->fire = false;
             if(activeBullets->size()<7) {
-                fire(*e->getPosition(),e->getDirection(),ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
+                fire(*e->getPosition(),bulletDirection,ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
             }
 	    }
 	}

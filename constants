@@ -15,6 +15,7 @@ enemy_attack_seperation = 10
 
 # Shooting
 enemy_fire_rate = 1
+enemy_inaccuracy = 0.1
 
 # Flocking Constants
 flock_detect_dist = 15

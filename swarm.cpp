@@ -237,6 +237,10 @@ void Swarm::shootAtShip()
               
                     e->fireDelay = genFireDelay();
                     e->fire = true;
+                    
+                    e->yawScatter = genScatterAngle();
+                    e->pitchScatter = genScatterAngle();
+                    
                     //std::cout << "Bang!\n";
                 }
             }
@@ -259,8 +263,20 @@ int Swarm::genFireDelay()
 
     double d = var_nom();
     
-    cout << (int)d << endl;
     return (int)d;
+}
+
+float Swarm::genScatterAngle()
+{
+    boost::normal_distribution<> nd(0, 
+    	ConstManager::getFloat("enemy_inaccuracy"));
+
+    boost::variate_generator<boost::mt19937&, 
+                            boost::normal_distribution<> > var_nom(rng, nd);
+
+    double d = var_nom();
+    
+    return (float)d;
 }
 
 void Swarm::turnEnemy(Enemy *e)
