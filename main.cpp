@@ -47,9 +47,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Sound manager
     soundMgr = new SoundManager();
 
-    collabInfo = preGame->run();
+    collabInfo = preGame->showMenus();
 
-    mapMgr = preGame->loadGame();
+    mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
 
     // Explosion creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
@@ -321,6 +321,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Add the reactor core effects
     particleSystemEffectManager->makeReactor();
+
+    // Hide loading screen
+    preGame->hideLoadingScreen();
 
     // Start Rendering Loop
     gameLoop->startLoop();
