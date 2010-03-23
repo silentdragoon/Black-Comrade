@@ -131,11 +131,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
-        camera->setPosition(Vector3(0,0,-5));
+        camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,10,0));
+        camera->setPosition(Vector3(0,8.5,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-10,0));
+        camera->setPosition(Vector3(0,-8.5,0));
     }
     createViewPort();
 
