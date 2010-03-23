@@ -5,7 +5,8 @@
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
 	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
-    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager)
+    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager,
+    SoundManager *soundMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -23,6 +24,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , mapMgr(mapMgr)
     , gameParameterMap(gameParameterMap)
     , particleSystemEffectManager(particleSystemEffectManager)
+    , soundMgr(soundMgr)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -169,8 +171,9 @@ void Swarm::removeDeadEnemies()
     	Enemy *e = members.at(i);
         if(e->isDead) {
             //Make Explosion here
-            Vector3 *pos = e->getPosition();
-            particleSystemEffectManager->createExplosion(*pos);
+            Vector3 pos = *e->getPosition();
+            particleSystemEffectManager->createExplosion(pos);
+            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,1.0);
             sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));
