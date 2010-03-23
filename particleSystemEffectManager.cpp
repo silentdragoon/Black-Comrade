@@ -24,6 +24,7 @@ void ParticleSystemEffectManager::makeReactor() {
 
     std::string nname = createUnique("enode");
     std::string pname = createUnique("effect");
+    std::string pname2 = createUnique("effect");
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
@@ -35,6 +36,7 @@ void ParticleSystemEffectManager::makeReactor() {
     rl->setPowerScale(2.0);
     effectNode->attachObject(rl);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactor");
+    ParticleSystemEffect *pse2 = new ParticleSystemEffect(sceneMgr, effectNode, pname2, "FX/reactor2");
 }
 
 void ParticleSystemEffectManager::createExplosion(Vector3 pos) {
