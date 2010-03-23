@@ -8,6 +8,7 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState, IExit *exit
     , defaultPrompt(">> ")
     , gameToPlay(NULL)
     , exit(exit)
+    , fullCommand("")
 {
     commands = std::vector<std::string>();
     console->appendLine("---------------------------------------");
@@ -19,6 +20,12 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState, IExit *exit
 
 void ConsoleShell:: tick() {
     gameToPlay = NULL;
+    fullCommand = "";
+}
+
+std::string ConsoleShell::getCommand()
+{
+    return fullCommand;
 }
 
 IMiniGame* ConsoleShell::getGameToPlay() { return gameToPlay; }
@@ -57,6 +64,9 @@ void ConsoleShell::processCommand() {
     } else if (command == "reboot") {
         console->appendLine("Rebooting system...");
         exit->exit();
+    } else if (command == "fix") {
+        console->appendLine("Fixing all Systems...Fixed!");
+        gameToPlay = new FixMiniGame();
     } else {
         command += ": command not found";
         console->appendLine(command);
