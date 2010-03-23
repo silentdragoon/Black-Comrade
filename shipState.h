@@ -27,6 +27,7 @@ public:
     Real roll;
     Real pitch;
     Real yaw;
+    double speed;
 
     ShipState(SceneNode *shipSceneNode);
 
@@ -40,6 +41,7 @@ public:
     void setX(double newX);
     void setY(double newY);
     void setZ(double newZ);
+    void setSpeed(double s);
     
     Vector3 *getPosition();
     Vector3 *getOrientation();
@@ -51,6 +53,7 @@ public:
     double getX();
     double getY();
     double getZ();
+    double getSpeed();
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
