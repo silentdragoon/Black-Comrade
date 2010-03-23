@@ -27,6 +27,13 @@ void ParticleSystemEffectManager::makeReactor() {
 
     SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
     effectNode->setPosition(pos);
+    Light *rl = sceneMgr->createLight("reactorLight");
+    rl->setType(Light::LT_POINT);
+    rl->setDiffuseColour(0.6,0.2,0.8);
+    rl->setSpecularColour(0.8,0.4,1.0);
+    rl->setAttenuation(600, 0, 1, 0);
+    rl->setPowerScale(2.0);
+    effectNode->attachObject(rl);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactor");
 }
 
