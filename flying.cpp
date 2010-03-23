@@ -121,6 +121,7 @@ void Flying::updateShipState()
 
 void Flying::tick()
 {
+    shipState->setSpeed(getSpeed());
     updatePosition();
     updateShipState();
 }

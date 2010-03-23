@@ -12,6 +12,7 @@ void SoundManager::errCheck(FMOD_RESULT result) {
 
 SoundManager::SoundManager() {
     shipNode = 0;
+    shipState = 0;
 
     Ogre::LogManager::getSingleton().logMessage("Starting FMODEX sound system...");
 
@@ -37,7 +38,7 @@ SoundManager::SoundManager() {
 
     for(int i=0;i<50;i++) {
         FMOD::Channel *chan;
-        errCheck(chan->addDSP(reverb,0),"Adding reverb");
+        //errCheck(chan->addDSP(reverb,0),"Adding reverb");
         inactiveChannels.push_back(chan);
     }
 
@@ -63,6 +64,9 @@ void SoundManager::loadSoundFiles() {
 
     // Music section
     loadMusic();
+
+    // Permanent sounds
+    loadPermanent();
 }
 
 void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
@@ -110,6 +114,19 @@ void SoundManager::loadMusic() {
     errCheck(attackChannel->setPaused(false));
     errCheck(fleeChannel->setPaused(false));
     errCheck(themeChannel->setPaused(false));
+}
+
+void SoundManager::loadPermanent() {
+    string soundsPath = ConstManager::getString("sound_file_path");
+    string fullPath = soundsPath + "/sounds/engine.wav";
+    errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
+    errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
+
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,engineSound,true,&engineChannel));
+
+    errCheck(engineChannel->setVolume(0.5));
+
+    errCheck(engineChannel->getFrequency(&engineFrequency));
 }
 
 void SoundManager::playSound(int constName, SceneNode *soundNode, float volume) {
@@ -249,11 +266,23 @@ void SoundManager::updateShipPosition() {
     }
 }
 
+void SoundManager::updateEnginePitch() {
+    if(shipState!=0) {
+        errCheck(engineChannel->setPaused(false));
+        double speed = shipState->getSpeed();
+        speed += 1.0;
+        float freq = engineFrequency*speed;
+        errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
+    }
+}
+
 void SoundManager::setShipNode(SceneNode *ship) { shipNode = ship; }
+void SoundManager::setShipState(ShipState *state) { shipState = state; }
 
 void SoundManager::tick() {
     crossFade();
     checkChannels();
+    updateEnginePitch();
     updateShipPosition();
     errCheck( system->update(),"System Update");
 }

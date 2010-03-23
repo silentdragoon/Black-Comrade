@@ -118,6 +118,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
     gameLoop->addTickable(shipState, "shipState");
+    soundMgr->setShipState(shipState);
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
@@ -320,6 +321,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Start Rendering Loop
     
     gameLoop->startLoop();
+
+    cons->forceHide();
 
     networkingManager->endGame();
 
