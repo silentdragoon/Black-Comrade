@@ -1,6 +1,8 @@
 
 #include "damageState.h"
 
+#include "constManager.h"
+
 #include <iostream>
 
 DamageState::DamageState()
@@ -76,8 +78,9 @@ double DamageState::getEngineHealth() { return engineHealth; }
 
 double DamageState::getHullHealth() { return hullHealth; }
 
+// Being shot
 void DamageState::damage() {  
-    damage(1.0);
+    damage(ConstManager::getFloat("enemy_bullet_damage"));
 }
 
 void DamageState::damage(double multiplier) {
