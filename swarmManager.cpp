@@ -175,6 +175,8 @@ void SwarmManager::tick()
             if(s->size!=0) {
                 s->tick();
                 activeSwarms.push_back(s);
+                if(s->canSwarmSeeShip()) 
+                	gameStateMachine->setIsShipInSight(true);
             }
         }
     }
