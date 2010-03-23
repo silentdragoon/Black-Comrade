@@ -14,6 +14,13 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
         percDone += percInc;
         cd->addStaticTreeCollisionMesh(*it);
     }
+
+    Vector3 obj = mp->getObjectivePosition();
+    Real x = obj.x;
+    Real y = obj.y;
+    Real z = obj.z;
+    addObjMesh(x,y,z,30.0);
+
     cout << "Map pieces loaded: 100%"<<endl;
 }
 

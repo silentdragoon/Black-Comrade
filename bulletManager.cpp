@@ -96,6 +96,15 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
         isShip = true;
         isEnemy = false;
     }
+
+    bool isObjective = false;
+    double distToObj = colMgr->getRCObjDist(pos,&direction);
+    if(distToObj < t && distToObj > 0.0) {
+        isObjective = true;
+        isEnemy = false;
+        isShip = false;
+        std::cout << "REACTORRRRRRRRRR" << std::endl;
+    }
     
     // FIRE THE BULLET!
     Bullet *b = new Bullet(bulletNode,sceneMgr,bullName,rname,direction,

@@ -13,6 +13,7 @@
 #include "collaborationInfo.h"
 #include "discoveryAgent.h"
 #include "lobby.h"
+#include "serverInfo.h"
 
 #include "gameRole.h"
 
@@ -30,14 +31,11 @@ private:
         NetworkRole networkRole;
         Packet *packet;
 
-
         SocketDescriptor sd;
 
         NetworkIDManager networkIdManager;
         bool isServer;
         RakPeerInterface *rakPeer;
-        string serverAddress;
-        //NetworkRole determineRole(NetworkRole desiredRole);
 
         IExit *mExit;
 
@@ -59,17 +57,16 @@ public:
 
         void runLobby();
 
-        void stopNetworking();
-
         bool hostGame(bool development);
-        bool connectToGame(int i);
-
+        bool connectToGame(ServerInfo *info);
         void endGame();
 
         bool replicate(ReplicaObject *object);
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);
         std::vector<ReplicaObject*> getReplicas(string name);
+
+        void stopNetworking();
 };
 
 

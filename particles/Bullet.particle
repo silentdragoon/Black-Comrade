@@ -284,7 +284,7 @@ particle_system FX/awesomesauce
 particle_system FX/reactor
 {
     quota 1000
-    material Particles/explosion
+    material Particles/lensflare
     particle_width 5
     particle_height 5
     cull_each false
