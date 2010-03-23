@@ -89,7 +89,7 @@ bool Lobby::wait() {
             }
     }
     else if (networkRole == SERVER) {
-        discoveryAgent->beServer();
+        discoveryAgent->beServer("DemoGame",pilotTaken,navTaken,engTaken);
         process();
         if (pilotTaken && navTaken && engTaken) return true;
     }
@@ -160,8 +160,6 @@ void Lobby::process() {
                 sendGameRoleChoices();
                 offerGameRoleChoices();
                 break;
-            case ID_PING:
-                sendGameInfo(packet->systemAddress);
         }
     }
 }

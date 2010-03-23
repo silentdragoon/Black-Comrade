@@ -14,7 +14,6 @@ using namespace RakNet;
 #define SLEEP(arg)  ( usleep( (arg) *1000 ) )
 
 NetworkingManager::NetworkingManager(IExit *mExit) :
-    serverAddress(""),
     numConnections(0),
     chosenGameRole(NO_GAME_ROLE),
     mExit(mExit),
@@ -90,10 +89,11 @@ bool NetworkingManager::hostGame(bool development) {
     return true;
 }
 
-bool NetworkingManager::connectToGame(int id) {
+bool NetworkingManager::connectToGame(ServerInfo *info) {
     if (discoveryAgent->getServerList().size() == 0) return false;
 
-    std::cout << "About to connect to " << discoveryAgent->getServerList().at(0) << "\n";
+    std::string address = info->getAddress();
+    std::cout << "About to connect to " << address << "\n";
 
     rakPeer = RakNetworkFactory::GetRakPeerInterface();
 
@@ -102,10 +102,10 @@ bool NetworkingManager::connectToGame(int id) {
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
-    rakPeer->SetMaximumIncomingConnections(3);
+    rakPeer->SetMaximumIncomingConnections(2);
 
     lobby = new Lobby(rakPeer, discoveryAgent, CLIENT);
-    return lobby->connect(discoveryAgent->getServerList().at(0), Const::SERVER_PORT);
+    return lobby->connect(address, Const::SERVER_PORT);
 }
 
 void NetworkingManager::runLobby() {
