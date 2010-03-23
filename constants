@@ -13,6 +13,9 @@ enemy_max_turn = 0.05
 enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
 
+# Shooting
+enemy_fire_rate = 1
+
 # Flocking Constants
 flock_detect_dist = 15
 flock_seperation = 8
