@@ -280,3 +280,42 @@ particle_system FX/awesomesauce
         rate 3.5
     }
 }
+
+particle_system FX/reactor
+{
+    quota 1000
+    material Particles/explosion
+    particle_width 5
+    particle_height 5
+    cull_each false
+    renderer billboard
+    billboard_type point
+    billboard_origin center
+
+    emitter Ellipsoid
+    {
+        angle 90
+        colour 0.6 0.2 0.8 1
+        colour_range_start 0.6 0.2 0.8 1
+        colour_range_end 0.8 0.4 1 1
+        direction 0 0 1
+        emission_rate 100
+        position 0 0 0
+        velocity_min 0.1
+        velocity_max 0.5
+        duration_min 5
+        duration_max 7
+        repeat_delay_min 1
+        repeat_delay_max 1
+        time_to_live 10
+        width 60
+        height 60
+        depth 60
+    }
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+        keep_velocity true
+    }
+}
