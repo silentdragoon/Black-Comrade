@@ -19,6 +19,9 @@
 #include "gameParameterMap.h"
 #include "particleSystemEffectManager.h"
 
+#include <boost/math/distributions/normal.hpp>
+#include <boost/random.hpp>
+
 using namespace Ogre;
 using namespace std;
 
@@ -51,12 +54,20 @@ class Swarm
         GameParameterMap *gameParameterMap;
         ParticleSystemEffectManager *particleSystemEffectManager;
     
+    	// Random Generator for firing
+    	boost::mt19937 rng;
+    
         void updateTargetLocation();
         void updateEnemyLocationsFlocking();
         void updateEnemyLocationsAttack();
 
     	void removeDeadEnemies();
+    	void markDeadEnemies();
+    	
     	void shootAtShip();
+    	
+    	int genFireDelay();
+    	
     	void pointAtShip(Enemy *e);
     	
     	void turnEnemy(Enemy *e);
