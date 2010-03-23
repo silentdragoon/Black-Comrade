@@ -38,7 +38,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,true);
+    inputState = new InputState(window,true,this,true,false);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
