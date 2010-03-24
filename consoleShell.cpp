@@ -57,6 +57,8 @@ void ConsoleShell::processCommand() {
     } else if (command == "reboot") {
         console->appendLine("Rebooting system...");
         exit->exit();
+    } else if (command == "test") {
+        gameToPlay = new TestMiniGame(console,inputState);
     } else {
         command += ": command not found";
         console->appendLine(command);

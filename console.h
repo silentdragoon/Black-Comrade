@@ -8,7 +8,8 @@
 #include <iterator>
 
 #define CONSOLE_LENGTH 60
-#define CONSOLE_HEIGHT 24 
+#define CONSOLE_HEIGHT 24
+#define CONSOLE_WIDTH 120
 
 using namespace Ogre;
 

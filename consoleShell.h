@@ -16,6 +16,7 @@
 #include "quickTimeMiniGame.h"
 #include "magicWordMiniGame.h"
 #include "buttonMashMiniGame.h"
+#include "testMiniGame.h"
 
 #include "IExit.h"
 

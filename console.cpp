@@ -118,33 +118,29 @@ void Console::clearPrompt() {
     prompt = "";
 }
 
-int Console::getWidth() { return CONSOLE_LENGTH; }
+int Console::getWidth() { return CONSOLE_WIDTH; }
 
 int Console::getHeight() { return CONSOLE_HEIGHT; }
 
 void Console::setChar(char c, int x, int y) {
-    if (x > getWidth() || y > getHeight()) return;
+    if (x >= getWidth() || y >= getHeight()-1) return;
+
+    char* cString = new char(c);
 
     std::list<std::string>::reverse_iterator it = lines->rbegin();
     std::string line = *it;
     for(int i = 0 ; i < y ; i++) {
-        line = *it;
         it++;
     }
-
-    char* cString = new char(c);
-    line.replace(x,1,cString);
+    it->replace(x,1,cString);
 }
 
 void Console::setString(std::string str, int xStart, int yStart) {
-    if (xStart > getWidth() || yStart > getHeight()) return;
+    //if (xStart >= getWidth() || yStart >= getHeight()-1) return;
 
-    char * cstr;
-    cstr = new char [str.size()+1];
-    strcpy (cstr, str.c_str());
-    for(int i = 0; i < sizeof(cstr);i++) {
-        setChar(xStart+i,yStart,cstr[i]);
-    }
+    //for(int i = 0; i < str.length();i++) {
+        //setChar(xStart+i,yStart,str.c_str()[i]);
+    //}
 }
 
 void Console::makeBlank() {
