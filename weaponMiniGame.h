@@ -25,8 +25,6 @@ private:
     InputState *inputState;
     Console *console;
 
-    std::string sequence;
-
     std::string misalignedbox;
     std::string alignedbox;
 
@@ -35,6 +33,8 @@ private:
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
+
+    void updateKeyToPress();
 
     int xMisalignedStart;
     int xMisalignedEnd;
@@ -48,6 +48,12 @@ private:
 
     int remainingMisaligned;
 
+    std::string sequence;
+    char toPress;
+    int pointerIndex;
+    int pointerBase;
+    int pointerY;
+
 public:
     void tick();
     bool end();
@@ -55,6 +61,7 @@ public:
 
     WeaponMiniGame(Console *console, InputState *inputState);
 
+    void alphaNumKeyPressed (const OIS::KeyEvent &arg);
     void returnKeyPressed();
 
 };

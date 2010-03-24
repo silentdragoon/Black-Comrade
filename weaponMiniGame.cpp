@@ -24,7 +24,12 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     yAlignedStart = 6;
     yAlignedEnd = 16;
 
+    pointerBase = 82;
+
     remainingMisaligned = 0;
+    toPress = sequence[0];
+    pointerIndex = 0;
+    pointerY = 3;
 
     createScene();
 }
@@ -33,6 +38,7 @@ void WeaponMiniGame::createScene() {
     console->makeBlank();
     console->setString("Re-align the weapons matrices by repeating the following key sequence:",6,2);
     console->setString(generateSequenceString(),79,2);
+    console->setChar('^',82,3);
 
     console->setString("_______________________________                       _______________________________",14,4);
     for (int i = 0 ; i < 12 ; i ++) {
@@ -68,6 +74,25 @@ void WeaponMiniGame::generateMisalignedBox() {
     }
 }
 
+void WeaponMiniGame::updateKeyToPress() {
+    if (pointerIndex + 1 == sequence.length()) {
+        pointerIndex = 0;
+    } else {
+        pointerIndex ++;
+    }
+
+    for (int i = 0 ; i < sequence.length() ; i++) {
+        if (i == pointerIndex) {
+            console->setChar('^',pointerBase + (i*5),pointerY);
+        } else {
+            console->setChar(' ',pointerBase + (i*5),pointerY);
+        }
+    }
+
+    toPress = sequence[pointerIndex];
+    
+}
+
 void WeaponMiniGame::fillMisalignedBox() {
     int i = 0;
     for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
@@ -98,7 +123,16 @@ std::string WeaponMiniGame::generateSequenceString() {
     return out.str();
 }
 
-void WeaponMiniGame::returnKeyPressed() {}
+void WeaponMiniGame::returnKeyPressed() {
+    updateKeyToPress();
+}
+
+void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
+
+    if (arg.text == toPress || arg.text == tolower(toPress)) {
+        updateKeyToPress();
+    }
+}
 
 void WeaponMiniGame::tick() {
 }
