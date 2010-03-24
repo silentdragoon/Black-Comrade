@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
+#include <sstream>
+#include <string>
 #include "shipSystem.h"
 #include "constManager.h"
 

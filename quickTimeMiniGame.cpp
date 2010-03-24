@@ -11,18 +11,18 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
     , system(system)
 {
     console->makeBlank();
-    /*console->setString("========================================",0,0);
-    console->setString("Repairbot Quick Task Helper v0.78 (beta)",0,1);
-    console->setString("========================================",0,2);
-    console->setString("",0,3);
-    console->setString("Available commands:",0,4);
-    console->setString("j: Clear tool jam",0,5);
-    console->setString("r: Reboot bot",0,6);
-    console->setString("o: Override safeties",0,7);
-    console->setString("s: Self repair",0,8);
-    console->setString("q: Quit",0,9);
-    console->setString("",0,10);
-    console->setString("Enter to begin repairs...",0,11);*/
+    console->setString("========================================",0,1);
+    console->setString("Repairbot Quick Task Helper v0.78 (beta)",0,2);
+    console->setString("========================================",0,3);
+    console->setString("",0,4);
+    console->setString("Available commands:",0,5);
+    console->setString("J: Clear tool jam",0,6);
+    console->setString("R: Reboot bot",0,7);
+    console->setString("O: Override safeties",0,8);
+    console->setString("S: Self repair",0,9);
+    console->setString("Q: Quit",0,10);
+    console->setString("",0,11);
+    console->setString("Enter to begin repairs...",0,12);
     saveTick = 0;
 
     endTicks = (int)ceil(20.0 / ConstManager::getFloat("tick_period"));
@@ -49,7 +49,7 @@ void QuickTimeMiniGame::tick() {
             srand(time(NULL));
             int irand = rand()%4+1;
 
-            gameTick = periodTicks;
+            gameTick = waitTicks;
 
             switch(irand) {
                 case 1:
@@ -75,6 +75,7 @@ void QuickTimeMiniGame::tick() {
             }        
         }
 
+        
         if(broke!=0) {
             win=false;
             loose=false;
@@ -108,9 +109,17 @@ void QuickTimeMiniGame::tick() {
             }
 
             if(win) {
+                float perc = (float)gameTick/(float)waitTicks;
                 broke=0;
-                score = 10;
+                score = (int)abs(10*(perc+0.5));
                 console->clearPrompt();
+                std::stringstream out;
+                out << perc*100.0;
+                std::string result = "Repair efficiency: ";
+                result+=out.str();
+                result+="%";
+                console->setString("                                             ",0,19);
+                console->setString(result,0,19);
                 console->appendToPrompt("OK");
             }
 
@@ -126,7 +135,6 @@ void QuickTimeMiniGame::tick() {
 
         if((float)ticks>endTicks) {
             isEnd = true;
-            console->makeBlank();
         }
     }
 
@@ -136,16 +144,22 @@ void QuickTimeMiniGame::tick() {
 }
 
 void QuickTimeMiniGame::updateProgressBar() {
-    char border = '=';
-    char bar = '+';
-    for(int i=0;i<50;i++) {
-        console->setChar(border,i,18);
-        console->setChar(border,i,20);
-    }
-    int perc = (int)ceil(gameTick/periodTicks*100);
-    if(perc>100) perc = 100;
-    for(int j=0;j<abs(perc/2);j++) {
-        console->setChar(bar,j,19);
+    if(begin) {
+        float perc = (float)gameTick/(float)waitTicks*100.0;
+        if(perc>100) perc = 100;
+
+        for(int i=0;i<100;i++) {
+            console->setChar('=',i,14);
+            console->setChar('=',i,17);
+
+            if(i<perc) {
+                console->setChar('|',i,15);
+                console->setChar('|',i,16);
+            } else {
+                console->setChar(' ',i,15);
+                console->setChar(' ',i,16);
+            }
+        }
     }
 }
 
@@ -153,7 +167,6 @@ bool QuickTimeMiniGame::end() { return isEnd; }
 
 void QuickTimeMiniGame::returnKeyPressed() {
     begin = true; 
-    console->makeBlank();
 }
 
 int QuickTimeMiniGame::getScore() { return score; }
