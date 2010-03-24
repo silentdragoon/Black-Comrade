@@ -15,7 +15,17 @@ CollisionDetection::CollisionDetection()
 
 void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius)
 {
-      objCollision = NewtonCreateSphere (newtonWorld, x, y, z, radius, NULL); // TODO: This needs fixing. x y and z are radius not position.
+    dFloat pos[16];
+    for(int i=0; i < 16; i++) pos[i] = 0.0f;
+    pos[0] = 1.0f;
+    pos[5] = 1.0f;
+    pos[10] = 1.0f;
+    pos[15] = 1.0f;
+    pos[12] = x;
+    pos[13] = y;
+    pos[14] = z;
+    objCollision = NewtonCreateSphere (newtonWorld, radius, radius, radius, shapeID, &pos[0]); // TODO: This needs fixing. x y and z are radius not position.
+    shapeID++;
       //NewtonReleaseCollision (newtonWorld, objCollision);
 }
 
