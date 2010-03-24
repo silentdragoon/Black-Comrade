@@ -123,24 +123,23 @@ int Console::getWidth() { return CONSOLE_WIDTH; }
 int Console::getHeight() { return CONSOLE_HEIGHT; }
 
 void Console::setChar(char c, int x, int y) {
-    if (x >= getWidth() || y >= getHeight()-1) return;
+    if (x >= getWidth() || y >= getHeight()) return;
 
-    char* cString = new char(c);
+    std::string str = "";
+    str += c;
 
     std::list<std::string>::reverse_iterator it = lines->rbegin();
     std::string line = *it;
     for(int i = 0 ; i < y ; i++) {
         it++;
     }
-    it->replace(x,1,cString);
+    it->replace(x,1,str);
 }
 
 void Console::setString(std::string str, int xStart, int yStart) {
-    //if (xStart >= getWidth() || yStart >= getHeight()-1) return;
-
-    //for(int i = 0; i < str.length();i++) {
-        //setChar(xStart+i,yStart,str.c_str()[i]);
-    //}
+    for(int i = 0; i < str.length();i++) {
+        setChar(str.c_str()[i],xStart+i,yStart);
+    }
 }
 
 void Console::makeBlank() {
