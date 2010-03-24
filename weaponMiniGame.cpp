@@ -70,8 +70,14 @@ void WeaponMiniGame::generateSequence(int length) {
     boost::uniform_int<> six(0,possibleChars.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
+    char lastChar = 0;
     for (int x = 0 ; x < length ; x++) {
-        sequence += possibleChars[die()];
+        char nextChar = possibleChars[die()];    
+        while(lastChar == nextChar) {
+            nextChar = possibleChars[die()];
+        }
+        sequence += nextChar;
+        lastChar = nextChar;
     }
 }
 
