@@ -17,6 +17,7 @@
 #include "magicWordMiniGame.h"
 #include "buttonMashMiniGame.h"
 #include "fixMiniGame.h"
+#include "sheildMiniGame.h"
 
 #include "IExit.h"
 
