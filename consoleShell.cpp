@@ -64,6 +64,8 @@ void ConsoleShell::processCommand() {
     } else if (command == "reboot") {
         console->appendLine("Rebooting system...");
         exit->exit();
+    } else if (command == "test") {
+        gameToPlay = new TestMiniGame(console,inputState);
     } else if (command == "fix") {
         console->appendLine("Fixing all Systems...Fixed!");
         gameToPlay = new FixMiniGame();

@@ -5,9 +5,11 @@
 #include "ITickable.h"
 #include <string>
 #include <list>
+#include <iterator>
 
 #define CONSOLE_LENGTH 60
-#define CONSOLE_HEIGHT 24 
+#define CONSOLE_HEIGHT 24
+#define CONSOLE_WIDTH 120
 
 using namespace Ogre;
 
@@ -44,7 +46,13 @@ class Console : public ITickable
         int getWidth();
         int getHeight();
 
+        void setChar(char c, int x, int y);
+        void setString(std::string str, int xStart, int yStart);
+
         void appendLine(std::string s);
+        void appendBlankLine();
+        void appendBlankLines(int number);
+        void makeBlank();
 
         void returnKeyPrompt();
         void backSpacePrompt();
