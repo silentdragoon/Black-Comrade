@@ -48,6 +48,7 @@ void GuiStatusUpdater::tick() {
     hud->setEngines(engineHealth);
     hud->setHull(hullHealth);
 
+
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
         if(navigatorControls->isMap()) {
@@ -60,23 +61,23 @@ void GuiStatusUpdater::tick() {
    }
 
     // Update the state of the power system bars
-    // if(gameRole==ENGINEER) {
+    if(gameRole==ENGINEER) {
         float shieldRate = (float)(systemManager->getShieldRate());
         float weaponRate = (float)(systemManager->getWeaponRate());
         float sensorRate = (float)(systemManager->getSensorRate());
         float engineRate = (float)(systemManager->getEngineRate());
-        float weaponCharge = (float)(systemManager->getWeaponCharge());
-        float shieldCharge = (float)(systemManager->getShieldCharge());
+
         
         hud->setShieldRate(shieldRate);
         hud->setSensorRate(sensorRate);
         hud->setWeaponRate(weaponRate);
         hud->setEngineRate(engineRate);
-        hud->setWeaponCharge(weaponCharge/100.0);
-        hud->setShieldCharge(shieldCharge/100.0);
-
-
-    // }
+       }
+       
+    float weaponCharge = (float)(systemManager->getWeaponCharge());
+    float shieldCharge = (float)(systemManager->getShieldCharge());
+    hud->setWeaponCharge(weaponCharge/100.0);
+    hud->setShieldCharge(shieldCharge/100.0);
 
     // Update transmission log
 
