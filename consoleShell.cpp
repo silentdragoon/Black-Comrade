@@ -49,7 +49,7 @@ void ConsoleShell::processCommand() {
     } else if (command == "repair shieldgen" ) {
         gameToPlay = new SheildMiniGame(console);
     } else if (command == "repair weapons" ) {
-        gameToPlay = new ButtonMashMiniGame(console,inputState);
+        gameToPlay = new WeaponMiniGame(console,inputState);
     } else if (command == "repair sensors" ) {
         gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair engines" ) {
