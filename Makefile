@@ -80,7 +80,8 @@ gameEnder.cpp \
 objective.cpp \
 serverInfo.cpp \
 fixMiniGame.cpp \
-weaponMiniGame.cpp
+weaponMiniGame.cpp \
+sheildMiniGame.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
