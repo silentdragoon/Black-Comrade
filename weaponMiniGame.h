@@ -21,8 +21,9 @@ private:
     InputState *inputState;
     Console *console;
 
-    int x;
-    int y;
+    char sequence [];
+
+    std::string generateSequenceString();
 
 public:
     void tick();
