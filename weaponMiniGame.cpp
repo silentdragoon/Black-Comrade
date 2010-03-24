@@ -10,17 +10,23 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     , inputState(inputState)
     , isEnd(false)
 {
-    sequence = "ABC";
+    possibleChars = "ABC";
     alignedbox = "";
     misalignedbox = "";
 
     setCoordinates();
 
+    generateSequence();
     remainingMisaligned = 0;
     toPress = sequence[0];
     toPressIndex = 0;
 
+    generateMisalignedBox();
     createScene();
+}
+
+void WeaponMiniGame::generateSequence() {
+    sequence = "ABC";
 }
 
 void WeaponMiniGame::setCoordinates() {
@@ -54,14 +60,12 @@ void WeaponMiniGame::createScene() {
     console->setString("---------->",51,10);
     console->setString("---------->",51,11);
 
-    generateMisalignedBox();
     fillMisalignedBox();
     fillAlignedBox();
 
-
     console->setString("Misaligned members remaining:",12,20);
     updateRemaining();
-    console->setString("Press F2 to Quit",75,20);
+    console->setString("Press Return to Quit",71,20);
 }
 
 void WeaponMiniGame::generateMisalignedBox() {
@@ -134,7 +138,7 @@ std::string WeaponMiniGame::generateSequenceString() {
 }
 
 void WeaponMiniGame::returnKeyPressed() {
-    updateKeyToPress();
+    isEnd = true;
 }
 
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {

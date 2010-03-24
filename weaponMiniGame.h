@@ -32,6 +32,7 @@ private:
 
     void setCoordinates();
 
+    void generateSequence();
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
@@ -51,6 +52,7 @@ private:
 
     int remainingMisaligned;
 
+    std::string possibleChars;
     std::string sequence;
     char toPress;
     int toPressIndex;
