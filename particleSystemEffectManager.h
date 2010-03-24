@@ -18,12 +18,16 @@ class ParticleSystemEffectManager : public ITickable {
         SceneManager *sceneMgr;
         MapManager *mapMgr;
 
+        ParticleSystemEffect *obj1;
+        ParticleSystemEffect *obj2;
+
         std::string createUnique(std::string name);
     public:
         ParticleSystemEffectManager(SceneManager *sceneMgr, MapManager *mapMgr);
         ~ParticleSystemEffectManager();
 
-        void makeReactor();
+        void makeObjective();
+        void destroyObjective();
         void createExplosion(Vector3 pos);
         void createSparks(Vector3 pos);
         void createMuzzleFlash(Vector3 pos);

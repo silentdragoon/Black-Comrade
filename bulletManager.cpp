@@ -105,7 +105,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
         isObjective = true;
         isEnemy = false;
         isShip = false;
-        std::cout << "BLACK COMRADE!" << std::endl;
+        std::cout << "BC" << std::endl;
         objective->damageObjective();
     }
     
