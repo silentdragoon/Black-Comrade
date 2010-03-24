@@ -35,6 +35,7 @@ class SwarmManager : public ITickable
         Lines *lines;
         GameStateMachine *gameStateMachine;
         ParticleSystemEffectManager *particleSystemEffectManager;
+        SoundManager *soundMgr;
 
         int id;
 
@@ -47,10 +48,11 @@ class SwarmManager : public ITickable
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	MapManager *mapMgr, ShipState *shipState, CollisionManager* colMgr, NetworkingManager *networkingMgr,
             Lines *lines, GameStateMachine *gameStateMachine,
-            ParticleSystemEffectManager *particleSystemEffectManager);
+            ParticleSystemEffectManager *particleSystemEffectManager, SoundManager *soundMgr);
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
-        	NetworkingManager *networkingMgr,ParticleSystemEffectManager *particleSystemEffectManager);
+        	NetworkingManager *networkingMgr,ParticleSystemEffectManager *particleSystemEffectManager,
+            SoundManager *soundMgr);
 
         ~SwarmManager();
 

@@ -15,8 +15,8 @@ CollisionDetection::CollisionDetection()
 
 void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius)
 {
-      objCollision = NewtonCreateSphere (newtonWorld, x, y, z, radius, NULL);
-      NewtonReleaseCollision (newtonWorld, objCollision);
+      objCollision = NewtonCreateSphere (newtonWorld, x, y, z, radius, NULL); // TODO: This needs fixing. x y and z are radius not position.
+      //NewtonReleaseCollision (newtonWorld, objCollision);
 }
 
 dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
@@ -34,7 +34,9 @@ dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
     dFloat normal[3];
     int att[1];
 
-    return NewtonCollisionRayCast(objCollision, p0, p1, normal, att);
+    dFloat t =  NewtonCollisionRayCast(objCollision, p0, p1, normal, att);
+    //std::cout << "OBJ T: " << t << std::endl;
+    return t;
 }
 
 void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)

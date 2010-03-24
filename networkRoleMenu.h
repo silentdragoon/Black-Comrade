@@ -10,6 +10,7 @@
 #include <OIS/OIS.h>
 #include <math.h>
 #include <vector>
+#include "serverInfo.h"
 
 class NetworkRoleMenu : public IMenuScreen
 {
@@ -21,10 +22,20 @@ class NetworkRoleMenu : public IMenuScreen
         bool isVisible;
         bool isEnd;
 
+        int selectedGame;
         int gameRefreshDelay;
         int lastRefresh;
 
-        std::vector<string> servers;
+        int lastKey;
+        int keyDelay;
+
+        std::vector<ServerInfo*> servers;
+
+        bool joinAGame();
+
+        void handleInput();
+        void handleKeys();
+        void handleGameList();
         
     public:
         void tick();

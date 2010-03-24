@@ -118,6 +118,10 @@ void Console::clearPrompt() {
     prompt = "";
 }
 
+int Console::getWidth() { return CONSOLE_LENGTH; }
+
+int Console::getHeight() { return CONSOLE_HEIGHT; }
+
 void Console::appendLine(std::string s) {
     if(s.size()>CONSOLE_LENGTH) {
         // TODO: Do something about the length

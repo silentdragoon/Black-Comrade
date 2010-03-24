@@ -5,7 +5,8 @@
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	Real roll, Real pitch, Real yaw, ShipState *shipState,
 	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
-    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager)
+    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager,
+    SoundManager *soundMgr)
 	: size(size)
 	, id(id)
 	, location(location)
@@ -23,6 +24,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , mapMgr(mapMgr)
     , gameParameterMap(gameParameterMap)
     , particleSystemEffectManager(particleSystemEffectManager)
+    , soundMgr(soundMgr)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -169,8 +171,9 @@ void Swarm::removeDeadEnemies()
     	Enemy *e = members.at(i);
         if(e->isDead) {
             //Make Explosion here
-            Vector3 *pos = e->getPosition();
-            particleSystemEffectManager->createExplosion(*pos);
+            Vector3 pos = *e->getPosition();
+            particleSystemEffectManager->createExplosion(pos);
+            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,1.0);
             sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));
@@ -237,6 +240,10 @@ void Swarm::shootAtShip()
               
                     e->fireDelay = genFireDelay();
                     e->fire = true;
+                    
+                    e->yawScatter = genScatterAngle();
+                    e->pitchScatter = genScatterAngle();
+                    
                     //std::cout << "Bang!\n";
                 }
             }
@@ -259,8 +266,20 @@ int Swarm::genFireDelay()
 
     double d = var_nom();
     
-    cout << (int)d << endl;
     return (int)d;
+}
+
+float Swarm::genScatterAngle()
+{
+    boost::normal_distribution<> nd(0, 
+    	ConstManager::getFloat("enemy_inaccuracy"));
+
+    boost::variate_generator<boost::mt19937&, 
+                            boost::normal_distribution<> > var_nom(rng, nd);
+
+    double d = var_nom();
+    
+    return (float)d;
 }
 
 void Swarm::turnEnemy(Enemy *e)

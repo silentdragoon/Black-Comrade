@@ -41,6 +41,9 @@ class Console : public ITickable
 
         void forceHide();
 
+        int getWidth();
+        int getHeight();
+
         void appendLine(std::string s);
 
         void returnKeyPrompt();

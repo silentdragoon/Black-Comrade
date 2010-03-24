@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,true);
+    inputState = new InputState(window,true,this,true,false);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -47,9 +47,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Sound manager
     soundMgr = new SoundManager();
 
-    collabInfo = preGame->run();
+    collabInfo = preGame->showMenus();
 
-    mapMgr = preGame->loadGame();
+    mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
 
     // Explosion creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
@@ -252,10 +252,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,
-            shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager);
+            shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager,soundMgr);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-            networkingManager,particleSystemEffectManager);
+            networkingManager,particleSystemEffectManager,soundMgr);
     }
 
     // Console
@@ -281,10 +281,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     gameLoop->addTickable(particleSystemEffectManager, "psem");
 
+    // Objective
+    objective = new Objective();
+
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
-        damageState,particleSystemEffectManager);
+        damageState,particleSystemEffectManager,objective);
     gameLoop->addTickable(bulletMgr,"bulletManager");
     gameLoop->addTickable(swarmMgr, "swarmMgr");
     
@@ -318,6 +321,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Add the reactor core effects
     particleSystemEffectManager->makeReactor();
+
+    // Hide loading screen
+    preGame->hideLoadingScreen();
 
     // Start Rendering Loop
     gameLoop->startLoop();

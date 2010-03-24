@@ -9,52 +9,66 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
     , guiMgr(guiMgr)
     , isVisible(false)
     , isEnd(false)
+    , selectedGame(0)
+    , keyDelay(10)
+    , lastKey(0)
 {
     CEGUI::ImagesetManager::getSingleton().create("NetworkRoleMenu.imageset");
-    gameRefreshDelay = 200;
+    gameRefreshDelay = 100;
     lastRefresh = gameRefreshDelay;
 }
 
 void NetworkRoleMenu::tick() {
     // Check for key presses etc
-    NetworkRole desiredRole = NO_NETWORK_ROLE;
+    handleInput();
+    handleGameList();
+}
+
+void NetworkRoleMenu::handleInput() {
+    handleKeys();
+}
+
+void NetworkRoleMenu::handleKeys() {
+    if (lastKey < keyDelay) {
+        lastKey ++;
+        return;
+    }
 
     if (inputState->isKeyDown(OIS::KC_D)) {
+        lastKey = 0;
         bool hosted = networkingMgr->hostGame(true);
         if (hosted) isEnd = true;
-    } else if (inputState->isKeyDown(OIS::KC_S)) {      
+    } else if (inputState->isKeyDown(OIS::KC_S)) {
+        lastKey = 0;
         bool hosted = networkingMgr->hostGame(false);
         if (hosted) {
             isEnd = true;
             networkingMgr->discoveryAgent->destroyClient();
         }
-    } else if (inputState->isKeyDown(OIS::KC_C))	 {
-        bool joined = false;
-        while(!joined) {
-            if (networkingMgr->discoveryAgent->getServerList().size() == 0) break;
-            if (networkingMgr->discoveryAgent->getServerList().size() == 1
-                || inputState->isKeyDown(OIS::KC_1)) {
-                joined = networkingMgr->connectToGame(1);
-            } else if (inputState->isKeyDown(OIS::KC_2)) {
-                joined = networkingMgr->connectToGame(2);
-            } else if (inputState->isKeyDown(OIS::KC_3)) {
-                joined = networkingMgr->connectToGame(3);
-            }
-            inputState->tick();
-        }
-
+    } else if (inputState->isKeyDown(OIS::KC_C)) {
+        lastKey = 0;
+        bool joined = joinAGame();
         if (joined) {
             isEnd = true;
             networkingMgr->discoveryAgent->destroyClient();
-        }
-        else {
+        } else {
+            // Could not join selected game
             std::cout << "failed" << std::endl;
-            //SLEEP(30);
         }
+    } else if (inputState->isKeyDown(OIS::KC_UP)) {
+        lastKey = 0;
+        selectedGame --;
+        std::cout << "Selected game: " << selectedGame << "\n";
+    } else if (inputState->isKeyDown(OIS::KC_DOWN)) {
+        lastKey = 0;
+        selectedGame ++;
+        std::cout << "Selected game: " << selectedGame << "\n";
     } else if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(-1);
     }
+}
 
+void NetworkRoleMenu::handleGameList() {
     if (lastRefresh == gameRefreshDelay && !isEnd) {
         // Refresh games
         refreshGameList();
@@ -68,9 +82,19 @@ void NetworkRoleMenu::refreshGameList() {
     std::cout << "Refreshing game list\n";
     networkingMgr->discoveryAgent->startServerListUpdate(6001);
     servers = networkingMgr->discoveryAgent->getServerList();
-    for(std::vector<std::string>::const_iterator it=servers.begin();it!=servers.end(); ++it) {
-        std::cout << *it << "\n";
+    for(std::vector<ServerInfo*>::const_iterator it=servers.begin();it!=servers.end(); ++it) {
+        // TODO: List these on the screen, show selection etc
+        ServerInfo *server =  *it;
+        server->print();
     }
+}
+
+bool NetworkRoleMenu::joinAGame() {
+    try {
+        ServerInfo *game = servers.at(selectedGame);
+        if (game->getLastPong() > 1) return false;
+        return networkingMgr->connectToGame(game);
+    } catch (...) { return false; }
 }
 
 MenuType::NetworkRoleMenu::nextMenu() {

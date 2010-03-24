@@ -9,7 +9,6 @@
 #include "stateUpdate.h"
 #include "IExit.h"
 #include "ITickable.h"
-#include "mapManager2.h"
 
 #include "networkRoleMenu.h"
 #include "gameRoleMenu.h"
@@ -40,9 +39,10 @@ public:
             InputState *inputState,GuiManager *guiMgr,
             NetworkingManager *networkingMgr);
 
-    CollaborationInfo *run();
+    CollaborationInfo *showMenus();
 
-    MapManager* loadGame();
+    void updateLoadProgress(int progress);
+    void hideLoadingScreen();
 
     void tick();
     void exit();
