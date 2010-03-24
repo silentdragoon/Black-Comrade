@@ -84,6 +84,8 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Charges">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/StatusIndicators">
+    </WidgetLook>
 
     <!--
     ***************************************************
