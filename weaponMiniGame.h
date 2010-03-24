@@ -21,9 +21,22 @@ private:
     InputState *inputState;
     Console *console;
 
-    char sequence [];
+    char* sequence;
 
     std::string generateSequenceString();
+
+    void fillMisalignedBox();
+    void fillAlignedBox();
+
+    int xMisalignedStart;
+    int xMisalignedEnd;
+    int yMisalignedStart;
+    int yMisalignedEnd;
+
+    int xAlignedStart;
+    int xAlignedEnd;
+    int yAlignedStart;
+    int yAlignedEnd;
 
 public:
     void tick();
