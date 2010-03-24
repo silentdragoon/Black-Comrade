@@ -27,7 +27,7 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
     loadingScreen = new LoadingScreen(inputState,guiMgr);
 }
 
-CollaborationInfo* PreGame::run() {
+CollaborationInfo* PreGame::showMenus() {
 
     currentMenuScreen = networkRoleMenu;
 
@@ -41,10 +41,8 @@ CollaborationInfo* PreGame::run() {
     return networkingMgr->collabInfo;
 }
 
-MapManager *PreGame::loadGame() {
-    MapManager *mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
+void PreGame::hideLoadingScreen() {
     loadingScreen->hide();
-    return mapMgr;
 }
 
 void PreGame::clearMenuUI() {
@@ -56,10 +54,6 @@ void PreGame::clearMenuUI() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChosenRoleText");
 }
-
-//void PreGame::showLoadingScreen() {
-//    CEGUI::FrameWindow *loadingText = guiMgr->addStaticText("LoadingText", "Loading...",0.5, 0.5, 1);
-//}
 
 void PreGame::tick() {
 
