@@ -15,8 +15,11 @@ TestMiniGame::TestMiniGame(Console *console, InputState *inputState)
 
 void TestMiniGame::createScene() {
     console->makeBlank();
-    console->setChar('*',console->getWidth(), console->getHeight());
-    //console->setString("Start",5,4);
+    for (int y = 0; y < console->getHeight(); y++) {
+        for (int x = 0; x < console->getWidth(); x++) {
+            console->setChar('#',x,y);
+        }
+    }
 }
 
 void TestMiniGame::returnKeyPressed() {}
