@@ -23,6 +23,10 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
     console->appendLine("");
     console->appendLine("Enter to begin repairs...");
     saveTick = 0;
+
+    endTicks = (int)ceil(20.0 / ConstManager::getFloat("tick_period"));
+    periodTicks = abs(endTicks / 11);
+    waitTicks = periodTicks - 40;
 }
 
 ShipSystem QuickTimeMiniGame::getSystem() {
@@ -31,74 +35,95 @@ ShipSystem QuickTimeMiniGame::getSystem() {
 
 void QuickTimeMiniGame::tick() {
     if(begin) {
+        score = 0;
         // Gameplay here
         ticks++;
         if(ticks==1) console->appendLine("Repairing...");
 
-        if((ticks-saveTick)==120) {
+        if((ticks-saveTick)==periodTicks) {
 
             saveTick = ticks;
 
             // Randomly play game
             srand(time(NULL));
-            int irand = rand()%6+1;
+            int irand = rand()%4+1;
+
+            gameTick = periodTicks;
 
             switch(irand) {
                 case 1:
+                    console->clearPrompt();
                     console->appendToPrompt("Jammed repair tool...");
                     broke=1;
-                    gameTick=90;
                     break;
                 case 2:
+                    console->clearPrompt();
                     console->appendToPrompt("Reboot, operating system crash...");
                     broke=2;
-                    gameTick=90;
                     break;
                 case 3:
+                    console->clearPrompt();
                     console->appendToPrompt("Override to overcome safety limits...");
                     broke=3;
-                    gameTick=90;
                     break;
                 case 4:
+                    console->clearPrompt();
                     console->appendToPrompt("Self repair bot, damage sustained...");
                     broke=4;
-                    gameTick=90;
-                    break;
-                case 5:
-                    console->appendToPrompt("OK...");
-                    broke=0;
-                    // Lucky!
-                    break;
-                case 6:
-                    console->appendToPrompt("OK...");
-                    broke=0;
-                    // Lucky!
                     break;
             }        
         }
 
         if(broke!=0) {
             win=false;
-            if(gameTick==0) {
+            loose=false;
+            if(gameTick<0) {
                 broke=0;
                 console->clearPrompt();
             }
 
-            if(inputState->isKeyDown(OIS::KC_J)&&(broke==1)) win=true;
-            if(inputState->isKeyDown(OIS::KC_R)&&(broke==2)) win=true;
-            if(inputState->isKeyDown(OIS::KC_O)&&(broke==3)) win=true;
-            if(inputState->isKeyDown(OIS::KC_S)&&(broke==4)) win=true;
-            
+            if(broke==1) {
+                if(inputState->isKeyDown(OIS::KC_J)) win=true;
+                if(inputState->isKeyDown(OIS::KC_R)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_O)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_S)) loose=true;
+            } else if(broke==2) {
+                if(inputState->isKeyDown(OIS::KC_J)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_R)) win=true;
+                if(inputState->isKeyDown(OIS::KC_O)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_S)) loose=true;
+            } else if(broke==3) {
+                if(inputState->isKeyDown(OIS::KC_J)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_R)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_O)) win=true;
+                if(inputState->isKeyDown(OIS::KC_S)) loose=true;
+            } else if(broke==4) {
+                if(inputState->isKeyDown(OIS::KC_J)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_R)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_O)) loose=true;
+                if(inputState->isKeyDown(OIS::KC_S)) win=true;
+            } else {
+                // NOTHING
+            }
+
             if(win) {
                 broke=0;
-                score++;
+                score = 10;
                 console->clearPrompt();
+                console->appendToPrompt("OK");
             }
+
+            if(loose) {
+                broke=0;
+                console->clearPrompt();
+                console->appendToPrompt("ERROR");
+            }
+
             gameTick--;
         }
         
 
-        if(ticks>1320) {
+        if((float)ticks>endTicks) {
             isEnd = true;
         }
     }
