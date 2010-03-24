@@ -14,6 +14,16 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     alignedbox = "";
     misalignedbox = "";
 
+    setCoordinates();
+
+    remainingMisaligned = 0;
+    toPress = sequence[0];
+    toPressIndex = 0;
+
+    createScene();
+}
+
+void WeaponMiniGame::setCoordinates() {
     xMisalignedStart = 16;
     xMisalignedEnd = 42;
     yMisalignedStart = 6;
@@ -24,14 +34,9 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     yAlignedStart = 6;
     yAlignedEnd = 16;
 
-    pointerBase = 82;
-
-    remainingMisaligned = 0;
-    toPress = sequence[0];
-    pointerIndex = 0;
+    pointerXBase = 82;
     pointerY = 3;
 
-    createScene();
 }
 
 void WeaponMiniGame::createScene() {
@@ -53,10 +58,9 @@ void WeaponMiniGame::createScene() {
     fillMisalignedBox();
     fillAlignedBox();
 
-    std::stringstream out;
-    out << remainingMisaligned;
+
     console->setString("Misaligned members remaining:",12,20);
-    console->setString(out.str(),43,20);
+    updateRemaining();
     console->setString("Press F2 to Quit",75,20);
 }
 
@@ -75,22 +79,28 @@ void WeaponMiniGame::generateMisalignedBox() {
 }
 
 void WeaponMiniGame::updateKeyToPress() {
-    if (pointerIndex + 1 == sequence.length()) {
-        pointerIndex = 0;
+    if (toPressIndex + 1 == sequence.length()) {
+        toPressIndex = 0;
     } else {
-        pointerIndex ++;
+        toPressIndex ++;
     }
 
     for (int i = 0 ; i < sequence.length() ; i++) {
-        if (i == pointerIndex) {
-            console->setChar('^',pointerBase + (i*5),pointerY);
+        if (i == toPressIndex) {
+            console->setChar('^',pointerXBase + (i*5),pointerY);
         } else {
-            console->setChar(' ',pointerBase + (i*5),pointerY);
+            console->setChar(' ',pointerXBase + (i*5),pointerY);
         }
     }
 
-    toPress = sequence[pointerIndex];
+    toPress = sequence[toPressIndex];
     
+}
+
+void WeaponMiniGame::updateRemaining() {
+    std::stringstream out;
+    out << remainingMisaligned << " ";
+    console->setString(out.str(),43,20);
 }
 
 void WeaponMiniGame::fillMisalignedBox() {
@@ -131,6 +141,8 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
 
     if (arg.text == toPress || arg.text == tolower(toPress)) {
         updateKeyToPress();
+        remainingMisaligned --;
+        updateRemaining();
     }
 }
 

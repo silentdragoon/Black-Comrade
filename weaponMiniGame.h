@@ -30,11 +30,14 @@ private:
 
     std::string generateSequenceString();
 
+    void setCoordinates();
+
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
 
     void updateKeyToPress();
+    void updateRemaining();
 
     int xMisalignedStart;
     int xMisalignedEnd;
@@ -50,8 +53,8 @@ private:
 
     std::string sequence;
     char toPress;
-    int pointerIndex;
-    int pointerBase;
+    int toPressIndex;
+    int pointerXBase;
     int pointerY;
 
 public:
