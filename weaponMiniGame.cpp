@@ -39,7 +39,6 @@ void WeaponMiniGame::setCoordinates() {
 
     pointerXBase = 82;
     pointerY = 3;
-
 }
 
 void WeaponMiniGame::createScene() {
@@ -70,7 +69,10 @@ void WeaponMiniGame::generateSequence(int length) {
     boost::mt19937 rng;                 
     boost::uniform_int<> six(0,possibleChars.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
-    sequence = "ABC";
+
+    for (int x = 0 ; x < length ; x++) {
+        sequence += possibleChars[die()];
+    }
 }
 
 void WeaponMiniGame::generateMisalignedBox() {
