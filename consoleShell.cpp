@@ -49,7 +49,7 @@ void ConsoleShell::processCommand() {
     } else if (command == "repair shieldgen" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SHIELD_GENERATOR);
     } else if (command == "repair weapons" ) {
-        gameToPlay = new ButtonMashMiniGame(console,inputState);
+        gameToPlay = new WeaponMiniGame(console,inputState);
     } else if (command == "repair sensors" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
     } else if (command == "repair engines" ) {
@@ -69,6 +69,8 @@ void ConsoleShell::processCommand() {
     } else if (command == "fix") {
         console->appendLine("Fixing all Systems...Fixed!");
         gameToPlay = new FixMiniGame();
+    } else if (command == "repair sheilds") {
+        gameToPlay = new SheildMiniGame(console);
     } else {
         command += ": command not found";
         console->appendLine(command);
