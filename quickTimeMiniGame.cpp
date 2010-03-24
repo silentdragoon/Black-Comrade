@@ -10,18 +10,19 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
     , begin(false)
     , system(system)
 {
-    console->appendLine("========================================");
-    console->appendLine("Repairbot Quick Task Helper v0.78 (beta)");
-    console->appendLine("========================================");
-    console->appendLine("");
-    console->appendLine("Available commands:");
-    console->appendLine("j: Clear tool jam");
-    console->appendLine("r: Reboot bot");
-    console->appendLine("o: Override safeties");
-    console->appendLine("s: Self repair");
-    console->appendLine("q: Quit");
-    console->appendLine("");
-    console->appendLine("Enter to begin repairs...");
+    console->makeBlank();
+    /*console->setString("========================================",0,0);
+    console->setString("Repairbot Quick Task Helper v0.78 (beta)",0,1);
+    console->setString("========================================",0,2);
+    console->setString("",0,3);
+    console->setString("Available commands:",0,4);
+    console->setString("j: Clear tool jam",0,5);
+    console->setString("r: Reboot bot",0,6);
+    console->setString("o: Override safeties",0,7);
+    console->setString("s: Self repair",0,8);
+    console->setString("q: Quit",0,9);
+    console->setString("",0,10);
+    console->setString("Enter to begin repairs...",0,11);*/
     saveTick = 0;
 
     endTicks = (int)ceil(20.0 / ConstManager::getFloat("tick_period"));
@@ -125,15 +126,34 @@ void QuickTimeMiniGame::tick() {
 
         if((float)ticks>endTicks) {
             isEnd = true;
+            console->makeBlank();
         }
     }
+
+    updateProgressBar();
+
     if(inputState->isKeyDown(OIS::KC_Q)) isEnd=true;
+}
+
+void QuickTimeMiniGame::updateProgressBar() {
+    char border = '=';
+    char bar = '+';
+    for(int i=0;i<50;i++) {
+        console->setChar(border,i,18);
+        console->setChar(border,i,20);
+    }
+    int perc = (int)ceil(gameTick/periodTicks*100);
+    if(perc>100) perc = 100;
+    for(int j=0;j<abs(perc/2);j++) {
+        console->setChar(bar,j,19);
+    }
 }
 
 bool QuickTimeMiniGame::end() { return isEnd; }
 
 void QuickTimeMiniGame::returnKeyPressed() {
     begin = true; 
+    console->makeBlank();
 }
 
 int QuickTimeMiniGame::getScore() { return score; }

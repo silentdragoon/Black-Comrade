@@ -34,6 +34,8 @@ class QuickTimeMiniGame : public IMiniGame
         int waitTicks;
 
         ShipSystem system;
+
+        void updateProgressBar();
         
     public:
         void tick();
