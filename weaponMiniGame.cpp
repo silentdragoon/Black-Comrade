@@ -9,6 +9,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     : console(console)
     , inputState(inputState)
     , isEnd(false)
+    , playing(false)
 {
     possibleChars = "ABC";
     alignedbox = "";
@@ -16,17 +17,13 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
 
     setCoordinates();
 
-    generateSequence();
-    remainingMisaligned = 0;
+    generateSequence(3);
+    remainingMisaligned = -1;
     toPress = sequence[0];
     toPressIndex = 0;
 
     generateMisalignedBox();
     createScene();
-}
-
-void WeaponMiniGame::generateSequence() {
-    sequence = "ABC";
 }
 
 void WeaponMiniGame::setCoordinates() {
@@ -65,7 +62,15 @@ void WeaponMiniGame::createScene() {
 
     console->setString("Misaligned members remaining:",12,20);
     updateRemaining();
-    console->setString("Press Return to Quit",71,20);
+    console->setString("Press Return to Quit",73,20);
+}
+
+
+void WeaponMiniGame::generateSequence(int length) {
+    boost::mt19937 rng;                 
+    boost::uniform_int<> six(0,possibleChars.length()-1);
+    boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+    sequence = "ABC";
 }
 
 void WeaponMiniGame::generateMisalignedBox() {
@@ -74,6 +79,7 @@ void WeaponMiniGame::generateMisalignedBox() {
     boost::uniform_int<> six(0,sequence.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
+    remainingMisaligned = 0;
     for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
         for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
             misalignedbox += sequence[die()];
@@ -142,7 +148,8 @@ void WeaponMiniGame::returnKeyPressed() {
 }
 
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
-
+    if (playing == false && remainingMisaligned > 0) playing = true;
+    if (playing == false) return;
     if (arg.text == toPress || arg.text == tolower(toPress)) {
         updateKeyToPress();
         remainingMisaligned --;
@@ -151,6 +158,11 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
 }
 
 void WeaponMiniGame::tick() {
+    if (remainingMisaligned == 0) {
+        playing = false;
+        console->appendLine("Finished");
+        isEnd = true;
+    }
 }
 
 bool WeaponMiniGame::end() {

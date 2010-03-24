@@ -19,6 +19,7 @@ using namespace Ogre;
 
 class WeaponMiniGame : public IMiniGame {
 private:
+    bool playing;
     bool isEnd;
     int score;
     void createScene();
@@ -32,7 +33,7 @@ private:
 
     void setCoordinates();
 
-    void generateSequence();
+    void generateSequence(int length);
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
