@@ -17,6 +17,7 @@
 #include "magicWordMiniGame.h"
 #include "buttonMashMiniGame.h"
 #include "testMiniGame.h"
+#include "fixMiniGame.h"
 
 #include "IExit.h"
 
@@ -30,6 +31,7 @@ class ConsoleShell : public IConsoleInputReceiver
         IMiniGame *gameToPlay;
 
         std::string defaultPrompt;
+        std::string fullCommand;
         std::string command;
         std::vector<std::string> commands;
         int commandIndex;
@@ -50,6 +52,9 @@ class ConsoleShell : public IConsoleInputReceiver
         void otherKeyPressed (const OIS::KeyEvent &arg);
 
         void showPrompt();
+        
+        // Null unless a command has been entered
+        std::string getCommand();
     
         ConsoleShell(Console *console, InputState *inputState, IExit *exit);
         ~ConsoleShell();

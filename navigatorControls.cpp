@@ -6,8 +6,8 @@ NavigatorControls::NavigatorControls(InputState *inputState, Camera *cam)
     , GunnerControls(inputState, cam)
     , isFullMap(false)
 {
-    setYawLimits(PI, 2 * PI);
-    setPitchLimits(3 * PI / 2,PI / 2);
+    setYawLimits(0, 2 * PI);
+    setPitchLimits(7 * PI / 4,PI / 2);
     setLook(0, 0);
 }
 

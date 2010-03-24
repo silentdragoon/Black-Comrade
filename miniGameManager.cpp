@@ -58,6 +58,7 @@ void MiniGameManager::tick()
             currentMiniGame = gameToPlay;
             console->clearPrompt();
         }
+        
         consoleShell->tick();
     }
 }

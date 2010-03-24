@@ -79,7 +79,7 @@ void Swarm::tick()
     
     markDeadEnemies();
     
-    if(isShipInSight()) state = SS_ATTACK;
+    if(canSwarmSeeShip()) state = SS_ATTACK;
 
     switch(state) {
         case SS_PATROL:
@@ -137,7 +137,7 @@ Vector3 Swarm::getAveragePosition()
     return Vector3(x/size,y/size,z/size);
 }
 
-bool Swarm::isShipInSight()
+bool Swarm::canSwarmSeeShip()
 {
 	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
@@ -146,7 +146,14 @@ bool Swarm::isShipInSight()
 	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
 	
 	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
-		if(lineToShip.angleBetween(lookDirection) < sightAngle) {
+		
+		Vector3 pos = getAveragePosition();
+		Vector3 dir = getAverageAlignment();
+		
+		double t = collisionMgr->getRCMapDist(&pos, &dir);
+		
+		if(lineToShip.length() <= t && lineToShip.angleBetween(lookDirection) 
+				< sightAngle) {
 			return true;
 		}
 	}
