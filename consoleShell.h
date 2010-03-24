@@ -19,6 +19,7 @@
 #include "testMiniGame.h"
 #include "fixMiniGame.h"
 #include "sheildMiniGame.h"
+#include "sensorMiniGame.h"
 
 #include "IExit.h"
 

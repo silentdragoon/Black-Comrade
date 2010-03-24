@@ -47,11 +47,11 @@ void ConsoleShell::processCommand() {
         console->appendLine("Error: No target system specified.");
         console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
     } else if (command == "repair shieldgen" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SHIELD_GENERATOR);
+        gameToPlay = new SheildMiniGame(console);
     } else if (command == "repair weapons" ) {
         gameToPlay = new ButtonMashMiniGame(console,inputState);
     } else if (command == "repair sensors" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
+        gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair engines" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
     } else if (command == "access main program" ) {
@@ -69,8 +69,6 @@ void ConsoleShell::processCommand() {
     } else if (command == "fix") {
         console->appendLine("Fixing all Systems...Fixed!");
         gameToPlay = new FixMiniGame();
-    } else if (command == "repair sheilds") {
-        gameToPlay = new SheildMiniGame(console);
     } else {
         command += ": command not found";
         console->appendLine(command);

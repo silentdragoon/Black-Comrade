@@ -51,8 +51,8 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     
     // Weapon & Shield Charges
     
-    CEGUI::FrameWindow *charge        = guiManager->addStaticImagePix("Charge",         0.0,                 0.5, 48 * wpixel, 240 * hpixel, "Charge",        "hole"  );
-    CEGUI::FrameWindow *charges       = guiManager->addStaticImagePix("Charges",      1.0 - 40*wpixel,  0.5, 48 * wpixel, 240 * hpixel, "Charges",        "Whole"  );
+    CEGUI::FrameWindow *charge        = guiManager->addStaticImagePix("Charge",         0.0,                 160 * hpixel, 48 * wpixel, 240 * hpixel, "Charge",        "hole"  );
+    CEGUI::FrameWindow *charges       = guiManager->addStaticImagePix("Charges",      1.0 - 48*wpixel,  160 * hpixel, 48 * wpixel, 240 * hpixel, "Charges",        "Whole"  );
 
 
     // Left
@@ -161,8 +161,8 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
         guiManager->getRootWindow()->addChildWindow(weaponCharge);
         guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-        weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(0.5 - 0 * hpixel,0)));
-        shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(0.5 - 0 * hpixel,0)));
+        weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(200 * hpixel,0)));
+        shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(200 * hpixel,0)));
         
         weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
         shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));

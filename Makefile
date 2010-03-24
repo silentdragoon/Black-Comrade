@@ -79,7 +79,7 @@ statsScreen.cpp \
 gameEnder.cpp \
 objective.cpp \
 serverInfo.cpp \
-sensorGame.cpp \
+sensorMiniGame.cpp \
 fixMiniGame.cpp \
 sheildMiniGame.cpp
 
