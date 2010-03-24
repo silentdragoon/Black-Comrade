@@ -122,6 +122,46 @@ int Console::getWidth() { return CONSOLE_LENGTH; }
 
 int Console::getHeight() { return CONSOLE_HEIGHT; }
 
+void Console::setChar(char c, int x, int y) {
+    if (x > getWidth() || y > getHeight()) return;
+
+    std::list<std::string>::reverse_iterator it = lines->rbegin();
+    std::string line = *it;
+    for(int i = 0 ; i < y ; i++) {
+        line = *it;
+        it++;
+    }
+
+    char* cString = new char(c);
+    line.replace(x,1,cString);
+}
+
+void Console::setString(std::string str, int xStart, int yStart) {
+    if (xStart > getWidth() || yStart > getHeight()) return;
+
+    char * cstr;
+    cstr = new char [str.size()+1];
+    strcpy (cstr, str.c_str());
+    for(int i = 0; i < sizeof(cstr);i++) {
+        setChar(xStart+i,yStart,cstr[i]);
+    }
+}
+
+void Console::makeBlank() {
+    appendBlankLines(getHeight());
+}
+
+void Console::appendBlankLines(int number) {
+    for (int i = 0 ; i < number ; i++) {
+        appendBlankLine();
+    }
+}
+
+void Console::appendBlankLine() {
+    std::string blank = std::string(getWidth(),' ');
+    appendLine(blank);
+}
+
 void Console::appendLine(std::string s) {
     if(s.size()>CONSOLE_LENGTH) {
         // TODO: Do something about the length
