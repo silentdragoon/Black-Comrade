@@ -9,7 +9,7 @@
 
 #define CONSOLE_LENGTH 60
 #define CONSOLE_HEIGHT 24
-#define CONSOLE_WIDTH 120
+#define CONSOLE_WIDTH 115
 
 using namespace Ogre;
 
