@@ -18,6 +18,7 @@
 #include "buttonMashMiniGame.h"
 #include "testMiniGame.h"
 #include "fixMiniGame.h"
+#include "sheildMiniGame.h"
 
 #include "IExit.h"
 
