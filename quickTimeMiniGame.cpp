@@ -135,6 +135,7 @@ void QuickTimeMiniGame::tick() {
 
         if((float)ticks>endTicks) {
             isEnd = true;
+            console->makeBlank();
         }
     }
 
@@ -160,6 +161,9 @@ void QuickTimeMiniGame::updateProgressBar() {
                 console->setChar(' ',i,16);
             }
         }
+    }
+    if(isEnd) {
+        console->makeBlank();
     }
 }
 
