@@ -10,10 +10,18 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     , inputState(inputState)
     , isEnd(false)
 {
-    sequence[0] = 'A';
-    sequence[1] = 'B';
-    sequence[2] = 'C';
-    sequence[3] = '\0';
+    sequence = "ABC";
+
+    xMisalignedStart = 16;
+    xMisalignedEnd = 42;
+    yMisalignedStart = 6;
+    yMisalignedEnd = 16;
+
+    xAlignedStart = 69;
+    xAlignedEnd = 96;
+    yAlignedStart = 6;
+    yAlignedEnd = 16;
+
     createScene();
 }
 
@@ -34,6 +42,26 @@ void WeaponMiniGame::createScene() {
     console->setString("Misaligned members remaining:",12,20);
     console->setString("100",43,20);
     console->setString("Press F2 to Quit",75,20);
+
+    fillMisalignedBox();
+    fillAlignedBox();
+}
+
+void WeaponMiniGame::fillMisalignedBox() {
+    // TODO: Fill box randomly here
+    for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
+        for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
+            console->setChar('.',x,y);
+        }
+    }
+}
+
+void WeaponMiniGame::fillAlignedBox() {
+    for (int y = yAlignedStart ; y <= yAlignedEnd ; y++) {
+        for (int x = xAlignedStart ; x <= xAlignedEnd ; x++) {
+            console->setChar('.',x,y);
+        }
+    }
 }
 
 std::string WeaponMiniGame::generateSequenceString() {
