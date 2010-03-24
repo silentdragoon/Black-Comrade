@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,false);
+    inputState = new InputState(window,true,this,true,true);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -122,6 +122,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
+    
+    // SCALE SHIP!!!!
+    shipScale = ConstManager::getFloat("ship_scale");
+    shipSceneNode->setScale(shipScale,shipScale,shipScale);
+    
     soundMgr->setShipNode(shipSceneNode);     
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
@@ -131,11 +136,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
-        camera->setPosition(Vector3(0,0,-5));
+        camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,10,0));
+        camera->setPosition(Vector3(0,8.5,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-10,0));
+        camera->setPosition(Vector3(0,-8.5,0));
     }
     createViewPort();
 

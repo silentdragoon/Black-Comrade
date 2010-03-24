@@ -3,6 +3,9 @@ INCLUDE = constMapPath
 
 tick_period = 0.01666666667
 
+# Ship
+ship_scale = 1
+
 # Enemy Constants
 enemy_patrol_speed = 50
 enemy_attack_speed = 100
