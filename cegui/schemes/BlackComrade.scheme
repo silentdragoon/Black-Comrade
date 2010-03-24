@@ -46,6 +46,8 @@
     <FalagardMapping WindowType="BlackComrade/Crewav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav1" />
     <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
     <FalagardMapping WindowType="BlackComrade/Crewav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav3" />
+    
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators" />
 
     <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
     <FalagardMapping WindowType="BlackComrade/RightPil" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightPil" />
