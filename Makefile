@@ -79,7 +79,8 @@ statsScreen.cpp \
 gameEnder.cpp \
 objective.cpp \
 serverInfo.cpp \
-sensorGame.cpp
+sensorGame.cpp \
+fixMiniGame.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

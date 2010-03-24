@@ -100,6 +100,8 @@ private:
     
     SceneNode *mapNode;
     
+    float shipScale;
+    
     StateUpdate *gameLoop;
     SceneNode *shipSceneNode;
     ShipState *shipState;

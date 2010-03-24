@@ -89,7 +89,7 @@ class Swarm
 
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
-    	bool isShipInSight();
+    	bool canSwarmSeeShip();
 
         std::vector<Enemy*> getAllEnemies();
         

@@ -118,9 +118,44 @@ void Console::clearPrompt() {
     prompt = "";
 }
 
-int Console::getWidth() { return CONSOLE_LENGTH; }
+int Console::getWidth() { return CONSOLE_WIDTH; }
 
 int Console::getHeight() { return CONSOLE_HEIGHT; }
+
+void Console::setChar(char c, int x, int y) {
+    if (x >= getWidth() || y >= getHeight()) return;
+
+    std::string str = "";
+    str += c;
+
+    std::list<std::string>::reverse_iterator it = lines->rbegin();
+    std::string line = *it;
+    for(int i = 0 ; i < y ; i++) {
+        it++;
+    }
+    it->replace(x,1,str);
+}
+
+void Console::setString(std::string str, int xStart, int yStart) {
+    for(int i = 0; i < str.length();i++) {
+        setChar(str.c_str()[i],xStart+i,yStart);
+    }
+}
+
+void Console::makeBlank() {
+    appendBlankLines(getHeight());
+}
+
+void Console::appendBlankLines(int number) {
+    for (int i = 0 ; i < number ; i++) {
+        appendBlankLine();
+    }
+}
+
+void Console::appendBlankLine() {
+    std::string blank = std::string(getWidth(),' ');
+    appendLine(blank);
+}
 
 void Console::appendLine(std::string s) {
     if(s.size()>CONSOLE_LENGTH) {
