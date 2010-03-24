@@ -20,6 +20,9 @@ private:
     InputState *inputState;
     Console *console;
 
+    int x;
+    int y;
+
 public:
     void tick();
     bool end();
