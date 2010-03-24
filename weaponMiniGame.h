@@ -10,6 +10,10 @@
 #include "rect2D.h"
 #include "console.h"
 #include <sstream>
+#include <string>
+
+#include <boost/math/distributions/uniform.hpp>
+#include <boost/random.hpp>
 
 using namespace Ogre;
 
@@ -21,10 +25,14 @@ private:
     InputState *inputState;
     Console *console;
 
-    char* sequence;
+    std::string sequence;
+
+    std::string misalignedbox;
+    std::string alignedbox;
 
     std::string generateSequenceString();
 
+    void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
 
@@ -37,6 +45,8 @@ private:
     int xAlignedEnd;
     int yAlignedStart;
     int yAlignedEnd;
+
+    int remainingMisaligned;
 
 public:
     void tick();

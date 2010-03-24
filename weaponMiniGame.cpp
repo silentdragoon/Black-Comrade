@@ -11,6 +11,8 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     , isEnd(false)
 {
     sequence = "ABC";
+    alignedbox = "";
+    misalignedbox = "";
 
     xMisalignedStart = 16;
     xMisalignedEnd = 42;
@@ -21,6 +23,8 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     xAlignedEnd = 96;
     yAlignedStart = 6;
     yAlignedEnd = 16;
+
+    remainingMisaligned = 0;
 
     createScene();
 }
@@ -39,19 +43,37 @@ void WeaponMiniGame::createScene() {
     console->setString("---------->",51,10);
     console->setString("---------->",51,11);
 
-    console->setString("Misaligned members remaining:",12,20);
-    console->setString("100",43,20);
-    console->setString("Press F2 to Quit",75,20);
-
+    generateMisalignedBox();
     fillMisalignedBox();
     fillAlignedBox();
+
+    std::stringstream out;
+    out << remainingMisaligned;
+    console->setString("Misaligned members remaining:",12,20);
+    console->setString(out.str(),43,20);
+    console->setString("Press F2 to Quit",75,20);
+}
+
+void WeaponMiniGame::generateMisalignedBox() {
+
+    boost::mt19937 rng;                 
+    boost::uniform_int<> six(0,sequence.length()-1);
+    boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+
+    for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
+        for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
+            misalignedbox += sequence[die()];
+            remainingMisaligned ++;
+        }
+    }
 }
 
 void WeaponMiniGame::fillMisalignedBox() {
-    // TODO: Fill box randomly here
+    int i = 0;
     for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
         for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
-            console->setChar('.',x,y);
+            console->setChar(misalignedbox[i],x,y);
+            i ++;
         }
     }
 }
@@ -67,7 +89,7 @@ void WeaponMiniGame::fillAlignedBox() {
 std::string WeaponMiniGame::generateSequenceString() {
     std::stringstream out;
     out << "[";
-    for (int i = 0 ; i < strlen(sequence); i++) {
+    for (int i = 0 ; i < sequence.length(); i++) {
         out << "  ";
         out << sequence[i];
         out << "  ";
