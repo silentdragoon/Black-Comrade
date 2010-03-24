@@ -11,6 +11,7 @@
 #include "console.h"
 #include <sstream>
 #include <string>
+#include <math.h>
 
 #include <boost/math/distributions/uniform.hpp>
 #include <boost/random.hpp>
@@ -28,12 +29,14 @@ private:
 
     std::string misalignedbox;
     std::string alignedbox;
+    int* occurences;
 
     std::string generateSequenceString();
 
     void setCoordinates();
 
     void generateSequence(int length);
+    void calculateOccurences();
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();

@@ -11,14 +11,17 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
     , isEnd(false)
     , playing(false)
 {
-    possibleChars = "ABC";
+    occurences = new int[5];
+    possibleChars = "ABCDE";
     alignedbox = "";
     misalignedbox = "";
 
     setCoordinates();
 
-    generateSequence(3);
-    remainingMisaligned = -1;
+    generateSequence(5);
+    remainingMisaligned = (xMisalignedEnd - xMisalignedStart + 1) * (yMisalignedEnd - yMisalignedStart + 1);
+    calculateOccurences();
+
     toPress = sequence[0];
     toPressIndex = 0;
 
@@ -81,17 +84,28 @@ void WeaponMiniGame::generateSequence(int length) {
     }
 }
 
+void WeaponMiniGame::calculateOccurences() {
+    int mod = remainingMisaligned % sequence.length();
+    for (int i = 0 ; i < sequence.length() ; i++) {
+        occurences[i] = (int) floor(remainingMisaligned / sequence.length());
+        if (i < mod) occurences[i] = occurences[i] + 1;
+    }
+}
+
 void WeaponMiniGame::generateMisalignedBox() {
 
     boost::mt19937 rng;                 
     boost::uniform_int<> six(0,sequence.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
-    remainingMisaligned = 0;
     for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
         for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
-            misalignedbox += sequence[die()];
-            remainingMisaligned ++;
+            int charIndex = die();
+            while (occurences[charIndex] == 0) {
+                charIndex = die();
+            }
+            occurences[charIndex] = occurences[charIndex] - 1;
+            misalignedbox += sequence[charIndex];
         }
     }
 }
