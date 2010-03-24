@@ -21,12 +21,19 @@ class SensorGame : public IMiniGame
         double dscore;
         int score;
         
+        char field;
+        
+        char* generateLine();
+        char* checkCollisions(char* line, int position);
+        int width;
+        int height;
+        
     public:
         void tick();
         bool end();
         int getScore();
 
-        void alphaNumKeyPressed(const OIS::KeyEvent &arg);
+        void otherKeyPressed(const OIS::KeyEvent &arg);
         void returnKeyPressed();
 
         ShipSystem getSystem();
