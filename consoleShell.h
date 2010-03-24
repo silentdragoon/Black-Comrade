@@ -20,6 +20,7 @@
 #include "fixMiniGame.h"
 #include "weaponMiniGame.h"
 #include "sheildMiniGame.h"
+#include "sensorMiniGame.h"
 
 #include "IExit.h"
 

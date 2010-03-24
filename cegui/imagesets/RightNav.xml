@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="RightNav" Imagefile="right_nav.png" AutoScaled="true" >
-    <Image Name="Speed" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="EngBal" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="SenBal" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="SheBal" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="WepBal" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="SheCharge" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="WepCharge" XPos="0" YPos="0" Width="0" Height="0" />
-    <Image Name="Main" XPos="0" YPos="0" Width="411" Height="263" />
+    <Image Name="Placement" XPos="9" YPos="10" Width="210" Height="210" />
+    <Image Name="Main" XPos="0" YPos="0" Width="229" Height="229" />
 </Imageset>

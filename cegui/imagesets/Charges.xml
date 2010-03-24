@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="Charges" Imagefile="charges.png" AutoScaled="true" >
+    <Image Name="Placement" XPos="8" YPos="40" Width="32" Height="6" />
+    <Image Name="Whole" XPos="0" YPos="0" Width="48" Height="240" />
+</Imageset>

@@ -26,7 +26,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
     // Background Elements
     CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
-    CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
+    // CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
 
     // Foreground Elements
 
@@ -48,20 +48,24 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav1"  );
     CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav2",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav2"  );
     }
-
-
+    
+    // Weapon & Shield Charges
+    
+    CEGUI::FrameWindow *charge        = guiManager->addStaticImagePix("Charge",         0.0,                 160 * hpixel, 48 * wpixel, 240 * hpixel, "Charge",        "hole"  );
+    CEGUI::FrameWindow *charges       = guiManager->addStaticImagePix("Charges",      1.0 - 48*wpixel,  160 * hpixel, 48 * wpixel, 240 * hpixel, "Charges",        "Whole"  );
 
 
     // Left
     CEGUI::FrameWindow *left        = guiManager->addStaticImagePix("Left",         0.0,                 1.0 - 263 * hpixel, 563 * wpixel, 263 * hpixel, "Left",        "Main"  );
 
     // Right
+ 
     if(gameRole==PILOT)
-    CEGUI::FrameWindow *rightPil    = guiManager->addStaticImagePix("RightPil",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightPil",    "Main"  );
+    CEGUI::FrameWindow *rightPil    = guiManager->addStaticImagePix("RightPil",        1.0 - 229 * wpixel,  1.0 - 229 * hpixel, 229 * wpixel, 229 * hpixel, "RightPil",    "Main"  );
     if(gameRole==ENGINEER)
-    CEGUI::FrameWindow *rightEng    = guiManager->addStaticImagePix("RightEng",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightEng",    "Main"  );
+    CEGUI::FrameWindow *rightEng    = guiManager->addStaticImagePix("RightEng",        1.0 - 411 * wpixel,  1.0 - 228 * hpixel, 411 * wpixel, 228 * hpixel, "RightEng",    "Main"  );
     if(gameRole==NAVIGATOR)
-    CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 411 * wpixel,  1.0 - 263 * hpixel, 411 * wpixel, 263 * hpixel, "RightNav",    "Main"  );
+    CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 229 * wpixel,  1.0 - 229 * hpixel, 229 * wpixel, 229 * hpixel, "RightNav",    "Main"  );
 
     // Slack Box
 
@@ -79,7 +83,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     log->setWordWrapping(true);
 
     // Speed Indicator
-    if(gameRole==PILOT) {
+    if(gameRole==PILOT) { 
         indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
         //indicator->setFont("DroidSansMono-big.font");
         guiManager->getRootWindow()->addChildWindow(indicator);
@@ -109,7 +113,6 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     engine-> setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - (263 - 177) * hpixel,0)));
     hull->   setPosition(CEGUI::UVector2(CEGUI::UDim(440 * wpixel,0),CEGUI::UDim(1 - (263 - 223) * hpixel,0)));
 
-
     shields->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     sensors->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     weapons->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
@@ -118,39 +121,53 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
     // Bars for power system stuff
 
-    shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldRate"));
-    sensorRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarSen","sensorRate"));
-    weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
-    engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
-    weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarWep","weaponCharge"));
-    shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarShe","shieldCharge"));
+    if (gameRole==ENGINEER) {
+        shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldRate"));
+        sensorRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarSen","sensorRate"));
+        weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
+        engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
 
-    shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-    sensorRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-    weaponRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-    engineRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        sensorRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        weaponRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        engineRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
 
-    guiManager->getRootWindow()->addChildWindow(shieldRate);
-    guiManager->getRootWindow()->addChildWindow(sensorRate);
-    guiManager->getRootWindow()->addChildWindow(weaponRate);
-    guiManager->getRootWindow()->addChildWindow(engineRate);
-    guiManager->getRootWindow()->addChildWindow(weaponCharge);
-    guiManager->getRootWindow()->addChildWindow(shieldCharge);
+        guiManager->getRootWindow()->addChildWindow(shieldRate);
+        guiManager->getRootWindow()->addChildWindow(sensorRate);
+        guiManager->getRootWindow()->addChildWindow(weaponRate);
+        guiManager->getRootWindow()->addChildWindow(engineRate);
 
-    shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 52) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
-    weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
-    sensorRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 98) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
-    engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 142) * wpixel,0),CEGUI::UDim(1.0 - 123 * hpixel,0)));
-    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
-    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 127) * wpixel,0),CEGUI::UDim(1.0 - 228 * hpixel,0)));
+        shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 52 ) * wpixel,0),CEGUI::UDim(1.0 - (228 - 70)* hpixel,0)));
+        weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 6 ) * wpixel,0),CEGUI::UDim(1.0 - (228 - 70) * hpixel,0)));
+        sensorRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 98 ) * wpixel,0),CEGUI::UDim(1.0 - (228 - 70) * hpixel,0)));
+        engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 142 ) * wpixel,0),CEGUI::UDim(1.0 - (228 - 70) * hpixel,0)));
 
-    shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
-    sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
-    weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
-    engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(120 * hpixel,0)));
-    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(50 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(50 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+        shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+        sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+        weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+        engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
 
+    
+    }
+    
+    // Weapon and Shield Charge
+    
+        weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponCharge"));
+        shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldCharge"));
+      
+        weaponCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        shieldCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+        
+        guiManager->getRootWindow()->addChildWindow(weaponCharge);
+        guiManager->getRootWindow()->addChildWindow(shieldCharge);
+        
+        weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(200 * hpixel,0)));
+        shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(200 * hpixel,0)));
+        
+        weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+        shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+    
+    
     // Minimap
 
     if (gameRole==NAVIGATOR) {
