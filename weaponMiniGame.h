@@ -41,6 +41,8 @@ private:
     void updateKeyToPress();
     void updateRemaining();
 
+    void moveBoxes(char c);
+
     int xMisalignedStart;
     int xMisalignedEnd;
     int yMisalignedStart;

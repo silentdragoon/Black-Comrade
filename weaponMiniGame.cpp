@@ -155,13 +155,28 @@ void WeaponMiniGame::returnKeyPressed() {
     isEnd = true;
 }
 
+void WeaponMiniGame::moveBoxes(char c) {
+    int first = misalignedbox.find_first_of(c);
+    int last = misalignedbox.find_last_of(c);
+
+    boost::mt19937 rng;                 
+    boost::uniform_int<> six(0,(last-first));
+    boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+
+    int index = misalignedbox.find_first_of(c,first + die());
+
+    misalignedbox.replace(index,1,".");
+    fillMisalignedBox();
+}
+
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
     if (playing == false && remainingMisaligned > 0) playing = true;
     if (playing == false) return;
     if (arg.text == toPress || arg.text == tolower(toPress)) {
-        updateKeyToPress();
+        moveBoxes(toPress);
         remainingMisaligned --;
         updateRemaining();
+        updateKeyToPress();
     }
 }
 
