@@ -58,13 +58,9 @@ void Flying::updatePosition()
         Vector3 vel(xVel, yVel, zVel);
         
         *position += normal * (pen + 1);
-
-		cout << vel.length() << " - ";
-
+        
 		float speedIn = vel.dotProduct(-normal) / normal.length();
-		
-		cout << speedIn << endl;
-
+        speedIn = abs(speedIn);
 		if(speedIn > 0) {
 			hitCountDown = static_cast<int> (50 * speedIn);
 		
@@ -72,7 +68,7 @@ void Flying::updatePosition()
 
 			vel.normalise();
 		
-			vel *= speedIn;
+			vel *= 0.95 * speedIn;
 
 			xVel = vel.x;
 			yVel = vel.y;
