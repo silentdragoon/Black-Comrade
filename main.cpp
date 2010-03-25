@@ -330,6 +330,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Hide loading screen
     preGame->hideLoadingScreen();
+    soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
     createViewPort();
@@ -535,7 +536,7 @@ Main::~Main()
 void Main::exit()
 {
     soundMgr->stopEngine();
-    soundMgr->changeMusic(4); // Change back to theme music
+    //soundMgr->changeMusic(4); // Change back to theme music
     gameLoop->running = false;
 }
 

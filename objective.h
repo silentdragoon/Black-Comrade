@@ -3,11 +3,15 @@
 
 #include "ITickable.h"
 #include "particleSystemEffectManager.h"
+#include "constManager.h"
 
 class Objective : public ITickable {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
         int health;
+        int escapeTime;
+        int ticks;
+        bool boom;
         int originalHealth;
     public:
         Objective(ParticleSystemEffectManager *particleSystemEffectManager);
@@ -15,6 +19,7 @@ class Objective : public ITickable {
 
         float getHealth();
         void damageObjective();
+        int getEscapeTime();
 
         void tick();
 };

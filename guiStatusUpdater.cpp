@@ -99,7 +99,6 @@ void GuiStatusUpdater::tick() {
     hud->setShieldCharge(shieldCharge/100.0);
 
     float bossHealth = objective->getHealth();
-    cout << "bh: " << bossHealth << endl;
     hud->setBossHealthbar(bossHealth);
 
     // Update transmission log

@@ -16,6 +16,7 @@ MiniGameManager::MiniGameManager(Console *console,
     , aKeyPressed(false)
     , exit(exit)
 {
+    std::cout << QuickTimeMiniGame::getName() << "\n";
     consoleShell = new ConsoleShell(console,inputState,exit);
     inputReceiver = consoleShell;
 }
@@ -99,4 +100,16 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 bool MiniGameManager::keyReleased(const OIS::KeyEvent &arg) { return false; }
+
+void MiniGameManager::setDifficulty(IMiniGame *game, int difficulty) {
+    difficulties[game->getName()] = difficulty;
+}
+
+int MiniGameManager::getDifficulty(IMiniGame *game) {
+    return difficulties[game->getName()];
+}
+
+void MiniGameManager::setInitialDifficulties() {
+    difficulties.insert(std::pair<std::string,int>(QuickTimeMiniGame::getName(),1));
+}
 
