@@ -15,6 +15,7 @@ public:
     virtual bool end() = 0;
     virtual int getScore() = 0;
     virtual ShipSystem getSystem() { return SS_NONE;} ;
+    virtual bool complete() { return false;} ;
 };
 
 #endif
