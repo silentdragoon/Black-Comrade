@@ -11,6 +11,7 @@
 #include "console.h"
 #include <sstream>
 #include <string>
+#include <math.h>
 
 #include <boost/math/distributions/uniform.hpp>
 #include <boost/random.hpp>
@@ -19,22 +20,31 @@ using namespace Ogre;
 
 class WeaponMiniGame : public IMiniGame {
 private:
+    bool playing;
     bool isEnd;
-    int score;
+    bool hit;
     void createScene();
     InputState *inputState;
     Console *console;
 
-    std::string sequence;
-
     std::string misalignedbox;
     std::string alignedbox;
+    int* occurences;
 
     std::string generateSequenceString();
 
+    void setCoordinates();
+
+    void generateSequence(int length);
+    void calculateOccurences();
     void generateMisalignedBox();
     void fillMisalignedBox();
     void fillAlignedBox();
+
+    void updateKeyToPress();
+    void updateRemaining();
+
+    void moveBoxes(char c);
 
     int xMisalignedStart;
     int xMisalignedEnd;
@@ -46,15 +56,25 @@ private:
     int yAlignedStart;
     int yAlignedEnd;
 
+    int totalChars;
     int remainingMisaligned;
+
+    std::string possibleChars;
+    std::string sequence;
+    char toPress;
+    int toPressIndex;
+    int pointerXBase;
+    int pointerY;
 
 public:
     void tick();
     bool end();
     int getScore();
+    ShipSystem getSystem();
 
-    WeaponMiniGame(Console *console, InputState *inputState);
+    WeaponMiniGame(Console *console, InputState *inputState, int difficulty);
 
+    void alphaNumKeyPressed (const OIS::KeyEvent &arg);
     void returnKeyPressed();
 
 };

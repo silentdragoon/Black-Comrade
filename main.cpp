@@ -98,7 +98,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // Damage State
-    if (collabInfo->getGameRole() == PILOT) {
+    if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
         damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
         networkingManager->replicate(damageState);
     } else {
@@ -287,7 +287,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     gameLoop->addTickable(particleSystemEffectManager, "psem");
 
     // Objective
-    objective = new Objective();
+    objective = new Objective(particleSystemEffectManager);
+    gameLoop->addTickable(objective,"objective");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
@@ -325,7 +326,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
 
     // Add the reactor core effects
-    particleSystemEffectManager->makeReactor();
+    particleSystemEffectManager->makeObjective();
 
     // Hide loading screen
     preGame->hideLoadingScreen();
