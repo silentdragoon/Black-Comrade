@@ -56,7 +56,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     shipState(shipState),
     networkingMgr(networkingMgr),
     particleSystemEffectManager(particleSystemEffectManager),
-    soundMgr(soundMgr)
+    soundMgr(soundMgr),
+    lines(0)
 {
     activeSwarms = std::deque<Swarm*>();
 }
@@ -151,10 +152,10 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
+    if(lines) lines->clear();
+
     updateRemoteSwarms();
     if (mapMgr == 0) return;
-
-    //lines->clear();
 
     int sp = gamePM->getParameter("SPAWN");
 

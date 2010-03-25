@@ -41,9 +41,6 @@ class Swarm
         MapTile* currentSwarmTile;
         MapTile* oldShipTile;
         MapTile* oldSwarmTile;
-    	Real roll;
-    	Real pitch;
-    	Real yaw;
     	RayQuery *rRayQuery;
     	float speed;
     	SwarmState state;

@@ -11,9 +11,6 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	, id(id)
 	, location(location)
 	, sceneMgr(sceneMgr)
-	, roll(roll)
-	, pitch(pitch)
-	, yaw(yaw)
 	, speed(ConstManager::getFloat("enemy_patrol_speed") * 
 	    ConstManager::getFloat("tick_period"))
 	, state(SS_PATROL)
@@ -139,9 +136,34 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::canSwarmSeeShip()
 {
+    Vector3 orient = 
+        SceneNodeManager::directionToOrientationVector(getAverageAlignment());
+    
+    float yaw = orient.y;
+
 	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
-	Radian sightAngle(ConstManager::getFloat("enemy_sight_dist"));
+	// Draw debug lines
+	/*Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
+	    ,0, cos(yaw+ConstManager::getFloat("enemy_sight_angle")));
+	
+	end1 *= ConstManager::getFloat("enemy_sight_dist");
+	
+	end1 += getAveragePosition();
+	    
+	Vector3 end2(sin(yaw-ConstManager::getFloat("enemy_sight_angle"))
+	    ,0, cos(yaw-ConstManager::getFloat("enemy_sight_angle")));
+	
+	end2 *= ConstManager::getFloat("enemy_sight_dist");
+	
+	end2 += getAveragePosition();
+	
+	Vector3 avgPos(getAveragePosition());
+	
+	lines->addLine(&avgPos, &end1);
+	lines->addLine(&avgPos, &end2);
+	*/
+	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
 	
 	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
 	
@@ -545,7 +567,7 @@ void Swarm::attackProcess(Enemy *e)
         ConstManager::getFloat("enemy_ship_target_dist")),2);
 
     } else {
-        weight = - 10
+        weight = - 50
         * pow(1 - v.length()/
         ConstManager::getFloat("enemy_ship_target_dist"),2);
     }
