@@ -340,7 +340,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
-                                      guiMgr,pilotInfo,navigatorInfo,
+                                      guiMgr,soundMgr,pilotInfo,navigatorInfo,
                                       engineerInfo);
 
     std::cout << "Pilot stats:" << "\n";
@@ -531,6 +531,8 @@ Main::~Main()
 
 void Main::exit()
 {
+    soundMgr->stopEngine();
+    soundMgr->changeMusic(4); // Change back to theme music
     gameLoop->running = false;
 }
 
