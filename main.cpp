@@ -98,7 +98,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     collisionMgr = new CollisionManager(sceneMgr,mapMgr);
 
     // Damage State
-    if (collabInfo->getGameRole() == PILOT) {
+    if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
         damageState = new DamageState(pilotInfo,engineerInfo,navigatorInfo);
         networkingManager->replicate(damageState);
     } else {

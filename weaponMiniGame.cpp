@@ -5,18 +5,34 @@
 #include <OgrePanelOverlayElement.h>
 #include <OgreFontManager.h>
 
-WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
+WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
+                               int difficulty)
     : console(console)
     , inputState(inputState)
     , isEnd(false)
     , playing(false)
+    , hit(false)
 {
-    occurences = new int[5];
-    possibleChars = "ABCDE";
-
     setCoordinates();
 
-    generateSequence(5);
+    switch (difficulty) {
+       case 1:
+           occurences = new int[3];
+           possibleChars = "ABC";
+           generateSequence(3);
+           break;
+       case 2:
+           occurences = new int[4];
+           possibleChars = "ABCD";
+           generateSequence(4);
+           break;
+       case 3:
+           occurences = new int[5];
+           possibleChars = "ABCDE";
+           generateSequence(5);
+           break;
+    }
+
     totalChars = (xMisalignedEnd - xMisalignedStart + 1) *
                      (yMisalignedEnd - yMisalignedStart + 1);
     remainingMisaligned = totalChars;
@@ -203,12 +219,12 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
         remainingMisaligned --;
         updateRemaining();
         updateKeyToPress();
-        score = 1;
+        hit = true;
     }
 }
 
 void WeaponMiniGame::tick() {
-    score = 0;
+
     if (remainingMisaligned == 0) {
         playing = false;
         console->appendLine("Finished");
@@ -220,7 +236,12 @@ bool WeaponMiniGame::end() {
     return isEnd;
 }
 
-int WeaponMiniGame::getScore() { return score; }
+int WeaponMiniGame::getScore() {
+    if (hit) {
+        hit = false;
+        return 1;
+    } else return 0;
+}
 
 ShipSystem WeaponMiniGame::getSystem() { return SS_WEAPONS; }
 

@@ -22,7 +22,7 @@ class WeaponMiniGame : public IMiniGame {
 private:
     bool playing;
     bool isEnd;
-    int score;
+    bool hit;
     void createScene();
     InputState *inputState;
     Console *console;
@@ -72,7 +72,7 @@ public:
     int getScore();
     ShipSystem getSystem();
 
-    WeaponMiniGame(Console *console, InputState *inputState);
+    WeaponMiniGame(Console *console, InputState *inputState, int difficulty);
 
     void alphaNumKeyPressed (const OIS::KeyEvent &arg);
     void returnKeyPressed();
