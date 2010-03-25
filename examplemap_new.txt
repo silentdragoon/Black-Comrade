@@ -31,4 +31,4 @@ l-<l<.........................
 wp 0 0 wp_start
 wp 3 5 wp_end
 wp 0 2 wp_attack
-wp 0 3 en_spawn
+wp 0 1 en_spawn

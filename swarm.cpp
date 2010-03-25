@@ -77,6 +77,16 @@ void Swarm::tick()
     markDeadEnemies();
     
     if(canSwarmSeeShip()) state = SS_ATTACK;
+    else {
+        MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
+        Vector3 swarmPosition = getAveragePosition();
+        MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
+        if(!swarmTile) {
+            cerr << "Location not within map\n";
+        } else {
+            if(shipTile != swarmTile) state = SS_PATROL;
+        }
+    }
 
     switch(state) {
         case SS_PATROL:
@@ -234,6 +244,7 @@ void Swarm::updateTargetLocation() {
         if (path.size() == 1 || path.size() == 2) {
             // In the current tile or adjacent tile
             target = mapMgr->getActualPosition(shipTile);
+            target = *shipState->getPosition();
         } else if (path.size() >=3) {
             // At least 1 tile between the swarm and the ship
             if (targetTile == swarmTile) {

@@ -200,7 +200,13 @@ Entity* MapManager::getEntity(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
-    return mts[x][y]->getEntity();
+    if(0 <= x && x < ConstManager::getInt("map_size")) {
+        if(0 <= y && y < ConstManager::getInt("map_size")) {
+            return mts[x][y]->getEntity();
+        }
+    }
+    
+    return NULL;
 }
 
 void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
@@ -275,7 +281,14 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
 MapTile* MapManager::getMapTile(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
-    return mts[x][y];    
+    
+    if(0 <= x && x < ConstManager::getInt("map_size")) {
+        if(0 <= y && y < ConstManager::getInt("map_size")) {
+            return mts[x][y];
+        }
+    }
+    
+    return NULL;   
 }
 
 Vector3 MapManager::getActualPosition(MapTile *mapTile) {
