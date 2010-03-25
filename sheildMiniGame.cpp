@@ -11,6 +11,8 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , inputState(inputState)
     , currentQ(9)
     , currentTime(0)
+    , loseLine(false)
+    , winLine(false)
 {
 	console->makeBlank();
 
@@ -52,6 +54,8 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
 
 void SheildMiniGame::tick()
 {
+	//drawBoard();
+
     drawKeyStates();
     
     if(winLine) drawLine(0,"");
@@ -97,6 +101,9 @@ void SheildMiniGame::drawKeyStates()
 {
     currentChoird.clear();
 
+	console->setString("- (A) - (S) - (D) - (F) -",boardX + 1, 
+	    boardY + boardHeight + 1);
+
     if(inputState->isKeyDown(OIS::KC_A)) {
         console->setChar('^', boardX + 4, boardY + boardHeight + 1);
         currentChoird.append("A");
@@ -124,6 +131,12 @@ void SheildMiniGame::drawKeyStates()
     } else {
         console->setChar('F', boardX + 22, boardY + boardHeight + 1);
     }
+    
+    if(loseLine) {
+    	for(int i = 1; i < boardWidth - 1; ++i) {
+			console->setChar('X', boardX + i, boardY + boardHeight + 1);
+		}
+	}
 }
 
 void SheildMiniGame::drawLine(int index, std::string chars)
@@ -182,9 +195,6 @@ void SheildMiniGame::drawBoard()
 		console->setChar('-', boardX + i, boardY + boardHeight);
 		console->setChar('-', boardX + i, boardY + boardHeight + 2);
 	}
-	
-	console->setString("- (A) - (S) - (D) - (F) -",boardX + 1, 
-	    boardY + boardHeight + 1);
 }
 
 bool SheildMiniGame::end()
@@ -223,8 +233,6 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     	&& arg.key != OIS::KC_LEFT && arg.key != OIS::KC_RIGHT)
     		return;
     
-    cout << "Called\n";
-    
     if(winLine) {
     	winLine = false;
     	loseLine = true;
@@ -233,7 +241,6 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     
     int index = currentQ - boardHeight;
     if(index >= 0 && index < keys.size()) {
-        cout << currentChoird << " - " << keys[index] << endl;
         std::string str;
         
         str.append(keys[index]);
@@ -241,7 +248,7 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
         if(str.size() != 0) {
         
         	while(str.size() > 0) {
-        		cout << str << endl;
+
             	if(currentChoird.find_first_of(str[0]) ==
             		currentChoird.npos) {
             		loseLine = true;
@@ -251,8 +258,8 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
         	}
         	
         	winLine = true;
-        }
-    }
+        } else loseLine = true;
+    } else loseLine = true;
 }
 
         
