@@ -17,6 +17,10 @@ ParticleSystemEffect::~ParticleSystemEffect() {
     sceneMgr->destroySceneNode(node);
 }
 
+void ParticleSystemEffect::stopEmitting() {
+    particleSystem->setEmitting(false);
+}
+
 void ParticleSystemEffect::decreaseTicks() {
     ticksToLive--;
 }

@@ -40,8 +40,8 @@ void ParticleSystemEffectManager::makeObjective() {
 }
 
 void ParticleSystemEffectManager::destroyObjective() {
-    delete obj1;
-    delete obj2;
+    obj1->stopEmitting();
+    obj2->stopEmitting();
 }
 
 void ParticleSystemEffectManager::createExplosion(Vector3 pos) {

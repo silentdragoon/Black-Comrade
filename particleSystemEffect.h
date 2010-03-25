@@ -19,6 +19,7 @@ class ParticleSystemEffect {
 
         void decreaseTicks();
         int getTicks();
+        void stopEmitting();
 };
 
 #endif
