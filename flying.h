@@ -9,6 +9,7 @@
 #include "shipState.h"
 #include "damageState.h"
 #include "systemManager.h"
+#include "sceneNodeManager.h"
 
 
 using namespace Ogre;
@@ -27,6 +28,7 @@ class Flying : public ITickable
         ShipState *shipState;
         DamageState *damageState;
         SystemManager *systemManager;
+        SceneNodeManager *snMgr;
         double vFactor;
 
         double zVel;
@@ -61,7 +63,7 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions, double x, double y, double z);
+        Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions, double x, double y, double z);
 
         ~Flying();
 

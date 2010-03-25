@@ -246,7 +246,7 @@ void CollisionDetection::createConvexHull( Entity *entity )
     GetMeshInformation(   entity->getMesh(), vertex_count, vertices, index_count, indices,
                           Vector3( 0.0, 0.0, 0.0 ),//entity->getParentNode()->getPosition(),
                           Ogre::Quaternion::IDENTITY, //entity->getParentNode()->getOrientation()
-                          entity->getParentNode()->_getDerivedScale());
+                          Ogre::Vector3(1,1,1));//entity->getParentNode()->_getDerivedScale() );//Ogre::Vector3(1,1,1));
     
     dFloat *vertexCloud = new dFloat[vertex_count*3];
     for( int i = 0; i < vertex_count; i++ )

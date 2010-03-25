@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,true);
+    inputState = new InputState(window,true,this,true,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -163,10 +163,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
-        collisionMgr->addMesh(shipEntity);
+        collisionMgr->addShipMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
+        flying = new Flying( sceneNodeMgr, pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }

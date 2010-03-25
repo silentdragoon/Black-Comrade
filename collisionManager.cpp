@@ -57,6 +57,11 @@ void CollisionManager::addMesh( Entity *e)
     cd->createConvexHull(e);
 }
 
+void CollisionManager::addShipMesh( Entity *e)
+{
+    cd->createConvexHull(e);
+}
+
 void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
 {
     cd->createObjPrimitive(x,y,z,radius);
@@ -121,7 +126,7 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
 } */
 
 
-Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
+/* Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
 {
     //bool isCollided = false;
     dFloat contacts[16] = {0.0f};
@@ -134,7 +139,7 @@ Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
     //checks if the two entities have collided
     if( e != NULL) col = cd->mapCollision( sceneMgr->getEntity("ourship"), e );
     return col;
-}
+} */
 
 /* Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst )
 {
