@@ -47,6 +47,9 @@ void GuiStatusUpdater::tick() {
     hud->setWeapons(weaponHealth);
     hud->setEngines(engineHealth);
     hud->setHull(hullHealth);
+    
+    
+    hud->switchState(shipmode);
 
 
     // If player is navigator they can toggle the full screen map here

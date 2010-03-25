@@ -49,6 +49,11 @@ private:
 
     CEGUI::FrameWindow* buildFullMap();
     CEGUI::FrameWindow* buildMiniMap();
+    
+    CEGUI::FrameWindow *statusIndicatorsStealth;
+    CEGUI::FrameWindow *statusIndicatorsSwarms;
+    CEGUI::FrameWindow *statusIndicatorsComrade;
+    CEGUI::FrameWindow *statusIndicatorsBossHealth;
 
     GameRole gameRole;
 
@@ -72,6 +77,8 @@ public:
     void setEngineRate(float yeah);
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
+    
+    void switchStatus(int state);
 
     void toggleMap(bool tog);
     void updateMiniMap();

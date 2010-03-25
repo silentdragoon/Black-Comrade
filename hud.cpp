@@ -93,8 +93,16 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     
     // Status Indicator & Boss Health
     
-    CEGUI::FrameWindow *statusIndicators    = guiManager->addStaticImagePix("StatusIndicators",     0.5, 1.0 - 206*hpixel,   100 * wpixel, 100 * hpixel, "StatusIndicators",        "Stealth"  );
-
+    CEGUI::FrameWindow *statusIndicatorsStealth    = guiManager->addStaticImage("StatusIndicators",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Stealth"  );
+    CEGUI::FrameWindow *statusIndicatorsSwarms    = guiManager->addStaticImage("StatusIndicators2",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Swarms"  );
+    CEGUI::FrameWindow *statusIndicatorsComrade    = guiManager->addStaticImage("StatusIndicators3",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BlackComrade"  );
+    CEGUI::FrameWindow *statusIndicatorsBossHealth    = guiManager->addStaticImage("StatusIndicators4",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BossHealthbar"  );    
+    
+    // statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsSwarms->setVisible(false);
+    statusIndicatorsComrade->setVisible(false);
+    statusIndicatorsBossHealth->setVisible(false);
+    
     // Progress Bars
 
     // Health
@@ -505,3 +513,28 @@ void HUD::toggleMap(bool tog)
         fullmap->setVisible(false);
     }
 }
+
+void HUD::switchStatus(int state) {
+    statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsSwarms->setVisible(false);
+    statusIndicatorsComrade->setVisible(false);
+    statusIndicatorsBossHealth->setVisible(false);
+
+    switch ( state ) {
+        case 1:
+            statusIndicatorsStealth->setVisible(true);
+            break;
+        case 2:
+            statusIndicatorsSwarms->setVisible(true);
+            break;
+        case 3:
+            statusIndicatorsComrade->setVisible(true);
+            break;
+        case 4:
+            statusIndicatorsBossHealth->setVisible(true);
+    }
+}
+
+
+
+    
