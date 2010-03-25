@@ -53,19 +53,19 @@ void GuiStatusUpdater::tick() {
     // get game state and set HUD accordingly
     
     GameState gameState = gameStateMachine->currentGameState();
-    if (lastStateNotified == gameState) return;
-    switch(gameState) {
-        case GS_STEALTH:
-            hud->switchStatus(1);
-            break;
-        case GS_ATTACK:
-            hud->switchStatus(2);
-            break;
-        case GS_FLEE:
-            hud->switchStatus(4);
-            break;
+    if (gameStateMachine->isNewState()) {
+        switch(gameState) {
+            case GS_STEALTH:
+                hud->switchStatus(1);
+                break;
+            case GS_ATTACK:
+                hud->switchStatus(2);
+                break;
+            case GS_FLEE:
+                hud->switchStatus(4);
+                break;
+         }
     }
-    lastStateNotified = gameState;
 
 
     // If player is navigator they can toggle the full screen map here
@@ -98,9 +98,9 @@ void GuiStatusUpdater::tick() {
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
     
-    float bossHealth = objective->getHealth();
-    cout << "lolwat: " << bossHealth << endl;
 
+    float bossHealth = objective->getHealth();
+    cout << "bh: " << bossHealth << endl;
     hud->setBossHealthbar(bossHealth);
 
     // Update transmission log
