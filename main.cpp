@@ -301,7 +301,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Audio
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
-                                notificationMgr,bulletMgr,miniGameMgr);
+                                notificationMgr,bulletMgr,miniGameMgr,
+                                gameStateMachine);
     gameLoop->addTickable(audioState,"audioState");
 	
     // CEGUI Stuff

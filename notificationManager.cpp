@@ -7,8 +7,8 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
                                          MapManager *mapManager, ShipState *shipState,
                                          DamageState *damageState)
     : collabInfo(collabInfo)
-    , notification(new Notification(NT_NONE,"",-1,0,-1))
-    , lastNotification(new Notification(NT_NONE,"",-1,0,-1))
+    , notification(new Notification(NT_NONE,"",-1,0))
+    , lastNotification(new Notification(NT_NONE,"",-1,0))
     , stateMachine(stateMachine)
     , mapManager(mapManager)
     , shipState(shipState)
@@ -34,8 +34,8 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
 }
 
 NotificationManager::NotificationManager()
-    : notification(new Notification(NT_NONE,"",-1,0,-1))
-    , lastNotification(new Notification(NT_NONE,"",-1,0,-1))
+    : notification(new Notification(NT_NONE,"",-1,0))
+    , lastNotification(new Notification(NT_NONE,"",-1,0))
     , nextType(NT_NONE)
     , collabInfo(0)
     , stateMachine(0)
@@ -100,17 +100,14 @@ void NotificationManager::tick()
 void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
     int soundNameConst = -1;
-    int music = -1;
     int soundLength = 0;
     switch(nextType) {
         case NT_CONTROLS:
-            music = 1;
             consoleText << "Here's a reminder of your " << collabInfo->getGameRoleString()
                       << " controls, " << collabInfo->getNick() << std::endl;
             break;
         case NT_UNDER_ATTACK:
             soundNameConst = ConstManager::getInt("sound_incomingswarms");
-            music = 2;
             consoleText << "They're coming for us! You may want to increase shield and weapon power..." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
@@ -133,7 +130,7 @@ void NotificationManager::prepareNotification() {
             consoleText << "Random comment 3." << std::endl;
             break;
     }
-    notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength,music);
+    notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
     if (nextType != NT_NONE) {
         lastNotification = notification;
         nextType = NT_NONE;
