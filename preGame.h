@@ -31,7 +31,9 @@ private:
     IMenuScreen *currentMenuScreen;
     IMenuScreen *networkRoleMenu;
     IMenuScreen *gameRoleMenu;
-    IMenuScreen *loadingScreen;
+    LoadingScreen *loadingScreen;
+
+    void render();
 
 
 public:
@@ -41,8 +43,8 @@ public:
 
     CollaborationInfo *showMenus();
 
-    void updateLoadProgress(int progress);
     void hideLoadingScreen();
+    LoadingScreen *getLoadingScreen();
 
     void tick();
     void exit();

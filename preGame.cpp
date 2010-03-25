@@ -35,13 +35,16 @@ CollaborationInfo* PreGame::showMenus() {
 
     networkingMgr->lobby->chooseNick("Player");
 
-    window->removeAllViewports();
-    sceneMgr->destroyCamera("preGameCam");
-
     return networkingMgr->collabInfo;
 }
 
+LoadingScreen *PreGame::getLoadingScreen() {
+    return loadingScreen;
+}
+
 void PreGame::hideLoadingScreen() {
+    window->removeAllViewports();
+    sceneMgr->destroyCamera("preGameCam");
     loadingScreen->hide();
 }
 
@@ -53,6 +56,12 @@ void PreGame::clearMenuUI() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("EngRoleText");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChosenRoleText");
+}
+
+void PreGame::render() {
+    WindowEventUtilities weu = WindowEventUtilities();
+    weu.messagePump();
+    Root::getSingletonPtr()->renderOneFrame();
 }
 
 void PreGame::tick() {
@@ -70,9 +79,11 @@ void PreGame::tick() {
             currentMenuScreen->tick();
         }	
     }
+    render();
 }
 
 void PreGame::loadNextMenu() {
+
     if (currentMenuScreen == 0) {
         currentMenuScreen = networkRoleMenu;
         return;
@@ -85,6 +96,7 @@ void PreGame::loadNextMenu() {
         case MT_NONE :
             // Start the game
             loadingScreen->show();
+            render();
             exit();
             break;
     }
