@@ -20,6 +20,9 @@ using namespace Ogre;
 
 class WeaponMiniGame : public IMiniGame {
 private:
+
+    boost::mt19937 rng;
+
     bool playing;
     bool isEnd;
     bool hit;

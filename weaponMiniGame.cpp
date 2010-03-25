@@ -13,6 +13,8 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     , playing(false)
     , hit(false)
 {
+    for (int i = 0; i < 5; i++) rng.seed(static_cast<unsigned int>(std::time(0)));
+
     setCoordinates();
 
     switch (difficulty) {
@@ -47,6 +49,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
 
     generateMisalignedBox();
     createScene();
+
 }
 
 void WeaponMiniGame::setCoordinates() {
@@ -89,7 +92,7 @@ void WeaponMiniGame::createScene() {
 
 
 void WeaponMiniGame::generateSequence(int length) {
-    boost::mt19937 rng;                 
+
     boost::uniform_int<> six(0,possibleChars.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
@@ -113,8 +116,7 @@ void WeaponMiniGame::calculateOccurences() {
 }
 
 void WeaponMiniGame::generateMisalignedBox() {
-
-    boost::mt19937 rng;                 
+     
     boost::uniform_int<> six(0,sequence.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
@@ -195,7 +197,6 @@ void WeaponMiniGame::moveBoxes(char c) {
     int first = misalignedbox.find_first_of(c);
     int last = misalignedbox.find_last_of(c);
 
-    boost::mt19937 rng;                 
     boost::uniform_int<> six(0,(last-first));
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
