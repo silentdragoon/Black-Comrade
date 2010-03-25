@@ -1,6 +1,8 @@
 
 #include "gameParameterMap.h"
 
+#include "constManager.h"
+
 GameParameterMap::GameParameterMap(GameStateMachine *gameStateMachine)
 	: gameStateMachine(gameStateMachine)
 {}
@@ -12,10 +14,10 @@ int GameParameterMap::getParameter(string name){
 	if(name.compare("SPAWN") == 0) {
 		switch(gameStateMachine->currentGameState()) {
 			case GS_ATTACK:
-                return 5;
+                return ConstManager::getInt("max_swarms_attack");
                 break;
 			case GS_FLEE:
-				return 10;
+				return ConstManager::getInt("max_swarms_flee");
 				break;
 			default:
 				return 0;
