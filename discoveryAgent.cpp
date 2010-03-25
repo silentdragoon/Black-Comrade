@@ -15,9 +15,13 @@ DiscoveryAgent::DiscoveryAgent() :
 }
 
 void DiscoveryAgent::startServerListUpdate(int serverPort) {
-    // TODO: Work out a nice way of removing dead servers from the list
-    // without disrupting the relative position of the others in the list
-    searchClient->Ping("255.255.255.255",serverPort,true);
+
+    try {
+        searchClient->Ping("255.255.255.255",serverPort,true);
+    } catch (...) {
+        cout << "Could not start ping - program already running?\n";
+        std::exit(-1);
+    }
 
     for(std::vector<ServerInfo*>::const_iterator ite=servers.begin();ite!=servers.end();++ite) {
         ServerInfo *info = *ite;

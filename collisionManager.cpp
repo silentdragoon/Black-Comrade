@@ -1,8 +1,10 @@
 #include "collisionManager.h"
 
-CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
+CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
+                                    LoadingScreen* loadingScreen ):
     sceneMgr(sceneMgr),
-    mp(mp)
+    mp(mp),
+    loadingScreen(loadingScreen)
 {
     cd = new CollisionDetection();
     std::vector<Entity*> pc = mp->getMapPieces();
@@ -11,6 +13,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
     for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
     {
         cout << "Map pieces loaded: "<< int(percDone) <<"%"<<endl;
+        loadingScreen->updateProgress(int(percDone));
         percDone += percInc;
         cd->addStaticTreeCollisionMesh(*it);
     }
@@ -53,6 +56,11 @@ dFloat CollisionManager::getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat d
 }
 
 void CollisionManager::addMesh( Entity *e)
+{
+    cd->createConvexHull(e);
+}
+
+void CollisionManager::addShipMesh( Entity *e)
 {
     cd->createConvexHull(e);
 }
@@ -121,7 +129,7 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
 } */
 
 
-Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
+/* Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
 {
     //bool isCollided = false;
     dFloat contacts[16] = {0.0f};
@@ -134,7 +142,7 @@ Collision CollisionManager::shipMapCollision(Vector3 *shipPos)
     //checks if the two entities have collided
     if( e != NULL) col = cd->mapCollision( sceneMgr->getEntity("ourship"), e );
     return col;
-}
+} */
 
 /* Vector3* CollisionManager::getRCVector( Vector3 *start, Real pitch, Real yaw, Entity* collideAgainst )
 {

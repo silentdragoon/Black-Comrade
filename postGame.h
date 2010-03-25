@@ -9,6 +9,7 @@
 #include "IExit.h"
 #include "ITickable.h"
 #include "collaborationInfo.h"
+#include "soundManager.h"
 
 #include "statsScreen.h"
 
@@ -17,6 +18,7 @@ private:
 
     SceneManager *sceneMgr;
     GuiManager *guiMgr;
+    SoundManager *soundMgr;
     InputState *inputState;
     Ogre::RenderWindow *window;
     StateUpdate *postGameLoop;
@@ -35,6 +37,7 @@ private:
 public:
     PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
             InputState *inputState,GuiManager *guiMgr,
+            SoundManager *soundMgr,
             CollaborationInfo *pilotInfo,
             CollaborationInfo *navInfo,
             CollaborationInfo *engInfo);

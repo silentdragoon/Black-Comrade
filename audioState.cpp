@@ -23,7 +23,7 @@ void AudioState::tick()
 	    
 	    if (b->playerStats == 0) {
 	        // Enemy bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.2);
+	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.15);
 	    } else {
 	        // Player bullet
 	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.6);

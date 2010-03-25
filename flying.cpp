@@ -1,7 +1,8 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying(PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool useCollisions, double iXPos, double iYPos, double iZPos):
+Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool useCollisions, double iXPos, double iYPos, double iZPos):
+    snMgr(snMgr),
     colMgr(colMgr),
     sc(sc),
     shipState(shipState),
@@ -43,8 +44,9 @@ void Flying::updateAngels()
 
 void Flying::updatePosition()
 {
+    Collision col = colMgr->collideWithMapPiece(snMgr->getEntity(shipState));
     //Collision col = colMgr->collideWithMapPiece((Entity*)shipState->shipSceneNode->getAttachedObject(1) );
-    Collision col = colMgr->shipMapCollision(position);
+    //Collision col = colMgr->shipMapCollision(position);
     if(col.isCollided && useCollisions)
     {
         vFactor = 0.05;

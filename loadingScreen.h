@@ -5,6 +5,7 @@
 #include "inputState.h"
 #include "guiManager.h"
 #include <math.h>
+#include <sstream>
 
 class LoadingScreen : public IMenuScreen
 {
@@ -14,12 +15,22 @@ class LoadingScreen : public IMenuScreen
 
         bool isVisible;
         bool isEnd;
+
+        int progress;
+
+        float wpixel;
+        float hpixel;
+        CEGUI::Editbox *indicator;
+
+        void render();
         
     public:
         void tick();
         bool end();
 
         void show();
+        int getProgress();
+        void updateProgress(int progress);
         void hide();
 
         bool visible();

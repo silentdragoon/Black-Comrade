@@ -3,8 +3,8 @@ default: all
 
 include Makefile.local
 
-CC = g++ -g
-CFLAGS = 
+CC = g++
+CFLAGS = -g -o2
 
 OUTPUT = test
 
@@ -94,13 +94,16 @@ $(OUTPUT) : $(OBJS)
 	$(CC) -o $(OUTPUT) $(OBJS) $(LFLAGS) $(LIBS)
 	
 .cpp.o:
-	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 	
 run:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb -ex run ./$(OUTPUT)
 	
 debug:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb ./$(OUTPUT)
+
+nodebug:
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT)
 
 .PHONY: clean depend
 

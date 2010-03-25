@@ -19,7 +19,7 @@ enemy_attack_seperation = 10
 # Shooting
 enemy_fire_rate = 0.8
 enemy_inaccuracy = 0.12
-enemy_bullet_damage = 0.5
+enemy_bullet_damage = 0.25
 
 # Flocking Constants
 flock_detect_dist = 15
@@ -33,7 +33,7 @@ flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 40
 
-sound_file_path = .
+sound_file_path = /home/user-pool/users/jw7082
 
 sound_frontgun = 1
 sound_backgroundmusic = 2

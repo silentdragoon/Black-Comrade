@@ -35,7 +35,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,true);
+    inputState = new InputState(window,true,this,true,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Networking
@@ -95,7 +95,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen());
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -142,7 +142,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     } else if(collabInfo->getGameRole() == ENGINEER) {
         camera->setPosition(Vector3(0,-8.5,0));
     }
-    createViewPort();
 
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
@@ -163,10 +162,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Pilot Controls
     if(collabInfo->getGameRole() == PILOT) {
-        collisionMgr->addMesh(shipEntity);
+        collisionMgr->addShipMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
-        flying = new Flying( pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
+        flying = new Flying( sceneNodeMgr, pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
@@ -331,6 +330,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Hide loading screen
     preGame->hideLoadingScreen();
 
+    // Viewport
+    createViewPort();
+
     // Start Rendering Loop
     gameLoop->startLoop();
 
@@ -340,7 +342,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
-                                      guiMgr,pilotInfo,navigatorInfo,
+                                      guiMgr,soundMgr,pilotInfo,navigatorInfo,
                                       engineerInfo);
 
     std::cout << "Pilot stats:" << "\n";
@@ -531,6 +533,8 @@ Main::~Main()
 
 void Main::exit()
 {
+    soundMgr->stopEngine();
+    soundMgr->changeMusic(4); // Change back to theme music
     gameLoop->running = false;
 }
 
