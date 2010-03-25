@@ -50,26 +50,28 @@ void QuickTimeMiniGame::tick() {
             int irand = rand()%4+1;
 
             gameTick = waitTicks;
+            console->setString("******************************************",0,19);
+            console->setString("******************************************",0,21);
 
             switch(irand) {
                 case 1:
                     console->clearPrompt();
-                    console->appendToPrompt("Jammed repair tool...");
+                    console->setString("Jammed repair tool...",0,20);
                     broke=1;
                     break;
                 case 2:
                     console->clearPrompt();
-                    console->appendToPrompt("Reboot, operating system crash...");
+                    console->setString("Reboot, operating system crash...",0,20);
                     broke=2;
                     break;
                 case 3:
                     console->clearPrompt();
-                    console->appendToPrompt("Override to overcome safety limits...");
+                    console->setString("Override to overcome safety limits...",0,20);
                     broke=3;
                     break;
                 case 4:
                     console->clearPrompt();
-                    console->appendToPrompt("Self repair bot, damage sustained...");
+                    console->setString("Self repair bot, damage sustained...",0,20);
                     broke=4;
                     break;
             }        
@@ -118,14 +120,15 @@ void QuickTimeMiniGame::tick() {
                 std::string result = "Repair efficiency: ";
                 result+=out.str();
                 result+="%";
-                console->setString("                                             ",0,19);
-                console->setString(result,0,19);
+                console->setString("                                             ",0,20);
+                console->setString(result,0,20);
                 console->appendToPrompt("OK");
             }
 
             if(loose) {
                 broke=0;
                 console->clearPrompt();
+                console->setString("                                              ",0,20);
                 console->appendToPrompt("ERROR");
             }
 
@@ -135,7 +138,7 @@ void QuickTimeMiniGame::tick() {
 
         if((float)ticks>endTicks) {
             isEnd = true;
-            console->makeBlank();
+            console->appendLine("Finished");
         }
     }
 
@@ -163,7 +166,6 @@ void QuickTimeMiniGame::updateProgressBar() {
         }
     }
     if(isEnd) {
-        console->makeBlank();
     }
 }
 
