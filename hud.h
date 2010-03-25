@@ -40,6 +40,7 @@ private:
     CEGUI::Editbox *status;
     CEGUI::MultiLineEditbox *log;
     CEGUI::Editbox *indicator;
+    CEGUI::Editbox *countdown;
 
     CEGUI::FrameWindow *fullmap;
     CEGUI::FrameWindow *minimap;
@@ -81,7 +82,9 @@ public:
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
     
+   
     void setBossHealthbar(float yeah);
+    void setCountdown(std::string timer);
     
     void switchStatus(int state);
 

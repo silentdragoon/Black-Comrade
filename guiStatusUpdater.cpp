@@ -97,7 +97,6 @@ void GuiStatusUpdater::tick() {
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
-    
 
     float bossHealth = objective->getHealth();
     cout << "bh: " << bossHealth << endl;
@@ -111,5 +110,4 @@ void GuiStatusUpdater::tick() {
             hud->setLog(notification->getConsoleText());
         }
     }
-
 }
