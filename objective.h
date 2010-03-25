@@ -12,11 +12,12 @@ class Objective : public ITickable {
         int escapeTime;
         int ticks;
         bool boom;
+        int originalHealth;
     public:
         Objective(ParticleSystemEffectManager *particleSystemEffectManager);
         ~Objective();
 
-        int getHealth();
+        float getHealth();
         void damageObjective();
         int getEscapeTime();
 

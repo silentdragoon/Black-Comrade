@@ -14,8 +14,8 @@
     <Imageset Filename="RightEng.xml" />
     <Imageset Filename="RightNav.xml" />
     <Imageset Filename="VertMenu.xml" />
-    <ImageSet Filename="GameRoleMenu.imageset" />
-    <ImageSet Filename="NetworkRoleMenu.imageset" />
+    <Imageset Filename="GameRoleMenu.imageset" />
+    <Imageset Filename="NetworkRoleMenu.imageset" />
     
     <Imageset Filename="loading.xml" />
     <Imageset Filename="scores.xml" />
@@ -23,6 +23,7 @@
     <Imageset Filename="scores.xml" />
     <Imageset Filename="Charge.xml" />
     <Imageset Filename="Charges.xml" />
+    <Imageset Filename="StatusIndicators.xml" />
 
 
     <Font Filename="DroidSansMono.font" />
@@ -48,6 +49,11 @@
     <FalagardMapping WindowType="BlackComrade/Crewav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav3" />
     
         <FalagardMapping WindowType="BlackComrade/StatusIndicators" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators" />
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators2" />
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators3" />
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators4" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators4" />
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators5" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators5" />
+                                
 
     <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
     <FalagardMapping WindowType="BlackComrade/RightPil" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightPil" />
@@ -78,6 +84,7 @@
     <FalagardMapping WindowType="BlackComrade/ProgressBarHul"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarHul" />
     <FalagardMapping WindowType="BlackComrade/ProgressBarSen"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarSen" />
     <FalagardMapping WindowType="BlackComrade/ProgressBarShe"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarShe" />
+    <FalagardMapping WindowType="BlackComrade/ProgressBarComrade"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/ProgressBarComrade" />
 
     
     <FalagardMapping WindowType="BlackComrade/VProgressBarWep"          TargetType="CEGUI/ProgressBar" Renderer="Falagard/ProgressBar" LookNFeel="BlackComrade/VProgressBarWep" />
