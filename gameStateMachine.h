@@ -7,6 +7,7 @@
 #include "shipState.h"
 #include "replicaObject.h"
 #include "damageState.h"
+#include "objective.h"
 
 enum GameState { GS_STEALTH, GS_ATTACK, GS_FLEE, GS_GAME_OVER, GS_END };
 
@@ -20,6 +21,7 @@ private:
     GameState gameState;
     GameState oldState;
 
+    Objective *objective;
     MapManager *mapManager;
     ShipState *shipState;
     DamageState *damageState;
@@ -28,10 +30,12 @@ private:
     void checkWaypoints();
     void checkHealth();
     void checkSwarms();
+    void checkObjective();
 	
 public:
     GameStateMachine();
-    GameStateMachine(MapManager *mapManager, ShipState *shipState, DamageState *damageState);
+    GameStateMachine(MapManager *mapManager, ShipState *shipState,
+                     DamageState *damageState, Objective *objective);
     void tick();
 
     void setIsShipInSight(bool isShipInSight);
