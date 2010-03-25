@@ -70,6 +70,7 @@ public:
     void tick();
     bool end();
     int getScore();
+    ShipSystem getSystem();
 
     WeaponMiniGame(Console *console, InputState *inputState);
 

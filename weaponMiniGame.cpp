@@ -203,10 +203,12 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
         remainingMisaligned --;
         updateRemaining();
         updateKeyToPress();
+        score = 1;
     }
 }
 
 void WeaponMiniGame::tick() {
+    score = 0;
     if (remainingMisaligned == 0) {
         playing = false;
         console->appendLine("Finished");
@@ -219,3 +221,6 @@ bool WeaponMiniGame::end() {
 }
 
 int WeaponMiniGame::getScore() { return score; }
+
+ShipSystem WeaponMiniGame::getSystem() { return SS_WEAPONS; }
+
