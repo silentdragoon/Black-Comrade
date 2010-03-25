@@ -185,10 +185,9 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
         
         bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
         guiManager->getRootWindow()->addChildWindow(bossHealthbar);
-        // bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 3*wpixel,0),CEGUI::UDim(1.0 - 40 * hpixel,0)));
-        bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5,0),CEGUI::UDim(0.5,0)));
-        bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(200 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-        // bossHealthbar->setVisible(false);
+        bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 104*wpixel,0),CEGUI::UDim(1.0 - 41 * hpixel,0)));
+        bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(201 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+        bossHealthbar->setVisible(false);
     
     
     // Minimap
@@ -434,8 +433,8 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
     // Create the FrameWindow to return
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     minimap->setLookNFeel(lookFeel.getName());
-    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
-    // minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+    //minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
+    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
 
     return minimap;
 }
@@ -535,7 +534,7 @@ void HUD::switchStatus(int state) {
     statusIndicatorsComrade->setVisible(false);
     statusIndicatorsBossHealth->setVisible(false);
     statusIndicatorsBlank->setVisible(false);
-    // bossHealthbar->setVisible(false);
+    bossHealthbar->setVisible(false);
     
     std::cout << state << std::endl;
 

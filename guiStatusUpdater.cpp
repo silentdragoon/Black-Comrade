@@ -59,10 +59,10 @@ void GuiStatusUpdater::tick() {
                 hud->switchStatus(1);
                 break;
             case GS_ATTACK:
-                hud->switchStatus(2);
+                hud->switchStatus(4);
                 break;
             case GS_FLEE:
-                hud->switchStatus(4);
+                hud->switchStatus(5);
                 break;
          }
     }
