@@ -12,7 +12,8 @@ using namespace Ogre;
 
 class IMiniGame : public IConsoleInputReceiver {
 public:
-    static std::string getName() { return ""; };
+
+    virtual std::string getName() { return ""; } ;
     virtual void tick() = 0;
     virtual bool end() = 0;
     virtual int getScore() = 0;
