@@ -25,6 +25,8 @@ private:
 
     bool playing;
     bool isEnd;
+    bool isComplete;
+
     bool hit;
     void createScene();
     InputState *inputState;
@@ -72,6 +74,7 @@ private:
 public:
     void tick();
     bool end();
+    bool complete();
     int getScore();
     ShipSystem getSystem();
 

@@ -11,6 +11,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     , inputState(inputState)
     , isEnd(false)
     , playing(false)
+    , isComplete(false)
     , hit(false)
 {
     for (int i = 0; i < 5; i++) rng.seed(static_cast<unsigned int>(std::time(0)));
@@ -213,7 +214,10 @@ void WeaponMiniGame::moveBoxes(char c) {
 }
 
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
-    if (playing == false && remainingMisaligned > 0) playing = true;
+    if (playing == false && remainingMisaligned > 0) {
+        playing = true;
+        isComplete = true;
+    }
     if (playing == false) return;
     if (arg.text == toPress || arg.text == tolower(toPress)) {
         moveBoxes(toPress);
@@ -236,6 +240,8 @@ void WeaponMiniGame::tick() {
 bool WeaponMiniGame::end() {
     return isEnd;
 }
+
+bool WeaponMiniGame::complete() { return isComplete; }
 
 int WeaponMiniGame::getScore() {
     if (hit) {
