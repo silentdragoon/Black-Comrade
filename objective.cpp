@@ -2,12 +2,13 @@
 
 Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
     particleSystemEffectManager(particleSystemEffectManager),
-    health(10)
+    health(10),
+    originalHealth(10)
 {}
 
 Objective::~Objective() {}
 
-int Objective::getHealth() { return health; }
+float Objective::getHealth() { return health/originalHealth; }
 
 void Objective::damageObjective() {
     if(health!=0) health--;

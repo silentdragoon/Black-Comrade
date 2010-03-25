@@ -8,11 +8,12 @@ class Objective : public ITickable {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
         int health;
+        int originalHealth;
     public:
         Objective(ParticleSystemEffectManager *particleSystemEffectManager);
         ~Objective();
 
-        int getHealth();
+        float getHealth();
         void damageObjective();
 
         void tick();

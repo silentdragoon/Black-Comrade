@@ -309,7 +309,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
                                             collabInfo->getGameRole(),systemManager,hud,
-                                            flying,notificationMgr);
+                                            flying,notificationMgr,gameStateMachine,objective);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 	
     // Radar GUI

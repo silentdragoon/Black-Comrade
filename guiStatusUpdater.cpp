@@ -1,6 +1,6 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr, GameStateMachine *gameStateMachine, Objective *objective) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -9,7 +9,9 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, 
     systemManager(systemManager),
     hud(hud),
     flying(flying),
-    notificationMgr(notificationMgr)
+    notificationMgr(notificationMgr),
+    gameStateMachine(gameStateMachine),
+    objective(objective)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -48,8 +50,22 @@ void GuiStatusUpdater::tick() {
     hud->setEngines(engineHealth);
     hud->setHull(hullHealth);
     
+    // get game state and set HUD accordingly
     
-    hud->switchState(shipmode);
+    GameState gameState = gameStateMachine->currentGameState();
+    if (lastStateNotified == gameState) return;
+    switch(gameState) {
+        case GS_STEALTH:
+            hud->switchStatus(1);
+            break;
+        case GS_ATTACK:
+            hud->switchStatus(2);
+            break;
+        case GS_FLEE:
+            hud->switchStatus(4);
+            break;
+    }
+    lastStateNotified = gameState;
 
 
     // If player is navigator they can toggle the full screen map here
@@ -81,6 +97,8 @@ void GuiStatusUpdater::tick() {
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
+    
+    hud->setBossHealthbar(objective->getHealth());
 
     // Update transmission log
 

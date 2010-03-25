@@ -93,15 +93,17 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     
     // Status Indicator & Boss Health
     
-    CEGUI::FrameWindow *statusIndicatorsStealth    = guiManager->addStaticImage("StatusIndicators",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Stealth"  );
-    CEGUI::FrameWindow *statusIndicatorsSwarms    = guiManager->addStaticImage("StatusIndicators2",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Swarms"  );
-    CEGUI::FrameWindow *statusIndicatorsComrade    = guiManager->addStaticImage("StatusIndicators3",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BlackComrade"  );
-    CEGUI::FrameWindow *statusIndicatorsBossHealth    = guiManager->addStaticImage("StatusIndicators4",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BossHealthbar"  );    
+    statusIndicatorsStealth    = guiManager->addStaticImage("StatusIndicators",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Stealth"  );
+    statusIndicatorsSwarms    = guiManager->addStaticImage("StatusIndicators2",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Swarms"  );
+    statusIndicatorsComrade    = guiManager->addStaticImage("StatusIndicators3",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BlackComrade"  );
+    statusIndicatorsBossHealth    = guiManager->addStaticImage("StatusIndicators4",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BossHealthbar"  );    
+    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Blank"  );    
     
     // statusIndicatorsStealth->setVisible(false);
     statusIndicatorsSwarms->setVisible(false);
     statusIndicatorsComrade->setVisible(false);
     statusIndicatorsBossHealth->setVisible(false);
+    statusIndicatorsBlank->setVisible(false);
     
     // Progress Bars
 
@@ -178,6 +180,15 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
         
         weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
         shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+        
+        // Boss Health
+        
+        bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
+        guiManager->getRootWindow()->addChildWindow(bossHealthbar);
+        // bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 3*wpixel,0),CEGUI::UDim(1.0 - 40 * hpixel,0)));
+        bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5,0),CEGUI::UDim(0.5,0)));
+        bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(200 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+        // bossHealthbar->setVisible(false);
     
     
     // Minimap
@@ -491,6 +502,10 @@ void HUD::setShieldCharge(float yeah) {
     shieldCharge->setProgress(yeah);
 }
 
+void HUD::setBossHealthbar(float ohshi) {
+    bossHealthbar->setProgress(ohshi);
+}
+
 void HUD::updateMiniMap() {
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
@@ -519,6 +534,10 @@ void HUD::switchStatus(int state) {
     statusIndicatorsSwarms->setVisible(false);
     statusIndicatorsComrade->setVisible(false);
     statusIndicatorsBossHealth->setVisible(false);
+    statusIndicatorsBlank->setVisible(false);
+    // bossHealthbar->setVisible(false);
+    
+    std::cout << state << std::endl;
 
     switch ( state ) {
         case 1:
@@ -532,6 +551,11 @@ void HUD::switchStatus(int state) {
             break;
         case 4:
             statusIndicatorsBossHealth->setVisible(true);
+            bossHealthbar->setVisible(true);
+            break;
+        case 5:
+            statusIndicatorsBlank->setVisible(true);
+            break;
     }
 }
 

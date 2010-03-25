@@ -34,6 +34,8 @@ private:
     CEGUI::ProgressBar *engineRate;
     CEGUI::ProgressBar *weaponCharge;
     CEGUI::ProgressBar *shieldCharge;
+    
+    CEGUI::ProgressBar *bossHealthbar;
 
     CEGUI::Editbox *status;
     CEGUI::MultiLineEditbox *log;
@@ -54,6 +56,7 @@ private:
     CEGUI::FrameWindow *statusIndicatorsSwarms;
     CEGUI::FrameWindow *statusIndicatorsComrade;
     CEGUI::FrameWindow *statusIndicatorsBossHealth;
+    CEGUI::FrameWindow *statusIndicatorsBlank;
 
     GameRole gameRole;
 
@@ -77,6 +80,8 @@ public:
     void setEngineRate(float yeah);
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
+    
+    void setBossHealthbar(float yeah);
     
     void switchStatus(int state);
 
