@@ -4,6 +4,20 @@
 #include "IMiniGame.h"
 #include "shipSystem.h"
 #include "console.h"
+#include "inputState.h"
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cstdlib>
+#include <sys/types.h>
+
+#include "constManager.h"
+
+#include <math.h>
+
+using namespace std;
 
 class SheildMiniGame : public IMiniGame
 {
@@ -12,6 +26,27 @@ class SheildMiniGame : public IMiniGame
 
         ShipSystem system;
         Console *console;
+        InputState *inputState;
+        
+        std::vector<std::string> keys;
+        std::string currentChoird;
+        
+        bool winLine;
+        bool loseLine;
+        
+        int boardX, boardY;
+        int boardHeight;
+        int boardWidth;
+        
+        float dTime;
+        int currentQ;
+        float currentTime;
+        
+        void drawBoard();
+        void drawLine(int index, std::string chars);
+        void drawKeyStates();
+        
+        void loadFile(char *fileName);
         
     public:
         void tick();
@@ -25,7 +60,7 @@ class SheildMiniGame : public IMiniGame
         void backspaceKeyPressed();
         void otherKeyPressed(const OIS::KeyEvent &arg);
 
-        SheildMiniGame(Console *console);
+        SheildMiniGame(Console *console, InputState *inputState, int level);
         ~SheildMiniGame();
 };
 

@@ -70,7 +70,7 @@ void ConsoleShell::processCommand() {
         console->appendLine("Fixing all Systems...Fixed!");
         gameToPlay = new FixMiniGame();
     } else if (command == "repair sheilds") {
-        gameToPlay = new SheildMiniGame(console);
+        gameToPlay = new SheildMiniGame(console, inputState, 1);
     } else {
         command += ": command not found";
         console->appendLine(command);
