@@ -358,3 +358,83 @@ particle_system FX/reactor2
         keep_velocity true
     }
 }
+
+particle_system FX/reactorExplosion
+{
+    quota 1
+    material Particles/Ring
+    particle_width 5
+    particle_height 5
+    cull_each false
+    renderer billboard
+    billboard_type point
+    billboard_origin center
+
+    emitter Point 
+    {
+        angle 90
+        colour 0.6 0.2 0.8 1
+        colour_range_start 0.6 0.2 0.8 1 
+        colour_range_end 0.8 0.4 1 0.1
+        direction 0 0 1
+        emission_rate 1
+        position 0 0 0
+        velocity_min 0
+        velocity_max 0
+        duration 1 
+        repeat_delay_min 0
+        repeat_delay_max 0
+        time_to_live 40
+    }
+
+    affector Scaler
+    {
+        rate 20 
+    }
+}
+
+particle_system FX/reactorExplosion2
+{
+    quota 10
+    material Particles/Fireball
+    particle_width 10
+    particle_height 10
+    cull_each false
+    renderer billboard
+    billboard_type point
+    billboard_origin center
+
+    emitter Ellipsoid
+    {
+        angle 90
+        direction 0 0 1
+        emission_rate 10
+        position 0 0 0
+        velocity_min 0.1
+        velocity_max 0.5
+        duration_min 125
+        duration_max 130 
+        repeat_delay_min 0
+        repeat_delay_max 0
+        time_to_live 1
+        width 60
+        height 60
+        depth 60
+    }
+
+    affector Scaler
+    {
+        rate 20 
+    }
+
+    affector ColourFader
+    {
+        alpha -0.008
+    }
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+        keep_velocity true
+    }
+}
