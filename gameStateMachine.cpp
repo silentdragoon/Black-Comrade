@@ -96,8 +96,9 @@ void GameStateMachine::checkHealth() {
 }
 
 void GameStateMachine::checkObjective() {
-    if (gameState == GS_FLEE) return;
-    if (objective->getHealth() <= 0.0) gameState = GS_FLEE; 
+    if (objective->getEscapeTime() < 0) {
+        gameState = GS_GAME_OVER;
+    } else if (objective->getHealth() <= 0.0) { gameState = GS_FLEE; }
 }
 
 void GameStateMachine::checkSwarms() {

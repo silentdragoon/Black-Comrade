@@ -1,5 +1,6 @@
 
 INCLUDE = constMapPath
+INCLUDE = constObjective
 
 tick_period = 0.01666666667
 
