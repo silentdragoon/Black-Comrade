@@ -97,10 +97,14 @@ void GuiStatusUpdater::tick() {
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
-    
 
     float bossHealth = objective->getHealth();
     hud->setBossHealthbar(bossHealth);
+
+    int t = objective->getEscapeTime();
+    std::stringstream count;
+    count << " " << t << " seconds";
+    hud->setCountdown(count.str());
 
     // Update transmission log
 
@@ -110,5 +114,4 @@ void GuiStatusUpdater::tick() {
             hud->setLog(notification->getConsoleText());
         }
     }
-
 }

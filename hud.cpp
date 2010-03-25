@@ -105,6 +105,16 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     statusIndicatorsBossHealth->setVisible(false);
     statusIndicatorsBlank->setVisible(false);
     
+    // countdown timer
+            
+            
+        countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
+//        countdown->setFont("DroidSansMono-big.font");
+        guiManager->getRootWindow()->addChildWindow(countdown);
+        countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+        countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(1 - 46 * hpixel,0)));
+        countdown->setVisible(false);
+    
     // Progress Bars
 
     // Health
@@ -505,6 +515,10 @@ void HUD::setBossHealthbar(float ohshi) {
     bossHealthbar->setProgress(ohshi);
 }
 
+void HUD::setCountdown(std::string timer) {
+	countdown->setText(timer);
+}
+
 void HUD::updateMiniMap() {
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
@@ -554,8 +568,10 @@ void HUD::switchStatus(int state) {
             break;
         case 5:
             statusIndicatorsBlank->setVisible(true);
+            countdown->setVisible(true);
             break;
     }
+
 }
 
 
