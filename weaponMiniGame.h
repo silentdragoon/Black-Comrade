@@ -56,6 +56,7 @@ private:
     int yAlignedStart;
     int yAlignedEnd;
 
+    int totalChars;
     int remainingMisaligned;
 
     std::string possibleChars;

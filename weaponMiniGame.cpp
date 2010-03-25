@@ -13,17 +13,21 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState)
 {
     occurences = new int[5];
     possibleChars = "ABCDE";
-    alignedbox = "";
-    misalignedbox = "";
 
     setCoordinates();
 
     generateSequence(5);
-    remainingMisaligned = (xMisalignedEnd - xMisalignedStart + 1) * (yMisalignedEnd - yMisalignedStart + 1);
+    totalChars = (xMisalignedEnd - xMisalignedStart + 1) *
+                     (yMisalignedEnd - yMisalignedStart + 1);
+    remainingMisaligned = totalChars;
+
     calculateOccurences();
 
     toPress = sequence[0];
     toPressIndex = 0;
+
+    alignedbox = std::string(totalChars,'.');
+    misalignedbox = "";
 
     generateMisalignedBox();
     createScene();
@@ -35,7 +39,7 @@ void WeaponMiniGame::setCoordinates() {
     yMisalignedStart = 6;
     yMisalignedEnd = 16;
 
-    xAlignedStart = 69;
+    xAlignedStart = 70;
     xAlignedEnd = 96;
     yAlignedStart = 6;
     yAlignedEnd = 16;
@@ -146,9 +150,11 @@ void WeaponMiniGame::fillMisalignedBox() {
 }
 
 void WeaponMiniGame::fillAlignedBox() {
+    int i = 0;
     for (int y = yAlignedStart ; y <= yAlignedEnd ; y++) {
         for (int x = xAlignedStart ; x <= xAlignedEnd ; x++) {
-            console->setChar('.',x,y);
+            console->setChar(alignedbox[i],x,y);
+            i ++;
         }
     }
 }
@@ -181,6 +187,12 @@ void WeaponMiniGame::moveBoxes(char c) {
 
     misalignedbox.replace(index,1,".");
     fillMisalignedBox();
+
+    std::string str = "";
+    str += c;
+
+    alignedbox.replace(totalChars-remainingMisaligned,1,str);
+    fillAlignedBox();
 }
 
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
