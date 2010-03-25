@@ -48,6 +48,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         
         // Add initial random fire delay
         e->fireDelay = genFireDelay();
+
         
         e->yaw = yaw;
         
@@ -78,13 +79,9 @@ void Swarm::tick()
     
     if(canSwarmSeeShip()) state = SS_ATTACK;
     else {
-        MapTile *shipTile = mapMgr->getMapTile(shipState->getPosition());
-        Vector3 swarmPosition = getAveragePosition();
-        MapTile *swarmTile = mapMgr->getMapTile(&swarmPosition);
-        if(!swarmTile) {
-            cerr << "Location not within map\n";
-        } else {
-            if(shipTile != swarmTile) state = SS_PATROL;
+        Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
+        if(lineToShip.length() > ConstManager::getFloat("enemy_sight_dist")) {
+            state = SS_PATROL;
         }
     }
 
@@ -174,7 +171,6 @@ bool Swarm::canSwarmSeeShip()
 	lines->addLine(&avgPos, &end2);
 	*/
 	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
-	
 	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
 	
 	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
