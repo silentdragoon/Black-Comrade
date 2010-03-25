@@ -16,11 +16,17 @@
 #include <cstdlib>
 #include <time.h>
 
+#include <boost/math/distributions/uniform.hpp>
+#include <boost/random.hpp>
+
 using namespace Ogre;
 using namespace RakNet;
 
 class DamageState : public ITickable, public ReplicaObject {
 private:
+
+    boost::mt19937 rng;
+
     double shieldHealth;
     double sensorHealth;
     double weaponHealth;

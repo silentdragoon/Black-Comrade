@@ -11,8 +11,11 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     , inputState(inputState)
     , isEnd(false)
     , playing(false)
+    , isComplete(false)
     , hit(false)
 {
+    rng.seed(static_cast<unsigned int>(std::time(0)));
+
     setCoordinates();
 
     switch (difficulty) {
@@ -47,6 +50,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
 
     generateMisalignedBox();
     createScene();
+
 }
 
 void WeaponMiniGame::setCoordinates() {
@@ -89,7 +93,7 @@ void WeaponMiniGame::createScene() {
 
 
 void WeaponMiniGame::generateSequence(int length) {
-    boost::mt19937 rng;                 
+
     boost::uniform_int<> six(0,possibleChars.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
@@ -113,8 +117,7 @@ void WeaponMiniGame::calculateOccurences() {
 }
 
 void WeaponMiniGame::generateMisalignedBox() {
-
-    boost::mt19937 rng;                 
+     
     boost::uniform_int<> six(0,sequence.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
@@ -195,7 +198,6 @@ void WeaponMiniGame::moveBoxes(char c) {
     int first = misalignedbox.find_first_of(c);
     int last = misalignedbox.find_last_of(c);
 
-    boost::mt19937 rng;                 
     boost::uniform_int<> six(0,(last-first));
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
 
@@ -212,7 +214,10 @@ void WeaponMiniGame::moveBoxes(char c) {
 }
 
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
-    if (playing == false && remainingMisaligned > 0) playing = true;
+    if (playing == false && remainingMisaligned > 0) {
+        playing = true;
+        isComplete = true;
+    }
     if (playing == false) return;
     if (arg.text == toPress || arg.text == tolower(toPress)) {
         moveBoxes(toPress);
@@ -235,6 +240,8 @@ void WeaponMiniGame::tick() {
 bool WeaponMiniGame::end() {
     return isEnd;
 }
+
+bool WeaponMiniGame::complete() { return isComplete; }
 
 int WeaponMiniGame::getScore() {
     if (hit) {

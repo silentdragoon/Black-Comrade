@@ -39,6 +39,8 @@ class ConsoleShell : public IConsoleInputReceiver
         std::vector<std::string> commands;
         int commandIndex;
 
+        int difficulty;
+
         void historyBack();
         void historyForward();
         void showCommand(int index);
@@ -55,6 +57,8 @@ class ConsoleShell : public IConsoleInputReceiver
         void otherKeyPressed (const OIS::KeyEvent &arg);
 
         void showPrompt();
+
+        void increaseDifficulty();
         
         // Null unless a command has been entered
         std::string getCommand();
