@@ -176,9 +176,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
 
+    // Objective
+    objective = new Objective(particleSystemEffectManager);
+    gameLoop->addTickable(objective,"objective");
+
     // GameState
     if(collabInfo->getGameRole() == PILOT) {
-        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState);
+        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState,objective);
         networkingManager->replicate(gameStateMachine);    
     } else {
         gameStateMachine = 
@@ -284,10 +288,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     gameLoop->addTickable(damageState, "damageState");
 
     gameLoop->addTickable(particleSystemEffectManager, "psem");
-
-    // Objective
-    objective = new Objective(particleSystemEffectManager);
-    gameLoop->addTickable(objective,"objective");
 
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
