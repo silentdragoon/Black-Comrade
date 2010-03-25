@@ -40,9 +40,8 @@ void MiniGameManager::tick()
         inputReceiver = currentMiniGame;
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
-            std::cout << "Ended minigame with score "
-                      << currentMiniGame->getScore()
-                      << std::endl;
+            std::cout << "Ended minigame\n";
+            if (currentMiniGame->complete()) consoleShell->increaseDifficulty();
             delete currentMiniGame;
             currentMiniGame = NULL;
             inputReceiver = consoleShell;

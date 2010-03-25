@@ -9,6 +9,7 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState, IExit *exit
     , gameToPlay(NULL)
     , exit(exit)
     , fullCommand("")
+    , difficulty(1)
 {
     commands = std::vector<std::string>();
     console->appendLine("---------------------------------------");
@@ -22,6 +23,8 @@ void ConsoleShell:: tick() {
     gameToPlay = NULL;
     fullCommand = "";
 }
+
+void ConsoleShell::increaseDifficulty() { if (difficulty < 3) difficulty++; }
 
 std::string ConsoleShell::getCommand()
 {
@@ -47,11 +50,11 @@ void ConsoleShell::processCommand() {
         console->appendLine("Error: No target system specified.");
         console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
     } else if (command == "repair shieldgen" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SHIELD_GENERATOR);
+        gameToPlay = new SheildMiniGame(console,inputState,1);
     } else if (command == "repair weapons" ) {
-        gameToPlay = new ButtonMashMiniGame(console,inputState);
+        gameToPlay = new WeaponMiniGame(console,inputState,difficulty);
     } else if (command == "repair sensors" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_SENSORS);
+        gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair engines" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
     } else if (command == "access main program" ) {
@@ -69,8 +72,6 @@ void ConsoleShell::processCommand() {
     } else if (command == "fix") {
         console->appendLine("Fixing all Systems...Fixed!");
         gameToPlay = new FixMiniGame();
-    } else if (command == "repair sheilds") {
-        gameToPlay = new SheildMiniGame(console, inputState, 1);
     } else {
         command += ": command not found";
         console->appendLine(command);

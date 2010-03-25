@@ -180,7 +180,7 @@ void Swarm::removeDeadEnemies()
             //Make Explosion here
             Vector3 pos = *e->getPosition();
             particleSystemEffectManager->createExplosion(pos);
-            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,1.0);
+            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,2.5);
             sceneNodeMgr->deleteNode(e);
         	delete e;
         	members.erase(members.begin()+(i));

@@ -2,6 +2,7 @@
 
 PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
                    InputState *inputState,GuiManager *guiMgr,
+                   SoundManager *soundMgr,
                    CollaborationInfo *pilotInfo,
                    CollaborationInfo *navInfo,
                    CollaborationInfo *engInfo)
@@ -9,6 +10,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
     , window(window)
     , inputState(inputState)
     , guiMgr(guiMgr)
+    , soundMgr(soundMgr)
     , currentMenuScreen(0)
     , pilotInfo(pilotInfo)
     , navInfo(navInfo)
@@ -16,6 +18,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
 {
     postGameLoop = new StateUpdate();
 
+    postGameLoop->addTickable(soundMgr,"soundMgr");
     postGameLoop->addTickable(inputState,"inputState");
     postGameLoop->addTickable(this,"postGame");
 
