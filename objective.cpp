@@ -8,7 +8,7 @@ Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
 
 Objective::~Objective() {}
 
-float Objective::getHealth() { return health/originalHealth; }
+float Objective::getHealth() { return (float)health/(float)originalHealth; }
 
 void Objective::damageObjective() {
     if(health!=0) health--;
