@@ -207,7 +207,7 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
-    if(mts[x][y]->isObj()) {
+    /* if(mts[x][y]->isObj()) {
         mps[0] = mts[x][y]->getEntity();
         //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
         std::vector<int> adj = mts[x][y]->getConnections();
@@ -242,32 +242,32 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
             } else {
             }
         }
-    } else {
-        mps[0] = mts[x][y]->getEntity();
-        //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
-        std::vector<int> adj = mts[x][y]->getConnections();
+    } else { */
+        
+    mps[0] = mts[x][y]->getEntity();
+    //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
+    std::vector<int> adj = mts[x][y]->getConnections();
 
-        mps[1] = NULL;
-        mps[2] = NULL;
-        mps[3] = NULL;
-        mps[4] = NULL;
+    mps[1] = NULL;
+    mps[2] = NULL;
+    mps[3] = NULL;
+    mps[4] = NULL;
 
-        for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
-            int c = *it;
-            if(c==1) {
-                //cout << "1: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
-            } else if(c==2) {
-                //cout << "2: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
-            } else if(c==3) {
-                //cout << "3: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
-            } else if(c==4) {
-                //cout << "4: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
-            } else {
-            }
+    for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
+        int c = *it;
+        if(c==1) {
+            //cout << "1: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+            mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
+        } else if(c==2) {
+            //cout << "2: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+            mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
+        } else if(c==3) {
+            //cout << "3: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+            mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
+        } else if(c==4) {
+            //cout << "4: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
+            mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
+        } else {
         }
     }
 }

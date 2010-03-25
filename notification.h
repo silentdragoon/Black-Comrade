@@ -11,19 +11,16 @@ private:
     std::string consoleText;
     int soundNameConst;
     int soundLength;
-    int music;
 
 public:
 
     Notification(NotificationType type, std::string consoleText,
-                 int soundNameConst, int soundLength, int music);
+                 int soundNameConst, int soundLength);
 
     NotificationType getType();
     std::string getConsoleText();
     int getSoundNameConst();
     int getSoundLength();
-    int getMusic();
-
 };
 
 #endif

@@ -170,7 +170,6 @@ void SoundManager::changeMusic(int file) {
     // 2: Attack
     // 3: Flee
     // 4: Theme
-    std::cout << "SoumndMGR, MUSIC: " << file << std::endl;
     playingSound = file;
 }
 
