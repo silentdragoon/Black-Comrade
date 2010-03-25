@@ -11,6 +11,7 @@
 #include "systemManager.h"
 #include "collaborationInfo.h"
 #include "playerStats.h"
+#include "objective.h"
 
 using namespace RakNet;
 

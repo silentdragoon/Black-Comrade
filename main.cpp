@@ -177,7 +177,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
 
     // Objective
-    objective = new Objective(particleSystemEffectManager);
+    if (collabInfo->getGameRole() == PILOT) {
+        objective = new Objective(particleSystemEffectManager);
+        networkingManager->replicate(objective);
+    } else {
+        objective = (Objective*) networkingManager->getReplica("Objective",true);
+        objective->setParticleSystemEffectManager(particleSystemEffectManager);
+    }
     gameLoop->addTickable(objective,"objective");
 
     // GameState

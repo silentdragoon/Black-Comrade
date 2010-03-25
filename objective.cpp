@@ -9,6 +9,17 @@ Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
     originalHealth(10)
 {}
 
+Objective::Objective()
+    : health(10)
+    , escapeTime(ConstManager::getInt("escape_time"))
+    , boom(false)
+    , originalHealth()
+{}
+
+void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *particleSystemEffectManager) {
+    particleSystemEffectManager = particleSystemEffectManager;
+}
+
 Objective::~Objective() {}
 
 float Objective::getHealth() { return (float)health/(float)originalHealth; }
@@ -34,4 +45,19 @@ void Objective::tick() {
             std::cout << "ESCAPE: " << escapeTime << " seconds" << std::endl;
         }
     }
+}
+
+RakNet::RakString Objective::GetName(void) const {return RakNet::RakString("Objective");}
+
+RM3SerializationResult Objective::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(health);
+    serializeParameters->outputBitstream[0].Write(escapeTime);
+
+    return RM3SR_BROADCAST_IDENTICALLY;
+}
+
+void Objective::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
+    deserializeParameters->serializationBitstream[0].Read(health);	
+    deserializeParameters->serializationBitstream[0].Read(escapeTime);	
+
 }
