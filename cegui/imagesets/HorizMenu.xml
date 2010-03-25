@@ -8,7 +8,6 @@
     <Image Name="SenTeal" XPos="138" YPos="0" Width="3" Height="34" />
     <Image Name="SheLime" XPos="132" YPos="0" Width="3" Height="34" />
     <Image Name="Comrade" XPos="156" YPos="0" Width="3" Height="34" />
-    <Image Name="Comrade" XPos="156" YPos="0" Width="6" Height="34" />
     <Image Name="Placement" XPos="3" YPos="6" Width="120" Height="34" />
     <Image Name="X" XPos="0" YPos="0" Width="0" Height="0" />
 </Imageset>
