@@ -15,10 +15,8 @@ public:
     virtual bool end() = 0;
     virtual int getScore() = 0;
     virtual ShipSystem getSystem() { return SS_NONE;} ;
-
-    virtual void alphaNumKeyPressed(const OIS::KeyEvent &arg) {};
-    virtual void returnKeyPressed() {};
-    virtual void backspaceKeyPressed() {};
+    virtual bool complete() { return false;} ;            // If you want difficulty to increase for the next mini-game,
+                                                          // make sure this returns true when the game  exits
 };
 
 #endif

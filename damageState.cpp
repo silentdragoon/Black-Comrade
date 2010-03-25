@@ -29,7 +29,9 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
     , pilotInfo(pilotInfo)
     , engineerInfo(engineerInfo)
     , navigatorInfo(navigatorInfo)
-{}
+{
+    rng.seed(static_cast<unsigned int>(std::time(0)));
+}
 
 void DamageState::tick() {
     isDamaged = false;
@@ -93,8 +95,9 @@ void DamageState::damage(double multiplier) {
         return;
     }
 
-    srand ( time(NULL) );
-    int irand = rand() % 4 + 1;
+    boost::uniform_int<> six(1,4);
+    boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+    int irand = die();
     
     switch(irand) {
         case 1:

@@ -19,7 +19,7 @@ std::string ParticleSystemEffectManager::createUnique(std::string name) {
     return name;
 }
 
-void ParticleSystemEffectManager::makeReactor() {
+void ParticleSystemEffectManager::makeObjective() {
     Vector3 pos = mapMgr->getObjectivePosition(); 
 
     std::string nname = createUnique("enode");
@@ -35,8 +35,13 @@ void ParticleSystemEffectManager::makeReactor() {
     rl->setAttenuation(600, 0, 1, 0);
     rl->setPowerScale(2.0);
     effectNode->attachObject(rl);
-    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactor");
-    ParticleSystemEffect *pse2 = new ParticleSystemEffect(sceneMgr, effectNode, pname2, "FX/reactor2");
+    obj1 = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactor");
+    obj2 = new ParticleSystemEffect(sceneMgr, effectNode, pname2, "FX/reactor2");
+}
+
+void ParticleSystemEffectManager::destroyObjective() {
+    delete obj1;
+    delete obj2;
 }
 
 void ParticleSystemEffectManager::createExplosion(Vector3 pos) {

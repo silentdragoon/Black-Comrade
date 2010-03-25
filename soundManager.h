@@ -50,6 +50,7 @@ private:
     // Things for stuff
     int playingSound;
     float engineFrequency;
+    bool engineOn;
 
     void errCheck(FMOD_RESULT result);
     void errCheck(FMOD_RESULT result,std::string from);
@@ -71,6 +72,7 @@ public:
     void playSound(int file, Vector3 position, float volume);
     void playSound(int file, SceneNode *soundNode, float volume);
     void changeMusic(int file);
+    void stopEngine();
     void setShipNode(SceneNode *ship);
     void setShipState(ShipState *shipState);
 };

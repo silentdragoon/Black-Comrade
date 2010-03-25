@@ -21,6 +21,8 @@
     <Imageset Filename="scores.xml" />
     <Imageset Filename="selectrole.xml" />
     <Imageset Filename="scores.xml" />
+    <Imageset Filename="Charge.xml" />
+    <Imageset Filename="Charges.xml" />
 
 
     <Font Filename="DroidSansMono.font" />
@@ -44,11 +46,15 @@
     <FalagardMapping WindowType="BlackComrade/Crewav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav1" />
     <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
     <FalagardMapping WindowType="BlackComrade/Crewav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav3" />
+    
+        <FalagardMapping WindowType="BlackComrade/StatusIndicators" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators" />
 
     <FalagardMapping WindowType="BlackComrade/Left" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Left" />
     <FalagardMapping WindowType="BlackComrade/RightPil" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightPil" />
     <FalagardMapping WindowType="BlackComrade/RightEng" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightEng" />
     <FalagardMapping WindowType="BlackComrade/RightNav" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RightNav" />
+    <FalagardMapping WindowType="BlackComrade/Charge" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Charge" />
+    <FalagardMapping WindowType="BlackComrade/Charges" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Charges" />
 
     <FalagardMapping WindowType="BlackComrade/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="BlackComrade/Button" />
 	<FalagardMapping WindowType="BlackComrade/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="BlackComrade/Checkbox" />

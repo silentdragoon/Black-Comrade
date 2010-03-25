@@ -1,5 +1,7 @@
 #include "soundManager.h"
 
+#define SLEEP(arg)  ( usleep( (arg) *1000 ) )
+
 void SoundManager::errCheck(FMOD_RESULT result, std::string from) {
     if (result != FMOD_OK) {
         cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
@@ -13,6 +15,7 @@ void SoundManager::errCheck(FMOD_RESULT result) {
 SoundManager::SoundManager() {
     shipNode = 0;
     shipState = 0;
+    engineOn = true;
 
     Ogre::LogManager::getSingleton().logMessage("Starting FMODEX sound system...");
 
@@ -122,6 +125,7 @@ void SoundManager::loadMusic() {
 void SoundManager::loadPermanent() {
     string soundsPath = ConstManager::getString("sound_file_path");
     string fullPath = soundsPath + "/sounds/engine.wav";
+    std::cout << fullPath << std::endl;
     errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
     errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
 
@@ -270,13 +274,18 @@ void SoundManager::updateShipPosition() {
 }
 
 void SoundManager::updateEnginePitch() {
-    if(shipState!=0) {
+    if((shipState!=0)&&(engineOn)) {
         errCheck(engineChannel->setPaused(false));
         double speed = shipState->getSpeed();
         speed += 1.0;
         float freq = engineFrequency*speed;
         errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
     }
+}
+
+void SoundManager::stopEngine() {
+    engineOn = false;
+    engineChannel->stop();
 }
 
 void SoundManager::setShipNode(SceneNode *ship) { shipNode = ship; }
@@ -292,6 +301,44 @@ void SoundManager::tick() {
 
 SoundManager::~SoundManager() {
     Ogre::LogManager::getSingleton().logMessage("Closing FMODEX sound system...");
+    FMOD::Channel *current;
+    while(!activeChannels.empty()) {
+        bool playing = true;
+        current = activeChannels.front();
+        current->stop();
+        current->isPlaying(&playing);
+        activeChannels.pop_front();
+        if(playing) {
+            activeChannels.push_back(current);
+        } else {
+            inactiveChannels.push_back(current);
+        }
+    }
+    while(!inactiveChannels.empty()) {
+        current = inactiveChannels.front();
+        inactiveChannels.pop_front();
+        current->stop();
+    }
+    // Release sounds
+    std::map<int,FMOD::Sound*>::iterator it;
+    for(it=sounds.begin();it!=sounds.end();it++) {
+        FMOD::Sound *s = (*it).second;
+        s->release();
+    }
+    // Stop music
+    stealthChannel->stop();
+    attackChannel->stop();
+    fleeChannel->stop();
+    themeChannel->stop();
+    stealthMusic->release();
+    attackMusic->release();
+    fleeMusic->release();
+    themeMusic->release();
+    // Stop engine noise
+    engineChannel->stop();
+    engineSound->release();
+    //Release system
     errCheck(system->release());
+    SLEEP(5);
     Ogre::LogManager::getSingleton().logMessage("FMODEX closed.");
 }

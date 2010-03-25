@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="StatusIndicators" Imagefile="statusindicators.png" AutoScaled="true" >
+    <Image Name="Stealth" XPos="0" YPos="0" Width="206" Height="46">
+    <Image Name="Swarms" XPos="0" YPos="46" Width="206" Height="46">
+    <Image Name="BlackComrade" XPos="0" YPos="92" Width="206" Height="46">
+    <Image Name="BossHealthbar" XPos="0" YPos="138" Width="206" Height="46">
+    <Image Name="Placement" XPos="6" YPos="144" Width="195" Height="34">
+</Imageset>

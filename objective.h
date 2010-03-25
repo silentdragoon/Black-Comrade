@@ -1,15 +1,21 @@
 #ifndef OBJECTIVE_H
 #define OBJECTIVE_H
 
-class Objective {
+#include "ITickable.h"
+#include "particleSystemEffectManager.h"
+
+class Objective : public ITickable {
     private:
+        ParticleSystemEffectManager *particleSystemEffectManager;
         int health;
     public:
-        Objective();
+        Objective(ParticleSystemEffectManager *particleSystemEffectManager);
         ~Objective();
 
         int getHealth();
         void damageObjective();
+
+        void tick();
 };
 
 #endif
