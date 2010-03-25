@@ -4,6 +4,7 @@
 
 #include <OGRE/Ogre.h>
 #include <OIS/OIS.h>
+#include <string>
 #include "shipSystem.h"
 #include "IConsoleInputReceiver.h"
 
@@ -11,6 +12,7 @@ using namespace Ogre;
 
 class IMiniGame : public IConsoleInputReceiver {
 public:
+    static std::string getName() { return ""; };
     virtual void tick() = 0;
     virtual bool end() = 0;
     virtual int getScore() = 0;

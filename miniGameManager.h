@@ -21,6 +21,7 @@ using namespace std;
 
 class MiniGameManager : public ITickable, public OIS::KeyListener {
 private:
+    
     GunnerControls *playerControls;
     InputState *inputState;
     IConsoleInputReceiver *inputReceiver;
@@ -29,10 +30,14 @@ private:
     ConsoleShell *consoleShell;
     CollaborationInfo *player;
     IExit *exit;
+    std::map <std::string,int> difficulties;
     
     IMiniGame *currentMiniGame;
 
     void setConsoleState(bool isOpen);
+    void setInitialDifficulties();
+    void setDifficulty(IMiniGame *game, int difficulty);
+    int getDifficulty(IMiniGame *game);
     
 public:
     bool aKeyPressed;
