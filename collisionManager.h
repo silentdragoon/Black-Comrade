@@ -11,6 +11,7 @@
 #include "collisionDetection.h"
 #include "mapManager2.h"
 #include "collision.h"
+#include "loadingScreen.h"
 
 using namespace Ogre;
 using namespace std;
@@ -21,12 +22,13 @@ private:
     CollisionDetection *cd;
     MapManager *mp;
     SceneManager* sceneMgr;
+    LoadingScreen *loadingScreen;
     
     NewtonCollision *objCollision;
     
 public:
 
-    CollisionManager( SceneManager* sceneMgr, MapManager* mp );
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen );
     //Collision isCollided(Vector3 *shipPos);
     
     //stanard way to check map dist. Checks all surrounding pieces.

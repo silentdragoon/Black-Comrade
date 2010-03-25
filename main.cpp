@@ -95,7 +95,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr);
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen());
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -142,7 +142,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     } else if(collabInfo->getGameRole() == ENGINEER) {
         camera->setPosition(Vector3(0,-8.5,0));
     }
-    createViewPort();
 
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
@@ -330,6 +329,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Hide loading screen
     preGame->hideLoadingScreen();
+
+    // Viewport
+    createViewPort();
 
     // Start Rendering Loop
     gameLoop->startLoop();

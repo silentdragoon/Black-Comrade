@@ -1,8 +1,10 @@
 #include "collisionManager.h"
 
-CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
+CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
+                                    LoadingScreen* loadingScreen ):
     sceneMgr(sceneMgr),
-    mp(mp)
+    mp(mp),
+    loadingScreen(loadingScreen)
 {
     cd = new CollisionDetection();
     std::vector<Entity*> pc = mp->getMapPieces();
@@ -11,6 +13,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp ):
     for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
     {
         cout << "Map pieces loaded: "<< int(percDone) <<"%"<<endl;
+        loadingScreen->updateProgress(int(percDone));
         percDone += percInc;
         cd->addStaticTreeCollisionMesh(*it);
     }

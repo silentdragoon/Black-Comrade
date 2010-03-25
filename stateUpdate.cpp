@@ -44,7 +44,6 @@ void StateUpdate::startLoop()
     
     bool loop = true;
     while(loop) {
-        root = Root::getSingletonPtr();
         //std::cout << timer.getMilliseconds() - oldtime << std::endl;
     	oldtime = timer.getMilliseconds();
     	loop = this->tick();
