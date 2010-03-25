@@ -98,7 +98,10 @@ void GuiStatusUpdater::tick() {
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
     
-    hud->setBossHealthbar(objective->getHealth());
+    float bossHealth = objective->getHealth();
+    cout << "lolwat: " << bossHealth << endl;
+
+    hud->setBossHealthbar(bossHealth);
 
     // Update transmission log
 
