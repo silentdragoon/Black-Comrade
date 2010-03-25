@@ -14,7 +14,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     , isComplete(false)
     , hit(false)
 {
-    for (int i = 0; i < 5; i++) rng.seed(static_cast<unsigned int>(std::time(0)));
+    rng.seed(static_cast<unsigned int>(std::time(0)));
 
     setCoordinates();
 
