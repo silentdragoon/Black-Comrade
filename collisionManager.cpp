@@ -6,7 +6,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     mp(mp),
     loadingScreen(loadingScreen)
 {
-    cd = new CollisionDetection();
+    cd = new CollisionDetection(false);
     std::vector<Entity*> pc = mp->getMapPieces();
     double percInc = 100.0/pc.size();
     double percDone = 0;
