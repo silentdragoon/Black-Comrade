@@ -228,6 +228,11 @@ ShipSystem SheildMiniGame::getSystem()
     return SS_SHIELD_GENERATOR;
 }
 
+string SheildMiniGame::getName()
+{
+    return string("shieldGame");
+}
+
 void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {}
 
 void SheildMiniGame::returnKeyPressed() {}

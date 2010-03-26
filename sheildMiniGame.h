@@ -57,6 +57,7 @@ class SheildMiniGame : public IMiniGame
         int getScore();
 
         ShipSystem getSystem();
+        string getName();
 
         void alphaNumKeyPressed(const OIS::KeyEvent &arg);
         void returnKeyPressed();
