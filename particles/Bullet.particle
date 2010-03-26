@@ -412,11 +412,10 @@ particle_system FX/reactorExplosion2
         position 0 0 0
         velocity_min 0.1
         velocity_max 0.5
-        duration_min 125
-        duration_max 130 
+        duration 1 
         repeat_delay_min 0
         repeat_delay_max 0
-        time_to_live 1
+        time_to_live 130
         width 60
         height 60
         depth 60
@@ -424,12 +423,12 @@ particle_system FX/reactorExplosion2
 
     affector Scaler
     {
-        rate 20 
+        rate 15 
     }
 
     affector ColourFader
     {
-        alpha -0.008
+        alpha -0.8
     }
 
     affector DirectionRandomiser
