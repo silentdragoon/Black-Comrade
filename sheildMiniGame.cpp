@@ -266,4 +266,5 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     } else loseLine = true;
 }
 
+std::string SheildMiniGame::getName() { return "shieldGame"; }
         
