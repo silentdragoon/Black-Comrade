@@ -1,0 +1,6 @@
+#ifndef EFFECT_TYPE_H
+#define EFFECT_TYPE_H
+
+enum EffectType { ET_SPARK, ET_EXPLOSION, ET_OBJECTIVE_EXPLOSION, ET_PLAYER_MUZZLE };
+
+#endif
