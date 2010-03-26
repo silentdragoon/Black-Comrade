@@ -102,7 +102,7 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
 
 void MiniGameManager::increaseDifficulty(IMiniGame *game) {
      int current = getDifficulty(game);
-     setDifficulty(game,current+1);
+     if (current < 3) setDifficulty(game,current+1);
 }
 
 bool MiniGameManager::keyReleased(const OIS::KeyEvent &arg) { return false; }

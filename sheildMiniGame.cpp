@@ -13,6 +13,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , currentTime(0)
     , loseLine(false)
     , winLine(false)
+    , heal(0)
 {
 	console->makeBlank();
 
@@ -58,13 +59,25 @@ void SheildMiniGame::tick()
 
     drawKeyStates();
     
-    if(winLine) drawLine(0,"");
+    if(winLine) {
+        drawLine(0,"");
+        heal = 5;
+    } else {
+        heal = 0;
+    }
     
     currentTime++;
     
     int newQ = (int) floor(currentTime / dTime);
     if(currentQ != newQ) {
         currentQ = newQ;
+        
+        // Check for end game
+        
+        if((currentQ - boardHeight) >= (int)keys.size()) {
+            isEnd = true;
+        }
+        
         for(int i = 0; i <= boardHeight; i++) {
             int index = currentQ + i - boardHeight;
             if(index >= 0 && index < keys.size()) {
@@ -175,7 +188,6 @@ void SheildMiniGame::drawBoard()
 {
 	for(int i = 0; i < boardHeight; ++i)
 	{
-		std::cout << i << std::endl;
 		console->setChar('|', boardX, boardY + i);
 		console->setChar('|', boardX + boardWidth, boardY + i);
 	}
@@ -208,28 +220,24 @@ bool SheildMiniGame::complete()
 
 int SheildMiniGame::getScore()
 {
-
+    return heal;
 }
 
 ShipSystem SheildMiniGame::getSystem()
 {
-
+    return SS_SHIELD_GENERATOR;
 }
 
-void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) 
+string SheildMiniGame::getName()
 {
-    //console->appendToPrompt((char)arg.text);
+    return string("shieldGame");
 }
 
-void SheildMiniGame::returnKeyPressed() 
-{
-    isEnd = true;
-}
+void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {}
 
-void SheildMiniGame::backspaceKeyPressed() 
-{
+void SheildMiniGame::returnKeyPressed() {}
 
-}
+void SheildMiniGame::backspaceKeyPressed() {}
 
 void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
 {
@@ -266,5 +274,4 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     } else loseLine = true;
 }
 
-std::string SheildMiniGame::getName() { return "shieldGame"; }
         

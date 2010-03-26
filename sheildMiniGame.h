@@ -38,6 +38,8 @@ class SheildMiniGame : public IMiniGame
         int boardHeight;
         int boardWidth;
         
+        int heal;
+        
         float dTime;
         int currentQ;
         float currentTime;
@@ -49,13 +51,13 @@ class SheildMiniGame : public IMiniGame
         void loadFile(char *fileName);
         
     public:
-        std::string getName();
         void tick();
         bool end();
         virtual bool complete();
         int getScore();
 
         ShipSystem getSystem();
+        string getName();
 
         void alphaNumKeyPressed(const OIS::KeyEvent &arg);
         void returnKeyPressed();
