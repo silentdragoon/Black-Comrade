@@ -121,6 +121,7 @@ void SystemManager::fireWeapon() {
 }
 
 void SystemManager::damageShield() {
+    std::cout << shieldCharge << std::endl;
     shieldCharge -= 10; // TODO: fix this
 }
 
