@@ -74,7 +74,8 @@ RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters
     serializeParameters->outputBitstream[0].Write(health);
     serializeParameters->outputBitstream[0].Write(fire);
     serializeParameters->outputBitstream[0].Write(isDead);
-
+    serializeParameters->outputBitstream[0].Write(pitchScatter);
+    serializeParameters->outputBitstream[0].Write(yawScatter);
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -90,5 +91,7 @@ void Enemy::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(health);
     deserializeParameters->serializationBitstream[0].Read(fire2);
     deserializeParameters->serializationBitstream[0].Read(isDead);
+    deserializeParameters->serializationBitstream[0].Read(pitchScatter);
+    deserializeParameters->serializationBitstream[0].Read(yawScatter);
     if (fire2) fire = true;
 }

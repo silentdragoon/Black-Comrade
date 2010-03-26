@@ -314,7 +314,6 @@ float Swarm::genScatterAngle()
                             boost::normal_distribution<> > var_nom(rng, nd);
 
     double d = var_nom();
-    
     return (float)d;
 }
 

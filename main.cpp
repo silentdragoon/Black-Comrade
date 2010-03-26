@@ -138,9 +138,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,8.5,0));
+        camera->setPosition(Vector3(0,4.3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-8.5,0));
+        camera->setPosition(Vector3(0,-4.3,0));
     }
 
     // Engineer Controls
@@ -440,7 +440,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,-1));
     //camera->setFOVy(Radian(2.0943951));
-    camera->setNearClipDistance(1);
+    camera->setNearClipDistance(0.1);
     camera->setFarClipDistance(2500);
     
     // Lighting
@@ -525,7 +525,8 @@ int main(int argc,char *argv[])
         }
     }
 
-    Main *main = new Main(useKey, useMouse, enemies, collisions);
+    //Main *main = new Main(useKey, useMouse, enemies, collisions);
+    Main *main = new Main(useKey, false, enemies, collisions);
 
     delete main;
 }
