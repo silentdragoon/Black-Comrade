@@ -10,7 +10,7 @@
 
 using namespace RakNet;
 
-Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool rebuildCollisionMeshes) {
     // Start Ogre
     root = configRoot();
 
@@ -95,7 +95,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen());
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen(), rebuildCollisionMeshes);
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -506,6 +506,7 @@ int main(int argc,char *argv[])
     bool useMouse = true;
     bool enemies = true;
     bool collisions = true;
+    bool rebuildCollisionMeshes = false;
     cout << "argc=" << argc << endl;
     cout << argv[0] << endl;
     for (int i=1;i<argc;i++) 
@@ -523,11 +524,12 @@ int main(int argc,char *argv[])
             useMouse = false;
             cout << "Mouse is not bound" <<endl; 
         }
+         else if (string(argv[i]) == "-rc") {
+            rebuildCollisionMeshes = true;
+            cout << "Rebuiling collision meshes" <<endl; 
+        }
     }
-
-    //Main *main = new Main(useKey, useMouse, enemies, collisions);
-    Main *main = new Main(useKey, false, enemies, collisions);
-
+    Main *main = new Main(useKey, useMouse, enemies, collisions, rebuildCollisionMeshes);
     delete main;
 }
 
