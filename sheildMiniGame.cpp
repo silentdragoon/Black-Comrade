@@ -9,7 +9,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , boardHeight(18)
     , boardWidth(25)
     , inputState(inputState)
-    , currentQ(9)
+    , currentQ(0)
     , currentTime(0)
     , loseLine(false)
     , winLine(false)
@@ -31,25 +31,25 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     console->setString("Good luck...",1,14);
     console->setString("Calibration point    ---->",1,21);
     
-    loadFile("sheildLevel1");
-    
     drawBoard();
-    
-   // switch(level)
-    switch(2)
+    cout << "Level: " << level << endl;
+    switch(level)
     {
         case 1:
-            dTime = 1.5 / ConstManager::getFloat("tick_period");
+            dTime = 1 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel1");
             break;
         case 2:
-            dTime = 1 / ConstManager::getFloat("tick_period");
+            dTime = 0.6 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel2");
             break;
         case 3:
-            dTime = 0.5 / ConstManager::getFloat("tick_period");
+            dTime = 0.4 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel3");
             break;
     }
     
-    currentTime = currentQ * dTime;
+    currentTime = (boardHeight - 6) * dTime;
 }
 
 void SheildMiniGame::tick()
@@ -65,7 +65,6 @@ void SheildMiniGame::tick()
     int newQ = (int) floor(currentTime / dTime);
     if(currentQ != newQ) {
         currentQ = newQ;
-        cout << currentQ << endl;
         for(int i = 0; i <= boardHeight; i++) {
             int index = currentQ + i - boardHeight;
             if(index >= 0 && index < keys.size()) {
@@ -202,6 +201,11 @@ bool SheildMiniGame::end()
     return isEnd;
 }
 
+bool SheildMiniGame::complete()
+{
+    return true;
+}
+
 int SheildMiniGame::getScore()
 {
 
@@ -262,4 +266,5 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     } else loseLine = true;
 }
 
+std::string SheildMiniGame::getName() { return "shieldGame"; }
         

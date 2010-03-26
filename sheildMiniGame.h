@@ -49,8 +49,10 @@ class SheildMiniGame : public IMiniGame
         void loadFile(char *fileName);
         
     public:
+        std::string getName();
         void tick();
         bool end();
+        virtual bool complete();
         int getScore();
 
         ShipSystem getSystem();
