@@ -16,7 +16,9 @@ MiniGameManager::MiniGameManager(Console *console,
     , aKeyPressed(false)
     , exit(exit)
 {
-    consoleShell = new ConsoleShell(console,inputState,exit);
+    difficulties = new std::map <std::string,int>();
+    setInitialDifficulties();
+    consoleShell = new ConsoleShell(console,inputState,difficulties,exit);
     inputReceiver = consoleShell;
 }
 
@@ -41,7 +43,7 @@ void MiniGameManager::tick()
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
             std::cout << "Ended minigame\n";
-            if (currentMiniGame->complete()) consoleShell->increaseDifficulty();
+            if (currentMiniGame->complete()) increaseDifficulty(currentMiniGame);
             delete currentMiniGame;
             currentMiniGame = NULL;
             inputReceiver = consoleShell;
@@ -98,5 +100,27 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
     return true;
 }
 
+void MiniGameManager::increaseDifficulty(IMiniGame *game) {
+     int current = getDifficulty(game);
+     setDifficulty(game,current+1);
+}
+
 bool MiniGameManager::keyReleased(const OIS::KeyEvent &arg) { return false; }
+
+void MiniGameManager::setDifficulty(IMiniGame *game, int difficulty) {
+    (*difficulties)[game->getName()] = difficulty;
+}
+
+int MiniGameManager::getDifficulty(IMiniGame *game) {
+    try {
+        int difficulty = (*difficulties)[game->getName()];
+        return difficulty;
+    } catch (...) { return 1; }
+}
+
+void MiniGameManager::setInitialDifficulties() {
+    difficulties->insert(std::pair<std::string,int>("engineGame",1));
+    difficulties->insert(std::pair<std::string,int>("shieldGame",1));
+    difficulties->insert(std::pair<std::string,int>("weaponGame",1));
+}
 

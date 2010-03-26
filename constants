@@ -1,5 +1,6 @@
 
 INCLUDE = constMapPath
+INCLUDE = constObjective
 
 tick_period = 0.01666666667
 
@@ -38,8 +39,6 @@ flock_friend_closer_weight = 10
 flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 40
-
-sound_file_path = /home/user-pool/users/jw7082
 
 sound_frontgun = 1
 sound_backgroundmusic = 2

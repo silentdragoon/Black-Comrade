@@ -177,7 +177,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     }
 
     // Objective
-    objective = new Objective(particleSystemEffectManager);
+    if (collabInfo->getGameRole() == PILOT) {
+        objective = new Objective(particleSystemEffectManager);
+        networkingManager->replicate(objective);
+    } else {
+        objective = (Objective*) networkingManager->getReplica("Objective",true);
+        objective->setParticleSystemEffectManager(particleSystemEffectManager);
+    }
     gameLoop->addTickable(objective,"objective");
 
     // GameState
@@ -309,7 +315,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
                                             collabInfo->getGameRole(),systemManager,hud,
-                                            flying,notificationMgr);
+                                            flying,notificationMgr,gameStateMachine,objective);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 	
     // Radar GUI
@@ -330,6 +336,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Hide loading screen
     preGame->hideLoadingScreen();
+    soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
     createViewPort();
@@ -535,7 +542,7 @@ Main::~Main()
 void Main::exit()
 {
     soundMgr->stopEngine();
-    soundMgr->changeMusic(4); // Change back to theme music
+    //soundMgr->changeMusic(4); // Change back to theme music
     gameLoop->running = false;
 }
 

@@ -93,8 +93,28 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     
     // Status Indicator & Boss Health
     
-    CEGUI::FrameWindow *statusIndicators    = guiManager->addStaticImagePix("StatusIndicators",     0.5, 1.0 - 206*hpixel,   100 * wpixel, 100 * hpixel, "StatusIndicators",        "Stealth"  );
-
+    statusIndicatorsStealth    = guiManager->addStaticImage("StatusIndicators",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Stealth"  );
+    statusIndicatorsSwarms    = guiManager->addStaticImage("StatusIndicators2",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Swarms"  );
+    statusIndicatorsComrade    = guiManager->addStaticImage("StatusIndicators3",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BlackComrade"  );
+    statusIndicatorsBossHealth    = guiManager->addStaticImage("StatusIndicators4",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BossHealthbar"  );    
+    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Blank"  );    
+    
+    // statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsSwarms->setVisible(false);
+    statusIndicatorsComrade->setVisible(false);
+    statusIndicatorsBossHealth->setVisible(false);
+    statusIndicatorsBlank->setVisible(false);
+    
+    // countdown timer
+            
+            
+        countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
+//        countdown->setFont("DroidSansMono-big.font");
+        guiManager->getRootWindow()->addChildWindow(countdown);
+        countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+        countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(1 - 46 * hpixel,0)));
+        countdown->setVisible(false);
+    
     // Progress Bars
 
     // Health
@@ -170,6 +190,14 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
         
         weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
         shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+        
+        // Boss Health
+        
+        bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
+        guiManager->getRootWindow()->addChildWindow(bossHealthbar);
+        bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 104*wpixel,0),CEGUI::UDim(1.0 - 41 * hpixel,0)));
+        bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(201 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+        bossHealthbar->setVisible(false);
     
     
     // Minimap
@@ -415,8 +443,8 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
     // Create the FrameWindow to return
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     minimap->setLookNFeel(lookFeel.getName());
-    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
-    // minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+    //minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
+    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
 
     return minimap;
 }
@@ -483,6 +511,14 @@ void HUD::setShieldCharge(float yeah) {
     shieldCharge->setProgress(yeah);
 }
 
+void HUD::setBossHealthbar(float ohshi) {
+    bossHealthbar->setProgress(ohshi);
+}
+
+void HUD::setCountdown(std::string timer) {
+	countdown->setText(timer);
+}
+
 void HUD::updateMiniMap() {
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
@@ -505,3 +541,39 @@ void HUD::toggleMap(bool tog)
         fullmap->setVisible(false);
     }
 }
+
+void HUD::switchStatus(int state) {
+    statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsSwarms->setVisible(false);
+    statusIndicatorsComrade->setVisible(false);
+    statusIndicatorsBossHealth->setVisible(false);
+    statusIndicatorsBlank->setVisible(false);
+    bossHealthbar->setVisible(false);
+    
+    std::cout << state << std::endl;
+
+    switch ( state ) {
+        case 1:
+            statusIndicatorsStealth->setVisible(true);
+            break;
+        case 2:
+            statusIndicatorsSwarms->setVisible(true);
+            break;
+        case 3:
+            statusIndicatorsComrade->setVisible(true);
+            break;
+        case 4:
+            statusIndicatorsBossHealth->setVisible(true);
+            bossHealthbar->setVisible(true);
+            break;
+        case 5:
+            statusIndicatorsBlank->setVisible(true);
+            countdown->setVisible(true);
+            break;
+    }
+
+}
+
+
+
+    

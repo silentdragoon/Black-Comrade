@@ -40,6 +40,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="SystemManager") {
         return new SystemManager;
     }
+    else if (typeName=="Objective") {
+        return new Objective;
+    }
     ((OurReplicaManager *) replicaManager3)->doUpdate();
     return 0;
 }

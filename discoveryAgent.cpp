@@ -20,7 +20,7 @@ void DiscoveryAgent::startServerListUpdate(int serverPort) {
         searchClient->Ping("255.255.255.255",serverPort,true);
     } catch (...) {
         cout << "Could not start ping - program already running?\n";
-        std::exit(-1);
+        exit(-1);
     }
 
     for(std::vector<ServerInfo*>::const_iterator ite=servers.begin();ite!=servers.end();++ite) {

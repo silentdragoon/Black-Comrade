@@ -13,6 +13,8 @@
 #include "console.h"
 #include "consoleShell.h"
 #include "quickTimeMiniGame.h"
+#include "sheildMiniGame.h"
+#include "weaponMiniGame.h"
 #include "collaborationInfo.h"
 #include "IExit.h"
 
@@ -21,6 +23,7 @@ using namespace std;
 
 class MiniGameManager : public ITickable, public OIS::KeyListener {
 private:
+    
     GunnerControls *playerControls;
     InputState *inputState;
     IConsoleInputReceiver *inputReceiver;
@@ -29,10 +32,15 @@ private:
     ConsoleShell *consoleShell;
     CollaborationInfo *player;
     IExit *exit;
+    std::map <std::string,int> *difficulties;
     
     IMiniGame *currentMiniGame;
 
     void setConsoleState(bool isOpen);
+    void setInitialDifficulties();
+    void setDifficulty(IMiniGame *game, int difficulty);
+    int getDifficulty(IMiniGame *game);
+    void increaseDifficulty(IMiniGame *game);
     
 public:
     bool aKeyPressed;

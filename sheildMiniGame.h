@@ -51,6 +51,7 @@ class SheildMiniGame : public IMiniGame
     public:
         void tick();
         bool end();
+        virtual bool complete();
         int getScore();
 
         ShipSystem getSystem();

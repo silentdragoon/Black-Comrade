@@ -40,23 +40,25 @@ void AudioState::tick()
         }
     }
     
-    GameState state = gameStateMachine->currentGameState();
-    switch(state) {
-        case GS_STEALTH:
-            sndMgr->changeMusic(1);
-            break;
-        case GS_ATTACK:
-            sndMgr->changeMusic(2);
-            break;
-        case GS_FLEE:
-            sndMgr->changeMusic(3);
-            break;
-        case GS_GAME_OVER:
-            sndMgr->changeMusic(4);// TODO: Change to sad music
-            break;
-        case GS_END:
-            sndMgr->changeMusic(4);// TODO: Change to awesome victory music
-            break;
+    if(gameStateMachine->isNewState()) {
+        GameState state = gameStateMachine->currentGameState();
+        switch(state) {
+            case GS_STEALTH:
+                sndMgr->changeMusic(1);
+                break;
+            case GS_ATTACK:
+                sndMgr->changeMusic(2);
+                break;
+            case GS_FLEE:
+                sndMgr->changeMusic(3);
+                break;
+            case GS_GAME_OVER:
+                sndMgr->changeMusic(4);// TODO: Change to sad music
+                break;
+            case GS_END:
+                sndMgr->changeMusic(4);// TODO: Change to awesome victory music
+                break;
+        }
     }
 
     if (miniGameMgr->aKeyPressed) {
