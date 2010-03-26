@@ -72,6 +72,7 @@ private:
     int pointerY;
 
 public:
+    std::string getName();
     void tick();
     bool end();
     bool complete();

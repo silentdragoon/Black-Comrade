@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState, DamageState *damageState)
+GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState,
+                  DamageState *damageState, Objective *objective)
 	: gameState(GS_STEALTH)
 	, mapManager(mapManager)
 	, shipState(shipState)
@@ -12,6 +13,7 @@ GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState,
     , waypointName(NULL)
     , isShipInSight(false)
 	, mIsNewState(true)
+    , objective(objective)
 {}
 
 GameStateMachine::GameStateMachine()
@@ -38,9 +40,10 @@ void GameStateMachine::tick()
 	oldState = gameState;
     //std::cout << "Checking statemachine" << std::endl;
 
-    checkWaypoints();
     checkSwarms();
+    checkObjective();
     checkHealth();
+    checkWaypoints();
 
 	if(oldState != gameState) mIsNewState = true;
 }
@@ -90,6 +93,12 @@ void GameStateMachine::checkHealth() {
     if (damageState->getHullHealth() <= 0) {
         gameState = GS_GAME_OVER;
     }
+}
+
+void GameStateMachine::checkObjective() {
+    if (objective->getEscapeTime() < 0 && gameState != GS_END) {
+        gameState = GS_GAME_OVER;
+    } else if (objective->getHealth() <= 0.0) { gameState = GS_FLEE; }
 }
 
 void GameStateMachine::checkSwarms() {

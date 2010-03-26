@@ -9,12 +9,13 @@ Enemy::Enemy(int health, int id) :
     position(new Vector3()),
     yaw(0),
     pitch(0),
-    roll(0)
+    roll(0),
+    isDead(false)
 {}
 
 Enemy::Enemy() :
     isReplicated(false),
-    health(100),
+    health(1),
     fire(false),
     fireDelay(0),
     position(new Vector3()),

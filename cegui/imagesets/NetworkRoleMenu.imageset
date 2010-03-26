@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="NetworkRoleMenu" Imagefile="networkrole.png" NativeHorzRes="1680" NativeVertRes="1050" AutoScaled="true">
+<Imageset Name="NetworkRoleMenu" Imagefile="selectgame.png" NativeHorzRes="1680" NativeVertRes="1050" AutoScaled="true">
     <Image Name="NetworkRoleMenu" XPos="0" YPos="0" Width="1680" Height="1050" />
 </Imageset>

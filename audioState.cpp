@@ -3,13 +3,14 @@
 
 AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
                        NotificationManager *notificationMgr, BulletManager *bulletMgr,
-                       MiniGameManager *miniGameMgr)
+                       MiniGameManager *miniGameMgr,GameStateMachine *gameStateMachine)
     : gunState(gunState),
       sndMgr(sndMgr),
       shipNode(shipNode),
       notificationMgr(notificationMgr),
       bulletMgr(bulletMgr),
-      miniGameMgr(miniGameMgr)
+      miniGameMgr(miniGameMgr),
+      gameStateMachine(gameStateMachine)
 {}
 
 void AudioState::tick()
@@ -37,9 +38,26 @@ void AudioState::tick()
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
             sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,2);
         }
-        if (newNotification->getMusic() != -1) {
-            std::cout << "MUSIC: " << newNotification->getMusic() << std::endl;
-            sndMgr->changeMusic(newNotification->getMusic());
+    }
+    
+    if(gameStateMachine->isNewState()) {
+        GameState state = gameStateMachine->currentGameState();
+        switch(state) {
+            case GS_STEALTH:
+                sndMgr->changeMusic(1);
+                break;
+            case GS_ATTACK:
+                sndMgr->changeMusic(2);
+                break;
+            case GS_FLEE:
+                sndMgr->changeMusic(3);
+                break;
+            case GS_GAME_OVER:
+                sndMgr->changeMusic(4);// TODO: Change to sad music
+                break;
+            case GS_END:
+                sndMgr->changeMusic(4);// TODO: Change to awesome victory music
+                break;
         }
     }
 

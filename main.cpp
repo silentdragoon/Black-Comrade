@@ -176,9 +176,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
 
+    // Objective
+    if (collabInfo->getGameRole() == PILOT) {
+        objective = new Objective(particleSystemEffectManager);
+        networkingManager->replicate(objective);
+    } else {
+        objective = (Objective*) networkingManager->getReplica("Objective",true);
+        objective->setParticleSystemEffectManager(particleSystemEffectManager);
+    }
+    gameLoop->addTickable(objective,"objective");
+
     // GameState
     if(collabInfo->getGameRole() == PILOT) {
-        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState);
+        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState,objective);
         networkingManager->replicate(gameStateMachine);    
     } else {
         gameStateMachine = 
@@ -285,10 +295,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     gameLoop->addTickable(particleSystemEffectManager, "psem");
 
-    // Objective
-    objective = new Objective(particleSystemEffectManager);
-    gameLoop->addTickable(objective,"objective");
-
     // Bullet Manager
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
@@ -301,14 +307,15 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     // Audio
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
-                                notificationMgr,bulletMgr,miniGameMgr);
+                                notificationMgr,bulletMgr,miniGameMgr,
+                                gameStateMachine);
     gameLoop->addTickable(audioState,"audioState");
 	
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
                                             collabInfo->getGameRole(),systemManager,hud,
-                                            flying,notificationMgr);
+                                            flying,notificationMgr,gameStateMachine,objective);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 	
     // Radar GUI
@@ -329,6 +336,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
 
     // Hide loading screen
     preGame->hideLoadingScreen();
+    soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
     createViewPort();
@@ -534,7 +542,7 @@ Main::~Main()
 void Main::exit()
 {
     soundMgr->stopEngine();
-    soundMgr->changeMusic(4); // Change back to theme music
+    //soundMgr->changeMusic(4); // Change back to theme music
     gameLoop->running = false;
 }
 

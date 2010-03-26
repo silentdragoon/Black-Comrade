@@ -1,5 +1,7 @@
 
 INCLUDE = constMapPath
+INCLUDE = constObjective
+INCLUDE = constSoundPath
 
 tick_period = 0.01666666667
 
@@ -9,12 +11,18 @@ ship_scale = 1
 # Enemy Constants
 enemy_patrol_speed = 50
 enemy_attack_speed = 100
-enemy_sight_angle = 0.5236
-enemy_sight_dist = 150
+enemy_sight_angle = 0.22
+enemy_sight_dist = 160
 enemy_look_ahead = 15
 enemy_max_turn = 0.05
 enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
+
+# Spawning
+max_swarms_attack = 2
+max_swarms_flee = 5
+
+swarm_size = 10
 
 # Shooting
 enemy_fire_rate = 0.8
@@ -32,8 +40,6 @@ flock_friend_closer_weight = 10
 flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 40
-
-sound_file_path = /home/user-pool/users/jw7082
 
 sound_frontgun = 1
 sound_backgroundmusic = 2

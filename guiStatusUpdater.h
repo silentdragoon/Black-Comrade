@@ -12,6 +12,8 @@
 #include "hud.h"
 #include "flying.h"
 #include "notificationManager.h"
+#include "gameStateMachine.h"
+#include "objective.h"
 
 class GuiStatusUpdater : public ITickable {
     private:
@@ -24,9 +26,12 @@ class GuiStatusUpdater : public ITickable {
         HUD *hud;
         Flying *flying;
         NotificationManager *notificationMgr;
+        GameStateMachine *gameStateMachine;
+        GameState lastStateNotified;
+        Objective *objective;
 
     public:
-        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger, HUD *hud, Flying *flying, NotificationManager *notificationMgr);
+        GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManger, HUD *hud, Flying *flying, NotificationManager *notificationMgr, GameStateMachine *gameStateMachine, Objective *objective);
         ~GuiStatusUpdater();
         virtual void tick();
 };

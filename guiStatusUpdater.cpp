@@ -1,6 +1,6 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr, GameStateMachine *gameStateMachine, Objective *objective) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -9,7 +9,9 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, 
     systemManager(systemManager),
     hud(hud),
     flying(flying),
-    notificationMgr(notificationMgr)
+    notificationMgr(notificationMgr),
+    gameStateMachine(gameStateMachine),
+    objective(objective)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -47,6 +49,23 @@ void GuiStatusUpdater::tick() {
     hud->setWeapons(weaponHealth);
     hud->setEngines(engineHealth);
     hud->setHull(hullHealth);
+    
+    // get game state and set HUD accordingly
+    
+    GameState gameState = gameStateMachine->currentGameState();
+    if (gameStateMachine->isNewState()) {
+        switch(gameState) {
+            case GS_STEALTH:
+                hud->switchStatus(1);
+                break;
+            case GS_ATTACK:
+                hud->switchStatus(4);
+                break;
+            case GS_FLEE:
+                hud->switchStatus(5);
+                break;
+         }
+    }
 
 
     // If player is navigator they can toggle the full screen map here
@@ -79,6 +98,14 @@ void GuiStatusUpdater::tick() {
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
 
+    float bossHealth = objective->getHealth();
+    hud->setBossHealthbar(bossHealth);
+
+    int t = objective->getEscapeTime();
+    std::stringstream count;
+    count << " " << t << " seconds";
+    hud->setCountdown(count.str());
+
     // Update transmission log
 
     if (notificationMgr->hasNewNotification()) {
@@ -87,5 +114,4 @@ void GuiStatusUpdater::tick() {
             hud->setLog(notification->getConsoleText());
         }
     }
-
 }

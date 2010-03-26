@@ -50,13 +50,32 @@ void Flying::updatePosition()
     if(col.isCollided && useCollisions)
     {
         vFactor = 0.05;
-        hitCountDown = static_cast<int> (100.0*col.penetration[0]);
+        
         //reflected vel need to be fixed
-        xVel += col.penetration[0] * col.normals[0];
-        yVel += col.penetration[0] * col.normals[1];
-        zVel += col.penetration[0] * col.normals[2];
+        
+        float pen = col.penetration[0];
+        Vector3 normal(col.normals[0],col.normals[1],col.normals[2]);
+        Vector3 vel(xVel, yVel, zVel);
+        
+        *position += normal * (pen + 1);
+        
+		float speedIn = vel.dotProduct(-normal) / normal.length();
+        speedIn = abs(speedIn);
+		if(speedIn > 0) {
+			hitCountDown = static_cast<int> (50 * speedIn);
+		
+			vel = vel + (2 * (normal.dotProduct(-vel)) * normal);
 
-        damageState->damage(col.penetration[0]);
+			vel.normalise();
+		
+			vel *= 0.95 * speedIn;
+
+			xVel = vel.x;
+			yVel = vel.y;
+			zVel = vel.z;
+		}
+
+        damageState->damage(1);
     }
 
     if( hitCountDown == 0 )

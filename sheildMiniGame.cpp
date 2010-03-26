@@ -9,10 +9,11 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , boardHeight(18)
     , boardWidth(25)
     , inputState(inputState)
-    , currentQ(9)
+    , currentQ(0)
     , currentTime(0)
     , loseLine(false)
     , winLine(false)
+    , heal(0)
 {
 	console->makeBlank();
 
@@ -31,25 +32,25 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     console->setString("Good luck...",1,14);
     console->setString("Calibration point    ---->",1,21);
     
-    loadFile("sheildLevel1");
-    
     drawBoard();
-    
-   // switch(level)
-    switch(2)
+    cout << "Level: " << level << endl;
+    switch(level)
     {
         case 1:
-            dTime = 1.5 / ConstManager::getFloat("tick_period");
+            dTime = 1 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel1");
             break;
         case 2:
-            dTime = 1 / ConstManager::getFloat("tick_period");
+            dTime = 0.6 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel2");
             break;
         case 3:
-            dTime = 0.5 / ConstManager::getFloat("tick_period");
+            dTime = 0.4 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel3");
             break;
     }
     
-    currentTime = currentQ * dTime;
+    currentTime = (boardHeight - 6) * dTime;
 }
 
 void SheildMiniGame::tick()
@@ -58,14 +59,25 @@ void SheildMiniGame::tick()
 
     drawKeyStates();
     
-    if(winLine) drawLine(0,"");
+    if(winLine) {
+        drawLine(0,"");
+        heal = 5;
+    } else {
+        heal = 0;
+    }
     
     currentTime++;
     
     int newQ = (int) floor(currentTime / dTime);
     if(currentQ != newQ) {
         currentQ = newQ;
-        cout << currentQ << endl;
+        
+        // Check for end game
+        
+        if((currentQ - boardHeight) >= (int)keys.size()) {
+            isEnd = true;
+        }
+        
         for(int i = 0; i <= boardHeight; i++) {
             int index = currentQ + i - boardHeight;
             if(index >= 0 && index < keys.size()) {
@@ -176,7 +188,6 @@ void SheildMiniGame::drawBoard()
 {
 	for(int i = 0; i < boardHeight; ++i)
 	{
-		std::cout << i << std::endl;
 		console->setChar('|', boardX, boardY + i);
 		console->setChar('|', boardX + boardWidth, boardY + i);
 	}
@@ -202,30 +213,31 @@ bool SheildMiniGame::end()
     return isEnd;
 }
 
+bool SheildMiniGame::complete()
+{
+    return true;
+}
+
 int SheildMiniGame::getScore()
 {
-
+    return heal;
 }
 
 ShipSystem SheildMiniGame::getSystem()
 {
-
+    return SS_SHIELD_GENERATOR;
 }
 
-void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) 
+string SheildMiniGame::getName()
 {
-    //console->appendToPrompt((char)arg.text);
+    return string("shieldGame");
 }
 
-void SheildMiniGame::returnKeyPressed() 
-{
-    isEnd = true;
-}
+void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {}
 
-void SheildMiniGame::backspaceKeyPressed() 
-{
+void SheildMiniGame::returnKeyPressed() {}
 
-}
+void SheildMiniGame::backspaceKeyPressed() {}
 
 void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
 {

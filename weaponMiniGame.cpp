@@ -40,6 +40,8 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
                      (yMisalignedEnd - yMisalignedStart + 1);
     remainingMisaligned = totalChars;
 
+    std::cout << "-------------------------------" << difficulty << "\n";
+
     calculateOccurences();
 
     toPress = sequence[0];
@@ -52,6 +54,8 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     createScene();
 
 }
+
+std::string WeaponMiniGame::getName() { return "weaponGame"; }
 
 void WeaponMiniGame::setCoordinates() {
     xMisalignedStart = 16;

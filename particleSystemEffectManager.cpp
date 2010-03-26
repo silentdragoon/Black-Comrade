@@ -40,8 +40,26 @@ void ParticleSystemEffectManager::makeObjective() {
 }
 
 void ParticleSystemEffectManager::destroyObjective() {
+    Vector3 pos = mapMgr->getObjectivePosition(); 
+
     obj1->stopEmitting();
     obj2->stopEmitting();
+
+    std::string nname = createUnique("enode");
+    std::string pname = createUnique("effect");
+
+    SceneNode *effectNode = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode->setPosition(pos);
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, effectNode, pname, "FX/reactorExplosion");
+    activeEffects->push_back(pse);
+
+    nname = createUnique("enode");
+    pname = createUnique("effect");
+
+    SceneNode *effectNode2 = sceneMgr->getRootSceneNode()->createChildSceneNode(nname);
+    effectNode2->setPosition(pos);
+    ParticleSystemEffect *pse2 = new ParticleSystemEffect(sceneMgr, effectNode2, pname, "FX/reactorExplosion2");
+    activeEffects->push_back(pse2);
 }
 
 void ParticleSystemEffectManager::createExplosion(Vector3 pos) {

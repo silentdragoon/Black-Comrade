@@ -131,7 +131,7 @@ void SoundManager::loadPermanent() {
 
     errCheck(system->playSound(FMOD_CHANNEL_FREE,engineSound,true,&engineChannel));
 
-    errCheck(engineChannel->setVolume(0.5));
+    errCheck(engineChannel->setVolume(0.2));
 
     errCheck(engineChannel->getFrequency(&engineFrequency));
 }
@@ -170,7 +170,6 @@ void SoundManager::changeMusic(int file) {
     // 2: Attack
     // 3: Flee
     // 4: Theme
-    std::cout << "SoumndMGR, MUSIC: " << file << std::endl;
     playingSound = file;
 }
 

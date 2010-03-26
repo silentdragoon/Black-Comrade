@@ -1,9 +1,12 @@
 #include "consoleShell.h"
-
-ConsoleShell::ConsoleShell(Console *console, InputState *inputState, IExit *exit)
+        
+ConsoleShell::ConsoleShell(Console *console, InputState *inputState,
+                           std::map <std::string,int> *difficulties,
+                           IExit *exit)
     : console(console)
     , inputState(inputState)
     , command("")
+    , difficulties(difficulties)
     , commandIndex(-1)
     , defaultPrompt(">> ")
     , gameToPlay(NULL)
@@ -23,8 +26,6 @@ void ConsoleShell:: tick() {
     gameToPlay = NULL;
     fullCommand = "";
 }
-
-void ConsoleShell::increaseDifficulty() { if (difficulty < 3) difficulty++; }
 
 std::string ConsoleShell::getCommand()
 {
@@ -50,9 +51,9 @@ void ConsoleShell::processCommand() {
         console->appendLine("Error: No target system specified.");
         console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
     } else if (command == "repair shieldgen" ) {
-        gameToPlay = new SheildMiniGame(console,inputState,1);
+        gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame"));
     } else if (command == "repair weapons" ) {
-        gameToPlay = new WeaponMiniGame(console,inputState,difficulty);
+        gameToPlay = new WeaponMiniGame(console,inputState,getDifficulty("weaponGame"));
     } else if (command == "repair sensors" ) {
         gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair engines" ) {
@@ -137,6 +138,13 @@ void ConsoleShell::showPrompt() {
     command = "";
     console->clearPrompt();
     console->appendToPrompt(defaultPrompt);
+}
+
+int ConsoleShell::getDifficulty(std::string name) {
+    try {
+        int difficulty = (*difficulties)[name];
+        return difficulty;
+    } catch (...) { return 1; }
 }
 
 ConsoleShell::~ConsoleShell() {}
