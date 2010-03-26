@@ -16,8 +16,8 @@ Objective::Objective()
     , originalHealth()
 {}
 
-void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *particleSystemEffectManager) {
-    particleSystemEffectManager = particleSystemEffectManager;
+void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *psem) {
+    particleSystemEffectManager = psem;
 }
 
 Objective::~Objective() {}
