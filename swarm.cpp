@@ -150,7 +150,7 @@ bool Swarm::canSwarmSeeShip()
 
 	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
-	// Draw debug lines
+	/*// Draw debug lines
 	Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
 	    ,0, cos(yaw+ConstManager::getFloat("enemy_sight_angle")));
 	
@@ -169,7 +169,7 @@ bool Swarm::canSwarmSeeShip()
 	
 	lines->addLine(&avgPos, &end1);
 	lines->addLine(&avgPos, &end2);
-	
+	*/
 	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
 	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
 	
