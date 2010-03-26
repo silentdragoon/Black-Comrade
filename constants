@@ -1,6 +1,7 @@
 
 INCLUDE = constMapPath
 INCLUDE = constObjective
+INCLUDE = constSoundPath
 
 tick_period = 0.01666666667
 
