@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <vector>
 #include "collision.h"
-
+#include "constManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -18,6 +18,8 @@ class CollisionDetection{
 private:
 
    	NewtonWorld *newtonWorld;
+    
+    bool gernerateMeshes;
     
     int shapeID;
 
@@ -44,10 +46,14 @@ private:
                                 const Ogre::Vector3 &scale);
 
 	void getMatrix(Entity *entity, dFloat *matrix);
+
+    static void mySerializeCollisionCallbackFunction(void* serializeHandle, const void* buffer, int size);
+    static void myDeserializeCollisionCallbackFunction(void* serializeHandle, void* buffer, int size);
+
     
 public:
     
-    CollisionDetection();
+    CollisionDetection( bool genMeshes);
     
     void addStaticTreeCollisionMesh(Entity *entity);
     

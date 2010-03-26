@@ -1,7 +1,8 @@
 
 #include "collisionDetection.h"
 
-CollisionDetection::CollisionDetection()
+CollisionDetection::CollisionDetection( bool gernerateMeshes ):
+    gernerateMeshes(gernerateMeshes)
 {
 	newtonWorld = NewtonCreate();
     for(int i=0; i < 16; i++) idmatrix[i] = 0.0f;
@@ -11,6 +12,16 @@ CollisionDetection::CollisionDetection()
     idmatrix[15] = 1.0f;
     enemyCol = NULL;
     shapeID = 5;
+}
+
+void CollisionDetection::mySerializeCollisionCallbackFunction(void* file, const void* buffer, int size)
+{
+    fwrite( buffer, size, 1, (FILE*)file );
+}
+
+void CollisionDetection::myDeserializeCollisionCallbackFunction(void* serializeHandle, void* buffer, int size)
+{
+    fread( buffer, size, 1, (FILE*)serializeHandle );
 }
 
 void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius)
@@ -26,7 +37,8 @@ void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius
     pos[14] = z;
     objCollision = NewtonCreateSphere (newtonWorld, radius, radius, radius, shapeID, &pos[0]); // TODO: This needs fixing. x y and z are radius not position.
     shapeID++;
-      //NewtonReleaseCollision (newtonWorld, objCollision);
+    //void* ptoFunc = &(mySerializeCollisionCallbackFunction);
+    //NewtonReleaseCollision (newtonWorld, objCollision);
 }
 
 dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
@@ -51,63 +63,105 @@ dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
 
 void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
 {
-	NewtonCollision *treeCollision;
+    bool meshCreated = false;
+    NewtonCollision *treeCollision;
+    
+    std::stringstream out;
+    out << entity->getName();
+    
+    string fileString = ConstManager::getString("map_file_path");
+    fileString.append("collisionMeshes/");
+    fileString += out.str();
+    fileString.append(".cmesh");
+    cout << fileString<<endl;
+    char *fileName = (char*) fileString.c_str();
 
-	treeCollision = NewtonCreateTreeCollision (newtonWorld, 0);
-    NewtonTreeCollisionBeginBuild(treeCollision);
-    
-    size_t vertex_count;
-	size_t index_count;
-	Ogre::Vector3 *vertices;
-	unsigned long *indices;
-    
-    GetMeshInformation(   entity->getMesh(), vertex_count, vertices, index_count, indices,
-                          entity->getParentNode()->getPosition(),
-                          entity->getParentNode()->getOrientation(),
-                          entity->getParentNode()->_getDerivedScale());
-                          
-/*                               Ogre::Vector3(),
-                              Ogre::Quaternion::IDENTITY,
-                              Ogre::Vector3(1,1,1)); */
-    dFloat vArray[9];
-    int i0, i1, i2;
-    for (int i = 0; i < static_cast<int>(index_count); i += 3)
+    if( !gernerateMeshes )
     {
-        i0 = indices[i];
-        i1 = indices[i+1];
-        i2 = indices[i+2];
-         
-        vArray[0] = vertices[i0].x;
-        vArray[1] = vertices[i0].y;
-        vArray[2] = vertices[i0].z;
-        
-        vArray[3] = vertices[i1].x;
-        vArray[4] = vertices[i1].y;
-        vArray[5] = vertices[i1].z;
-        
-        vArray[6] = vertices[i2].x;
-        vArray[7] = vertices[i2].y;
-        vArray[8] = vertices[i2].z;
-         
-         NewtonTreeCollisionAddFace(treeCollision, 3, vArray, 
-         			sizeof(dFloat)*3, i);
-         
+        FILE* meshFile;
+        meshFile = fopen(fileName,"r");
+        if (meshFile!=NULL)
+        {
+            treeCollision = NewtonCreateCollisionFromSerialization (newtonWorld, myDeserializeCollisionCallbackFunction, meshFile);
+            fclose (meshFile);
+            meshCreated = true;
+        }
+        else
+        {
+            cout << "Colision detection could not read file.\nAttempting to create mesh from scratch" << endl;
+        }
     }
-    
-    NewtonTreeCollisionEndBuild(treeCollision, 1);
+
+    if( !meshCreated )
+    {
+        treeCollision = NewtonCreateTreeCollision (newtonWorld, 0);
+        NewtonTreeCollisionBeginBuild(treeCollision);
+        
+        size_t vertex_count;
+        size_t index_count;
+        Ogre::Vector3 *vertices;
+        unsigned long *indices;
+        
+        GetMeshInformation(   entity->getMesh(), vertex_count, vertices, index_count, indices,
+                              entity->getParentNode()->getPosition(),
+                              entity->getParentNode()->getOrientation(),
+                              entity->getParentNode()->_getDerivedScale());
+                              
+    /*                               Ogre::Vector3(),
+                                  Ogre::Quaternion::IDENTITY,
+                                  Ogre::Vector3(1,1,1)); */
+        dFloat vArray[9];
+        int i0, i1, i2;
+        for (int i = 0; i < static_cast<int>(index_count); i += 3)
+        {
+            i0 = indices[i];
+            i1 = indices[i+1];
+            i2 = indices[i+2];
+             
+            vArray[0] = vertices[i0].x;
+            vArray[1] = vertices[i0].y;
+            vArray[2] = vertices[i0].z;
+            
+            vArray[3] = vertices[i1].x;
+            vArray[4] = vertices[i1].y;
+            vArray[5] = vertices[i1].z;
+            
+            vArray[6] = vertices[i2].x;
+            vArray[7] = vertices[i2].y;
+            vArray[8] = vertices[i2].z;
+             
+             NewtonTreeCollisionAddFace(treeCollision, 3, vArray, 
+                        sizeof(dFloat)*3, i);
+        }
+        
+        NewtonTreeCollisionEndBuild(treeCollision, 1);
+        
+        FILE* meshFile;
+        meshFile = fopen(fileName,"w");
+        if (meshFile!=NULL)
+        {
+            NewtonCollisionSerialize(newtonWorld, treeCollision, mySerializeCollisionCallbackFunction, meshFile);
+            fclose (meshFile);
+        }
+        else
+        {
+            cout << "Colision detection could not write file." << endl;
+        }
+    }
+
     NewtonBody* rigidTree = NewtonCreateBody (newtonWorld, treeCollision);
     NewtonReleaseCollision (newtonWorld, treeCollision);
     
     NewtonBodySetMatrix (rigidTree, &idmatrix[0]);
  
- 	dFloat boxP0[3]; 
+    dFloat boxP0[3]; 
     dFloat boxP1[3];
     
     //possibly need this if we rely on newton
     //NewtonCollisionCalculateAABB (treeCollision, &idmatrix[0], &boxP0[0], &boxP1[0]);
  
- 	collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,treeCollision));
- 	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
+    collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,treeCollision));
+    bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidTree));
 }
 
 //only to be used with map pieces where the second element is not transformed
@@ -139,7 +193,6 @@ Collision CollisionDetection::mapCollision(Entity *e1, Entity *e2)
         dFloat penetration[16] = {0.0f};
     	return Collision(false,normals,contacts,penetration);;
     }
-    
     getMatrix(e1,e1Matrix);
     //getMatrix(e2,e2Matrix);
 	
@@ -256,7 +309,7 @@ void CollisionDetection::createConvexHull( Entity *entity )
         vertexCloud[i*3+2] = vertices[i].z;
     }
     shapeID++;
-    NewtonCollision *newCol = NewtonCreateConvexHull (newtonWorld, vertex_count, vertexCloud, 12, 0.002, shapeID, NULL);
+    NewtonCollision *newCol = NewtonCreateConvexHull (newtonWorld, vertex_count, vertexCloud, 12, 0.0, shapeID, NULL);
     NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, newCol);
     //PROBLEM with the line above as this comand should work, but terminates the app;Possibly a c++ issue
     //NewtonReleaseCollision( newtonWorld, enemyCol);
