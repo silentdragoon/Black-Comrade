@@ -14,6 +14,8 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , loseLine(false)
     , winLine(false)
     , heal(0)
+    , healed(false)
+    , numNotes(0)
 {
 	console->makeBlank();
 
@@ -53,17 +55,29 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     currentTime = (boardHeight - 6) * dTime;
 }
 
+int SheildMiniGame::calcHeal() {
+    
+    int perNote = (int)ceil(100.0 / numNotes);
+    
+    int subTotal = perNote * currentChoird.size();
+    
+    return subTotal;
+}
+
 void SheildMiniGame::tick()
 {
 	//drawBoard();
 
     drawKeyStates();
     
+    heal = 0;
+    
     if(winLine) {
         drawLine(0,"");
-        heal = 5;
-    } else {
-        heal = 0;
+        if(!healed) {
+            heal = 5;//calcHeal();
+            healed = true;
+        }
     }
     
     currentTime++;
@@ -86,20 +100,23 @@ void SheildMiniGame::tick()
             
             winLine = false;
             loseLine = false;
+            heal = false;
             
         }
     }
 }
 
-void SheildMiniGame::loadFile(char *fileName)
+void SheildMiniGame::loadFile(string fileName)
 {
-    ifstream fin(fileName);
+    ifstream fin(fileName.c_str());
     
     if(fin.is_open()) {
         
         string line;
         while(!fin.eof()) {
             getline(fin,line);
+            
+            numNotes += line.size();
             
             keys.push_back(line); 
         }
@@ -257,7 +274,7 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
         
         str.append(keys[index]);
         
-        if(str.size() != 0) {
+        if(str.size() == currentChoird.size() && str.size() != 0) {
         
         	while(str.size() > 0) {
 

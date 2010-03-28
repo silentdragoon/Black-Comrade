@@ -39,16 +39,21 @@ class SheildMiniGame : public IMiniGame
         int boardWidth;
         
         int heal;
+        bool healed;
+        
+        int numNotes;
         
         float dTime;
         int currentQ;
         float currentTime;
         
+        int calcHeal();
+        
         void drawBoard();
         void drawLine(int index, std::string chars);
         void drawKeyStates();
         
-        void loadFile(char *fileName);
+        void loadFile(string fileName);
         
     public:
         void tick();
