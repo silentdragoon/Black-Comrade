@@ -7,6 +7,7 @@ material PE/Streak
 			lighting off
 			depth_write off
 			scene_blend add
+			fog_override true
 
 			texture_unit
 			{
@@ -25,6 +26,7 @@ material PE/LightRibbonTrail
             lighting off
             scene_blend add
             depth_write off
+            fog_override true 
 
             texture_unit
             {
@@ -49,7 +51,7 @@ material FX/Flame
 
             texture_unit
             {
-                texture bigflame.png
+                texture muzzleflash.png
             }
         }
     }
@@ -74,3 +76,64 @@ material FX/Muzzle
     }
 }
 
+material FX/Sparks
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            fog_override true 
+
+            texture_unit
+            {
+                texture spark2.png
+            }
+        }
+    }
+}
+
+material FX/MultiSpark
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            fog_override true 
+
+            texture_unit
+            {
+                texture spark3.png
+            }
+        }
+    }
+}
+
+
+material FX/Explodder
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            fog_override true 
+
+            point_sprites on
+            point_size 2
+            point_size_attenuation on
+
+            texture_unit
+            {
+            texture flare.png
+            }
+        }
+    }
+}

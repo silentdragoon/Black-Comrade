@@ -11,3 +11,219 @@ material lambert1
        } 
     }    
 }
+
+material shortCables
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+
+			texture_unit
+			{
+                scale 0.5 0.33
+ 				texture editedCable.jpg
+				rotate -90
+			}
+		}
+	}
+}
+material shortRoof
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			texture_unit
+			{
+                scale 0.0625 0.02
+				texture concrete.jpg
+			}
+		}
+	}
+}
+
+material shortBottom
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+
+material shortFloor
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0 0 0 0
+			emissive 0 0 0
+
+			scene_blend alpha_blend
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+                scale 0.0625 0.02
+				texture gridTransUnit.png
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material shortDrainSides
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+material shortDrain
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+
+material shortBottom
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+
+material longCables
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+
+			texture_unit
+			{
+                scale 0.5 0.33
+ 				texture editedCable.jpg
+				rotate -90
+			}
+		}
+	}
+}
+
+material longRoof
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			texture_unit
+			{
+                scale 0.0625 0.01
+				texture concrete.jpg
+			}
+		}
+	}
+}
+material longFloor
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0 0 0 0
+			emissive 0 0 0
+
+			scene_blend alpha_blend
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+                scale 0.0625 0.01
+				texture gridTransUnit.png
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material longDrain
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+material longBottom
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
+
+material longDrainSides
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+			specular 0 0 0 1
+			emissive 0 0 0
+		}
+	}
+}
