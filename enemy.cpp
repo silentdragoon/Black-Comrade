@@ -29,11 +29,13 @@ Enemy::Enemy() :
 Enemy::~Enemy()
 {}
 
+EntityType Enemy::getEntityType() { return ENTT_ENEMY; }
+
 Vector3 Enemy::getDirection() {
 	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
 }
 
-int Enemy::getHealth() {
+float Enemy::getHealth() {
     return health;
 }
 

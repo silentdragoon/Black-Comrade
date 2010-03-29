@@ -24,10 +24,110 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
     colMgr->addMesh( sceneNodeMgr->getEntity(shipState) );
 }
 
-// TODO: Does this contain numbers which should be constants in const.h?
+void BulletManager::fire(IBulletOwner *owner) {
+    SceneNode *bulletNode = makeBulletNode(owner->getBulletColour());
+    bulletNode->setPosition(owner->getBulletOrigin());
+    
+    IBulletTarget *target;
+    double dtt = findTarget(owner,&target);
+    Bullet *b = new Bullet(owner, target, bulletNode, dtt); //TODO Pass in proper dtt
+    activeBullets->push_back(b);
+    //particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), Vector3 pos);
+}
+
+double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *owner) {
+    double distance = 1000000.0;
+    Vector3 origin = owner->getBulletOrigin();
+    Vector3 direction = owner->getBulletDirection();
+    Entity *entity = sceneNodeMgr->getEntity((Enemy*)possibleTarget);
+    switch (possibleTarget->getEntityType()) {
+        case ENTT_OBJECTIVE:
+            distance = colMgr->getRCObjDist(&origin,&direction);
+            break;
+        case ENTT_MAP:
+            distance = colMgr->getRCMapDist(&origin,&direction);
+            std::cout << distance << "\n";
+            break;
+        case ENTT_ENEMY:
+            distance = colMgr->rayCollideWithTransform(&origin,&direction,entity);
+            break;
+    }
+    return distance;
+}
+
+double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
+    double tempDistance = 0;
+    IBulletTarget *bestTarget = new MapTarget();  // Map target
+    double shortestDistance = getDistanceTo(bestTarget,owner);  // Distance to map
+
+    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+    Enemy *e;
+    for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+       e = *it;
+       tempDistance = getDistanceTo(e,owner);
+       if (tempDistance < shortestDistance) {
+            shortestDistance = tempDistance;
+            bestTarget = e;
+        }
+    }
+
+    tempDistance = getDistanceTo(shipState,owner);
+    if (tempDistance < shortestDistance) {
+        shortestDistance = tempDistance;
+        bestTarget = shipState;
+    }
+
+    tempDistance = getDistanceTo(objective,owner);
+    if (tempDistance < shortestDistance) {
+        shortestDistance = tempDistance;
+        bestTarget = objective;
+    }
+
+    *target = bestTarget;
+    return shortestDistance;
+}
 
 bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin) {
     return fire(origin,direction,c, trailOrigin, 0);
+}
+
+SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour) {
+    string bullName = "Bullet";
+    string bname = "Bill";
+    string lname = "Light";
+    string rname = "Ribbon";
+    std::stringstream out;
+    out << bnum++;
+    bname += out.str();
+    lname += out.str();
+    bullName += out.str();
+    rname += out.str();
+
+    SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
+
+    BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
+    bbbs->setMaterialName("PE/Streak");
+    Billboard *bbb = bbbs->createBillboard(0,0,0,bulletColour);
+    bbb->setDimensions(0.7,0.7);
+
+    RibbonTrail *trail = sceneMgr->createRibbonTrail(rname);
+    trail->setMaterialName("PE/LightRibbonTrail");
+    trail->setTrailLength(75);
+    trail->setMaxChainElements(400);
+    trail->setInitialColour(0,bulletColour);
+    trail->setInitialWidth(0,0.7);
+    trail->addNode(bulletNode);
+    sceneMgr->getRootSceneNode()->attachObject(trail);
+
+    Light *l = sceneMgr->createLight(lname);
+    l->setType(Light::LT_POINT);
+    l->setDiffuseColour(bulletColour);
+    l->setSpecularColour(bulletColour);
+    l->setAttenuation(100,0.5,0.0005,0);
+
+    bulletNode->attachObject(bbbs);
+    bulletNode->attachObject(l);
+    return bulletNode;
 }
 
 bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin, PlayerStats *stats) 
@@ -127,6 +227,36 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
         return false;
 }
 
+void BulletManager::updateBullets2() {
+    for(int i=0;i<activeBullets->size();i++) {
+        Bullet *b = activeBullets->at(i);
+        b->updateLocation();
+        if(b->distanceTravelled>b->distanceToTravel) {
+            // Bullet has reached it's target
+            std::cout << "Delete\n";
+            //applyDamage(b);
+            ////particleSystemEffectManager->createEffect(b->getTarget()->getHitEffectType(), Vector3 pos);
+            sceneMgr->destroySceneNode(b->getNode());	
+            delete b;
+            activeBullets->erase(activeBullets->begin()+(i));
+        }
+    }
+}
+
+void BulletManager::applyDamage(Bullet *b) {
+    IBulletTarget *target = b->getTarget();
+    EntityType ownerType = b->getOwner()->getEntityType();
+    EntityType targetType = target->getEntityType();
+    int damage = b->getOwner()->getBulletDamage();
+
+    if (ownerType == targetType) {
+        // Friendly fire!
+        target->setHealth(target->getHealth()-damage);
+    } else {
+        target->setHealth(target->getHealth()-damage);
+    }
+}
+
 void BulletManager::updateBullets() {
     for(int i=0;i<activeBullets->size();i++) {
         Bullet *b = activeBullets->at(i);
@@ -162,15 +292,9 @@ void BulletManager::handleGun(GunState *gun) {
     if (gun->fire()) {
         if (gun->stats != 0) gun->stats->shotsFired += 1;
 
-        Vector3 position = gun->getPosition();
-        Vector3 trailPos = position;
-        //trailPos.y -= 2;
-        Quaternion orientation = gun->getOrientation();
-        Vector3 direction = -orientation.zAxis();
-        position = Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
-
-        if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f), trailPos, gun->stats))
-        if (gun->stats != 0) gun->stats->shotsHit += 1;
+        //if (fire(position,direction,ColourValue(0.7f,0.4f,0.0f), trailPos, gun->stats))
+        //if (gun->stats != 0) gun->stats->shotsHit += 1;
+        fire(gun);
 
         playerFire = true;
     }
@@ -193,7 +317,8 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	    if(e->fire) {
             e->fire = false;
             if(activeBullets->size()<7) {
-                fire(*e->getPosition(),bulletDirection,ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
+                //fire(*e->getPosition(),bulletDirection,ColourValue(0.7f,0.0f,0.0f),*e->getPosition());
+                fire(e);
             }
 	    }
 	}
@@ -205,15 +330,15 @@ std::vector<Bullet*> * BulletManager::getActiveBullets() {
 
 void BulletManager::tick()
 {
-    updateBullets();
+    updateBullets2();
 
     playerFire = false;
     enemyFire = false;
 
     // Guns shoot if neccessary
     handleGun(pilotGunState);
-    handleGun(engineerGunState);
-    handleGun(navigatorGunState);
+    //handleGun(engineerGunState);
+    //handleGun(navigatorGunState);
     
     // Enemies shoot if neccessary
     handleEnemies(swarmMgr->getAllEnemies());

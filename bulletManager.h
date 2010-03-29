@@ -14,6 +14,7 @@
 #include "shipState.h"
 #include "damageState.h"
 #include "objective.h"
+#include "mapTarget.h"
 
 #include <boost/random/normal_distribution.hpp>
 
@@ -40,9 +41,19 @@ class BulletManager : public ITickable
         bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin);
         bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin, PlayerStats *stats);
 
+        void fire(IBulletOwner *owner);
+
+        double findTarget(IBulletOwner *owner, IBulletTarget **target);
+        double getDistanceTo(IBulletTarget *possibleTarget, IBulletOwner *owner);
+
+        SceneNode *makeBulletNode(ColourValue bulletColour);
+
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);
-        void updateBullets(); 
+        void updateBullets();
+
+        void updateBullets2();
+        void applyDamage(Bullet *b);
         
     public:
         bool playerFire;

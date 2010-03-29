@@ -1,7 +1,7 @@
 #include "bullet.h"
 
 void Bullet::updateLocation() {
-    bulletNode->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
+    node->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
 
     distanceTravelled = distanceTravelled + 
         sqrt(pow(direction.x*velocity,2)+pow(direction.y*velocity,2)+pow(direction.z*velocity,2)); 
@@ -10,6 +10,23 @@ void Bullet::updateLocation() {
 Vector3 Bullet::getDeathSpark() {
     return deathSpark;
 }
+
+Bullet::Bullet(IBulletOwner *owner, IBulletTarget *target,
+               SceneNode *bulletNode, double distanceToTravel)
+    : owner(owner)
+    , target(target)
+    , origin(owner->getBulletOrigin())
+    , direction(owner->getBulletDirection())
+    , node(bulletNode)
+    , velocity(owner->getBulletVelocity())
+    , distanceTravelled(0)
+    , distanceToTravel(distanceToTravel)
+    , madeNoise(false)
+{}
+
+IBulletOwner* Bullet::getOwner() { return owner; }
+
+IBulletTarget* Bullet::getTarget() { return target; }
 
 Bullet::Bullet(SceneNode *bulletNode,
         SceneManager *sceneMgr,
@@ -20,7 +37,7 @@ Bullet::Bullet(SceneNode *bulletNode,
         double dtt,
         PlayerStats *mPlayerStats)
         : 
-            bulletNode(bulletNode),
+            node(bulletNode),
             sceneMgr(sceneMgr),
             name(name), 
             rname(rname),
@@ -33,15 +50,17 @@ Bullet::Bullet(SceneNode *bulletNode,
             hitShip(false),
             playerStats(mPlayerStats)
 {
-    deathSpark = Vector3(bulletNode->getPosition().x+(direction.x*dtt),bulletNode->getPosition().y+(direction.y*dtt),bulletNode->getPosition().z+(direction.z*dtt));
-    origin = bulletNode->getPosition();
+    deathSpark = Vector3(node->getPosition().x+(direction.x*dtt),node->getPosition().y+(direction.y*dtt),node->getPosition().z+(direction.z*dtt));
+    origin = node->getPosition();
     madeNoise = false;
 }
+
+SceneNode *Bullet::getNode() { return node; }
 
 Vector3 Bullet::getOrigin() { return origin; }
 
 Bullet::~Bullet() {
-    sceneMgr->destroySceneNode(name);
-    sceneMgr->destroyRibbonTrail(rname);
+    //sceneMgr->destroySceneNode(name);
+    //sceneMgr->destroyRibbonTrail(rname);
 }
         

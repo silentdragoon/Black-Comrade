@@ -17,9 +17,13 @@
 #include "replicaObject.h"
 #include "ReplicaManager3.h"
 
+#include "IBulletOwner.h"
+#include "IBulletTarget.h"
+
 using namespace RakNet;
 
-class GunState : public ITickable, public ReplicaObject
+class GunState : public ITickable, public ReplicaObject,
+                 public IBulletOwner, public IBulletTarget
 {
     private:
         int timeSinceLastFire;
@@ -35,7 +39,12 @@ class GunState : public ITickable, public ReplicaObject
         SystemManager *systemManager;
         
     public:
+
+        EntityType getEntityType();
         bool fire();
+
+        Vector3 getBulletOrigin();
+        Vector3 getBulletDirection();
 
         Vector3 getPosition();
         Quaternion getOrientation();

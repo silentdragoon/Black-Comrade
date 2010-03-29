@@ -1,10 +1,20 @@
 #include "gunState.h"
 #include "const.h"
 
+
+EntityType GunState::getEntityType() { return ENTT_PLAYER; }
+
 bool GunState::fire()
 {
     return isFire;
 }
+
+Vector3 GunState::getBulletOrigin() {
+     Vector3 direction = getBulletDirection();
+     return Vector3(position.x+(direction.x*4),position.y+(direction.y*4),position.z+(direction.z*4));
+}
+
+Vector3 GunState::getBulletDirection() { return -orientation.zAxis(); }
         
 void GunState::tick()
 {

@@ -12,10 +12,14 @@
 #include "sceneNodeManager.h"
 #include "const.h"
 
+#include "IBulletOwner.h"
+#include "IBulletTarget.h"
+
 using namespace Ogre;
 using namespace std;
 
-class Enemy : public IDrawable, public ReplicaObject
+class Enemy : public IDrawable, public ReplicaObject,
+              public IBulletOwner, public IBulletTarget
 {
     private:
         Vector3 *position;
@@ -24,7 +28,10 @@ class Enemy : public IDrawable, public ReplicaObject
         int id;
         
     public:
-    	int health;
+
+        EntityType getEntityType();
+
+    	float health;
     	bool fire;
     	float yawScatter;
     	float pitchScatter;
@@ -52,7 +59,7 @@ class Enemy : public IDrawable, public ReplicaObject
         void setPosition(Vector3 v);
         void setOrientation(Real roll, Real pitch, Real yaw);
 
-        int getHealth();
+        float getHealth();
 
         ~Enemy();
 

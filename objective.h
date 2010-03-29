@@ -6,7 +6,10 @@
 #include "constManager.h"
 #include "replicaObject.h"
 
-class Objective : public ITickable, public ReplicaObject {
+#include "IBulletTarget.h"
+
+class Objective : public ITickable, public ReplicaObject,
+                  public IBulletTarget {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
         int health;

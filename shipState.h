@@ -15,10 +15,13 @@
 #include <math.h>
 #include <string>
 
+#include "IBulletTarget.h"
+
 using namespace Ogre;
 using namespace RakNet;
 
-class ShipState : public ITickable, public IDrawable, public ReplicaObject {
+class ShipState : public ITickable, public IDrawable, public ReplicaObject,
+                  public IBulletTarget {
 private:
         Vector3 *position;
 public:
