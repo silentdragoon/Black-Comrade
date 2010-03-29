@@ -19,7 +19,6 @@ class EngineerControls : public ITickable, public GunnerControls
        
         bool isChangeShield;
         bool isChangeWeapons;
-        bool isChangeSensors;
         bool isTransferShields;
         bool isTransferWeapons;
   
@@ -27,7 +26,6 @@ class EngineerControls : public ITickable, public GunnerControls
         virtual void tick();
         virtual bool isShield();
         virtual bool isWeapons();
-        virtual bool isSensors();
         virtual bool transferShields();
         virtual bool transferWeapons();
 

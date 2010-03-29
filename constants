@@ -3,7 +3,7 @@ INCLUDE = constMapPath
 INCLUDE = constObjective
 INCLUDE = constSoundPath
 
-tick_period = 0.02
+tick_period = 0.0166666667
 
 # Ship
 ship_scale = 1
