@@ -91,6 +91,11 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
     //return -1;
 }
 
+bool CollisionManager::collideShipWithObj()
+{
+    return cd->collideShipWithObj();
+}
+
 Collision CollisionManager::collideWithMapPiece( Entity *e )
 {
     dFloat contacts[16] = {0.0f};

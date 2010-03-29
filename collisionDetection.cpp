@@ -41,6 +41,11 @@ void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius
     //NewtonReleaseCollision (newtonWorld, objCollision);
 }
 
+bool CollisionDetection::collideShipWithObj()
+{
+    
+}
+
 dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
 {
     dFloat p0[3];

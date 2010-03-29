@@ -55,6 +55,9 @@ public:
     //function for checking if a dynamic entitiy has collided with the map piece its in
     Collision collideWithMapPiece( Entity *e);
     
+    //check if the ship has collided with the obj
+    bool collideShipWithObj();
+    
     
     
     //working for now. may need to be looked at later
