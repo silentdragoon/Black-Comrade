@@ -94,6 +94,13 @@
     </WidgetLook>
         <WidgetLook name="BlackComrade/StatusIndicators5">
     </WidgetLook>
+        <WidgetLook name="BlackComrade/KeyboardEngineer">
+    </WidgetLook>
+            <WidgetLook name="BlackComrade/KeyboardPilot">
+    </WidgetLook>
+            <WidgetLook name="BlackComrade/KeyboardNavigator">
+    </WidgetLook>
+    
     <!--
     ***************************************************
         BlackComrade/Button
