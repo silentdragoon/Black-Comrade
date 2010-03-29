@@ -17,8 +17,8 @@ class SystemManager : public ITickable, public ReplicaObject {
 private:
     double shieldRate; // From 0 - 1.0
     double weaponRate; // From 0 - 1.0
-    double sensorRate; // From 0 - 1.0
-    double engineRate; // From 0 - 3.0
+    //double sensorRate; // From 0 - 1.0
+    double engineRate; // From 0 - 2.0
 
     double weaponCharge; // 0 - 100 ?
     double shieldCharge; // 0 - 100 ?
@@ -36,11 +36,11 @@ public:
 
     void incShieldRate();
     void incWeaponRate();
-    void incSensorRate();
+    //void incSensorRate();
 
     double getShieldRate(); //
     double getWeaponRate(); //
-    double getSensorRate(); //
+    //double getSensorRate(); //
     double getEngineRate(); // Returns 0 - 1
 
     void fireWeapon();

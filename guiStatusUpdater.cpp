@@ -83,12 +83,10 @@ void GuiStatusUpdater::tick() {
     if(gameRole==ENGINEER) {
         float shieldRate = (float)(systemManager->getShieldRate());
         float weaponRate = (float)(systemManager->getWeaponRate());
-        float sensorRate = (float)(systemManager->getSensorRate());
         float engineRate = (float)(systemManager->getEngineRate());
 
         
         hud->setShieldRate(shieldRate);
-        hud->setSensorRate(sensorRate);
         hud->setWeaponRate(weaponRate);
         hud->setEngineRate(engineRate);
        }
