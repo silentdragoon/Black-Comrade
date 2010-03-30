@@ -45,6 +45,7 @@ class GunState : public ITickable, public ReplicaObject,
 
         Vector3 getBulletOrigin();
         Vector3 getBulletDirection();
+        ColourValue getBulletColour();
 
         Vector3 getPosition();
         Quaternion getOrientation();

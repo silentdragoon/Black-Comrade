@@ -43,8 +43,6 @@ void BulletManager::tick()
 }
 
 void BulletManager::fire(IBulletOwner *owner) {
-    //SceneNode *bulletNode = makeBulletNode(owner->getBulletColour(),owner->getBulletOrigin());
-    
     IBulletTarget *target;
     double distanceToTravel = findTarget(owner,&target);
     Bullet *b = new Bullet(owner, target, sceneMgr, distanceToTravel);
@@ -60,7 +58,6 @@ double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *
     switch (possibleTarget->getEntityType()) {
         case ENTT_OBJECTIVE:
             distance = colMgr->getRCObjDist(&origin,&direction);
-            std::cout << "Getting objective distance" << std::endl;
             break;
         case ENTT_MAP:
             distance = colMgr->getRCMapDist(&origin,&direction);
@@ -120,6 +117,7 @@ void BulletManager::updateBullets() {
         if(b->distanceTravelled>b->distanceToTravel) {
             // Bullet has reached it's target
             applyDamage(b);
+            // particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), Vector3 pos);
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -138,7 +136,6 @@ void BulletManager::applyDamage(Bullet *b) {
     } else {
         target->setHealth(target->getHealth()-damage);
     }
-    std::cout << targetType << std::endl;
 }
 
 void BulletManager::handleGun(GunState *gun) {
