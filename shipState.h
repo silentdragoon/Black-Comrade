@@ -53,6 +53,8 @@ public:
     IDrawable *getParentObject();
     std::string getMeshName();
 
+    EntityType getEntityType();
+
     double getX();
     double getY();
     double getZ();

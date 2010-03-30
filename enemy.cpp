@@ -39,8 +39,11 @@ float Enemy::getHealth() {
     return health;
 }
 
-void Enemy::setPosition(Vector3 v)
-{
+void Enemy::setHealth(float newHealth) {
+    health = newHealth;
+}
+
+void Enemy::setPosition(Vector3 v) {
 	position->x = v.x;
 	position->y = v.y;
 	position->z = v.z;

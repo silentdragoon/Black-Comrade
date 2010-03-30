@@ -60,6 +60,7 @@ class Enemy : public IDrawable, public ReplicaObject,
         void setOrientation(Real roll, Real pitch, Real yaw);
 
         float getHealth();
+        void setHealth(float newHealth);
 
         ~Enemy();
 

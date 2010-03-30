@@ -46,7 +46,7 @@ class BulletManager : public ITickable
         double findTarget(IBulletOwner *owner, IBulletTarget **target);
         double getDistanceTo(IBulletTarget *possibleTarget, IBulletOwner *owner);
 
-        SceneNode *makeBulletNode(ColourValue bulletColour);
+        SceneNode *makeBulletNode(ColourValue bulletColour, Vector3 position);
 
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);

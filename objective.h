@@ -24,7 +24,11 @@ class Objective : public ITickable, public ReplicaObject,
 
         void setParticleSystemEffectManager(ParticleSystemEffectManager *particleSystemEffectManager);
 
+        EntityType getEntityType();
         float getHealth();
+        float getHealthPercentage();
+        void setHealth(float newHealth);
+
         void damageObjective();
         int getEscapeTime();
 

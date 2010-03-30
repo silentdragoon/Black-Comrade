@@ -13,7 +13,7 @@ Objective::Objective()
     : health(10)
     , escapeTime(ConstManager::getInt("escape_time"))
     , boom(false)
-    , originalHealth()
+    , originalHealth(10)
 {}
 
 void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *particleSystemEffectManager) {
@@ -22,11 +22,19 @@ void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *part
 
 Objective::~Objective() {}
 
-float Objective::getHealth() { return (float)health/(float)originalHealth; }
+EntityType Objective::getEntityType() { return ENTT_OBJECTIVE; }
+
+float Objective::getHealthPercentage() { return (float)health/(float)originalHealth; }
+
+float Objective::getHealth() { return (float) health; }
 
 void Objective::damageObjective() {
     if(health!=0) health--;
 }
+
+void Objective::setHealth(float newHealth) {
+    health = newHealth;
+} 
 
 int Objective::getEscapeTime() { return escapeTime; }
 

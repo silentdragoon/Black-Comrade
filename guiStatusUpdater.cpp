@@ -98,7 +98,7 @@ void GuiStatusUpdater::tick() {
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
 
-    float bossHealth = objective->getHealth();
+    float bossHealth = objective->getHealthPercentage();
     hud->setBossHealthbar(bossHealth);
 
     int t = objective->getEscapeTime();

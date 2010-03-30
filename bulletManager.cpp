@@ -25,39 +25,45 @@ BulletManager::BulletManager(ShipState *shipState, SceneManager *sceneMgr,
 }
 
 void BulletManager::fire(IBulletOwner *owner) {
-    SceneNode *bulletNode = makeBulletNode(owner->getBulletColour());
-    bulletNode->setPosition(owner->getBulletOrigin());
+    SceneNode *bulletNode = makeBulletNode(owner->getBulletColour(),owner->getBulletOrigin());
     
     IBulletTarget *target;
     double dtt = findTarget(owner,&target);
-    Bullet *b = new Bullet(owner, target, bulletNode, dtt); //TODO Pass in proper dtt
+    Bullet *b = new Bullet(owner, target, bulletNode, dtt);
     activeBullets->push_back(b);
     //particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), Vector3 pos);
 }
 
 double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *owner) {
-    double distance = 1000000.0;
+    double distance = 0.0;
     Vector3 origin = owner->getBulletOrigin();
     Vector3 direction = owner->getBulletDirection();
-    Entity *entity = sceneNodeMgr->getEntity((Enemy*)possibleTarget);
+
     switch (possibleTarget->getEntityType()) {
         case ENTT_OBJECTIVE:
             distance = colMgr->getRCObjDist(&origin,&direction);
+            std::cout << "Getting objective distance" << std::endl;
             break;
         case ENTT_MAP:
             distance = colMgr->getRCMapDist(&origin,&direction);
-            std::cout << distance << "\n";
             break;
-        case ENTT_ENEMY:
-            distance = colMgr->rayCollideWithTransform(&origin,&direction,entity);
+        case ENTT_ENEMY: {
+            Entity *enemyEntity = sceneNodeMgr->getEntity((Enemy*)possibleTarget);
+            distance = colMgr->rayCollideWithTransform(&origin,&direction,enemyEntity);
             break;
+        }
+        case ENTT_SHIP: {
+            Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
+            distance = colMgr->rayCollideWithTransform(&origin,&direction,shipEntity);
+        }
     }
+    if (distance < 0.0) distance = 1000;
     return distance;
 }
 
 double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
     double tempDistance = 0;
-    IBulletTarget *bestTarget = new MapTarget();  // Map target
+    IBulletTarget *bestTarget = new MapTarget();
     double shortestDistance = getDistanceTo(bestTarget,owner);  // Distance to map
 
     std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
@@ -91,7 +97,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
     return fire(origin,direction,c, trailOrigin, 0);
 }
 
-SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour) {
+SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour, Vector3 position) {
     string bullName = "Bullet";
     string bname = "Bill";
     string lname = "Light";
@@ -104,6 +110,7 @@ SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour) {
     rname += out.str();
 
     SceneNode *bulletNode = sceneMgr->getRootSceneNode()->createChildSceneNode(bullName);
+    bulletNode->setPosition(position);
 
     BillboardSet *bbbs = sceneMgr->createBillboardSet(bname,1);
     bbbs->setMaterialName("PE/Streak");
@@ -116,7 +123,9 @@ SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour) {
     trail->setMaxChainElements(400);
     trail->setInitialColour(0,bulletColour);
     trail->setInitialWidth(0,0.7);
+
     trail->addNode(bulletNode);
+
     sceneMgr->getRootSceneNode()->attachObject(trail);
 
     Light *l = sceneMgr->createLight(lname);
@@ -127,6 +136,7 @@ SceneNode *BulletManager::makeBulletNode(ColourValue bulletColour) {
 
     bulletNode->attachObject(bbbs);
     bulletNode->attachObject(l);
+
     return bulletNode;
 }
 
@@ -158,7 +168,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
     trail->setInitialColour(0,c);
     trail->setInitialWidth(0,0.7);
     trail->addNode(bulletNode);
-    sceneMgr->getRootSceneNode()->attachObject(trail);
+    //sceneMgr->getRootSceneNode()->attachObject(trail);
 
     Light *l = sceneMgr->createLight(lname);
     l->setType(Light::LT_POINT);
@@ -166,7 +176,7 @@ bool BulletManager::fire(Vector3 origin, Vector3 direction, ColourValue c, Vecto
     l->setSpecularColour(c);
     l->setAttenuation(100,0.5,0.0005,0);
 
-    bulletNode->attachObject(bbbs);
+    //bulletNode->attachObject(bbbs);
     bulletNode->attachObject(l);
 
     Vector3 *pos = new Vector3(trailOrigin.x,trailOrigin.y,trailOrigin.z);
@@ -234,7 +244,7 @@ void BulletManager::updateBullets2() {
         if(b->distanceTravelled>b->distanceToTravel) {
             // Bullet has reached it's target
             std::cout << "Delete\n";
-            //applyDamage(b);
+            applyDamage(b);
             ////particleSystemEffectManager->createEffect(b->getTarget()->getHitEffectType(), Vector3 pos);
             sceneMgr->destroySceneNode(b->getNode());	
             delete b;
@@ -251,10 +261,11 @@ void BulletManager::applyDamage(Bullet *b) {
 
     if (ownerType == targetType) {
         // Friendly fire!
-        target->setHealth(target->getHealth()-damage);
+        //target->setHealth(target->getHealth()-damage);
     } else {
         target->setHealth(target->getHealth()-damage);
     }
+    std::cout << targetType << std::endl;
 }
 
 void BulletManager::updateBullets() {
@@ -341,7 +352,7 @@ void BulletManager::tick()
     //handleGun(navigatorGunState);
     
     // Enemies shoot if neccessary
-    handleEnemies(swarmMgr->getAllEnemies());
-    handleEnemies(swarmMgr->getReplicatedEnemies());  
+    //handleEnemies(swarmMgr->getAllEnemies());
+    //handleEnemies(swarmMgr->getReplicatedEnemies());  
     
 }

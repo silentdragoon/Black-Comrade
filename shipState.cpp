@@ -63,6 +63,8 @@ Vector3 *ShipState::getMeshOrientation() { return new Vector3(0,PI,0); }
 
 std::string ShipState::getMeshName() { return "newshippoly.mesh"; }
 
+EntityType ShipState::getEntityType() { return ENTT_SHIP; }
+
 void ShipState::setX(double newX) {
     position->x = newX;
 }
