@@ -50,6 +50,8 @@ class BulletManager : public ITickable
 
         void updateBullets();
         void applyDamage(Bullet *b);
+
+        void updateStats(IBulletOwner *owner, IBulletTarget *target);
         
     public:
         SceneNode *enemyNode;

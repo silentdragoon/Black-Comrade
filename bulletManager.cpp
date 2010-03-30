@@ -133,16 +133,14 @@ void BulletManager::applyDamage(Bullet *b) {
 
     if (ownerType == targetType) {
         // Friendly fire!
-        //target->damage(damage);
     } else if (ownerType == ENTT_ENEMY && targetType == ENTT_OBJECTIVE) {
         // Enemy shooting objective
         //target->damage(damage);
-    } else if (ownerType == ENTT_PLAYER && targetType != ENTT_MAP) {
-        PlayerStats *stats = ((GunState*) b->getOwner())->stats;
-        if (stats != 0) stats->shotsHit ++;
+    } else {
         target->damage(damage);
-        if (stats != 0 && target->getHealth() <=0) stats->enemiesDestroyed ++;
     }
+
+    updateStats(b->getOwner(),b->getTarget());
 }
 
 void BulletManager::handleGun(GunState *gun) {
@@ -150,9 +148,6 @@ void BulletManager::handleGun(GunState *gun) {
 
     if (gun->fire()) {
         fire(gun);
-        if (gun->stats != 0) {
-            gun->stats->shotsFired ++;
-        }
     }
 }
 
@@ -167,6 +162,17 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
             }
         }
     }
+}
+
+void BulletManager::updateStats(IBulletOwner *owner, IBulletTarget *target) {
+    if (owner->getEntityType() != ENTT_PLAYER) return;
+
+    PlayerStats *stats = ((GunState*) owner)->stats;
+    if (stats == 0) return;
+
+    stats->shotsFired ++;
+    if (target->getEntityType() != ENTT_MAP) stats->shotsHit ++;
+    if (target->getHealth() <=0) stats->enemiesDestroyed ++;
 }
 
 BulletManager::~BulletManager() {
