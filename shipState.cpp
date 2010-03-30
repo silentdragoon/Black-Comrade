@@ -28,6 +28,16 @@ std::string ShipState::getMeshName() { return "newshippoly.mesh"; }
 
 EntityType ShipState::getEntityType() { return ENTT_SHIP; }
 
+EffectType ShipState::getHitEffectType() { return ET_NONE; }
+
+void ShipState::setDamageState(DamageState *mDamageState) {
+    damageState = mDamageState;
+}
+
+void ShipState::damage(float amount) {
+    damageState->damage(amount);
+}
+
 void ShipState::setX(double newX) {
     position->x = newX;
 }

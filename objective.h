@@ -27,7 +27,7 @@ class Objective : public ITickable, public ReplicaObject,
         EntityType getEntityType();
         float getHealth();
         float getHealthPercentage();
-        void setHealth(float newHealth);
+        void damage(float amount);
 
         void damageObjective();
         int getEscapeTime();

@@ -4,10 +4,10 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-// #include "flying.h"
 #include "ITickable.h"
 #include "IDrawable.h"
 #include "const.h"
+#include "damageState.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -33,7 +33,7 @@ public:
     double speed;
 
     ShipState();
-    SceneNode *shipSceneNode;
+    DamageState *damageState;
 
     void print();
     void tick();
@@ -50,7 +50,11 @@ public:
     IDrawable *getParentObject();
     std::string getMeshName();
 
+    void setDamageState(DamageState *damageState);
+    void damage(float amount);
+
     EntityType getEntityType();
+    EffectType getHitEffectType();
 
     double getX();
     double getY();

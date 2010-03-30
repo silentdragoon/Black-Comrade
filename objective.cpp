@@ -13,6 +13,7 @@ Objective::Objective()
     : health(10)
     , escapeTime(ConstManager::getInt("escape_time"))
     , boom(false)
+    , ticks(0)
     , originalHealth(10)
 {}
 
@@ -32,8 +33,8 @@ void Objective::damageObjective() {
     if(health!=0) health--;
 }
 
-void Objective::setHealth(float newHealth) {
-    health = newHealth;
+void Objective::damage(float amount) {
+    health = health - amount;
 } 
 
 int Objective::getEscapeTime() { return escapeTime; }

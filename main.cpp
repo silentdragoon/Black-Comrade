@@ -114,6 +114,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         shipState = 
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
+    shipState->setDamageState(damageState);
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);

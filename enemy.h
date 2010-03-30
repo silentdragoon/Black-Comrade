@@ -64,7 +64,7 @@ class Enemy : public IDrawable, public ReplicaObject,
         ColourValue getBulletColour();
 
         float getHealth();
-        void setHealth(float newHealth);
+        void damage(float amount);
 
         ~Enemy();
 

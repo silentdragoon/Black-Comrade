@@ -59,8 +59,8 @@ float Enemy::getHealth() {
     return health;
 }
 
-void Enemy::setHealth(float newHealth) {
-    health = newHealth;
+void Enemy::damage(float amount) {
+    health = health - amount;
 }
 
 void Enemy::setPosition(Vector3 v) {

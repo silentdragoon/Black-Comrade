@@ -38,8 +38,7 @@ void BulletManager::tick()
     
     // Enemies shoot if neccessary
     handleEnemies(swarmMgr->getAllEnemies());
-    handleEnemies(swarmMgr->getReplicatedEnemies());  
-    
+    handleEnemies(swarmMgr->getReplicatedEnemies());
 }
 
 void BulletManager::fire(IBulletOwner *owner) {
@@ -134,9 +133,12 @@ void BulletManager::applyDamage(Bullet *b) {
 
     if (ownerType == targetType) {
         // Friendly fire!
-        //target->setHealth(target->getHealth()-damage);
+        //target->damage(damage);
+    } else if (ownerType == ENTT_ENEMY && targetType == ENTT_OBJECTIVE) {
+        // Enemy shooting objective
+        //target->damage(damage);
     } else {
-        target->setHealth(target->getHealth()-damage);
+        target->damage(damage);
     }
 }
 
