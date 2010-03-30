@@ -32,7 +32,7 @@ void LoadingScreen::show() {
 
     if (isVisible) return;
 
-    CEGUI::FrameWindow *loadingBackground = guiMgr->addStaticImage("Loading",0.5, 0.5,1.0, 1.0,"Loading","Loading");
+    CEGUI::FrameWindow *loadingBackground = guiMgr->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
     indicator = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","loadingIndicator"));
     //indicator->setFont("DroidSansMono-big.font");
     guiMgr->getRootWindow()->addChildWindow(indicator);
@@ -62,7 +62,7 @@ void LoadingScreen::updateProgress(int progress) {
 
 void LoadingScreen::hide() {
     // Hide background image etc
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Loading");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardPilot");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);  
 }
 
