@@ -137,8 +137,11 @@ void BulletManager::applyDamage(Bullet *b) {
     } else if (ownerType == ENTT_ENEMY && targetType == ENTT_OBJECTIVE) {
         // Enemy shooting objective
         //target->damage(damage);
-    } else {
+    } else if (ownerType == ENTT_PLAYER && targetType != ENTT_MAP) {
+        PlayerStats *stats = ((GunState*) b->getOwner())->stats;
+        if (stats != 0) stats->shotsHit ++;
         target->damage(damage);
+        if (stats != 0 && target->getHealth() <=0) stats->enemiesDestroyed ++;
     }
 }
 
@@ -147,6 +150,9 @@ void BulletManager::handleGun(GunState *gun) {
 
     if (gun->fire()) {
         fire(gun);
+        if (gun->stats != 0) {
+            gun->stats->shotsFired ++;
+        }
     }
 }
 
@@ -156,7 +162,7 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 
         if(e->fire) {
             e->fire = false;
-            if(activeBullets->size()<7) {
+            if(activeBullets->size() < 7) {
                 fire(e);
             }
         }

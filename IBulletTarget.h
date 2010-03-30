@@ -11,6 +11,7 @@ class IBulletTarget : public IEntity {
 
 public:
 
+    virtual float getHealth() { return 1; }
     virtual void damage(float amount) {}
 
     virtual EffectType getHitEffectType() { return ET_SPARK; };
