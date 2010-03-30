@@ -7,7 +7,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     loadingScreen(loadingScreen)
 {
     cd = new CollisionDetection(rebuildCollisionMeshes);
-    std::vector<Entity*> pc = mp->getMapPieces();
+    std::vector<Entity*> pc = mp->getMapEntitiesForCollision();
     double percInc = 100.0/pc.size();
     double percDone = 0;
     for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
@@ -31,7 +31,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
 dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
 {
     Entity* e[5];
-    mp->getMapEntities( pos, e );
+    mp->getEntitiesForCollisionFromAPosition( pos, e );
     dFloat closestDist = 2500.0;
     for(int i = 0; i < 5; i++)
     {

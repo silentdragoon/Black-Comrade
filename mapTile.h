@@ -38,6 +38,9 @@ class MapTile
         MapTile *eastTile;
         MapTile *southTile;
         MapTile *westTile;
+        
+        Entity *eastConnPieceEntity;
+        Entity *southConnPieceEntity;
 
     public:
         bool hasWaypoint();
@@ -51,6 +54,9 @@ class MapTile
         void setSpawn(int i, Vector3 *locn);
         void setAdjacent(int i, MapTile *adj);
         void setConnections(std::vector<int> c);
+        
+        void setEastConnPiece( Entity *e );
+        void setSouthConnPiece( Entity *e );
 
         Vector3* getSpawn(int i);
         MapTile* getAdjacent(int i);
@@ -63,6 +69,13 @@ class MapTile
         
         bool eastConnected();
         bool southConnected();
+        
+        //ents has space allocated for 5 ents. Return tile and 4 con piece pointers
+        // if there arnt 4 conn Pieces then pad with NULL
+        void getTileAndConnectionEntities(Entity **ents);
+        
+        Entity* getSouthConnEntity();
+        Entity* getEastConnEntity();
 
         int getX();
         int getY();

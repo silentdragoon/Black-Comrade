@@ -6,7 +6,9 @@ MapTile::MapTile(SceneNode *node, Entity *e, int x, int y) :
     x(x),
     y(y),
     eastConn(false),
-    southConn(false)
+    southConn(false),
+    eastConnPieceEntity(NULL),
+    southConnPieceEntity(NULL)
 {
     empty = false;
     waypoint = false;
@@ -20,7 +22,10 @@ MapTile::MapTile(SceneNode *node, Entity *e, int x, int y) :
 
 MapTile::MapTile() :
     eastConn(false),
-    southConn(false)
+    southConn(false),
+    eastConnPieceEntity(NULL),
+    southConnPieceEntity(NULL),
+    e(NULL)
 {
     empty = true;
     waypoint = false;
@@ -145,4 +150,41 @@ bool MapTile::southConnected()
 {
     return southConn;
 }
+
+void MapTile::setEastConnPiece( Entity *ent )
+{
+    eastConnPieceEntity = ent;
+}
+
+void MapTile::setSouthConnPiece( Entity *ent )
+{
+    southConnPieceEntity = ent;
+}
+
+Entity* MapTile::getSouthConnEntity()
+{
+    return southConnPieceEntity;
+}
+    
+    
+Entity* MapTile::getEastConnEntity()
+{
+    return eastConnPieceEntity;
+}
+
+
+//ents has space for 5 entitiy pointer allocated
+void MapTile::getTileAndConnectionEntities( Entity **ents )
+{
+    ents[0] = e;
+    ents[1] = eastConnPieceEntity;
+    ents[2] = southConnPieceEntity;
+    if( northTile != NULL) ents[3] = northTile->getSouthConnEntity();
+    else ents[3] = NULL;
+    if( westTile != NULL ) ents[4] = westTile->getEastConnEntity();
+    else ents[4] = NULL;
+}
+    
+
+
 
