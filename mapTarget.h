@@ -18,6 +18,7 @@ class MapTarget : public IBulletTarget
     public:
 
         EntityType getEntityType() { return ENTT_MAP; };
+        EffectType getHitEffectType() { return ET_SPARK; } ;
 };
 
 #endif

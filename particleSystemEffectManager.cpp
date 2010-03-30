@@ -12,6 +12,14 @@ ParticleSystemEffectManager::~ParticleSystemEffectManager() {
     delete activeEffects;
 }
 
+void ParticleSystemEffectManager::createEffect(EffectType type, Vector3 position) {
+    switch (type) {
+        case ET_SPARK:
+            createSparks(position);
+            break;
+    }
+}
+
 std::string ParticleSystemEffectManager::createUnique(std::string name) {
     std::stringstream out;
     out << num++;

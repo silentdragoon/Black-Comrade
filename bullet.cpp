@@ -4,6 +4,7 @@ Bullet::Bullet(IBulletOwner *owner, IBulletTarget *target,
                SceneManager *sceneMgr, double distanceToTravel)
     : owner(owner)
     , target(target)
+    , damage(owner->getBulletDamage())
     , origin(owner->getBulletOrigin())
     , direction(owner->getBulletDirection())
     , sceneMgr(sceneMgr)
@@ -12,8 +13,10 @@ Bullet::Bullet(IBulletOwner *owner, IBulletTarget *target,
     , distanceToTravel(distanceToTravel)
     , madeNoise(false)
 {
-//deathSpark(Vector3(node->getPosition().x+(direction.x*dtt),node->getPosition().y+(direction.y*dtt),node->getPosition().z+(direction.z*dtt));
     makeNode();
+    pointOfImpact = Vector3(node->getPosition().x+(direction.x*distanceToTravel),
+                            node->getPosition().y+(direction.y*distanceToTravel),
+                            node->getPosition().z+(direction.z*distanceToTravel));
 }
 
 void Bullet::makeNode() {
@@ -51,9 +54,9 @@ IBulletOwner* Bullet::getOwner() { return owner; }
 
 IBulletTarget* Bullet::getTarget() { return target; }
 
-SceneNode *Bullet::getNode() { return node; }
-
 Vector3 Bullet::getOrigin() { return origin; }
+
+int Bullet::getDamage() { return damage; }
 
 void Bullet::updateLocation() {
     node->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
@@ -62,8 +65,8 @@ void Bullet::updateLocation() {
         sqrt(pow(direction.x*velocity,2)+pow(direction.y*velocity,2)+pow(direction.z*velocity,2)); 
 }
 
-Vector3 Bullet::getDeathSpark() {
-    return deathSpark;
+Vector3 Bullet::getPointOfImpact() {
+    return pointOfImpact;
 }
 
 Bullet::~Bullet() {

@@ -19,22 +19,21 @@ class Bullet
     private:
 
         IBulletOwner *owner;
-        IBulletTarget *target;
-        
+        IBulletTarget *target;      
 
         SceneNode *node;
         RibbonTrail *trail;
-        string name;
-        string rname;
+
         SceneManager *sceneMgr;
 
         void makeNode();
 
         Vector3 origin;
         Vector3 direction;
-        Vector3 deathSpark;
-        int velocity;
+        Vector3 pointOfImpact;
 
+        int velocity;
+        int damage;
                
    public:
         double distanceTravelled;
@@ -45,25 +44,16 @@ class Bullet
         Bullet(IBulletOwner *owner, IBulletTarget *target,
                SceneManager *sceneMgr, double distanceToTravel);
 
-        Bullet(SceneNode *bulletNode,
-            SceneManager *sceneMgr,
-            string name,
-            string rname,
-            Vector3 direction, 
-            int velocity,
-            double dtt,
-            PlayerStats *playerStats); // Distance to travel
-
         ~Bullet();
 
         void updateLocation();
         Vector3 getOrigin();
-        Vector3 getDeathSpark();
+        Vector3 getPointOfImpact();
+
+        int getDamage();
 
         IBulletOwner *getOwner();
         IBulletTarget *getTarget();
-
-        SceneNode *getNode();
         
         Enemy *enemy;
         bool hitEnemy;

@@ -38,7 +38,7 @@ void BulletManager::tick()
     
     // Enemies shoot if neccessary
     handleEnemies(swarmMgr->getAllEnemies());
-    //handleEnemies(swarmMgr->getReplicatedEnemies());  
+    handleEnemies(swarmMgr->getReplicatedEnemies());  
     
 }
 
@@ -47,7 +47,7 @@ void BulletManager::fire(IBulletOwner *owner) {
     double distanceToTravel = findTarget(owner,&target);
     Bullet *b = new Bullet(owner, target, sceneMgr, distanceToTravel);
     activeBullets->push_back(b);
-    //particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), Vector3 pos);
+    particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), owner->getBulletOrigin());
 }
 
 double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *owner) {
@@ -116,8 +116,10 @@ void BulletManager::updateBullets() {
         b->updateLocation();
         if(b->distanceTravelled>b->distanceToTravel) {
             // Bullet has reached it's target
+            EffectType hitEffect = b->getTarget()->getHitEffectType();
+            Vector3 pointOfImpact = b->getPointOfImpact();
+            particleSystemEffectManager->createEffect(hitEffect, pointOfImpact);
             applyDamage(b);
-            // particleSystemEffectManager->createEffect(owner->getMuzzleFlashEffectType(), Vector3 pos);
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -128,7 +130,7 @@ void BulletManager::applyDamage(Bullet *b) {
     IBulletTarget *target = b->getTarget();
     EntityType ownerType = b->getOwner()->getEntityType();
     EntityType targetType = target->getEntityType();
-    int damage = b->getOwner()->getBulletDamage();
+    int damage = b->getDamage();
 
     if (ownerType == targetType) {
         // Friendly fire!
