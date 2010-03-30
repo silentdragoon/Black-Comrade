@@ -324,7 +324,8 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
 	    
 	    Vector3 bulletDirection = SceneNodeManager::rollPitchYawToDirection(
 	    	0, bulletPitch, bulletYaw);
-	        
+	    
+
 	    if(e->fire) {
             e->fire = false;
             if(activeBullets->size()<7) {

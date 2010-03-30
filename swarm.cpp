@@ -150,8 +150,8 @@ bool Swarm::canSwarmSeeShip()
 
 	Vector3 lookDirection(sin(yaw),0,cos(yaw));
 	
-	// Draw debug lines
-	/*Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
+	/*// Draw debug lines
+	Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
 	    ,0, cos(yaw+ConstManager::getFloat("enemy_sight_angle")));
 	
 	end1 *= ConstManager::getFloat("enemy_sight_dist");
@@ -314,7 +314,6 @@ float Swarm::genScatterAngle()
                             boost::normal_distribution<> > var_nom(rng, nd);
 
     double d = var_nom();
-    
     return (float)d;
 }
 

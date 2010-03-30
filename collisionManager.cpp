@@ -1,12 +1,12 @@
 #include "collisionManager.h"
 
 CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
-                                    LoadingScreen* loadingScreen ):
+                                    LoadingScreen* loadingScreen, bool rebuildCollisionMeshes ):
     sceneMgr(sceneMgr),
     mp(mp),
     loadingScreen(loadingScreen)
 {
-    cd = new CollisionDetection();
+    cd = new CollisionDetection(rebuildCollisionMeshes);
     std::vector<Entity*> pc = mp->getMapPieces();
     double percInc = 100.0/pc.size();
     double percDone = 0;

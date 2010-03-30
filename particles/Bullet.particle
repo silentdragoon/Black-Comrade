@@ -406,17 +406,17 @@ particle_system FX/reactorExplosion2
 
     emitter Ellipsoid
     {
+        colour 1 1 1 1
         angle 90
         direction 0 0 1
         emission_rate 10
         position 0 0 0
         velocity_min 0.1
         velocity_max 0.5
-        duration_min 125
-        duration_max 130 
+        duration 1 
         repeat_delay_min 0
         repeat_delay_max 0
-        time_to_live 1
+        time_to_live 130
         width 60
         height 60
         depth 60
@@ -424,17 +424,17 @@ particle_system FX/reactorExplosion2
 
     affector Scaler
     {
-        rate 20 
-    }
-
-    affector ColourFader
-    {
-        alpha -0.008
+        rate 13 
     }
 
     affector DirectionRandomiser
     {
         randomness 100
         keep_velocity true
+    }
+
+    affector ColourFader
+    {
+        alpha -0.01
     }
 }

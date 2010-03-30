@@ -4,8 +4,7 @@ SystemManager::SystemManager() :
     engCon(0),
     shieldRate(0.5),
     weaponRate(0.5),
-    sensorRate(0.5),
-    engineRate(1.5),
+    engineRate(1.0),
     weaponCharge(100),
     shieldCharge(100),
     timeSinceLastPress(100)
@@ -17,8 +16,7 @@ SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState)
     damageState(damageState),
     shieldRate(0.5),
     weaponRate(0.5),
-    sensorRate(0.5),
-    engineRate(1.5),
+    engineRate(1.0),
     weaponCharge(100),
     shieldCharge(100),
     timeSinceLastPress(100)
@@ -49,11 +47,6 @@ void SystemManager::tick() {
 
         if((engCon->isWeapons())&&(timeSinceLastPress>10)) {
             incWeaponRate();
-            timeSinceLastPress=0;
-        }
-
-        if((engCon->isSensors())&&(timeSinceLastPress>10)) {
-            incSensorRate();
             timeSinceLastPress=0;
         }
 
@@ -89,16 +82,6 @@ void SystemManager::incWeaponRate() {
     }
 }
 
-void SystemManager::incSensorRate() {
-    sensorRate += 0.25;
-    if(sensorRate>1.0) {
-        sensorRate = 0;
-        engineRate += 1.0;
-    } else {
-        engineRate -= 0.25;
-    }
-}
-
 double SystemManager::getShieldRate() {
     return shieldRate;
 }
@@ -107,12 +90,8 @@ double SystemManager::getWeaponRate() {
     return weaponRate;
 }
 
-double SystemManager::getSensorRate() {
-    return sensorRate;
-}
-
 double SystemManager::getEngineRate() {
-    double blarg = engineRate/3.0;
+    double blarg = engineRate/2.0;
     return blarg;
 }
 
@@ -121,7 +100,8 @@ void SystemManager::fireWeapon() {
 }
 
 void SystemManager::damageShield() {
-    shieldCharge -= 10; // TODO: fix this
+    std::cout << shieldCharge << std::endl;
+    shieldCharge -= 1; // TODO: fix this
 }
 
 double SystemManager::getWeaponCharge() {
@@ -161,7 +141,6 @@ RakNet::RakString SystemManager::GetName(void) const{return RakNet::RakString("S
 RM3SerializationResult SystemManager::Serialize(SerializeParameters *serializeParameters) {
     serializeParameters->outputBitstream[0].Write(shieldRate);
     serializeParameters->outputBitstream[0].Write(weaponRate);
-    serializeParameters->outputBitstream[0].Write(sensorRate);
     serializeParameters->outputBitstream[0].Write(engineRate);
     serializeParameters->outputBitstream[0].Write(shieldCharge);
     serializeParameters->outputBitstream[0].Write(weaponCharge);
@@ -171,7 +150,6 @@ RM3SerializationResult SystemManager::Serialize(SerializeParameters *serializePa
 void SystemManager::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(shieldRate);
     deserializeParameters->serializationBitstream[0].Read(weaponRate);
-    deserializeParameters->serializationBitstream[0].Read(sensorRate);
     deserializeParameters->serializationBitstream[0].Read(engineRate);
     deserializeParameters->serializationBitstream[0].Read(shieldCharge);
     deserializeParameters->serializationBitstream[0].Read(weaponCharge);

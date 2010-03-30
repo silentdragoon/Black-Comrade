@@ -10,7 +10,7 @@
 
 using namespace RakNet;
 
-Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
+Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool rebuildCollisionMeshes) {
     // Start Ogre
     root = configRoot();
 
@@ -95,7 +95,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen());
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen(), rebuildCollisionMeshes);
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -138,9 +138,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions) {
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,8.5,0));
+        camera->setPosition(Vector3(0,4.3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-8.5,0));
+        camera->setPosition(Vector3(0,-4.3,0));
     }
 
     // Engineer Controls
@@ -440,7 +440,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     camera->setPosition(Vector3(0,0,0));
     camera->lookAt(Vector3(0,0,-1));
     //camera->setFOVy(Radian(2.0943951));
-    camera->setNearClipDistance(1);
+    camera->setNearClipDistance(0.1);
     camera->setFarClipDistance(2500);
     
     // Lighting
@@ -469,23 +469,23 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     return camera;
 }
 
-//                ,
-//          (`.  : \               __..----..__
-//           `.`.| |:          _,-':::''' '  `:`-._
-//             `.:\||       _,':::::'         `::::`-.
-//               \\`|    _,':::::::'     `:.     `':::`.
-//                ;` `-''  `::::::.                  `::\
-//             ,-'      .::'  `:::::.         `::..    `:\
-//           ,' /_) -.            `::.           `:.     |
-//         ,'.:     `    `:.        `:.     .::.          \
-//    __,-'   ___,..-''-.  `:.        `.   /::::.         |
-//   |):'_,--'           `.    `::..       |::::::.      ::\
-//    `-'                 |`--.:_::::|_____\::::::::.__  ::|
-//                        |   _/|::::|      \::::::|::/\  :|
-//                        /:./  |:::/        \__:::):/  \  :\
-//                      ,'::'  /:::|        ,'::::/_/    `. ``-.__
-//        will         ''''   (//|/\      ,';':,-'         `-.__  `'--..__
-//                                                              `''---::::'
+//lol                ,
+//lol          (`.  : \               __..----..__
+//lol           `.`.| |:          _,-':::''' '  `:`-._
+//lol             `.:\||       _,':::::'         `::::`-.
+//lol               \\`|    _,':::::::'     `:.     `':::`.
+//lol                ;` `-''  `::::::.                  `::\
+//lol             ,-'      .::'  `:::::.         `::..    `:\
+//lol           ,' /_) -.            `::.           `:.     |
+//lol         ,'.:     `    `:.        `:.     .::.          \
+//lol    __,-'   ___,..-''-.  `:.        `.   /::::.         |
+//lol   |):'_,--'           `.    `::..       |::::::.      ::\
+//lol    `-'                 |`--.:_::::|_____\::::::::.__  ::|
+//lol                        |   _/|::::|      \::::::|::/\  :|
+//lol                        /:./  |:::/        \__:::):/  \  :\
+//lol                      ,'::'  /:::|        ,'::::/_/    `. ``-.__
+//lol        will         ''''   (//|/\      ,';':,-'         `-.__  `'--..__
+//lol                                                              `''---::::'
 
 
 void Main::createViewPort() {
@@ -506,6 +506,7 @@ int main(int argc,char *argv[])
     bool useMouse = true;
     bool enemies = true;
     bool collisions = true;
+    bool rebuildCollisionMeshes = false;
     cout << "argc=" << argc << endl;
     cout << argv[0] << endl;
     for (int i=1;i<argc;i++) 
@@ -523,10 +524,12 @@ int main(int argc,char *argv[])
             useMouse = false;
             cout << "Mouse is not bound" <<endl; 
         }
+         else if (string(argv[i]) == "-rc") {
+            rebuildCollisionMeshes = true;
+            cout << "Rebuiling collision meshes" <<endl; 
+        }
     }
-
-    Main *main = new Main(useKey, useMouse, enemies, collisions);
-
+    Main *main = new Main(useKey, useMouse, enemies, collisions, rebuildCollisionMeshes);
     delete main;
 }
 

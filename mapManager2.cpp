@@ -421,6 +421,11 @@ Vector3 MapManager::getDynamicSpawnPoint(Vector3 *locn) {
         }
     }
 
+    if((mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getX()==x)&&
+            (mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getY()==y)) {
+        return getDynamicSpawnPoint(locn);
+    }
+
     Vector3* sp =  mts[x][y]->getAdjacent(c)->getAdjacent(c2)->getSpawn(c3);
     return Vector3(sp->x,sp->y,sp->z);
 }

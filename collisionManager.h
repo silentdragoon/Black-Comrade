@@ -28,7 +28,7 @@ private:
     
 public:
 
-    CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen );
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
     //Collision isCollided(Vector3 *shipPos);
     
     //stanard way to check map dist. Checks all surrounding pieces.

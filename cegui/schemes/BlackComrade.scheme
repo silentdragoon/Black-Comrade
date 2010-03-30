@@ -24,7 +24,9 @@
     <Imageset Filename="Charge.xml" />
     <Imageset Filename="Charges.xml" />
     <Imageset Filename="StatusIndicators.xml" />
-
+    <Imageset Filename="keyboardpilot.xml" />
+    <Imageset Filename="keyboardengineer.xml" />
+    <Imageset Filename="keyboardnavigator.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -41,6 +43,11 @@
     <FalagardMapping WindowType="BlackComrade/NetworkRoleMenu" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/NetworkRoleMenu" />
     <FalagardMapping WindowType="BlackComrade/Loading" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Loading" />
     <FalagardMapping WindowType="BlackComrade/Scores" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Scores" />
+    
+        <FalagardMapping WindowType="BlackComrade/KeyboardEngineer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardEngineer" />
+            <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
+                <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
+    
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />
