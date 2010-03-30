@@ -119,6 +119,7 @@ void BulletManager::updateBullets() {
             Vector3 pointOfImpact = b->getPointOfImpact();
             particleSystemEffectManager->createEffect(hitEffect, pointOfImpact);
             applyDamage(b);
+            updateStats(b->getOwner(),b->getTarget());
             delete b;
             activeBullets->erase(activeBullets->begin()+(i));
         }
@@ -139,8 +140,6 @@ void BulletManager::applyDamage(Bullet *b) {
     } else {
         target->damage(damage);
     }
-
-    updateStats(b->getOwner(),b->getTarget());
 }
 
 void BulletManager::handleGun(GunState *gun) {
