@@ -32,14 +32,11 @@ public:
     Real yaw;
     double speed;
 
-    ShipState(SceneNode *shipSceneNode);
-
     ShipState();
     SceneNode *shipSceneNode;
 
     void print();
     void tick();
-    void updateOgre();
 
     void setX(double newX);
     void setY(double newY);

@@ -13,7 +13,7 @@ LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr)
     float g = (1.0*winWidth)/1680.0;
     wpixel = 1.0 / (float)winWidth * g;
     hpixel = 1.0 / (float)winHeight * g;
-	isVisible = false;
+    isVisible = false;
 }
 
 void LoadingScreen::tick() {

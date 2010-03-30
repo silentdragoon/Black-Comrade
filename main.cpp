@@ -108,7 +108,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
-        shipState = new ShipState(shipSceneNode);
+        shipState = new ShipState();
         networkingManager->replicate(shipState);
     } else {
         shipState = 

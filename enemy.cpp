@@ -10,7 +10,8 @@ Enemy::Enemy(int health, int id) :
     yaw(0),
     pitch(0),
     roll(0),
-    isDead(false)
+    isDead(false),
+    id(id)
 {}
 
 Enemy::Enemy() :
@@ -35,6 +36,25 @@ Vector3 Enemy::getDirection() {
 	return SceneNodeManager::rollPitchYawToDirection(roll,pitch,yaw);
 }
 
+ColourValue Enemy::getBulletColour() {
+    return ColourValue(1.0f,0.2f,0.2f);
+}
+
+Vector3 Enemy::getBulletOrigin() {
+    return *getPosition();
+}
+
+Vector3 Enemy::getBulletDirection() {
+    Vector3 angles = SceneNodeManager::directionToOrientationVector(
+                                          getDirection());
+    
+    float bulletYaw = angles.y + yawScatter;
+    float bulletPitch = angles.x + pitchScatter;
+        
+    return SceneNodeManager::rollPitchYawToDirection(
+                                 0, bulletPitch, bulletYaw);
+}
+
 float Enemy::getHealth() {
     return health;
 }
@@ -44,9 +64,9 @@ void Enemy::setHealth(float newHealth) {
 }
 
 void Enemy::setPosition(Vector3 v) {
-	position->x = v.x;
-	position->y = v.y;
-	position->z = v.z;
+    position->x = v.x;
+    position->y = v.y;
+    position->z = v.z;
 }
 
 Vector3* Enemy::getPosition() { return position; }

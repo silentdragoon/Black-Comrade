@@ -28,6 +28,8 @@ class Bullet
         string rname;
         SceneManager *sceneMgr;
 
+        void makeNode();
+
         Vector3 origin;
         Vector3 direction;
         Vector3 deathSpark;
@@ -41,7 +43,7 @@ class Bullet
         bool madeNoise;
 
         Bullet(IBulletOwner *owner, IBulletTarget *target,
-               SceneNode *node, double distanceToTravel);
+               SceneManager *sceneMgr, double distanceToTravel);
 
         Bullet(SceneNode *bulletNode,
             SceneManager *sceneMgr,

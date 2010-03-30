@@ -8,6 +8,7 @@
 using namespace Ogre;
 
 class IBulletTarget : public IEntity {
+
 public:
 
     virtual float getHealth() { return 1; }

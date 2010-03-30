@@ -1,5 +1,60 @@
 #include "bullet.h"
 
+Bullet::Bullet(IBulletOwner *owner, IBulletTarget *target,
+               SceneManager *sceneMgr, double distanceToTravel)
+    : owner(owner)
+    , target(target)
+    , origin(owner->getBulletOrigin())
+    , direction(owner->getBulletDirection())
+    , sceneMgr(sceneMgr)
+    , velocity(owner->getBulletVelocity())
+    , distanceTravelled(0)
+    , distanceToTravel(distanceToTravel)
+    , madeNoise(false)
+{
+//deathSpark(Vector3(node->getPosition().x+(direction.x*dtt),node->getPosition().y+(direction.y*dtt),node->getPosition().z+(direction.z*dtt));
+    makeNode();
+}
+
+void Bullet::makeNode() {
+
+    node = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    node->setPosition(owner->getBulletOrigin());
+
+    BillboardSet *bbbs = sceneMgr->createBillboardSet(1);
+    bbbs->setMaterialName("PE/Streak");
+    Billboard *bbb = bbbs->createBillboard(0,0,0,owner->getBulletColour());
+    bbb->setDimensions(0.7,0.7);
+
+    trail = sceneMgr->createRibbonTrail();
+    trail->setMaterialName("PE/LightRibbonTrail");
+    trail->setTrailLength(75);
+    trail->setMaxChainElements(400);
+    trail->setInitialColour(0,owner->getBulletColour());
+    trail->setInitialWidth(0,0.7);
+
+    trail->addNode(node);
+
+    sceneMgr->getRootSceneNode()->attachObject(trail);
+
+    Light *l = sceneMgr->createLight();
+    l->setType(Light::LT_POINT);
+    l->setDiffuseColour(owner->getBulletColour());
+    l->setSpecularColour(owner->getBulletColour());
+    l->setAttenuation(100,0.5,0.0005,0);
+
+    node->attachObject(bbbs);
+    node->attachObject(l);
+}
+
+IBulletOwner* Bullet::getOwner() { return owner; }
+
+IBulletTarget* Bullet::getTarget() { return target; }
+
+SceneNode *Bullet::getNode() { return node; }
+
+Vector3 Bullet::getOrigin() { return origin; }
+
 void Bullet::updateLocation() {
     node->translate((direction.x)*velocity,(direction.y)*velocity,(direction.z)*velocity);
 
@@ -11,56 +66,8 @@ Vector3 Bullet::getDeathSpark() {
     return deathSpark;
 }
 
-Bullet::Bullet(IBulletOwner *owner, IBulletTarget *target,
-               SceneNode *bulletNode, double distanceToTravel)
-    : owner(owner)
-    , target(target)
-    , origin(owner->getBulletOrigin())
-    , direction(owner->getBulletDirection())
-    , node(bulletNode)
-    , velocity(owner->getBulletVelocity())
-    , distanceTravelled(0)
-    , distanceToTravel(distanceToTravel)
-    , madeNoise(false)
-{}
-
-IBulletOwner* Bullet::getOwner() { return owner; }
-
-IBulletTarget* Bullet::getTarget() { return target; }
-
-Bullet::Bullet(SceneNode *bulletNode,
-        SceneManager *sceneMgr,
-        string name,
-        string rname,
-        Vector3 direction,
-        int velocity,
-        double dtt,
-        PlayerStats *mPlayerStats)
-        : 
-            node(bulletNode),
-            sceneMgr(sceneMgr),
-            name(name), 
-            rname(rname),
-            direction(direction),
-            velocity(velocity),
-            distanceToTravel(dtt),
-            distanceTravelled(0.0),
-            enemy(0),
-            hitEnemy(false),
-            hitShip(false),
-            playerStats(mPlayerStats)
-{
-    deathSpark = Vector3(node->getPosition().x+(direction.x*dtt),node->getPosition().y+(direction.y*dtt),node->getPosition().z+(direction.z*dtt));
-    origin = node->getPosition();
-    madeNoise = false;
-}
-
-SceneNode *Bullet::getNode() { return node; }
-
-Vector3 Bullet::getOrigin() { return origin; }
-
 Bullet::~Bullet() {
-    //sceneMgr->destroySceneNode(name);
-    //sceneMgr->destroyRibbonTrail(rname);
+    sceneMgr->destroySceneNode(node);
+    sceneMgr->destroyRibbonTrail(trail);
 }
         

@@ -59,6 +59,10 @@ class Enemy : public IDrawable, public ReplicaObject,
         void setPosition(Vector3 v);
         void setOrientation(Real roll, Real pitch, Real yaw);
 
+        Vector3 getBulletOrigin();
+        Vector3 getBulletDirection();
+        ColourValue getBulletColour();
+
         float getHealth();
         void setHealth(float newHealth);
 

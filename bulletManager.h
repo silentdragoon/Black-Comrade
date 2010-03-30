@@ -38,9 +38,6 @@ class BulletManager : public ITickable
         ParticleSystemEffectManager *particleSystemEffectManager;
         Objective *objective;
        
-        bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin);
-        bool fire(Vector3 origin, Vector3 direction, ColourValue c, Vector3 trailOrigin, PlayerStats *stats);
-
         void fire(IBulletOwner *owner);
 
         double findTarget(IBulletOwner *owner, IBulletTarget **target);
@@ -50,14 +47,11 @@ class BulletManager : public ITickable
 
         void handleGun(GunState *gun);
         void handleEnemies(std::vector<Enemy*> enemies);
-        void updateBullets();
 
-        void updateBullets2();
+        void updateBullets();
         void applyDamage(Bullet *b);
         
     public:
-        bool playerFire;
-        bool enemyFire;
         SceneNode *enemyNode;
 
         BulletManager(ShipState *shipState, SceneManager *sceneMgr,
