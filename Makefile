@@ -82,7 +82,7 @@ serverInfo.cpp \
 sensorMiniGame.cpp \
 fixMiniGame.cpp \
 weaponMiniGame.cpp \
-sheildMiniGame.cpp
+sheildMiniGame.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

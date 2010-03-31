@@ -12,48 +12,11 @@ ShipState::ShipState()
     speed=0.0;
 }
 
-Vector3 *ShipState::getPosition()
-{
+Vector3 *ShipState::getPosition() {
     return position;   
 }
 
-ShipState::ShipState(SceneNode *shipSceneNode ) :
-    position(new Vector3(0.0,0.0,-500.0)),
-    roll(0.0),
-    pitch(0.0),
-    yaw(0.0),
-    speed(0.0),
-    shipSceneNode(shipSceneNode)
-{}
-
-void ShipState::tick() {
-    //if (flying != 0) {
-    //    position->x = flying->position->x;
-    //    position->y = flying->position->y;
-    //    position->z = flying->position->z;
-
-    //    roll = flying->roll;
-    //    pitch = flying->pitch;
-    //    yaw = flying->yaw;
-    //}
-    //updateOgre();
-
-}
-
-void ShipState::updateOgre() {
-	shipSceneNode->resetOrientation();
-
-    shipSceneNode->setPosition(*position);
-    
-    Radian roll(this->roll);
-    Radian pitch(this->pitch);
-    Radian yaw(this->yaw);
-    
-    shipSceneNode->yaw(yaw);
-    shipSceneNode->roll(roll);
-    shipSceneNode->pitch(pitch);
-        
-}
+void ShipState::tick() {}
 
 IDrawable* ShipState::getParentObject() { return NULL; }
 
@@ -62,6 +25,18 @@ Vector3* ShipState::getOrientation() { return new Vector3(pitch,yaw,roll); }
 Vector3 *ShipState::getMeshOrientation() { return new Vector3(0,PI,0); }
 
 std::string ShipState::getMeshName() { return "newshippoly.mesh"; }
+
+EntityType ShipState::getEntityType() { return ENTT_SHIP; }
+
+EffectType ShipState::getHitEffectType() { return ET_NONE; }
+
+void ShipState::setDamageState(DamageState *mDamageState) {
+    damageState = mDamageState;
+}
+
+void ShipState::damage(float amount) {
+    damageState->damage(amount);
+}
 
 void ShipState::setX(double newX) {
     position->x = newX;

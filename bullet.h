@@ -8,22 +8,32 @@
 #include "enemy.h"
 #include "playerStats.h"
 
+#include "IBulletOwner.h"
+#include "IBulletTarget.h"
+
 using namespace Ogre;
 using namespace std;
 
 class Bullet
 {
     private:
-        SceneNode *bulletNode;
-        string name;
-        string rname;
+
+        IBulletOwner *owner;
+        IBulletTarget *target;      
+
+        SceneNode *node;
+        RibbonTrail *trail;
+
         SceneManager *sceneMgr;
+
+        void makeNode();
 
         Vector3 origin;
         Vector3 direction;
-        Vector3 deathSpark;
-        int velocity;
+        Vector3 pointOfImpact;
 
+        int velocity;
+        int damage;
                
    public:
         double distanceTravelled;
@@ -31,20 +41,19 @@ class Bullet
         
         bool madeNoise;
 
-        Bullet(SceneNode *bulletNode,
-            SceneManager *sceneMgr,
-            string name,
-            string rname,
-            Vector3 direction, 
-            int velocity,
-            double dtt,
-            PlayerStats *playerStats); // Distance to travel
+        Bullet(IBulletOwner *owner, IBulletTarget *target,
+               SceneManager *sceneMgr, double distanceToTravel);
 
         ~Bullet();
 
         void updateLocation();
         Vector3 getOrigin();
-        Vector3 getDeathSpark();
+        Vector3 getPointOfImpact();
+
+        int getDamage();
+
+        IBulletOwner *getOwner();
+        IBulletTarget *getTarget();
         
         Enemy *enemy;
         bool hitEnemy;
