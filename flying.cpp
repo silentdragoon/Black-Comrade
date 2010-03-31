@@ -44,9 +44,8 @@ void Flying::updateAngels()
 
 void Flying::updatePosition()
 {
+    //if(colMgr->collideEntityWithObj(snMgr->getEntity(shipState))) cout<<"Hit OBJ"<<endl;
     Collision col = colMgr->collideWithMapPiece(snMgr->getEntity(shipState));
-    //Collision col = colMgr->collideWithMapPiece((Entity*)shipState->shipSceneNode->getAttachedObject(1) );
-    //Collision col = colMgr->shipMapCollision(position);
     if(col.isCollided && useCollisions)
     {
         vFactor = 0.05;

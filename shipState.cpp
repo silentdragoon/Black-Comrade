@@ -13,7 +13,7 @@ ShipState::ShipState()
 }
 
 Vector3 *ShipState::getPosition() {
-    return position;   
+    return position;
 }
 
 void ShipState::tick() {}

@@ -2,7 +2,8 @@
 #include "collisionDetection.h"
 
 CollisionDetection::CollisionDetection( bool gernerateMeshes ):
-    gernerateMeshes(gernerateMeshes)
+    gernerateMeshes(gernerateMeshes),
+    objCollision(NULL)
 {
 	newtonWorld = NewtonCreate();
     for(int i=0; i < 16; i++) idmatrix[i] = 0.0f;
@@ -35,15 +36,44 @@ void CollisionDetection::createObjPrimitive( Real x, Real y, Real z, Real radius
     pos[12] = x;
     pos[13] = y;
     pos[14] = z;
-    objCollision = NewtonCreateSphere (newtonWorld, radius, radius, radius, shapeID, &pos[0]); // TODO: This needs fixing. x y and z are radius not position.
+    objCollision = NewtonCreateSphere (newtonWorld, radius, radius, radius, shapeID, &pos[0]);
     shapeID++;
     //void* ptoFunc = &(mySerializeCollisionCallbackFunction);
     //NewtonReleaseCollision (newtonWorld, objCollision);
 }
 
-bool CollisionDetection::collideShipWithObj()
+bool CollisionDetection::collideEntityWithObj(Entity *e)
 {
-    
+    if( objCollision != NULL)
+    {
+        NewtonCollision *eCollision;
+        std::map<Entity *,NewtonCollision *>::const_iterator iter = collisionsMap.find(e);
+        if(iter != collisionsMap.end())
+        {
+            eCollision=iter->second;
+        }
+        else
+        {
+            cout << "in collideEntityWithObj(e), collision mesh for enitiy e could not be found in (cpp)map" << endl;
+            return false;
+        }
+        dFloat eMatrix[16];
+        getMatrix(e,eMatrix);
+        dFloat contacts[16];
+        dFloat normals[16];
+        dFloat penetration[16];
+        int numCollisionPoints = NewtonCollisionCollide (newtonWorld, 1,
+                                    eCollision,   &eMatrix[0],
+                                    objCollision, &idmatrix[0],
+                                    &contacts[0], &normals[0], &penetration[0], 0);
+        if (numCollisionPoints > 0) return true;
+        else return false;
+    }
+    else
+    {
+        cout << "Objective collision mesh is NULL (most probably not initialised)" << endl;
+        return false;
+    }
 }
 
 dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
@@ -183,16 +213,18 @@ Collision CollisionDetection::mapCollision(Entity *e1, Entity *e2)
     if(iter != collisionsMap.end()) {
     	e1Collision=iter->second;
     } else {
+        cout<<"in mapCollision(e1,e2) the collision mesh for enitiy e1 could not be found in (C++)map"<< endl;
         dFloat contacts[16] = {0.0f};
         dFloat normals[16] = {0.0f};
         dFloat penetration[16] = {0.0f};
-    	return Collision(false,normals,contacts,penetration);;
+    	return Collision(false,normals,contacts,penetration);
     }
     
     iter = collisionsMap.find(e2);
     if(iter != collisionsMap.end()) {
     	e2Collision=iter->second;
     } else {
+        cout<<"in mapCollision(e1,e2) collision mesh for mapEnitiy e2 could not be found in (C++)map"<<endl;
         dFloat contacts[16] = {0.0f};
         dFloat normals[16] = {0.0f};
         dFloat penetration[16] = {0.0f};
@@ -200,17 +232,15 @@ Collision CollisionDetection::mapCollision(Entity *e1, Entity *e2)
     }
     getMatrix(e1,e1Matrix);
     //getMatrix(e2,e2Matrix);
-	
-	dFloat contacts[16];
+    
+    dFloat contacts[16];
     dFloat normals[16];
     dFloat penetration[16];
-	int numCollisionPoints;
+    int numCollisionPoints = NewtonCollisionCollide (newtonWorld, 1,
+                                e1Collision, &e1Matrix[0],
+                                e2Collision, &idmatrix[0],
+                                &contacts[0], &normals[0], &penetration[0], 0);
 	
-	numCollisionPoints = NewtonCollisionCollide (newtonWorld, 1,
-		e1Collision, &e1Matrix[0],
-		e2Collision, &idmatrix[0],
-		&contacts[0], &normals[0], &penetration[0], 0);
-		
     if (numCollisionPoints > 0) {
         return Collision(true,normals,contacts,penetration);
     } else {
@@ -280,7 +310,7 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
     if(iter != collisionsMap.end()) {
         return NewtonCollisionRayCast( iter->second, p0, p1, normal, att);
     } else {
-        cout << "Mesh not found: " << endl;
+        cout << "in rayCollideDist(start,end,e) collsion mesh for e not found in (cpp)map" << endl;
     	return -1;
     }
 }

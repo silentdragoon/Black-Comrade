@@ -91,9 +91,9 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
     //return -1;
 }
 
-bool CollisionManager::collideShipWithObj()
+bool CollisionManager::collideEntityWithObj(Entity *e)
 {
-    return cd->collideShipWithObj();
+    return cd->collideEntityWithObj(e);
 }
 
 Collision CollisionManager::collideWithMapPiece( Entity *e )
