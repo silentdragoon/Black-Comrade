@@ -1,9 +1,11 @@
 #include "loadingScreen.h"
 #include "IMenuScreen.h"
 
-LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr)
+LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr,
+                             NetworkingManager *networkingMgr)
     : inputState(inputState)
     , guiMgr(guiMgr)
+    , networkingMgr(networkingMgr)
     , progress(0)
 {
     CEGUI::ImagesetManager::getSingleton().create("loading.xml");
@@ -31,10 +33,23 @@ void LoadingScreen::show() {
     // Show background image etc
 
     if (isVisible) return;
+   
+    CEGUI::FrameWindow *loadingBackground;
 
-    CEGUI::FrameWindow *loadingBackground = guiMgr->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
+    switch (networkingMgr->collabInfo->getGameRole()) {
+        case PILOT:
+            loadingBackground = guiMgr->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
+            break;
+        case NAVIGATOR:
+            loadingBackground = guiMgr->addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
+            break;
+        case ENGINEER:
+            loadingBackground = guiMgr->addStaticImage("KeyboardEngineer",0.5, 0.5,1.0, 1.0,"KeyboardEngineer","Loading");
+            break;
+    }
+
     indicator = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","loadingIndicator"));
-    //indicator->setFont("DroidSansMono-big.font");
+
     guiMgr->getRootWindow()->addChildWindow(indicator);
     indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
     indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 30 * hpixel,0),CEGUI::UDim(1 - 210 * wpixel,0)));
@@ -63,6 +78,8 @@ void LoadingScreen::updateProgress(int progress) {
 void LoadingScreen::hide() {
     // Hide background image etc
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardPilot");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardNavigator");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardEngineer");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);  
 }
 

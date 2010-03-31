@@ -24,7 +24,7 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
 
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
-    loadingScreen = new LoadingScreen(inputState,guiMgr);
+    loadingScreen = new LoadingScreen(inputState,guiMgr,networkingMgr);
 }
 
 CollaborationInfo* PreGame::showMenus() {
