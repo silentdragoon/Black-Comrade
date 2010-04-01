@@ -100,8 +100,10 @@ void SystemManager::fireWeapon() {
 }
 
 void SystemManager::damageShield() {
-    std::cout << shieldCharge << std::endl;
+    //std::cout << shieldCharge << std::endl;
     shieldCharge -= 1; // TODO: fix this
+    double mod = 1.0 - ((double)shieldCharge / 100.0);
+    damageState->setShieldModifier( mod + 0.1) ;
 }
 
 double SystemManager::getWeaponCharge() {

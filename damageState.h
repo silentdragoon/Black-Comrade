@@ -27,7 +27,8 @@ private:
 
     boost::mt19937 rng;
 
-    double shieldHealth;
+    double shieldModifier;
+
     double sensorHealth;
     double weaponHealth;
     double engineHealth;
@@ -49,12 +50,13 @@ public:
     void damage();
     void damage(double multiplier);
 
-    void repairShieldGenerator(int amount);
+    void setShieldModifier(double mod);
+
     void repairEngines(int amount);
     void repairWeapons(int amount);
     void repairSensors(int amount);
+    void repairHull(int amount);
 
-    double getShieldHealth();
     double getSensorHealth();
     double getWeaponHealth();
     double getEngineHealth();

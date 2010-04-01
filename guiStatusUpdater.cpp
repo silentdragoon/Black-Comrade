@@ -38,13 +38,11 @@ void GuiStatusUpdater::tick() {
     }
 
     // Deal with the damage of various systems
-    float shieldHealth = (float)(damageState->getShieldHealth()/100.0);
     float sensorHealth = (float)(damageState->getSensorHealth()/100.0);
     float weaponHealth = (float)(damageState->getWeaponHealth()/100.0);
     float engineHealth = (float)(damageState->getEngineHealth()/100.0);
     float hullHealth = (float)(damageState->getHullHealth()/100.0); 
 
-    hud->setShields(shieldHealth);
     hud->setSensors(sensorHealth);
     hud->setWeapons(weaponHealth);
     hud->setEngines(engineHealth);
