@@ -308,7 +308,7 @@ void MapManager::makeConPieces() {
                     std::stringstream out;
                     out << "-" << x << "-" << y << "-2";
                     name += out.str();
-                    Entity *e = sceneManager->createEntity(name, "polySurfaceShape7.mesh");
+                    Entity *e = sceneManager->createEntity(name, "newConnExport.mesh");
                     node->attachObject(e);
                     node->yaw( Radian(PI/2.0) );
                     //needs Tuning
@@ -324,7 +324,7 @@ void MapManager::makeConPieces() {
                     std::stringstream out;
                     out << "-" << x << "-" << y << "-3";
                     name += out.str();
-                    Entity *e = sceneManager->createEntity(name,  "polySurfaceShape7.mesh");
+                    Entity *e = sceneManager->createEntity(name,  "newConnExport.mesh");
                     node->attachObject(e);
                     //needs Tuning
                     Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) ,0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
