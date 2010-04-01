@@ -62,7 +62,6 @@ void LoadingScreen::render() {
     WindowEventUtilities weu = WindowEventUtilities();
     weu.messagePump();
     Root::getSingletonPtr()->renderOneFrame();
-    Root::getSingletonPtr()->renderOneFrame();
 }
 
 int LoadingScreen::getProgress() { return progress; }

@@ -100,7 +100,6 @@ void PreGame::handleMouse() {
     float  x = (float) inputState->getMouseX();
     float y = (float) inputState->getMouseY();
     CEGUI::System::getSingleton().injectMouseMove(x,y);
-    std::cout << "Injecting mouse position..." << x << "," << y << "\n";
 }
 
 void PreGame::loadNextMenu() {
