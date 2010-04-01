@@ -34,8 +34,9 @@ void LoadingScreen::show() {
 
     if (isVisible) return;
    
-    CEGUI::FrameWindow *loadingBackground;
+    CEGUI::MouseCursor::getSingletonPtr()->hide();
 
+    CEGUI::FrameWindow *loadingBackground;
     switch (networkingMgr->collabInfo->getGameRole()) {
         case PILOT:
             loadingBackground = guiMgr->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");

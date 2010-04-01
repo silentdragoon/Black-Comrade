@@ -34,6 +34,9 @@ private:
     LoadingScreen *loadingScreen;
 
     void render();
+    void handleInput();
+    void handleKeys();
+    void handleMouse();
 
 
 public:

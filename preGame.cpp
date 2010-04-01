@@ -25,6 +25,9 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
     loadingScreen = new LoadingScreen(inputState,guiMgr,networkingMgr);
+
+    CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    CEGUI::MouseCursor::getSingletonPtr()->show();
 }
 
 CollaborationInfo* PreGame::showMenus() {
@@ -65,6 +68,8 @@ void PreGame::render() {
 }
 
 void PreGame::tick() {
+ 
+   handleInput();
 
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
@@ -80,6 +85,22 @@ void PreGame::tick() {
         }	
     }
     render();
+}
+
+void PreGame::handleInput() {
+    handleKeys();
+    handleMouse();
+}
+
+void PreGame::handleKeys() {
+
+}
+
+void PreGame::handleMouse() {
+    float  x = (float) inputState->getMouseX();
+    float y = (float) inputState->getMouseY();
+    CEGUI::System::getSingleton().injectMouseMove(x,y);
+    std::cout << "Injecting mouse position..." << x << "," << y << "\n";
 }
 
 void PreGame::loadNextMenu() {
