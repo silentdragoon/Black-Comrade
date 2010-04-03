@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="RightEng" Imagefile="right_eng.png" AutoScaled="true" >
-    <Image Name="Main" XPos="0" YPos="0" Width="411" Height="228" />
-    <Image Name="Radar" XPos="182" YPos="0" Width="229" Height="229" />
-    <Image Name="EngBal" XPos="142" YPos="68" Width="35" Height="160" />
-    <Image Name="SenBal" XPos="98" YPos="68" Width="35" Height="160" />
+    <Image Name="Main" XPos="0" YPos="0" Width="367" Height="230" />
+    <Image Name="Radar" XPos="0" YPos="0" Width="0" Height="0" />
+    <Image Name="EngBal" XPos="98" YPos="68" Width="35" Height="160" />
     <Image Name="SheBal" XPos="52" YPos="68" Width="35" Height="160" />
-    <Image Name="WepBal" XPos="6" YPos="68" Width="35" Height="160" />
+    <Image Name="WepBal" XPos="5" YPos="68" Width="35" Height="160" />
 </Imageset>
