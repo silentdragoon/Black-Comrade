@@ -57,7 +57,7 @@ class Lobby {
     string nick;
 
     public:
-    Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr);
+    Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr, std::string nick);
     bool roleOptionsChanged;
     bool pilotTaken;
     bool navTaken;
@@ -65,7 +65,6 @@ class Lobby {
 
     void enter();
     bool wait();
-    void chooseNick(string nick);
     void chooseGameRole(GameRole role);
 
     bool hasChosenRole();

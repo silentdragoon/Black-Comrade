@@ -38,8 +38,6 @@ CollaborationInfo* PreGame::showMenus() {
 
     preGameLoop->startLoop();
 
-    networkingMgr->lobby->chooseNick("Player");
-
     return networkingMgr->collabInfo;
 }
 

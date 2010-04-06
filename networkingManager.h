@@ -45,6 +45,8 @@ private:
 
 
 public:
+        std::string nick;
+
         Lobby *lobby;
         DiscoveryAgent *discoveryAgent;
 

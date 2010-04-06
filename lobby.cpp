@@ -4,11 +4,13 @@
 using namespace std;
 using namespace RakNet;
 
-Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
+Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr,
+             std::string nick)
     : pilotTaken(false)
     , navTaken(false)
-    , engTaken(false)
+    , engTaken(false) 
     , roleOptionsChanged(true)
+    , nick(nick)
 {
     rakPeer = rp;
     networkRole = nr;
@@ -18,10 +20,6 @@ Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr)
 }
 
 void Lobby::enter() {
-    if (networkRole == DEVELOPMENTSERVER) {
-        nick = "Player";
-        return;
-    }
     std::cout << "Welcome to the lobby" << std::endl;
     if (networkRole == SERVER) offerGameRoleChoices();
 }
@@ -57,10 +55,6 @@ bool Lobby::connect(string serverAddress, int port) {
         }
     }
     return connected;
-}
-
-void Lobby::chooseNick(string mNick) {
-    nick = mNick;
 }
 
 void Lobby::chooseGameRole(GameRole role) {
