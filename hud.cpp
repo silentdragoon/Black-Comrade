@@ -28,6 +28,10 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
     // CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
 
+	// TEST
+	
+	// CEGUI::FrameWindow *test     = guiManager->addStaticImage("ChoosePlayer",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ChoosePlayer",      "Whole" );
+
     // Foreground Elements
 
     // Crew Background

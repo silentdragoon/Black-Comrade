@@ -86,20 +86,29 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/StatusIndicators">
     </WidgetLook>
-        <WidgetLook name="BlackComrade/StatusIndicators2">
+    <WidgetLook name="BlackComrade/StatusIndicators2">
     </WidgetLook>
-        <WidgetLook name="BlackComrade/StatusIndicators3">
+    <WidgetLook name="BlackComrade/StatusIndicators3">
     </WidgetLook>
-        <WidgetLook name="BlackComrade/StatusIndicators4">
+    <WidgetLook name="BlackComrade/StatusIndicators4">
     </WidgetLook>
-        <WidgetLook name="BlackComrade/StatusIndicators5">
+    <WidgetLook name="BlackComrade/StatusIndicators5">
     </WidgetLook>
-        <WidgetLook name="BlackComrade/KeyboardEngineer">
+	<WidgetLook name="BlackComrade/KeyboardEngineer">
     </WidgetLook>
-            <WidgetLook name="BlackComrade/KeyboardPilot">
+    <WidgetLook name="BlackComrade/KeyboardPilot">
     </WidgetLook>
-            <WidgetLook name="BlackComrade/KeyboardNavigator">
+    <WidgetLook name="BlackComrade/KeyboardNavigator">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/Story">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/RoleIcons">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Lobby">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/ChoosePlayer">
+    </WidgetLook>
+    
     
     <!--
     ***************************************************
@@ -3508,8 +3517,8 @@
     <WidgetLook name="BlackComrade/StaticText">
 		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
 		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
-        <Property name="FrameEnabled" value="True" />
-        <Property name="BackgroundEnabled" value="True" />
+        <Property name="FrameEnabled" value="False" />
+        <Property name="BackgroundEnabled" value="False" />
         <NamedArea name="WithFrameTextRenderArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="StaticLeft" dimension="Width" /></Dim>

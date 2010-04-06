@@ -21,6 +21,9 @@ class StatsScreen : public IMenuScreen
         CollaborationInfo *navInfo;
         CollaborationInfo *engInfo;
         
+        float wpx;
+        float hpx;
+        
     public:
         void tick();
         bool end();
