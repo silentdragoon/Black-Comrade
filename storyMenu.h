@@ -15,6 +15,7 @@ class StoryMenu : public IMenuScreen
         NetworkingManager *networkingMgr;
         GuiManager *guiMgr;
 
+        CEGUI::Imageset *imageSet;
         CEGUI::Editbox *nickBox;
 
         bool isVisible;
