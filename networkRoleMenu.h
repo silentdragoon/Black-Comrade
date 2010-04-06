@@ -10,6 +10,7 @@
 #include <OIS/OIS.h>
 #include <math.h>
 #include <vector>
+#include <sstream>
 #include "serverInfo.h"
 
 class NetworkRoleMenu : public IMenuScreen
@@ -18,6 +19,9 @@ class NetworkRoleMenu : public IMenuScreen
         InputState *inputState;
         NetworkingManager *networkingMgr;
         GuiManager *guiMgr;
+
+        CEGUI::Imageset *imageSet;
+        CEGUI::Editbox *nameBox;
 
         bool isVisible;
         bool isEnd;

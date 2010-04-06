@@ -13,7 +13,7 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
     , keyDelay(10)
     , lastKey(0)
 {
-    CEGUI::ImagesetManager::getSingleton().create("lobby.xml");
+    imageSet = &(CEGUI::ImagesetManager::getSingleton().create("lobby.xml"));
     gameRefreshDelay = 100;
     lastRefresh = gameRefreshDelay;
 }
@@ -106,6 +106,29 @@ void NetworkRoleMenu::show() {
     if (isVisible) return;
 
     guiMgr->addStaticImage("Lobby",0.5, 0.5,1.0, 1.0,"Lobby","Whole");
+    int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
+    int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+    float wpixel = winWidth / 1680.0;
+    float hpixel = winHeight / 1050.0;
+
+    nameBox = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","nameBox"));
+    guiMgr->getRootWindow()->addChildWindow(nameBox);
+
+    CEGUI::Image namePlacement = imageSet->getImage("GameNamePlacement");
+    float nameWidth =  200;
+    float nameHeight =  20;
+    float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
+    float nameY =  namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
+
+    nameBox->setSize(CEGUI::UVector2(CEGUI::UDim(0,nameWidth),CEGUI::UDim(0,nameHeight)));
+    nameBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX-3),CEGUI::UDim(0,nameY-3)));
+    nameBox->setMaxTextLength(20);
+
+    std::stringstream out;
+    out << networkingMgr->nick << "'s Game";
+    nameBox->setText(out.str());
+    nameBox->setCaratIndex(nameBox->getText().length());
+
     isVisible = true;
 }
 
