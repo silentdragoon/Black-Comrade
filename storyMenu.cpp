@@ -24,13 +24,6 @@ void StoryMenu::tick() {
     }
 }
 
-void StoryMenu::alphaNumKeyPressed(const OIS::KeyEvent &arg) {
-    if (arg.text != ' ') {
-        CEGUI::System::getSingleton().injectKeyDown(arg.key);
-        CEGUI::System::getSingleton().injectChar(arg.text);
-    }
-}
-
 MenuType StoryMenu::nextMenu() {
     return MT_CHOOSE_NETWORK_ROLE;
 }
@@ -46,6 +39,8 @@ void StoryMenu::show() {
     nickBox->setSize(CEGUI::UVector2(CEGUI::UDim(0,100),CEGUI::UDim(0,100)));
     nickBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5,0),CEGUI::UDim(0.5,0)));
     nickBox->setMaxTextLength(10);
+    nickBox->setText("Player");
+    nickBox->setCaratIndex(nickBox->getText().length());
     nickBox->activate();
 
     isVisible = true;

@@ -29,8 +29,6 @@ class StoryMenu : public IMenuScreen
 
         bool visible();
 
-        void alphaNumKeyPressed(const OIS::KeyEvent &arg);
-
         MenuType nextMenu();
 
         StoryMenu(InputState *inputState, NetworkingManager *networkingMgr, GuiManager *guiMgr);

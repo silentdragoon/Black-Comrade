@@ -98,7 +98,7 @@ void PreGame::handleKeys() {
 
 bool PreGame::keyPressed(const OIS::KeyEvent &arg) {
 
-    if (arg.key == OIS::KC_RETURN) {
+    /*if (arg.key == OIS::KC_RETURN) {
         currentMenuScreen->returnKeyPressed();
         return true;
     } else if (arg.key == OIS::KC_BACK) {
@@ -116,7 +116,9 @@ bool PreGame::keyPressed(const OIS::KeyEvent &arg) {
             break;
         }
     }
-    return true;
+    return true;*/
+    CEGUI::System::getSingleton().injectKeyDown(arg.key);
+    CEGUI::System::getSingleton().injectChar(arg.text);
 }
 
 bool PreGame::keyReleased(const OIS::KeyEvent &arg) { return false; }
