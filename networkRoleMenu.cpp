@@ -13,7 +13,7 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
     , keyDelay(10)
     , lastKey(0)
 {
-    CEGUI::ImagesetManager::getSingleton().create("NetworkRoleMenu.imageset");
+    CEGUI::ImagesetManager::getSingleton().create("lobby.xml");
     gameRefreshDelay = 100;
     lastRefresh = gameRefreshDelay;
 }
@@ -105,13 +105,13 @@ void NetworkRoleMenu::show() {
     // Show background image etc
     if (isVisible) return;
 
-    guiMgr->addStaticImage("NetworkRoleMenu",0.5, 0.5,1.0, 1.0,"NetworkRoleMenu","NetworkRoleMenu");
+    guiMgr->addStaticImage("Lobby",0.5, 0.5,1.0, 1.0,"Lobby","Whole");
     isVisible = true;
 }
 
 void NetworkRoleMenu::hide() {
     // Hide background image etc
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NetworkRoleMenu");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Lobby");
 }
 
 bool NetworkRoleMenu::end() { return isEnd; }
