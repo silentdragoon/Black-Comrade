@@ -22,17 +22,19 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
     preGameLoop->addTickable(inputState,"inputState");
     preGameLoop->addTickable(this,"preGame");
 
+    storyMenu = new StoryMenu(inputState,networkingMgr,guiMgr);
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
     loadingScreen = new LoadingScreen(inputState,guiMgr,networkingMgr);
 
     CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
-    CEGUI::MouseCursor::getSingletonPtr()->show();
 }
 
 CollaborationInfo* PreGame::showMenus() {
 
-    currentMenuScreen = networkRoleMenu;
+    currentMenuScreen = storyMenu;
+    CEGUI::MouseCursor::getSingletonPtr()->show();
+    inputState->addKeyListener(this);
 
     preGameLoop->startLoop();
 
@@ -96,6 +98,31 @@ void PreGame::handleKeys() {
 
 }
 
+bool PreGame::keyPressed(const OIS::KeyEvent &arg) {
+
+    if (arg.key == OIS::KC_RETURN) {
+        currentMenuScreen->returnKeyPressed();
+        return true;
+    } else if (arg.key == OIS::KC_BACK) {
+        currentMenuScreen->backspaceKeyPressed();
+        return true;
+    } else if (arg.text == 0) {
+        currentMenuScreen->otherKeyPressed(arg);
+        return true;
+    }
+
+    char legalchars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890' ";
+    for(int c=0;c<sizeof(legalchars);c++){
+        if(legalchars[c]==arg.text){
+            currentMenuScreen->alphaNumKeyPressed(arg);
+            break;
+        }
+    }
+    return true;
+}
+
+bool PreGame::keyReleased(const OIS::KeyEvent &arg) { return false; }
+
 void PreGame::handleMouse() {
     float  x = (float) inputState->getMouseX();
     float y = (float) inputState->getMouseY();
@@ -104,12 +131,10 @@ void PreGame::handleMouse() {
 
 void PreGame::loadNextMenu() {
 
-    if (currentMenuScreen == 0) {
-        currentMenuScreen = networkRoleMenu;
-        return;
-    }
-
     switch (currentMenuScreen->nextMenu()) {
+        case MT_CHOOSE_NETWORK_ROLE :
+            currentMenuScreen = networkRoleMenu;
+            break;
         case MT_CHOOSE_GAME_ROLE :
             currentMenuScreen = gameRoleMenu;
             break;
@@ -124,4 +149,5 @@ void PreGame::loadNextMenu() {
 
 void PreGame::exit() {
     preGameLoop->running = false;
+    inputState->clearKeyListener();
 }

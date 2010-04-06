@@ -24,6 +24,7 @@ public:
     virtual void alphaNumKeyPressed(const OIS::KeyEvent &arg) {};
     virtual void returnKeyPressed() {};
     virtual void backspaceKeyPressed() {};
+    virtual void otherKeyPressed(const OIS::KeyEvent &arg) {};
 };
 
 #endif

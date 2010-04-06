@@ -10,11 +10,12 @@
 #include "IExit.h"
 #include "ITickable.h"
 
+#include "storyMenu.h"
 #include "networkRoleMenu.h"
 #include "gameRoleMenu.h"
 #include "loadingScreen.h"
 
-class PreGame : public IExit, public ITickable {
+class PreGame : public IExit, public ITickable, public OIS::KeyListener {
 private:
 
     SceneManager *sceneMgr;
@@ -29,6 +30,7 @@ private:
     void loadNextMenu();
 
     IMenuScreen *currentMenuScreen;
+    IMenuScreen *storyMenu;
     IMenuScreen *networkRoleMenu;
     IMenuScreen *gameRoleMenu;
     LoadingScreen *loadingScreen;
@@ -48,6 +50,9 @@ public:
 
     void hideLoadingScreen();
     LoadingScreen *getLoadingScreen();
+
+    bool keyPressed(const OIS::KeyEvent &arg);
+    bool keyReleased(const OIS::KeyEvent &arg);
 
     void tick();
     void exit();
