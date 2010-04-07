@@ -14,6 +14,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
 {
 
     menuLoop->addTickable(this,"postGame");
+    menuLoop->addTickable(soundMgr,"soundMgr");
 
     statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo);
 }

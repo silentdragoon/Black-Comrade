@@ -52,7 +52,7 @@ void StoryMenu::show() {
     nickBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX-3),CEGUI::UDim(0,nameY-3)));
     nickBox->setMaxTextLength(10);
     nickBox->setText("Player");
-    nickBox->setCaratIndex(nickBox->getText().length());
+    nickBox->setSelection(0,nickBox->getText().length());
     nickBox->activate();
 
     isVisible = true;
