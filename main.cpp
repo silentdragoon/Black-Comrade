@@ -55,7 +55,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
     if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
-        inputState->releaseMouse();
+        //inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
     // Player info
@@ -363,7 +363,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
 
-    postGame->run();
+    postGame->showMenus();
     
     networkingManager->stopNetworking();
 }

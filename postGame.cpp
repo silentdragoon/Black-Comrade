@@ -6,50 +6,24 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
                    CollaborationInfo *pilotInfo,
                    CollaborationInfo *navInfo,
                    CollaborationInfo *engInfo)
-    : sceneMgr(sceneMgr)
-    , window(window)
-    , inputState(inputState)
-    , guiMgr(guiMgr)
+    : MenuSystem(sceneMgr,guiMgr,inputState,window)
     , soundMgr(soundMgr)
-    , currentMenuScreen(0)
     , pilotInfo(pilotInfo)
     , navInfo(navInfo)
     , engInfo(engInfo)
 {
-    postGameLoop = new StateUpdate();
 
-    postGameLoop->addTickable(soundMgr,"soundMgr");
-    postGameLoop->addTickable(inputState,"inputState");
-    postGameLoop->addTickable(this,"postGame");
+    menuLoop->addTickable(this,"postGame");
 
     statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo);
 }
 
-void PostGame::run() {
+void PostGame::showMenus() {
 
     guiMgr->destroyAllWindows();
-
-    Camera *camera = sceneMgr->createCamera("postGameCam");
-    window->removeAllViewports();
-    Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-    camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
-
-    vp->update();
-
     currentMenuScreen = statsScreen;
-
-    postGameLoop->startLoop();
+    run();
 }
-
-void PostGame::clearMenuUI() {
-
-}
-
-//void PreGame::showLoadingScreen() {
-//    CEGUI::FrameWindow *loadingText = guiMgr->addStaticText("LoadingText", "Loading...",0.5, 0.5, 1);
-//}
 
 void PostGame::tick() {
 
@@ -80,8 +54,4 @@ void PostGame::loadNextMenu() {
             exit();
             break;
     }
-}
-
-void PostGame::exit() {
-    postGameLoop->running = false;
 }

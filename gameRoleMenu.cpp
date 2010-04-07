@@ -60,10 +60,7 @@ void GameRoleMenu::show() {
     if (isVisible) return;
 
     guiMgr->addStaticImage("ChoosePlayer",0.5, 0.5,1.0, 1.0,"ChoosePlayer","Whole");
-    if (networkingMgr->lobby->roleOptionsChanged) {
-        // Present the user with the current options
-        updateOptions();
-    }
+
     isVisible = true;
 }
 

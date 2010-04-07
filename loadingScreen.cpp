@@ -23,6 +23,7 @@ void LoadingScreen::tick() {
     if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(-1);
     }
+    networkingMgr->tick();
 }
 
 MenuType::LoadingScreen::nextMenu() {
