@@ -135,6 +135,7 @@ void NetworkRoleMenu::show() {
 void NetworkRoleMenu::hide() {
     // Hide background image etc
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Lobby");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(nameBox);
 }
 
 bool NetworkRoleMenu::end() { return isEnd; }

@@ -36,7 +36,13 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
+
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
+
+    //black = addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
+    //black->setAlwaysOnTop(true);
+    //black->setAlpha(1.0f);
+    //black->hide();
 
 }
 
@@ -109,6 +115,21 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, 
     
     return radarWindow;
 
+}
+
+void GuiManager::fadeToBlack() {
+    black->show();
+    while(black->getAlpha() < 1.0f) {
+        black->setAlpha(black->getAlpha() + 0.00001f);
+        std::cout << "FADE\n";
+    }
+}
+
+void GuiManager::fadeFromBlack() {
+    while(black->getAlpha() > 0.0f) {
+        black->setAlpha(black->getAlpha() - 0.00001f);
+    }
+    black->hide();
 }
 
 CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCenter, float yCenter,

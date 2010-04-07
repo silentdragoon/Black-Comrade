@@ -17,6 +17,7 @@ private:
     CEGUI::OgreRenderer* d_renderer;
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
+    CEGUI::Window *black;
     CEGUIRQListener *renderQueueListener;
     SceneManager *sceneMgr;
 
@@ -38,6 +39,9 @@ public:
                                       int size);
 
     CEGUI::Window *getRootWindow();
+
+    void fadeToBlack();
+    void fadeFromBlack();
 
     void setOverlayAboveCEGUI(bool above);
 
