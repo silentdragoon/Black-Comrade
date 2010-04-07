@@ -30,6 +30,8 @@ class StoryMenu : public IMenuScreen
 
         bool visible();
 
+        bool proceedClicked(const CEGUI::EventArgs& e);
+
         MenuType nextMenu();
 
         StoryMenu(InputState *inputState, NetworkingManager *networkingMgr, GuiManager *guiMgr);
