@@ -52,7 +52,7 @@ void GameRoleMenu::updateOptions() {
 }
 
 MenuType GameRoleMenu::nextMenu() {
-    return MT_NONE;
+    return MT_LOADING;
 }
 
 void GameRoleMenu::show() {

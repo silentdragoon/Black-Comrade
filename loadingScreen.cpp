@@ -7,6 +7,7 @@ LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr,
     , guiMgr(guiMgr)
     , networkingMgr(networkingMgr)
     , progress(0)
+    , isEnd(false)
 {
     CEGUI::ImagesetManager::getSingleton().create("loading.xml");
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
@@ -24,6 +25,7 @@ void LoadingScreen::tick() {
         std::exit(-1);
     }
     networkingMgr->tick();
+    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE)) isEnd = true;
 }
 
 MenuType::LoadingScreen::nextMenu() {
@@ -50,6 +52,8 @@ void LoadingScreen::show() {
             break;
     }
 
+    //loadingBackground->setAlwaysOnTop(true);
+
     indicator = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","loadingIndicator"));
 
     guiMgr->getRootWindow()->addChildWindow(indicator);
@@ -67,10 +71,16 @@ void LoadingScreen::render() {
 
 int LoadingScreen::getProgress() { return progress; }
 
-void LoadingScreen::updateProgress(int progress) {
-    std::stringstream out;
-    out << progress << "%";
-    indicator->setText(out.str());
+void LoadingScreen::updateProgress(int newProgress) {
+    progress = newProgress;    std::stringstream out;
+    
+    if (progress != 100.0) {
+        out << progress << "%";
+        indicator->setText(out.str());
+    } else {
+        // Let the player know the game has loaded fully
+        indicator->setText("");
+    }
     render();
     inputState->tick();
     if (inputState->isKeyDown(OIS::KC_ESCAPE)) std::exit(0);
@@ -84,6 +94,8 @@ void LoadingScreen::hide() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);  
 }
 
-bool LoadingScreen::end() { return (progress >= 100); }
+bool LoadingScreen::end() {
+    return isEnd;
+}
 
 bool LoadingScreen::visible() { return isVisible; }

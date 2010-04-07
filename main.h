@@ -49,6 +49,7 @@
 #include "postGame.h"
 #include "gameEnder.h"
 #include "objective.h"
+#include "fader.h"
 
 //include networking stuff
 #include <string.h>
@@ -118,6 +119,8 @@ private:
     Lines *lines;
     ParticleSystemEffectManager *particleSystemEffectManager;
     Objective *objective;
+
+    Fader *fader;
 
     GameEnder *gameEnder;
 

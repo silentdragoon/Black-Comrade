@@ -22,6 +22,13 @@ CollaborationInfo* PreGame::showMenus() {
     return networkingMgr->collabInfo;
 }
 
+void PreGame::waitForPlayers() {
+    loadingScreen->updateProgress(100.0);
+    menuLoop->running = true;
+    menuLoop->startLoop();
+    hideLoadingScreen();
+}
+
 LoadingScreen *PreGame::getLoadingScreen() {
     return loadingScreen;
 }
@@ -51,7 +58,11 @@ void PreGame::tick() {
             if (!fadingIn) {
                 // Process it
                 currentMenuScreen->tick();
-                if (currentMenuScreen == loadingScreen) exit();
+                if (currentMenuScreen == loadingScreen) {
+                    if (loadingScreen->getProgress() == 0.0) {
+                        exit();
+                    }
+                }
             }
         }	
     }
@@ -73,8 +84,11 @@ void PreGame::loadNextMenu() {
         case MT_CHOOSE_GAME_ROLE :
             currentMenuScreen = gameRoleMenu;
             break;
-        case MT_NONE :
+        case MT_LOADING :
             currentMenuScreen = loadingScreen;
+            break;
+        case MT_NONE :
+            exit();
             break;
     }
 }

@@ -25,12 +25,14 @@ private:
     LoadingScreen *loadingScreen;
 
 public:
+
     PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
             InputState *inputState,GuiManager *guiMgr,
             NetworkingManager *networkingMgr);
 
     CollaborationInfo *showMenus();
 
+    void waitForPlayers();
     void hideLoadingScreen();
     LoadingScreen *getLoadingScreen();
 
