@@ -108,6 +108,8 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/ChoosePlayer">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/Black">
+    </WidgetLook>
     
     
     <!--

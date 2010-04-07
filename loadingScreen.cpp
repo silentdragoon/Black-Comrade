@@ -83,6 +83,6 @@ void LoadingScreen::hide() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);  
 }
 
-bool LoadingScreen::end() { return false; }
+bool LoadingScreen::end() { return (progress >= 100); }
 
 bool LoadingScreen::visible() { return isVisible; }

@@ -8,6 +8,8 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
     , guiMgr(guiMgr)
     , networkingMgr(networkingMgr)
     , currentMenuScreen(0)
+    , fadingIn(true)
+    , fadingOut(false)
 {
     preGameLoop = new StateUpdate();
 
@@ -49,6 +51,7 @@ void PreGame::hideLoadingScreen() {
     window->removeAllViewports();
     sceneMgr->destroyCamera("preGameCam");
     loadingScreen->hide();
+    while(!guiMgr->fadeFromBlack()){};
 }
 
 void PreGame::clearMenuUI() {
@@ -73,16 +76,30 @@ void PreGame::tick() {
 
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
-            // Hide + End it
-            currentMenuScreen->hide();
-            loadNextMenu();
+            fadingIn = false;
+            fadingOut = !guiMgr->fadeToBlack();
+            if (!fadingOut) {
+                // Hide + End it
+                currentMenuScreen->hide();
+                loadNextMenu();
+            }
         } else if (!currentMenuScreen->visible()) {
             // Show it
             currentMenuScreen->show();
-        } else {
-            // Process it
-            currentMenuScreen->tick();
+            fadingIn = !guiMgr->fadeFromBlack();
+        } else if (currentMenuScreen->visible()) {
+            if (!fadingIn) {
+                // Process it
+                currentMenuScreen->tick();
+                if (currentMenuScreen == loadingScreen) exit();
+            }
         }	
+    }
+    if (fadingIn) {
+        fadingIn = !guiMgr->fadeFromBlack();
+    }
+    else if (fadingOut) {
+        fadingOut = !guiMgr->fadeToBlack();
     }
     render();
 }
@@ -139,10 +156,7 @@ void PreGame::loadNextMenu() {
             currentMenuScreen = gameRoleMenu;
             break;
         case MT_NONE :
-            // Start the game
-            loadingScreen->show();
-            render();
-            exit();
+            currentMenuScreen = loadingScreen;
             break;
     }
 }

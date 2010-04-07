@@ -6,6 +6,7 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
+#include <math.h>
 #include "mapManager2.h"
 #include "shipState.h"
 #include "const.h"
@@ -40,8 +41,8 @@ public:
 
     CEGUI::Window *getRootWindow();
 
-    void fadeToBlack();
-    void fadeFromBlack();
+    bool fadeToBlack();
+    bool fadeFromBlack();
 
     void setOverlayAboveCEGUI(bool above);
 

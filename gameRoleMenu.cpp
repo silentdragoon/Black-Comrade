@@ -9,7 +9,7 @@ GameRoleMenu::GameRoleMenu(InputState *inputState,
     , isVisible(false)
     , isEnd(false)
 {
-    CEGUI::ImagesetManager::getSingleton().create("GameRoleMenu.imageset");
+    CEGUI::ImagesetManager::getSingleton().create("chooseplayer.xml");
 }
 
 void GameRoleMenu::tick() {
@@ -59,13 +59,17 @@ void GameRoleMenu::show() {
     // Show background image etc
     if (isVisible) return;
 
-    //guiMgr->addStaticImage("GameRoleMenu",0.5, 0.5,1.0, 1.0,"GameRoleMenu","GameRoleMenu");
+    guiMgr->addStaticImage("ChoosePlayer",0.5, 0.5,1.0, 1.0,"ChoosePlayer","Whole");
+    if (networkingMgr->lobby->roleOptionsChanged) {
+        // Present the user with the current options
+        updateOptions();
+    }
     isVisible = true;
 }
 
 void GameRoleMenu::hide() {
     // Hide background image etc
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameRoleMenu");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChoosePlayer");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PilotRoleText");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("EngRoleText");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");

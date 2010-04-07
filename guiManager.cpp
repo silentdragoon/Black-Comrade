@@ -39,11 +39,10 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
 
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
-    //black = addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
-    //black->setAlwaysOnTop(true);
-    //black->setAlpha(1.0f);
-    //black->hide();
-
+    black = addStaticImage("Black",0.5, 0.5,1.0, 1.0,"Black","Black");
+    black->setAlwaysOnTop(true);
+    black->setAlpha(1.0f);
+    black->hide();
 }
 
 GuiManager::~GuiManager(){}
@@ -117,19 +116,23 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, 
 
 }
 
-void GuiManager::fadeToBlack() {
+bool GuiManager::fadeToBlack() {
     black->show();
-    while(black->getAlpha() < 1.0f) {
-        black->setAlpha(black->getAlpha() + 0.00001f);
-        std::cout << "FADE\n";
-    }
+    if (black->getAlpha() >= 1.0f) return true;
+
+    black->setAlpha(black->getAlpha() + 0.05f);
+    return false;
 }
 
-void GuiManager::fadeFromBlack() {
-    while(black->getAlpha() > 0.0f) {
-        black->setAlpha(black->getAlpha() - 0.00001f);
+bool GuiManager::fadeFromBlack() {
+    black->show();
+    if (black->getAlpha() <= 0.0f) {
+        black->hide();
+        return true;
     }
-    black->hide();
+
+    black->setAlpha(black->getAlpha() - 0.05f);
+    return false;
 }
 
 CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCenter, float yCenter,

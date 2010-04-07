@@ -40,6 +40,9 @@ private:
     void handleKeys();
     void handleMouse();
 
+    bool fadingOut;
+    bool fadingIn;
+
 
 public:
     PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
