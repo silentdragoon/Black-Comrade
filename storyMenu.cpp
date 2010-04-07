@@ -70,7 +70,7 @@ void StoryMenu::show() {
     float buttonX =  buttonPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
     float buttonY =  buttonPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
-    CEGUI::PushButton *btn = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/ImageButton"));
+    btn = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/ImageButton"));
     guiMgr->getRootWindow()->addChildWindow(btn);
     btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0,buttonX),CEGUI::UDim(0,buttonY)));
     btn->setSize(CEGUI::UVector2(CEGUI::UDim(0,buttonWidth),CEGUI::UDim(0,buttonHeight)));
@@ -84,8 +84,8 @@ void StoryMenu::show() {
 void StoryMenu::hide() {
     // Hide background image etc
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Story");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NamePlacement");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(nickBox);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(btn);
 }
 
 bool StoryMenu::end() { return isEnd; }

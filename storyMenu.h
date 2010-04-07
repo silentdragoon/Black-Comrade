@@ -17,6 +17,7 @@ class StoryMenu : public IMenuScreen
 
         CEGUI::Imageset *imageSet;
         CEGUI::Editbox *nickBox;
+        CEGUI::PushButton *btn;
 
         bool isVisible;
         bool isEnd;
