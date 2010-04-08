@@ -60,7 +60,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
     if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
-        //inputState->releaseMouse();
+        inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
     // Player info
@@ -326,7 +326,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Game ender
     if (collabInfo->getGameRole() == PILOT) {
-        gameEnder = new GameEnder(gameStateMachine,this);
+        gameEnder = new GameEnder(gameStateMachine,guiMgr,this);
         gameLoop->addTickable(gameEnder,"gameEnder");
     }
 

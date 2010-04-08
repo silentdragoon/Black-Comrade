@@ -39,6 +39,10 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
 
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
+    makeBlackOverlay();
+}
+
+void GuiManager::makeBlackOverlay() {
     black = addStaticImage("Black",0.5, 0.5,1.0, 1.0,"Black","Black");
     black->setAlwaysOnTop(true);
     black->setAlpha(1.0f);
@@ -148,7 +152,8 @@ bool GuiManager::fadeFromBlack(bool slow) {
 }
 
 void GuiManager::cutToBlack() {
-    black->setAlpha(1.0f);
+    guiMgr->destroyWindow(black);
+    makeBlackOverlay();
     black->show();
 }
 

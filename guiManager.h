@@ -22,6 +22,8 @@ private:
     CEGUIRQListener *renderQueueListener;
     SceneManager *sceneMgr;
 
+    void makeBlackOverlay();
+
 
 public:
     CEGUI::Window *black;
