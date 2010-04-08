@@ -55,9 +55,12 @@ class Lobby {
     void sendGameInfo(SystemAddress recipient);
 
     string nick;
+    string gameName;
 
     public:
     Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr, std::string nick);
+    Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr, std::string nick, std::string gameName);
+
     bool roleOptionsChanged;
     bool pilotTaken;
     bool navTaken;

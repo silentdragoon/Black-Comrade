@@ -59,7 +59,7 @@ public:
 
         void runLobby();
 
-        bool hostGame(bool development);
+        bool hostGame(string gameName, bool development);
         bool connectToGame(ServerInfo *info);
         void endGame();
 

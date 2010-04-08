@@ -67,7 +67,7 @@ void NetworkingManager::tick() {
     replicaManager.doUpdate();
 }
 
-bool NetworkingManager::hostGame(bool development) {
+bool NetworkingManager::hostGame(string gameName, bool development) {
     NetworkRole actualRole = NO_NETWORK_ROLE;
 
     if (development)
@@ -86,7 +86,7 @@ bool NetworkingManager::hostGame(bool development) {
     rakPeer->AttachPlugin(&replicaManager);
     rakPeer->SetMaximumIncomingConnections(2);
 
-    lobby = new Lobby(rakPeer, discoveryAgent, networkRole,nick);
+    lobby = new Lobby(rakPeer, discoveryAgent, networkRole,nick,gameName);
     return true;
 }
 
@@ -118,7 +118,6 @@ void NetworkingManager::runLobby() {
     }
     chosenGameRole = lobby->getChosenGameRole();
     if (chosenGameRole == NO_GAME_ROLE) chosenGameRole = PILOT;
-    std::cout << "NICK:" << lobby->getChosenNick() << "\n";
     collabInfo = new CollaborationInfo(lobby->getChosenNick(), networkRole, chosenGameRole);
     inLobby = false;
 }

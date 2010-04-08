@@ -20,8 +20,8 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
 }
 
 void PostGame::showMenus() {
-
     guiMgr->destroyAllWindows();
+    guiMgr->cutToBlack();
     currentMenuScreen = statsScreen;
     run();
 }
@@ -30,17 +30,31 @@ void PostGame::tick() {
 
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
-            // Hide + End it
-            currentMenuScreen->hide();
-            loadNextMenu();
+            fadingIn = false;
+            fadingOut = !guiMgr->fadeToBlack();
+            if (!fadingOut) {
+                // Hide + End it
+                currentMenuScreen->hide();
+                loadNextMenu();
+            }
         } else if (!currentMenuScreen->visible()) {
             // Show it
             currentMenuScreen->show();
-        } else {
-            // Process it
-            currentMenuScreen->tick();
+            fadingIn = !guiMgr->fadeFromBlack();
+        } else if (currentMenuScreen->visible()) {
+            if (!fadingIn) {
+                // Process it
+                currentMenuScreen->tick();
+            }
         }	
     }
+    if (fadingIn) {
+        fadingIn = !guiMgr->fadeFromBlack();
+    }
+    else if (fadingOut) {
+        fadingOut = !guiMgr->fadeToBlack();
+    }
+    render();
 }
 
 void PostGame::loadNextMenu() {

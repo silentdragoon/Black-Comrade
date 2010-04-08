@@ -4,20 +4,34 @@
 using namespace std;
 using namespace RakNet;
 
-Lobby::Lobby(RakPeerInterface * rp, DiscoveryAgent *da, NetworkRole nr,
+Lobby::Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr,
              std::string nick)
     : pilotTaken(false)
     , navTaken(false)
     , engTaken(false) 
     , roleOptionsChanged(true)
     , nick(nick)
-{
-    rakPeer = rp;
-    networkRole = nr;
-    discoveryAgent = da;
-    gameRole = NO_GAME_ROLE;
-    chosenGameRole = NO_GAME_ROLE;
-}
+    , rakPeer(rp)
+    , networkRole(nr)
+    , discoveryAgent(da)
+    , gameRole(NO_GAME_ROLE)
+    , chosenGameRole(NO_GAME_ROLE)
+{}
+
+Lobby::Lobby(RakPeerInterface *rp, DiscoveryAgent *da, NetworkRole nr,
+             std::string nick, std::string gameName)
+    : pilotTaken(false)
+    , navTaken(false)
+    , engTaken(false) 
+    , roleOptionsChanged(true)
+    , nick(nick)
+    , rakPeer(rp)
+    , networkRole(nr)
+    , discoveryAgent(da)
+    , gameRole(NO_GAME_ROLE)
+    , chosenGameRole(NO_GAME_ROLE)
+    , gameName(gameName)
+{}
 
 void Lobby::enter() {
     std::cout << "Welcome to the lobby" << std::endl;
@@ -62,6 +76,7 @@ void Lobby::chooseGameRole(GameRole role) {
 }
 
 bool Lobby::wait() {
+
     roleOptionsChanged = false;
     if (networkRole == CLIENT) {
             unsigned char packetID;
@@ -83,7 +98,7 @@ bool Lobby::wait() {
             }
     }
     else if (networkRole == SERVER) {
-        if (rakPeer->NumberOfConnections() < 2) discoveryAgent->beServer("DemoGame",pilotTaken,navTaken,engTaken);
+        if (rakPeer->NumberOfConnections() < 2) discoveryAgent->beServer(gameName,pilotTaken,navTaken,engTaken);
         process();
         if (pilotTaken && navTaken && engTaken) return true;
     }

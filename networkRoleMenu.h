@@ -22,6 +22,7 @@ class NetworkRoleMenu : public IMenuScreen
 
         CEGUI::Imageset *imageSet;
         CEGUI::Editbox *nameBox;
+        CEGUI::PushButton *btn;
 
         bool isVisible;
         bool isEnd;
@@ -49,6 +50,8 @@ class NetworkRoleMenu : public IMenuScreen
         void hide();
 
         void refreshGameList();
+
+        bool createClicked(const CEGUI::EventArgs& e);
 
         bool visible();
 

@@ -36,11 +36,11 @@ void NetworkRoleMenu::handleKeys() {
 
     if (inputState->isKeyDown(OIS::KC_D)) {
         lastKey = 0;
-        bool hosted = networkingMgr->hostGame(true);
+        bool hosted = networkingMgr->hostGame("",true);
         if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_S)) {
         lastKey = 0;
-        bool hosted = networkingMgr->hostGame(false);
+        bool hosted = networkingMgr->hostGame(nameBox->getText().c_str(),false);
         if (hosted) {
             isEnd = true;
             networkingMgr->discoveryAgent->destroyClient();
@@ -66,6 +66,15 @@ void NetworkRoleMenu::handleKeys() {
     } else if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(-1);
     }
+}
+
+bool NetworkRoleMenu::createClicked(const CEGUI::EventArgs& e) {
+    bool hosted = networkingMgr->hostGame(nameBox->getText().c_str(),false);
+    if (hosted) {
+        isEnd = true;
+        networkingMgr->discoveryAgent->destroyClient();
+    }
+    return true;
 }
 
 void NetworkRoleMenu::handleGameList() {
@@ -129,6 +138,20 @@ void NetworkRoleMenu::show() {
     nameBox->setText(out.str());
     nameBox->setCaratIndex(nameBox->getText().length());
 
+    CEGUI::Image buttonPlacement = imageSet->getImage("CreateButton");
+    float buttonWidth =  buttonPlacement.getWidth() * wpixel;
+    float buttonHeight =  buttonPlacement.getHeight() * wpixel;
+    float buttonX =  buttonPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
+    float buttonY =  buttonPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
+
+    btn = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/ImageButton"));
+    guiMgr->getRootWindow()->addChildWindow(btn);
+    btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0,buttonX),CEGUI::UDim(0,buttonY)));
+    btn->setSize(CEGUI::UVector2(CEGUI::UDim(0,buttonWidth),CEGUI::UDim(0,buttonHeight)));
+    btn->setProperty(CEGUI::String("NormalImage"),CEGUI::String("set:Lobby image:CreateButton"));
+
+    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&NetworkRoleMenu::createClicked, this));
+
     isVisible = true;
 }
 
@@ -136,6 +159,7 @@ void NetworkRoleMenu::hide() {
     // Hide background image etc
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Lobby");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(nameBox);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(btn);
 }
 
 bool NetworkRoleMenu::end() { return isEnd; }
