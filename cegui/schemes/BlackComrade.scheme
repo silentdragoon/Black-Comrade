@@ -21,6 +21,7 @@
     <Imageset Filename="scores.xml" />
     <Imageset Filename="selectrole.xml" />
     <Imageset Filename="scores.xml" />
+    <Imageset Filename="scoresfail.xml" />
     <Imageset Filename="Charge.xml" />
     <Imageset Filename="Charges.xml" />
     <Imageset Filename="StatusIndicators.xml" />
@@ -61,6 +62,7 @@
     <FalagardMapping WindowType="BlackComrade/NetworkRoleMenu" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/NetworkRoleMenu" />
     <FalagardMapping WindowType="BlackComrade/Loading" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Loading" />
     <FalagardMapping WindowType="BlackComrade/Scores" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Scores" />
+    <FalagardMapping WindowType="BlackComrade/ScoresFail" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ScoresFail" />
     
         <FalagardMapping WindowType="BlackComrade/KeyboardEngineer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardEngineer" />
             <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />

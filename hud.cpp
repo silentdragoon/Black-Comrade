@@ -30,7 +30,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
 	// TEST
 	
-	// CEGUI::FrameWindow *test     = guiManager->addStaticImage("ChoosePlayer",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ChoosePlayer",      "Whole" );
+	// CEGUI::FrameWindow *test     = guiManager->addStaticImage("ScoresFail",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ScoresFail",      "Whole" );
 
     // Foreground Elements
 

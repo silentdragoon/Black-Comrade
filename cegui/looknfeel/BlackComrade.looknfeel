@@ -80,6 +80,9 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Scores">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/ScoresFail">
+    
+    </WidgetLook>
     <WidgetLook name="BlackComrade/Charge">
     </WidgetLook>
     <WidgetLook name="BlackComrade/Charges">
