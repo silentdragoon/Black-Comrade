@@ -28,9 +28,20 @@ void InputState::addKeyListener(OIS::KeyListener *listener) {
     }
 }
 
+void InputState::addMouseListener(OIS::MouseListener *listener) {
+    if (mMouse) {
+        mMouse->setEventCallback(listener);
+    }
+}
+
 void InputState::clearKeyListener() {
     if (mKeyboard) mKeyboard->setEventCallback(0);
 }
+
+void InputState::clearMouseListener() {
+    if (mMouse) mMouse->setEventCallback(0);
+}
+
 
 bool InputState::isMouseButtonDown(OIS::MouseButtonID buttonID) {
     if (mMouse)

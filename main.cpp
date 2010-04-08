@@ -26,6 +26,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     configResources();
 
+    // GUI Manager
     guiMgr = new GuiManager(sceneMgr);
 
     // Game Loop
@@ -37,6 +38,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // User Input
     inputState = new InputState(window,true,this,true,useMouse);
     gameLoop->addTickable(inputState,"inputState");
+
+    // Screen fader
+    fader = new Fader(guiMgr);
+    gameLoop->addTickable(fader,"fader");
 
     // Networking
     networkingManager = new NetworkingManager(this);
@@ -55,7 +60,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
     if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
-        inputState->releaseMouse();
+        //inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
     // Player info
@@ -312,13 +317,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                 gameStateMachine);
     gameLoop->addTickable(audioState,"audioState");
 	
-    // CEGUI Stuff
-    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
-                                            collabInfo->getGameRole(),systemManager,hud,
-                                            flying,notificationMgr,gameStateMachine,objective);
-    gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
-	
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
@@ -335,8 +333,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Add the reactor core effects
     particleSystemEffectManager->makeObjective();
 
-    // Hide loading screen
-    preGame->hideLoadingScreen();
+    // Wait for the players to be ready
+    preGame->waitForPlayers();
+
+    // CEGUI Stuff
+    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
+                                            collabInfo->getGameRole(),systemManager,hud,
+                                            flying,notificationMgr,gameStateMachine,objective);
+    gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
+
     soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
@@ -345,6 +351,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Start Rendering Loop
     gameLoop->startLoop();
 
+    // Hide the console if the game has ended
     cons->forceHide();
 
     networkingManager->endGame();
@@ -363,7 +370,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
 
-    postGame->run();
+    postGame->showMenus();
     
     networkingManager->stopNetworking();
 }

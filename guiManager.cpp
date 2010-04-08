@@ -116,23 +116,44 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, 
 
 }
 
-bool GuiManager::fadeToBlack() {
+bool GuiManager::fadeToBlack() { fadeToBlack(false); }
+
+bool GuiManager::fadeToBlack(bool slow) {
+    float increase = (slow) ? 0.01f : 0.05f;
+    //float increase = (slow) ? 0.004f : 0.05f;
+ 
     black->show();
+    black->setAlwaysOnTop(true);
     if (black->getAlpha() >= 1.0f) return true;
 
-    black->setAlpha(black->getAlpha() + 0.05f);
+    black->setAlpha(black->getAlpha() + increase);
     return false;
 }
 
-bool GuiManager::fadeFromBlack() {
+bool GuiManager::fadeFromBlack() { fadeFromBlack(false); }
+
+bool GuiManager::fadeFromBlack(bool slow) {
+    float decrease = (slow) ? 0.01f : 0.05f;
+    //float decrease = (slow) ? 0.004f : 0.05f;
+
     black->show();
+    black->setAlwaysOnTop(true);
     if (black->getAlpha() <= 0.0f) {
         black->hide();
         return true;
     }
 
-    black->setAlpha(black->getAlpha() - 0.05f);
+    black->setAlpha(black->getAlpha() - decrease);
     return false;
+}
+
+void GuiManager::cutToBlack() {
+    black->setAlpha(1.0f);
+    black->show();
+}
+
+void GuiManager::cutFromBlack() {
+    black->setAlpha(0.0f);
 }
 
 CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCenter, float yCenter,
