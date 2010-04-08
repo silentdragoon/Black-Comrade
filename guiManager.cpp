@@ -116,6 +116,7 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, 
     
     guiRoot->addChildWindow(radarWindow);
     
+    radarWindow->setRiseOnClickEnabled(false);
     return radarWindow;
 
 }
