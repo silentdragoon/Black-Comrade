@@ -36,11 +36,11 @@ void NetworkRoleMenu::handleKeys() {
 
     if (inputState->isKeyDown(OIS::KC_D)) {
         lastKey = 0;
-        bool hosted = networkingMgr->hostGame(true);
+        bool hosted = networkingMgr->hostGame("",true);
         if (hosted) isEnd = true;
     } else if (inputState->isKeyDown(OIS::KC_S)) {
         lastKey = 0;
-        bool hosted = networkingMgr->hostGame(false);
+        bool hosted = networkingMgr->hostGame(nameBox->getText().c_str(),false);
         if (hosted) {
             isEnd = true;
             networkingMgr->discoveryAgent->destroyClient();
