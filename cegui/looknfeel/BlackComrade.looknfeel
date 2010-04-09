@@ -81,7 +81,6 @@
     <WidgetLook name="BlackComrade/Scores">
     </WidgetLook>
     <WidgetLook name="BlackComrade/ScoresFail">
-    
     </WidgetLook>
     <WidgetLook name="BlackComrade/Charge">
     </WidgetLook>
@@ -113,6 +112,9 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Black">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/Buttons">
+    </WidgetLook>
+    
     
     
     <!--

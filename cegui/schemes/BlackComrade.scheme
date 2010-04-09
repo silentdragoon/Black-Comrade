@@ -35,6 +35,7 @@
     <Imageset Filename="chooseplayer.xml" />    
 
     <Imageset Filename="black.xml" />    
+    <Imageset Filename="buttons.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -50,6 +51,7 @@
     <FalagardMapping WindowType="BlackComrade/ChoosePlayer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ChoosePlayer" />
 
     <FalagardMapping WindowType="BlackComrade/Black" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Black" />
+    <FalagardMapping WindowType="BlackComrade/Buttons" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Buttons" />
     
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />
