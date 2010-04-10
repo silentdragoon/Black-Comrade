@@ -17,6 +17,15 @@ class GameRoleMenu : public IMenuScreen
         NetworkingManager *networkingMgr;
         GuiManager *guiMgr;
 
+        CEGUI::Imageset *bgImageSet;
+        CEGUI::Imageset *btImageSet;
+
+        CEGUI::PushButton *engBtn;
+        CEGUI::PushButton *navBtn;
+        CEGUI::PushButton *pilBtn;
+
+        void setUpButtons();
+
         bool isVisible;
         bool isEnd;
 
@@ -28,6 +37,10 @@ class GameRoleMenu : public IMenuScreen
 
         void show();
         void hide();
+
+        bool pilotClicked(const CEGUI::EventArgs& e);
+        bool navigatorClicked(const CEGUI::EventArgs& e);
+        bool engineerClicked(const CEGUI::EventArgs& e);
 
         bool visible();
 
