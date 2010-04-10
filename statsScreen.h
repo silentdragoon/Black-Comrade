@@ -24,6 +24,9 @@ class StatsScreen : public IMenuScreen
         CollaborationInfo *engInfo;
 
         GameState finishState;
+
+        void addStats(CollaborationInfo *info, int columnOffset);
+        void addOverallRating();
         
         float wpx;
         float hpx;

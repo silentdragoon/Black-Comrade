@@ -13,7 +13,9 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
     , keyDelay(10)
     , lastKey(0)
 {
-    imageSet = &(CEGUI::ImagesetManager::getSingleton().create("lobby.xml"));
+    bgImageSet = &(CEGUI::ImagesetManager::getSingleton().create("lobby.xml"));
+    btImageSet = &(CEGUI::ImagesetManager::getSingleton().create("buttons.xml"));
+
     gameRefreshDelay = 100;
     lastRefresh = gameRefreshDelay;
 }
@@ -123,7 +125,7 @@ void NetworkRoleMenu::show() {
     nameBox = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","nameBox"));
     guiMgr->getRootWindow()->addChildWindow(nameBox);
 
-    CEGUI::Image namePlacement = imageSet->getImage("GameNamePlacement");
+    CEGUI::Image namePlacement = bgImageSet->getImage("GameNamePlacement");
     float nameWidth =  200 * wpixel;
     float nameHeight =  22 * hpixel;
     float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
@@ -138,7 +140,7 @@ void NetworkRoleMenu::show() {
     nameBox->setText(out.str());
     nameBox->setCaratIndex(nameBox->getText().length());
 
-    CEGUI::Image buttonPlacement = imageSet->getImage("CreateButton");
+    CEGUI::Image buttonPlacement = bgImageSet->getImage("CreateButton");
     float buttonWidth =  buttonPlacement.getWidth() * wpixel;
     float buttonHeight =  buttonPlacement.getHeight() * wpixel;
     float buttonX =  buttonPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
@@ -148,7 +150,9 @@ void NetworkRoleMenu::show() {
     guiMgr->getRootWindow()->addChildWindow(btn);
     btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0,buttonX),CEGUI::UDim(0,buttonY)));
     btn->setSize(CEGUI::UVector2(CEGUI::UDim(0,buttonWidth),CEGUI::UDim(0,buttonHeight)));
-    btn->setProperty(CEGUI::String("NormalImage"),CEGUI::String("set:Lobby image:CreateButton"));
+    btn->setProperty(CEGUI::String("NormalImage"),CEGUI::String("set:Buttons image:Create"));
+    btn->setProperty(CEGUI::String("HoverImage"),CEGUI::String("set:Buttons image:CreateOver"));
+    btn->setProperty(CEGUI::String("PushedImage"),CEGUI::String("set:Buttons image:CreateClick"));
 
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&NetworkRoleMenu::createClicked, this));
 
