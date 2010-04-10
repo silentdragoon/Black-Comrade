@@ -5,7 +5,8 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
                    SoundManager *soundMgr,
                    CollaborationInfo *pilotInfo,
                    CollaborationInfo *navInfo,
-                   CollaborationInfo *engInfo)
+                   CollaborationInfo *engInfo,
+                   GameState finishState)
     : MenuSystem(sceneMgr,guiMgr,inputState,window)
     , soundMgr(soundMgr)
     , pilotInfo(pilotInfo)
@@ -16,7 +17,7 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
     menuLoop->addTickable(this,"postGame");
     menuLoop->addTickable(soundMgr,"soundMgr");
 
-    statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo);
+    statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo,finishState);
 }
 
 void PostGame::showMenus() {

@@ -9,7 +9,8 @@ StoryMenu::StoryMenu(InputState *inputState,
     , isVisible(false)
     , isEnd(false)
 {
-    imageSet = &(CEGUI::ImagesetManager::getSingleton().create("story.xml"));
+    bgImageSet = &(CEGUI::ImagesetManager::getSingleton().create("story.xml"));
+    btImageSet = &(CEGUI::ImagesetManager::getSingleton().create("buttons.xml"));
 }
 
 void StoryMenu::tick() {
@@ -51,11 +52,11 @@ void StoryMenu::show() {
 
     guiMgr->getRootWindow()->addChildWindow(nickBox);
 
-    CEGUI::Image namePlacement = imageSet->getImage("NamePlacement");
-    float nameWidth =  namePlacement.getWidth() * wpixel;
-    float nameHeight =  namePlacement.getHeight() * hpixel;
-    float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
-    float nameY =  namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
+    CEGUI::Image namePlacement = bgImageSet->getImage("NamePlacement");
+    float nameWidth = namePlacement.getWidth() * wpixel;
+    float nameHeight = namePlacement.getHeight() * hpixel;
+    float nameX = namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
+    float nameY = namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
     nickBox->setSize(CEGUI::UVector2(CEGUI::UDim(0,nameWidth),CEGUI::UDim(0,nameHeight)));
     nickBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX),CEGUI::UDim(0,nameY)));
@@ -64,17 +65,19 @@ void StoryMenu::show() {
     nickBox->setSelection(0,nickBox->getText().length());
     nickBox->activate();
 
-    CEGUI::Image buttonPlacement = imageSet->getImage("ProceedButton");
+    CEGUI::Image buttonPlacement = bgImageSet->getImage("ProceedButton");
     float buttonWidth =  buttonPlacement.getWidth() * wpixel;
     float buttonHeight =  buttonPlacement.getHeight() * wpixel;
-    float buttonX =  buttonPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
-    float buttonY =  buttonPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
+    float buttonX = buttonPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
+    float buttonY = buttonPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
     btn = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/ImageButton"));
     guiMgr->getRootWindow()->addChildWindow(btn);
     btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0,buttonX),CEGUI::UDim(0,buttonY)));
     btn->setSize(CEGUI::UVector2(CEGUI::UDim(0,buttonWidth),CEGUI::UDim(0,buttonHeight)));
-    btn->setProperty(CEGUI::String("NormalImage"),CEGUI::String("set:Story image:ProceedButton"));
+    btn->setProperty(CEGUI::String("NormalImage"),CEGUI::String("set:Buttons image:Proceed"));
+    btn->setProperty(CEGUI::String("HoverImage"),CEGUI::String("set:Buttons image:ProceedOver"));
+    btn->setProperty(CEGUI::String("PushedImage"),CEGUI::String("set:Buttons image:ProceedClick"));
 
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&StoryMenu::proceedClicked, this));
 

@@ -359,7 +359,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
                                       guiMgr,soundMgr,pilotInfo,navigatorInfo,
-                                      engineerInfo);
+                                      engineerInfo,gameStateMachine->currentGameState());
 
     std::cout << "Pilot stats:" << "\n";
     pilotInfo->getPlayerStats()->print();
