@@ -3,7 +3,7 @@
 <Imageset Name="Buttons" Imagefile="buttons.png" >
     <Image Name="Proceed" XPos="0" YPos="0" Width="156" Height="56" />
     <Image Name="ProceedOver" XPos="0" YPos="56" Width="156" Height="56" />
-    <Image Name="ProceedClick" XPos="0" YPos="102" Width="156" Height="56" />
+    <Image Name="ProceedClick" XPos="0" YPos="112" Width="156" Height="56" />
     
     <Image Name="Navigator" XPos="200" YPos="0" Width="326" Height="206" />
     <Image Name="NavigatorOver" XPos="200" YPos="206" Width="326" Height="206" />

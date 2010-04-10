@@ -29,7 +29,7 @@ void NetworkRoleMenu::handleInput() {
 }
 
 void NetworkRoleMenu::handleKeys() {
-    if (lastKey < keyDelay) {
+    if (lastKey < keyDelay || nameBox->isActive()) {
         lastKey ++;
         return;
     }
@@ -124,13 +124,13 @@ void NetworkRoleMenu::show() {
     guiMgr->getRootWindow()->addChildWindow(nameBox);
 
     CEGUI::Image namePlacement = imageSet->getImage("GameNamePlacement");
-    float nameWidth =  200;
-    float nameHeight =  20;
+    float nameWidth =  200 * wpixel;
+    float nameHeight =  22 * hpixel;
     float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
     float nameY =  namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
     nameBox->setSize(CEGUI::UVector2(CEGUI::UDim(0,nameWidth),CEGUI::UDim(0,nameHeight)));
-    nameBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX-3),CEGUI::UDim(0,nameY-3)));
+    nameBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX),CEGUI::UDim(0,nameY)));
     nameBox->setMaxTextLength(20);
 
     std::stringstream out;

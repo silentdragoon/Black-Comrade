@@ -15,7 +15,8 @@ class StoryMenu : public IMenuScreen
         NetworkingManager *networkingMgr;
         GuiManager *guiMgr;
 
-        CEGUI::Imageset *imageSet;
+        CEGUI::Imageset *bgImageSet;
+        CEGUI::Imageset *btImageSet;
         CEGUI::Editbox *nickBox;
         CEGUI::PushButton *btn;
 
