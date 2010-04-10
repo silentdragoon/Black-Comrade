@@ -16,4 +16,8 @@
     <Image Name="Engineer" XPos="852" YPos="0" Width="326" Height="206" />
     <Image Name="EngineerOver" XPos="852" YPos="206" Width="326" Height="206" />
     <Image Name="EngineerClick" XPos="852" YPos="412" Width="326" Height="206" />
+    
+    <Image Name="Create" XPos="1200" YPos="0" Width="156" Height="56" />
+    <Image Name="CreateOver" XPos="1200" YPos="56" Width="156" Height="56" />
+    <Image Name="CreateClick" XPos="1200" YPos="102" Width="156" Height="56" />
 </Imageset>
