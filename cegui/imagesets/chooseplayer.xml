@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="ChoosePlayer" Imagefile="chooseplayer.png" AutoScaled="true" >
-    <Image Name="NavButton" XPos="1161" YPos="300" Width="320" Height="200" />
-    <Image Name="PilButton" XPos="1161" YPos="530" Width="320" Height="200" />
-    <Image Name="EngButton" XPos="1161" YPos="760" Width="320" Height="200" />
+    <Image Name="NavButton" XPos="1158" YPos="297" Width="326" Height="206" />
+    <Image Name="PilButton" XPos="1158" YPos="527" Width="326" Height="206" />
+    <Image Name="EngButton" XPos="1158" YPos="757" Width="326" Height="206" />
     <Image Name="Whole" XPos="0" YPos="0" Width="1680" Height="1050" />
 </Imageset>
