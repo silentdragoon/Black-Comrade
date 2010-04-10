@@ -30,7 +30,8 @@ public:
             SoundManager *soundMgr,
             CollaborationInfo *pilotInfo,
             CollaborationInfo *navInfo,
-            CollaborationInfo *engInfo);
+            CollaborationInfo *engInfo,
+            GameState finishState);
 
     void showMenus();
     void tick();

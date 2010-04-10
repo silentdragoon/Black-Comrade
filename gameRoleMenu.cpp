@@ -156,10 +156,9 @@ void GameRoleMenu::setUpButtons() {
 void GameRoleMenu::hide() {
     // Hide background image etc
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChoosePlayer");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PilotRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("EngRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChosenRoleText");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(pilBtn);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(navBtn);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(engBtn);
 }
 
 bool GameRoleMenu::end() { return isEnd; }
