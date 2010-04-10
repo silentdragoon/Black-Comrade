@@ -53,7 +53,7 @@ void LoadingScreen::show() {
     }
 
     indicator = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","loadingIndicator"));
-    instructions = guiMgr->addStaticText("", "When you are familiar with your controls, press the space bar", 0.5, 0.975, 1);
+    instructions = guiMgr->addStaticText("", "When you are familiar with your controls, press the space bar to begin the mission", 0.5, 0.89, 1);
     instructions->hide();
 
     guiMgr->getRootWindow()->addChildWindow(indicator);
