@@ -231,7 +231,13 @@ CEGUI::FrameWindow * GuiManager::addStaticText(std::string name, std::string tex
                                                int size) {
 
 
-    CEGUI::FrameWindow *textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText",name));
+    CEGUI::FrameWindow *textWindow;
+
+    if (name != "") {
+        textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText",name));
+    } else {
+        textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText"));
+    }
     textWindow->setPosition(CEGUI::UVector2(
         CEGUI::UDim(xCenter,-(textWindow->getFont()->getTextExtent( text ) + 12)/2),
         CEGUI::UDim(yCenter,-(textWindow->getFont()->getFontHeight() + 12 )/2)));

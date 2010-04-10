@@ -48,40 +48,57 @@ void StatsScreen::show() {
         guiMgr->addStaticImage("ScoresFail",0.5, 0.5,1.0, 1.0,"ScoresFail","Whole");
     }
 
-    std::stringstream out;
-    out.str("");
-    out << navInfo->getPlayerStats()->shotsFired;
-    guiMgr->addStaticText("NavShotsFired", out.str(), 725*wpx, 0.4, 1);
-    out.str("");
-    out << navInfo->getPlayerStats()->shotsHit;
-    guiMgr->addStaticText("NavOnTarget", out.str(), 725*wpx, 0.45, 1);
-    out.str("");
-    out << navInfo->getPlayerStats()->enemiesDestroyed;
-    guiMgr->addStaticText("NavEnemiesDestroyed", out.str(), 725*wpx, 0.5, 1);
+    addStats(navInfo,725);
+    addStats(pilotInfo,1025);
+    addStats(engInfo,1325);
 
-    out.str("");
-    out << pilotInfo->getPlayerStats()->shotsFired;
-    guiMgr->addStaticText("PilotShotsFired", out.str(), 1025*wpx, 0.4, 1);
-    out.str("");
-    out << pilotInfo->getPlayerStats()->shotsHit;
-    guiMgr->addStaticText("PilotOnTarget", out.str(), 1025*wpx, 0.45, 1);
-    out.str("");
-    out << pilotInfo->getPlayerStats()->enemiesDestroyed;
-    guiMgr->addStaticText("PilotEnemiesDestroyed", out.str(), 1025*wpx, 0.5, 1);
-
-    out.str("");
-    out << engInfo->getPlayerStats()->shotsFired;
-    guiMgr->addStaticText("EngShotsFired", out.str(), 1325*wpx, 0.4, 1);
-    out.str("");
-    out << engInfo->getPlayerStats()->shotsHit;
-    guiMgr->addStaticText("EngOnTarget", out.str(), 1325*wpx, 0.45, 1);
-    out.str("");
-    out << engInfo->getPlayerStats()->enemiesDestroyed;
-    guiMgr->addStaticText("EngEnemiesDestroyed", out.str(), 1325*wpx, 0.5, 1);
-
-    //guiMgr->addStaticText("ExitInstructions", "Press the space bar to exit...", 0.5, 0.7, 1);
+    addOverallRating();
 
     isVisible = true;
+}
+
+void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
+    PlayerStats *stats = info->getPlayerStats();
+    std::stringstream out;
+    out << stats->shotsFired;
+    guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.4, 1);
+    out.str("");
+    if (stats->shotsFired != 0) {
+        out << stats->shotsFired / navInfo->getPlayerStats()->shotsHit << " %";
+    } else {
+        out << "0 %";
+    }
+    guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.45, 1);
+    out.str("");
+    out << stats->enemiesDestroyed;
+    guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.5, 1);
+
+    out.str("");
+    out << "0"; // TODO: Add 'repairs made' metric
+    guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.55, 1);
+
+    if (info->getGameRole() == PILOT) {
+        // TODO: Add pilot metric
+        out.str("");
+        out << "0";
+        guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.6, 1);
+
+        out.str("");
+        out << "0";
+        guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.65, 1);
+    } else {
+        out.str("-");
+        guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.6, 1);
+        guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.65, 1);
+    }
+
+    out.str("");
+    out << "A"; // TODO: Calculate individual rating
+    guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.7, 1);
+}
+
+void StatsScreen::addOverallRating() {
+    guiMgr->addStaticText("", "A", 1025*wpx, 0.78, 1); // TODO: Calculate overall rating
 }
 
 void StatsScreen::hide() {
