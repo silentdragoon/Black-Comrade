@@ -27,13 +27,7 @@ void GameRoleMenu::tick() {
         isEnd = true;
     }
 
-    if (inputState->isKeyDown(OIS::KC_P)) {
-        networkingMgr->lobby->chooseGameRole(PILOT);
-    } else if (inputState->isKeyDown(OIS::KC_N)) {
-        networkingMgr->lobby->chooseGameRole(NAVIGATOR);
-    } else if (inputState->isKeyDown(OIS::KC_E))	 {
-        networkingMgr->lobby->chooseGameRole(ENGINEER);
-    } else if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
+    if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(0);
     }
 }
