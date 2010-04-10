@@ -19,5 +19,5 @@
     
     <Image Name="Create" XPos="1200" YPos="0" Width="156" Height="56" />
     <Image Name="CreateOver" XPos="1200" YPos="56" Width="156" Height="56" />
-    <Image Name="CreateClick" XPos="1200" YPos="102" Width="156" Height="56" />
+    <Image Name="CreateClick" XPos="1200" YPos="112" Width="156" Height="56" />
 </Imageset>
