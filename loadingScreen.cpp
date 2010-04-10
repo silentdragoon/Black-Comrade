@@ -52,14 +52,15 @@ void LoadingScreen::show() {
             break;
     }
 
-    //loadingBackground->setAlwaysOnTop(true);
-
     indicator = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","loadingIndicator"));
+    instructions = guiMgr->addStaticText("", "When you are familiar with your controls, press the space bar to begin the mission", 0.5, 0.89, 1);
+    instructions->hide();
 
     guiMgr->getRootWindow()->addChildWindow(indicator);
     indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
     indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 30 * hpixel,0),CEGUI::UDim(1 - 210 * wpixel,0)));
     indicator->setText("0%");
+
     isVisible = true;
 }
 
@@ -80,6 +81,7 @@ void LoadingScreen::updateProgress(int newProgress) {
     } else {
         // Let the player know the game has loaded fully
         indicator->setText("");
+        instructions->show();
     }
     render();
     inputState->tick();
@@ -91,7 +93,8 @@ void LoadingScreen::hide() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardPilot");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardNavigator");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardEngineer");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);  
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(instructions);
 }
 
 bool LoadingScreen::end() {
