@@ -33,7 +33,10 @@ class InputState : public ITickable
         void releaseKeyboard();
 
         void addKeyListener(OIS::KeyListener *listener);
+        void addMouseListener(OIS::MouseListener *listener);
         void clearKeyListener();
+        void clearMouseListener();
+
         
         virtual void tick();
         

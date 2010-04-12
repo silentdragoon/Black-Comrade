@@ -62,6 +62,9 @@ public:
     dFloat rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     
+    //
+    bool collideEntityWithObj(Entity *e);
+    
     //depreciated. Here for refrence
     //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     //void createShipMesh( Entity* e );

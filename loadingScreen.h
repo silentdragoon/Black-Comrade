@@ -4,6 +4,7 @@
 #include "IMenuScreen.h"
 #include "inputState.h"
 #include "guiManager.h"
+#include "networkingManager.h"
 #include <math.h>
 #include <sstream>
 
@@ -16,11 +17,14 @@ class LoadingScreen : public IMenuScreen
         bool isVisible;
         bool isEnd;
 
+        NetworkingManager *networkingMgr;
+
         int progress;
 
         float wpixel;
         float hpixel;
         CEGUI::Editbox *indicator;
+        CEGUI::FrameWindow *instructions;
 
         void render();
         
@@ -37,7 +41,9 @@ class LoadingScreen : public IMenuScreen
 
         MenuType nextMenu();
 
-        LoadingScreen(InputState *inputState, GuiManager *guiManager);
+        LoadingScreen(InputState *inputState, GuiManager *guiManager,
+                      NetworkingManager *networkingMgr);
+
         ~LoadingScreen();
 };
 

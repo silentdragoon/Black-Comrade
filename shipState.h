@@ -4,10 +4,10 @@
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
 
-// #include "flying.h"
 #include "ITickable.h"
 #include "IDrawable.h"
 #include "const.h"
+#include "damageState.h"
 
 // include Raknet classes
 #include "replicaObject.h"
@@ -15,10 +15,13 @@
 #include <math.h>
 #include <string>
 
+#include "IBulletTarget.h"
+
 using namespace Ogre;
 using namespace RakNet;
 
-class ShipState : public ITickable, public IDrawable, public ReplicaObject {
+class ShipState : public ITickable, public IDrawable, public ReplicaObject,
+                  public IBulletTarget {
 private:
         Vector3 *position;
 public:
@@ -29,14 +32,11 @@ public:
     Real yaw;
     double speed;
 
-    ShipState(SceneNode *shipSceneNode);
-
     ShipState();
-    SceneNode *shipSceneNode;
+    DamageState *damageState;
 
     void print();
     void tick();
-    void updateOgre();
 
     void setX(double newX);
     void setY(double newY);
@@ -49,6 +49,12 @@ public:
     
     IDrawable *getParentObject();
     std::string getMeshName();
+
+    void setDamageState(DamageState *damageState);
+    void damage(float amount);
+
+    EntityType getEntityType();
+    EffectType getHitEffectType();
 
     double getX();
     double getY();

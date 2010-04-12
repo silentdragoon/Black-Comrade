@@ -6,6 +6,7 @@
 #include <CEGUI/CEGUIBase.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <sstream>
+#include <math.h>
 #include "mapManager2.h"
 #include "shipState.h"
 #include "const.h"
@@ -17,11 +18,15 @@ private:
     CEGUI::OgreRenderer* d_renderer;
     CEGUI::WindowManager *guiMgr;
     CEGUI::Window *guiRoot;
+
     CEGUIRQListener *renderQueueListener;
     SceneManager *sceneMgr;
 
+    void makeBlackOverlay();
+
 
 public:
+    CEGUI::Window *black;
     GuiManager(SceneManager *sceneMgr);
     ~GuiManager();
 
@@ -38,6 +43,14 @@ public:
                                       int size);
 
     CEGUI::Window *getRootWindow();
+
+    bool fadeToBlack(bool slow);
+    bool fadeFromBlack(bool slow);
+    bool fadeToBlack();
+    bool fadeFromBlack();
+
+    void cutToBlack();
+    void cutFromBlack();
 
     void setOverlayAboveCEGUI(bool above);
 

@@ -5,6 +5,8 @@
 #include "inputState.h"
 #include "guiManager.h"
 #include "collaborationInfo.h"
+#include "gameStateMachine.h"
+
 #include <sstream>
 #include <math.h>
 
@@ -20,6 +22,14 @@ class StatsScreen : public IMenuScreen
         CollaborationInfo *pilotInfo;
         CollaborationInfo *navInfo;
         CollaborationInfo *engInfo;
+
+        GameState finishState;
+
+        void addStats(CollaborationInfo *info, int columnOffset);
+        void addOverallRating();
+        
+        float wpx;
+        float hpx;
         
     public:
         void tick();
@@ -35,7 +45,8 @@ class StatsScreen : public IMenuScreen
         StatsScreen(InputState *inputState, GuiManager *guiManager,
                     CollaborationInfo *pilotInfo,
                     CollaborationInfo *navInfo,
-                    CollaborationInfo *engInfo);
+                    CollaborationInfo *engInfo,
+                    GameState finishState);
 
         ~StatsScreen();
 };

@@ -38,13 +38,11 @@ void GuiStatusUpdater::tick() {
     }
 
     // Deal with the damage of various systems
-    float shieldHealth = (float)(damageState->getShieldHealth()/100.0);
     float sensorHealth = (float)(damageState->getSensorHealth()/100.0);
     float weaponHealth = (float)(damageState->getWeaponHealth()/100.0);
     float engineHealth = (float)(damageState->getEngineHealth()/100.0);
     float hullHealth = (float)(damageState->getHullHealth()/100.0); 
 
-    hud->setShields(shieldHealth);
     hud->setSensors(sensorHealth);
     hud->setWeapons(weaponHealth);
     hud->setEngines(engineHealth);
@@ -83,12 +81,10 @@ void GuiStatusUpdater::tick() {
     if(gameRole==ENGINEER) {
         float shieldRate = (float)(systemManager->getShieldRate());
         float weaponRate = (float)(systemManager->getWeaponRate());
-        float sensorRate = (float)(systemManager->getSensorRate());
         float engineRate = (float)(systemManager->getEngineRate());
 
         
         hud->setShieldRate(shieldRate);
-        hud->setSensorRate(sensorRate);
         hud->setWeaponRate(weaponRate);
         hud->setEngineRate(engineRate);
        }
@@ -98,7 +94,7 @@ void GuiStatusUpdater::tick() {
     hud->setWeaponCharge(weaponCharge/100.0);
     hud->setShieldCharge(shieldCharge/100.0);
 
-    float bossHealth = objective->getHealth();
+    float bossHealth = objective->getHealthPercentage();
     hud->setBossHealthbar(bossHealth);
 
     int t = objective->getEscapeTime();

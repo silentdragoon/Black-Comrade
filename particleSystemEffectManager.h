@@ -8,6 +8,7 @@
 #include "ITickable.h"
 #include "particleSystemEffect.h"
 #include "mapManager2.h"
+#include "effectType.h"
 
 using namespace Ogre;
 
@@ -26,6 +27,7 @@ class ParticleSystemEffectManager : public ITickable {
         ParticleSystemEffectManager(SceneManager *sceneMgr, MapManager *mapMgr);
         ~ParticleSystemEffectManager();
 
+        void createEffect(EffectType type, Vector3 position);
         void makeObjective();
         void destroyObjective();
         void createExplosion(Vector3 pos);

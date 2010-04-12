@@ -6,7 +6,10 @@
 #include "constManager.h"
 #include "replicaObject.h"
 
-class Objective : public ITickable, public ReplicaObject {
+#include "IBulletTarget.h"
+
+class Objective : public ITickable, public ReplicaObject,
+                  public IBulletTarget {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
         int health;
@@ -21,7 +24,11 @@ class Objective : public ITickable, public ReplicaObject {
 
         void setParticleSystemEffectManager(ParticleSystemEffectManager *particleSystemEffectManager);
 
+        EntityType getEntityType();
         float getHealth();
+        float getHealthPercentage();
+        void damage(float amount);
+
         void damageObjective();
         int getEscapeTime();
 

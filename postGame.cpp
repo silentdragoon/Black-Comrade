@@ -5,67 +5,57 @@ PostGame::PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
                    SoundManager *soundMgr,
                    CollaborationInfo *pilotInfo,
                    CollaborationInfo *navInfo,
-                   CollaborationInfo *engInfo)
-    : sceneMgr(sceneMgr)
-    , window(window)
-    , inputState(inputState)
-    , guiMgr(guiMgr)
+                   CollaborationInfo *engInfo,
+                   GameState finishState)
+    : MenuSystem(sceneMgr,guiMgr,inputState,window)
     , soundMgr(soundMgr)
-    , currentMenuScreen(0)
     , pilotInfo(pilotInfo)
     , navInfo(navInfo)
     , engInfo(engInfo)
 {
-    postGameLoop = new StateUpdate();
 
-    postGameLoop->addTickable(soundMgr,"soundMgr");
-    postGameLoop->addTickable(inputState,"inputState");
-    postGameLoop->addTickable(this,"postGame");
+    menuLoop->addTickable(this,"postGame");
+    menuLoop->addTickable(soundMgr,"soundMgr");
 
-    statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo);
+    statsScreen = new StatsScreen(inputState,guiMgr,pilotInfo,navInfo,engInfo,finishState);
 }
 
-void PostGame::run() {
-
+void PostGame::showMenus() {
     guiMgr->destroyAllWindows();
-
-    Camera *camera = sceneMgr->createCamera("postGameCam");
-    window->removeAllViewports();
-    Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-    camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
-
-    vp->update();
-
+    guiMgr->cutToBlack();
     currentMenuScreen = statsScreen;
-
-    postGameLoop->startLoop();
+    run();
 }
-
-void PostGame::clearMenuUI() {
-
-}
-
-//void PreGame::showLoadingScreen() {
-//    CEGUI::FrameWindow *loadingText = guiMgr->addStaticText("LoadingText", "Loading...",0.5, 0.5, 1);
-//}
 
 void PostGame::tick() {
 
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
-            // Hide + End it
-            currentMenuScreen->hide();
-            loadNextMenu();
+            fadingIn = false;
+            fadingOut = !guiMgr->fadeToBlack();
+            if (!fadingOut) {
+                // Hide + End it
+                currentMenuScreen->hide();
+                loadNextMenu();
+            }
         } else if (!currentMenuScreen->visible()) {
             // Show it
             currentMenuScreen->show();
-        } else {
-            // Process it
-            currentMenuScreen->tick();
+            fadingIn = !guiMgr->fadeFromBlack();
+        } else if (currentMenuScreen->visible()) {
+            if (!fadingIn) {
+                // Process it
+                currentMenuScreen->tick();
+            }
         }	
     }
+    if (fadingIn) {
+        fadingIn = !guiMgr->fadeFromBlack();
+    }
+    else if (fadingOut) {
+        fadingOut = !guiMgr->fadeToBlack();
+    }
+    render();
 }
 
 void PostGame::loadNextMenu() {
@@ -80,8 +70,4 @@ void PostGame::loadNextMenu() {
             exit();
             break;
     }
-}
-
-void PostGame::exit() {
-    postGameLoop->running = false;
 }

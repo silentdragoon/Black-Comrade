@@ -1,8 +1,6 @@
 #include <OGRE/Ogre.h>
 
-#include "menuType.h"
-#include "guiManager.h"
-#include "inputState.h"
+#include "menuSystem.h"
 #include "networkRole.h"
 #include "gameRole.h"
 #include "stateUpdate.h"
@@ -13,26 +11,18 @@
 
 #include "statsScreen.h"
 
-class PostGame : public IExit, public ITickable {
+class PostGame : public ITickable, public MenuSystem {
 private:
 
-    SceneManager *sceneMgr;
-    GuiManager *guiMgr;
     SoundManager *soundMgr;
-    InputState *inputState;
-    Ogre::RenderWindow *window;
-    StateUpdate *postGameLoop;
+
     CollaborationInfo *pilotInfo;
     CollaborationInfo *navInfo;
     CollaborationInfo *engInfo;
 
-    void clearMenuUI();
-
     void loadNextMenu();
 
-    IMenuScreen *currentMenuScreen;
     IMenuScreen *statsScreen;
-
 
 public:
     PostGame(SceneManager *sceneMgr, Ogre::RenderWindow *window,
@@ -40,10 +30,9 @@ public:
             SoundManager *soundMgr,
             CollaborationInfo *pilotInfo,
             CollaborationInfo *navInfo,
-            CollaborationInfo *engInfo);
+            CollaborationInfo *engInfo,
+            GameState finishState);
 
-    void run();
-
+    void showMenus();
     void tick();
-    void exit();
 };

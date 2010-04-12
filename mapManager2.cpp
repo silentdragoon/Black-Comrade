@@ -192,9 +192,7 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     mts[x][y] = m;
 }
 
-std::vector<Entity*> MapManager::getMapPieces() {
-    return mapEntities;
-}
+
 
 Entity* MapManager::getEntity(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
@@ -209,47 +207,10 @@ Entity* MapManager::getEntity(Vector3 *locn) {
     return NULL;
 }
 
-void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
+/* void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
 
-    /* if(mts[x][y]->isObj()) {
-        mps[0] = mts[x][y]->getEntity();
-        //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
-        std::vector<int> adj = mts[x][y]->getConnections();
-
-        mps[1] = NULL;
-        mps[2] = NULL;
-        mps[3] = NULL;
-        mps[4] = NULL;
-
-        for(std::vector<int>::const_iterator it=adj.begin();it!=adj.end(); ++it) {
-            int c = *it;
-            if(c==1) {
-                if(!mts[x][y]->getAdjacent(c)->isObj()) {
-                    //cout << "1: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                    mps[1] = mts[x][y]->getAdjacent(c)->getEntity();
-                }
-            } else if(c==2) {
-                if(!mts[x][y]->getAdjacent(c)->isObj()) {
-                    //cout << "2: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                    mps[2] = mts[x][y]->getAdjacent(c)->getEntity();
-                }
-            } else if(c==3) {
-                if(!mts[x][y]->getAdjacent(c)->isObj()) {
-                    //cout << "3: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                    mps[3] = mts[x][y]->getAdjacent(c)->getEntity();
-                }
-            } else if(c==4) {
-                if(!mts[x][y]->getAdjacent(c)->isObj()) {
-                    //cout << "4: " <<mts[x][y]->getAdjacent(c)->getEntity()->getName() <<  endl;
-                    mps[4] = mts[x][y]->getAdjacent(c)->getEntity();
-                }
-            } else {
-            }
-        }
-    } else { */
-        
     mps[0] = mts[x][y]->getEntity();
     //cout << "0: " << mts[x][y]->getEntity()->getName() << endl;
     std::vector<int> adj = mts[x][y]->getConnections();
@@ -276,7 +237,7 @@ void MapManager::getMapEntities(Vector3 *locn, Entity** mps) {
         } else {
         }
     }
-}
+} */
 
 MapTile* MapManager::getMapTile(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
@@ -287,7 +248,6 @@ MapTile* MapManager::getMapTile(Vector3 *locn) {
             return mts[x][y];
         }
     }
-    
     return NULL;   
 }
 
@@ -348,13 +308,15 @@ void MapManager::makeConPieces() {
                     std::stringstream out;
                     out << "-" << x << "-" << y << "-2";
                     name += out.str();
-                    Entity *e = sceneManager->createEntity(name, "polySurfaceShape7.mesh");
+                    Entity *e = sceneManager->createEntity(name, "newConnExport.mesh");
                     node->attachObject(e);
                     node->yaw( Radian(PI/2.0) );
                     //needs Tuning
                     Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
                     node->setPosition(pos);
                     attachLight( pos.x, pos.z);
+                    mts[x][y]->setEastConnPiece( e );
+                    mapEntities.push_back(e);
                 }
                 if(mts[x][y]->southConnected()) {
                     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
@@ -362,12 +324,14 @@ void MapManager::makeConPieces() {
                     std::stringstream out;
                     out << "-" << x << "-" << y << "-3";
                     name += out.str();
-                    Entity *e = sceneManager->createEntity(name,  "polySurfaceShape7.mesh");
+                    Entity *e = sceneManager->createEntity(name,  "newConnExport.mesh");
                     node->attachObject(e);
                     //needs Tuning
                     Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) ,0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
                     node->setPosition(pos);
                     attachLight( pos.x, pos.z);
+                    mts[x][y]->setSouthConnPiece( e );
+                    mapEntities.push_back(e);
                 }
             }
         }
@@ -495,3 +459,15 @@ Vector3 MapManager::getObjectivePosition() {
     double z = (objy*ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2.0);
     return Vector3(x,y,z);
 }
+
+std::vector<Entity*> MapManager::getMapEntitiesForCollision() {
+    return mapEntities;
+}
+
+void MapManager::getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps)
+{
+    int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
+    int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
+    mts[x][y]->getTileAndConnectionEntities( mps );
+}
+    

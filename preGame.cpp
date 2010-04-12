@@ -1,41 +1,32 @@
 #include "preGame.h"
 
 PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState *inputState, 
-        GuiManager *guiMgr, NetworkingManager *networkingMgr)
-    : sceneMgr(sceneMgr)
-    , window(window)
-    , inputState(inputState)
-    , guiMgr(guiMgr)
+                 GuiManager *guiMgr, NetworkingManager *networkingMgr)
+    : MenuSystem(sceneMgr, guiMgr, inputState, window)
     , networkingMgr(networkingMgr)
-    , currentMenuScreen(0)
 {
-    preGameLoop = new StateUpdate();
+    menuLoop->addTickable(this,"preGame");
 
-    Camera *camera = sceneMgr->createCamera("preGameCam");
-    Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-    camera->setAspectRatio(
-        Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
-
-    vp->update();
-
-    preGameLoop->addTickable(inputState,"inputState");
-    preGameLoop->addTickable(this,"preGame");
-
+    storyMenu = new StoryMenu(inputState,networkingMgr,guiMgr);
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
-    loadingScreen = new LoadingScreen(inputState,guiMgr);
+    loadingScreen = new LoadingScreen(inputState,guiMgr,networkingMgr);
 }
 
 CollaborationInfo* PreGame::showMenus() {
 
-    currentMenuScreen = networkRoleMenu;
+    currentMenuScreen = storyMenu;
 
-    preGameLoop->startLoop();
-
-    networkingMgr->lobby->chooseNick("Player");
+    run();
 
     return networkingMgr->collabInfo;
+}
+
+void PreGame::waitForPlayers() {
+    loadingScreen->updateProgress(100.0);
+    menuLoop->running = true;
+    menuLoop->startLoop();
+    hideLoadingScreen();
 }
 
 LoadingScreen *PreGame::getLoadingScreen() {
@@ -44,64 +35,60 @@ LoadingScreen *PreGame::getLoadingScreen() {
 
 void PreGame::hideLoadingScreen() {
     window->removeAllViewports();
-    sceneMgr->destroyCamera("preGameCam");
+    shutdown();
     loadingScreen->hide();
 }
 
-void PreGame::clearMenuUI() {
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NetworkRoleMenu");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameRoleMenu");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("LoadingText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PilotRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("EngRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("NavRoleText");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("ChosenRoleText");
-}
-
-void PreGame::render() {
-    WindowEventUtilities weu = WindowEventUtilities();
-    weu.messagePump();
-    Root::getSingletonPtr()->renderOneFrame();
-}
-
 void PreGame::tick() {
-
+ 
     if (currentMenuScreen) {
         if (currentMenuScreen->end()) {
-            // Hide + End it
-            currentMenuScreen->hide();
-            loadNextMenu();
+            fadingIn = false;
+            fadingOut = !guiMgr->fadeToBlack();
+            if (!fadingOut) {
+                // Hide + End it
+                currentMenuScreen->hide();
+                loadNextMenu();
+            }
         } else if (!currentMenuScreen->visible()) {
             // Show it
             currentMenuScreen->show();
-        } else {
-            // Process it
-            currentMenuScreen->tick();
+            fadingIn = !guiMgr->fadeFromBlack();
+        } else if (currentMenuScreen->visible()) {
+            if (!fadingIn) {
+                // Process it
+                currentMenuScreen->tick();
+                if (currentMenuScreen == loadingScreen) {
+                    if (loadingScreen->getProgress() == 0.0) {
+                        exit();
+                    }
+                }
+            }
         }	
+    }
+    if (fadingIn) {
+        fadingIn = !guiMgr->fadeFromBlack();
+    }
+    else if (fadingOut) {
+        fadingOut = !guiMgr->fadeToBlack();
     }
     render();
 }
 
 void PreGame::loadNextMenu() {
 
-    if (currentMenuScreen == 0) {
-        currentMenuScreen = networkRoleMenu;
-        return;
-    }
-
     switch (currentMenuScreen->nextMenu()) {
+        case MT_CHOOSE_NETWORK_ROLE :
+            currentMenuScreen = networkRoleMenu;
+            break;
         case MT_CHOOSE_GAME_ROLE :
             currentMenuScreen = gameRoleMenu;
             break;
+        case MT_LOADING :
+            currentMenuScreen = loadingScreen;
+            break;
         case MT_NONE :
-            // Start the game
-            loadingScreen->show();
-            render();
             exit();
             break;
     }
-}
-
-void PreGame::exit() {
-    preGameLoop->running = false;
 }

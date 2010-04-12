@@ -10,6 +10,7 @@
 #include <OIS/OIS.h>
 #include <math.h>
 #include <vector>
+#include <sstream>
 #include "serverInfo.h"
 
 class NetworkRoleMenu : public IMenuScreen
@@ -18,6 +19,12 @@ class NetworkRoleMenu : public IMenuScreen
         InputState *inputState;
         NetworkingManager *networkingMgr;
         GuiManager *guiMgr;
+
+        CEGUI::Imageset *bgImageSet;
+        CEGUI::Imageset *btImageSet;
+
+        CEGUI::Editbox *nameBox;
+        CEGUI::PushButton *btn;
 
         bool isVisible;
         bool isEnd;
@@ -45,6 +52,8 @@ class NetworkRoleMenu : public IMenuScreen
         void hide();
 
         void refreshGameList();
+
+        bool createClicked(const CEGUI::EventArgs& e);
 
         bool visible();
 

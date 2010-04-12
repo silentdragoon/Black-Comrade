@@ -6,11 +6,11 @@
 #include <iostream>
 
 DamageState::DamageState()
-    : shieldHealth(100.0)
-    , sensorHealth(100.0)
+    : sensorHealth(100.0)
     , weaponHealth(100.0)
     , engineHealth(100.0)
     , hullHealth(100.0)
+    , shieldModifier(0.1)
     , isDamaged(false)
     , pilotInfo(0)
     , engineerInfo(0)
@@ -20,11 +20,11 @@ DamageState::DamageState()
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
-    : shieldHealth(100.0)
-    , sensorHealth(100.0)
+    : sensorHealth(100.0)
     , weaponHealth(100.0)
     , engineHealth(100.0)
     , hullHealth(100.0)
+    , shieldModifier(0.1)
     , isDamaged(false)
     , pilotInfo(pilotInfo)
     , engineerInfo(engineerInfo)
@@ -52,9 +52,6 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
     switch(toRepair) {
         case(SS_NONE):
             return;
-        case(SS_SHIELD_GENERATOR):
-            repairShieldGenerator(repairer->repairAmount);
-            break;
         case (SS_ENGINES):
             repairEngines(repairer->repairAmount);
             break;
@@ -69,8 +66,6 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
     repairer->toRepair = SS_NONE;
     repairer->repairAmount = 0;
 }
-
-double DamageState::getShieldHealth() { return shieldHealth; }
 
 double DamageState::getSensorHealth() { return sensorHealth; }
 
@@ -88,12 +83,12 @@ void DamageState::damage() {
 void DamageState::damage(double multiplier) {
     multiplier = fabs(multiplier);
 
-    if (shieldHealth <= 0 && hullHealth > 0) {
+    /*if (shieldHealth <= 0 && hullHealth > 0) {
         hullHealth = hullHealth - (multiplier * 4);
         if (hullHealth < 0) hullHealth = 0.0;
         //print();
         return;
-    }
+    }*/
 
     boost::uniform_int<> six(1,4);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
@@ -101,27 +96,27 @@ void DamageState::damage(double multiplier) {
     
     switch(irand) {
         case 1:
-            if (shieldHealth > 0) {
-                shieldHealth = shieldHealth - (multiplier * 4);
-                if (shieldHealth < 0) shieldHealth = 0.0;
-                break;
-            }
-        case 2:
             if (sensorHealth > 0) {
-                sensorHealth = sensorHealth - (multiplier * 5);
+                sensorHealth = sensorHealth - (multiplier * 5 * shieldModifier);
                 if (sensorHealth < 0) sensorHealth = 0.0;
                 break;
             }
-        case 3:
+        case 2:
             if (weaponHealth > 0) {
-                weaponHealth = weaponHealth - (multiplier * 5);
+                weaponHealth = weaponHealth - (multiplier * 5 * shieldModifier);
                 if (weaponHealth < 0) weaponHealth = 0.0;
                 break;
             }
-        case 4:
+        case 3:
             if (engineHealth > 0) {
-                engineHealth = engineHealth - (multiplier * 5);
+                engineHealth = engineHealth - (multiplier * 5 * shieldModifier);
                 if (engineHealth < 0) engineHealth = 0.0;
+                break;
+            }
+        case 4:
+            if (hullHealth > 0) {
+                hullHealth = hullHealth - (multiplier * 5 * shieldModifier);
+                if (hullHealth < 0) hullHealth = 0.0;
                 break;
             }
     }
@@ -129,9 +124,8 @@ void DamageState::damage(double multiplier) {
     isDamaged = true;
 }
 
-void DamageState::repairShieldGenerator(int amount) {
-    shieldHealth += amount;
-    if (shieldHealth > 100) shieldHealth = 100;
+void DamageState::setShieldModifier(double mod) {
+    shieldModifier = mod;
 }
 
 void DamageState::repairWeapons(int amount) {
@@ -149,10 +143,15 @@ void DamageState::repairEngines(int amount) {
     if (engineHealth > 100) engineHealth = 100;
 }
 
+void DamageState::repairHull(int amount) {
+    hullHealth += amount;
+    if (hullHealth > 100) hullHealth = 100;
+}
+
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
 
 RM3SerializationResult DamageState::Serialize(SerializeParameters *serializeParameters) {
-    serializeParameters->outputBitstream[0].Write(shieldHealth);
+    serializeParameters->outputBitstream[0].Write(shieldModifier);
     serializeParameters->outputBitstream[0].Write(sensorHealth);
     serializeParameters->outputBitstream[0].Write(weaponHealth);
     serializeParameters->outputBitstream[0].Write(engineHealth);
@@ -163,8 +162,7 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
 }
 
 void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-
-    deserializeParameters->serializationBitstream[0].Read(shieldHealth);
+    deserializeParameters->serializationBitstream[0].Read(shieldModifier);
     deserializeParameters->serializationBitstream[0].Read(sensorHealth);
     deserializeParameters->serializationBitstream[0].Read(weaponHealth);
     deserializeParameters->serializationBitstream[0].Read(engineHealth);
@@ -177,7 +175,7 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
 
 void DamageState::print() {
     printf("DamageState is now (S:%.1f E:%.1f W:%.1f SE:%.1f H:%.1f)\n",
-        shieldHealth,engineHealth,weaponHealth,sensorHealth,hullHealth);
+        shieldModifier,engineHealth,weaponHealth,sensorHealth,hullHealth);
 }
 
 

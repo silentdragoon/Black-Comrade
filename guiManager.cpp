@@ -36,8 +36,17 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
 
     // Create the overall frame to add windows to
     guiRoot = guiMgr->createWindow("DefaultWindow","root");
+
     CEGUI::System::getSingleton().setGUISheet(guiRoot);
 
+    makeBlackOverlay();
+}
+
+void GuiManager::makeBlackOverlay() {
+    black = addStaticImage("Black",0.5, 0.5,1.0, 1.0,"Black","Black");
+    black->setAlwaysOnTop(true);
+    black->setAlpha(1.0f);
+    black->hide();
 }
 
 GuiManager::~GuiManager(){}
@@ -107,8 +116,50 @@ CEGUI::FrameWindow *GuiManager::addStaticImage(const char *name, float xCenter, 
     
     guiRoot->addChildWindow(radarWindow);
     
+    radarWindow->setRiseOnClickEnabled(false);
     return radarWindow;
 
+}
+
+bool GuiManager::fadeToBlack() { fadeToBlack(false); }
+
+bool GuiManager::fadeToBlack(bool slow) {
+    float increase = (slow) ? 0.01f : 0.05f;
+    //float increase = (slow) ? 0.004f : 0.05f;
+ 
+    black->show();
+    black->setAlwaysOnTop(true);
+    if (black->getAlpha() >= 1.0f) return true;
+
+    black->setAlpha(black->getAlpha() + increase);
+    return false;
+}
+
+bool GuiManager::fadeFromBlack() { fadeFromBlack(false); }
+
+bool GuiManager::fadeFromBlack(bool slow) {
+    float decrease = (slow) ? 0.01f : 0.05f;
+    //float decrease = (slow) ? 0.004f : 0.05f;
+
+    black->show();
+    black->setAlwaysOnTop(true);
+    if (black->getAlpha() <= 0.0f) {
+        black->hide();
+        return true;
+    }
+
+    black->setAlpha(black->getAlpha() - decrease);
+    return false;
+}
+
+void GuiManager::cutToBlack() {
+    guiMgr->destroyWindow(black);
+    makeBlackOverlay();
+    black->show();
+}
+
+void GuiManager::cutFromBlack() {
+    black->setAlpha(0.0f);
 }
 
 CEGUI::FrameWindow *GuiManager::addStaticImagePix(const char *name, float xCenter, float yCenter,
@@ -180,7 +231,13 @@ CEGUI::FrameWindow * GuiManager::addStaticText(std::string name, std::string tex
                                                int size) {
 
 
-    CEGUI::FrameWindow *textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText",name));
+    CEGUI::FrameWindow *textWindow;
+
+    if (name != "") {
+        textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText",name));
+    } else {
+        textWindow = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/StaticText"));
+    }
     textWindow->setPosition(CEGUI::UVector2(
         CEGUI::UDim(xCenter,-(textWindow->getFont()->getTextExtent( text ) + 12)/2),
         CEGUI::UDim(yCenter,-(textWindow->getFont()->getFontHeight() + 12 )/2)));

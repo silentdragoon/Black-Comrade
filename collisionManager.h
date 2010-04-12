@@ -40,10 +40,11 @@ public:
     //will add a convex hull for that entity. Will be about the origin, so any ray Cast option to it will need to use the transformed version.
     void addMesh( Entity* e);
     
-    //will add ship mesh to map and keep a special poitner to it
+    //will add ship mesh to map (removed: and keep a special poitner to it)
     void addShipMesh( Entity* e );
     
-    //addds the an objective collision primitive that is only tested with getRCObjDist
+    //addds the an objective collision primitive that is only tested with
+    //getRCObjDist and obj collision
     void addObjMesh( Real x, Real y, Real z, Real radius);
     
     //method for getting the dist to objective
@@ -54,6 +55,9 @@ public:
     
     //function for checking if a dynamic entitiy has collided with the map piece its in
     Collision collideWithMapPiece( Entity *e);
+    
+    //check if the ship has collided with the obj
+    bool collideEntityWithObj(Entity *e);
     
     
     

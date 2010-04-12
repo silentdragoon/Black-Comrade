@@ -16,6 +16,7 @@ using namespace RakNet;
 NetworkingManager::NetworkingManager(IExit *mExit) :
     numConnections(0),
     chosenGameRole(NO_GAME_ROLE),
+    nick("DefaultNick"),
     mExit(mExit),
     inLobby(true)
 {
@@ -66,7 +67,7 @@ void NetworkingManager::tick() {
     replicaManager.doUpdate();
 }
 
-bool NetworkingManager::hostGame(bool development) {
+bool NetworkingManager::hostGame(string gameName, bool development) {
     NetworkRole actualRole = NO_NETWORK_ROLE;
 
     if (development)
@@ -85,7 +86,7 @@ bool NetworkingManager::hostGame(bool development) {
     rakPeer->AttachPlugin(&replicaManager);
     rakPeer->SetMaximumIncomingConnections(2);
 
-    lobby = new Lobby(rakPeer, discoveryAgent, networkRole);
+    lobby = new Lobby(rakPeer, discoveryAgent, networkRole,nick,gameName);
     return true;
 }
 
@@ -104,7 +105,7 @@ bool NetworkingManager::connectToGame(ServerInfo *info) {
     rakPeer->AttachPlugin(&replicaManager);
     rakPeer->SetMaximumIncomingConnections(2);
 
-    lobby = new Lobby(rakPeer, discoveryAgent, CLIENT);
+    lobby = new Lobby(rakPeer, discoveryAgent, CLIENT,nick);
     return lobby->connect(address, Const::SERVER_PORT);
 }
 

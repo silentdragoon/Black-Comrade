@@ -86,12 +86,12 @@ SceneNode* SceneNodeManager::createNode(IDrawable *object) {
         newNode = getNode(object->getParentObject())->createChildSceneNode();
     }
     Entity *newEntity;
-    if (!madeShip) {
-        newEntity = sceneMgr->createEntity("ourship", object->getMeshName());
-        madeShip = true;
-    } else {
+    //if (!madeShip) {
+    //    newEntity = sceneMgr->createEntity("ourship", object->getMeshName());
+    //    madeShip = true;
+    //} else {
         newEntity = sceneMgr->createEntity(object->getMeshName());
-    }
+    //}
     //TODO Slight hack ^^
     newNode->attachObject(newEntity);
 

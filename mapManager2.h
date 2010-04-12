@@ -43,9 +43,8 @@ public:
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager);
-    std::vector<Entity*> getMapPieces();
     Entity* getEntity(Vector3 *locn);
-    void getMapEntities(Vector3 *locn, Entity** mps );
+    //void getMapEntities(Vector3 *locn, Entity** mps );
     MapTile* getMapTile(Vector3 *locn);
     Vector3 getActualPosition(MapTile* tile);
     std::vector<string*> getWaypoints(Vector3 *locn);
@@ -54,6 +53,9 @@ public:
     void makeConPieces();
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
     Vector3 getObjectivePosition();
+    std::vector<Entity*> getMapEntitiesForCollision();
+    //mps has 5 space for 5 entity pointers
+    void getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps);
 };
 
 #endif

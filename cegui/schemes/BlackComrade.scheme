@@ -21,15 +21,38 @@
     <Imageset Filename="scores.xml" />
     <Imageset Filename="selectrole.xml" />
     <Imageset Filename="scores.xml" />
+    <Imageset Filename="scoresfail.xml" />
     <Imageset Filename="Charge.xml" />
     <Imageset Filename="Charges.xml" />
     <Imageset Filename="StatusIndicators.xml" />
+    <Imageset Filename="keyboardpilot.xml" />
+    <Imageset Filename="keyboardengineer.xml" />
+    <Imageset Filename="keyboardnavigator.xml" />
+    
+    <Imageset Filename="story.xml" />
+    <Imageset Filename="roleicons.xml" />
+    <Imageset Filename="lobby.xml" />
+    <Imageset Filename="chooseplayer.xml" />    
 
+    <Imageset Filename="black.xml" />    
+    <Imageset Filename="buttons.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
+    
     <LookNFeel Filename="BlackComrade.looknfeel" />
+    
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
+    
+    
+    <FalagardMapping WindowType="BlackComrade/Story" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Story" />
+    <FalagardMapping WindowType="BlackComrade/RoleIcons" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/RoleIcons" />
+    <FalagardMapping WindowType="BlackComrade/Lobby" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Lobby" />
+    <FalagardMapping WindowType="BlackComrade/ChoosePlayer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ChoosePlayer" />
+
+    <FalagardMapping WindowType="BlackComrade/Black" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Black" />
+    <FalagardMapping WindowType="BlackComrade/Buttons" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Buttons" />
+    
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />
     <FalagardMapping WindowType="BlackComrade/Radar" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Radar" />
@@ -41,6 +64,12 @@
     <FalagardMapping WindowType="BlackComrade/NetworkRoleMenu" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/NetworkRoleMenu" />
     <FalagardMapping WindowType="BlackComrade/Loading" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Loading" />
     <FalagardMapping WindowType="BlackComrade/Scores" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Scores" />
+    <FalagardMapping WindowType="BlackComrade/ScoresFail" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ScoresFail" />
+    
+        <FalagardMapping WindowType="BlackComrade/KeyboardEngineer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardEngineer" />
+            <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
+                <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
+    
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />

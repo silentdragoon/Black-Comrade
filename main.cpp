@@ -26,6 +26,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     configResources();
 
+    // GUI Manager
     guiMgr = new GuiManager(sceneMgr);
 
     // Game Loop
@@ -37,6 +38,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // User Input
     inputState = new InputState(window,true,this,true,useMouse);
     gameLoop->addTickable(inputState,"inputState");
+
+    // Screen fader
+    fader = new Fader(guiMgr);
+    gameLoop->addTickable(fader,"fader");
 
     // Networking
     networkingManager = new NetworkingManager(this);
@@ -108,12 +113,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
-        shipState = new ShipState(shipSceneNode);
+        shipState = new ShipState();
         networkingManager->replicate(shipState);
     } else {
         shipState = 
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
+    shipState->setDamageState(damageState);
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
@@ -311,13 +317,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                 gameStateMachine);
     gameLoop->addTickable(audioState,"audioState");
 	
-    // CEGUI Stuff
-    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
-                                            collabInfo->getGameRole(),systemManager,hud,
-                                            flying,notificationMgr,gameStateMachine,objective);
-    gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
-	
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
@@ -327,15 +326,23 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Game ender
     if (collabInfo->getGameRole() == PILOT) {
-        gameEnder = new GameEnder(gameStateMachine,this);
+        gameEnder = new GameEnder(gameStateMachine,guiMgr,this);
         gameLoop->addTickable(gameEnder,"gameEnder");
     }
 
     // Add the reactor core effects
     particleSystemEffectManager->makeObjective();
 
-    // Hide loading screen
-    preGame->hideLoadingScreen();
+    // Wait for the players to be ready
+    preGame->waitForPlayers();
+
+    // CEGUI Stuff
+    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
+                                            collabInfo->getGameRole(),systemManager,hud,
+                                            flying,notificationMgr,gameStateMachine,objective);
+    gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
+
     soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
@@ -344,6 +351,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Start Rendering Loop
     gameLoop->startLoop();
 
+    // Hide the console if the game has ended
     cons->forceHide();
 
     networkingManager->endGame();
@@ -351,7 +359,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
                                       guiMgr,soundMgr,pilotInfo,navigatorInfo,
-                                      engineerInfo);
+                                      engineerInfo,gameStateMachine->currentGameState());
 
     std::cout << "Pilot stats:" << "\n";
     pilotInfo->getPlayerStats()->print();
@@ -362,7 +370,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Eng stats:" << "\n";
     engineerInfo->getPlayerStats()->print();
 
-    postGame->run();
+    postGame->showMenus();
     
     networkingManager->stopNetworking();
 }
@@ -469,23 +477,23 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     return camera;
 }
 
-//                ,
-//          (`.  : \               __..----..__
-//           `.`.| |:          _,-':::''' '  `:`-._
-//             `.:\||       _,':::::'         `::::`-.
-//               \\`|    _,':::::::'     `:.     `':::`.
-//                ;` `-''  `::::::.                  `::\
-//             ,-'      .::'  `:::::.         `::..    `:\
-//           ,' /_) -.            `::.           `:.     |
-//         ,'.:     `    `:.        `:.     .::.          \
-//    __,-'   ___,..-''-.  `:.        `.   /::::.         |
-//   |):'_,--'           `.    `::..       |::::::.      ::\
-//    `-'                 |`--.:_::::|_____\::::::::.__  ::|
-//                        |   _/|::::|      \::::::|::/\  :|
-//                        /:./  |:::/        \__:::):/  \  :\
-//                      ,'::'  /:::|        ,'::::/_/    `. ``-.__
-//        will         ''''   (//|/\      ,';':,-'         `-.__  `'--..__
-//                                                              `''---::::'
+//lol                ,
+//lol          (`.  : \               __..----..__
+//lol           `.`.| |:          _,-':::''' '  `:`-._
+//lol             `.:\||       _,':::::'         `::::`-.
+//lol               \\`|    _,':::::::'     `:.     `':::`.
+//lol                ;` `-''  `::::::.                  `::\
+//lol             ,-'      .::'  `:::::.         `::..    `:\
+//lol           ,' /_) -.            `::.           `:.     |
+//lol         ,'.:     `    `:.        `:.     .::.          \
+//lol    __,-'   ___,..-''-.  `:.        `.   /::::.         |
+//lol   |):'_,--'           `.    `::..       |::::::.      ::\
+//lol    `-'                 |`--.:_::::|_____\::::::::.__  ::|
+//lol                        |   _/|::::|      \::::::|::/\  :|
+//lol                        /:./  |:::/        \__:::):/  \  :\
+//lol                      ,'::'  /:::|        ,'::::/_/    `. ``-.__
+//lol        will         ''''   (//|/\      ,';':,-'         `-.__  `'--..__
+//lol                                                              `''---::::'
 
 
 void Main::createViewPort() {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   
+<Imageset Name="RoleIcons" Imagefile="roleicons.png" AutoScaled="false" >
+    <Image Name="NH" XPos="0" YPos="0" Width="18" Height="18" />
+    <Image Name="PH" XPos="18" YPos="0" Width="18" Height="18" />
+    <Image Name="EH" XPos="36" YPos="0" Width="18" Height="18" />
+	<Image Name="NG" XPos="0" YPos="18" Width="18" Height="18" />
+    <Image Name="PG" XPos="18" YPos="18" Width="18" Height="18" />
+    <Image Name="EG" XPos="36" YPos="18" Width="18" Height="18" />
+</Imageset>

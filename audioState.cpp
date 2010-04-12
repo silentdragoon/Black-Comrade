@@ -22,10 +22,10 @@ void AudioState::tick()
 	    b = *it;
 	    if (b->madeNoise) continue;
 	    
-	    if (b->playerStats == 0) {
+	    if (b->getOwner()->getEntityType() == ENTT_ENEMY) {
 	        // Enemy bullet
 	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.15);
-	    } else {
+	    } else if (b->getOwner()->getEntityType() == ENTT_PLAYER) {
 	        // Player bullet
 	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.6);
 	    }
