@@ -63,8 +63,8 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     out << stats->shotsFired;
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.4, 1);
     out.str("");
-    if (stats->shotsFired != 0) {
-        out << stats->shotsFired / navInfo->getPlayerStats()->shotsHit << " %";
+    if (stats->shotsHit != 0) {
+        out << stats->shotsFired / stats->shotsHit << " %";
     } else {
         out << "0 %";
     }

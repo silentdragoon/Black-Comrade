@@ -342,6 +342,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     particleSystemEffectManager->makeObjective();
 
     // Wait for the players to be ready
+    std::cout << "Waiting for players...\n";
     preGame->waitForPlayers();
 
     // CEGUI Stuff
