@@ -5,7 +5,7 @@ PlayerStats::PlayerStats()
     , shotsFired(0)
     , shotsHit(0)
     , enemiesDestroyed(0)
-    , collisions(0)
+    , numCollisions(0)
     , averageSpeed(0.0)
     , friendlyFire(0)
 {}
@@ -15,7 +15,7 @@ PlayerStats::PlayerStats(GameRole owner)
     , shotsFired(0)
     , shotsHit(0)
     , enemiesDestroyed(0)
-    , collisions(0)
+    , numCollisions(0)
     , averageSpeed(0.0)
     , friendlyFire(0)
 {}
@@ -41,7 +41,7 @@ RM3SerializationResult PlayerStats::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(shotsFired);
     serializeParameters->outputBitstream[0].Write(shotsHit);
     serializeParameters->outputBitstream[0].Write(enemiesDestroyed);
-    serializeParameters->outputBitstream[0].Write(collisions);
+    serializeParameters->outputBitstream[0].Write(numCollisions);
     serializeParameters->outputBitstream[0].Write(averageSpeed);
     serializeParameters->outputBitstream[0].Write(friendlyFire);
 
@@ -52,14 +52,14 @@ void PlayerStats::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(shotsFired);
     deserializeParameters->serializationBitstream[0].Read(shotsHit);
     deserializeParameters->serializationBitstream[0].Read(enemiesDestroyed);
-    deserializeParameters->serializationBitstream[0].Read(collisions);
+    deserializeParameters->serializationBitstream[0].Read(numCollisions);
     deserializeParameters->serializationBitstream[0].Read(averageSpeed);
     deserializeParameters->serializationBitstream[0].Read(friendlyFire);
 }
 
 void PlayerStats::print() {
     if (owner == PILOT) {
-        std::cout << "Collisions: " << collisions << "\n";
+        std::cout << "Collisions: " << numCollisions << "\n";
         std::cout << "Avg. speed: " << averageSpeed << "\n";
     }
     std::cout << "Shots fired: " << shotsFired << "\n";

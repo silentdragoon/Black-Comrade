@@ -220,7 +220,6 @@ void WeaponMiniGame::moveBoxes(char c) {
 void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
     if (playing == false && remainingMisaligned > 0) {
         playing = true;
-        isComplete = true;
     }
     if (playing == false) return;
     if (arg.text == toPress || arg.text == tolower(toPress)) {
@@ -233,6 +232,10 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
 }
 
 void WeaponMiniGame::tick() {
+
+    if (remainingMisaligned < totalChars * 0.9) {
+        isComplete = true;
+    }
 
     if (remainingMisaligned == 0) {
         playing = false;

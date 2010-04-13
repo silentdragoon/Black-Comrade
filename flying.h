@@ -31,6 +31,8 @@ class Flying : public ITickable
         SceneNodeManager *snMgr;
         double vFactor;
 
+        PlayerStats *pilotStats;
+
         double zVel;
         double xVel;
         double yVel;
@@ -43,12 +45,19 @@ class Flying : public ITickable
         double flyPitch;
         double flyYaw;
         double flyRoll;
+
+        double averageSpeed;
+        int lastAverage;
+        int averageDelay;
+
+        int numSpeedsTaken;
         
         static const double EngineForce = 0.5;
         static const double SideForce = 0.13;
         
         double damage;
 
+        void updateAverageSpeed();
         void updateAngels();
 
         // double getDrag(string dir);
@@ -63,7 +72,11 @@ class Flying : public ITickable
         double yaw;
         double roll;
 
-        Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool collisions, double x, double y, double z);
+        Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState,
+                DamageState *damageState, CollisionManager *colMgr,
+                SystemManager *systemManager, bool collisions,
+                double x, double y, double z,
+                PlayerStats *pilotStats);
 
         ~Flying();
 

@@ -1,7 +1,11 @@
 #include "flying.h"
 #include "const.h"
 
-Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState, DamageState *damageState, CollisionManager *colMgr, SystemManager *systemManager, bool useCollisions, double iXPos, double iYPos, double iZPos):
+Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState,
+                DamageState *damageState, CollisionManager *colMgr,
+                SystemManager *systemManager, bool useCollisions,
+                double iXPos, double iYPos, double iZPos,
+                PlayerStats *pilotStats):
     snMgr(snMgr),
     colMgr(colMgr),
     sc(sc),
@@ -22,7 +26,12 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     addRoll(0.0),
     addPitch(0.0),
     addYaw(0.0),
-    yawMom(0.0)
+    yawMom(0.0),
+    lastAverage(0),
+    averageDelay(150),
+    averageSpeed(0.0),
+    numSpeedsTaken(0),
+    pilotStats(pilotStats)
 {
     position = new Vector3(iXPos, iYPos, iZPos );
 }
@@ -75,6 +84,7 @@ void Flying::updatePosition()
 		}
 
         damageState->damage(1);
+        pilotStats->numCollisions ++;
     }
 
     if( hitCountDown == 0 )
@@ -139,14 +149,26 @@ void Flying::updateShipState()
     shipState->roll = -roll;
 }
 
+void Flying::updateAverageSpeed() {
+    numSpeedsTaken ++;
+    averageSpeed = averageSpeed * ((numSpeedsTaken-1.0)/numSpeedsTaken) + getSpeed() * (1.0/numSpeedsTaken);
+    pilotStats->averageSpeed = averageSpeed;
+}
+
 void Flying::tick()
 {
     shipState->setSpeed(getSpeed());
     updatePosition();
     updateShipState();
+    if (lastAverage > averageDelay) {
+        updateAverageSpeed();
+        lastAverage = 0;
+    } else {
+        lastAverage ++;
+    }
 }
 
 double Flying::getSpeed()
 {
-    return sqrt( xVel*xVel+zVel*zVel);
+    return sqrt( xVel*xVel+zVel*zVel) * 3.6 * 60;;
 }

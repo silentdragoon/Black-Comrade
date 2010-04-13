@@ -8,7 +8,6 @@
 class PlayerStats : public ReplicaObject {
 private:
     GameRole owner;
-    int collisions;
 
 public:
     PlayerStats();
@@ -20,6 +19,7 @@ public:
     int friendlyFire;
 
     double averageSpeed;
+    int numCollisions;
 
 
     virtual RakNet::RakString GetName(void) const;

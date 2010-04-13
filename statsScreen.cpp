@@ -80,11 +80,11 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     if (info->getGameRole() == PILOT) {
         // TODO: Add pilot metric
         out.str("");
-        out << "0";
+        out << (int) stats->averageSpeed << " KM/H";
         guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.6, 1);
 
         out.str("");
-        out << "0";
+        out << stats->numCollisions;
         guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.65, 1);
     } else {
         out.str("-");

@@ -171,7 +171,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         collisionMgr->addShipMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
-        flying = new Flying( sceneNodeMgr, pilotControls, shipState, damageState, collisionMgr, systemManager, collisions, mapMgr->startx, 0.0, mapMgr->starty  );
+        flying = new Flying( sceneNodeMgr, pilotControls, shipState,
+                             damageState, collisionMgr, systemManager,
+                             collisions, mapMgr->startx, 0.0, mapMgr->starty,
+                             pilotInfo->getPlayerStats() );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
