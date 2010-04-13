@@ -21,6 +21,7 @@ private:
 
     int prevX;
     int prevY;
+    int prevRotate;
 
     //CEGUI::ProgressBar *shields;
     CEGUI::ProgressBar *sensors;
@@ -51,7 +52,7 @@ private:
     ShipState *shipState;
 
     CEGUI::FrameWindow* buildFullMap();
-    CEGUI::FrameWindow* buildMiniMap();
+    CEGUI::FrameWindow* buildMiniMap(int rotate);
     
     CEGUI::FrameWindow *statusIndicatorsStealth;
     CEGUI::FrameWindow *statusIndicatorsSwarms;
@@ -60,6 +61,8 @@ private:
     CEGUI::FrameWindow *statusIndicatorsBlank;
 
     GameRole gameRole;
+    
+    void appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate);
 
 public:
     HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr);

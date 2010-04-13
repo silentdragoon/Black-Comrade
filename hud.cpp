@@ -212,8 +212,25 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
         fullmap->setVisible(false);
 
         // Create the minimap
-        minimap = buildMiniMap();
+        minimap = buildMiniMap(0);
         guiManager->getRootWindow()->addChildWindow(minimap);
+    }
+}
+
+void HUD::appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate)
+{
+    rotate = rotate < 0 ? -rotate : rotate;
+
+    bool sides[4];
+
+    for(int c = 1; c <= 4; ++c) {
+        if(mapMgr->mts[xpos][ypos]->getAdjacent(c)!=0) {
+            sides[((c + rotate - 1) % 4) + 1] = true;
+        }
+    }
+    
+    for(int c = 1; c <= 4; ++c) {
+        if(sides[c]) ss << '-' << c;
     }
 }
 
@@ -243,18 +260,9 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 } else {
                     tile << "mapTile";
                 }
-                if(mapMgr->mts[xpos][ypos]->getAdjacent(1)!=0) {
-                    tile << "-1";
-                }
-                if(mapMgr->mts[xpos][ypos]->getAdjacent(2)!=0) {
-                    tile << "-2";
-                }
-                if(mapMgr->mts[xpos][ypos]->getAdjacent(3)!=0) {
-                    tile << "-3";
-                }
-                if(mapMgr->mts[xpos][ypos]->getAdjacent(4)!=0) {
-                    tile << "-4";
-                }
+                
+                appendTileEnding(tile, xpos, ypos, 0);
+                
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
                     ic.setImage("Minimapnow",name);
@@ -304,7 +312,7 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
     return fullmap;
 }
 
-CEGUI::FrameWindow* HUD::buildMiniMap() {
+CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
 
     // CREATE MINIMAP
     CEGUI::WidgetLookFeel lookFeel("miniMap");
@@ -318,66 +326,93 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
     float wpixel = 1.0 / (float)winWidth * g;
     float hpixel = 1.0 / (float)winHeight * g;
 
-
+    // Center of minimap in map
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
     prevX = x;
     prevY = y;
+    
+    // Position in minimap
     int mapx = 1;
     int mapy = 1;
 
     int i=0;
-    int xpos = x;
-    int ypos = y;
+
+    // Offset from center of minimap
+    int offsetx = 0;
+    int offsety = 0;
 
     while(i<9) {
         if(i==1) {
-            xpos = x-1; 
-            ypos = y-1; 
+            offsetx = -1; 
+            offsety = -1; 
             mapx = 0; 
             mapy = 0;
         }
         if(i==2) {
-            xpos = x;
-            ypos = y-1;
+            offsetx = 0;
+            offsety = -1;
             mapx = 1;
             mapy = 0;
         }
         if(i==3) {
-            xpos = x+1;
-            ypos = y-1;
+            offsetx = +1;
+            offsety = -1;
             mapx = 2;
             mapy = 0;
         }
         if(i==4) {
-            xpos = x-1;
-            ypos = y;
+            offsetx = -1;
+            offsety = 0;
             mapx = 0;
             mapy = 1;
         }
         if(i==5) {
-            xpos = x+1;
-            ypos = y;
+            offsetx = +1;
+            offsety = 0;
             mapx = 2;
             mapy = 1;
         }
         if(i==6) {
-            xpos = x-1;
-            ypos = y+1;
+            offsetx = -1;
+            offsety = +1;
             mapx = 0;
             mapy = 2;
         }
         if(i==7) {
-            xpos = x;
-            ypos = y+1;
+            offsetx = 0;
+            offsety = +1;
             mapx = 1;
             mapy = 2;
         }
         if(i==8) {
-            xpos = x+1;
-            ypos = y+1;
+            offsetx = +1;
+            offsety = +1;
             mapx = 2;
             mapy = 2;
+        }
+
+        // Position of tile within whole map
+        int xpos;
+        int ypos;
+
+        // Rotation
+        switch(rotate){
+            case 1:
+                xpos = x + offsety;
+                ypos = y + offsetx;
+                break;
+            case 2:
+                xpos = x - offsetx;
+                ypos = y - offsety;
+                break;
+            case 3:
+                xpos = x - offsety;
+                ypos = y - offsetx;
+                break;
+            default:
+                xpos = x + offsetx;
+                ypos = y + offsety;
         }
 
         CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
@@ -392,18 +427,9 @@ CEGUI::FrameWindow* HUD::buildMiniMap() {
             } else {
                 tile << "mapTile";
             }
-            if(mapMgr->mts[xpos][ypos]->getAdjacent(1)!=0) {
-                tile << "-1";
-            }
-            if(mapMgr->mts[xpos][ypos]->getAdjacent(2)!=0) {
-                tile << "-2";
-            }
-            if(mapMgr->mts[xpos][ypos]->getAdjacent(3)!=0) {
-                tile << "-3";
-            }
-            if(mapMgr->mts[xpos][ypos]->getAdjacent(4)!=0) {
-                tile << "-4";
-            }
+            
+            appendTileEnding(tile, xpos, ypos, rotate);
+            
             string name = tile.str();
             if(i==0) {
                 ic.setImage("Minimapnow",name);
@@ -527,9 +553,17 @@ void HUD::updateMiniMap() {
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(shipState->getPosition()->z/(double)ConstManager::getInt("map_tile_size"));
 
-    if((x!=prevX)||(y!=prevY)) {
+    float yaw = shipState->getOrientation()->y + 
+        shipState->getMeshOrientation()->y;
+    while(yaw < 0) yaw += 2 * PI;
+    while(yaw >= 2 * PI) yaw -= 2 * PI;
+    
+    int rotate = (int)((yaw + PI / 4) / (PI / 2));
+
+    if((x!=prevX)||(y!=prevY)||rotate!=prevRotate) {
+        prevRotate = rotate;
         guiManager->getRootWindow()->removeChildWindow(minimap);
-        minimap = buildMiniMap();
+        minimap = buildMiniMap(rotate);
         guiManager->getRootWindow()->addChildWindow(minimap);
         guiManager->getRootWindow()->removeChildWindow(fullmap);
         fullmap = buildFullMap();
