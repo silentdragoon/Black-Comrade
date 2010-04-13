@@ -17,59 +17,57 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
-    float ratio = winWidth / (float)winHeight;
+    ratio = winWidth / (float)winHeight;
     float noscale = 1.6 / ratio;
     float g = (1.0*winWidth)/1680.0;
 
-    float wpixel = 1.0 / (float)winWidth * g;
-    float hpixel = 1.0 / (float)winHeight * g;
+    wpixel = 1.0 / (float)winWidth * g;
+    hpixel = 1.0 / (float)winHeight * g;
 
-    // Background Elements
-    CEGUI::FrameWindow *xcrosshair  = guiManager->addStaticImage("XCrosshair",  0.5, 0.5,   0.05/ratio, 0.05,   "XCrosshair",   "XCross"  );
-    // CEGUI::FrameWindow *overlay     = guiManager->addStaticImage("Overlay",     0.5, 0.5,   1.6/ratio,  1.0,    "Overlay",      "Overlay" );
+    // Make common HUD
+    makeCommonHUD();
 
-	// TEST
-	
-	// CEGUI::FrameWindow *test     = guiManager->addStaticImage("ScoresFail",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ScoresFail",      "Whole" );
-
-    // Foreground Elements
-
-    // Crew Background
-    CEGUI::FrameWindow *crewlb      = guiManager->addStaticImagePix("Crewl",        0.0 + 0 * wpixel,    0.0 + 0 * hpixel,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
-    CEGUI::FrameWindow *crewrb      = guiManager->addStaticImagePix("Crewr",        1.0 - 104 * wpixel,  0.0 + 0 * hpixel,                104 * wpixel, 157 * hpixel,  "Crew",        "EmptyBox" );
-
-    // Crew Avatars
-
-    if (gameRole==PILOT) {
-    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav2",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav2"  );
-    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav3",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav3"  );
+    // Make player dependent HUD
+    switch (gameRole) {
+        case PILOT:
+            makePilotHUD();
+            break;
+        case NAVIGATOR:
+            makeNavigatorHUD();
+            break;
+        case ENGINEER:
+            makeEngineerHUD();
+            break;
     }
-    if (gameRole==NAVIGATOR) {
-    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav1"  );
-    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav3",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav3"  );
-    }
-    if (gameRole==ENGINEER) {
-    CEGUI::FrameWindow *crewav1     = guiManager->addStaticImagePix("Crewav1",      0.0 + 2 * wpixel,    0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav1"  );
-    CEGUI::FrameWindow *crewav2     = guiManager->addStaticImagePix("Crewav2",      1.0 - 102 * wpixel,  0.0 + 2 * hpixel,   100 * wpixel, 100 * hpixel, "Crew",        "Crewav2"  );
-    }
+
+    // Hide the controls until we need them
+    controls->hide();
+    controls->setAlwaysOnTop(true);
+
+    // TEST	
+    // CEGUI::FrameWindow *test     = guiManager->addStaticImage("ScoresFail",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ScoresFail",      "Whole" );
+
+}
+
+void HUD::makeCommonHUD() {
+
+    // Overlay
+    //guiManager->addStaticImage("Overlay", 0.5, 0.5, 1.6/ratio, 1.0, "Overlay", "Overlay");
+
+    // Crosshair
+    guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
+
+    // Crew backgrounds
+    guiManager->addStaticImagePix("Crewl", 0.0 + 0 * wpixel,    0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+    guiManager->addStaticImagePix("Crewr", 1.0 - 104 * wpixel,  0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+
+    // Weapon & Shield Charge backgrounds
     
-    // Weapon & Shield Charges
-    
-    CEGUI::FrameWindow *charge        = guiManager->addStaticImagePix("Charge",         0.0,                 260 * hpixel, 48 * wpixel, 240 * hpixel, "Charge",        "hole"  );
-    CEGUI::FrameWindow *charges       = guiManager->addStaticImagePix("Charges",      1.0 - 48*wpixel,  260 * hpixel, 48 * wpixel, 240 * hpixel, "Charges",        "Whole"  );
+    guiManager->addStaticImagePix("Charge", 0.0, 260 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
+    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  260 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
 
-
-    // Left
-    CEGUI::FrameWindow *left        = guiManager->addStaticImagePix("Left",         0.0,                 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left",        "Main"  );
-
-    // Right
- 
-    if(gameRole==PILOT)
-    CEGUI::FrameWindow *rightPil    = guiManager->addStaticImagePix("RightPil",        1.0 - 229 * wpixel,  1.0 - 229 * hpixel, 229 * wpixel, 229 * hpixel, "RightPil",    "Main"  );
-    if(gameRole==ENGINEER)
-    CEGUI::FrameWindow *rightEng    = guiManager->addStaticImagePix("RightEng",        1.0 - 367 * wpixel,  1.0 - 230 * hpixel, 367 * wpixel, 230 * hpixel, "RightEng",    "Main"  );
-    if(gameRole==NAVIGATOR)
-    CEGUI::FrameWindow *rightNav    = guiManager->addStaticImagePix("RightNav",        1.0 - 229 * wpixel,  1.0 - 229 * hpixel, 229 * wpixel, 229 * hpixel, "RightNav",    "Main"  );
+    // Left box
+    guiManager->addStaticImagePix("Left",  0.0, 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left", "Main");
 
     // Slack Box
 
@@ -85,41 +83,6 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     log->setSize(CEGUI::UVector2(CEGUI::UDim(300 * wpixel,0),CEGUI::UDim(205 * hpixel,0)));
     log->setPosition(CEGUI::UVector2(CEGUI::UDim(9 * wpixel,0),CEGUI::UDim(1 - 218 * hpixel,0)));
     log->setWordWrapping(true);
-
-    // Speed Indicator
-    if(gameRole==PILOT) { 
-        indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
-        //indicator->setFont("DroidSansMono-big.font");
-        guiManager->getRootWindow()->addChildWindow(indicator);
-        indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
-        indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
-    }
-    
-    // Status Indicator & Boss Health
-    
-    statusIndicatorsStealth    = guiManager->addStaticImage("StatusIndicators",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Stealth"  );
-    statusIndicatorsSwarms    = guiManager->addStaticImage("StatusIndicators2",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Swarms"  );
-    statusIndicatorsComrade    = guiManager->addStaticImage("StatusIndicators3",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BlackComrade"  );
-    statusIndicatorsBossHealth    = guiManager->addStaticImage("StatusIndicators4",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "BossHealthbar"  );    
-    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5",     0.5, 1.0 - 23*hpixel,   206 * wpixel, 46 * hpixel, "StatusIndicators",        "Blank"  );    
-    
-    // statusIndicatorsStealth->setVisible(false);
-    statusIndicatorsSwarms->setVisible(false);
-    statusIndicatorsComrade->setVisible(false);
-    statusIndicatorsBossHealth->setVisible(false);
-    statusIndicatorsBlank->setVisible(false);
-    
-    // countdown timer
-            
-            
-        countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
-//        countdown->setFont("DroidSansMono-big.font");
-        guiManager->getRootWindow()->addChildWindow(countdown);
-        countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
-        countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(1 - 46 * hpixel,0)));
-        countdown->setVisible(false);
-    
-    // Progress Bars
 
     // Health
 
@@ -147,74 +110,138 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     engine->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     hull->setSize(CEGUI::UVector2(CEGUI::UDim(120 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
 
-    // Bars for power system stuff
-
-    if (gameRole==ENGINEER) {
-        shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldRate"));
-        //sensorRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarSen","sensorRate"));
-        weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
-        engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
-
-        shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-        //sensorRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-        weaponRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-        engineRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-
-        guiManager->getRootWindow()->addChildWindow(shieldRate);
-        //guiManager->getRootWindow()->addChildWindow(sensorRate);
-        guiManager->getRootWindow()->addChildWindow(weaponRate);
-        guiManager->getRootWindow()->addChildWindow(engineRate);
-
-        shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 52 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68)* hpixel,0)));
-        weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 5 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68) * hpixel,0)));
-        //sensorRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 98 ) * wpixel,0),CEGUI::UDim(1.0 - (228 - 70) * hpixel,0)));
-        engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 98 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68) * hpixel,0)));
-
-        shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
-        //sensorRate->setSize(CEGUI::UVector2(CEGUI::UDim(34 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
-        weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
-        engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
-
-    
-    }
-    
     // Weapon and Shield Charge
     
-        weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponCharge"));
-        shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldCharge"));
+    weaponCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponCharge"));
+    shieldCharge = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldCharge"));
       
-        weaponCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
-        shieldCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    weaponCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    shieldCharge->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
         
-        guiManager->getRootWindow()->addChildWindow(weaponCharge);
-        guiManager->getRootWindow()->addChildWindow(shieldCharge);
+    guiManager->getRootWindow()->addChildWindow(weaponCharge);
+    guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-        weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
-        shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
+    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
         
-        weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
-        shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
-        
-        // Boss Health
-        
-        bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
-        guiManager->getRootWindow()->addChildWindow(bossHealthbar);
-        bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 104*wpixel,0),CEGUI::UDim(1.0 - 41 * hpixel,0)));
-        bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(201 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
-        bossHealthbar->setVisible(false);
+    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+
+    // Status Indicator
     
+    statusIndicatorsStealth = guiManager->addStaticImage("StatusIndicators", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+                                                         "StatusIndicators", "Stealth");
+
+    statusIndicatorsSwarms = guiManager->addStaticImage("StatusIndicators2", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+                                                        "StatusIndicators", "Swarms");
+
+    statusIndicatorsComrade = guiManager->addStaticImage("StatusIndicators3", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+                                                         "StatusIndicators", "BlackComrade");
+
+    statusIndicatorsBossHealth = guiManager->addStaticImage("StatusIndicators4", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+                                                            "StatusIndicators", "BossHealthbar");
     
+    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+                                                       "StatusIndicators", "Blank");    
+    
+    // statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsSwarms->setVisible(false);
+    statusIndicatorsComrade->setVisible(false);
+    statusIndicatorsBossHealth->setVisible(false);
+    statusIndicatorsBlank->setVisible(false);
+    
+    // Countdown timer        
+            
+    countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
+    //countdown->setFont("DroidSansMono-big.font");
+    guiManager->getRootWindow()->addChildWindow(countdown);
+    countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+    countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(1 - 46 * hpixel,0)));
+    countdown->setVisible(false);
+
+    // Boss Health
+    
+    bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
+    guiManager->getRootWindow()->addChildWindow(bossHealthbar);
+    bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 104*wpixel,0),CEGUI::UDim(1.0 - 41 * hpixel,0)));
+    bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(201 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    bossHealthbar->setVisible(false);
+}
+
+void HUD::makePilotHUD() {
+    // Crew avatars
+    guiManager->addStaticImagePix("Crewav2", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav3", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+
+    // Right box
+    guiManager->addStaticImagePix("RightPil", 1.0 - 229 * wpixel,  1.0 - 229 * hpixel,
+                                  229 * wpixel, 229 * hpixel, "RightPil", "Main");
+
+    // Speed indicator
+    indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
+    //indicator->setFont("DroidSansMono-big.font");
+    guiManager->getRootWindow()->addChildWindow(indicator);
+    indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+    indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
+
+    // Controls
+    controls = guiManager->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
+}
+
+void HUD::makeNavigatorHUD() {
+    // Crew avatars
+    guiManager->addStaticImagePix("Crewav1", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav3", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+
+    // Right box
+    guiManager->addStaticImagePix("RightNav", 1.0 - 229 * wpixel,  1.0 - 229 * hpixel,
+                                  229 * wpixel, 229 * hpixel, "RightNav", "Main");
+
     // Minimap
+    fullmap = buildFullMap();
+    guiManager->getRootWindow()->addChildWindow(fullmap);
+    fullmap->setVisible(false);
 
-    if (gameRole==NAVIGATOR) {
-        fullmap = buildFullMap();
-        guiManager->getRootWindow()->addChildWindow(fullmap);
-        fullmap->setVisible(false);
+    // Create the minimap
+    minimap = buildMiniMap(0);
+    guiManager->getRootWindow()->addChildWindow(minimap);
 
-        // Create the minimap
-        minimap = buildMiniMap(0);
-        guiManager->getRootWindow()->addChildWindow(minimap);
-    }
+    // Controls
+    controls = guiManager->addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
+}
+
+void HUD::makeEngineerHUD() {
+    // Crew avatars
+    guiManager->addStaticImagePix("Crewav1", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav2", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+
+    // Right box
+    guiManager->addStaticImagePix("RightEng", 1.0 - 367 * wpixel,  1.0 - 230 * hpixel,
+                                  367 * wpixel, 230 * hpixel, "RightEng",    "Main"  );
+
+    // Power bars
+    shieldRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarShe","shieldRate"));
+    weaponRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarWep","weaponRate"));
+    engineRate = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/VProgressBarEng","engineRate"));
+
+    shieldRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    weaponRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+    engineRate->setProperty(CEGUI::String("VerticalProgress"),CEGUI::String("true"));
+
+    guiManager->getRootWindow()->addChildWindow(shieldRate);
+    guiManager->getRootWindow()->addChildWindow(weaponRate);
+    guiManager->getRootWindow()->addChildWindow(engineRate);
+
+    shieldRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 52 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68)* hpixel,0)));
+    weaponRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 5 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68) * hpixel,0)));
+    engineRate->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (367 - 98 ) * wpixel,0),CEGUI::UDim(1.0 - (230 - 68) * hpixel,0)));
+
+    shieldRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+    weaponRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+    engineRate->setSize(CEGUI::UVector2(CEGUI::UDim(35 * wpixel,0),CEGUI::UDim(160 * hpixel,0)));
+
+    // Controls
+    controls = guiManager->addStaticImage("KeyboardEngineer",0.5, 0.5,1.0, 1.0,"KeyboardEngineer","Loading");
 }
 
 void HUD::appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate)
@@ -578,6 +605,11 @@ void HUD::toggleMap(bool tog)
     } else {
         fullmap->setVisible(false);
     }
+}
+
+void HUD::toggleControls(bool tog) {
+    guiManager->setOverlayAboveCEGUI(!tog);
+    controls->setVisible(tog);
 }
 
 void HUD::switchStatus(int state) {

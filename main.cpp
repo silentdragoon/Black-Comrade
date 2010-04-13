@@ -152,6 +152,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
         engineerControls = new EngineerControls(inputState,camera);
+        myControls = engineerControls;
         gameLoop->addTickable(engineerControls,"engineerControls");
 
         systemManager = new SystemManager(engineerControls, damageState);
@@ -159,6 +160,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         networkingManager->replicate(systemManager);
     } else {
         if (collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
+            std::cout << "Making dummy sysmanager\n";
             systemManager = new SystemManager();
         } else {
             systemManager = (SystemManager*) networkingManager->
@@ -170,6 +172,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addShipMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
+        myControls = pilotControls;
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
@@ -182,8 +185,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Navigator Controls
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
+        myControls = navigatorControls;
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
+
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {
@@ -341,7 +346,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
-    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,navigatorControls,
+    guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");

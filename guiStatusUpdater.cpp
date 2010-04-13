@@ -1,10 +1,14 @@
 #include "guiStatusUpdater.h"
 
-GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr,StateUpdate *stateUpdate, DamageState *damageState, NavigatorControls *navigatorControls, GameRole gameRole, SystemManager *systemManager, HUD *hud, Flying *flying, NotificationManager *notificationMgr, GameStateMachine *gameStateMachine, Objective *objective) :
+GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState,
+                                   GunnerControls *playerControls, GameRole gameRole,
+                                   SystemManager *systemManager, HUD *hud, Flying *flying,
+                                   NotificationManager *notificationMgr,
+                                   GameStateMachine *gameStateMachine, Objective *objective) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
-    navigatorControls(navigatorControls),
+    playerControls(playerControls),
     gameRole(gameRole),
     systemManager(systemManager),
     hud(hud),
@@ -64,10 +68,13 @@ void GuiStatusUpdater::tick() {
          }
     }
 
+    // Toggle whether the controls are shown or not
+    hud->toggleControls(playerControls->showControls());
+
 
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
-        if(navigatorControls->isMap()) {
+        if(((NavigatorControls*) playerControls)->isMap()) {
             hud->toggleMap(true);
         } else {
             hud->toggleMap(false);

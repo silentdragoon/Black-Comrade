@@ -91,6 +91,7 @@ private:
     PrintState *printState;
     NotificationManager *notificationMgr;
     
+    GunnerControls *myControls;
     PilotControls *pilotControls;
     NavigatorControls *navigatorControls;
     EngineerControls *engineerControls;

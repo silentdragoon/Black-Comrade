@@ -19,6 +19,9 @@ private:
     float width;
     float height;
 
+    float ratio;
+    float wpixel,hpixel;
+
     int prevX;
     int prevY;
     int prevRotate;
@@ -43,6 +46,8 @@ private:
     CEGUI::Editbox *indicator;
     CEGUI::Editbox *countdown;
 
+    CEGUI::FrameWindow *controls;
+
     CEGUI::FrameWindow *fullmap;
     CEGUI::FrameWindow *minimap;
 
@@ -62,6 +67,12 @@ private:
 
     GameRole gameRole;
     
+    void makeCommonHUD();
+
+    void makePilotHUD();
+    void makeNavigatorHUD();
+    void makeEngineerHUD();
+
     void appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate);
 
 public:
@@ -93,6 +104,8 @@ public:
 
     void toggleMap(bool tog);
     void updateMiniMap();
+
+    void toggleControls(bool tog);
 };
 
 #endif

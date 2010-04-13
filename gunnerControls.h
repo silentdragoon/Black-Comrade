@@ -17,6 +17,7 @@ private:
 
     bool enabled;
     bool isFire;
+    bool isShowControls;
 
     Camera *cam;
     InputState *inputState;
@@ -42,8 +43,9 @@ public:
 	    bool fireWithMouse = true);
 	
 	~GunnerControls() {}
-	
-	bool fire();
+
+    bool fire();
+    bool showControls();
 	
     void setEnabled(bool isEnabled);
     bool isEnabled();

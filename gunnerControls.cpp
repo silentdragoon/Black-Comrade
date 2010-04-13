@@ -7,6 +7,7 @@ GunnerControls::GunnerControls(InputState *inputState, Camera *cam
     , cam(cam)
     , enabled(true)
     , isFire(false)
+    , isShowControls(false)
     , fireKey(OIS::KC_RCONTROL)
     , fireMouseButton(OIS::MB_Left)
     , fireWithMouse(fireWithMouse)
@@ -40,6 +41,10 @@ void GunnerControls::setLook(float yaw, float pitch)
 
 bool GunnerControls::fire() {
     return isFire;
+}
+
+bool GunnerControls::showControls() {
+    return isShowControls;
 }
 
 Vector3 GunnerControls::cameraPosition() {
@@ -82,6 +87,8 @@ void GunnerControls::tickGunnerControls()
             isFire = inputState->isKeyDown(fireKey);
         }
     }
+
+    isShowControls = inputState->isKeyDown(OIS::KC_F4);
 }
 
 float GunnerControls::moveAngleWithLimits(float old, float d, 
