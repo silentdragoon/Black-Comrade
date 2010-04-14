@@ -157,7 +157,7 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
         if(e->fire) {
             e->fire = false;
             if(activeBullets->size() < 7) {
-                std::cout << "ENEMY FIRE\n";
+                //std::cout << "ENEMY FIRE\n";
                 fire(e);
             }
         }
