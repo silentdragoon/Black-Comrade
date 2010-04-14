@@ -19,10 +19,12 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     gameStateMachine(gameStateMachine),
     particleSystemEffectManager(particleSystemEffectManager),
     soundMgr(soundMgr),
-    lines(lines)
+    lines(lines),
+    ticksSinceLastUpdate(0)
 {
 
     activeSwarms = std::deque<Swarm*>();
+    replicatedEnemies = std::vector<ReplicaObject*>();
 
     std::vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
 
@@ -57,7 +59,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     networkingMgr(networkingMgr),
     particleSystemEffectManager(particleSystemEffectManager),
     soundMgr(soundMgr),
-    lines(0)
+    lines(0),
+    ticksSinceLastUpdate(0)
 {
     activeSwarms = std::deque<Swarm*>();
 }
@@ -125,27 +128,43 @@ std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
 
 void SwarmManager::updateRemoteSwarms() {
     if (mapMgr == 0) {
-        std::vector<ReplicaObject*> replicatedEnemies = networkingMgr->getReplicas("Enemy");
-        for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
-            Enemy *enemy = (Enemy*) *it;
+        return;
+        //if (ticksSinceLastUpdate <= 100) {
+        //    ticksSinceLastUpdate = 0;
+        //    replicatedEnemies = networkingMgr->getReplicas("Enemy");
+        //} else { ticksSinceLastUpdate ++;}
+        
+        
+        //std::cout << replicatedEnemies.size() << "\n";
 
-            if (enemy->isDead) {
+
+        
+        //for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+            //Enemy *enemy = (Enemy*) *it;
+
+            //if (enemy->isDead) {
                 //Make Explosion here
-                Vector3 *pos = enemy->getPosition();
-                particleSystemEffectManager->createExplosion(*pos);
-                sceneNodeMgr->deleteNode(enemy);
-                delete enemy;
-            } else {
-                sceneNodeMgr->createNode(enemy);
-            }
-        }
+                //Vector3 *pos = enemy->getPosition();
+                //particleSystemEffectManager->createExplosion(*pos);
+                //sceneNodeMgr->deleteNode(enemy);
+
+            //} else {
+                //sceneNodeMgr->createNode(enemy);
+            //}
+        //}
     } else {
+        if (ticksSinceLastUpdate <= 100) {
+            ticksSinceLastUpdate ++;
+            return;
+        } else {ticksSinceLastUpdate = 0;}
+        
         std::vector<Enemy*> allEnemies = getAllEnemies();
         for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
             if (!(*it)->isReplicated) {
                 networkingMgr->replicate(*it);
                 (*it)->isReplicated = true;
             }
+            if ((*it)->isDead) networkingMgr->removeReplica(*it);
         }
     }
 }

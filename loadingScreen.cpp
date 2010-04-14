@@ -25,7 +25,7 @@ void LoadingScreen::tick() {
         std::exit(-1);
     }
     networkingMgr->tick();
-    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE)) isEnd = true;
+    if (progress >= 100 ) isEnd = true;
 }
 
 MenuType::LoadingScreen::nextMenu() {
@@ -39,7 +39,6 @@ void LoadingScreen::show() {
    
     CEGUI::MouseCursor::getSingletonPtr()->hide();
 
-    CEGUI::FrameWindow *loadingBackground;
     switch (networkingMgr->collabInfo->getGameRole()) {
         case PILOT:
             loadingBackground = guiMgr->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
@@ -90,9 +89,7 @@ void LoadingScreen::updateProgress(int newProgress) {
 
 void LoadingScreen::hide() {
     // Hide background image etc
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardPilot");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardNavigator");
-    CEGUI::WindowManager::getSingletonPtr()->destroyWindow("KeyboardEngineer");
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(loadingBackground);
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(instructions);
 }

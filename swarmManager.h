@@ -37,10 +37,13 @@ class SwarmManager : public ITickable
         ParticleSystemEffectManager *particleSystemEffectManager;
         SoundManager *soundMgr;
 
+        std::vector<ReplicaObject*> replicatedEnemies;
+
         int id;
 
         int dynSwarmSize;
 
+        int ticksSinceLastUpdate;
         int swarmTick;
 
     public:

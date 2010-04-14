@@ -11,7 +11,8 @@ Enemy::Enemy(int health, int id) :
     pitch(0),
     roll(0),
     isDead(false),
-    id(id)
+    id(id),
+    ticksSinceDeath(0)
 {}
 
 Enemy::Enemy() :
@@ -24,7 +25,8 @@ Enemy::Enemy() :
     yaw(0),
     pitch(0),
     roll(0),
-    isDead(false)
+    isDead(false),
+    ticksSinceDeath(0)
 {}
 
 Enemy::~Enemy()
@@ -89,7 +91,7 @@ void Enemy::setOrientation(Real mRoll, Real mPitch, Real mYaw)
 RakNet::RakString Enemy::GetName(void) const {return RakNet::RakString("Enemy");}
 
 RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters) {
-    
+    bool isDead2 = false;
     serializeParameters->outputBitstream[0].Write(position->x);
     serializeParameters->outputBitstream[0].Write(position->y);
     serializeParameters->outputBitstream[0].Write(position->z);
@@ -98,10 +100,11 @@ RM3SerializationResult Enemy::Serialize(SerializeParameters *serializeParameters
     serializeParameters->outputBitstream[0].Write(yaw);
     serializeParameters->outputBitstream[0].Write(health);
     serializeParameters->outputBitstream[0].Write(fire);
-    serializeParameters->outputBitstream[0].Write(isDead);
+    serializeParameters->outputBitstream[0].Write(isDead2);
     serializeParameters->outputBitstream[0].Write(pitchScatter);
     serializeParameters->outputBitstream[0].Write(yawScatter);
 
+    if (isDead2) isDead = true;
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 

@@ -34,6 +34,7 @@ class Swarm
         SceneManager *sceneMgr;
         SceneNodeManager *sceneNodeMgr;
         std::deque<Enemy*> members;
+        std::vector<Enemy*> deadMembers;
         std::vector<MapTile*> path;
         int id;
         Vector3 location;

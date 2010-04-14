@@ -194,7 +194,11 @@ std::vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
             if (temp->GetName().StrCmp(RakNet::RakString(name.c_str())) == 0) replicas.push_back(temp);
         }
     }
-    catch (...) {}
+    catch (...) { return std::vector<ReplicaObject*>();}
     return replicas;
+}
+
+void NetworkingManager::removeReplica(ReplicaObject *replica) {
+    replicaManager.Dereference(replica);
 }
 

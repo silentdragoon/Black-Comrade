@@ -122,7 +122,7 @@ Vector3 Swarm::getAverageAlignment()
         z += direction.z;
     }
 
-    return Vector3(x/size,y/size,z/size);
+    return Vector3(x/members.size(),y/members.size(),z/members.size());
 }
 
 Vector3 Swarm::getAveragePosition()
@@ -138,7 +138,7 @@ Vector3 Swarm::getAveragePosition()
         y = y + e->getPosition()->y;
         z = z + e->getPosition()->z;
     }
-    return Vector3(x/size,y/size,z/size);
+    return Vector3(x/members.size(),y/members.size(),z/members.size());
 }
 
 bool Swarm::canSwarmSeeShip()
@@ -205,17 +205,32 @@ void Swarm::removeDeadEnemies()
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
         if(e->isDead) {
+            //Enemy died in the last tick
             //Make Explosion here
             Vector3 pos = *e->getPosition();
             particleSystemEffectManager->createExplosion(pos);
             soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,2.5);
             sceneNodeMgr->deleteNode(e);
-        	delete e;
-        	members.erase(members.begin()+(i));
-            size--;
-        	std::cout << "Remove\n";
+            members.erase(members.begin()+(i));
+            deadMembers.push_back(e);
+            std::cout << "Remove\n";
         }
     }
+
+    for (int i=0; i<deadMembers.size();i++) {
+        Enemy *e = deadMembers.at(i);
+        if (e->ticksSinceDeath >= 100) {
+            //Should be safe to clear the memory now
+            deadMembers.erase(deadMembers.begin()+(i));
+            delete e;
+            std::cout << "Actually Remove\n";
+            size--;
+        } else {
+            e->ticksSinceDeath ++;
+        }
+
+    }
+
 }
 
 void Swarm::updateTargetLocation() {

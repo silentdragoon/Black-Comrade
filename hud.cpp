@@ -150,7 +150,7 @@ void HUD::makeCommonHUD() {
     statusIndicatorsBossHealth->setVisible(false);
     statusIndicatorsBlank->setVisible(false);
     
-    // Countdown timer        
+    // Countdown timer       
             
     countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
     //countdown->setFont("DroidSansMono-big.font");

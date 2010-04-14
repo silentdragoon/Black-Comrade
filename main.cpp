@@ -59,7 +59,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Explosion creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
-    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    //if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -152,7 +152,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Engineer Controls
     if(collabInfo->getGameRole() == ENGINEER) {
         engineerControls = new EngineerControls(inputState,camera);
-        myControls = engineerControls;
         gameLoop->addTickable(engineerControls,"engineerControls");
 
         systemManager = new SystemManager(engineerControls, damageState);
@@ -172,7 +171,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         collisionMgr->addShipMesh(shipEntity);
         pilotControls = new PilotControls(inputState,camera);
-        myControls = pilotControls;
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
@@ -185,8 +183,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Navigator Controls
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
-        myControls = navigatorControls;
         gameLoop->addTickable(navigatorControls,"navigatorControls");
+    }
+
+    // My controls
+    if (collabInfo->getGameRole() == PILOT) {
+        myControls = pilotControls;
+    } else if (collabInfo->getGameRole() == NAVIGATOR) {
+        myControls = navigatorControls;
+    } else if (collabInfo->getGameRole() == ENGINEER) {
+        myControls = engineerControls;
     }
 
 
@@ -235,7 +241,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         pilotGunState = (GunState*) networkingManager->
             getReplica("PilotGunState",true);
         pilotGunState->setSystemManager(systemManager);
-        std::cout << "Got nav gun from net" << std::endl;
+        std::cout << "Got pilot gun from net" << std::endl;
     } else {
         pilotGunState = (GunState*) networkingManager->
         getReplica("PilotGunState",true);
@@ -291,14 +297,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(cons,"console");
 
     // Minigame manager
-    GunnerControls *myControls;
-    if (collabInfo->getGameRole() == PILOT) {
-        myControls = pilotControls;
-    } else if (collabInfo->getGameRole() == NAVIGATOR) {
-        myControls = navigatorControls;
-    } else if (collabInfo->getGameRole() == ENGINEER) {
-        myControls = engineerControls;
-    }
     miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 

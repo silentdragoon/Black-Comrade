@@ -23,6 +23,8 @@ class LoadingScreen : public IMenuScreen
 
         float wpixel;
         float hpixel;
+
+        CEGUI::FrameWindow *loadingBackground;
         CEGUI::Editbox *indicator;
         CEGUI::FrameWindow *instructions;
 

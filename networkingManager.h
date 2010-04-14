@@ -67,6 +67,7 @@ public:
         ReplicaObject *getReplica(string name, bool blocking);
         ReplicaObject *getReplica(int index, bool blocking);
         std::vector<ReplicaObject*> getReplicas(string name);
+        void removeReplica(ReplicaObject *replica);
 
         void stopNetworking();
 };

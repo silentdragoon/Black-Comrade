@@ -37,6 +37,7 @@ class Enemy : public IDrawable, public ReplicaObject,
     	float pitchScatter;
         bool isReplicated;
         bool isDead;        // Used so enemy deaths can be synched properly
+        int ticksSinceDeath;
     	int fireDelay;
     	
     	Real roll;
