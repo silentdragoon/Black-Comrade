@@ -128,19 +128,12 @@ std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
 
 void SwarmManager::updateRemoteSwarms() {
     if (mapMgr == 0) {
-        //return;
-        //if (ticksSinceLastUpdate <= 100) {
-        //    ticksSinceLastUpdate = 0;
-        //    
-        //} else { ticksSinceLastUpdate ++;}
         
         replicatedEnemies = networkingMgr->getReplicas("Enemy");
-
-
         
         for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
             Enemy *enemy = (Enemy*) *it;
-            std::cout << enemy->isDead << "\n";
+
             if (enemy->isDead) {
                 if (!enemy->hasExploded) {
                     //Make Explosion here
