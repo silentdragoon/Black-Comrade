@@ -50,4 +50,10 @@ sound_consolekeypress = 6
 sound_explosion = 7
 sound_musicvolume = 0.3
 
-ship_turrent_speed = -0.01;
+ship_turrent_speed = -0.01
+
+# Door
+door_open_time = 4
+
+# Tunnel
+tunnel_height = 50

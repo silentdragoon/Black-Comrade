@@ -140,7 +140,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     
     Vector3 doorPos = *startMapTile->getSpawn(i);
     Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
-    //sceneNodeMgr->createNode(door);
+    sceneNodeMgr->createNode(door);
+    door->open();
+    gameLoop->addTickable(door, "Door");
     
     soundMgr->setShipNode(shipSceneNode);     
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
