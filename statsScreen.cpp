@@ -14,6 +14,7 @@ StatsScreen::StatsScreen(InputState *inputState, GuiManager *guiMgr,
     , navInfo(navInfo)
     , engInfo(engInfo)
     , finishState(finishState)
+    , maxRating(10)
 {
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
@@ -78,7 +79,6 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.55, 1);
 
     if (info->getGameRole() == PILOT) {
-        // TODO: Add pilot metric
         out.str("");
         out << (int) stats->averageSpeed << " KM/H";
         guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.6, 1);
@@ -93,12 +93,38 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     }
 
     out.str("");
-    out << "A"; // TODO: Calculate individual rating
+    out << calcIndividualRating(info);
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.7, 1);
 }
 
 void StatsScreen::addOverallRating() {
-    guiMgr->addStaticText("", "A", 1025*wpx, 0.78, 1); // TODO: Calculate overall rating
+    guiMgr->addStaticText("", calcOverallRating(), 1025*wpx, 0.78, 1);
+}
+
+std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
+    // TODO: Calculate individual rating
+    if (info->getGameRole() == PILOT) {
+        info->getPlayerStats()->overallRating = maxRating;
+        return "A";
+    } else {
+        info->getPlayerStats()->overallRating = 1;
+        return "D";
+    }
+}
+
+std::string StatsScreen::calcOverallRating() {
+    double pilotRating = pilotInfo->getPlayerStats()->overallRating;
+    double engRating = engInfo->getPlayerStats()->overallRating;
+    double navRating = navInfo->getPlayerStats()->overallRating;
+    int overall = ((pilotRating + engRating + navRating) / 3.0);
+
+    if (overall < (maxRating/4.0)) {
+        return "D";
+    } else if (overall < (maxRating/4.0)*2) {
+        return "C";
+    } else if (overall < (maxRating/4.0)*3) {
+        return "B";
+    } else { return "A"; }
 }
 
 void StatsScreen::hide() {

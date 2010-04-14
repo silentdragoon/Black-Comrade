@@ -9,6 +9,7 @@ PlayerStats::PlayerStats()
     , averageSpeed(0.0)
     , friendlyFire(0)
     , repairsMade(0)
+    , overallRating(0.0)
 {}
 
 PlayerStats::PlayerStats(GameRole owner)
@@ -20,6 +21,7 @@ PlayerStats::PlayerStats(GameRole owner)
     , averageSpeed(0.0)
     , friendlyFire(0)
     , repairsMade(0)
+    , overallRating(0.0)
 {}
 
 void PlayerStats::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {

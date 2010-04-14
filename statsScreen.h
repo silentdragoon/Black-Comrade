@@ -27,10 +27,15 @@ class StatsScreen : public IMenuScreen
 
         void addStats(CollaborationInfo *info, int columnOffset);
         void addOverallRating();
+
+        std::string calcIndividualRating(CollaborationInfo *info);
+        std::string calcOverallRating();
         
         float wpx;
         float hpx;
         
+        int maxRating;
+
     public:
         void tick();
         bool end();
