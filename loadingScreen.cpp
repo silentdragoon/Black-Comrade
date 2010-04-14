@@ -92,7 +92,6 @@ void LoadingScreen::hide() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(loadingBackground);
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(indicator);
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(instructions);
-    std::cout << "Got here\n";
 }
 
 bool LoadingScreen::end() {

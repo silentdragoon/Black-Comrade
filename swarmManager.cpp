@@ -73,7 +73,7 @@ void SwarmManager::createSwarm(int size, Vector3 location)
 {
     std::cout << "Created Swarm of size: " << size << std::endl;
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr);
+        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr,networkingMgr);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -135,18 +135,20 @@ void SwarmManager::updateRemoteSwarms() {
         //} else { ticksSinceLastUpdate ++;}
         
         replicatedEnemies = networkingMgr->getReplicas("Enemy");
-        std::cout << replicatedEnemies.size() << "\n";
 
 
         
         for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
             Enemy *enemy = (Enemy*) *it;
-
+            std::cout << enemy->isDead << "\n";
             if (enemy->isDead) {
-                //Make Explosion here
-                Vector3 *pos = enemy->getPosition();
-                particleSystemEffectManager->createExplosion(*pos);
-                sceneNodeMgr->deleteNode(enemy);
+                if (!enemy->hasExploded) {
+                    //Make Explosion here
+                    Vector3 *pos = enemy->getPosition();
+                    particleSystemEffectManager->createExplosion(*pos);
+                    sceneNodeMgr->deleteNode(enemy);
+                    enemy->hasExploded = true;
+                }
             } else {
                 sceneNodeMgr->createNode(enemy);
             }
@@ -163,7 +165,6 @@ void SwarmManager::updateRemoteSwarms() {
                 networkingMgr->replicate(*it);
                 (*it)->isReplicated = true;
             }
-            if ((*it)->isDead) networkingMgr->removeReplica(*it);
         }
     }
 }

@@ -19,6 +19,7 @@
 #include "gameParameterMap.h"
 #include "particleSystemEffectManager.h"
 #include "soundManager.h"
+#include "networkingManager.h"
 
 #include <boost/math/distributions/normal.hpp>
 #include <boost/random.hpp>
@@ -33,6 +34,7 @@ class Swarm
     private:
         SceneManager *sceneMgr;
         SceneNodeManager *sceneNodeMgr;
+        NetworkingManager *networkingMgr;
         std::deque<Enemy*> members;
         std::vector<Enemy*> deadMembers;
         std::vector<MapTile*> path;
@@ -80,9 +82,13 @@ class Swarm
         int size;
 
         Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-			Real roll, Real pitch, Real yaw, ShipState *shipState, SceneNodeManager *sceneNodeMgr, Lines *lines,
-            CollisionManager *collisionMgr, MapManager *mapMgr, GameParameterMap *gameParameterMap,
-            ParticleSystemEffectManager *particleSystemEffectManager, SoundManager *soundMgr);
+              Real roll, Real pitch, Real yaw, ShipState *shipState,
+              SceneNodeManager *sceneNodeMgr, Lines *lines,
+              CollisionManager *collisionMgr, MapManager *mapMgr,
+              GameParameterMap *gameParameterMap,
+              ParticleSystemEffectManager *particleSystemEffectManager,
+              SoundManager *soundMgr, NetworkingManager *networkingMgr);
+
         ~Swarm();
 
         Vector3 getAverageAlignment();

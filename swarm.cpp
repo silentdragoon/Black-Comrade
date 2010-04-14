@@ -3,18 +3,20 @@
 #include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-	Real roll, Real pitch, Real yaw, ShipState *shipState,
-	SceneNodeManager *sceneNodeMgr, Lines *lines, CollisionManager *collisionMgr,
-    MapManager *mapMgr, GameParameterMap *gameParameterMap, ParticleSystemEffectManager *particleSystemEffectManager,
-    SoundManager *soundMgr)
-	: size(size)
-	, id(id)
-	, location(location)
-	, sceneMgr(sceneMgr)
-	, speed(ConstManager::getFloat("enemy_patrol_speed") * 
-	    ConstManager::getFloat("tick_period"))
-	, state(SS_PATROL)
-	, shipState(shipState)
+             Real roll, Real pitch, Real yaw, ShipState *shipState,
+             SceneNodeManager *sceneNodeMgr, Lines *lines,
+             CollisionManager *collisionMgr, MapManager *mapMgr,
+             GameParameterMap *gameParameterMap,
+             ParticleSystemEffectManager *particleSystemEffectManager,
+             SoundManager *soundMgr, NetworkingManager *networkingMgr)
+    : size(size)
+    , id(id)
+    , location(location)
+    , sceneMgr(sceneMgr)
+    , speed(ConstManager::getFloat("enemy_patrol_speed") * 
+          ConstManager::getFloat("tick_period"))
+    , state(SS_PATROL)
+    , shipState(shipState)
     , sceneNodeMgr(sceneNodeMgr)
     , lines(lines)
     , collisionMgr(collisionMgr) 
@@ -22,6 +24,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , gameParameterMap(gameParameterMap)
     , particleSystemEffectManager(particleSystemEffectManager)
     , soundMgr(soundMgr)
+    , networkingMgr(networkingMgr)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -222,8 +225,8 @@ void Swarm::removeDeadEnemies()
         if (e->ticksSinceDeath >= 100) {
             //Should be safe to clear the memory now
             deadMembers.erase(deadMembers.begin()+(i));
+            networkingMgr->removeReplica(e);
             delete e;
-            std::cout << "Actually Remove\n";
             size--;
         } else {
             e->ticksSinceDeath ++;
