@@ -110,14 +110,14 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
         accuracyWeight, repairsWeight,
         destroyedWeight;
 
-    int maxWallHits = 100;
+    int maxWallHits = 50;
     int maxAvgSpeed = 350;
     int maxDestroyed = 200;
 
     if (info->getGameRole() == PILOT) {
         
-        wallHitWeight = 0.4;
-        speedWeight = 0.25;
+        wallHitWeight = 0.35;
+        speedWeight = 0.3;
         accuracyWeight = 0.1;
         destroyedWeight = 0.05;
         repairsWeight = 0.2;
@@ -138,11 +138,11 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
     }
 
     int speedComp = (stats->averageSpeed == 0) ?
-                    0 : (maxRating*speedWeight) * (maxAvgSpeed/stats->averageSpeed);
+                    0 : (maxRating*speedWeight) * (stats->averageSpeed / maxAvgSpeed);
     int collisionsComp = (stats->numCollisions == 0) ?
-                    (maxRating*wallHitWeight) : (maxRating*wallHitWeight) * (maxWallHits /  stats->numCollisions);
-    int destroyedComp = (stats->enemiesDestroyed == 0) ? 0 : (maxRating*destroyedWeight) * (1 - (maxDestroyed /  stats->enemiesDestroyed));
-    int repairsComp = (stats->repairsMade == 0) ? 0 : (maxRating*repairsWeight) * (1 - (8 /  stats->repairsMade));
+                    (maxRating*wallHitWeight) : (maxRating*wallHitWeight) * 1-(stats->numCollisions / maxWallHits);
+    int destroyedComp = (stats->enemiesDestroyed == 0) ? 0 : (maxRating*destroyedWeight) * (1-(maxDestroyed /  stats->enemiesDestroyed));
+    int repairsComp = (stats->repairsMade == 0) ? 0 : (maxRating*repairsWeight) * (1-(20 /  stats->repairsMade));
     int accuracyComp = (maxRating*accuracyWeight) * accuracy;
 
     rating =  speedComp + collisionsComp + destroyedComp + repairsComp + accuracyComp;
