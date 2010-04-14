@@ -59,7 +59,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Explosion creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
-    //if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
