@@ -74,7 +74,7 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.5, 1);
 
     out.str("");
-    out << "0"; // TODO: Add 'repairs made' metric
+    out << stats->repairsMade;
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.55, 1);
 
     if (info->getGameRole() == PILOT) {

@@ -17,6 +17,7 @@ public:
     int shotsHit;
     int enemiesDestroyed;
     int friendlyFire;
+    int repairsMade;
 
     double averageSpeed;
     int numCollisions;

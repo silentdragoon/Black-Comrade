@@ -8,6 +8,7 @@ PlayerStats::PlayerStats()
     , numCollisions(0)
     , averageSpeed(0.0)
     , friendlyFire(0)
+    , repairsMade(0)
 {}
 
 PlayerStats::PlayerStats(GameRole owner)
@@ -18,6 +19,7 @@ PlayerStats::PlayerStats(GameRole owner)
     , numCollisions(0)
     , averageSpeed(0.0)
     , friendlyFire(0)
+    , repairsMade(0)
 {}
 
 void PlayerStats::SerializeConstruction(RakNet::BitStream *constructionBitstream, RakNet::Connection_RM3 *destinationConnection) {
@@ -44,6 +46,8 @@ RM3SerializationResult PlayerStats::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(numCollisions);
     serializeParameters->outputBitstream[0].Write(averageSpeed);
     serializeParameters->outputBitstream[0].Write(friendlyFire);
+    serializeParameters->outputBitstream[0].Write(repairsMade);
+
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -55,6 +59,7 @@ void PlayerStats::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(numCollisions);
     deserializeParameters->serializationBitstream[0].Read(averageSpeed);
     deserializeParameters->serializationBitstream[0].Read(friendlyFire);
+    deserializeParameters->serializationBitstream[0].Read(repairsMade);
 }
 
 void PlayerStats::print() {
