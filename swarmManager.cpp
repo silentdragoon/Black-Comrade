@@ -128,30 +128,29 @@ std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
 
 void SwarmManager::updateRemoteSwarms() {
     if (mapMgr == 0) {
-        return;
+        //return;
         //if (ticksSinceLastUpdate <= 100) {
         //    ticksSinceLastUpdate = 0;
-        //    replicatedEnemies = networkingMgr->getReplicas("Enemy");
+        //    
         //} else { ticksSinceLastUpdate ++;}
         
-        
-        //std::cout << replicatedEnemies.size() << "\n";
+        replicatedEnemies = networkingMgr->getReplicas("Enemy");
+        std::cout << replicatedEnemies.size() << "\n";
 
 
         
-        //for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
-            //Enemy *enemy = (Enemy*) *it;
+        for (std::vector<ReplicaObject*>::const_iterator it=replicatedEnemies.begin();it!=replicatedEnemies.end();++it) {
+            Enemy *enemy = (Enemy*) *it;
 
-            //if (enemy->isDead) {
+            if (enemy->isDead) {
                 //Make Explosion here
-                //Vector3 *pos = enemy->getPosition();
-                //particleSystemEffectManager->createExplosion(*pos);
-                //sceneNodeMgr->deleteNode(enemy);
-
-            //} else {
-                //sceneNodeMgr->createNode(enemy);
-            //}
-        //}
+                Vector3 *pos = enemy->getPosition();
+                particleSystemEffectManager->createExplosion(*pos);
+                sceneNodeMgr->deleteNode(enemy);
+            } else {
+                sceneNodeMgr->createNode(enemy);
+            }
+        }
     } else {
         if (ticksSinceLastUpdate <= 100) {
             ticksSinceLastUpdate ++;

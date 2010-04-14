@@ -26,17 +26,11 @@ void PreGame::waitForPlayers() {
     loadingScreen->updateProgress(100.0);
     menuLoop->running = true;
     menuLoop->startLoop();
-    hideLoadingScreen();
+    shutdown();
 }
 
 LoadingScreen *PreGame::getLoadingScreen() {
     return loadingScreen;
-}
-
-void PreGame::hideLoadingScreen() {
-    window->removeAllViewports();
-    shutdown();
-    loadingScreen->hide();
 }
 
 void PreGame::tick() {

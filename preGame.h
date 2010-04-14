@@ -33,7 +33,7 @@ public:
     CollaborationInfo *showMenus();
 
     void waitForPlayers();
-    void hideLoadingScreen();
+    
     LoadingScreen *getLoadingScreen();
 
     void tick();
