@@ -139,7 +139,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     int i = (startMapTile->getConnections())[0];
     
     Vector3 doorPos = *startMapTile->getSpawn(i);
-    Door *door = new Door(doorPos,(i % 2) ? PI / 2 : 0);
+    Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
     //sceneNodeMgr->createNode(door);
     
     soundMgr->setShipNode(shipSceneNode);     

@@ -4,7 +4,7 @@
 Door::Door(Vector3 position, float yaw)
     : position(position)
     , orientation(Vector3(0,yaw,0))
-    , meshOrientation(Vector3())
+    , meshOrientation(Vector3(0,0,0))
     {}
         
 Vector3 *Door::getPosition()
