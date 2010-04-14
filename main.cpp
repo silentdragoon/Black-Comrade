@@ -123,6 +123,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     shipState->setX(mapMgr->startx);
     shipState->setY(0);
     shipState->setZ(mapMgr->starty);
+    cout << mapMgr->startx << ", " << mapMgr->starty << endl;
     gameLoop->addTickable(shipState, "shipState");
     soundMgr->setShipState(shipState);
 
@@ -132,6 +133,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
+    
+    // Start Door
+    MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
+    int i = (startMapTile->getConnections())[0];
+    
+    Vector3 doorPos = *startMapTile->getSpawn(i);
+    Door *door = new Door(doorPos,(i % 2) ? PI / 2 : 0);
+    //sceneNodeMgr->createNode(door);
     
     soundMgr->setShipNode(shipSceneNode);     
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);

@@ -85,7 +85,8 @@ weaponMiniGame.cpp \
 sheildMiniGame.cpp \
 storyMenu.cpp \
 menuSystem.cpp \
-fader.cpp
+fader.cpp \
+door.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

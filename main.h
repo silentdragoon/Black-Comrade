@@ -50,6 +50,7 @@
 #include "gameEnder.h"
 #include "objective.h"
 #include "fader.h"
+#include "door.h"
 
 //include networking stuff
 #include <string.h>
@@ -122,6 +123,8 @@ private:
     Objective *objective;
 
     Fader *fader;
+    
+    Door *door;
 
     GameEnder *gameEnder;
 
