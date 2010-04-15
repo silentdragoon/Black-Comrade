@@ -15,6 +15,7 @@
 #include "notificationManager.h"
 #include "gameStateMachine.h"
 #include "objective.h"
+#include "collaborationInfo.h"
 
 class GuiStatusUpdater : public ITickable {
     private:
@@ -30,13 +31,17 @@ class GuiStatusUpdater : public ITickable {
         GameStateMachine *gameStateMachine;
         GameState lastStateNotified;
         Objective *objective;
+        CollaborationInfo *pilotInfo;
+        CollaborationInfo *engInfo;
+        CollaborationInfo *navInfo;
 
     public:
         GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState,
                          GunnerControls *playerControls, GameRole gameRole,
-                         SystemManager *systemManger, HUD *hud, Flying *flying,
+                         SystemManager *systemManager, HUD *hud, Flying *flying,
                          NotificationManager *notificationMgr,
-                         GameStateMachine *gameStateMachine, Objective *objective);
+                         GameStateMachine *gameStateMachine, Objective *objective,
+                         CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo);
 
         ~GuiStatusUpdater();
         virtual void tick();

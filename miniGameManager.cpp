@@ -51,10 +51,12 @@ void MiniGameManager::tick()
             currentMiniGame = NULL;
             inputReceiver = consoleShell;
             consoleShell->showPrompt();
+            player->repairing = false;
         } else {
             // Game has not ended, so get the score for this tick
             player->toRepair = currentMiniGame->getSystem();
             player->repairAmount = currentMiniGame->getScore();
+            player->repairing = true;
         }
     } else {
         IMiniGame *gameToPlay = consoleShell->getGameToPlay();

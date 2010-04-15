@@ -4,7 +4,8 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
                                    GunnerControls *playerControls, GameRole gameRole,
                                    SystemManager *systemManager, HUD *hud, Flying *flying,
                                    NotificationManager *notificationMgr,
-                                   GameStateMachine *gameStateMachine, Objective *objective) :
+                                   GameStateMachine *gameStateMachine, Objective *objective,
+                                   CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -15,7 +16,10 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     flying(flying),
     notificationMgr(notificationMgr),
     gameStateMachine(gameStateMachine),
-    objective(objective)
+    objective(objective),
+    pilotInfo(pilotInfo),
+    engInfo(engInfo),
+    navInfo(navInfo)
 {}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
@@ -94,6 +98,15 @@ void GuiStatusUpdater::tick() {
         hud->setWeaponRate(weaponRate);
         hud->setEngineRate(engineRate);
        }
+
+    // TODO: Show player status / stats
+    bool pilotReparing = pilotInfo->repairing;
+    bool enginnerRepairing = engInfo->repairing;
+    bool navigatorReparing = navInfo->repairing;
+    int pilotKillCount = pilotInfo->getPlayerStats()->enemiesDestroyed;
+    int navKillCount = navInfo->getPlayerStats()->enemiesDestroyed;
+    int engKillCount = engInfo->getPlayerStats()->enemiesDestroyed;
+    
        
     float weaponCharge = (float)(systemManager->getWeaponCharge());
     float shieldCharge = (float)(systemManager->getShieldCharge());

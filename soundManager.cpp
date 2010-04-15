@@ -275,10 +275,10 @@ void SoundManager::updateShipPosition() {
 void SoundManager::updateEnginePitch() {
     if((shipState!=0)&&(engineOn)) {
         errCheck(engineChannel->setPaused(false));
-        double speed = shipState->getSpeed();
+        double speed = shipState->getSpeed() / 3.6 / 100;
         speed += 1.0;
         float freq = engineFrequency*speed;
-        //errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
+        errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
     }
 }
 
