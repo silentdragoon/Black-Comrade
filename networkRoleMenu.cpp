@@ -87,6 +87,7 @@ void NetworkRoleMenu::handleGameList() {
     } else { lastRefresh ++; }
 
     if (!isEnd) networkingMgr->discoveryAgent->updateServerList();
+
 }
 
 void NetworkRoleMenu::refreshGameList() {

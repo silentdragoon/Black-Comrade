@@ -62,9 +62,10 @@ void DiscoveryAgent::handlePong(Packet *p) {
     bs.Read(navTaken);
     bs.Read(engTaken);
 
+    int latency = (int)(RakNet::GetTime()-time);
     string gameName = rakgamename.C_String();
     ServerInfo *serverInfo = new ServerInfo(serverIP, gameName,
-                                            pilotTaken,navTaken,engTaken);
+                                            pilotTaken,navTaken,engTaken,latency);
     
     handleServerInfo(serverInfo);
 }
@@ -82,6 +83,7 @@ void DiscoveryAgent::handleServerInfo(ServerInfo *newInfo) {
             oldInfo->setNavigatorTaken(newInfo->isNavigatorTaken());
             oldInfo->setEngineerTaken(newInfo->isEngineerTaken());
             oldInfo->setLastPonged(0);
+            oldInfo->setLatency(newInfo->getLatency());
             return;
         }
     }
