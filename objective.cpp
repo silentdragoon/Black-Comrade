@@ -29,6 +29,8 @@ float Objective::getHealthPercentage() { return (float)health/(float)originalHea
 
 float Objective::getHealth() { return (float) health; }
 
+EffectType Objective::getHitEffectType() { return ET_NONE; }
+
 void Objective::damageObjective() {
     if(health!=0) health--;
 }

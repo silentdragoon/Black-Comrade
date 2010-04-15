@@ -28,6 +28,7 @@ class Objective : public ITickable, public ReplicaObject,
         float getHealth();
         float getHealthPercentage();
         void damage(float amount);
+        EffectType getHitEffectType();
 
         void damageObjective();
         int getEscapeTime();

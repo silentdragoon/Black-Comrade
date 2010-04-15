@@ -65,7 +65,7 @@ void StatsScreen::addStats(CollaborationInfo *info, int columnOffset) {
     guiMgr->addStaticText("", out.str(), columnOffset*wpx, 0.4, 1);
     out.str("");
     if (stats->shotsHit != 0) {
-        out << (double) stats->shotsFired / stats->shotsHit << "%";
+        out << ((double) stats->shotsHit / stats->shotsFired) * 100 << "%";
     } else {
         out << "0 %";
     }
@@ -111,48 +111,59 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
         destroyedWeight;
 
     int maxWallHits = 50;
-    int maxAvgSpeed = 350;
+    int maxAvgSpeed = 300;
     int maxDestroyed = 200;
+    stats->averageSpeed = (stats->averageSpeed > maxAvgSpeed) ? maxAvgSpeed : stats->averageSpeed;
+    stats->numCollisions = (stats->numCollisions > maxWallHits) ? maxWallHits : stats->numCollisions;
+    stats->enemiesDestroyed = (stats->enemiesDestroyed > maxDestroyed) ? maxDestroyed : stats->enemiesDestroyed;
 
     if (info->getGameRole() == PILOT) {
-        
-        wallHitWeight = 0.35;
-        speedWeight = 0.3;
+        std::cout << "PILOT:\n";
+        wallHitWeight = 0.2;
+        speedWeight = 0.5;
         accuracyWeight = 0.1;
         destroyedWeight = 0.05;
-        repairsWeight = 0.2;
+        repairsWeight = 0.15;
 
     } else {
+        std::cout << "OTHER:\n";
         wallHitWeight = 0.0;
         speedWeight = 0.0;
-        destroyedWeight = 0.2;
-        accuracyWeight = 0.5;
+        destroyedWeight = 0.35;
+        accuracyWeight = 0.35;
         repairsWeight = 0.3;
     }
 
     double accuracy;
     if (stats->shotsHit != 0) {
-        accuracy = stats->shotsFired / (double) stats->shotsHit;
+        accuracy = (double) stats->shotsHit / stats->shotsFired;
     } else {
         accuracy = 0.0;
     }
 
-    int speedComp = (stats->averageSpeed == 0) ?
+    double speedComp = (stats->averageSpeed == 0) ?
                     0 : (maxRating*speedWeight) * (stats->averageSpeed / maxAvgSpeed);
-    int collisionsComp = (stats->numCollisions == 0) ?
+    double collisionsComp = (stats->numCollisions == 0) ?
                     (maxRating*wallHitWeight) : (maxRating*wallHitWeight) * 1-(stats->numCollisions / maxWallHits);
-    int destroyedComp = (stats->enemiesDestroyed == 0) ? 0 : (maxRating*destroyedWeight) * (1-(maxDestroyed /  stats->enemiesDestroyed));
-    int repairsComp = (stats->repairsMade == 0) ? 0 : (maxRating*repairsWeight) * (1-(20 /  stats->repairsMade));
-    int accuracyComp = (maxRating*accuracyWeight) * accuracy;
+    double destroyedComp = (stats->enemiesDestroyed == 0) ? 0 : (maxRating*destroyedWeight) * (stats->enemiesDestroyed / (double) maxDestroyed);
+    double repairsComp = (stats->repairsMade == 0) ? 0 : (maxRating*repairsWeight) * (1-(20 /  stats->repairsMade));
+    double accuracyComp = (maxRating*accuracyWeight) * accuracy;
+
+    std::cout << speedComp << "\n";
+    std::cout << collisionsComp << "\n";
+    std::cout << destroyedComp << "\n";
+    std::cout << repairsComp << "\n";
+    std::cout << accuracyComp << "\n";
 
     rating =  speedComp + collisionsComp + destroyedComp + repairsComp + accuracyComp;
+    std::cout << rating << "\n";
 
     info->getPlayerStats()->overallRating = rating;
-    if (rating < (maxRating/4.0)) {
+    if (rating <= (maxRating/4.0)) {
         return "D";
-    } else if (rating < (maxRating/4.0)*2) {
+    } else if (rating <= (maxRating/4.0)*2) {
         return "C";
-    } else if (rating < (maxRating/4.0)*3) {
+    } else if (rating <= (maxRating/4.0)*3) {
         return "B";
     } else { return "A"; }
 }

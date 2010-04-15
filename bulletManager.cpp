@@ -172,7 +172,12 @@ void BulletManager::updateStats(IBulletOwner *owner, IBulletTarget *target) {
 
     stats->shotsFired ++;
     if (target->getEntityType() != ENTT_MAP) stats->shotsHit ++;
-    if (target->getHealth() <=0) stats->enemiesDestroyed ++;
+    if (target->getHealth() <=0) {
+        if (target->getEntityType() == ENTT_OBJECTIVE)
+            stats->enemiesDestroyed = stats->enemiesDestroyed + 100;
+        else
+            stats->enemiesDestroyed ++;
+    }
 }
 
 BulletManager::~BulletManager() {
