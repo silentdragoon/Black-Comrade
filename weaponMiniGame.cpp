@@ -58,15 +58,15 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
 std::string WeaponMiniGame::getName() { return "weaponGame"; }
 
 void WeaponMiniGame::setCoordinates() {
-    xMisalignedStart = 16;
+    xMisalignedStart = 23;
     xMisalignedEnd = 42;
     yMisalignedStart = 6;
-    yMisalignedEnd = 16;
+    yMisalignedEnd = 15;
 
     xAlignedStart = 70;
-    xAlignedEnd = 96;
+    xAlignedEnd = 89;
     yAlignedStart = 6;
-    yAlignedEnd = 16;
+    yAlignedEnd = 15;
 
     pointerXBase = 82;
     pointerY = 3;
@@ -78,11 +78,11 @@ void WeaponMiniGame::createScene() {
     console->setString(generateSequenceString(),79,2);
     console->setChar('^',82,3);
 
-    console->setString("_______________________________                       _______________________________",14,4);
-    for (int i = 0 ; i < 12 ; i ++) {
-        console->setString("|                               |                     |                               |",13,5+i);
+    console->setString("________________________                       ________________________",21,4);
+    for (int i = 0 ; i < 11 ; i ++) {
+        console->setString("|                        |                     |                        |",20,5+i);
     }
-    console->setString("|_______________________________|                     |_______________________________|",13,17);
+    console->setString("|________________________|                     |________________________|",20,16);
 
     console->setString("---------->",51,10);
     console->setString("---------->",51,11);
@@ -90,9 +90,10 @@ void WeaponMiniGame::createScene() {
     fillMisalignedBox();
     fillAlignedBox();
 
-    console->setString("Misaligned members remaining:",12,20);
+    console->setString("Misaligned members remaining:",17,19);
+
     updateRemaining();
-    console->setString("Press Return to Quit",73,20);
+    console->setString("Press Return to Quit",72,19);
 }
 
 
@@ -159,7 +160,7 @@ void WeaponMiniGame::updateKeyToPress() {
 void WeaponMiniGame::updateRemaining() {
     std::stringstream out;
     out << remainingMisaligned << " ";
-    console->setString(out.str(),43,20);
+    console->setString(out.str(),48,19);
 }
 
 void WeaponMiniGame::fillMisalignedBox() {
