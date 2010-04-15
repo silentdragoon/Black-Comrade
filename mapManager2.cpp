@@ -3,12 +3,28 @@
 MapManager::MapManager(char*file, SceneManager *sceneManager) : 
     sceneManager(sceneManager)
 {
+    rng.seed(static_cast<unsigned int>(std::time(0)));
     MAPROOT = ConstManager::getString("map_file_path");
+    chosenPieces = std::vector<int>();
+    pieceChoices = new MapPieceChoices();
 
+    loadMap(file);
+}
+
+MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager)
+    : sceneManager(sceneManager)
+    , pieceChoices(pieceChoices)
+{
+    MAPROOT = ConstManager::getString("map_file_path");
+    chosenPieces = std::vector<int>();
+    loadMap(file);
+}
+
+MapPieceChoices* MapManager::getChosenPieces() { return new MapPieceChoices(chosenPieces); }
+
+void MapManager::loadMap(char *file) {
     cout << "Opening map: " << file << endl;
-
     objective = false;
-    
     ifstream map (file);
     if(map.is_open()) {
         int y = 0;
@@ -19,71 +35,87 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
                 // Read in map tile information
                 for(int x=0;x<ConstManager::getInt("map_size");x++) {
                     std::vector<int> connections = std::vector<int>();
+                    int chosenPiece;
                     if(line[x]=='.') {
                         mts[x][y] = new MapTile();
                     } else if(line[x]=='|') {
                         connections.push_back(1);
                         connections.push_back(3);
+                        chosenPiece = pieceChoices->getNextChoice();
                         sort(connections.begin(),connections.end()); // Sort to make sure nto the wrong way around
-                        createTile("strai/",connections,x,y);
+                        createTile("strai/",connections,x,y,chosenPiece);
                     } else if(line[x]=='-') {
                         connections.push_back(2);
                         connections.push_back(4);
-                        createTile("strai/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("strai/",connections,x,y,chosenPiece);
                     } else if(line[x]=='l') {
                         connections.push_back(1);
                         connections.push_back(2);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='r') {
                         connections.push_back(2);
                         connections.push_back(3);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='<') {
                         connections.push_back(3);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='j') {
                         connections.push_back(1);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='t') {
                         connections.push_back(1);
                         connections.push_back(2);
                         connections.push_back(3);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='=') {
                         connections.push_back(1);
                         connections.push_back(3);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='+') {
                         connections.push_back(1);
                         connections.push_back(2);
                         connections.push_back(3);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='/') {
                         connections.push_back(1);
                         connections.push_back(2);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='\\') {
                         connections.push_back(2);
                         connections.push_back(3);
                         connections.push_back(4);
-                        createTile("junct/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("junct/",connections,x,y,chosenPiece);
                     } else if(line[x]=='1') {
                         connections.push_back(1);
-                        createTile("ends/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("ends/",connections,x,y,chosenPiece);
                     } else if(line[x]=='2') {
                         connections.push_back(2);
-                        createTile("ends/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("ends/",connections,x,y,chosenPiece);
                     } else if(line[x]=='3') {
                         connections.push_back(3);
-                        createTile("ends/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("ends/",connections,x,y,chosenPiece);
                     } else if(line[x]=='4') {
                         connections.push_back(4);
-                        createTile("ends/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("ends/",connections,x,y,chosenPiece);
                     } else if(line[x]=='0') {
                         objx=x;
                         objy=y;
@@ -91,7 +123,8 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
                         connections.push_back(2);
                         connections.push_back(3);
                         connections.push_back(4);
-                        createTile("objec/",connections,x,y);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("objec/",connections,x,y,chosenPiece);
                     }
                 }
 
@@ -135,7 +168,7 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
     }
 }
 
-void MapManager::createTile(string adir, std::vector<int> connections, int x, int y) {
+void MapManager::createTile(string adir, std::vector<int> connections, int x, int y, int pieceToChoose) {
     std::vector<string> files = std::vector<string>();
     string dir = MAPROOT + adir;
     std::stringstream out;
@@ -165,8 +198,21 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     std::stringstream out2;
     out2 << "-" << x << "-" << y;
     name += out2.str();
+
+    //TODO: Pick files at random, and store the randomly generated number in an array
+    int chosenPiece;
+    if (pieceToChoose == -1) {
+        //The pieces haven't been chosen yet
+        boost::uniform_int<> six(0,files.size()-1);
+        boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+        chosenPiece = die();
+        chosenPieces.push_back(chosenPiece);
+    } else {
+        chosenPiece = pieceToChoose;
+    }
     
-    MeshPtr pMesh = MeshManager::getSingleton().load(files.at(0),
+    
+    MeshPtr pMesh = MeshManager::getSingleton().load(files.at(chosenPiece),
           ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    
           HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
           HardwareBuffer::HBU_STATIC_WRITE_ONLY,
@@ -183,7 +229,7 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     mapEntities.push_back(e);
     node->attachObject(e);
     
-    cout << files.at(0) << ": " << (x * ConstManager::getInt("map_tile_size")) << " " << (y * ConstManager::getInt("map_tile_size")) << endl;
+    cout << files.at(chosenPiece) << ": " << (x * ConstManager::getInt("map_tile_size")) << " " << (y * ConstManager::getInt("map_tile_size")) << endl;
 	Vector3 pos(x * ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size"));
     node->setPosition(pos);
 

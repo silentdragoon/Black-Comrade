@@ -51,6 +51,7 @@
 #include "objective.h"
 #include "fader.h"
 #include "door.h"
+#include "mapPieceChoices.h"
 
 //include networking stuff
 #include <string.h>

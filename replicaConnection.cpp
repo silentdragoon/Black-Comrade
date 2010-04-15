@@ -43,6 +43,9 @@ Replica3 *ReplicaConnection::AllocReplica(RakNet::BitStream *allocationId, Repli
     else if (typeName=="Objective") {
         return new Objective;
     }
+    else if (typeName=="MapPieceChoices") {
+        return new MapPieceChoices;
+    }
     ((OurReplicaManager *) replicaManager3)->doUpdate();
     return 0;
 }

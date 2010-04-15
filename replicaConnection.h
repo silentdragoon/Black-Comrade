@@ -12,6 +12,7 @@
 #include "collaborationInfo.h"
 #include "playerStats.h"
 #include "objective.h"
+#include "mapPieceChoices.h"
 
 using namespace RakNet;
 

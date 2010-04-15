@@ -54,7 +54,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
-    mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
+    // Map
+    MapPieceChoices *mapPieceChoices;
+    if (collabInfo->getGameRole() == PILOT) {
+        mapMgr = new MapManager("examplemap_new.txt", sceneMgr);
+        mapPieceChoices = mapMgr->getChosenPieces();
+        networkingManager->replicate(mapPieceChoices);
+    } else {
+        mapPieceChoices = (MapPieceChoices*) networkingManager->getReplica("MapPieceChoices",true);
+        mapMgr = new MapManager("examplemap_new.txt", mapPieceChoices, sceneMgr);
+    }
 
     // Explosion creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);

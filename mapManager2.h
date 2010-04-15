@@ -18,6 +18,10 @@
 #include "mapTile.h"
 #include "constManager.h"
 #include "const.h"
+#include "mapPieceChoices.h"
+
+#include <boost/math/distributions/uniform.hpp>
+#include <boost/random.hpp>
 
 //#define MAPROOT "/home/user-pool/users/jw7082/mapparts/"
 
@@ -27,22 +31,32 @@ using namespace Ogre;
 class MapManager {
 
 private:
+
+    boost::mt19937 rng;
+
     int objx,objy; // Location of the objective tile
+    int chosenIndex;
     string MAPROOT;
 	SceneManager *sceneManager;
     std::vector<Entity*> mapEntities;
     std::vector<Waypoint*> waypoints;
+    std::vector<int> chosenPieces;
+    MapPieceChoices *pieceChoices;
     bool objective;
 
-    void createTile(string dir, std::vector<int> connections, int x, int y);
+    void loadMap(char *file);
+    void createTile(string dir, std::vector<int> connections, int x, int y, int pieceToChoose = -1);
     void setSpawnPoints();
     void attachLight( Real x, Real z);
+    int getNextChosenPiece();
 
 public:
     int startx,starty; // Index location of the start square of the map
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager);
+    MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager);
+
     Entity* getEntity(Vector3 *locn);
     //void getMapEntities(Vector3 *locn, Entity** mps );
     MapTile* getMapTile(Vector3 *locn);
@@ -56,6 +70,7 @@ public:
     std::vector<Entity*> getMapEntitiesForCollision();
     //mps has 5 space for 5 entity pointers
     void getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps);
+    MapPieceChoices *getChosenPieces();
 };
 
 #endif
