@@ -101,14 +101,28 @@ void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
     int soundNameConst = -1;
     int soundLength = 0;
+    std::string gameRole = collabInfo->getGameRoleString();
+    std::transform(gameRole.begin(), gameRole.end(), gameRole.begin(), ::tolower);
     switch(nextType) {
         case NT_CONTROLS:
-            consoleText << "Here's a reminder of your " << collabInfo->getGameRoleString()
-                      << " controls, " << collabInfo->getNick() << std::endl;
+            consoleText << "Welcome aboard, " << collabInfo->getNick() << "."
+                        << "\nWe know you're going to make a great " << gameRole << "."
+                        << "\n\nWatch this space for further instructions." << std::endl;
             break;
         case NT_UNDER_ATTACK:
             soundNameConst = ConstManager::getInt("sound_incomingswarms");
-            consoleText << "They're coming for us! You may want to increase shield and weapon power..." << std::endl;
+            if (collabInfo->getGameRole() != ENGINEER)
+                consoleText << "They're coming for us! You may want to ask your engineer to increase weapon power..." << std::endl;
+            else
+                consoleText << "They're coming for us! You may want to increase weapon power..." << std::endl;
+            break;
+        case NT_FLEE:
+            if (collabInfo->getGameRole() == PILOT)
+                consoleText << "You did it! Now you need to ask your navigator to find the exit, and escape." << std::endl;
+            else if (collabInfo->getGameRole() == NAVIGATOR)
+                consoleText << "You did it! Now use your large map to find the exit, and get the hell out of here." << std::endl;
+            else if (collabInfo->getGameRole() == ENGINEER)
+                consoleText << "You did it! You may want to increase engine power so we can escape quickly." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
             consoleText << "Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
@@ -121,13 +135,13 @@ void NotificationManager::prepareNotification() {
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
         case NT_COMMENT_ONE:
-            consoleText << "Random comment 1." << std::endl;
+            consoleText << "Keep up the good work, soldiers." << std::endl;
             break;
         case NT_COMMENT_TWO:
-            consoleText << "Random comment 2." << std::endl;
+            consoleText << "We're all counting on you!" << std::endl;
             break;
         case NT_COMMENT_THREE:
-            consoleText << "Random comment 3." << std::endl;
+            consoleText << "Let's show those commies who's boss." << std::endl;
             break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
@@ -174,6 +188,9 @@ void NotificationManager::checkGameState() {
             break;
         case GS_ATTACK:
             newNotification = NT_UNDER_ATTACK;
+            break;
+        case GS_FLEE:
+            newNotification = NT_FLEE;
             break;
     }
     if(lastNotification->getType() != newNotification) {

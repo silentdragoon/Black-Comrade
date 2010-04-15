@@ -118,7 +118,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
     stats->enemiesDestroyed = (stats->enemiesDestroyed > maxDestroyed) ? maxDestroyed : stats->enemiesDestroyed;
 
     if (info->getGameRole() == PILOT) {
-        std::cout << "PILOT:\n";
+        //std::cout << "PILOT:\n";
         wallHitWeight = 0.2;
         speedWeight = 0.5;
         accuracyWeight = 0.1;
@@ -126,7 +126,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
         repairsWeight = 0.15;
 
     } else {
-        std::cout << "OTHER:\n";
+        //std::cout << "OTHER:\n";
         wallHitWeight = 0.0;
         speedWeight = 0.0;
         destroyedWeight = 0.35;
@@ -149,14 +149,14 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
     double repairsComp = (stats->repairsMade == 0) ? 0 : (maxRating*repairsWeight) * (1-(20 /  stats->repairsMade));
     double accuracyComp = (maxRating*accuracyWeight) * accuracy;
 
-    std::cout << speedComp << "\n";
-    std::cout << collisionsComp << "\n";
-    std::cout << destroyedComp << "\n";
-    std::cout << repairsComp << "\n";
-    std::cout << accuracyComp << "\n";
+    //std::cout << speedComp << "\n";
+    //std::cout << collisionsComp << "\n";
+    //std::cout << destroyedComp << "\n";
+    //std::cout << repairsComp << "\n";
+    //std::cout << accuracyComp << "\n";
 
     rating =  speedComp + collisionsComp + destroyedComp + repairsComp + accuracyComp;
-    std::cout << rating << "\n";
+    //std::cout << rating << "\n";
 
     info->getPlayerStats()->overallRating = rating;
     if (rating <= (maxRating/4.0)) {
