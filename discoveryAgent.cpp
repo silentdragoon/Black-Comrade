@@ -84,6 +84,7 @@ void DiscoveryAgent::handleServerInfo(ServerInfo *newInfo) {
             oldInfo->setEngineerTaken(newInfo->isEngineerTaken());
             oldInfo->setLastPonged(0);
             oldInfo->setLatency(newInfo->getLatency());
+            delete newInfo;
             return;
         }
     }
