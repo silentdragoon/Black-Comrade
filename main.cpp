@@ -36,7 +36,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     sceneNodeMgr = new SceneNodeManager(sceneMgr);
 
     // User Input
-    inputState = new InputState(window,true,this,true,useMouse);
+    inputState = new InputState(window,true,true,useMouse);
     gameLoop->addTickable(inputState,"inputState");
 
     // Screen fader
@@ -228,12 +228,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // GameState
     if(collabInfo->getGameRole() == PILOT) {
-        gameStateMachine = new GameStateMachine(mapMgr,shipState,damageState,objective);
+        gameStateMachine = new GameStateMachine(mapMgr,inputState,
+                                                pilotInfo,engineerInfo,navigatorInfo,
+                                                shipState,damageState,objective);
         networkingManager->replicate(gameStateMachine);    
     } else {
         gameStateMachine = 
             (GameStateMachine*) networkingManager->
                 getReplica("GameStateMachine",true);
+        gameStateMachine->setInputState(inputState);
+        gameStateMachine->setInfos(pilotInfo,navigatorInfo,engineerInfo);
     }
     gameLoop->addTickable(gameStateMachine,"gameStateMachine");
     gameParameterMap = new GameParameterMap(gameStateMachine);
@@ -351,10 +355,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
     // Game ender
-    if (collabInfo->getGameRole() == PILOT) {
-        gameEnder = new GameEnder(gameStateMachine,guiMgr,this);
-        gameLoop->addTickable(gameEnder,"gameEnder");
-    }
+    gameEnder = new GameEnder(gameStateMachine,guiMgr,this);
+    gameLoop->addTickable(gameEnder,"gameEnder");
 
     // Add the reactor core effects
     particleSystemEffectManager->makeObjective();

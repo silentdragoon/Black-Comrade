@@ -3,37 +3,47 @@
 
 #include <iostream>
 
-GameStateMachine::GameStateMachine(MapManager *mapManager, ShipState *shipState,
-                  DamageState *damageState, Objective *objective)
-	: gameState(GS_STEALTH)
-	, mapManager(mapManager)
-	, shipState(shipState)
+GameStateMachine::GameStateMachine(MapManager *mapManager, InputState *inputState,
+                                   CollaborationInfo *pilotInfo, CollaborationInfo *engInfo,
+                                   CollaborationInfo *navInfo, ShipState *shipState,
+                                   DamageState *damageState, Objective *objective)
+    : gameState(GS_STEALTH)
+    , mapManager(mapManager)
+    , shipState(shipState)
     , damageState(damageState)
     , hullDamage(100.0)
     , waypointName(NULL)
     , isShipInSight(false)
-	, mIsNewState(true)
+    , mIsNewState(true)
     , objective(objective)
+    , pilotInfo(pilotInfo)
+    , engInfo(engInfo)
+    , navInfo(navInfo)
+    , inputState(inputState)
 {}
 
 GameStateMachine::GameStateMachine()
-        : gameState(GS_STEALTH)
-        , oldState(GS_STEALTH)
-        , mapManager(0)
-        , shipState(0)
-        , mIsNewState(true)
+    : gameState(GS_STEALTH)
+    , oldState(GS_STEALTH)
+    , mapManager(0)
+    , shipState(0)
+    , mIsNewState(true)
+    , inputState(0)
 {}
 
 void GameStateMachine::tick()
 {
 
-	mIsNewState = false;
+    mIsNewState = false;
+
+    checkInput();
 
     if (mapManager == 0) {
         if (oldState != gameState) {
             mIsNewState = true;
             oldState = gameState;
         }
+        
         return;
     }
 
@@ -44,8 +54,13 @@ void GameStateMachine::tick()
     checkObjective();
     checkHealth();
     checkWaypoints();
+    checkForQuit();
 
-	if(oldState != gameState) mIsNewState = true;
+    if(oldState != gameState) mIsNewState = true;
+}
+
+void GameStateMachine::setInputState(InputState *newInputState) {
+    inputState = newInputState;
 }
 
 void GameStateMachine::setWaypointName(std::string *mWaypointName) {
@@ -106,6 +121,29 @@ void GameStateMachine::checkSwarms() {
         case GS_STEALTH:
             if (isShipInSight) gameState = GS_ATTACK;
         break;
+    }
+}
+
+void GameStateMachine::checkInput() {
+    if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
+        pilotInfo->hasQuit = true;
+        engInfo->hasQuit = true;
+        navInfo->hasQuit = true;
+    }
+}
+
+void GameStateMachine::setInfos(CollaborationInfo *nPilotInfo,
+                                CollaborationInfo *nNavInfo,
+                                CollaborationInfo *nEngInfo) {
+    pilotInfo = nPilotInfo;
+    navInfo = nNavInfo;
+    engInfo = nEngInfo;
+}
+
+void GameStateMachine::checkForQuit() {
+    bool playersQuit = (pilotInfo->hasQuit || engInfo->hasQuit || navInfo->hasQuit);
+    if (playersQuit) {
+        gameState = GS_GAME_OVER;
     }
 }
 	

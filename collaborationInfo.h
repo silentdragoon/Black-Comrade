@@ -30,6 +30,7 @@ class CollaborationInfo : public ReplicaObject
 
     ShipSystem toRepair;
     int repairAmount;
+    bool hasQuit;
 
     string getNick();
     GameRole getGameRole();

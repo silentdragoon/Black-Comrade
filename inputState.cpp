@@ -10,8 +10,6 @@ void InputState::tick()
 
     if(mKeyboard) {
         mKeyboard->capture();
-        if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-	        mExit->exit();
     }
 }
 
@@ -82,12 +80,11 @@ void InputState::releaseKeyboard() {
     mKeyboard = 0;
 }
 
-InputState::InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
-        	bool initKeyboard, bool initMouse) 
+InputState::InputState(RenderWindow *window, bool bufferedKeys,
+                       bool initKeyboard, bool initMouse) 
     : mKeyboard(0)
     , mMouse(0)
     , mWindow(mWindow)
-    , mExit(mExit)
 {
     OIS::ParamList pl;
     size_t windowHnd = 0;

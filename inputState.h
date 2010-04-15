@@ -19,8 +19,6 @@ class InputState : public ITickable
         OIS::InputManager* mInputManager;
         RenderWindow *mWindow;
         
-        IExit *mExit;
-        
     public:
         bool isKeyDown(OIS::KeyCode keyCode);
         bool isMouseMoved(const OIS::MouseEvent &e);
@@ -40,8 +38,8 @@ class InputState : public ITickable
         
         virtual void tick();
         
-        InputState(RenderWindow *window, bool bufferedKeys, IExit *mExit,
-        	bool initKeyboard, bool initMouse);
+        InputState(RenderWindow *window, bool bufferedKeys,
+        	   bool initKeyboard, bool initMouse);
         ~InputState();
 };
 

@@ -278,7 +278,7 @@ void SoundManager::updateEnginePitch() {
         double speed = shipState->getSpeed();
         speed += 1.0;
         float freq = engineFrequency*speed;
-        errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
+        //errCheck( engineChannel->setFrequency(freq), "engine pitch"); 
     }
 }
 

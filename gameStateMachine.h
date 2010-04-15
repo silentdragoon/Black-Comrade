@@ -8,6 +8,7 @@
 #include "replicaObject.h"
 #include "damageState.h"
 #include "objective.h"
+#include "inputState.h"
 
 enum GameState { GS_STEALTH, GS_ATTACK, GS_FLEE, GS_GAME_OVER, GS_END };
 
@@ -17,6 +18,11 @@ private:
     bool isShipInSight;
     std::string *waypointName;
     double hullDamage;
+
+    InputState *inputState;
+    CollaborationInfo *pilotInfo;
+    CollaborationInfo *engInfo;
+    CollaborationInfo *navInfo;
 
     GameState gameState;
     GameState oldState;
@@ -31,12 +37,21 @@ private:
     void checkHealth();
     void checkSwarms();
     void checkObjective();
+    void checkInput();
+    void checkForQuit();
 	
 public:
     GameStateMachine();
-    GameStateMachine(MapManager *mapManager, ShipState *shipState,
-                     DamageState *damageState, Objective *objective);
+    GameStateMachine(MapManager *mapManager, InputState *inputState,
+                     CollaborationInfo *pilotInfo, CollaborationInfo *engInfo, CollaborationInfo *navInfo,
+                     ShipState *shipState, DamageState *damageState, Objective *objective);
+
     void tick();
+
+    void setInputState(InputState *inputState);
+    void setInfos(CollaborationInfo *nPilotInfo,
+                  CollaborationInfo *nNavInfo,
+                  CollaborationInfo *nEngInfo);
 
     void setIsShipInSight(bool isShipInSight);
     bool getIsShipInSight();
@@ -47,8 +62,8 @@ public:
     void setHullDamage(double hullDamage);
     double getHullDamage();
 	
-	GameState currentGameState();
-	bool isNewState();
+    GameState currentGameState();
+    bool isNewState();
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
