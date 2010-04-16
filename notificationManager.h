@@ -7,6 +7,7 @@
 #include "shipState.h"
 #include "mapManager2.h"
 #include "damageState.h"
+#include "tutorial.h"
 #include "constManager.h"
 #include <vector>
 #include <limits>
@@ -33,9 +34,11 @@ private:
     CollaborationInfo *collabInfo;
     GameStateMachine *stateMachine;
     GameState lastStateNotified;
+    TutorialState lastTutorialStateNotified;
     MapManager *mapManager;
     ShipState *shipState;
     DamageState *damageState;
+    Tutorial *tutorial;
     bool mIsNewNotification;
 
     int tickcount;
@@ -46,6 +49,7 @@ private:
 
     void checkComments();
     void checkGameState();
+    void checkTutorialState();
     void checkShipPosition();
     void checkHealth();
 
@@ -59,7 +63,7 @@ public:
     NotificationManager();
     NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
                         MapManager *mapManager, ShipState *shipState,
-                        DamageState *damageState);
+                        DamageState *damageState, Tutorial *tutorial);
     void tick();
 	
     Notification *getCurrentNotification();

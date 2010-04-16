@@ -5,7 +5,7 @@
 
 NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
                                          MapManager *mapManager, ShipState *shipState,
-                                         DamageState *damageState)
+                                         DamageState *damageState, Tutorial *tutorial)
     : collabInfo(collabInfo)
     , notification(new Notification(NT_NONE,"",-1,0))
     , lastNotification(new Notification(NT_NONE,"",-1,0))
@@ -18,8 +18,13 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
     , nextType(NT_NONE)
     , controlsDisplayed(false)
     , tickcount(2000)
+    , tutorial(tutorial)
+    , lastTutorialStateNotified(TS_END)
 {
     maxDelay = std::numeric_limits<int>::max();
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_CONTROLS,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_WEAPONS_CRITICAL,maxDelay));
@@ -43,6 +48,7 @@ NotificationManager::NotificationManager()
     , shipState(0)
     , damageState(0)
     , mIsNewNotification(false)
+    , controlsDisplayed(false)
 {}
 
 void NotificationManager::updateRecencies() {
@@ -84,6 +90,7 @@ void NotificationManager::tick()
         checkComments(); 
         checkShipPosition();
         checkHealth();
+        checkTutorialState();
         checkGameState();
 
         prepareNotification();
@@ -146,6 +153,17 @@ void NotificationManager::prepareNotification() {
         case NT_COMMENT_THREE:
             consoleText << "Let's show those commies who's boss." << std::endl;
             break;
+        case NT_TUT_START:
+            consoleText << "Let's give you a quick reminder of how this ship works..." << std::endl;
+            break;
+        case NT_TUT_OPEN_CONSOLE:
+            consoleText << "You can repair the ship using the console."
+                        << "\n\n Try opening the console now by pressing the ESCAPE key." << std::endl;
+            break;
+        case NT_TUT_CLOSE_CONSOLE:
+            consoleText << "Looks like you're familiar with the console now."
+                        << "\n\n Try closing it by pressing the ESCAPE key again." << std::endl;
+            break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
     if (nextType != NT_NONE) {
@@ -156,8 +174,8 @@ void NotificationManager::prepareNotification() {
 }
 
 bool NotificationManager::isTimely(NotificationType type, int delaySinceMe, int delaySinceLast) {
-    return (getTimeSince(type) > delaySinceMe &&
-            getTimeSinceLast() > (delaySinceLast + lastNotification->getSoundLength()));
+    return (getTimeSince(type) >= delaySinceMe &&
+            getTimeSinceLast() >= (delaySinceLast + lastNotification->getSoundLength()));
 }
 
 int NotificationManager::getTimeSince(NotificationType type) {
@@ -208,6 +226,30 @@ void NotificationManager::checkGameState() {
     }
 }
 
+void NotificationManager::checkTutorialState() {
+    TutorialState tutorialState = tutorial->getState();
+    //if (lastTutorialStateNotified == tutorialState) return;
+    NotificationType newNotification = lastNotification->getType();
+    switch(tutorialState) {
+        case TS_OPEN_CONSOLE:
+            newNotification = NT_TUT_OPEN_CONSOLE;
+            break;
+        case TS_CLOSE_CONSOLE:
+            newNotification = NT_TUT_CLOSE_CONSOLE;
+            break;
+        case TS_START:
+            newNotification = NT_TUT_START;
+            break;
+    }
+    if(lastNotification->getType() != newNotification) {
+        if (isTimely(newNotification,30,0)) {
+            mIsNewNotification = true;
+            nextType = newNotification;
+            lastTutorialStateNotified = tutorialState;
+        }
+    }
+}
+
 void NotificationManager::checkShipPosition() {
     //TODO - Base any notifications on map tiles?
 }
@@ -215,6 +257,8 @@ void NotificationManager::checkShipPosition() {
 void NotificationManager::checkComments() {
     srand ( time(NULL) );
     int irand = rand() % 3 + 1;
+
+    if (tutorial->getState() != TS_END) return;
 
     NotificationType newNotification = lastNotification->getType();
     switch(irand) {

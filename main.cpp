@@ -82,6 +82,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     } else {
         engineerInfo = new CollaborationInfo("Engineer",CLIENT,ENGINEER);
         navigatorInfo = new CollaborationInfo("Navigator",CLIENT,NAVIGATOR);
+        engineerInfo->hasCompletedTutorial = true;
+        navigatorInfo->hasCompletedTutorial = true;
     }
 
     // Player stats
@@ -235,7 +237,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
-    tutorial = new Tutorial(collabInfo,guiMgr,hud,miniGameMgr,door);
+    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,miniGameMgr,door);
     gameLoop->addTickable(tutorial,"tutorial");
 
     // GameState
@@ -260,7 +262,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Notifications
     if (collabInfo->getGameRole() == NAVIGATOR || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
-        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState, damageState);
+        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState, damageState, tutorial);
         networkingManager->replicate(notificationMgr);
     } else {
         notificationMgr = (NotificationManager*) networkingManager->

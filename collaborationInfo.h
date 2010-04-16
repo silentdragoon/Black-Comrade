@@ -31,6 +31,7 @@ class CollaborationInfo : public ReplicaObject
     ShipSystem toRepair;
     int repairAmount;
     bool hasQuit;
+    bool hasCompletedTutorial;
     bool repairing;
 
     string getNick();

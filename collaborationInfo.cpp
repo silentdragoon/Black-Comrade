@@ -12,7 +12,8 @@ CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameR
     killCount(0),
     stats(0),
     hasQuit(false),
-    repairing(false)
+    repairing(false),
+    hasCompletedTutorial(false)
 {
 }
 
@@ -26,6 +27,7 @@ CollaborationInfo::CollaborationInfo()
     , stats(0)
     , hasQuit(false)
     , repairing(false)
+    , hasCompletedTutorial(false)
 {}
 
 string CollaborationInfo::getNick() { return nick; }
@@ -79,6 +81,7 @@ RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *seriali
     serializeParameters->outputBitstream[0].Write(repairAmount);
     serializeParameters->outputBitstream[0].Write(hasQuit);
     serializeParameters->outputBitstream[0].Write(repairing);
+    serializeParameters->outputBitstream[0].Write(hasCompletedTutorial);
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
@@ -92,4 +95,5 @@ void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializePa
     if (repairAmount2 != 0) repairAmount = repairAmount2;
     deserializeParameters->serializationBitstream[0].Read(hasQuit);
     deserializeParameters->serializationBitstream[0].Read(repairing);
+    deserializeParameters->serializationBitstream[0].Read(hasCompletedTutorial);
 }
