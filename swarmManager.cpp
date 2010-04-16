@@ -169,6 +169,8 @@ void SwarmManager::tick()
     updateRemoteSwarms();
     if (mapMgr == 0) return;
 
+    if (gameStateMachine->currentGameState() == GS_TUTORIAL) return;
+
     int sp = gamePM->getParameter("SPAWN");
 
 
