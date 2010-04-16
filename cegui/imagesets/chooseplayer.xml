@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="ChoosePlayer" Imagefile="chooseplayer.png" AutoScaled="true" >
+<Imageset Name="ChoosePlayer" Imagefile="chooseplayer.png" AutoScaled="false" >
     <Image Name="NavButton" XPos="1158" YPos="297" Width="326" Height="206" />
     <Image Name="PilButton" XPos="1158" YPos="527" Width="326" Height="206" />
     <Image Name="EngButton" XPos="1158" YPos="757" Width="326" Height="206" />
