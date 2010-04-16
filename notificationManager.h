@@ -70,6 +70,7 @@ public:
     bool hasNewNotification();
 
     void setCollaborationInfo(CollaborationInfo *collabInfo);
+    void setTutorial(Tutorial *tutorial);
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);

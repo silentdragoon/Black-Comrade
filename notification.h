@@ -9,6 +9,7 @@ class Notification
 private:
     NotificationType type;
     std::string consoleText;
+    bool local;
     int soundNameConst;
     int soundLength;
 
@@ -21,6 +22,8 @@ public:
     std::string getConsoleText();
     int getSoundNameConst();
     int getSoundLength();
+    bool isLocal();
+    void makeLocal();
 };
 
 #endif
