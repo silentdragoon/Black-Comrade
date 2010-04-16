@@ -164,6 +164,9 @@ void NotificationManager::prepareNotification() {
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\n Try closing it by pressing the ESCAPE key again." << std::endl;
             break;
+        case NT_TUT_WAITING:
+            consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
+            break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
     if (nextType != NT_NONE) {
@@ -239,6 +242,9 @@ void NotificationManager::checkTutorialState() {
             break;
         case TS_START:
             newNotification = NT_TUT_START;
+            break;
+        case TS_WAITING_FOR_OTHERS:
+            newNotification = NT_TUT_WAITING;
             break;
     }
     if(lastNotification->getType() != newNotification) {
