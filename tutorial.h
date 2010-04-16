@@ -6,8 +6,9 @@
 #include "hud.h"
 #include "miniGameManager.h"
 #include "collaborationInfo.h"
+#include "door.h"
 
-enum TutorialState { TS_START, TS_END };
+enum TutorialState { TS_START, TS_OPEN_CONSOLE, TS_CLOSE_CONSOLE, TS_END };
 
 class Tutorial : public ITickable {
     private:
@@ -17,11 +18,14 @@ class Tutorial : public ITickable {
         TutorialState state;
         MiniGameManager *miniGameMgr;
         CollaborationInfo *tutee;
+        Door *door;
+
+        void checkConsole();
 
     public:
         TutorialState getState();
         Tutorial(CollaborationInfo *tutee, GuiManager *guiMgr, 
-                 HUD *hud, MiniGameManager *miniGameMgr);
+                 HUD *hud, MiniGameManager *miniGameMgr, Door *door);
 	virtual void tick();
 };
 

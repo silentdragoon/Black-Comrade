@@ -124,6 +124,9 @@ void NotificationManager::prepareNotification() {
             else if (collabInfo->getGameRole() == ENGINEER)
                 consoleText << "You did it! You may want to increase engine power so we can escape quickly." << std::endl;
             break;
+        case NT_OBJECTIVE_SEEK:
+            consoleText << "You should be ready for your mission now. Your first objective is to find the Black Comrade..." << std::endl;
+            break;
         case NT_ENGINES_CRITICAL:
             consoleText << "Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
             break;
@@ -181,10 +184,13 @@ void NotificationManager::checkGameState() {
     if (lastStateNotified == gameState) return;
     NotificationType newNotification = lastNotification->getType();
     switch(gameState) {
-        case GS_STEALTH:
+        case GS_TUTORIAL:
             if (!controlsDisplayed)
                 newNotification = NT_CONTROLS;
                 controlsDisplayed = true;
+            break;
+        case GS_STEALTH:
+            newNotification = NT_OBJECTIVE_SEEK;
             break;
         case GS_ATTACK:
             newNotification = NT_UNDER_ATTACK;

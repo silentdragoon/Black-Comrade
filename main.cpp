@@ -150,7 +150,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     Vector3 doorPos = *startMapTile->getSpawn(i);
     Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
     sceneNodeMgr->createNode(door);
-    door->open();
+    //door->open();
     gameLoop->addTickable(door, "Door");
     
     soundMgr->setShipNode(shipSceneNode);     
@@ -226,11 +226,23 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
     gameLoop->addTickable(objective,"objective");
 
+    // Console
+    cons = new Console(sceneMgr);
+    gameLoop->addTickable(cons,"console");
+
+    // Minigame manager
+    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
+    gameLoop->addTickable(miniGameMgr,"miniGameManager");
+
+    // Tutorial
+    tutorial = new Tutorial(collabInfo,guiMgr,hud,miniGameMgr,door);
+    gameLoop->addTickable(tutorial,"tutorial");
+
     // GameState
     if(collabInfo->getGameRole() == PILOT) {
         gameStateMachine = new GameStateMachine(mapMgr,inputState,
                                                 pilotInfo,engineerInfo,navigatorInfo,
-                                                shipState,damageState,objective);
+                                                tutorial,shipState,damageState,objective);
         networkingManager->replicate(gameStateMachine);    
     } else {
         gameStateMachine = 
@@ -316,14 +328,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             networkingManager,particleSystemEffectManager,soundMgr);
     }
 
-    // Console
-    cons = new Console(sceneMgr);
-    gameLoop->addTickable(cons,"console");
-
-    // Minigame manager
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
-    gameLoop->addTickable(miniGameMgr,"miniGameManager");
-
     // Networking
     gameLoop->addTickable(networkingManager,"networkingManager");
 
@@ -372,10 +376,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                             flying,notificationMgr,gameStateMachine,objective,
                                             pilotInfo,navigatorInfo,engineerInfo);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
-
-    // Tutorial
-    tutorial = new Tutorial(collabInfo,guiMgr,hud,miniGameMgr);
-    gameLoop->addTickable(tutorial,"tutorial");
 
     soundMgr->changeMusic(1); // Switch to stealth music
 

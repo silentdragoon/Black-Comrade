@@ -38,7 +38,7 @@ void MiniGameManager::tick()
     } else {
         if (inputState->isKeyDown(OIS::KC_F1)) {
             setConsoleState(true);
-            consoleBeenOpened;
+            consoleBeenOpened = true;
         } else { return; }
     }
 

@@ -5,9 +5,9 @@
 
 GameStateMachine::GameStateMachine(MapManager *mapManager, InputState *inputState,
                                    CollaborationInfo *pilotInfo, CollaborationInfo *engInfo,
-                                   CollaborationInfo *navInfo, ShipState *shipState,
-                                   DamageState *damageState, Objective *objective)
-    : gameState(GS_STEALTH)
+                                   CollaborationInfo *navInfo, Tutorial *tutorial,
+                                   ShipState *shipState, DamageState *damageState, Objective *objective)
+    : gameState(GS_TUTORIAL)
     , mapManager(mapManager)
     , shipState(shipState)
     , damageState(damageState)
@@ -20,15 +20,17 @@ GameStateMachine::GameStateMachine(MapManager *mapManager, InputState *inputStat
     , engInfo(engInfo)
     , navInfo(navInfo)
     , inputState(inputState)
+    , tutorial(tutorial)
 {}
 
 GameStateMachine::GameStateMachine()
-    : gameState(GS_STEALTH)
-    , oldState(GS_STEALTH)
+    : gameState(GS_TUTORIAL)
+    , oldState(GS_END)
     , mapManager(0)
     , shipState(0)
     , mIsNewState(true)
     , inputState(0)
+    , tutorial(0)
 {}
 
 void GameStateMachine::tick()
@@ -54,6 +56,7 @@ void GameStateMachine::tick()
     checkObjective();
     checkHealth();
     checkWaypoints();
+    checkTutorial();
     checkForQuit();
 
     if(oldState != gameState) mIsNewState = true;
@@ -96,9 +99,8 @@ void GameStateMachine::checkWaypoints() {
                 }
             }
             if (*wp == "wp_end") {
-                // TODO: If the boss has not been destroyed,
-                //       don't end the game...
-                gameState = GS_END;
+                if (objective->getHealth() <=0.0)
+                    gameState = GS_END;
             }
         }
     }
@@ -121,6 +123,13 @@ void GameStateMachine::checkSwarms() {
         case GS_STEALTH:
             if (isShipInSight) gameState = GS_ATTACK;
         break;
+    }
+}
+
+void GameStateMachine::checkTutorial() {
+    if (gameState == GS_TUTORIAL && tutorial->getState() == TS_END) {
+        // The tutorial has been completed
+        gameState = GS_STEALTH;
     }
 }
 
