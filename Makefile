@@ -87,7 +87,8 @@ storyMenu.cpp \
 menuSystem.cpp \
 fader.cpp \
 door.cpp \
-mapPieceChoices.cpp
+mapPieceChoices.cpp \
+tutorial.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

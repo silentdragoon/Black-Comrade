@@ -52,6 +52,7 @@
 #include "fader.h"
 #include "door.h"
 #include "mapPieceChoices.h"
+#include "tutorial.h"
 
 //include networking stuff
 #include <string.h>
@@ -128,6 +129,8 @@ private:
     Door *door;
 
     GameEnder *gameEnder;
+
+    Tutorial *tutorial;
 
     Camera *createCamera(SceneNode *shipSceneNode);
     void createScene();

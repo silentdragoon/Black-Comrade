@@ -33,6 +33,9 @@ private:
     CollaborationInfo *player;
     IExit *exit;
     std::map <std::string,int> *difficulties;
+
+    bool consoleBeenOpened;
+    bool consoleBeenClosed;
     
     IMiniGame *currentMiniGame;
 
@@ -54,6 +57,9 @@ public:
 
     bool keyPressed(const OIS::KeyEvent &arg);
     bool keyReleased(const OIS::KeyEvent &arg);
+
+    bool hasConsoleBeenOpened();
+    bool hasConsoleBeenClosed();
 };
 
 #endif

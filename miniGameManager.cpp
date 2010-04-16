@@ -15,6 +15,8 @@ MiniGameManager::MiniGameManager(Console *console,
     , player(player)
     , aKeyPressed(false)
     , exit(exit)
+    , consoleBeenOpened(false)
+    , consoleBeenClosed(false)
 {
     difficulties = new std::map <std::string,int>();
     setInitialDifficulties();
@@ -30,11 +32,13 @@ void MiniGameManager::tick()
     if (console->getVisible()) {
         if (inputState->isKeyDown(OIS::KC_F2)) {
             setConsoleState(false);
+            consoleBeenClosed = consoleBeenOpened;
             return;
         }
     } else {
         if (inputState->isKeyDown(OIS::KC_F1)) {
             setConsoleState(true);
+            consoleBeenOpened;
         } else { return; }
     }
 
@@ -68,6 +72,10 @@ void MiniGameManager::tick()
         consoleShell->tick();
     }
 }
+
+bool MiniGameManager::hasConsoleBeenOpened() { return consoleBeenOpened; }
+
+bool MiniGameManager::hasConsoleBeenClosed() { return consoleBeenClosed; }
 
 void MiniGameManager::setConsoleState(bool isVisible) {
     playerControls->setEnabled(!isVisible);

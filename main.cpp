@@ -373,6 +373,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                             pilotInfo,navigatorInfo,engineerInfo);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
+    // Tutorial
+    tutorial = new Tutorial(collabInfo,guiMgr,hud,miniGameMgr);
+    gameLoop->addTickable(tutorial,"tutorial");
+
     soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
