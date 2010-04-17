@@ -69,6 +69,28 @@ void HUD::makeCommonHUD() {
     // Left box
     guiManager->addStaticImagePix("Left",  0.0, 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left", "Main");
 
+    // Teammate Info
+    
+    teaminfo1 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo1"));
+    teaminfo2 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo2"));
+    guiManager->getRootWindow()->addChildWindow(teaminfo1);
+    guiManager->getRootWindow()->addChildWindow(teaminfo2);
+    teaminfo1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    teaminfo2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    teaminfo1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(104 * hpixel,0))); 
+    teaminfo2->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 101 * wpixel,0),CEGUI::UDim(104 * hpixel,0)));
+    
+    // Kills
+    
+    kills1 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","kills1"));
+    kills2 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","kills2"));
+    guiManager->getRootWindow()->addChildWindow(kills1);
+    guiManager->getRootWindow()->addChildWindow(kills2);
+    kills1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    kills2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    kills1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(129 * hpixel,0))); 
+    kills2->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 101 * wpixel,0),CEGUI::UDim(129 * hpixel,0)));
+    
     // Slack Box
 
     status = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","status"));
@@ -174,15 +196,15 @@ void HUD::makePilotHUD() {
     guiManager->addStaticImagePix("Crewav3", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
 
     // Right box
-    guiManager->addStaticImagePix("RightPil", 1.0 - 229 * wpixel,  1.0 - 229 * hpixel,
-                                  229 * wpixel, 229 * hpixel, "RightPil", "Main");
+    guiManager->addStaticImagePix("RightPil", 1.0 - 119 * wpixel,  1.0 - 70 * hpixel,
+                                  119 * wpixel, 70 * hpixel, "RightPil", "Main");
 
     // Speed indicator
     indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
     //indicator->setFont("DroidSansMono-big.font");
     guiManager->getRootWindow()->addChildWindow(indicator);
-    indicator->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
-    indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 191 * wpixel,0),CEGUI::UDim(1 - 219 * hpixel,0)));
+    indicator->setSize(CEGUI::UVector2(CEGUI::UDim(100 * wpixel,0),CEGUI::UDim(50 * hpixel,0)));
+    indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 99 * wpixel,0),CEGUI::UDim(1 - 60 * hpixel,0)));
 
     // Controls
     controls = guiManager->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
@@ -575,6 +597,18 @@ void HUD::setBossHealthbar(float ohshi) {
 void HUD::setCountdown(std::string timer) {
 	countdown->setText(timer);
 }
+
+void HUD::setTeamInfo(std::string text1, std::string text2, int killcount1, int killcount2) {
+	teaminfo1->setText(" " + text1);
+	teaminfo2->setText(" " + text2);
+	std::stringstream k1;
+	std::stringstream k2;
+	k1 << " Kills: " << killcount1;
+	k2 << " Kills: " << killcount2;
+	kills1->setText(k1.str());
+	kills2->setText(k2.str());
+}
+	
 
 void HUD::updateMiniMap() {
     int x =(int) floor(shipState->getPosition()->x/(double)ConstManager::getInt("map_tile_size"));

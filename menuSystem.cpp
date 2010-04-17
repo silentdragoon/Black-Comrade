@@ -22,7 +22,7 @@ void MenuSystem::init() {
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
 
     vp->update();
-    CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    CEGUI::System::getSingleton().setDefaultMouseCursor("Cursor", "Cursor");
 
     menuLoop->addTickable(inputState,"inputState");
 }

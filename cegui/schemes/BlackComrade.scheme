@@ -36,6 +36,7 @@
 
     <Imageset Filename="black.xml" />    
     <Imageset Filename="buttons.xml" />
+    <Imageset Filename="cursor.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -52,6 +53,7 @@
 
     <FalagardMapping WindowType="BlackComrade/Black" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Black" />
     <FalagardMapping WindowType="BlackComrade/Buttons" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Buttons" />
+   	<FalagardMapping WindowType="BlackComrade/Cursor" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Cursor" />
     
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />

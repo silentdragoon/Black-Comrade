@@ -45,6 +45,11 @@ private:
     CEGUI::MultiLineEditbox *log;
     CEGUI::Editbox *indicator;
     CEGUI::Editbox *countdown;
+    
+    CEGUI::Editbox *teaminfo1;
+    CEGUI::Editbox *teaminfo2;
+    CEGUI::Editbox *kills1;
+    CEGUI::Editbox *kills2;
 
     CEGUI::FrameWindow *controls;
 
@@ -96,6 +101,7 @@ public:
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
     
+    void setTeamInfo(std::string text1, std::string text2, int killcount1, int killcount2);
    
     void setBossHealthbar(float yeah);
     void setCountdown(std::string timer);

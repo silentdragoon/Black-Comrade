@@ -44,16 +44,16 @@ void StatsScreen::show() {
     if (finishState == GS_END) {
         CEGUI::ImagesetManager::getSingleton().create("scores.xml");
         guiMgr->addStaticImage("Scores",0.5, 0.5,1.0, 1.0,"Scores","Whole");
+        addStats(navInfo,725);
+    	addStats(pilotInfo,1025);
+    	addStats(engInfo,1325);
+	    addOverallRating();
     } else {
         CEGUI::ImagesetManager::getSingleton().create("scoresfail.xml");
         guiMgr->addStaticImage("ScoresFail",0.5, 0.5,1.0, 1.0,"ScoresFail","Whole");
     }
 
-    addStats(navInfo,725);
-    addStats(pilotInfo,1025);
-    addStats(engInfo,1325);
 
-    addOverallRating();
 
     isVisible = true;
 }

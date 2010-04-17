@@ -100,14 +100,42 @@ void GuiStatusUpdater::tick() {
        }
 
     // TODO: Show player status / stats
-    bool pilotReparing = pilotInfo->repairing;
-    bool enginnerRepairing = engInfo->repairing;
-    bool navigatorReparing = navInfo->repairing;
-    int pilotKillCount = pilotInfo->getPlayerStats()->enemiesDestroyed;
+    bool pilotRepairing = pilotInfo->repairing;
+    bool engineerRepairing = engInfo->repairing;
+    bool navigatorRepairing = navInfo->repairing;
+    int pilKillCount = pilotInfo->getPlayerStats()->enemiesDestroyed;
     int navKillCount = navInfo->getPlayerStats()->enemiesDestroyed;
     int engKillCount = engInfo->getPlayerStats()->enemiesDestroyed;
     
-       
+    std::string status1 = "Fighting";
+    std::string status2 = "Fighting";
+    int kills1 = 0;
+    int kills2 = 0;
+    std::string rpr = "Repairing";
+    
+    
+    if (gameRole==PILOT) {
+    	if (navigatorRepairing) { status1 = rpr; }
+    	if (engineerRepairing) { status2 = rpr; }
+    	navKillCount = kills1;
+    	engKillCount = kills2;
+	}
+	if (gameRole==ENGINEER) {
+		if (pilotRepairing) { status1 = rpr; }
+		if (navigatorRepairing) { status2 = rpr; }
+		pilKillCount = kills1;
+		navKillCount = kills2;
+		
+	}
+	if (gameRole==NAVIGATOR) {
+		if (pilotRepairing) { status1 = rpr; }
+    	if (engineerRepairing) { status2 = rpr; }
+		pilKillCount = kills1;
+    	engKillCount = kills2;
+	}
+      
+    hud->setTeamInfo(status1,status2,kills1,kills2);
+    /**/ 
     float weaponCharge = (float)(systemManager->getWeaponCharge());
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);
