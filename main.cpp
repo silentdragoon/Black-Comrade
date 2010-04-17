@@ -268,6 +268,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         notificationMgr = (NotificationManager*) networkingManager->
             getReplica("NotificationManager",true);
         notificationMgr->setCollaborationInfo(collabInfo);
+        notificationMgr->setTutorial(tutorial);
     }
     gameLoop->addTickable(notificationMgr,"notifications");
 

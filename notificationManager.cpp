@@ -47,9 +47,20 @@ NotificationManager::NotificationManager()
     , mapManager(0)
     , shipState(0)
     , damageState(0)
+    , tickcount(2000)
     , mIsNewNotification(false)
     , controlsDisplayed(false)
-{}
+{
+    maxDelay = std::numeric_limits<int>::max();
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_WAITING,maxDelay));
+}
+
+void NotificationManager::setTutorial(Tutorial *newTutorial) {
+    tutorial = newTutorial;
+}
 
 void NotificationManager::updateRecencies() {
 
@@ -69,15 +80,30 @@ void NotificationManager::tick()
     mIsNewNotification = false;
 
     if (mapManager == 0) {
+
+        // Check for any local notifications
+        if (tickcount < 1 / ConstManager::getFloat("tick_period")) {
+            tickcount ++;
+            return;
+        } else {
+            tickcount = 0;
+            checkTutorialState();
+        }
         if (lastNotification->getType() != nextType) {
+            // There's a new notification
+
             mIsNewNotification = true;
-            prepareNotification();
-            // Print the notification to the terminal for now. Will be removed
-            // when linked in with GUI/sound
-            if (getCurrentNotification()->getType() != NT_NONE) {
-                std::cout << getCurrentNotification()->getConsoleText();
-            }
-            if (nextType != NT_NONE) lastNotification = notification;
+
+        }
+
+        prepareNotification();
+
+        if (nextType != NT_NONE) lastNotification = notification;
+
+        // Print the notification to the terminal for now. Will be removed
+        // when linked in with GUI/sound
+        if (getCurrentNotification()->getType() != NT_NONE) {
+            std::cout << getCurrentNotification()->getConsoleText();
         }
         return;
     }
@@ -108,6 +134,7 @@ void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
     int soundNameConst = -1;
     int soundLength = 0;
+    bool local = false;
     std::string gameRole = collabInfo->getGameRoleString();
     std::transform(gameRole.begin(), gameRole.end(), gameRole.begin(), ::tolower);
     switch(nextType) {
@@ -159,16 +186,20 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_OPEN_CONSOLE:
             consoleText << "You can repair the ship using the console."
                         << "\n\n Try opening the console now by pressing the ESCAPE key." << std::endl;
+            local = true;
             break;
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\n Try closing it by pressing the ESCAPE key again." << std::endl;
+            local = true;
             break;
         case NT_TUT_WAITING:
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
+            local = true;
             break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
+    if (local) notification->makeLocal();
     if (nextType != NT_NONE) {
         lastNotification = notification;
         nextType = NT_NONE;
@@ -221,7 +252,7 @@ void NotificationManager::checkGameState() {
             break;
     }
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,0,8)) {
+        if (isTimely(newNotification,0,1)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastStateNotified = gameState;
@@ -248,7 +279,7 @@ void NotificationManager::checkTutorialState() {
             break;
     }
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,30,0)) {
+        if (isTimely(newNotification,0,2)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;
@@ -319,6 +350,7 @@ RakNet::RakString NotificationManager::GetName(void) const {return RakNet::RakSt
 
 RM3SerializationResult NotificationManager::Serialize(SerializeParameters *serializeParameters) {
     serializeParameters->outputBitstream[0].Write(lastNotification->getType());
+    if (lastNotification->isLocal()) return RM3SR_DO_NOT_SERIALIZE;
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 

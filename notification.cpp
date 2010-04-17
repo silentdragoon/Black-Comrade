@@ -6,7 +6,12 @@ Notification::Notification(NotificationType type, std::string consoleText,
     , consoleText(consoleText)
     , soundNameConst(soundNameConst)
     , soundLength(soundLength)
+    , local(false)
 {}
+
+bool Notification::isLocal() { return local; }
+
+void Notification::makeLocal() { local = true; }
 
 NotificationType Notification::getType() { return type; }
 
