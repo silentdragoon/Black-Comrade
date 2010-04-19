@@ -12,6 +12,9 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     , height(1)
     , prevX(10000)
     , prevY(10000)
+    , controlsBeenShown(false)
+    , largeMapBeenShown(false)
+    , largeRadarBeenShown(false)
 {
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
@@ -49,13 +52,19 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 
 }
 
+bool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }
+
+bool HUD::hasLargeMapBeenShown() { return largeRadarBeenShown; }
+
+bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
+
 void HUD::makeCommonHUD() {
 
     // Overlay
     //guiManager->addStaticImage("Overlay", 0.5, 0.5, 1.6/ratio, 1.0, "Overlay", "Overlay");
 
     // Crosshair
-    guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
+    crosshair = guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
 
     // Crew backgrounds
     guiManager->addStaticImagePix("Crewl", 0.0 + 0 * wpixel,    0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
@@ -546,7 +555,7 @@ void HUD::setSpeedIndicator(std::string giraffe) {
     indicator->setText(giraffe);
 }
 
-//void HUD::setShields(float yeah) {
+//void HUD::setShieldsbool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }(float yeah) {
 //    shields->setProgress(yeah);
 //}
 
@@ -642,8 +651,12 @@ void HUD::toggleMap(bool tog)
 }
 
 void HUD::toggleControls(bool tog) {
-    guiManager->setOverlayAboveCEGUI(!tog);
     controls->setVisible(tog);
+    if (tog) controlsBeenShown = true;
+}
+
+void HUD::toggleCrosshair(bool tog) {
+    crosshair->setVisible(tog);
 }
 
 void HUD::switchStatus(int state) {

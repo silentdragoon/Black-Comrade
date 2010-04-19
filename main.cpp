@@ -203,7 +203,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
     
     // Navigator Controls
-    if(collabInfo->getGameRole() == NAVIGATOR) {
+    if(true || collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
@@ -237,7 +237,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
-    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,miniGameMgr,door);
+    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,
+                            miniGameMgr,damageState, door);
     gameLoop->addTickable(tutorial,"tutorial");
 
     // GameState
@@ -356,7 +357,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 	
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
-    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
+    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud,
+    	    navigatorControls);
     	gameLoop->addTickable(radarGui,"Radar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
@@ -377,7 +379,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,
-                                            pilotInfo,navigatorInfo,engineerInfo);
+                                            cons, pilotInfo,navigatorInfo,engineerInfo);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     soundMgr->changeMusic(1); // Switch to stealth music

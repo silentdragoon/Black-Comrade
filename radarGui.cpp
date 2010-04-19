@@ -8,7 +8,8 @@
 #define RADAR_ANGLE 1.570796
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
-    SwarmManager *swarmManager, HUD *hud)
+        SwarmManager *swarmManager, HUD *hud, NavigatorControls 
+        *navigatorControls)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -20,6 +21,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , radarWindow(NULL)
     , hud(hud)
     , fullScreen(false)
+    , navigatorControls(navigatorControls)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
     
@@ -167,6 +169,9 @@ CEGUI::FrameWindow *RadarGui::createEnemyDot()
 
 void RadarGui::tick()
 {
+    fullScreen = navigatorControls->isMap();
+
+
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;
@@ -190,16 +195,22 @@ void RadarGui::tick()
         yCenter = 1 - (219 - 0) * hpixel + height / 2;
     }
 
-    std::deque<Swarm*> swarms = swarmManager->getAllSwarms();
+    std::vector<Enemy*> enemies = swarmManager->getAllLocalEnemies();
+    
+    std::vector<Enemy*> replicas = swarmManager->getReplicatedEnemies();
+    
+    for(std::vector<Enemy*>::const_iterator it= replicas.begin(); it != replicas.end(); ++it) {
+        enemies.push_back(*it);
+    }
     
     std::vector<std::pair<float,float> > positions;
     
-    for(std::deque<Swarm*>::const_iterator it=swarms.begin();
-        it!=swarms.end();++it) {
+    for(std::vector<Enemy*>::const_iterator it=enemies.begin();
+        it!=enemies.end();++it) {
         
-        Swarm *s = *it;
+        Enemy *s = *it;
     
-        Vector3 displacement = s->getAveragePosition() - 
+        Vector3 displacement = *s->getPosition() - 
             *shipState->getPosition();
             
         float dist = displacement.length() / RADAR_SIGHT_DIST;
