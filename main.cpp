@@ -212,7 +212,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {
-        objective = new Objective(particleSystemEffectManager);
+        objective = new Objective(particleSystemEffectManager,collisionMgr);
         networkingManager->replicate(objective);
     } else {
         objective = (Objective*) networkingManager->getReplica("Objective",true);
