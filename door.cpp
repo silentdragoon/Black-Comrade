@@ -56,7 +56,7 @@ float Door::moveSpeed()
 void Door::open()
 {
     motion = moveSpeed();
-    cout << "Motion: " << motion << endl;
+    //cout << "Motion: " << motion << endl;
 }
 
 void Door::close()
