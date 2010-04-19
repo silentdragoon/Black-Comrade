@@ -130,8 +130,17 @@ void ParticleSystemEffectManager::createEngineGlow() {
     std::string nname = createUnique("enode");
     std::string pname = createUnique("effect");
     SceneNode *engine = shipSceneNode->createChildSceneNode();
-    engine->setPosition(4,-4,0);
+    engine->setPosition(0,0,-40);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, engine, pname, "FX/engines"); 
+    Light *engLight = sceneMgr->createLight();
+    engLight->setType(Light::LT_SPOTLIGHT);
+    engLight->setDiffuseColour(0.2,0.2,1.0);
+    engLight->setSpecularColour(0.2,0.2,1.0);
+    engLight->setAttenuation(300, 1.0, 0.007, 0.0002);
+    engLight->setSpotlightInnerAngle(Radian(Degree(90)));
+    engLight->setSpotlightOuterAngle(Radian(Degree(180)));
+    engLight->setDirection(0,-1,0);
+    engine->attachObject(engLight);
 }
 
 void ParticleSystemEffectManager::updateEffects() {

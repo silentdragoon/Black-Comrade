@@ -496,23 +496,26 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     
     // Add some sexy fog
     ColourValue fadeColour(0.1,0.1,0.1);
-    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,500);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
     
-    Light *sp = sceneMgr->createLight("ShipLight");
+    /*Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(1.0,1.0,1.0);
     sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);*/
 
-    //Light *spot = sceneMgr->createLight("shipSpot");
-    //spot->setType(Light::LT_SPOTLIGHT);
-    //spot->setDiffuseColour(1.0,1.0,1.0);
-    //spot->setSpecularColour(1.0,1.0,1.0);
-    //spot->setDirection(Vector3(0,0,1));
+    Light *spot = sceneMgr->createLight("shipSpot");
+    spot->setType(Light::LT_SPOTLIGHT);
+    spot->setDiffuseColour(1.0,1.0,1.0);
+    spot->setSpecularColour(1.0,1.0,1.0);
+    spot->setDirection(Vector3(0,0,-1));
+    spot->setSpotlightInnerAngle(Radian(Degree(5)));
+    spot->setSpotlightOuterAngle(Radian(Degree(100)));
+    spot->setSpotlightFalloff(40.0);
 
-    //shipSceneNode->attachObject(spot);
-    shipSceneNode->attachObject(sp);
+    shipSceneNode->attachObject(spot);
+    //shipSceneNode->attachObject(sp);
     
     return camera;
 }
