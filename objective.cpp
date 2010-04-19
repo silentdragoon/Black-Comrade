@@ -70,5 +70,4 @@ RM3SerializationResult Objective::Serialize(SerializeParameters *serializeParame
 void Objective::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(health);	
     deserializeParameters->serializationBitstream[0].Read(escapeTime);	
-
 }
