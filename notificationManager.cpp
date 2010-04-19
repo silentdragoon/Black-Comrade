@@ -87,6 +87,7 @@ void NotificationManager::tick()
             return;
         } else {
             tickcount = 0;
+            updateRecencies();
             checkTutorialState();
         }
         if (lastNotification->getType() != nextType) {
@@ -208,8 +209,8 @@ void NotificationManager::prepareNotification() {
 }
 
 bool NotificationManager::isTimely(NotificationType type, int delaySinceMe, int delaySinceLast) {
-    return (getTimeSince(type) >= delaySinceMe &&
-            getTimeSinceLast() >= (delaySinceLast + lastNotification->getSoundLength()));
+    return (getTimeSince(type) > delaySinceMe &&
+            getTimeSinceLast() > (delaySinceLast + lastNotification->getSoundLength()));
 }
 
 int NotificationManager::getTimeSince(NotificationType type) {
@@ -278,8 +279,9 @@ void NotificationManager::checkTutorialState() {
             newNotification = NT_TUT_WAITING;
             break;
     }
+
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,0,2)) {
+        if (isTimely(newNotification,0,0)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;
