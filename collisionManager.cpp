@@ -6,6 +6,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     mp(mp),
     loadingScreen(loadingScreen)
 {
+    if(rebuildCollisionMeshes) deleteAllColMeshes();
     cd = new CollisionDetection(rebuildCollisionMeshes);
     std::vector<Entity*> pc = mp->getMapEntitiesForCollision();
     double percInc = 100.0/pc.size();
@@ -25,6 +26,31 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     addObjMesh(x,y,z,30.0);
 
     cout << "Map pieces loaded: 100%"<<endl;
+}
+
+void CollisionManager::deleteAllColMeshes()
+{
+    DIR *directory;
+    
+    string dirString = ConstManager::getString("cmesh_file_path");
+    if((directory=opendir(dirString.c_str()))==NULL) cout << "Couldnt delete  cmeshes"<<endl; 
+    else
+    {
+        struct dirent *theFile;
+        while ((theFile=readdir(directory)))
+        {
+            //cout<<theFile->d_name<<endl;
+            //exlude pilepaths of . and ..
+            string path = dirString;
+            if( !(string(theFile->d_name).compare(".") == 0 || string(theFile->d_name).compare("..") == 0))
+            {
+                path.append(theFile->d_name);
+                //cout<<"P: "<< path <<endl;
+                if(remove( path.c_str() ) == -1 ) cout << "Error deleting file"<< endl;
+            }
+        }
+        closedir(directory);
+    }
 }
 
 
