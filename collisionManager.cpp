@@ -97,13 +97,17 @@ void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
 }
 
 dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
-{ 
-    dFloat dist = 2000;
-    double x = start->x + direction->x * dist;
-    double y = start->y + direction->y * dist;
-    double z = start->z + direction->z * dist;
-    Vector3 end = Vector3(x,y,z);
-    return cd->objRayCollision( start, &end )*dist;
+{
+    if( obj )
+    {
+        dFloat dist = 2000;
+        double x = start->x + direction->x * dist;
+        double y = start->y + direction->y * dist;
+        double z = start->z + direction->z * dist;
+        Vector3 end = Vector3(x,y,z);
+        return cd->objRayCollision( start, &end )*dist;
+    }
+    else return false;
 }
 
 dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
@@ -119,7 +123,8 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
 
 bool CollisionManager::collideEntityWithObj(Entity *e)
 {
-    return cd->collideEntityWithObj(e);
+    if(obj) return cd->collideEntityWithObj(e);
+    else return false;
 }
 
 Collision CollisionManager::collideWithMapPiece( Entity *e )
