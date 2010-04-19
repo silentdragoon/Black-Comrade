@@ -9,7 +9,7 @@ Console::Console(SceneManager *sceneMgr) :
     lines = new std::list<std::string>();
 
     openHeight = 0.5;
-    slideTicks = 6;
+    slideTicks = 8;
     top=-openHeight;
 
     // Create a panel
