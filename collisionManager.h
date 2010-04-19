@@ -7,6 +7,9 @@
 
 #include <stdint.h>
 #include <vector>
+#include <dirent.h>
+#include <errno.h>
+#include <iostream>
 
 #include "collisionDetection.h"
 #include "mapManager2.h"
@@ -25,6 +28,8 @@ private:
     LoadingScreen *loadingScreen;
     
     NewtonCollision *objCollision;
+    
+    void deleteAllColMeshes();
     
 public:
 

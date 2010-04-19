@@ -12,6 +12,9 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     , height(1)
     , prevX(10000)
     , prevY(10000)
+    , controlsBeenShown(false)
+    , largeMapBeenShown(false)
+    , largeRadarBeenShown(false)
 {
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
@@ -48,6 +51,12 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     // CEGUI::FrameWindow *test     = guiManager->addStaticImage("ScoresFail",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ScoresFail",      "Whole" );
 
 }
+
+bool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }
+
+bool HUD::hasLargeMapBeenShown() { return largeRadarBeenShown; }
+
+bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
 
 void HUD::makeCommonHUD() {
 
@@ -546,7 +555,7 @@ void HUD::setSpeedIndicator(std::string giraffe) {
     indicator->setText(giraffe);
 }
 
-//void HUD::setShields(float yeah) {
+//void HUD::setShieldsbool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }(float yeah) {
 //    shields->setProgress(yeah);
 //}
 
@@ -643,6 +652,7 @@ void HUD::toggleMap(bool tog)
 
 void HUD::toggleControls(bool tog) {
     controls->setVisible(tog);
+    if (tog) controlsBeenShown = true;
 }
 
 void HUD::toggleCrosshair(bool tog) {

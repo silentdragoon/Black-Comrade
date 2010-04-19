@@ -2,7 +2,8 @@
 
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
-                   GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, Door *door)
+                   GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
+                   Door *door)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
@@ -10,6 +11,7 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , guiMgr(guiMgr)
     , hud(hud)
     , miniGameMgr(miniGameMgr)
+    , damageState(damageState)
     , state(TS_PRE)
     , door(door)
     , pauseProgress(0)
@@ -18,29 +20,67 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
 TutorialState Tutorial::getState() { return state; }
 
 void Tutorial::tick() {
-    checkConsole();
+    tickCommonTutorial();
+    switch(tutee->getGameRole()) {
+        case PILOT:
+            tickPilotTutorial();
+            break;
+        case ENGINEER:
+            tickEngineerTutorial();
+            break;
+        case NAVIGATOR:
+            tickNavigatorTutorial();
+            break;
+    }
     checkForCompletion();
     if (state == TS_END)
         door->open();
 }
 
-void Tutorial::checkConsole() {
+void Tutorial::tickCommonTutorial() {
     switch(state) {
         case(TS_PRE) :
             changeWithPause(TS_START,350);
             break;
-        case(TS_START) :
-            changeWithPause(TS_OPEN_CONSOLE,350);
-            break;
+        case(TS_REPAIR_SYSTEMS) :
+            // We want the players to repair all systems
+            if (  damageState->getEngineHealth()>=95
+               && damageState->getWeaponHealth()>=95
+               && damageState->getSensorHealth()>=95
+            ) state = TS_CLOSE_CONSOLE;
         case(TS_OPEN_CONSOLE) :
             // We want the player to open the console
             if (miniGameMgr->hasConsoleBeenOpened())
-                changeWithPause(TS_CLOSE_CONSOLE);
+                changeWithPause(TS_REPAIR_SYSTEMS,0);
             break;
         case(TS_CLOSE_CONSOLE) :
             // We want the player to close the console
             if (miniGameMgr->hasConsoleBeenClosed())
                state = TS_WAITING_FOR_OTHERS;
+            break;
+    }
+}
+
+void Tutorial::tickPilotTutorial() {
+    switch(state) {
+        case(TS_START) :
+            changeWithPause(TS_OPEN_CONSOLE,350);
+            break;
+    }
+}
+
+void Tutorial::tickEngineerTutorial() {
+    switch(state) {
+        case(TS_START) :
+            changeWithPause(TS_OPEN_CONSOLE,350);
+            break;
+    }
+}
+
+void Tutorial::tickNavigatorTutorial() {
+    switch(state) {
+        case(TS_START) :
+            changeWithPause(TS_OPEN_CONSOLE,350);
             break;
     }
 }

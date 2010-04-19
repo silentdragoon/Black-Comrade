@@ -26,6 +26,10 @@ private:
     int prevY;
     int prevRotate;
 
+    bool controlsBeenShown;
+    bool largeMapBeenShown;
+    bool largeRadarBeenShown;
+
     //CEGUI::ProgressBar *shields;
     CEGUI::ProgressBar *sensors;
     CEGUI::ProgressBar *weapons;
@@ -115,6 +119,11 @@ public:
     void toggleControls(bool tog);
 
     void toggleCrosshair(bool tog);
+
+    bool hasControlScreenBeenShown();
+    bool hasLargeMapBeenShown();
+    bool hasLargeRadarBeenShown();
+
 };
 
 #endif
