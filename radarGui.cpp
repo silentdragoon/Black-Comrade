@@ -8,7 +8,8 @@
 #define RADAR_ANGLE 1.570796
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
-    SwarmManager *swarmManager, HUD *hud)
+        SwarmManager *swarmManager, HUD *hud, NavigatorControls 
+        *navigatorControls)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -20,6 +21,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , radarWindow(NULL)
     , hud(hud)
     , fullScreen(false)
+    , navigatorControls(navigatorControls)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
     
@@ -167,6 +169,9 @@ CEGUI::FrameWindow *RadarGui::createEnemyDot()
 
 void RadarGui::tick()
 {
+    fullScreen = navigatorControls->isMap();
+
+
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
     float ratio = winWidth / (float)winHeight;

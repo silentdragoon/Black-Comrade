@@ -203,7 +203,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
     
     // Navigator Controls
-    if(collabInfo->getGameRole() == NAVIGATOR) {
+    if(true || collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
@@ -355,8 +355,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(audioState,"audioState");
 	
     // Radar GUI
-    if (collabInfo->getGameRole() == ENGINEER) {
-    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud);
+    if (true || collabInfo->getGameRole() == ENGINEER) {
+    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud,
+    	    navigatorControls);
     	gameLoop->addTickable(radarGui,"Radar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
