@@ -642,7 +642,6 @@ void HUD::toggleMap(bool tog)
 }
 
 void HUD::toggleControls(bool tog) {
-    guiManager->setOverlayAboveCEGUI(!tog);
     controls->setVisible(tog);
 }
 

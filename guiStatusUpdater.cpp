@@ -21,7 +21,9 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     pilotInfo(pilotInfo),
     engInfo(engInfo),
     navInfo(navInfo)
-{}
+{
+    guiMgr->setOverlayAboveCEGUI(false);
+}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
 
