@@ -57,7 +57,7 @@ bool MenuSystem::mouseMoved(const OIS::MouseEvent &e) {
 
     CEGUI::System& cegui = CEGUI::System::getSingleton();
 
-    cegui.injectMouseMove(e.state.X.rel, e.state.Y.rel);
+    cegui.injectMouseMove(inputState->getMouseX(), inputState->getMouseY());
     cegui.injectMouseWheelChange(e.state.Z.rel * 0.03);
 
     return true;
