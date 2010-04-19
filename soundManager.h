@@ -57,7 +57,7 @@ private:
     void loadSoundFiles();
     void loadMusic();
     void loadPermanent();
-    void loadSoundFile(string relativePath, int constName, bool loop);
+    void loadSoundFile(string relativePath, int constName, bool loop, bool twod);
     void crossFade();
     void checkChannels();
     void updateShipPosition();
