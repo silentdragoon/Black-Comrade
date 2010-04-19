@@ -237,7 +237,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
-    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,miniGameMgr,door);
+    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,
+                            miniGameMgr,damageState, door);
     gameLoop->addTickable(tutorial,"tutorial");
 
     // GameState

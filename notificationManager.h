@@ -56,7 +56,10 @@ private:
     bool isTimely(NotificationType notification, int delaySinceMe, int delaySinceLast);
     int getTimeSince(NotificationType notification);
     int getTimeSinceLast();
+
+    void initializeRecencies();
     void updateRecencies();
+
     void prepareNotification();
 	
 public:
