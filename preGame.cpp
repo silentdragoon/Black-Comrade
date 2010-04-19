@@ -23,7 +23,7 @@ CollaborationInfo* PreGame::showMenus() {
 }
 
 void PreGame::waitForPlayers() {
-    loadingScreen->updateProgress(100.0);
+    loadingScreen->updateProgress(100);
     menuLoop->running = true;
     menuLoop->startLoop();
     shutdown();
