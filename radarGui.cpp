@@ -195,16 +195,22 @@ void RadarGui::tick()
         yCenter = 1 - (219 - 0) * hpixel + height / 2;
     }
 
-    std::deque<Swarm*> swarms = swarmManager->getAllSwarms();
+    std::vector<Enemy*> enemies = swarmManager->getAllLocalEnemies();
+    
+    std::vector<Enemy*> replicas = swarmManager->getReplicatedEnemies();
+    
+    for(std::vector<Enemy*>::const_iterator it= replicas.begin(); it != replicas.end(); ++it) {
+        enemies.push_back(*it);
+    }
     
     std::vector<std::pair<float,float> > positions;
     
-    for(std::deque<Swarm*>::const_iterator it=swarms.begin();
-        it!=swarms.end();++it) {
+    for(std::vector<Enemy*>::const_iterator it=enemies.begin();
+        it!=enemies.end();++it) {
         
-        Swarm *s = *it;
+        Enemy *s = *it;
     
-        Vector3 displacement = s->getAveragePosition() - 
+        Vector3 displacement = *s->getPosition() - 
             *shipState->getPosition();
             
         float dist = displacement.length() / RADAR_SIGHT_DIST;

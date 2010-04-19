@@ -37,7 +37,7 @@ void BulletManager::tick()
     handleGun(navigatorGunState);
     
     // Enemies shoot if neccessary
-    handleEnemies(swarmMgr->getAllEnemies());
+    handleEnemies(swarmMgr->getAllLocalEnemies());
     handleEnemies(swarmMgr->getReplicatedEnemies());
 }
 
@@ -83,7 +83,7 @@ double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
     // Use the distance to the map as a starting point
     shortestDistance = getDistanceTo(bestTarget,owner);
 
-    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+    std::vector<Enemy*> ents = swarmMgr->getAllLocalEnemies();
     for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
        Enemy *e = *it;
        tempDistance = getDistanceTo(e,owner);
