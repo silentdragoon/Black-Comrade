@@ -108,9 +108,7 @@ void DiscoveryAgent::beServer(string gameName, bool pilotTaken, bool navTaken, b
 
     p = server->Receive();
     if (p==0) {
-        SLEEP(30);
-    }
-    else {
+    } else {
         RakNet::BitStream dataStream;
         dataStream.Write(RakNet::RakString(gameName.c_str()));
         dataStream.Write(pilotTaken);

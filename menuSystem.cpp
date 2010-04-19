@@ -11,6 +11,9 @@ MenuSystem::MenuSystem(SceneManager *sceneMgr, GuiManager *guiMgr,
     , fadingOut(false)
 {
     menuLoop = new StateUpdate();
+    // Move CEGUI mouse to (0,0)
+    CEGUI::Point mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
+    CEGUI::System::getSingleton().injectMouseMove(-mousePos.d_x,-mousePos.d_y);
 }
 
 void MenuSystem::init() {
@@ -57,7 +60,7 @@ bool MenuSystem::mouseMoved(const OIS::MouseEvent &e) {
 
     CEGUI::System& cegui = CEGUI::System::getSingleton();
 
-    cegui.injectMouseMove(e.state.X.rel, e.state.Y.rel);
+    cegui.injectMouseMove(inputState->getMouseX(), inputState->getMouseY());
     cegui.injectMouseWheelChange(e.state.Z.rel * 0.03);
 
     return true;

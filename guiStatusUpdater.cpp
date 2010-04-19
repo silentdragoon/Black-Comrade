@@ -4,7 +4,7 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
                                    GunnerControls *playerControls, GameRole gameRole,
                                    SystemManager *systemManager, HUD *hud, Flying *flying,
                                    NotificationManager *notificationMgr,
-                                   GameStateMachine *gameStateMachine, Objective *objective,
+                                   GameStateMachine *gameStateMachine, Objective *objective, Console *console,
                                    CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
@@ -17,10 +17,13 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     notificationMgr(notificationMgr),
     gameStateMachine(gameStateMachine),
     objective(objective),
+    console(console),
     pilotInfo(pilotInfo),
     engInfo(engInfo),
     navInfo(navInfo)
-{}
+{
+    guiMgr->setOverlayAboveCEGUI(false);
+}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
 
@@ -117,25 +120,27 @@ void GuiStatusUpdater::tick() {
     if (gameRole==PILOT) {
     	if (navigatorRepairing) { status1 = rpr; }
     	if (engineerRepairing) { status2 = rpr; }
-    	navKillCount = kills1;
-    	engKillCount = kills2;
+    	kills1 = navKillCount;
+    	kills2 = engKillCount;
 	}
 	if (gameRole==ENGINEER) {
 		if (pilotRepairing) { status1 = rpr; }
 		if (navigatorRepairing) { status2 = rpr; }
-		pilKillCount = kills1;
-		navKillCount = kills2;
-		
+		kills1 = pilKillCount;
+		kills2 = navKillCount;
 	}
 	if (gameRole==NAVIGATOR) {
 		if (pilotRepairing) { status1 = rpr; }
     	if (engineerRepairing) { status2 = rpr; }
-		pilKillCount = kills1;
-    	engKillCount = kills2;
+		kills1 = pilKillCount;
+    	kills2 = engKillCount;
 	}
-      
+
     hud->setTeamInfo(status1,status2,kills1,kills2);
-    /**/ 
+
+    // Hide crosshair if the console is open
+    hud->toggleCrosshair(!console->getVisible());
+
     float weaponCharge = (float)(systemManager->getWeaponCharge());
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);

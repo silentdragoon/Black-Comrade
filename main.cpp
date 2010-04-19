@@ -378,7 +378,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,
-                                            pilotInfo,navigatorInfo,engineerInfo);
+                                            cons, pilotInfo,navigatorInfo,engineerInfo);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     soundMgr->changeMusic(1); // Switch to stealth music

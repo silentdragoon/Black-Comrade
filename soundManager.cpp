@@ -51,22 +51,22 @@ SoundManager::SoundManager() {
 void SoundManager::loadSoundFiles() {
     FMOD::Sound *tempsound;
     // Frontgun sound
-    loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false);
+    loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false,false);
 
     // Frontgun sound
-    loadSoundFile("/sounds/enemygun1.wav",ConstManager::getInt("sound_enemygun"),false);
+    loadSoundFile("/sounds/enemygun1.wav",ConstManager::getInt("sound_enemygun"),false,false);
 
     // Attack mode
-    loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false);
+    loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false,true);
 
     // Hull critical
-    loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false);
+    loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false,true);
 
     // Console key press
-    loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false);
+    loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false,true);
 
     // Enemy explosion
-    loadSoundFile("/sounds/explosion6.wav",ConstManager::getInt("sound_explosion"), false);
+    loadSoundFile("/sounds/explosion6.wav",ConstManager::getInt("sound_explosion"), false,false);
 
     // Music section
     loadMusic();
@@ -75,12 +75,16 @@ void SoundManager::loadSoundFiles() {
     loadPermanent();
 }
 
-void SoundManager::loadSoundFile(string relativePath, int constName, bool loop) {
+void SoundManager::loadSoundFile(string relativePath, int constName, bool loop, bool twod) {
     FMOD::Sound *tempsound;
     string soundsPath = ConstManager::getString("sound_file_path");
 
     string fullPath = soundsPath + relativePath;
-    errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    if(twod) {
+        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &tempsound));
+    } else {
+        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+    }
     if (!loop) {
         errCheck(tempsound->setMode(FMOD_LOOP_OFF));
     } else {

@@ -74,7 +74,7 @@ int LoadingScreen::getProgress() { return progress; }
 void LoadingScreen::updateProgress(int newProgress) {
     progress = newProgress;    std::stringstream out;
     
-    if (progress != 100.0) {
+    if (progress != 100) {
         out << progress << "%";
         indicator->setText(out.str());
     } else {
