@@ -65,8 +65,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         mapMgr = new MapManager("examplemap_new.txt", mapPieceChoices, sceneMgr);
     }
 
-    // Explosion creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
     if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
@@ -144,6 +142,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
+
+    // Effects creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+    particleSystemEffectManager->createEngineGlow();
     
     // Start Door
     MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
@@ -492,8 +494,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
     
     // Add some sexy fog
-    ColourValue fadeColour(0.2,0.2,0.2);
-    sceneMgr->setFog(FOG_EXP, fadeColour, 0.01);
+    ColourValue fadeColour(0.1,0.1,0.1);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,500);
     
     Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);

@@ -438,3 +438,42 @@ particle_system FX/reactorExplosion2
         alpha -0.01
     }
 }
+
+particle_system FX/engines
+{
+    quota 100
+    material Particles/lensflare
+    particle_width 1
+    particle_height 1
+    cull_each false
+    renderer billboard
+    billboard_type point
+    billboard_origin center
+
+    emitter Ellipsoid
+    {
+        angle 90
+        colour 0.6 0.2 0.8 1
+        colour_range_start 0.2 0.2 1.0 1
+        colour_range_end 0.0 0.0 1 1
+        direction 0 0 1
+        emission_rate 10
+        position 0 0 0
+        velocity_min 0.1
+        velocity_max 0.5
+        duration_min 5
+        duration_max 7
+        repeat_delay_min 1
+        repeat_delay_max 1
+        time_to_live 10
+        width 2
+        height 1
+        depth 2
+    }
+
+    affector DirectionRandomiser
+    {
+        randomness 100
+        keep_velocity true
+    }
+}
