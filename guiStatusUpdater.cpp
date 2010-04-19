@@ -117,21 +117,21 @@ void GuiStatusUpdater::tick() {
     if (gameRole==PILOT) {
     	if (navigatorRepairing) { status1 = rpr; }
     	if (engineerRepairing) { status2 = rpr; }
-    	navKillCount = kills1;
-    	engKillCount = kills2;
+    	kills1 = navKillCount;
+    	kills2 = engKillCount;
 	}
 	if (gameRole==ENGINEER) {
 		if (pilotRepairing) { status1 = rpr; }
 		if (navigatorRepairing) { status2 = rpr; }
-		pilKillCount = kills1;
-		navKillCount = kills2;
+		kills1 = pilKillCount;
+		kills2 = navKillCount;
 		
 	}
 	if (gameRole==NAVIGATOR) {
 		if (pilotRepairing) { status1 = rpr; }
     	if (engineerRepairing) { status2 = rpr; }
-		pilKillCount = kills1;
-    	engKillCount = kills2;
+		kills1 = pilKillCount;
+    	kills2 = engKillCount;
 	}
       
     hud->setTeamInfo(status1,status2,kills1,kills2);
