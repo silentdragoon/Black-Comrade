@@ -12,13 +12,14 @@ class Objective : public ITickable, public ReplicaObject,
                   public IBulletTarget {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
+        CollisionManager *collisionMgr;
         int health;
         int escapeTime;
         int ticks;
         bool boom;
         int originalHealth;
     public:
-        Objective(ParticleSystemEffectManager *particleSystemEffectManager);
+        Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr);
         Objective();
         ~Objective();
 

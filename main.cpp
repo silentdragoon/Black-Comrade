@@ -1,14 +1,4 @@
-
 #include "main.h"
-#include <iostream>
-#include "stateUpdate.h"
-
-#include "networkRole.h"
-#include "collaborationInfo.h"
-#include "networkingManager.h"
-#include "constManager.h"
-
-using namespace RakNet;
 
 Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool rebuildCollisionMeshes) {
     // Start Ogre
