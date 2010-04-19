@@ -51,6 +51,7 @@ private:
     CEGUI::Editbox *kills1;
     CEGUI::Editbox *kills2;
 
+    CEGUI::FrameWindow *crosshair;
     CEGUI::FrameWindow *controls;
 
     CEGUI::FrameWindow *fullmap;
@@ -112,6 +113,8 @@ public:
     void updateMiniMap();
 
     void toggleControls(bool tog);
+
+    void toggleCrosshair(bool tog);
 };
 
 #endif

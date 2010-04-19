@@ -55,7 +55,7 @@ void HUD::makeCommonHUD() {
     //guiManager->addStaticImage("Overlay", 0.5, 0.5, 1.6/ratio, 1.0, "Overlay", "Overlay");
 
     // Crosshair
-    guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
+    crosshair = guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
 
     // Crew backgrounds
     guiManager->addStaticImagePix("Crewl", 0.0 + 0 * wpixel,    0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
@@ -642,8 +642,11 @@ void HUD::toggleMap(bool tog)
 }
 
 void HUD::toggleControls(bool tog) {
-    guiManager->setOverlayAboveCEGUI(!tog);
     controls->setVisible(tog);
+}
+
+void HUD::toggleCrosshair(bool tog) {
+    crosshair->setVisible(tog);
 }
 
 void HUD::switchStatus(int state) {

@@ -103,7 +103,7 @@ bool NetworkingManager::connectToGame(ServerInfo *info) {
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
-    rakPeer->SetMaximumIncomingConnections(2);
+    //rakPeer->SetMaximumIncomingConnections(2);
 
     lobby = new Lobby(rakPeer, discoveryAgent, CLIENT,nick);
     return lobby->connect(address, Const::SERVER_PORT);

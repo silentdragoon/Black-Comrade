@@ -317,6 +317,7 @@ dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity*
 
 dFloat CollisionDetection::rayCollideWithTransform( Vector3 *start, Vector3 *end, Entity* collideAgainst )
 {
+    cout << collideAgainst << endl;
     Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
     Vector3 transStart = m4 * (*start);
     Vector3 transEnd = m4 * (*end);

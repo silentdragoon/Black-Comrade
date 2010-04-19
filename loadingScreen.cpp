@@ -25,7 +25,7 @@ void LoadingScreen::tick() {
         std::exit(-1);
     }
     networkingMgr->tick();
-    if (progress >= 100 ) isEnd = true;
+    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE)) isEnd = true;
 }
 
 MenuType::LoadingScreen::nextMenu() {

@@ -63,7 +63,7 @@ class SwarmManager : public ITickable
 
         void updateRemoteSwarms();
 
-        std::vector<Enemy*> getAllEnemies();
+        std::vector<Enemy*> getAllLocalEnemies();
         std::vector<Enemy*> getReplicatedEnemies();
         
         std::deque<Swarm*> getAllSwarms();
