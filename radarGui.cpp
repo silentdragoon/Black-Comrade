@@ -1,11 +1,11 @@
 
 #include "radarGui.h"
 
-#define RADAR_TOP_FRAC 0.03
-#define DOT_Y_OFFSET_FRAC 0.9
-#define DOT_HEIGHT 0.12
-#define RADAR_SIGHT_DIST 500
-#define RADAR_ANGLE 1.570796
+#define RADAR_TOP_FRAC 0
+#define DOT_Y_OFFSET_FRAC 0
+#define DOT_HEIGHT 0.04
+#define RADAR_SIGHT_DIST 1200
+#define RADAR_ANGLE 1.04719755
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, NavigatorControls 
@@ -218,6 +218,9 @@ void RadarGui::tick()
         
         while(angle > PI) angle -= 2 * PI;
         while(angle < -PI) angle += 2 * PI;
+        
+        // If real close just draw dot
+        //if(dist < 0.1) { dist = 0; angle = 0;}
         
         if(dist < 1 && abs(angle) < RADAR_ANGLE/2) {
             
