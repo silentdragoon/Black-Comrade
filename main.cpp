@@ -153,6 +153,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
     sceneNodeMgr->createNode(door);
     //door->open();
+    collisionMgr->addColidableMovableObject(sceneNodeMgr->getEntity(door));
     gameLoop->addTickable(door, "Door");
     
     soundMgr->setShipNode(shipSceneNode);     
