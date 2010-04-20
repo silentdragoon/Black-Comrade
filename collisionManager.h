@@ -15,6 +15,7 @@
 #include "mapManager2.h"
 #include "collision.h"
 #include "loadingScreen.h"
+#include "objective.h"
 
 using namespace Ogre;
 using namespace std;
@@ -26,6 +27,8 @@ private:
     std::vector<Entity*> movableObj;
     CollisionDetection *cd;
     MapManager *mp;
+    Objective *objective;
+
     SceneManager* sceneMgr;
     LoadingScreen *loadingScreen;
 
@@ -39,7 +42,7 @@ public:
     //ie. can be checked with getRCMapAndMovObjsDist and rayCollideWithTransform
     void addColidableMovableObject( Entity *e );
 
-    CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp, Objective *objective, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
     //Collision isCollided(Vector3 *shipPos);
 
     //does was it sais ( returns results similar to if the obj isnt present)

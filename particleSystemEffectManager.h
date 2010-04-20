@@ -18,13 +18,14 @@ class ParticleSystemEffectManager : public ITickable {
         int num;
         SceneManager *sceneMgr;
         MapManager *mapMgr;
+        SceneNode *shipSceneNode;
 
         ParticleSystemEffect *obj1;
         ParticleSystemEffect *obj2;
 
         std::string createUnique(std::string name);
     public:
-        ParticleSystemEffectManager(SceneManager *sceneMgr, MapManager *mapMgr);
+        ParticleSystemEffectManager(SceneManager *sceneMgr, MapManager *mapMgr, SceneNode *shipSceneNode);
         ~ParticleSystemEffectManager();
 
         void createEffect(EffectType type, Vector3 position);
@@ -33,6 +34,7 @@ class ParticleSystemEffectManager : public ITickable {
         void createExplosion(Vector3 pos);
         void createSparks(Vector3 pos);
         void createMuzzleFlash(Vector3 pos);
+        void createEngineGlow();
         void updateEffects();
         void tick();
 };
