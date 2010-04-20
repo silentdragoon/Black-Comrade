@@ -1,8 +1,17 @@
 #include "objective.h"
 
-Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr) :
+/*Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr) :
     particleSystemEffectManager(particleSystemEffectManager),
     collisionMgr(colMgr),
+    health(10),
+    escapeTime(ConstManager::getInt("escape_time")),
+    ticks(0),
+    boom(false),
+    originalHealth(10)
+{}*/
+
+Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
+    particleSystemEffectManager(particleSystemEffectManager),
     health(10),
     escapeTime(ConstManager::getInt("escape_time")),
     ticks(0),
@@ -47,7 +56,7 @@ void Objective::tick() {
         if(!boom) {
             // Destroy objective and make a giant explosion
             particleSystemEffectManager->destroyObjective();
-            collisionManager->removeObjective();
+            //collisionManager->removeObjective();
             boom = true;
         }
         // Count down timer

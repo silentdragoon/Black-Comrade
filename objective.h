@@ -5,21 +5,22 @@
 #include "particleSystemEffectManager.h"
 #include "constManager.h"
 #include "replicaObject.h"
-#include "collisionManager.h"
+//#include "collisionManager.h"
 #include "IBulletTarget.h"
 
 class Objective : public ITickable, public ReplicaObject,
                   public IBulletTarget {
     private:
         ParticleSystemEffectManager *particleSystemEffectManager;
-        CollisionManager *collisionMgr;
+        //CollisionManager *collisionMgr;
         int health;
         int escapeTime;
         int ticks;
         bool boom;
         int originalHealth;
     public:
-        Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr);
+        //Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr);
+        Objective(ParticleSystemEffectManager *particleSystemEffectManager);
         Objective();
         ~Objective();
 
