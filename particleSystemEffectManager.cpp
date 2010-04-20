@@ -7,7 +7,7 @@ ParticleSystemEffectManager::ParticleSystemEffectManager(SceneManager *sceneMgr,
     shipSceneNode(shipSceneNode),
     num(0)
 {
-    activeEffects = new std::vector<ParticleSystemEffect*>(); 
+    activeEffects = new std::vector<ParticleSystemEffect*>();
 }
 
 ParticleSystemEffectManager::~ParticleSystemEffectManager() {
@@ -30,7 +30,7 @@ std::string ParticleSystemEffectManager::createUnique(std::string name) {
 }
 
 void ParticleSystemEffectManager::makeObjective() {
-    Vector3 pos = mapMgr->getObjectivePosition(); 
+    Vector3 pos = mapMgr->getObjectivePosition();
 
     std::string nname = createUnique("enode");
     std::string pname = createUnique("effect");
@@ -51,7 +51,7 @@ void ParticleSystemEffectManager::makeObjective() {
 
 void ParticleSystemEffectManager::destroyObjective() {
     std::cout << mapMgr << std::endl;
-    Vector3 pos = mapMgr->getObjectivePosition(); 
+    Vector3 pos = mapMgr->getObjectivePosition();
 
     obj1->stopEmitting();
     obj2->stopEmitting();
@@ -131,7 +131,7 @@ void ParticleSystemEffectManager::createEngineGlow() {
     std::string pname = createUnique("effect");
     SceneNode *engine = shipSceneNode->createChildSceneNode();
     engine->setPosition(0,0,-40);
-    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, engine, pname, "FX/engines"); 
+    ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, engine, pname, "FX/engines");
     Light *engLight = sceneMgr->createLight();
     engLight->setType(Light::LT_SPOTLIGHT);
     engLight->setDiffuseColour(0.2,0.2,1.0);

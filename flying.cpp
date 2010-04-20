@@ -55,7 +55,7 @@ void Flying::updatePosition()
 {
     bool hitObj = false;
     bool collided = false;
-    Collision col = colMgr->collideWithMapPiece(snMgr->getEntity(shipState));
+    Collision col = colMgr->collideWithMapPieceAndMovableObjects(snMgr->getEntity(shipState));
     if (col.isCollided) {
         // Collided with map
         collided = true;

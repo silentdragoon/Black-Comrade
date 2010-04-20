@@ -4,11 +4,14 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
                                     LoadingScreen* loadingScreen, bool rebuildCollisionMeshes ):
     sceneMgr(sceneMgr),
     mp(mp),
+    obj(true),
     objective(objective),
     loadingScreen(loadingScreen)
 {
+    movableObj = std::vector<Entity*>();
     if(rebuildCollisionMeshes) deleteAllColMeshes();
     cd = new CollisionDetection(rebuildCollisionMeshes);
+    //building the map
     std::vector<Entity*> pc = mp->getMapEntitiesForCollision();
     double percInc = 100.0/pc.size();
     double percDone = 0;
@@ -19,7 +22,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
         percDone += percInc;
         cd->addStaticTreeCollisionMesh(*it);
     }
-
+    //adding the objective collision mesh
     Vector3 obj = mp->getObjectivePosition();
     Real x = obj.x;
     Real y = obj.y;
@@ -32,15 +35,14 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
 void CollisionManager::deleteAllColMeshes()
 {
     DIR *directory;
-    
+
     string dirString = ConstManager::getString("cmesh_file_path");
-    if((directory=opendir(dirString.c_str()))==NULL) cout << "Couldnt delete  cmeshes"<<endl; 
+    if((directory=opendir(dirString.c_str()))==NULL) cout << "Couldnt delete  cmeshes"<<endl;
     else
     {
         struct dirent *theFile;
         while ((theFile=readdir(directory)))
         {
-            //cout<<theFile->d_name<<endl;
             //exlude pilepaths of . and ..
             string path = dirString;
             if( !(string(theFile->d_name).compare(".") == 0 || string(theFile->d_name).compare("..") == 0))
@@ -54,6 +56,11 @@ void CollisionManager::deleteAllColMeshes()
     }
 }
 
+void CollisionManager::addColidableMovableObject( Entity *e )
+{
+    cd->createConvexHull(e);
+    movableObj.push_back(e);
+}
 
 dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
 {
@@ -71,14 +78,22 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Vector3 *direction )
     return  closestDist;
 }
 
+dFloat CollisionManager::getRCMapAndMovObjsDist( Vector3 *pos, Vector3 *direction )
+{
+    dFloat mapDist = getRCMapDist(pos, direction);
+    dFloat moveObjDist = getRCMovableObjectsDist( pos, direction );
+    if( mapDist < moveObjDist ) return mapDist;
+    else return moveObjDist;
+}
+
 dFloat CollisionManager::getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat dist, Entity* e)
 {
     Vector3 end;
-    
+
     end.x = pos->x + direction->x * dist;
     end.y = pos->y + direction->y * dist;
     end.z = pos->z + direction->z * dist;
-    
+
     return (cd->rayCollideDist( pos, &end, e)*dist);
 }
 
@@ -114,7 +129,7 @@ dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
 }
 
 dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
-{ 
+{
     dFloat dist = 2000;
     double x = start->x + direction->x * dist;
     double y = start->y + direction->y * dist;
@@ -130,20 +145,54 @@ bool CollisionManager::collideEntityWithObj(Entity *e)
     else return false;
 }
 
-Collision CollisionManager::collideWithMapPiece( Entity *e )
+Collision CollisionManager::collideWithMapPieceAndMovableObjects( Entity *e )
 {
-    dFloat contacts[16] = {0.0f};
-    dFloat normals[16] = {0.0f};
-    
-    dFloat penetration[16] = {0.0f};
-    Collision col = Collision(false,normals,contacts,penetration);
+    //dFloat contacts[16] = {0.0f};
+    //dFloat normals[16] = {0.0f};
+    //dFloat penetration[16] = {0.0f};
+    Collision col;// = Collision(false,normals,contacts,penetration);
+
     Vector3 pos = e->getParentSceneNode()->_getFullTransform().getTrans();
-    Entity* mapEn = mp->getEntity( &pos );
-    //checks if the two entities have collided
-    if( e != NULL) col = cd->mapCollision( e, mapEn );
+
+    Entity* ents[5];
+    mp->getEntitiesForCollisionFromAPosition( &pos, ents );
+
+    for( int i = 0; i < 5; i++ )
+    {
+        if( ents[i] != NULL)
+        {
+            col = cd->staicAndDynamicCollision( e, ents[i], false );
+            if( col.isCollided ) return col;
+        }
+    }
+
+    for(std::vector<Entity*>::const_iterator it=movableObj.begin();it!=movableObj.end(); ++it)
+    {
+        col = cd->staicAndDynamicCollision( e, *it, true);
+        if( col.isCollided ) return col;
+    }
     return col;
 }
-    
+
+dFloat CollisionManager::getRCMovableObjectsDist( Vector3 *start, Vector3 *direction )
+{
+    dFloat dist = 2000.0;
+    double x = start->x + direction->x * dist;
+    double y = start->y + direction->y * dist;
+    double z = start->z + direction->z * dist;
+
+    dFloat minDist = 2000.0;
+    dFloat tmpDist;
+
+    for(std::vector<Entity*>::const_iterator it=movableObj.begin();it!=movableObj.end(); ++it)
+    {
+        Vector3 end = Vector3(x,y,z);
+        tmpDist = cd->rayCollideWithTransform( start, &end, *it) * dist;
+        if( tmpDist < minDist ) minDist = tmpDist;
+    }
+    return minDist;
+}
+
 
 /* dFloat CollisionManager::getRCDistBetweenPoints( Vector3 *start, Vector3 *end, Entity *collideAgainst )
 {
@@ -191,12 +240,12 @@ dFloat CollisionManager::getRCMapDist( Vector3 *pos, Real pitch, Real yaw  )
     end.y = start->y + sin(pitch)*dist;
     end.z = start->z + cos(yaw)*dist;
     dFloat t = cd->rayCollideDist( start, &end, collideAgainst);
-    
+
     return new Vector3( start->x + sin(yaw)*t*dist, start->y + sin(pitch)*t*dist, start->z + cos(yaw)*t*dist);
 } */
 
 
-    
+
 
 
 
