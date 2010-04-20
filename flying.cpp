@@ -53,9 +53,18 @@ void Flying::updateAngels()
 
 void Flying::updatePosition()
 {
-    //if(colMgr->collideEntityWithObj(snMgr->getEntity(shipState))) cout<<"Hit OBJ"<<endl;
+    bool hitObj = false;
+    bool collided = false;
     Collision col = colMgr->collideWithMapPiece(snMgr->getEntity(shipState));
-    if(col.isCollided && useCollisions)
+    if (col.isCollided) {
+        // Collided with map
+        collided = true;
+    } else {
+        collided = colMgr->collideEntityWithObj(snMgr->getEntity(shipState));
+        hitObj = collided;
+    }
+
+    if(collided && useCollisions)
     {
         vFactor = 0.05;
         
@@ -83,7 +92,11 @@ void Flying::updatePosition()
 			zVel = vel.z;
 		}
 
-        damageState->damage(1);
+        if (hitObj) {
+            damageState->damage(100);
+        } else {
+            damageState->damage(1);
+        }
         pilotStats->numCollisions ++;
     }
 

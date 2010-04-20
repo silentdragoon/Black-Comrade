@@ -55,9 +55,15 @@ double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *
     Vector3 direction = owner->getBulletDirection();
 
     switch (possibleTarget->getEntityType()) {
-        case ENTT_OBJECTIVE:
-            distance = colMgr->getRCObjDist(&origin,&direction);
+        case ENTT_OBJECTIVE: {
+            Objective *objective = (Objective *)possibleTarget;
+            if (objective->getHealth() <= 0) {
+                distance = 2000;
+            } else {
+                distance = colMgr->getRCObjDist(&origin,&direction);
+            }
             break;
+        }
         case ENTT_MAP:
             distance = colMgr->getRCMapDist(&origin,&direction);
             break;
