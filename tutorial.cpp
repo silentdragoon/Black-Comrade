@@ -39,7 +39,7 @@ void Tutorial::tick() {
 }
 
 void Tutorial::tickCommonTutorial() {
-    if (inputState->isKeyDown(OIS::KC_T)) {
+    if (inputState->isKeyDown(OIS::KC_END)) {
         // Skip the tutorial
         state = TS_END;
     }

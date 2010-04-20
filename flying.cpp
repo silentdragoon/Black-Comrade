@@ -95,7 +95,7 @@ void Flying::updatePosition()
         if (hitObj) {
             damageState->damage(100);
         } else {
-            damageState->damage(1);
+            damageState->damage(10);
         }
         pilotStats->numCollisions ++;
     }
