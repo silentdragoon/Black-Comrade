@@ -110,30 +110,32 @@ void GuiStatusUpdater::tick() {
     int navKillCount = navInfo->getPlayerStats()->enemiesDestroyed;
     int engKillCount = engInfo->getPlayerStats()->enemiesDestroyed;
     
-    std::string status1 = "Fighting";
-    std::string status2 = "Fighting";
     int kills1 = 0;
     int kills2 = 0;
     std::string rpr = "Repairing";
+    std::string fgt = "";
+
+    std::string status1 = fgt;
+    std::string status2 = fgt;
     
     
     if (gameRole==PILOT) {
-    	if (navigatorRepairing) { status1 = rpr; }
-    	if (engineerRepairing) { status2 = rpr; }
-    	kills1 = navKillCount;
-    	kills2 = engKillCount;
+        status1 = (navigatorRepairing) ? rpr : fgt;
+        status2 = (engineerRepairing) ? rpr : fgt;
+        kills1 = navKillCount;
+        kills2 = engKillCount;
 	}
 	if (gameRole==ENGINEER) {
-		if (pilotRepairing) { status1 = rpr; }
-		if (navigatorRepairing) { status2 = rpr; }
-		kills1 = pilKillCount;
-		kills2 = navKillCount;
+        status1 = (pilotRepairing) ? rpr : fgt;
+        status2 = (navigatorRepairing) ? rpr : fgt;
+	    kills1 = pilKillCount;
+	    kills2 = navKillCount;
 	}
 	if (gameRole==NAVIGATOR) {
-		if (pilotRepairing) { status1 = rpr; }
-    	if (engineerRepairing) { status2 = rpr; }
-		kills1 = pilKillCount;
-    	kills2 = engKillCount;
+        status1 = (pilotRepairing) ? rpr : fgt;
+        status2 = (engineerRepairing) ? rpr : fgt;
+	    kills1 = pilKillCount;
+        kills2 = engKillCount;
 	}
 
     hud->setTeamInfo(status1,status2,kills1,kills2);

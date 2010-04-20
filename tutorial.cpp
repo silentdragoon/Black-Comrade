@@ -3,13 +3,14 @@
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                    GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                   Door *door)
+                   Door *door, InputState *inputState)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
     , tutee3(tutee3)
     , guiMgr(guiMgr)
     , hud(hud)
+    , inputState(inputState)
     , miniGameMgr(miniGameMgr)
     , damageState(damageState)
     , state(TS_PRE)
@@ -38,6 +39,11 @@ void Tutorial::tick() {
 }
 
 void Tutorial::tickCommonTutorial() {
+    if (inputState->isKeyDown(OIS::KC_T)) {
+        // Skip the tutorial
+        state = TS_END;
+    }
+
     switch(state) {
         case(TS_PRE) :
             changeWithPause(TS_START,350);

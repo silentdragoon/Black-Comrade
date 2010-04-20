@@ -7,6 +7,7 @@
 #include "miniGameManager.h"
 #include "collaborationInfo.h"
 #include "door.h"
+#include "tutorial.h"
 
 #include <iostream>
 
@@ -25,6 +26,7 @@ class Tutorial : public ITickable {
         TutorialState state;
         MiniGameManager *miniGameMgr;
         DamageState *damageState;
+        InputState *inputState;
 
         CollaborationInfo *tutee;
 
@@ -50,7 +52,7 @@ class Tutorial : public ITickable {
         Tutorial(CollaborationInfo *tutee,
                  CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                  GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                 Door *door);
+                 Door *door, InputState *inputState);
 	virtual void tick();
 };
 
