@@ -1,14 +1,7 @@
-
 #ifndef MAIN_H
 #define MAIN_H
 
-// Includes all Ogre classes
 #include <OGRE/Ogre.h>
-//#include <CEGUI/CEGUI.h>
-//#include <CEGUI/CEGUIBase.h>
-//#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-//#include <CEGUI/CEGUIImageset.h>
-
 #include "networkingManager.h"
 #include "networkRole.h"
 #include "stateUpdate.h"
@@ -53,8 +46,12 @@
 #include "door.h"
 #include "mapPieceChoices.h"
 #include "tutorial.h"
-
-//include networking stuff
+#include <iostream>
+#include "stateUpdate.h"
+#include "networkRole.h"
+#include "collaborationInfo.h"
+#include "networkingManager.h"
+#include "constManager.h"
 #include <string.h>
 #include <string>
 #include <cstdio>

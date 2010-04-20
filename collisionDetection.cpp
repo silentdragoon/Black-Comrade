@@ -104,8 +104,7 @@ void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
     std::stringstream out;
     out << entity->getName();
     
-    string fileString = ConstManager::getString("map_file_path");
-    fileString.append("collisionMeshes/");
+    string fileString = ConstManager::getString("cmesh_file_path");
     fileString += out.str();
     fileString.append(".cmesh");
     cout << fileString<<endl;
@@ -180,7 +179,7 @@ void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
         }
         else
         {
-            cout << "Colision detection could not write file." << endl;
+            cout << "Colision detection could not write cmesh file." << endl;
         }
     }
 

@@ -21,21 +21,7 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
     , tutorial(tutorial)
     , lastTutorialStateNotified(TS_END)
 {
-    maxDelay = std::numeric_limits<int>::max();
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_CONTROLS,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_WEAPONS_CRITICAL,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_HULL_CRITICAL,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_UNDER_ATTACK,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_ONE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_TWO,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_THREE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_SEEK,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_DESTROY,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));
+    initializeRecencies();
 }
 
 NotificationManager::NotificationManager()
@@ -51,15 +37,32 @@ NotificationManager::NotificationManager()
     , mIsNewNotification(false)
     , controlsDisplayed(false)
 {
-    maxDelay = std::numeric_limits<int>::max();
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_WAITING,maxDelay));
+    initializeRecencies();
 }
 
 void NotificationManager::setTutorial(Tutorial *newTutorial) {
     tutorial = newTutorial;
+}
+
+void NotificationManager::initializeRecencies() {
+    maxDelay = std::numeric_limits<int>::max();
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_REPAIR,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_WAITING,maxDelay));
+
+    recency.insert(std::pair<NotificationType,int>(NT_CONTROLS,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_WEAPONS_CRITICAL,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_HULL_CRITICAL,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_UNDER_ATTACK,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_ONE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_TWO,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_THREE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_SEEK,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_DESTROY,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));
 }
 
 void NotificationManager::updateRecencies() {
@@ -194,6 +197,10 @@ void NotificationManager::prepareNotification() {
                         << "\n\n Try closing it by pressing the ESCAPE key again." << std::endl;
             local = true;
             break;
+        case NT_TUT_REPAIR:
+            consoleText << "The ship's systems are damaged. Pick one and repair it using the console.\n";
+            local = true;
+            break;
         case NT_TUT_WAITING:
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
             local = true;
@@ -274,6 +281,9 @@ void NotificationManager::checkTutorialState() {
             break;
         case TS_START:
             newNotification = NT_TUT_START;
+            break;
+        case TS_REPAIR_SYSTEMS:
+            newNotification = NT_TUT_REPAIR;
             break;
         case TS_WAITING_FOR_OTHERS:
             newNotification = NT_TUT_WAITING;

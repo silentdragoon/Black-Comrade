@@ -170,6 +170,7 @@ void MapManager::loadMap(char *file) {
 
 void MapManager::createTile(string adir, std::vector<int> connections, int x, int y, int pieceToChoose) {
     std::vector<string> files = std::vector<string>();
+    std::vector<string> names = std::vector<string>();
     string dir = MAPROOT + adir;
     std::stringstream out;
     for(std::vector<int>::const_iterator it=connections.begin();it!=connections.end(); ++it) {
@@ -188,16 +189,13 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
         if((string(dirp->d_name).compare(".")!=0)&&(string(dirp->d_name).compare("..")!=0)) {
             string path = dir;
             path += string(dirp->d_name);
+            names.push_back(string(dirp->d_name));
             files.push_back(path);
         }
     }
     closedir(dp);
 
     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
-    string name = "mapTile";
-    std::stringstream out2;
-    out2 << "-" << x << "-" << y;
-    name += out2.str();
 
     //TODO: Pick files at random, and store the randomly generated number in an array
     int chosenPiece;
@@ -210,7 +208,11 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     } else {
         chosenPiece = pieceToChoose;
     }
-    
+  
+    string name = names.at(chosenPiece);
+    std::stringstream out2;
+    out2 << "-" << x << "-" << y;
+    name += out2.str();
     
     MeshPtr pMesh = MeshManager::getSingleton().load(files.at(chosenPiece),
           ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    

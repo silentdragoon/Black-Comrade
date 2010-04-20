@@ -7,6 +7,9 @@
 
 #include <stdint.h>
 #include <vector>
+#include <dirent.h>
+#include <errno.h>
+#include <iostream>
 
 #include "collisionDetection.h"
 #include "mapManager2.h"
@@ -19,18 +22,24 @@ using namespace std;
 class CollisionManager{
 private:
 
+    bool obj;
     CollisionDetection *cd;
     MapManager *mp;
     SceneManager* sceneMgr;
     LoadingScreen *loadingScreen;
     
-    NewtonCollision *objCollision;
+    //NewtonCollision *objCollision;
+    
+    void deleteAllColMeshes();
     
 public:
 
     CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
     //Collision isCollided(Vector3 *shipPos);
     
+    //does was it sais ( returns results similar to if the obj isnt present)
+    void removeObjective();
+
     //stanard way to check map dist. Checks all surrounding pieces.
     dFloat getRCMapDist( Vector3 *pos, Vector3 *direction );
 

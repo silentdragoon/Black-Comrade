@@ -6,6 +6,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     mp(mp),
     loadingScreen(loadingScreen)
 {
+    if(rebuildCollisionMeshes) deleteAllColMeshes();
     cd = new CollisionDetection(rebuildCollisionMeshes);
     std::vector<Entity*> pc = mp->getMapEntitiesForCollision();
     double percInc = 100.0/pc.size();
@@ -25,6 +26,31 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
     addObjMesh(x,y,z,30.0);
 
     cout << "Map pieces loaded: 100%"<<endl;
+}
+
+void CollisionManager::deleteAllColMeshes()
+{
+    DIR *directory;
+    
+    string dirString = ConstManager::getString("cmesh_file_path");
+    if((directory=opendir(dirString.c_str()))==NULL) cout << "Couldnt delete  cmeshes"<<endl; 
+    else
+    {
+        struct dirent *theFile;
+        while ((theFile=readdir(directory)))
+        {
+            //cout<<theFile->d_name<<endl;
+            //exlude pilepaths of . and ..
+            string path = dirString;
+            if( !(string(theFile->d_name).compare(".") == 0 || string(theFile->d_name).compare("..") == 0))
+            {
+                path.append(theFile->d_name);
+                //cout<<"P: "<< path <<endl;
+                if(remove( path.c_str() ) == -1 ) cout << "Error deleting file"<< endl;
+            }
+        }
+        closedir(directory);
+    }
 }
 
 
@@ -71,13 +97,17 @@ void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
 }
 
 dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
-{ 
-    dFloat dist = 2000;
-    double x = start->x + direction->x * dist;
-    double y = start->y + direction->y * dist;
-    double z = start->z + direction->z * dist;
-    Vector3 end = Vector3(x,y,z);
-    return cd->objRayCollision( start, &end )*dist;
+{
+    if( obj )
+    {
+        dFloat dist = 2000;
+        double x = start->x + direction->x * dist;
+        double y = start->y + direction->y * dist;
+        double z = start->z + direction->z * dist;
+        Vector3 end = Vector3(x,y,z);
+        return cd->objRayCollision( start, &end )*dist;
+    }
+    else return false;
 }
 
 dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
@@ -93,7 +123,8 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
 
 bool CollisionManager::collideEntityWithObj(Entity *e)
 {
-    return cd->collideEntityWithObj(e);
+    if(obj) return cd->collideEntityWithObj(e);
+    else return false;
 }
 
 Collision CollisionManager::collideWithMapPiece( Entity *e )

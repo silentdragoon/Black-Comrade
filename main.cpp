@@ -1,14 +1,4 @@
-
 #include "main.h"
-#include <iostream>
-#include "stateUpdate.h"
-
-#include "networkRole.h"
-#include "collaborationInfo.h"
-#include "networkingManager.h"
-#include "constManager.h"
-
-using namespace RakNet;
 
 Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool rebuildCollisionMeshes) {
     // Start Ogre
@@ -65,8 +55,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         mapMgr = new MapManager("examplemap_new.txt", mapPieceChoices, sceneMgr);
     }
 
-    // Explosion creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr);
 
     if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
@@ -144,6 +132,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
+
+    // Effects creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+    particleSystemEffectManager->createEngineGlow();
     
     // Start Door
     MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
@@ -220,6 +212,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {
+        //objective = new Objective(particleSystemEffectManager,collisionMgr);
         objective = new Objective(particleSystemEffectManager);
         networkingManager->replicate(objective);
     } else {
@@ -237,7 +230,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
-    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,miniGameMgr,door);
+    tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,
+                            miniGameMgr,damageState, door);
     gameLoop->addTickable(tutorial,"tutorial");
 
     // GameState
@@ -493,24 +487,27 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
     
     // Add some sexy fog
-    ColourValue fadeColour(0.2,0.2,0.2);
-    sceneMgr->setFog(FOG_EXP, fadeColour, 0.01);
+    ColourValue fadeColour(0.1,0.1,0.1);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
     
-    Light *sp = sceneMgr->createLight("ShipLight");
+    /*Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(1.0,1.0,1.0);
     sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);*/
 
-    //Light *spot = sceneMgr->createLight("shipSpot");
-    //spot->setType(Light::LT_SPOTLIGHT);
-    //spot->setDiffuseColour(1.0,1.0,1.0);
-    //spot->setSpecularColour(1.0,1.0,1.0);
-    //spot->setDirection(Vector3(0,0,1));
+    Light *spot = sceneMgr->createLight("shipSpot");
+    spot->setType(Light::LT_SPOTLIGHT);
+    spot->setDiffuseColour(1.0,1.0,1.0);
+    spot->setSpecularColour(1.0,1.0,1.0);
+    spot->setDirection(Vector3(0,0,-1));
+    spot->setSpotlightInnerAngle(Radian(Degree(5)));
+    spot->setSpotlightOuterAngle(Radian(Degree(100)));
+    spot->setSpotlightFalloff(40.0);
 
-    //shipSceneNode->attachObject(spot);
-    shipSceneNode->attachObject(sp);
+    shipSceneNode->attachObject(spot);
+    //shipSceneNode->attachObject(sp);
     
     return camera;
 }
