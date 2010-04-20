@@ -1,9 +1,10 @@
 #include "collisionManager.h"
 
-CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp,
+CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Objective *objective,
                                     LoadingScreen* loadingScreen, bool rebuildCollisionMeshes ):
     sceneMgr(sceneMgr),
     mp(mp),
+    objective(objective),
     loadingScreen(loadingScreen)
 {
     if(rebuildCollisionMeshes) deleteAllColMeshes();
@@ -101,6 +102,8 @@ dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
     if( obj )
     {
         dFloat dist = 2000;
+        if (objective->getHealth() <= 0) return dist;
+
         double x = start->x + direction->x * dist;
         double y = start->y + direction->y * dist;
         double z = start->z + direction->z * dist;
@@ -123,7 +126,7 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
 
 bool CollisionManager::collideEntityWithObj(Entity *e)
 {
-    if(obj) return cd->collideEntityWithObj(e);
+    if(obj && objective->getHealth() > 0) return cd->collideEntityWithObj(e);
     else return false;
 }
 

@@ -98,8 +98,23 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
+    // Effects creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+    //particleSystemEffectManager->createEngineGlow();
+
+    // Objective
+    if (collabInfo->getGameRole() == PILOT) {
+        //objective = new Objective(particleSystemEffectManager,collisionMgr);
+        objective = new Objective(particleSystemEffectManager);
+        networkingManager->replicate(objective);
+    } else {
+        objective = (Objective*) networkingManager->getReplica("Objective",true);
+        objective->setParticleSystemEffectManager(particleSystemEffectManager);
+    }
+    gameLoop->addTickable(objective,"objective");
+
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr,preGame->getLoadingScreen(), rebuildCollisionMeshes);
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,objective,preGame->getLoadingScreen(), rebuildCollisionMeshes);
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -132,10 +147,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
-
-    // Effects creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
-    //particleSystemEffectManager->createEngineGlow();
     
     // Start Door
     MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
@@ -208,18 +219,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     } else if (collabInfo->getGameRole() == ENGINEER) {
         myControls = engineerControls;
     }
-
-
-    // Objective
-    if (collabInfo->getGameRole() == PILOT) {
-        //objective = new Objective(particleSystemEffectManager,collisionMgr);
-        objective = new Objective(particleSystemEffectManager);
-        networkingManager->replicate(objective);
-    } else {
-        objective = (Objective*) networkingManager->getReplica("Objective",true);
-        objective->setParticleSystemEffectManager(particleSystemEffectManager);
-    }
-    gameLoop->addTickable(objective,"objective");
 
     // Console
     cons = new Console(sceneMgr);

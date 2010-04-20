@@ -15,6 +15,7 @@
 #include "mapManager2.h"
 #include "collision.h"
 #include "loadingScreen.h"
+#include "objective.h"
 
 using namespace Ogre;
 using namespace std;
@@ -25,6 +26,8 @@ private:
     bool obj;
     CollisionDetection *cd;
     MapManager *mp;
+    Objective *objective;
+
     SceneManager* sceneMgr;
     LoadingScreen *loadingScreen;
     
@@ -34,7 +37,7 @@ private:
     
 public:
 
-    CollisionManager( SceneManager* sceneMgr, MapManager* mp, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
+    CollisionManager( SceneManager* sceneMgr, MapManager* mp, Objective *objective, LoadingScreen *loadingScreen, bool rebuildCollisionMeshes );
     //Collision isCollided(Vector3 *shipPos);
     
     //does was it sais ( returns results similar to if the obj isnt present)
