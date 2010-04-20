@@ -96,7 +96,7 @@ CEGUI::FrameWindow *RadarGui::createWindow(
         xPos = pair.first * sin(pair.second) - size;
         yPos = pair.first * cos(pair.second) - 0.5
             + 2 * size * DOT_Y_OFFSET_FRAC;
-        cout << xPos << " - " << yPos << endl;
+        //cout << xPos << " - " << yPos << endl;
         ic = CEGUI::ImageryComponent();
         ic.setImage(imageSet,"enemy");
         

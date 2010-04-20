@@ -56,12 +56,7 @@ double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *
 
     switch (possibleTarget->getEntityType()) {
         case ENTT_OBJECTIVE: {
-            Objective *objective = (Objective *)possibleTarget;
-            if (objective->getHealth() <= 0) {
-                distance = 2000;
-            } else {
-                distance = colMgr->getRCObjDist(&origin,&direction);
-            }
+            distance = colMgr->getRCObjDist(&origin,&direction);
             break;
         }
         case ENTT_MAP:
@@ -143,6 +138,9 @@ void BulletManager::applyDamage(Bullet *b) {
     } else if (ownerType == ENTT_ENEMY && targetType == ENTT_OBJECTIVE) {
         // Enemy shooting objective
         //target->damage(damage);
+    } else if (targetType == ENTT_OBJECTIVE) {
+        std::cout << "HIT OBJECTIVE\n";
+        target->damage(damage);
     } else {
         target->damage(damage);
     }
@@ -163,7 +161,6 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
         if(e->fire) {
             e->fire = false;
             if(activeBullets->size() < 7) {
-                //std::cout << "ENEMY FIRE\n";
                 fire(e);
             }
         }

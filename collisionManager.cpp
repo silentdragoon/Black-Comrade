@@ -102,7 +102,7 @@ dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
     if( obj )
     {
         dFloat dist = 2000;
-        if (objective->getHealth() <= 0) return dist;
+        if (objective->getHealth() <= 0) return 5000;
 
         double x = start->x + direction->x * dist;
         double y = start->y + direction->y * dist;
