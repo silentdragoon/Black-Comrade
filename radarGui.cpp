@@ -3,7 +3,7 @@
 
 #define RADAR_TOP_FRAC 0.03
 #define DOT_Y_OFFSET_FRAC 0.9
-#define DOT_HEIGHT 0.12
+#define DOT_HEIGHT 0.04
 #define RADAR_SIGHT_DIST 500
 #define RADAR_ANGLE 1.570796
 
