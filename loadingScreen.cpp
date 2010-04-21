@@ -25,7 +25,7 @@ void LoadingScreen::tick() {
         std::exit(-1);
     }
     networkingMgr->tick();
-    if (progress >= 100 ) isEnd = true;
+    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE)) isEnd = true;
 }
 
 MenuType::LoadingScreen::nextMenu() {
@@ -74,7 +74,7 @@ int LoadingScreen::getProgress() { return progress; }
 void LoadingScreen::updateProgress(int newProgress) {
     progress = newProgress;    std::stringstream out;
     
-    if (progress != 100.0) {
+    if (progress != 100) {
         out << progress << "%";
         indicator->setText(out.str());
     } else {

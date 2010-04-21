@@ -11,6 +11,7 @@
 #include "guiManager.h"
 #include "shipState.h"
 #include "swarmManager.h"
+#include "navigatorControls.h"
 #include "swarm.h"
 #include "hud.h"
 
@@ -43,10 +44,13 @@ private:
     
     CEGUI::FrameWindow *createWindow(
     std::vector<std::pair<float,float> > *positions);
+    
+    NavigatorControls *navigatorControls;
 
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState,
-        SwarmManager *swarmManager, HUD *hud);
+        SwarmManager *swarmManager, HUD *hud, NavigatorControls 
+        *navigatorControls);
     //~RadarGui();
     
     void tick();

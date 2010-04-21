@@ -2,6 +2,7 @@ map_file_path = /home/user-pool/users/jw7082/mapparts/
 scripts_file_path = /home/user-pool/users/jw7082/modelling/materials/scripts/
 textures_file_path = /home/user-pool/users/jw7082/modelling/materials/textures/
 models_file_path = /home/user-pool/users/jw7082/models/
+cmesh_file_path = /home/ugrads/coms2007/user/arcaninetmp/
 
 map_tile_size = 600
 map_size = 30

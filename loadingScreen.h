@@ -16,7 +16,6 @@ class LoadingScreen : public IMenuScreen
 
         bool isVisible;
         bool isEnd;
-
         NetworkingManager *networkingMgr;
 
         int progress;

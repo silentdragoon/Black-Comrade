@@ -4,7 +4,7 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
                                    GunnerControls *playerControls, GameRole gameRole,
                                    SystemManager *systemManager, HUD *hud, Flying *flying,
                                    NotificationManager *notificationMgr,
-                                   GameStateMachine *gameStateMachine, Objective *objective,
+                                   GameStateMachine *gameStateMachine, Objective *objective, Console *console,
                                    CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
@@ -17,10 +17,13 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     notificationMgr(notificationMgr),
     gameStateMachine(gameStateMachine),
     objective(objective),
+    console(console),
     pilotInfo(pilotInfo),
     engInfo(engInfo),
     navInfo(navInfo)
-{}
+{
+    guiMgr->setOverlayAboveCEGUI(false);
+}
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
 
@@ -107,35 +110,39 @@ void GuiStatusUpdater::tick() {
     int navKillCount = navInfo->getPlayerStats()->enemiesDestroyed;
     int engKillCount = engInfo->getPlayerStats()->enemiesDestroyed;
     
-    std::string status1 = "Fighting";
-    std::string status2 = "Fighting";
     int kills1 = 0;
     int kills2 = 0;
     std::string rpr = "Repairing";
+    std::string fgt = "";
+
+    std::string status1 = fgt;
+    std::string status2 = fgt;
     
     
     if (gameRole==PILOT) {
-    	if (navigatorRepairing) { status1 = rpr; }
-    	if (engineerRepairing) { status2 = rpr; }
-    	kills1 = navKillCount;
-    	kills2 = engKillCount;
+        status1 = (navigatorRepairing) ? rpr : fgt;
+        status2 = (engineerRepairing) ? rpr : fgt;
+        kills1 = navKillCount;
+        kills2 = engKillCount;
 	}
 	if (gameRole==ENGINEER) {
-		if (pilotRepairing) { status1 = rpr; }
-		if (navigatorRepairing) { status2 = rpr; }
-		kills1 = pilKillCount;
-		kills2 = navKillCount;
-		
+        status1 = (pilotRepairing) ? rpr : fgt;
+        status2 = (navigatorRepairing) ? rpr : fgt;
+	    kills1 = pilKillCount;
+	    kills2 = navKillCount;
 	}
 	if (gameRole==NAVIGATOR) {
-		if (pilotRepairing) { status1 = rpr; }
-    	if (engineerRepairing) { status2 = rpr; }
-		kills1 = pilKillCount;
-    	kills2 = engKillCount;
+        status1 = (pilotRepairing) ? rpr : fgt;
+        status2 = (engineerRepairing) ? rpr : fgt;
+	    kills1 = pilKillCount;
+        kills2 = engKillCount;
 	}
-      
+
     hud->setTeamInfo(status1,status2,kills1,kills2);
-    /**/ 
+
+    // Hide crosshair if the console is open
+    hud->toggleCrosshair(!console->getVisible());
+
     float weaponCharge = (float)(systemManager->getWeaponCharge());
     float shieldCharge = (float)(systemManager->getShieldCharge());
     hud->setWeaponCharge(weaponCharge/100.0);

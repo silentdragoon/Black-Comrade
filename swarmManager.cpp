@@ -91,7 +91,7 @@ std::deque<Swarm*> SwarmManager::getAllSwarms()
     return activeSwarms;
 }
 
-std::vector<Enemy*> SwarmManager::getAllEnemies()
+std::vector<Enemy*> SwarmManager::getAllLocalEnemies()
 {
     Swarm *s;
     Enemy *enemy;
@@ -109,6 +109,12 @@ std::vector<Enemy*> SwarmManager::getAllEnemies()
             out.push_back(enemy);
         }
     }
+
+    //std::vector<Enemy*> replicas = getReplicatedEnemies();
+    
+    //for(std::vector<Enemy*>::const_iterator it= replicas.begin(); it != replicas.end(); ++it) {
+    //    out.push_back(*it);
+    //}
 
     return out;
 }
@@ -152,7 +158,7 @@ void SwarmManager::updateRemoteSwarms() {
             return;
         } else {ticksSinceLastUpdate = 0;}
         
-        std::vector<Enemy*> allEnemies = getAllEnemies();
+        std::vector<Enemy*> allEnemies = getAllLocalEnemies();
         for (std::vector<Enemy*>::const_iterator it = allEnemies.begin(); it!=allEnemies.end();++it) {
             if (!(*it)->isReplicated) {
                 networkingMgr->replicate(*it);

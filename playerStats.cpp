@@ -50,7 +50,6 @@ RM3SerializationResult PlayerStats::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(friendlyFire);
     serializeParameters->outputBitstream[0].Write(repairsMade);
 
-
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 

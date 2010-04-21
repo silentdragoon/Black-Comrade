@@ -37,7 +37,7 @@ void BulletManager::tick()
     handleGun(navigatorGunState);
     
     // Enemies shoot if neccessary
-    handleEnemies(swarmMgr->getAllEnemies());
+    handleEnemies(swarmMgr->getAllLocalEnemies());
     handleEnemies(swarmMgr->getReplicatedEnemies());
 }
 
@@ -55,11 +55,12 @@ double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *
     Vector3 direction = owner->getBulletDirection();
 
     switch (possibleTarget->getEntityType()) {
-        case ENTT_OBJECTIVE:
+        case ENTT_OBJECTIVE: {
             distance = colMgr->getRCObjDist(&origin,&direction);
             break;
+        }
         case ENTT_MAP:
-            distance = colMgr->getRCMapDist(&origin,&direction);
+            distance = colMgr->getRCMapAndMovObjsDist(&origin,&direction);
             break;
         case ENTT_ENEMY: {
             Entity *enemyEntity = sceneNodeMgr->getEntity((Enemy*)possibleTarget);
@@ -83,7 +84,7 @@ double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
     // Use the distance to the map as a starting point
     shortestDistance = getDistanceTo(bestTarget,owner);
 
-    std::vector<Enemy*> ents = swarmMgr->getAllEnemies();
+    std::vector<Enemy*> ents = swarmMgr->getAllLocalEnemies();
     for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
        Enemy *e = *it;
        tempDistance = getDistanceTo(e,owner);
@@ -137,6 +138,9 @@ void BulletManager::applyDamage(Bullet *b) {
     } else if (ownerType == ENTT_ENEMY && targetType == ENTT_OBJECTIVE) {
         // Enemy shooting objective
         //target->damage(damage);
+    } else if (targetType == ENTT_OBJECTIVE) {
+        std::cout << "HIT OBJECTIVE\n";
+        target->damage(damage);
     } else {
         target->damage(damage);
     }
@@ -157,7 +161,6 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
         if(e->fire) {
             e->fire = false;
             if(activeBullets->size() < 7) {
-                //std::cout << "ENEMY FIRE\n";
                 fire(e);
             }
         }
