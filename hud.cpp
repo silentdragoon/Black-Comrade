@@ -282,9 +282,7 @@ void HUD::appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate
     bool sides[4];
 
     for(int c = 1; c <= 4; ++c) {
-        cout << "A " << c << mapMgr->mts[xpos][ypos]->getAdjacent(c) << endl;
         if(mapMgr->mts[xpos][ypos]->getAdjacent(c)!=0) {
-            cout << "B " << c << mapMgr->mts[xpos][ypos]->getAdjacent(c) << endl;
             sides[((c + rotate - 1) % 4) + 1] = true;
         } else { sides[((c + rotate - 1) % 4) + 1] = false; }
     }
@@ -292,7 +290,6 @@ void HUD::appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate
     for(int c = 1; c <= 4; ++c) {
         if(sides[c]) ss << '-' << c;
     }
-    cout << "SS IS " << ss.str() << endl;
 }
 
 CEGUI::FrameWindow* HUD::buildFullMap() {
@@ -456,12 +453,14 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
         // Position of tile within whole map
         int xpos;
         int ypos;
-
+        
+        cout << "ROATAATATAT " << rotate << endl;
+        
         // Rotation
         switch(rotate){
             case 1:
                 xpos = x + offsety;
-                ypos = y + offsetx;
+                ypos = y - offsetx;
                 break;
             case 2:
                 xpos = x - offsetx;
@@ -469,7 +468,7 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
                 break;
             case 3:
                 xpos = x - offsety;
-                ypos = y - offsetx;
+                ypos = y + offsetx;
                 break;
             default:
                 xpos = x + offsetx;
