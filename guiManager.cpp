@@ -30,8 +30,6 @@ GuiManager::GuiManager(SceneManager *sceneMgr)
     CEGUI::SchemeManager::getSingleton().create("BlackComrade.scheme");
     CEGUI::FontManager::getSingleton().create("DroidSansMono.font");
     CEGUI::FontManager::getSingleton().create("DroidSansMono-big.font");
-    CEGUI::ImagesetManager::getSingleton().create("Minimap.imageset");
-    CEGUI::ImagesetManager::getSingleton().create("Minimapnow.imageset");
     // CEGUI::ImagesetManager::getSingleton().create("Crosshair.xml");
 
     // Create the overall frame to add windows to

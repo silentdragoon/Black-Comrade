@@ -2,7 +2,6 @@
 <GUIScheme Name="BlackComrade">
     <Imageset Filename="BlackComrade.imageset" />
     <Imageset Filename="TaharezLook.imageset" />
-    <Imageset Filename="Minimap.imageset" />
     <Imageset Filename="Radar.imageset" />
 
     <Imageset Filename="Crosshair.xml" />
@@ -28,6 +27,10 @@
     <Imageset Filename="keyboardpilot.xml" />
     <Imageset Filename="keyboardengineer.xml" />
     <Imageset Filename="keyboardnavigator.xml" />
+    
+    <Imageset Filename="Minimap.xml" />
+    <Imageset Filename="MinimapNow.xml" />
+    
     
     <Imageset Filename="story.xml" />
     <Imageset Filename="roleicons.xml" />
@@ -57,6 +60,7 @@
     
     <FalagardMapping WindowType="BlackComrade/CrossHair" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/CrossHair" />
     <FalagardMapping WindowType="BlackComrade/Minimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Minimap" />
+    <FalagardMapping WindowType="BlackComrade/MinimapNow" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/MinimapNow" />
     <FalagardMapping WindowType="BlackComrade/Radar" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Radar" />
     <FalagardMapping WindowType="BlackComrade/Enemy" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Enemy" />
 

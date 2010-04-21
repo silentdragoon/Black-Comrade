@@ -282,14 +282,17 @@ void HUD::appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate
     bool sides[4];
 
     for(int c = 1; c <= 4; ++c) {
+        cout << "A " << c << mapMgr->mts[xpos][ypos]->getAdjacent(c) << endl;
         if(mapMgr->mts[xpos][ypos]->getAdjacent(c)!=0) {
+            cout << "B " << c << mapMgr->mts[xpos][ypos]->getAdjacent(c) << endl;
             sides[((c + rotate - 1) % 4) + 1] = true;
-        }
+        } else { sides[((c + rotate - 1) % 4) + 1] = false; }
     }
     
     for(int c = 1; c <= 4; ++c) {
         if(sides[c]) ss << '-' << c;
     }
+    cout << "SS IS " << ss.str() << endl;
 }
 
 CEGUI::FrameWindow* HUD::buildFullMap() {
@@ -323,7 +326,7 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
-                    ic.setImage("Minimapnow",name);
+                    ic.setImage("MinimapNow",name);
                 } else {
                     ic.setImage("Minimap",name);
                 }
@@ -490,7 +493,7 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
             
             string name = tile.str();
             if(i==0) {
-                ic.setImage("Minimapnow",name);
+                ic.setImage("MinimapNow",name);
             } else {
                 ic.setImage("Minimap",name);
             }
@@ -531,7 +534,7 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
     // Create the FrameWindow to return
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     minimap->setLookNFeel(lookFeel.getName());
-    //minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (411 - 191) * wpixel,0),CEGUI::UDim(1.0 - (263 - 44) * hpixel,0)));
+    minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (229 - 10) * wpixel,0),CEGUI::UDim(1.0 - (229 - 9) * hpixel,0)));
     minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
 
     return minimap;
