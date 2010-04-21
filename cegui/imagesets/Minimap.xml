@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="Minimap" Imagefile="minimapbig.png" AutoScaled="true" >
+<Imageset Name="Minimap" Imagefile="minimapbig.png" AutoScaled="false" >
     <Image Name="mapTile-1-2-3-4" XPos="0" YPos="0" Width="70" Height="70" />
 	<Image Name="mapTile-1-2-3" XPos="70" YPos="0" Width="70" Height="70" />
 	<Image Name="mapTile-1-2-4" XPos="140" YPos="0" Width="70" Height="70" />

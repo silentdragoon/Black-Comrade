@@ -535,7 +535,9 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
     CEGUI::FrameWindow *minimap = static_cast<CEGUI::FrameWindow*>(guiMgr->createWindow("BlackComrade/CrossHair"));
     minimap->setLookNFeel(lookFeel.getName());
     minimap->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - (229 - 10) * wpixel,0),CEGUI::UDim(1.0 - (229 - 9) * hpixel,0)));
-    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
+    minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210,0),CEGUI::UDim(210,0)));
+
+    // minimap->setSize(CEGUI::UVector2(CEGUI::UDim(210 * wpixel,0),CEGUI::UDim(210 * hpixel,0)));
 
     return minimap;
 }
