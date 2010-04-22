@@ -97,7 +97,10 @@ RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParamet
     serializeParameters->outputBitstream[0].Write(orientation.y);
     serializeParameters->outputBitstream[0].Write(orientation.z);
     
-    return RM3SR_SERIALIZED_ALWAYS_IDENTICALLY;
+    if (isFire)
+        return RM3SR_SERIALIZED_ALWAYS_IDENTICALLY;
+    else
+        return RM3SR_BROADCAST_IDENTICALLY;
 }
 
 void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
