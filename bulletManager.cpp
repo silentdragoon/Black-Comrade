@@ -87,7 +87,7 @@ double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
 
     for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
        Enemy *e = *it;
-       if (e->isDead) continue; // Enemy is dead, yet to be removed
+       if (e->isDead || sceneNodeMgr->getEntity(e) == 0) continue; // Enemy is dead, yet to be removed
        tempDistance = getDistanceTo(e,owner);
        if (tempDistance < shortestDistance) {
             shortestDistance = tempDistance;
