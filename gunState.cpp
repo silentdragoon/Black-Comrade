@@ -97,11 +97,15 @@ RM3SerializationResult GunState::Serialize(SerializeParameters *serializeParamet
     serializeParameters->outputBitstream[0].Write(orientation.y);
     serializeParameters->outputBitstream[0].Write(orientation.z);
     
-    return RM3SR_BROADCAST_IDENTICALLY;
+    if (isFire)
+        return RM3SR_SERIALIZED_ALWAYS_IDENTICALLY;
+    else
+        return RM3SR_BROADCAST_IDENTICALLY;
 }
 
 void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
-    deserializeParameters->serializationBitstream[0].Read(isFire);
+    bool isFire2 = false;
+    deserializeParameters->serializationBitstream[0].Read(isFire2);
     deserializeParameters->serializationBitstream[0].Read(position.x);
     deserializeParameters->serializationBitstream[0].Read(position.y);
     deserializeParameters->serializationBitstream[0].Read(position.z);
@@ -109,4 +113,6 @@ void GunState::Deserialize(RakNet::DeserializeParameters *deserializeParameters)
     deserializeParameters->serializationBitstream[0].Read(orientation.x);
     deserializeParameters->serializationBitstream[0].Read(orientation.y);
     deserializeParameters->serializationBitstream[0].Read(orientation.z);
+
+    if (isFire2) isFire = true;
 }

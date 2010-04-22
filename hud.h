@@ -106,7 +106,9 @@ public:
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
     
-    void setTeamInfo(std::string text1, std::string text2, int killcount1, int killcount2);
+    void setTeamInfo(std::string nick1, std::string nick2,
+                     int killcount1, int killcount2,
+                     bool repairing1, bool repairing2);
    
     void setBossHealthbar(float yeah);
     void setCountdown(std::string timer);

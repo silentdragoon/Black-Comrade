@@ -103,42 +103,44 @@ void GuiStatusUpdater::tick() {
        }
 
     // TODO: Show player status / stats
-    bool pilotRepairing = pilotInfo->repairing;
-    bool engineerRepairing = engInfo->repairing;
-    bool navigatorRepairing = navInfo->repairing;
-    int pilKillCount = pilotInfo->getPlayerStats()->enemiesDestroyed;
-    int navKillCount = navInfo->getPlayerStats()->enemiesDestroyed;
-    int engKillCount = engInfo->getPlayerStats()->enemiesDestroyed;
     
     int kills1 = 0;
     int kills2 = 0;
     std::string rpr = "Repairing";
     std::string fgt = "";
 
-    std::string status1 = fgt;
-    std::string status2 = fgt;
-    
+    std::string nick1 = "";
+    std::string nick2 = "";
+
+    bool repairing1 = false;
+    bool repairing2 = false;
     
     if (gameRole==PILOT) {
-        status1 = (navigatorRepairing) ? rpr : fgt;
-        status2 = (engineerRepairing) ? rpr : fgt;
-        kills1 = navKillCount;
-        kills2 = engKillCount;
+        repairing1 = navInfo->repairing;
+        repairing2 = engInfo->repairing;
+        kills1 = navInfo->getPlayerStats()->enemiesDestroyed;
+        kills2 = engInfo->getPlayerStats()->enemiesDestroyed;
+        nick1 = navInfo->getNick();
+        nick2 = engInfo->getNick();
 	}
 	if (gameRole==ENGINEER) {
-        status1 = (pilotRepairing) ? rpr : fgt;
-        status2 = (navigatorRepairing) ? rpr : fgt;
-	    kills1 = pilKillCount;
-	    kills2 = navKillCount;
+        repairing1 = pilotInfo->repairing;
+        repairing2 = navInfo->repairing;
+	    kills1 = pilotInfo->getPlayerStats()->enemiesDestroyed;
+	    kills2 = navInfo->getPlayerStats()->enemiesDestroyed;
+        nick1 = pilotInfo->getNick();
+        nick2 = navInfo->getNick();
 	}
 	if (gameRole==NAVIGATOR) {
-        status1 = (pilotRepairing) ? rpr : fgt;
-        status2 = (engineerRepairing) ? rpr : fgt;
-	    kills1 = pilKillCount;
-        kills2 = engKillCount;
+        repairing1 = pilotInfo->repairing;
+        repairing2 = engInfo->repairing;
+	    kills1 = pilotInfo->getPlayerStats()->enemiesDestroyed;
+        kills2 = engInfo->getPlayerStats()->enemiesDestroyed;
+        nick1 = pilotInfo->getNick();
+        nick2 = engInfo->getNick();
 	}
 
-    hud->setTeamInfo(status1,status2,kills1,kills2);
+    hud->setTeamInfo(nick1,nick2,kills1,kills2,repairing1,repairing2);
 
     // Hide crosshair if the console is open
     hud->toggleCrosshair(!console->getVisible());

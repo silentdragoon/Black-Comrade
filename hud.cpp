@@ -611,15 +611,19 @@ void HUD::setCountdown(std::string timer) {
 	countdown->setText(timer);
 }
 
-void HUD::setTeamInfo(std::string text1, std::string text2, int killcount1, int killcount2) {
-	teaminfo1->setText(" " + text1);
-	teaminfo2->setText(" " + text2);
+void HUD::setTeamInfo(std::string nick1, std::string nick2,
+                      int killcount1, int killcount2,
+                      bool repairing1, bool repairing2) {
+	teaminfo1->setText(" " + nick1);
+	teaminfo2->setText(" " + nick2);
 	std::stringstream k1;
 	std::stringstream k2;
 	k1 << " Kills: " << killcount1;
 	k2 << " Kills: " << killcount2;
 	kills1->setText(k1.str());
 	kills2->setText(k2.str());
+
+    // TODO: Show a symbol indicating if players are repairing or not
 }
 	
 
