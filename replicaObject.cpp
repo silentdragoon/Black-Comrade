@@ -16,17 +16,13 @@ using namespace RakNet;
 	}
 
 	void ReplicaObject::SerializeDestruction(RakNet::BitStream *destructionBitstream, RakNet::Connection_RM3 *destinationConnection)	{
-		std::cout << "DESTRUCTION\n";
 	}
 
 	bool ReplicaObject::DeserializeDestruction(RakNet::BitStream *destructionBitstream, RakNet::Connection_RM3 *sourceConnection) {
-		std::cout << "DESTRUCTION\n";
-
 		return true;
 	}
 
 	void ReplicaObject::DeallocReplica(RakNet::Connection_RM3 *sourceConnection) {
-        std::cout << "DEALLOCING\n";
         delete this;
 	}
 
@@ -39,19 +35,19 @@ using namespace RakNet;
 	}
 
 	void ReplicaObject::SerializeConstructionRequestAccepted(RakNet::BitStream *serializationBitstream, RakNet::Connection_RM3 *requestingConnection)	{
-		//serializationBitstream->Write(GetName() + RakNet::RakString(" SerializeConstructionRequestAccepted"));
+
 	}
 
 	void ReplicaObject::DeserializeConstructionRequestAccepted(RakNet::BitStream *serializationBitstream, RakNet::Connection_RM3 *acceptingConnection) {
-		//PrintOutput(serializationBitstream);
+
 	}
 
 	void ReplicaObject::SerializeConstructionRequestRejected(RakNet::BitStream *serializationBitstream, RakNet::Connection_RM3 *requestingConnection)	{
-		//serializationBitstream->Write(GetName() + RakNet::RakString(" SerializeConstructionRequestRejected"));
+
 	}
 
 	void ReplicaObject::DeserializeConstructionRequestRejected(RakNet::BitStream *serializationBitstream, RakNet::Connection_RM3 *rejectingConnection) {
-		//PrintOutput(serializationBitstream);
+
 	}
 
 	RM3ConstructionState ReplicaObject::QueryConstruction(RakNet::Connection_RM3 *destinationConnection, ReplicaManager3 *replicaManager3) {

@@ -37,8 +37,7 @@ void BulletManager::tick()
     handleGun(navigatorGunState);
     
     // Enemies shoot if neccessary
-    handleEnemies(swarmMgr->getAllLocalEnemies());
-    handleEnemies(swarmMgr->getReplicatedEnemies());
+    handleEnemies(swarmMgr->getEnemies());
 }
 
 void BulletManager::fire(IBulletOwner *owner) {
@@ -84,26 +83,17 @@ double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
     // Use the distance to the map as a starting point
     shortestDistance = getDistanceTo(bestTarget,owner);
 
-    std::vector<Enemy*> ents = swarmMgr->getAllLocalEnemies();
+    std::vector<Enemy*> ents = swarmMgr->getEnemies();
+
     for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
        Enemy *e = *it;
+       if (e->isDead) continue; // Enemy is dead, yet to be removed
        tempDistance = getDistanceTo(e,owner);
        if (tempDistance < shortestDistance) {
             shortestDistance = tempDistance;
             bestTarget = e;
         }
     }
-
-    ents = swarmMgr->getReplicatedEnemies();
-    std::cout << "ENEMIES REMAINING: " <<  ents.size() << "\n";
-    //for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
-    //   Enemy *e = *it;
-    //   tempDistance = getDistanceTo(e,owner);
-    //   if (tempDistance < shortestDistance) {
-    //        shortestDistance = tempDistance;
-    //        bestTarget = e;
-    //    }
-    //}
 
     tempDistance = getDistanceTo(shipState,owner);
     if (tempDistance < shortestDistance) {
@@ -170,7 +160,6 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
         Enemy *e = *it;
 
         if(e->fire) {
-            std::cout << "ENEMY FIRE\n";
             e->fire = false;
             if(activeBullets->size() < 7) {
                 fire(e);

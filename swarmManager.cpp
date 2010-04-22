@@ -133,6 +133,13 @@ std::vector<Enemy*> SwarmManager::getReplicatedEnemies() {
     return out;
 }
 
+std::vector<Enemy*> SwarmManager::getEnemies() {
+    if (mapMgr == 0)
+        return getReplicatedEnemies();
+    else
+        return getAllLocalEnemies();
+}
+
 void SwarmManager::updateRemoteSwarms() {
     if (mapMgr == 0) {
         
@@ -152,7 +159,7 @@ void SwarmManager::updateRemoteSwarms() {
             } else if (!enemy->isReplicated) {
                 enemy->isReplicated = true;
                 sceneNodeMgr->createNode(enemy);
-                //colMgr->addMesh(sceneNodeMgr->getEntity(enemy));
+                colMgr->addMesh(sceneNodeMgr->getEntity(enemy));
             }
         }
     } else {
