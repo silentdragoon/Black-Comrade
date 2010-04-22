@@ -55,6 +55,7 @@
 #include <string.h>
 #include <string>
 #include <cstdio>
+#include "spotLight.h"
 
 using namespace Ogre;
 using namespace std;
@@ -99,6 +100,10 @@ private:
     GunState *pilotGunState;
     GunState *engineerGunState;
     GunState *navigatorGunState;
+    
+    SpotLight *pilotSpotLight;
+    SpotLight *engineerSpotLight;
+    SpotLight *navigatorSpotLight;
     
     SceneNode *mapNode;
     

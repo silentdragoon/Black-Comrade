@@ -88,7 +88,8 @@ menuSystem.cpp \
 fader.cpp \
 door.cpp \
 mapPieceChoices.cpp \
-tutorial.cpp
+tutorial.cpp \
+spotLight.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

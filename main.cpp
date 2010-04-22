@@ -315,6 +315,21 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         }
     }
 
+    // Spot Lights
+    pilotSpotLight = new SpotLight(sceneMgr, shipSceneNode, pilotGunState);
+    gameLoop->addTickable(pilotSpotLight, "pilotSpotLight");
+    
+    if(engineerGunState) {
+        engineerSpotLight = new SpotLight(sceneMgr, shipSceneNode,
+             engineerGunState);
+        gameLoop->addTickable(engineerSpotLight, "engineerSpotLight");
+    }
+    if(navigatorGunState) {
+        navigatorSpotLight = new SpotLight(sceneMgr, shipSceneNode,
+             navigatorGunState);
+        gameLoop->addTickable(navigatorSpotLight, "navigatorSpotLight");
+    }
+
     // TODO: start the enemies pointing towards the ship?
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
@@ -499,16 +514,9 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     sp->setDirection(Vector3(0,0,1));
     sp->setAttenuation( 600, 1.0, 0.007, 0.0002);*/
 
-    Light *spot = sceneMgr->createLight("shipSpot");
-    spot->setType(Light::LT_SPOTLIGHT);
-    spot->setDiffuseColour(1.0,1.0,1.0);
-    spot->setSpecularColour(1.0,1.0,1.0);
-    spot->setDirection(Vector3(0,0,-1));
-    spot->setSpotlightInnerAngle(Radian(Degree(5)));
-    spot->setSpotlightOuterAngle(Radian(Degree(100)));
-    spot->setSpotlightFalloff(40.0);
+    // Josh if you are looking for the spot light,
+    // they have been moved into the class "spotLight.h"
 
-    shipSceneNode->attachObject(spot);
     //shipSceneNode->attachObject(sp);
     
     return camera;
