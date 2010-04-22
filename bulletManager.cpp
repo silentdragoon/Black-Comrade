@@ -94,6 +94,17 @@ double BulletManager::findTarget(IBulletOwner *owner, IBulletTarget **target) {
         }
     }
 
+    ents = swarmMgr->getReplicatedEnemies();
+    std::cout << "ENEMIES REMAINING: " <<  ents.size() << "\n";
+    //for(std::vector<Enemy*>::const_iterator it=ents.begin();it!=ents.end();++it) {
+    //   Enemy *e = *it;
+    //   tempDistance = getDistanceTo(e,owner);
+    //   if (tempDistance < shortestDistance) {
+    //        shortestDistance = tempDistance;
+    //        bestTarget = e;
+    //    }
+    //}
+
     tempDistance = getDistanceTo(shipState,owner);
     if (tempDistance < shortestDistance) {
         shortestDistance = tempDistance;
@@ -159,6 +170,7 @@ void BulletManager::handleEnemies(std::vector<Enemy*> ents) {
         Enemy *e = *it;
 
         if(e->fire) {
+            std::cout << "ENEMY FIRE\n";
             e->fire = false;
             if(activeBullets->size() < 7) {
                 fire(e);

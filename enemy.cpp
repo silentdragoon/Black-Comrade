@@ -124,5 +124,8 @@ void Enemy::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {
     deserializeParameters->serializationBitstream[0].Read(pitchScatter);
     deserializeParameters->serializationBitstream[0].Read(yawScatter);
     deserializeParameters->serializationBitstream[0].Read(ticksSinceDeath);
-    if (fire2) fire = true;
+    if (fire2) {
+        fire = true;
+        std::cout << "ENEMY FIRE = TRUE\n";
+    }
 }

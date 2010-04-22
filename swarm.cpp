@@ -146,6 +146,7 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::canSwarmSeeShip()
 {
+    //return false;
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
     

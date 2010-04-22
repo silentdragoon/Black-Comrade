@@ -1,5 +1,6 @@
 #include "replicaObject.h"
 #include "ReplicaManager3.h"
+#include <iostream>
 
 using namespace RakNet;
 
@@ -15,16 +16,18 @@ using namespace RakNet;
 	}
 
 	void ReplicaObject::SerializeDestruction(RakNet::BitStream *destructionBitstream, RakNet::Connection_RM3 *destinationConnection)	{
-		//destructionBitstream->Write("");
+		std::cout << "DESTRUCTION\n";
 	}
 
 	bool ReplicaObject::DeserializeDestruction(RakNet::BitStream *destructionBitstream, RakNet::Connection_RM3 *sourceConnection) {
-		//PrintOutput(destructionBitstream);
+		std::cout << "DESTRUCTION\n";
+
 		return true;
 	}
 
 	void ReplicaObject::DeallocReplica(RakNet::Connection_RM3 *sourceConnection) {
-		delete this;
+        std::cout << "DEALLOCING\n";
+        delete this;
 	}
 
 	RM3SerializationResult ReplicaObject::Serialize(SerializeParameters *serializeParameters)	{

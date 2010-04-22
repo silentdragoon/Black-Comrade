@@ -47,7 +47,7 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
     NetworkingManager *networkingMgr, ParticleSystemEffectManager *particleSystemEffectManager,
-    SoundManager *soundMgr) :
+    SoundManager *soundMgr, CollisionManager *colMgr) :
     sceneMgr(sceneMgr),
     sceneNodeMgr(sceneNodeMgr),
     gamePM(gamePM),
@@ -60,7 +60,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     particleSystemEffectManager(particleSystemEffectManager),
     soundMgr(soundMgr),
     lines(0),
-    ticksSinceLastUpdate(0)
+    ticksSinceLastUpdate(0),
+    colMgr(colMgr)
 {
     activeSwarms = std::deque<Swarm*>();
 }
@@ -148,8 +149,10 @@ void SwarmManager::updateRemoteSwarms() {
                     sceneNodeMgr->deleteNode(enemy);
                     enemy->hasExploded = true;
                 }
-            } else {
+            } else if (!enemy->isReplicated) {
+                enemy->isReplicated = true;
                 sceneNodeMgr->createNode(enemy);
+                //colMgr->addMesh(sceneNodeMgr->getEntity(enemy));
             }
         }
     } else {

@@ -55,7 +55,7 @@ class SwarmManager : public ITickable
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
         	NetworkingManager *networkingMgr,ParticleSystemEffectManager *particleSystemEffectManager,
-            SoundManager *soundMgr);
+            SoundManager *soundMgr, CollisionManager *colMgr);
 
         ~SwarmManager();
 

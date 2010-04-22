@@ -199,6 +199,8 @@ std::vector<ReplicaObject*> NetworkingManager::getReplicas(string name) {
 }
 
 void NetworkingManager::removeReplica(ReplicaObject *replica) {
+    std::cout << "REMOVING REPLICA\n";
+    replica->BroadcastDestruction();
     replicaManager.Dereference(replica);
 }
 

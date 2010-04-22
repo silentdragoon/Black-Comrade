@@ -322,7 +322,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             shipState,collisionMgr,networkingManager,lines,gameStateMachine,particleSystemEffectManager,soundMgr);
     } else {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap,
-            networkingManager,particleSystemEffectManager,soundMgr);
+            networkingManager,particleSystemEffectManager,soundMgr,collisionMgr);
     }
 
     // Networking
@@ -336,8 +336,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     bulletMgr = new BulletManager(shipState,sceneMgr,pilotGunState,
         engineerGunState,navigatorGunState,collisionMgr,swarmMgr,sceneNodeMgr,
         damageState,particleSystemEffectManager,objective);
+
     gameLoop->addTickable(bulletMgr,"bulletManager");
     gameLoop->addTickable(swarmMgr, "swarmMgr");
+
     
     gameLoop->addTickable(systemManager,"systemManager");
 
