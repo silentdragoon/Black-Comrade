@@ -105,6 +105,9 @@ $(OUTPUT) : $(OBJS)
 run:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb -ex run ./$(OUTPUT)
 	
+nc:
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT) -nc
+	
 debug:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb ./$(OUTPUT)
 
