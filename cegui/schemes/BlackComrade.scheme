@@ -73,16 +73,20 @@
     <FalagardMapping WindowType="BlackComrade/Scores" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Scores" />
     <FalagardMapping WindowType="BlackComrade/ScoresFail" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ScoresFail" />
     
-        <FalagardMapping WindowType="BlackComrade/KeyboardEngineer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardEngineer" />
-            <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
-                <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
+    <FalagardMapping WindowType="BlackComrade/KeyboardEngineer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardEngineer" />
+    <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
+    <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
     
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />
+    <FalagardMapping WindowType="BlackComrade/Crews" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crews" />
     <FalagardMapping WindowType="BlackComrade/Crewav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav1" />
     <FalagardMapping WindowType="BlackComrade/Crewav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav2" />
     <FalagardMapping WindowType="BlackComrade/Crewav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewav3" />
+    <FalagardMapping WindowType="BlackComrade/Repairav1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Repairav1" />
+    <FalagardMapping WindowType="BlackComrade/Repairav2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Repairav2" />
+    <FalagardMapping WindowType="BlackComrade/Repairav3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Repairav3" />
     
         <FalagardMapping WindowType="BlackComrade/StatusIndicators" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators" />
         <FalagardMapping WindowType="BlackComrade/StatusIndicators2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/StatusIndicators2" />

@@ -67,13 +67,14 @@ void HUD::makeCommonHUD() {
     crosshair = guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
 
     // Crew backgrounds
-    guiManager->addStaticImagePix("Crewl", 0.0 + 0 * wpixel,    0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
-    guiManager->addStaticImagePix("Crewr", 1.0 - 104 * wpixel,  0.0 + 0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+    guiManager->addStaticImagePix("Crewl", 0 * wpixel,    320 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+    guiManager->addStaticImagePix("Crewr", 0 * wpixel,   160 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+	guiManager->addStaticImagePix("Crews", 0 * wpixel,   0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
 
     // Weapon & Shield Charge backgrounds
     
-    guiManager->addStaticImagePix("Charge", 0.0, 260 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
-    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  260 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
+    guiManager->addStaticImagePix("Charge", 1.0 - 96 *wpixel, 0 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
+    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
 
     // Left box
     guiManager->addStaticImagePix("Left",  0.0, 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left", "Main");
@@ -82,23 +83,31 @@ void HUD::makeCommonHUD() {
     
     teaminfo1 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo1"));
     teaminfo2 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo2"));
+    teaminfo3 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo3"));
     guiManager->getRootWindow()->addChildWindow(teaminfo1);
     guiManager->getRootWindow()->addChildWindow(teaminfo2);
+    guiManager->getRootWindow()->addChildWindow(teaminfo3);
     teaminfo1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     teaminfo2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
-    teaminfo1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(104 * hpixel,0))); 
-    teaminfo2->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 101 * wpixel,0),CEGUI::UDim(104 * hpixel,0)));
+    teaminfo3->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    teaminfo1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(264 * hpixel,0)));
+    teaminfo2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(424 * hpixel,0)));
+    teaminfo3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(104 * hpixel,0)));
     
     // Kills
     
     kills1 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","kills1"));
     kills2 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","kills2"));
+	kills3 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","kills3"));
     guiManager->getRootWindow()->addChildWindow(kills1);
     guiManager->getRootWindow()->addChildWindow(kills2);
+    guiManager->getRootWindow()->addChildWindow(kills3);
     kills1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     kills2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
-    kills1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(129 * hpixel,0))); 
-    kills2->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 101 * wpixel,0),CEGUI::UDim(129 * hpixel,0)));
+    kills3->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
+    kills1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(289 * hpixel,0)));
+    kills2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(449 * hpixel,0)));
+    kills3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(129 * hpixel,0)));
     
     // Slack Box
 
@@ -152,8 +161,8 @@ void HUD::makeCommonHUD() {
     guiManager->getRootWindow()->addChildWindow(weaponCharge);
     guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0 + 8*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
-    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(300 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 88*wpixel,0),CEGUI::UDim(40 * hpixel,0)));
+    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(40 * hpixel,0)));
         
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
     shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
@@ -201,8 +210,9 @@ void HUD::makeCommonHUD() {
 
 void HUD::makePilotHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav2", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
-    guiManager->addStaticImagePix("Crewav3", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
 
     // Right box
     guiManager->addStaticImagePix("RightPil", 1.0 - 119 * wpixel,  1.0 - 70 * hpixel,
@@ -221,8 +231,9 @@ void HUD::makePilotHUD() {
 
 void HUD::makeNavigatorHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav3", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
 
     // Right box
     guiManager->addStaticImagePix("RightNav", 1.0 - 229 * wpixel,  1.0 - 229 * hpixel,
@@ -243,8 +254,9 @@ void HUD::makeNavigatorHUD() {
 
 void HUD::makeEngineerHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 0.0 + 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav2", 1.0 - 102 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
 
     // Right box
     guiManager->addStaticImagePix("RightEng", 1.0 - 367 * wpixel,  1.0 - 230 * hpixel,
@@ -454,7 +466,7 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
         int xpos;
         int ypos;
         
-        cout << "ROATAATATAT " << rotate << endl;
+        // cout << "ROATAATATAT " << rotate << endl;
         
         // Rotation
         switch(rotate){
@@ -611,17 +623,21 @@ void HUD::setCountdown(std::string timer) {
 	countdown->setText(timer);
 }
 
-void HUD::setTeamInfo(std::string nick1, std::string nick2,
-                      int killcount1, int killcount2,
-                      bool repairing1, bool repairing2) {
-	teaminfo1->setText(" " + nick1);
-	teaminfo2->setText(" " + nick2);
+void HUD::setTeamInfo(std::string nick1, std::string nick2, std::string nick3,
+                      int killcount1, int killcount2, int killcount3,
+                      bool repairing1, bool repairing2, bool repairing3 ) {
+	teaminfo1->setText(nick1);
+	teaminfo2->setText(nick2);
+	teaminfo3->setText(nick3);
 	std::stringstream k1;
 	std::stringstream k2;
-	k1 << " Kills: " << killcount1;
-	k2 << " Kills: " << killcount2;
+	std::stringstream k3;
+	k1 << "Kills: " << killcount1;
+	k2 << "Kills: " << killcount2;
+	k3 << "Kills: " << killcount3;
 	kills1->setText(k1.str());
 	kills2->setText(k2.str());
+	kills3->setText(k3.str());
 
     // TODO: Show a symbol indicating if players are repairing or not
 }
@@ -675,7 +691,7 @@ void HUD::switchStatus(int state) {
     statusIndicatorsBlank->setVisible(false);
     bossHealthbar->setVisible(false);
     
-    std::cout << state << std::endl;
+    // std::cout << state << std::endl;
 
     switch ( state ) {
         case 1:
