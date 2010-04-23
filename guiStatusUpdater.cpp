@@ -106,41 +106,53 @@ void GuiStatusUpdater::tick() {
     
     int kills1 = 0;
     int kills2 = 0;
+    int kills3 = 0;
     std::string rpr = "Repairing";
     std::string fgt = "";
 
     std::string nick1 = "";
     std::string nick2 = "";
+    std::string nick3 = "";
 
     bool repairing1 = false;
     bool repairing2 = false;
+    bool repairing3 = false;
     
     if (gameRole==PILOT) {
         repairing1 = navInfo->repairing;
         repairing2 = engInfo->repairing;
+        repairing3 = pilotInfo->repairing;
         kills1 = navInfo->getPlayerStats()->enemiesDestroyed;
         kills2 = engInfo->getPlayerStats()->enemiesDestroyed;
+        kills3 = pilotInfo->getPlayerStats()->enemiesDestroyed;
         nick1 = navInfo->getNick();
         nick2 = engInfo->getNick();
+        nick3 = pilotInfo->getNick();
 	}
 	if (gameRole==ENGINEER) {
         repairing1 = pilotInfo->repairing;
         repairing2 = navInfo->repairing;
+        repairing3 = engInfo->repairing;
 	    kills1 = pilotInfo->getPlayerStats()->enemiesDestroyed;
 	    kills2 = navInfo->getPlayerStats()->enemiesDestroyed;
+	    kills3 = engInfo->getPlayerStats()->enemiesDestroyed;
         nick1 = pilotInfo->getNick();
         nick2 = navInfo->getNick();
+        nick3 = engInfo->getNick();
 	}
 	if (gameRole==NAVIGATOR) {
         repairing1 = pilotInfo->repairing;
         repairing2 = engInfo->repairing;
+        repairing3 = navInfo->repairing;
 	    kills1 = pilotInfo->getPlayerStats()->enemiesDestroyed;
         kills2 = engInfo->getPlayerStats()->enemiesDestroyed;
+        kills3 = navInfo->getPlayerStats()->enemiesDestroyed;
         nick1 = pilotInfo->getNick();
         nick2 = engInfo->getNick();
+        nick3 = navInfo->getNick();
 	}
 
-    hud->setTeamInfo(nick1,nick2,kills1,kills2,repairing1,repairing2);
+    hud->setTeamInfo(nick1,nick2,nick3,kills1,kills2,kills3,repairing1,repairing2,repairing3);
 
     // Hide crosshair if the console is open
     hud->toggleCrosshair(!console->getVisible());
@@ -153,10 +165,13 @@ void GuiStatusUpdater::tick() {
     float bossHealth = objective->getHealthPercentage();
     hud->setBossHealthbar(bossHealth);
 
+
     int t = objective->getEscapeTime();
-    std::stringstream count;
-    count << " " << t << " seconds";
-    hud->setCountdown(count.str());
+    if (t < 90) {
+        std::stringstream count;
+        count << " " << t << " seconds";
+        hud->setCountdown(count.str());
+    }
 
     // Update transmission log
 

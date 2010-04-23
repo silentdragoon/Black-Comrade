@@ -36,9 +36,14 @@ private:
 
     bool consoleBeenOpened;
     bool consoleBeenClosed;
+
+    int lastKey;
+    int keyDelay;
+    bool releasedKey;
     
     IMiniGame *currentMiniGame;
 
+    void handleKeys();
     void setConsoleState(bool isOpen);
     void setInitialDifficulties();
     void setDifficulty(IMiniGame *game, int difficulty);

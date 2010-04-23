@@ -134,7 +134,7 @@ void GameStateMachine::checkTutorial() {
 }
 
 void GameStateMachine::checkInput() {
-    if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
+    if (inputState->isKeyDown(OIS::KC_F10)) {
         pilotInfo->hasQuit = true;
         engInfo->hasQuit = true;
         navInfo->hasQuit = true;

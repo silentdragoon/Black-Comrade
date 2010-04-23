@@ -41,7 +41,7 @@ void Tutorial::tick() {
 void Tutorial::tickCommonTutorial() {
     if (inputState->isKeyDown(OIS::KC_END)) {
         // Skip the tutorial
-        state = TS_END;
+        state = TS_WAITING_FOR_OTHERS;
     }
 
     switch(state) {

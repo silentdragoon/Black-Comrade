@@ -17,6 +17,9 @@ MiniGameManager::MiniGameManager(Console *console,
     , exit(exit)
     , consoleBeenOpened(false)
     , consoleBeenClosed(false)
+    , keyDelay(10)
+    , lastKey(0)
+    , releasedKey(true)
 {
     difficulties = new std::map <std::string,int>();
     setInitialDifficulties();
@@ -29,18 +32,7 @@ void MiniGameManager::tick()
     player->toRepair = SS_NONE;
     player->repairAmount = 0;
 
-    if (console->getVisible()) {
-        if (inputState->isKeyDown(OIS::KC_F2)) {
-            setConsoleState(false);
-            consoleBeenClosed = consoleBeenOpened;
-            return;
-        }
-    } else {
-        if (inputState->isKeyDown(OIS::KC_F1)) {
-            setConsoleState(true);
-            consoleBeenOpened = true;
-        } else { return; }
-    }
+    handleKeys();
 
     if (currentMiniGame != NULL) {
         inputReceiver = currentMiniGame;
@@ -70,6 +62,29 @@ void MiniGameManager::tick()
         }
         
         consoleShell->tick();
+    }
+}
+
+void MiniGameManager::handleKeys() {
+    if (lastKey < keyDelay) {
+        lastKey ++;
+        releasedKey = false;
+        return;
+    }
+    if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
+        if (console->getVisible() && releasedKey) {
+            // Hide it
+            consoleBeenClosed = consoleBeenOpened;
+            setConsoleState(false);
+        } else if (!console->getVisible() && releasedKey) {
+            // Show it
+            setConsoleState(true);
+            consoleBeenOpened = true;
+        }
+        releasedKey = false;
+        lastKey = 0;
+    } else {
+        releasedKey = true;
     }
 }
 

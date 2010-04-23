@@ -88,7 +88,7 @@ void GunnerControls::tickGunnerControls()
         }
     }
 
-    isShowControls = inputState->isKeyDown(OIS::KC_F4);
+    isShowControls = inputState->isKeyDown(OIS::KC_F1);
 }
 
 float GunnerControls::moveAngleWithLimits(float old, float d, 

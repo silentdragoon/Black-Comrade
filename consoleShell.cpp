@@ -49,14 +49,15 @@ void ConsoleShell::processCommand() {
         console->appendLine(" reboot                Reboot the ship's systems (may cause unpredictable results)");
     } else if (command == "repair" ) {
         console->appendLine("Error: No target system specified.");
-        console->appendLine("Usage: repair [shieldgen | weapons | sensors | engines]");
-    } else if (command == "repair shieldgen" ) {
-        gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame"));
+        console->appendLine("Usage: repair [ weapons | sensors | engines | hull ]");
+    } else if (command == "repair engines" ) {
+        gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame")); // Actually now the engine game
     } else if (command == "repair weapons" ) {
         gameToPlay = new WeaponMiniGame(console,inputState,getDifficulty("weaponGame"));
     } else if (command == "repair sensors" ) {
-        gameToPlay = new SensorMiniGame(console,inputState);
-    } else if (command == "repair engines" ) {
+        gameToPlay = new FixMiniGame(); // Need to add the sensors game here
+        //gameToPlay = new SensorMiniGame(console,inputState);
+    } else if (command == "repair hull" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
     } else if (command == "access main program" ) {
         console->appendLine("access: PERMISSION DENIED.");
@@ -71,7 +72,7 @@ void ConsoleShell::processCommand() {
     } else if (command == "test") {
         gameToPlay = new TestMiniGame(console,inputState);
     } else if (command == "fix") {
-        console->appendLine("Fixing all Systems...Fixed!");
+        console->appendLine("Fixing all Systems you fucking cheater...Fixed!");
         gameToPlay = new FixMiniGame();
     } else {
         command += ": command not found";
