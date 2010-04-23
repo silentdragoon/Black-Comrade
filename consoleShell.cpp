@@ -51,11 +51,11 @@ void ConsoleShell::processCommand() {
         console->appendLine("Error: No target system specified.");
         console->appendLine("Usage: repair [ weapons | sensors | engines | hull ]");
     } else if (command == "repair engines" ) {
-        gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame"));
+        gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame")); // Actually now the engine game
     } else if (command == "repair weapons" ) {
         gameToPlay = new WeaponMiniGame(console,inputState,getDifficulty("weaponGame"));
     } else if (command == "repair sensors" ) {
-        gameToPlay = new FixMiniGame();
+        gameToPlay = new FixMiniGame(); // Need to add the sensors game here
         //gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair hull" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
