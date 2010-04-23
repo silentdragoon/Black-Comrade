@@ -44,7 +44,9 @@
     </WidgetLook>
 -->
 
-    <WidgetLook name="BlackComrade/Radar">
+    <WidgetLook name="BlackComrade/BigRadar">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/SmallRadar">
     </WidgetLook>
     <WidgetLook name="BlackComrade/Enemy">
     </WidgetLook>
