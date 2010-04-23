@@ -44,17 +44,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
+    lightMgr = new LightManager(sceneMgr);
+
     // Map
     MapPieceChoices *mapPieceChoices;
     std::string mapFileName = ConstManager::getString("map_file_name");
     if (mapFileName == "") mapFileName = "examplemap_new.txt";
     if (collabInfo->getGameRole() == PILOT) {
-        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightMgr);
         mapPieceChoices = mapMgr->getChosenPieces();
         networkingManager->replicate(mapPieceChoices);
     } else {
         mapPieceChoices = (MapPieceChoices*) networkingManager->getReplica("MapPieceChoices",true);
-        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightMgr);
     }
 
 
@@ -132,7 +134,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         shipState = new ShipState();
         networkingManager->replicate(shipState);
     } else {
-        shipState = 
+        shipState =
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
     shipState->setDamageState(damageState);
@@ -145,28 +147,28 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
-    
+
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
-    
+
     // Start Door
     MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
     int i = (startMapTile->getConnections())[0];
-    
+
     Vector3 doorPos = *startMapTile->getSpawn(i);
     Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
     sceneNodeMgr->createNode(door);
     //door->open();
     collisionMgr->addColidableMovableObject(sceneNodeMgr->getEntity(door));
     gameLoop->addTickable(door, "Door");
-    
-    soundMgr->setShipNode(shipSceneNode);     
+
+    soundMgr->setShipNode(shipSceneNode);
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);
     }
-    
+
     // Camera
     camera = createCamera(shipSceneNode);
     if(collabInfo->getGameRole() == PILOT) {
@@ -183,7 +185,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         gameLoop->addTickable(engineerControls,"engineerControls");
 
         systemManager = new SystemManager(engineerControls, damageState);
-        
+
         networkingManager->replicate(systemManager);
     } else {
         if (collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
@@ -207,7 +209,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
-    
+
     // Navigator Controls
     if(true || collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
@@ -241,9 +243,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         gameStateMachine = new GameStateMachine(mapMgr,inputState,
                                                 pilotInfo,engineerInfo,navigatorInfo,
                                                 tutorial,shipState,damageState,objective);
-        networkingManager->replicate(gameStateMachine);    
+        networkingManager->replicate(gameStateMachine);
     } else {
-        gameStateMachine = 
+        gameStateMachine =
             (GameStateMachine*) networkingManager->
                 getReplica("GameStateMachine",true);
         gameStateMachine->setInputState(inputState);
@@ -282,7 +284,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         getReplica("PilotGunState",true);
     }
     gameLoop->addTickable(pilotGunState,"pilotGunState");
-    
+
     // Navigator Gun State
     if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorGunState = new GunState(navigatorControls,damageState,systemManager,collabInfo);
@@ -302,7 +304,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             gameLoop->addTickable(navigatorGunState,"navigatorGunState");
         }
     }
-    
+
     // Engineer Gun State
     if(collabInfo->getGameRole() == ENGINEER) {
         engineerGunState = new GunState(engineerControls,damageState,systemManager,collabInfo);
@@ -320,7 +322,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Spot Lights
     pilotSpotLight = new SpotLight(sceneMgr, shipSceneNode, pilotGunState);
     gameLoop->addTickable(pilotSpotLight, "pilotSpotLight");
-    
+
     if(engineerGunState) {
         engineerSpotLight = new SpotLight(sceneMgr, shipSceneNode,
              engineerGunState);
@@ -357,7 +359,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(bulletMgr,"bulletManager");
     gameLoop->addTickable(swarmMgr, "swarmMgr");
 
-    
+
     gameLoop->addTickable(systemManager,"systemManager");
 
     // Audio
@@ -366,7 +368,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                 notificationMgr,bulletMgr,miniGameMgr,
                                 gameStateMachine);
     gameLoop->addTickable(audioState,"audioState");
-	
+
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
@@ -397,6 +399,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                             cons, pilotInfo,navigatorInfo,engineerInfo);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
+    gameLoop->addTickable(lightMgr,"lightMgr");
+
     soundMgr->changeMusic(1); // Switch to stealth music
 
     // Viewport
@@ -425,7 +429,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     engineerInfo->getPlayerStats()->print();
 
     postGame->showMenus();
-    
+
     networkingManager->stopNetworking();
 }
 
@@ -435,7 +439,7 @@ Root *Main::configRoot()
 
     if (!root->restoreConfig())
         root->showConfigDialog();
-        
+
     return root;
 }
 
@@ -443,10 +447,10 @@ void Main::configResources()
 {
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("map_file_path"),"FileSystem", "General");
-                    
+
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("scripts_file_path"),"FileSystem", "General");
-                    
+
     ResourceGroupManager::getSingleton().addResourceLocation(
                     ConstManager::getString("textures_file_path"),"FileSystem", "General");
 
@@ -461,31 +465,31 @@ void Main::configResources()
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "materials/programs", "FileSystem", "General");
-                    
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "particles", "FileSystem", "General"); 
-                   
-    ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/fonts", "FileSystem", "fonts"); 
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/imagesets", "FileSystem", "imagesets"); 
+                    "particles", "FileSystem", "General");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/layouts", "FileSystem", "layouts"); 
+                    "cegui/fonts", "FileSystem", "fonts");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/looknfeel", "FileSystem", "looknfeels"); 
+                    "cegui/imagesets", "FileSystem", "imagesets");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/lua_scripts", "FileSystem", "lua_scripts"); 
+                    "cegui/layouts", "FileSystem", "layouts");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/looknfeel", "FileSystem", "looknfeels");
+
+    ResourceGroupManager::getSingleton().addResourceLocation(
+                    "cegui/lua_scripts", "FileSystem", "lua_scripts");
 
     ResourceGroupManager::getSingleton().addResourceLocation(
                     "cegui/schemes", "FileSystem", "schemes");
-    
+
 
     ResourceGroupManager::getSingleton().addResourceLocation(
-                    "cegui/xml_schemas", "FileSystem", "xml_schemas"); 
+                    "cegui/xml_schemas", "FileSystem", "xml_schemas");
 
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
@@ -504,14 +508,14 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     //camera->setFOVy(Radian(2.0943951));
     camera->setNearClipDistance(0.1);
     camera->setFarClipDistance(2500);
-    
+
     // Lighting
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
-    
+
     // Add some sexy fog
     ColourValue fadeColour(0.1,0.1,0.1);
     sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
-    
+
     /*Light *sp = sceneMgr->createLight("ShipLight");
     sp->setType(Light::LT_POINT);
     sp->setDiffuseColour(1.0,1.0,1.0);
@@ -523,7 +527,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     // they have been moved into the class "spotLight.h"
 
     //shipSceneNode->attachObject(sp);
-    
+
     return camera;
 }
 
@@ -550,7 +554,7 @@ void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
     vp->setBackgroundColour(ColourValue(1,0,0));
-    
+
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));
     //camera->setAspectRatio(1.17);
@@ -567,24 +571,24 @@ int main(int argc,char *argv[])
     bool rebuildCollisionMeshes = false;
     cout << "argc=" << argc << endl;
     cout << argv[0] << endl;
-    for (int i=1;i<argc;i++) 
+    for (int i=1;i<argc;i++)
     {
         if (string(argv[i]) == "-nk") {
             useKey = false;
-            cout << "Keys are not bound." <<endl; 
+            cout << "Keys are not bound." <<endl;
         } else if (string(argv[i]) == "-ne") {
             enemies = false; //not done yet
-            cout << "Flag for no enemies entered." <<endl; 
+            cout << "Flag for no enemies entered." <<endl;
         } else if (string(argv[i]) == "-nc") {
             collisions = false;
-            cout << "Disabling ship-wall collisions." <<endl; 
+            cout << "Disabling ship-wall collisions." <<endl;
         } else if (string(argv[i]) == "-nm") {
             useMouse = false;
-            cout << "Mouse is not bound" <<endl; 
+            cout << "Mouse is not bound" <<endl;
         }
          else if (string(argv[i]) == "-rc") {
             rebuildCollisionMeshes = true;
-            cout << "Rebuiling collision meshes" <<endl; 
+            cout << "Rebuiling collision meshes" <<endl;
         }
     }
     Main *main = new Main(useKey, useMouse, enemies, collisions, rebuildCollisionMeshes);

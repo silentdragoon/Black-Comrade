@@ -214,6 +214,15 @@ void HUD::makePilotHUD() {
     guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
     guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
 
+    // Repair Avatars
+    repairAv1 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv3 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+
+    repairAv1->setVisible(false);
+    repairAv2->setVisible(false);
+    repairAv3->setVisible(false);
+
     // Right box
     guiManager->addStaticImagePix("RightPil", 1.0 - 119 * wpixel,  1.0 - 70 * hpixel,
                                   119 * wpixel, 70 * hpixel, "RightPil", "Main");
@@ -234,6 +243,16 @@ void HUD::makeNavigatorHUD() {
     guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
     guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
     guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+
+    // Repair avatars
+
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv3 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+
+    repairAv1->setVisible(false);
+    repairAv2->setVisible(false);
+    repairAv3->setVisible(false);
 
     // Right box
     guiManager->addStaticImagePix("RightNav", 1.0 - 229 * wpixel,  1.0 - 229 * hpixel,
@@ -257,6 +276,16 @@ void HUD::makeEngineerHUD() {
     guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
     guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
     guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+
+    // Repair Avatars
+
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv3 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+
+    repairAv1->setVisible(false);
+    repairAv2->setVisible(false);
+    repairAv3->setVisible(false);
 
     // Right box
     guiManager->addStaticImagePix("RightEng", 1.0 - 367 * wpixel,  1.0 - 230 * hpixel,
@@ -640,6 +669,12 @@ void HUD::setTeamInfo(std::string nick1, std::string nick2, std::string nick3,
 	kills3->setText(k3.str());
 
     // TODO: Show a symbol indicating if players are repairing or not
+
+    repairing1 ? repairAv1->setVisible(true) : repairAv1->setVisible(false);
+	repairing2 ? repairAv2->setVisible(true) : repairAv2->setVisible(false);
+	repairing3 ? repairAv3->setVisible(true) : repairAv3->setVisible(false);
+
+
 }
 	
 

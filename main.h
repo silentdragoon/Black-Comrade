@@ -56,6 +56,7 @@
 #include <string>
 #include <cstdio>
 #include "spotLight.h"
+#include "lightManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -91,30 +92,30 @@ private:
     GameParameterMap *gameParameterMap;
     PrintState *printState;
     NotificationManager *notificationMgr;
-    
+
     GunnerControls *myControls;
     PilotControls *pilotControls;
     NavigatorControls *navigatorControls;
     EngineerControls *engineerControls;
-   
+
     GunState *pilotGunState;
     GunState *engineerGunState;
     GunState *navigatorGunState;
-    
+
     SpotLight *pilotSpotLight;
     SpotLight *engineerSpotLight;
     SpotLight *navigatorSpotLight;
-    
+
     SceneNode *mapNode;
-    
+
     float shipScale;
-    
+
     StateUpdate *gameLoop;
     SceneNode *shipSceneNode;
     ShipState *shipState;
     DamageState *damageState;
     SystemManager *systemManager;
-    
+
     MapManager *mapMgr;
     SwarmManager *swarmMgr;
     GuiManager *guiMgr;
@@ -127,8 +128,10 @@ private:
     ParticleSystemEffectManager *particleSystemEffectManager;
     Objective *objective;
 
+    LightManager *lightMgr;
+
     Fader *fader;
-    
+
     Door *door;
 
     GameEnder *gameEnder;
@@ -141,12 +144,12 @@ private:
 
     Root *configRoot();
     void configResources();
-    
+
 public:
     //enemies cannot be turned off yet
     Main( bool useKey, bool useMouse, bool enemies, bool collisions, bool rebuildCollisionMeshes );
     ~Main();
-    
+
     void exit();
 };
 
