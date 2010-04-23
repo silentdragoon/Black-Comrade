@@ -4,6 +4,9 @@
     <Image Name="Crewav1" XPos="104" YPos="2" Width="100" Height="100" />
     <Image Name="Crewav2" XPos="204" YPos="2" Width="100" Height="100" />
     <Image Name="Crewav3" XPos="304" YPos="2" Width="100" Height="100" />
+    <Image Name="Repairav1" XPos="104" YPos="102" Width="100" Height="100" />
+    <Image Name="Repairav2" XPos="204" YPos="102" Width="100" Height="100" />
+    <Image Name="Repairav3" XPos="304" YPos="102" Width="100" Height="100" />
     <Image Name="EmptyBox" XPos="0" YPos="0" Width="104" Height="157" />
     <Image Name="AvPlacement" XPos="2" YPos="2" Width="100" Height="100" />
     <Image Name="TextPlacement" XPos="10" YPos="110" Width="84" Height="37" />
