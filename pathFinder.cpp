@@ -8,7 +8,7 @@ PathFinder::PathFinder(MapManager *mapMgr)
     //for(std::vector<MapTile*>::const_iterator ite=path.begin();ite!=path.end();++ite) {
     //    MapTile* tile = *ite;
     //    std::cout << "maptile: " << tile->getX() << " " << tile->getY() << std::endl;
-    //}   
+    //}
 }
 
 PathTile* PathFinder::chooseNextTile(std::vector<PathTile*> &tiles, PathTile* dest) {
@@ -108,6 +108,8 @@ std::vector<MapTile*> PathFinder::findPath(MapTile* mapStart, MapTile* mapEnd) {
 
 MapTile* PathFinder::pickNextTile(MapTile *currentMap, MapTile *lastMap) {
     PathTile *current = new PathTile(currentMap);
+    rng.seed(static_cast<unsigned int>(std::time(0)));
+
     std::vector<PathTile*> options = findNeighbours(current);
     if (options.size() == 0) {
         // Unlikely case - stay where you are
@@ -118,9 +120,19 @@ MapTile* PathFinder::pickNextTile(MapTile *currentMap, MapTile *lastMap) {
         return lastMap;
     } else {
         // We have some options
-        if (options.at(0)->getMapTile() != lastMap) return options.at(0)->getMapTile();
-        if (options.at(1)->getMapTile() != lastMap) return options.at(1)->getMapTile();
-        if (options.at(2)->getMapTile() != lastMap) return options.at(2)->getMapTile();
-        return options.at(3)->getMapTile();
+
+        boost::uniform_int<> six(0,options.size()-1);
+        PathTile *chosenTile;
+        int option;
+        while (true) {
+            boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+            // Choose an option at random
+            option = die();
+            chosenTile = options[option];
+            // If the option is valid, break
+            // TODO: Check if an option is prohibited by a waypoint
+            if (chosenTile->getMapTile() != lastMap) break;
+        }
+        return chosenTile->getMapTile();
     }
 }
