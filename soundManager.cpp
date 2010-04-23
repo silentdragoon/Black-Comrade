@@ -160,7 +160,8 @@ void SoundManager::playSound(int constName, Vector3 soundPos, float volume) {
 
         errCheck( system->playSound(FMOD_CHANNEL_FREE, sounds[constName], false, &channel1) );
 
-        errCheck( channel1->set3DAttributes(&pos, &vel) );
+        channel1->set3DAttributes(&pos, &vel);
+        //errCheck( channel1->set3DAttributes(&pos, &vel) );
 
         errCheck( channel1->setVolume(volume) );
 
