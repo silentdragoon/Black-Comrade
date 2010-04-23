@@ -12,13 +12,13 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
 {
     console->makeBlank();
     console->setString("========================================",0,1);
-    console->setString("Repairbot Quick Task Helper v0.78 (beta)",0,2);
+    console->setString("||      Hull repair system v0.65      ||",0,2);
     console->setString("========================================",0,3);
     console->setString("",0,4);
-    console->setString("Available commands:",0,5);
-    console->setString("J: Clear tool jam",0,6);
-    console->setString("R: Reboot bot",0,7);
-    console->setString("O: Override safeties",0,8);
+    console->setString("Available keys, press when prompted:",0,5);
+    console->setString("J: Clear repair tool jam",0,6);
+    console->setString("R: Reboot bot systems",0,7);
+    console->setString("O: Override bot safeties",0,8);
     console->setString("S: Self repair",0,9);
     console->setString("Q: Quit",0,10);
     console->setString("",0,11);
@@ -56,22 +56,22 @@ void QuickTimeMiniGame::tick() {
             switch(irand) {
                 case 1:
                     console->clearPrompt();
-                    console->setString("Jammed repair tool...",0,20);
+                    console->setString("(J) Jammed repair tool...",0,20);
                     broke=1;
                     break;
                 case 2:
                     console->clearPrompt();
-                    console->setString("Reboot, operating system crash...",0,20);
+                    console->setString("(R) Reboot, operating system crash...",0,20);
                     broke=2;
                     break;
                 case 3:
                     console->clearPrompt();
-                    console->setString("Override to overcome safety limits...",0,20);
+                    console->setString("(O) Override to overcome safety limits...",0,20);
                     broke=3;
                     break;
                 case 4:
                     console->clearPrompt();
-                    console->setString("Self repair bot, damage sustained...",0,20);
+                    console->setString("(S) Self repair bot, damage sustained...",0,20);
                     broke=4;
                     break;
             }        
