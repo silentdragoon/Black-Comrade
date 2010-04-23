@@ -102,7 +102,6 @@ void GuiStatusUpdater::tick() {
         hud->setEngineRate(engineRate);
        }
 
-    // TODO: Show player status / stats
     
     int kills1 = 0;
     int kills2 = 0;

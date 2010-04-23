@@ -77,6 +77,10 @@ private:
     CEGUI::FrameWindow *statusIndicatorsBossHealth;
     CEGUI::FrameWindow *statusIndicatorsBlank;
 
+    CEGUI::FrameWindow *repairAv1;
+    CEGUI::FrameWindow *repairAv2;
+    CEGUI::FrameWindow *repairAv3;
+
     GameRole gameRole;
     
     void makeCommonHUD();
