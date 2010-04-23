@@ -165,10 +165,13 @@ void GuiStatusUpdater::tick() {
     float bossHealth = objective->getHealthPercentage();
     hud->setBossHealthbar(bossHealth);
 
+
     int t = objective->getEscapeTime();
-    std::stringstream count;
-    count << " " << t << " seconds";
-    hud->setCountdown(count.str());
+    if (t < 90) {
+        std::stringstream count;
+        count << " " << t << " seconds";
+        hud->setCountdown(count.str());
+    }
 
     // Update transmission log
 

@@ -169,22 +169,22 @@ void HUD::makeCommonHUD() {
 
     // Status Indicator
     
-    statusIndicatorsStealth = guiManager->addStaticImage("StatusIndicators", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+    statusIndicatorsStealth = guiManager->addStaticImage("StatusIndicators", 0.5, 0.0 + 23*hpixel, 206 * wpixel, 46 * hpixel,
                                                          "StatusIndicators", "Stealth");
 
-    statusIndicatorsSwarms = guiManager->addStaticImage("StatusIndicators2", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+    statusIndicatorsSwarms = guiManager->addStaticImage("StatusIndicators2", 0.5, 0.0 + 23*hpixel, 206 * wpixel, 46 * hpixel,
                                                         "StatusIndicators", "Swarms");
 
-    statusIndicatorsComrade = guiManager->addStaticImage("StatusIndicators3", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+    statusIndicatorsComrade = guiManager->addStaticImage("StatusIndicators3", 0.5, 0.0 + 23*hpixel, 206 * wpixel, 46 * hpixel,
                                                          "StatusIndicators", "BlackComrade");
 
-    statusIndicatorsBossHealth = guiManager->addStaticImage("StatusIndicators4", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+    statusIndicatorsBossHealth = guiManager->addStaticImage("StatusIndicators4", 0.5, 0.0 + 23*hpixel, 206 * wpixel, 46 * hpixel,
                                                             "StatusIndicators", "BossHealthbar");
     
-    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5", 0.5, 1.0 - 23*hpixel, 206 * wpixel, 46 * hpixel,
+    statusIndicatorsBlank = guiManager->addStaticImage("StatusIndicators5", 0.5, 0.0 + 23*hpixel, 206 * wpixel, 46 * hpixel,
                                                        "StatusIndicators", "Blank");    
     
-    // statusIndicatorsStealth->setVisible(false);
+    statusIndicatorsStealth->setVisible(false);
     statusIndicatorsSwarms->setVisible(false);
     statusIndicatorsComrade->setVisible(false);
     statusIndicatorsBossHealth->setVisible(false);
@@ -195,16 +195,16 @@ void HUD::makeCommonHUD() {
     countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
     //countdown->setFont("DroidSansMono-big.font");
     guiManager->getRootWindow()->addChildWindow(countdown);
-    countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
-    countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(1 - 46 * hpixel,0)));
+    countdown->setSize(CEGUI::UVector2(CEGUI::UDim(106 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+    countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(0 + 0 * hpixel,0)));
     countdown->setVisible(false);
 
     // Boss Health
     
     bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
     guiManager->getRootWindow()->addChildWindow(bossHealthbar);
-    bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 104*wpixel,0),CEGUI::UDim(1.0 - 41 * hpixel,0)));
-    bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(201 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
+    bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 3*wpixel,0),CEGUI::UDim(0.0 + 5 * hpixel,0)));
+    bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(106 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     bossHealthbar->setVisible(false);
 }
 
@@ -695,10 +695,10 @@ void HUD::switchStatus(int state) {
 
     switch ( state ) {
         case 1:
-            statusIndicatorsStealth->setVisible(true);
+            //statusIndicatorsStealth->setVisible(true);
             break;
         case 2:
-            statusIndicatorsSwarms->setVisible(true);
+            //statusIndicatorsSwarms->setVisible(true);
             break;
         case 3:
             statusIndicatorsComrade->setVisible(true);
@@ -706,6 +706,8 @@ void HUD::switchStatus(int state) {
         case 4:
             statusIndicatorsBossHealth->setVisible(true);
             bossHealthbar->setVisible(true);
+            countdown->setVisible(true);
+            countdown->setText("Boss:");
             break;
         case 5:
             statusIndicatorsBlank->setVisible(true);
