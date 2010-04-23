@@ -362,9 +362,9 @@ void MapManager::makeConPieces() {
                     node->attachObject(e);
                     node->yaw( Radian(PI/2.0) );
                     //needs Tuning
-                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
+                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"), 0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
                     node->setPosition(pos);
-                    attachLight( pos.x, pos.z);
+                    lightMgr->addConnPieceSPLight( pos);
                     mts[x][y]->setEastConnPiece( e );
                     mapEntities.push_back(e);
                 }
@@ -377,37 +377,15 @@ void MapManager::makeConPieces() {
                     Entity *e = sceneManager->createEntity(name,  "newConnExport.mesh");
                     node->attachObject(e);
                     //needs Tuning
-                    Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) ,0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
+                    Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) , 0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
                     node->setPosition(pos);
-                    attachLight( pos.x, pos.z);
+                    lightMgr->addConnPieceSPLight( pos);
                     mts[x][y]->setSouthConnPiece( e );
                     mapEntities.push_back(e);
                 }
             }
         }
     }
-}
-
-void MapManager::attachLight( Real x, Real z )
-{
-    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
-
-    std::stringstream out;
-    out << "-" << x << "-" << z;
-
-    string lightS = "light";
-    lightS += out.str();
-
-    Light* light = sceneManager->createLight(lightS);
-    light->setType(Light::LT_POINT);
-    light->setDiffuseColour(ColourValue(25.25f,25.25f,25.0f));
-    light->setSpecularColour(ColourValue(25.25f,25.25f,25.0f));
-    light->setAttenuation( 100, 1.0, 0.045, 0.0075);
-    //light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
-    //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
-    node->attachObject(light);
-    Vector3 pos(x, 23 , z);
-    node->setPosition(pos);
 }
 
 
