@@ -73,7 +73,7 @@ void HUD::makeCommonHUD() {
 
     // Weapon & Shield Charge backgrounds
     
-    guiManager->addStaticImagePix("Charge", 1.0 - 48 *wpixel, 0.4 - 400 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
+    guiManager->addStaticImagePix("Charge", 1.0 - 48 *wpixel, 0.4 - 160 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
     guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0.4 + 80 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
 
     // Left box
@@ -161,7 +161,7 @@ void HUD::makeCommonHUD() {
     guiManager->getRootWindow()->addChildWindow(weaponCharge);
     guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - 360 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - 120 * hpixel,0)));
     shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(0.4 + 120 * hpixel,0)));
         
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
