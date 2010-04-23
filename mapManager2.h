@@ -19,6 +19,7 @@
 #include "constManager.h"
 #include "const.h"
 #include "mapPieceChoices.h"
+#include "lightManager.h"
 
 #include <boost/math/distributions/uniform.hpp>
 #include <boost/random.hpp>
@@ -33,6 +34,8 @@ class MapManager {
 private:
 
     boost::mt19937 rng;
+
+    LightManager *lightMgr;
 
     int objx,objy; // Location of the objective tile
     int chosenIndex;
@@ -54,8 +57,8 @@ public:
     int startx,starty; // Index location of the start square of the map
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
-    MapManager(char* file, SceneManager *sceneManager);
-    MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager);
+    MapManager(char* file, SceneManager *sceneManager, LightManager *lightMgr);
+    MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager, LightManager *lightMgr);
 
     Entity* getEntity(Vector3 *locn);
     //void getMapEntities(Vector3 *locn, Entity** mps );

@@ -1,7 +1,8 @@
 #include "mapManager2.h"
 
-MapManager::MapManager(char*file, SceneManager *sceneManager) : 
+MapManager::MapManager(char*file, SceneManager *sceneManager, LightManager *lightMgr) :
     sceneManager(sceneManager)
+    , lightMgr(lightMgr)
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
     MAPROOT = ConstManager::getString("map_file_path");
@@ -11,9 +12,10 @@ MapManager::MapManager(char*file, SceneManager *sceneManager) :
     loadMap(file);
 }
 
-MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager)
+MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager,  LightManager *lightMgr )
     : sceneManager(sceneManager)
     , pieceChoices(pieceChoices)
+    , lightMgr(lightMgr)
 {
     MAPROOT = ConstManager::getString("map_file_path");
     chosenPieces = std::vector<int>();
@@ -208,14 +210,14 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     } else {
         chosenPiece = pieceToChoose;
     }
-  
+
     string name = names.at(chosenPiece);
     std::stringstream out2;
     out2 << "-" << x << "-" << y;
     name += out2.str();
-    
+
     MeshPtr pMesh = MeshManager::getSingleton().load(files.at(chosenPiece),
-          ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    
+          ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
           HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
           HardwareBuffer::HBU_STATIC_WRITE_ONLY,
           true, true);
@@ -225,12 +227,12 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
     {
        pMesh->buildTangentVectors(VES_TANGENT, src, dest);
     }
-    
+
     Entity *e = sceneManager->createEntity(name, pMesh->getName() );
 
     mapEntities.push_back(e);
     node->attachObject(e);
-    
+
     cout << files.at(chosenPiece) << ": " << (x * ConstManager::getInt("map_tile_size")) << " " << (y * ConstManager::getInt("map_tile_size")) << endl;
 	Vector3 pos(x * ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size"));
     node->setPosition(pos);
@@ -251,7 +253,7 @@ Entity* MapManager::getEntity(Vector3 *locn) {
             return mts[x][y]->getEntity();
         }
     }
-    
+
     return NULL;
 }
 
@@ -290,13 +292,13 @@ Entity* MapManager::getEntity(Vector3 *locn) {
 MapTile* MapManager::getMapTile(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
-    
+
     if(0 <= x && x < ConstManager::getInt("map_size")) {
         if(0 <= y && y < ConstManager::getInt("map_size")) {
             return mts[x][y];
         }
     }
-    return NULL;   
+    return NULL;
 }
 
 Vector3 MapManager::getActualPosition(MapTile *mapTile) {
@@ -323,7 +325,7 @@ std::vector<string*> MapManager::getWaypoints(Vector3 *locn) {
 std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn) {
     int x = (int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y = (int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
-    return mts[x][y]->getSpawnPoints(); 
+    return mts[x][y]->getSpawnPoints();
 }
 
 std::vector<Vector3*> MapManager::getInitialSpawnPoints() {
@@ -360,9 +362,9 @@ void MapManager::makeConPieces() {
                     node->attachObject(e);
                     node->yaw( Radian(PI/2.0) );
                     //needs Tuning
-                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"),0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
+                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"), 0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
                     node->setPosition(pos);
-                    attachLight( pos.x, pos.z);
+                    lightMgr->addConnPieceSPLight( pos);
                     mts[x][y]->setEastConnPiece( e );
                     mapEntities.push_back(e);
                 }
@@ -375,37 +377,15 @@ void MapManager::makeConPieces() {
                     Entity *e = sceneManager->createEntity(name,  "newConnExport.mesh");
                     node->attachObject(e);
                     //needs Tuning
-                    Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) ,0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
+                    Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) , 0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
                     node->setPosition(pos);
-                    attachLight( pos.x, pos.z);
+                    lightMgr->addConnPieceSPLight( pos);
                     mts[x][y]->setSouthConnPiece( e );
                     mapEntities.push_back(e);
                 }
             }
         }
     }
-}
-
-void MapManager::attachLight( Real x, Real z )
-{
-    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
-    
-    std::stringstream out;
-    out << "-" << x << "-" << z;
-    
-    string lightS = "light";
-    lightS += out.str();
-    
-    Light* light = sceneManager->createLight(lightS);
-    light->setType(Light::LT_POINT);
-    light->setDiffuseColour(ColourValue(25.25f,25.25f,25.0f));
-    light->setSpecularColour(ColourValue(25.25f,25.25f,25.0f));
-    light->setAttenuation( 100, 1.0, 0.045, 0.0075);
-    //light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
-    //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
-    node->attachObject(light);
-    Vector3 pos(x, 23 , z);
-    node->setPosition(pos);
 }
 
 
@@ -446,7 +426,7 @@ void MapManager::setSpawnPoints() {
     for(int y=0;y<ConstManager::getInt("map_size");y++) {
         for(int x=0;x<ConstManager::getInt("map_size");x++) {
             if(!mts[x][y]->isEmpty()) {
-                std::vector<int> conns = mts[x][y]->getConnections(); 
+                std::vector<int> conns = mts[x][y]->getConnections();
 
                 double xx = x * ConstManager::getInt("map_tile_size");
                 double yy = y * ConstManager::getInt("map_tile_size"); // Actually z in ogre coords
@@ -518,4 +498,4 @@ void MapManager::getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mp
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
     mts[x][y]->getTileAndConnectionEntities( mps );
 }
-    
+
