@@ -67,14 +67,14 @@ void HUD::makeCommonHUD() {
     crosshair = guiManager->addStaticImage("XCrosshair",  0.5, 0.5, 0.05/ratio, 0.05, "XCrosshair", "XCross");
 
     // Crew backgrounds
-    guiManager->addStaticImagePix("Crewl", 0 * wpixel,    320 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
-    guiManager->addStaticImagePix("Crewr", 0 * wpixel,   160 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
-	guiManager->addStaticImagePix("Crews", 0 * wpixel,   0 * hpixel, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+    guiManager->addStaticImagePix("Crewl", 0 * wpixel,   0.3, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+    guiManager->addStaticImagePix("Crewr", 0 * wpixel,   0.6, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
+	guiManager->addStaticImagePix("Crews", 0 * wpixel,  0.0, 104 * wpixel, 157 * hpixel,  "Crew", "EmptyBox" );
 
     // Weapon & Shield Charge backgrounds
     
-    guiManager->addStaticImagePix("Charge", 1.0 - 96 *wpixel, 0 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
-    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
+    guiManager->addStaticImagePix("Charge", 1.0 - 48 *wpixel, 0.4 - 400 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
+    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0.4 + 80 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
 
     // Left box
     guiManager->addStaticImagePix("Left",  0.0, 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left", "Main");
@@ -90,9 +90,9 @@ void HUD::makeCommonHUD() {
     teaminfo1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     teaminfo2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     teaminfo3->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
-    teaminfo1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(264 * hpixel,0)));
-    teaminfo2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(424 * hpixel,0)));
-    teaminfo3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(104 * hpixel,0)));
+    teaminfo1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.3 + 104 * hpixel,0)));
+    teaminfo2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.6 + 104 * hpixel,0)));
+    teaminfo3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.0 + 104 * hpixel,0)));
     
     // Kills
     
@@ -105,9 +105,9 @@ void HUD::makeCommonHUD() {
     kills1->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     kills2->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
     kills3->setSize(CEGUI::UVector2(CEGUI::UDim(98 * wpixel,0),CEGUI::UDim(25 * hpixel,0)));
-    kills1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(289 * hpixel,0)));
-    kills2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(449 * hpixel,0)));
-    kills3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(129 * hpixel,0)));
+    kills1->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.3 + 129 * hpixel,0)));
+    kills2->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.6 + 129 * hpixel,0)));
+    kills3->setPosition(CEGUI::UVector2(CEGUI::UDim(3 * wpixel,0),CEGUI::UDim(0.0 + 129 * hpixel,0)));
     
     // Slack Box
 
@@ -161,8 +161,8 @@ void HUD::makeCommonHUD() {
     guiManager->getRootWindow()->addChildWindow(weaponCharge);
     guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 88*wpixel,0),CEGUI::UDim(40 * hpixel,0)));
-    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(40 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - 360 * hpixel,0)));
+    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(0.4 + 120 * hpixel,0)));
         
     weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
     shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
@@ -210,13 +210,13 @@ void HUD::makeCommonHUD() {
 
 void HUD::makePilotHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
-    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
     guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
 
     // Repair Avatars
-    repairAv1 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
-    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv1 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
     repairAv3 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
 
     repairAv1->setVisible(false);
@@ -240,14 +240,14 @@ void HUD::makePilotHUD() {
 
 void HUD::makeNavigatorHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
     guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
 
     // Repair avatars
 
-    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
-    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
     repairAv3 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
 
     repairAv1->setVisible(false);
@@ -273,14 +273,14 @@ void HUD::makeNavigatorHUD() {
 
 void HUD::makeEngineerHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
     guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
 
     // Repair Avatars
 
-    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.0 + 162 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
-    repairAv2 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 322 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
     repairAv3 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
 
     repairAv1->setVisible(false);
