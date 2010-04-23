@@ -10,12 +10,17 @@
 #include <math.h>
 #include <limits>
 
+#include <boost/math/distributions/uniform.hpp>
+#include <boost/random.hpp>
+
 class PathFinder {
 private:
     MapManager *mapMgr;
 
     PathTile* start;
     PathTile* end;
+
+    boost::mt19937 rng;
 
     std::vector<PathTile*> findNeighbours(PathTile* tile);
     PathTile* chooseNextTile(std::vector<PathTile*> &tiles, PathTile* dest);

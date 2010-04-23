@@ -52,8 +52,10 @@ private:
     
     CEGUI::Editbox *teaminfo1;
     CEGUI::Editbox *teaminfo2;
+    CEGUI::Editbox *teaminfo3;
     CEGUI::Editbox *kills1;
     CEGUI::Editbox *kills2;
+    CEGUI::Editbox *kills3;
 
     CEGUI::FrameWindow *crosshair;
     CEGUI::FrameWindow *controls;
@@ -106,9 +108,9 @@ public:
     void setWeaponCharge(float yeah);
     void setShieldCharge(float yeah);
     
-    void setTeamInfo(std::string nick1, std::string nick2,
-                     int killcount1, int killcount2,
-                     bool repairing1, bool repairing2);
+    void setTeamInfo(std::string nick1, std::string nick2, std::string nick3,
+                     int killcount1, int killcount2, int killcount3,
+                     bool repairing1, bool repairing2, bool repairing3);
    
     void setBossHealthbar(float yeah);
     void setCountdown(std::string timer);

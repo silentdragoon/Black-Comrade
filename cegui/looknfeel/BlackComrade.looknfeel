@@ -54,11 +54,19 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Crewr">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/Crews">
+    </WidgetLook>
     <WidgetLook name="BlackComrade/Crewav1">
     </WidgetLook>
     <WidgetLook name="BlackComrade/Crewav2">
     </WidgetLook>
     <WidgetLook name="BlackComrade/Crewav3">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Repairav1">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Repairav2">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/Repairav3">
     </WidgetLook>
     <WidgetLook name="BlackComrade/Left">
     </WidgetLook>
