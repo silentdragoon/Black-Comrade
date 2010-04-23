@@ -8,8 +8,8 @@
 #define RADAR_ANGLE 1.04719755
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
-        SwarmManager *swarmManager, HUD *hud, NavigatorControls
-        *navigatorControls)
+        SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
+            NavigatorControls *navigatorControls)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -20,7 +20,9 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , uIndex(0)
     , radarWindow(NULL)
     , hud(hud)
-    , fullScreen(false)
+    , fullScreen(fullScreen)
+    , visible(true)
+    , name(name)
     , navigatorControls(navigatorControls)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
@@ -48,7 +50,6 @@ void RadarGui::setDotPos(CEGUI::FrameWindow *dot, float x, float y)
 CEGUI::FrameWindow *RadarGui::createWindow(
     std::vector<std::pair<float,float> > *positions)
 {
-    char *name = "Radar";
     char *imageSet = "Radar";
     char *imageName = "background";
 
@@ -169,8 +170,14 @@ CEGUI::FrameWindow *RadarGui::createEnemyDot()
 
 void RadarGui::tick()
 {
-    fullScreen = navigatorControls->isMap();
+    if(visible && radarWindow != NULL) {
+        guiManager->getRootWindow()->removeChildWindow(radarWindow);
+        guiMgr->destroyWindow(radarWindow);
+    }
 
+    if(fullScreen) {
+        visible = navigatorControls->isMap();
+    }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
     int winHeight= Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
@@ -229,17 +236,14 @@ void RadarGui::tick()
         }
     }
 
-    if(radarWindow != NULL) {
-        guiManager->getRootWindow()->removeChildWindow(radarWindow);
-        guiMgr->destroyWindow(radarWindow);
-    }
-
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
     //positions.clear();
     //positions.push_back(std::pair<float,float>(0.4, -PI/4));
 
-    radarWindow = createWindow(&positions);
-    guiManager->getRootWindow()->addChildWindow(radarWindow);
+    if(visible) {
+        radarWindow = createWindow(&positions);
+        guiManager->getRootWindow()->addChildWindow(radarWindow);
+    }
 }
 

@@ -120,7 +120,8 @@ private:
     SwarmManager *swarmMgr;
     GuiManager *guiMgr;
     GuiStatusUpdater *guiStatusUpdater;
-    RadarGui *radarGui;
+    RadarGui *bigRadarGui;
+    RadarGui *smallRadarGui;
     HUD *hud;
     Console *cons;
     Lines *lines;

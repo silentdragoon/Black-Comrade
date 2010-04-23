@@ -370,10 +370,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(audioState,"audioState");
 
     // Radar GUI
-    if ( collabInfo->getGameRole() == ENGINEER) {
-    	radarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud,
-    	    navigatorControls);
-    	gameLoop->addTickable(radarGui,"Radar");
+    if (collabInfo->getGameRole() == ENGINEER) {
+    	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
+    	    "BigRadar", navigatorControls);
+    	gameLoop->addTickable(bigRadarGui,"BigRadar");
+    	smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
+    	    "SmallRadar", navigatorControls);
+    	gameLoop->addTickable(smallRadarGui,"SmallRadar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 

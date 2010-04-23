@@ -130,35 +130,35 @@ void SheildMiniGame::drawKeyStates()
 {
     currentChoird.clear();
 
-	console->setString("- (A) - (S) - (D) - (F) -",boardX + 1, 
+	console->setString("- (1) - (2) - (3) - (4) -",boardX + 1, 
 	    boardY + boardHeight + 1);
 
-    if(inputState->isKeyDown(OIS::KC_A)) {
+    if(inputState->isKeyDown(OIS::KC_1)) {
         console->setChar('^', boardX + 4, boardY + boardHeight + 1);
-        currentChoird.append("A");
+        currentChoird.append("1");
     } else {
-        console->setChar('A', boardX + 4, boardY + boardHeight + 1);
+        console->setChar('1', boardX + 4, boardY + boardHeight + 1);
     }
     
-    if(inputState->isKeyDown(OIS::KC_S)) {
+    if(inputState->isKeyDown(OIS::KC_2)) {
         console->setChar('^', boardX + 10, boardY + boardHeight + 1);
-        currentChoird.append("S");
+        currentChoird.append("2");
     } else {
-        console->setChar('S', boardX + 10, boardY + boardHeight + 1);
+        console->setChar('2', boardX + 10, boardY + boardHeight + 1);
     }
     
-    if(inputState->isKeyDown(OIS::KC_D)) {
+    if(inputState->isKeyDown(OIS::KC_3)) {
         console->setChar('^', boardX + 16, boardY + boardHeight + 1);
-        currentChoird.append("D");
+        currentChoird.append("3");
     } else {
-        console->setChar('D', boardX + 16, boardY + boardHeight + 1);
+        console->setChar('3', boardX + 16, boardY + boardHeight + 1);
     }
     
-    if(inputState->isKeyDown(OIS::KC_F)) {
+    if(inputState->isKeyDown(OIS::KC_4)) {
         console->setChar('^', boardX + 22, boardY + boardHeight + 1);
-        currentChoird.append("F");
+        currentChoird.append("4");
     } else {
-        console->setChar('F', boardX + 22, boardY + boardHeight + 1);
+        console->setChar('4', boardX + 22, boardY + boardHeight + 1);
     }
     
     if(loseLine) {
@@ -172,29 +172,29 @@ void SheildMiniGame::drawLine(int index, std::string chars)
 {
     char blank = index == 0 ? '-' : ' ';
 
-    if(chars.find_first_of("A") != chars.npos) {
-        console->setChar('A', boardX + 4, boardY + boardHeight - index);
+    if(chars.find_first_of("1") != chars.npos) {
+        console->setChar('1', boardX + 4, boardY + boardHeight - index);
     } else {
         console->setChar(blank, boardX + 4, 
             boardY + boardHeight - index);
     }
     
-    if(chars.find_first_of("S") != chars.npos) {
-        console->setChar('S', boardX + 10, boardY + boardHeight - index);
+    if(chars.find_first_of("2") != chars.npos) {
+        console->setChar('2', boardX + 10, boardY + boardHeight - index);
     } else {
         console->setChar(blank, boardX + 10, 
             boardY + boardHeight - index);
     }
     
-    if(chars.find_first_of("D") != chars.npos) {
-        console->setChar('D', boardX + 16, boardY + boardHeight - index);
+    if(chars.find_first_of("3") != chars.npos) {
+        console->setChar('3', boardX + 16, boardY + boardHeight - index);
     } else {
         console->setChar(blank, boardX + 16, 
             boardY + boardHeight - index);
     }
     
-    if(chars.find_first_of("F") != chars.npos) {
-        console->setChar('F', boardX + 22, boardY + boardHeight - index);
+    if(chars.find_first_of("4") != chars.npos) {
+        console->setChar('4', boardX + 22, boardY + boardHeight - index);
     } else {
         console->setChar(blank, boardX + 22, 
             boardY + boardHeight - index);
@@ -250,7 +250,10 @@ string SheildMiniGame::getName()
     return string("shieldGame");
 }
 
-void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) {}
+void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) 
+{
+    if(arg.key == OIS::KC_SPACE) otherKeyPressed(arg);
+}
 
 void SheildMiniGame::returnKeyPressed() {}
 
@@ -259,7 +262,8 @@ void SheildMiniGame::backspaceKeyPressed() {}
 void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
 {
     if(arg.key != OIS::KC_UP && arg.key != OIS::KC_DOWN
-    	&& arg.key != OIS::KC_LEFT && arg.key != OIS::KC_RIGHT)
+    	&& arg.key != OIS::KC_LEFT && arg.key != OIS::KC_RIGHT
+    	&& arg.key != OIS::KC_SPACE)
     		return;
     
     if(winLine) {

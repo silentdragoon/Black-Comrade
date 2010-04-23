@@ -22,8 +22,6 @@ SpotLight::SpotLight(SceneManager *sceneMgr, SceneNode *shipSceneNode,
 
 void SpotLight::tick()
 {
-    cout << gunState->getBulletDirection() << endl;
-
     sceneNode->lookAt(gunState->getBulletDirection() 
         + shipSceneNode->getPosition(), 
         Ogre::Node::TS_WORLD);
