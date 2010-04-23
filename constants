@@ -19,15 +19,15 @@ enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
 
 # Spawning
-max_swarms_attack = 2
-max_swarms_flee = 5
+max_swarms_attack = 5
+max_swarms_flee = 10
 
-swarm_size = 10
+swarm_size = 8
 
 # Shooting
 enemy_fire_rate = 0.8
 enemy_inaccuracy = 0.12
-enemy_bullet_damage = 0.25
+enemy_bullet_damage = 1
 
 # Flocking Constants
 flock_detect_dist = 15
