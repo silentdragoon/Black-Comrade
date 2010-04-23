@@ -26,6 +26,9 @@ private:
     int uIndex;
     
     bool fullScreen;
+    bool visible;
+
+    char *name;
 
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
@@ -44,13 +47,13 @@ private:
     
     CEGUI::FrameWindow *createWindow(
     std::vector<std::pair<float,float> > *positions);
-    
+
     NavigatorControls *navigatorControls;
 
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState,
-        SwarmManager *swarmManager, HUD *hud, NavigatorControls 
-        *navigatorControls);
+        SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
+            NavigatorControls *navigatorControls);
     //~RadarGui();
     
     void tick();

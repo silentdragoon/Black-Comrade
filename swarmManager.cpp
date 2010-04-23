@@ -185,7 +185,10 @@ void SwarmManager::tick()
     updateRemoteSwarms();
     if (mapMgr == 0) return;
 
-    if (gameStateMachine->currentGameState() == GS_TUTORIAL) return;
+    
+    // This is broken atm, and it should be done through gameParameterMap anyway!
+    //if (gameStateMachine->currentGameState() == GS_TUTORIAL) 
+    //{  return; }
 
     int sp = gamePM->getParameter("SPAWN");
 
