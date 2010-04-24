@@ -166,11 +166,9 @@ void GuiStatusUpdater::tick() {
 
 
     int t = objective->getEscapeTime();
-    if (t < 90) {
-        std::stringstream count;
-        count << " " << t << " seconds";
-        hud->setCountdown(count.str());
-    }
+    std::stringstream count;
+    count << " " << t << " seconds";
+    hud->setCountdown(count.str());
 
     // Update transmission log
 

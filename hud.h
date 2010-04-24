@@ -49,6 +49,7 @@ private:
     CEGUI::MultiLineEditbox *log;
     CEGUI::Editbox *indicator;
     CEGUI::Editbox *countdown;
+    CEGUI::Editbox *bossText;
     
     CEGUI::Editbox *teaminfo1;
     CEGUI::Editbox *teaminfo2;

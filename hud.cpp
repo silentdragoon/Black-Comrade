@@ -195,7 +195,7 @@ void HUD::makeCommonHUD() {
     countdown = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","countdown"));
     //countdown->setFont("DroidSansMono-big.font");
     guiManager->getRootWindow()->addChildWindow(countdown);
-    countdown->setSize(CEGUI::UVector2(CEGUI::UDim(106 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+    countdown->setSize(CEGUI::UVector2(CEGUI::UDim(206 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
     countdown->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 103 * wpixel,0),CEGUI::UDim(0 + 0 * hpixel,0)));
     countdown->setVisible(false);
 
@@ -203,9 +203,18 @@ void HUD::makeCommonHUD() {
     
     bossHealthbar = static_cast<CEGUI::ProgressBar*>(guiMgr->createWindow("BlackComrade/ProgressBarComrade","Comrade"));
     guiManager->getRootWindow()->addChildWindow(bossHealthbar);
-    bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 3*wpixel,0),CEGUI::UDim(0.0 + 5 * hpixel,0)));
+    bossHealthbar->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 7*wpixel,0),CEGUI::UDim(0.0 + 6 * hpixel,0)));
     bossHealthbar->setSize(CEGUI::UVector2(CEGUI::UDim(106 * wpixel,0),CEGUI::UDim(34 * hpixel,0)));
     bossHealthbar->setVisible(false);
+    
+    // Boss Text
+    
+    bossText = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","bossText"));
+    guiManager->getRootWindow()->addChildWindow(bossText);
+    bossText->setSize(CEGUI::UVector2(CEGUI::UDim(196 * wpixel,0),CEGUI::UDim(46 * hpixel,0)));
+    bossText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5 - 93 * wpixel,0),CEGUI::UDim(0 + 0 * hpixel,0)));
+    bossText->setText("Boss HP:");
+    bossText->setVisible(false);
 }
 
 void HUD::makePilotHUD() {
@@ -725,6 +734,7 @@ void HUD::switchStatus(int state) {
     statusIndicatorsBossHealth->setVisible(false);
     statusIndicatorsBlank->setVisible(false);
     bossHealthbar->setVisible(false);
+    bossText->setVisible(false);
     
     // std::cout << state << std::endl;
 
@@ -741,8 +751,7 @@ void HUD::switchStatus(int state) {
         case 4:
             statusIndicatorsBossHealth->setVisible(true);
             bossHealthbar->setVisible(true);
-            countdown->setVisible(true);
-            countdown->setText("Boss:");
+            bossText->setVisible(true);
             break;
         case 5:
             statusIndicatorsBlank->setVisible(true);
