@@ -62,6 +62,7 @@ private:
     void checkChannels();
     void updateShipPosition();
     void updateEnginePitch();
+    int stringToInt(string name);
 
 public:
     SoundManager();
@@ -69,8 +70,8 @@ public:
 
     virtual void tick();
 
-    void playSound(int file, Vector3 position, float volume);
-    void playSound(int file, SceneNode *soundNode, float volume);
+    void playSound(string file, Vector3 position, float volume);
+    void playSound(string file, SceneNode *soundNode, float volume);
     void changeMusic(int file);
     void stopEngine();
     void setShipNode(SceneNode *ship);

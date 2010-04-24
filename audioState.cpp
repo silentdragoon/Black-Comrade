@@ -24,10 +24,10 @@ void AudioState::tick()
 	    
 	    if (b->getOwner()->getEntityType() == ENTT_ENEMY) {
 	        // Enemy bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_enemygun"),b->getOrigin(),0.15);
+	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.15);
 	    } else if (b->getOwner()->getEntityType() == ENTT_PLAYER) {
 	        // Player bullet
-	        sndMgr->playSound(ConstManager::getInt("sound_frontgun"),b->getOrigin(),0.6);
+	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.6);
 	    }
 	    
 	    b->madeNoise = true;
@@ -35,7 +35,7 @@ void AudioState::tick()
 
     if(notificationMgr->hasNewNotification()) {
         Notification *newNotification = notificationMgr->getCurrentNotification();
-        if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != -1) {
+        if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != "") {
             sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,2);
         }
     }
@@ -63,7 +63,7 @@ void AudioState::tick()
 
     if (miniGameMgr->aKeyPressed) {
         miniGameMgr->aKeyPressed = false;
-        sndMgr->playSound(ConstManager::getInt("sound_consolekeypress"),shipNode,0.1);
+        sndMgr->playSound("sound_consolekeypress",shipNode,0.1);
     }
 }
 
