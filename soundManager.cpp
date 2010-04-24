@@ -68,6 +68,56 @@ void SoundManager::loadSoundFiles() {
     // Enemy explosion
     loadSoundFile("/sounds/explosion6.wav",ConstManager::getInt("sound_explosion"), false,false);
 
+	// English Voiceover Incoming...
+	
+	loadSoundFile("/sounds/vo/engship/10.mp3",ConstManager::getInt("sound_Count10"),false,true);
+	loadSoundFile("/sounds/vo/engship/15.mp3",ConstManager::getInt("sound_Count15"),false,true);
+	loadSoundFile("/sounds/vo/engship/30.mp3",ConstManager::getInt("sound_Count30"),false,true);
+	loadSoundFile("/sounds/vo/engship/54321.mp3",ConstManager::getInt("sound_Count54321"),false,true);
+	loadSoundFile("/sounds/vo/engship/60.mp3",ConstManager::getInt("sound_Count60"),false,true);
+	loadSoundFile("/sounds/vo/engship/ama.mp3",ConstManager::getInt("sound_AssaultModeActivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/amd.mp3",ConstManager::getInt("sound_AssaultModeDeactivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/asian.mp3",ConstManager::getInt("sound_AsianModeActivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/bc1.mp3",ConstManager::getInt("sound_CommandOrdersBCDestruction"),false,true);
+	loadSoundFile("/sounds/vo/engship/bc2.mp3",ConstManager::getInt("sound_CommandOrdersBCDestruction2"),false,true);
+	loadSoundFile("/sounds/vo/engship/bcd.mp3",ConstManager::getInt("sound_BCDestroyed"),false,true);
+	loadSoundFile("/sounds/vo/engship/cleared.mp3",ConstManager::getInt("sound_ClearedToProceed"),false,true);
+	loadSoundFile("/sounds/vo/engship/complete.mp3",ConstManager::getInt("sound_MissionComplete"),false,true);
+	loadSoundFile("/sounds/vo/engship/destination.mp3",ConstManager::getInt("sound_DestinationReached"),false,true);
+	loadSoundFile("/sounds/vo/engship/detected.mp3",ConstManager::getInt("sound_WeAreDetected"),false,true);
+	loadSoundFile("/sounds/vo/engship/disobey1.mp3",ConstManager::getInt("sound_Disobey1"),false,true);
+	loadSoundFile("/sounds/vo/engship/disobey2.mp3",ConstManager::getInt("sound_Disobey2"),false,true);
+	loadSoundFile("/sounds/vo/engship/ef.mp3",ConstManager::getInt("sound_EngineDamage2"),false,true);
+	loadSoundFile("/sounds/vo/engship/english.mp3",ConstManager::getInt("sound_EnglishModeActivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/enr.mp3",ConstManager::getInt("sound_EngineDamage1"),false,true);
+	loadSoundFile("/sounds/vo/engship/etsd.mp3",ConstManager::getInt("sound_EngineDamage3"),false,true);
+	loadSoundFile("/sounds/vo/engship/gameover.mp3",ConstManager::getInt("sound_GameOver"),false,true);
+	loadSoundFile("/sounds/vo/engship/hdc.mp3",ConstManager::getInt("sound_HullDamage1"),false,true);
+	loadSoundFile("/sounds/vo/engship/hdi.mp3",ConstManager::getInt("sound_HullDamage2"),false,true);
+	loadSoundFile("/sounds/vo/engship/hif.mp3",ConstManager::getInt("sound_HullDamage3"),false,true);
+	loadSoundFile("/sounds/vo/engship/htsd.mp3",ConstManager::getInt("sound_HullDamage4"),false,true);
+	loadSoundFile("/sounds/vo/engship/nearbc.mp3",ConstManager::getInt("sound_NearingBC"),false,true);
+	loadSoundFile("/sounds/vo/engship/nominal.mp3",ConstManager::getInt("sound_Startup"),false,true);
+	loadSoundFile("/sounds/vo/engship/nor.mp3",ConstManager::getInt("sound_NewObjectivesReceived"),false,true);
+	loadSoundFile("/sounds/vo/engship/od.mp3",ConstManager::getInt("sound_ObjectiveDestroyed"),false,true);
+	loadSoundFile("/sounds/vo/engship/rd.mp3",ConstManager::getInt("sound_ReactorDestroyed"),false,true);
+	loadSoundFile("/sounds/vo/engship/sd.mp3",ConstManager::getInt("sound_ShieldsDown"),false,true);
+	loadSoundFile("/sounds/vo/engship/sgnr.mp3",ConstManager::getInt("sound_ShieldGenDamage1"),false,true);
+	loadSoundFile("/sounds/vo/engship/sgtsd.mp3",ConstManager::getInt("sound_ShieldGenDamage2"),false,true);
+	loadSoundFile("/sounds/vo/engship/shf.mp3",ConstManager::getInt("sound_ShieldGenFailing"),false,true);
+	loadSoundFile("/sounds/vo/engship/sma.mp3",ConstManager::getInt("sound_StealthModeActivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/smd.mp3",ConstManager::getInt("sound_StealthModeDeactivated"),false,true);
+	loadSoundFile("/sounds/vo/engship/ssf.mp3",ConstManager::getInt("sound_SensorDamage1"),false,true);
+	loadSoundFile("/sounds/vo/engship/sstsd.mp3",ConstManager::getInt("sound_SensorDamage2"),false,true);
+	loadSoundFile("/sounds/vo/engship/swarms.mp3",ConstManager::getInt("sound_IncomingSwarms"),false,true);
+	loadSoundFile("/sounds/vo/engship/wcd.mp3",ConstManager::getInt("sound_WeaponChargeDepleted"),false,true);
+	loadSoundFile("/sounds/vo/engship/wnr.mp3",ConstManager::getInt("sound_WeaponDamage5"),false,true);
+	loadSoundFile("/sounds/vo/engship/wsdc.mp3",ConstManager::getInt("sound_WeaponDamage1"),false,true);
+	loadSoundFile("/sounds/vo/engship/wsdi.mp3",ConstManager::getInt("sound_WeaponDamage2"),false,true);
+	loadSoundFile("/sounds/vo/engship/wsif.mp3",ConstManager::getInt("sound_WeaponDamage3"),false,true);
+	loadSoundFile("/sounds/vo/engship/wstsd.mp3",ConstManager::getInt("sound_WeaponDamage4"),false,true);
+
+
     // Music section
     loadMusic();
 
