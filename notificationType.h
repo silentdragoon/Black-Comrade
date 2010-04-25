@@ -5,6 +5,7 @@ enum NotificationType { NT_NONE,
                         NT_TUT_START, NT_TUT_OPEN_CONSOLE, NT_TUT_CLOSE_CONSOLE, NT_TUT_WAITING,
                         NT_TUT_REPAIR,
                         NT_CONTROLS, NT_UNDER_ATTACK, NT_FLEE,
+                        NT_WEAPON_CHARGE_STUCK, NT_SHIELD_CHARGE_STUCK,
                         NT_HULL_CRITICAL, NT_ENGINES_CRITICAL, NT_WEAPONS_CRITICAL,
                         NT_OBJECTIVE_SEEK, NT_OBJECTIVE_DESTROY, NT_OBJECTIVE_ESCAPE,
                         NT_COMMENT_ONE, NT_COMMENT_TWO, NT_COMMENT_THREE };
