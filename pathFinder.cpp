@@ -106,33 +106,46 @@ std::vector<MapTile*> PathFinder::findPath(MapTile* mapStart, MapTile* mapEnd) {
     }
 }
 
-MapTile* PathFinder::pickNextTile(MapTile *currentMap, MapTile *lastMap) {
+MapTile* PathFinder::pickNextTile(MapTile *currentMap, MapTile *lastMap,
+                                  std::vector<MapTile*> prohibitedTiles) {
+
     PathTile *current = new PathTile(currentMap);
-    rng.seed(static_cast<unsigned int>(std::time(0)));
 
     std::vector<PathTile*> options = findNeighbours(current);
-    if (options.size() == 0) {
-        // Unlikely case - stay where you are
-        return currentMap;
-    } else if (options.size() == 1) {
-        // Dead end or possible initial game state
-        if (lastMap == 0) return options.at(0)->getMapTile();
-        return lastMap;
+    std::vector<PathTile*> validOptions;
+
+    for (int i=0; i < options.size() ; i++) {
+        PathTile *optionTile = options.at(i);
+        bool valid = true;
+        for (int j=0; j < prohibitedTiles.size(); j++) {
+            MapTile *prohibitedTile = prohibitedTiles.at(j);
+            if (optionTile->getMapTile() == prohibitedTile ||
+                optionTile->getMapTile() == lastMap) {
+                valid = false;
+                break;
+            }
+        }
+        if (valid) validOptions.push_back(optionTile);
+    }
+
+    if (validOptions.size() == 0) {
+        if (options.size() == 1)
+            // Forced to go back the way we came
+            return lastMap;
+        else
+            // Unlikely case - stay where we are
+            return currentMap;
     } else {
         // We have some options
+        rng.seed(static_cast<unsigned int>(std::time(0)));
 
-        boost::uniform_int<> six(0,options.size()-1);
-        PathTile *chosenTile;
-        int option;
-        while (true) {
-            boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
-            // Choose an option at random
-            option = die();
-            chosenTile = options[option];
-            // If the option is valid, break
-            // TODO: Check if an option is prohibited by a waypoint
-            if (chosenTile->getMapTile() != lastMap) break;
-        }
+        boost::uniform_int<> six(0,validOptions.size()-1);
+
+        boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+        int option = die();
+        PathTile *chosenTile = validOptions.at(option);
+        //std::cout << "Chose option " << option+1 << " of " << validOptions.size() << "\n";
+
         return chosenTile->getMapTile();
     }
 }

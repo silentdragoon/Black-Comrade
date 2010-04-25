@@ -270,7 +270,8 @@ void Swarm::updateTargetLocation() {
         }
     } else { // Move through the map randomly
         if (targetTile == swarmTile) {
-            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            std::vector<MapTile*> prohibitedTiles = std::vector<MapTile*>();
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,prohibitedTiles);
             target = mapMgr->getActualPosition(targetTile);
         }
     }

@@ -29,7 +29,7 @@ private:
 public:
     PathFinder(MapManager *mapMgr);
     std::vector<MapTile*> findPath(MapTile* start, MapTile *end);
-    MapTile *pickNextTile(MapTile* current, MapTile *previous);
+    MapTile *pickNextTile(MapTile* current, MapTile *previous, std::vector<MapTile*> prohibitedTiles);
 };
 
 #endif
