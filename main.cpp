@@ -260,7 +260,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Notifications
     if (collabInfo->getGameRole() == NAVIGATOR || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
-        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState, damageState, tutorial);
+        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState,
+                                                  damageState, systemManager, tutorial);
         networkingManager->replicate(notificationMgr);
     } else {
         notificationMgr = (NotificationManager*) networkingManager->
