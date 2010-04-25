@@ -50,6 +50,9 @@ class SwarmManager : public ITickable
 
         void loadPatrolGroups();
 
+        void createSwarm(int size, Vector3 location, 
+            std::vector<MapTile*> patrolBlocks);
+
     public:
 
         SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
@@ -63,7 +66,7 @@ class SwarmManager : public ITickable
 
         ~SwarmManager();
 
-        void createSwarm(int size, Vector3 location);
+        
 
         void updateRemoteSwarms();
 

@@ -3,12 +3,13 @@
 #include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-             Real roll, Real pitch, Real yaw, ShipState *shipState,
-             SceneNodeManager *sceneNodeMgr, Lines *lines,
-             CollisionManager *collisionMgr, MapManager *mapMgr,
-             GameParameterMap *gameParameterMap,
-             ParticleSystemEffectManager *particleSystemEffectManager,
-             SoundManager *soundMgr, NetworkingManager *networkingMgr)
+              Real roll, Real pitch, Real yaw, ShipState *shipState,
+              SceneNodeManager *sceneNodeMgr, Lines *lines,
+              CollisionManager *collisionMgr, MapManager *mapMgr,
+              GameParameterMap *gameParameterMap,
+              ParticleSystemEffectManager *particleSystemEffectManager,
+              SoundManager *soundMgr, NetworkingManager *networkingMgr,
+              std::vector<MapTile*> patrolBlocks)
     : size(size)
     , id(id)
     , location(location)
@@ -25,6 +26,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , particleSystemEffectManager(particleSystemEffectManager)
     , soundMgr(soundMgr)
     , networkingMgr(networkingMgr)
+    , patrolBlocks(patrolBlocks)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -34,6 +36,8 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
 	// Seed random generator
 	rng.seed();
+
+    cout << "NEW SWARM! @ " << location << endl;
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
