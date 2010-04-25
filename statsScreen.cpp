@@ -5,7 +5,9 @@ StatsScreen::StatsScreen(InputState *inputState, GuiManager *guiMgr,
                          CollaborationInfo *pilotInfo,
                          CollaborationInfo *navInfo,
                          CollaborationInfo *engInfo,
-                         GameState finishState)
+                         GameState finishState,
+                         int damageSustained,
+                         int gameLength)
     : inputState(inputState)
     , guiMgr(guiMgr)
     , isEnd(false)
@@ -16,6 +18,8 @@ StatsScreen::StatsScreen(InputState *inputState, GuiManager *guiMgr,
     , finishState(finishState)
     , maxRating(10)
     , delim('\t')
+    , damageSustained(damageSustained)
+    , gameLength(gameLength)
 {
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
@@ -51,6 +55,8 @@ void StatsScreen::show() {
     	addStats(pilotInfo,1025);
     	addStats(engInfo,1325);
 	addOverallRating();
+
+        std::cout << "The game lasted " << gameLength << " seconds, and there was " << damageSustained << " damage.\n";
 
         //std::cout << "Average pilot shots fired: " << getAverage(pilotShots) << "\n";
         //std::cout << "Average average speeds: " << getAverage(averageSpeeds) << "\n";
@@ -134,7 +140,11 @@ void StatsScreen::saveStats(std::string fileName) {
     statsFile << stats->shotsFired << delim;
     statsFile << stats->shotsHit << delim;
     statsFile << stats->enemiesDestroyed << delim;
-    statsFile << stats->repairsMade;
+    statsFile << stats->repairsMade << delim;
+
+    // Write game stats
+    statsFile << gameLength << delim;
+    statsFile << damageSustained;
 
     statsFile << "\n";
 
@@ -169,6 +179,12 @@ void StatsScreen::loadExistingStats(std::string fileName) {
 
             parseCommonStats(iss,false);
             parseCommonStats(iss,false);
+
+            if (!getline(*iss,stat,delim)) continue;
+            gameLengths.push_back(toDouble(stat));
+
+            if (!getline(*iss,stat,delim)) continue;
+            damagesSustained.push_back(toInt(stat));
 
         }
         
@@ -262,7 +278,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
     int maxAvgSpeed, maxWallHits, maxDestroyed, maxRepairs;
 
     if (info->getGameRole() == PILOT) {
-        //std::cout << "PILOT:\n";
+        std::cout << "PILOT:\n";
         maxAvgSpeed = getMax(averageSpeeds);
         maxWallHits = getMax(wallHits);
         maxDestroyed = getMax(pilotDestroyed);
@@ -274,7 +290,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
         destroyedWeight = 0.05;
         repairsWeight = 0.15;
     } else {
-        //std::cout << "OTHER:\n";
+        std::cout << "OTHER:\n";
         maxAvgSpeed = 0;
         maxWallHits = 0;
         maxDestroyed = getMax(nonPilotDestroyed);
@@ -304,14 +320,14 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
                     0 : (maxRating*repairsWeight) * (stats->repairsMade / maxRepairs);
     double accuracyComp = (maxRating*accuracyWeight) * accuracy;
 
-    std::cout << speedComp << "\n";
-    std::cout << collisionsComp << "\n";
-    std::cout << destroyedComp << "\n";
-    std::cout << repairsComp << "\n";
-    std::cout << accuracyComp << "\n";
+    //std::cout << speedComp << "\n";
+    //std::cout << collisionsComp << "\n";
+    //std::cout << destroyedComp << "\n";
+    //std::cout << repairsComp << "\n";
+    //std::cout << accuracyComp << "\n";
 
     rating =  speedComp + collisionsComp + destroyedComp + repairsComp + accuracyComp;
-    std::cout << rating << "\n";
+    //std::cout << rating << "\n";
 
     info->getPlayerStats()->overallRating = rating;
     if (rating <= (maxRating/4.0)) {
@@ -327,7 +343,24 @@ std::string StatsScreen::calcOverallRating() {
     double pilotRating = pilotInfo->getPlayerStats()->overallRating;
     double engRating = engInfo->getPlayerStats()->overallRating;
     double navRating = navInfo->getPlayerStats()->overallRating;
-    int overall = ((pilotRating + engRating + navRating) / 3.0);
+
+    int playersWeight = 0.7;
+    int teamworkWeight = 0.3;
+
+    int maxDamageSustained = getMax(damagesSustained);
+    int maxGameLength = getMax(gameLengths);
+
+    double damageComp = (maxDamageSustained == 0.0) ?
+                    0 : (damageSustained / maxDamageSustained);
+
+    double timeComp = (maxGameLength == 0) ?
+                    0 : (gameLength / maxGameLength);
+
+    int overall = ((pilotRating + engRating + navRating) / 3.0) * (maxRating * playersWeight)
+                + (damageComp * timeComp) * (maxRating * teamworkWeight);
+
+   //std::cout << ((pilotRating + engRating + navRating) / 3.0) << "\n";
+   //std::cout << (damageComp * timeComp) * (maxRating * teamworkWeight) << "\n";
 
     if (overall < (maxRating/4.0)) {
         return "D";

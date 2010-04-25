@@ -26,8 +26,6 @@ class StatsScreen : public IMenuScreen
         CollaborationInfo *navInfo;
         CollaborationInfo *engInfo;
 
-        int numberOfSavedGames;        
-
         std::vector<double> averageSpeeds;
         std::vector<int> wallHits;
         std::vector<int> pilotShots;
@@ -39,9 +37,15 @@ class StatsScreen : public IMenuScreen
         std::vector<int> pilotRepairs;
         std::vector<int> nonPilotRepairs;
 
+        std::vector<int> gameLengths;
+        std::vector<int> damagesSustained;
+
         char delim;
 
+        int damageSustained;
+        int gameLength;
         GameState finishState;
+
 
         void loadExistingStats(std::string fileName);
         void parseCommonStats(std::istringstream *iss, bool pilot);
@@ -83,7 +87,9 @@ class StatsScreen : public IMenuScreen
                     CollaborationInfo *pilotInfo,
                     CollaborationInfo *navInfo,
                     CollaborationInfo *engInfo,
-                    GameState finishState);
+                    GameState finishState,
+                    int totalDamage,
+                    int gameLength);
 
         ~StatsScreen();
 };
