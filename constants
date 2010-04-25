@@ -8,7 +8,7 @@ tick_period = 0.0166666667
 ship_scale = 1
 
 # Enemy Constants
-enemy_patrol_speed = 50
+enemy_patrol_speed = 35
 enemy_attack_speed = 200
 enemy_sight_angle = 0.22
 enemy_sight_dist = 100

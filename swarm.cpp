@@ -37,7 +37,11 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	// Seed random generator
 	rng.seed();
 
-    cout << "NEW SWARM! @ " << location << endl;
+    for(std::vector<MapTile*>::iterator it = patrolBlocks.begin();
+        it != patrolBlocks.end(); ++it) {
+        
+        cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
+    }
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
@@ -150,7 +154,6 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::canSwarmSeeShip()
 {
-    //return false;
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
     
@@ -274,8 +277,7 @@ void Swarm::updateTargetLocation() {
         }
     } else { // Move through the map randomly
         if (targetTile == swarmTile) {
-            std::vector<MapTile*> prohibitedTiles = std::vector<MapTile*>();
-            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,prohibitedTiles);
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,patrolBlocks);
             target = mapMgr->getActualPosition(targetTile);
         }
     }

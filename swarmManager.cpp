@@ -260,7 +260,7 @@ void SwarmManager::tick()
             Swarm *s = activeSwarms.front();
             activeSwarms.pop_front();
             if(s->size!=0) {
-                //s->tick();
+                s->tick();
                 activeSwarms.push_back(s);
                 if(s->canSwarmSeeShip()) 
                 	gameStateMachine->setIsShipInSight(true);
