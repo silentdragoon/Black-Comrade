@@ -10,7 +10,7 @@ ship_scale = 1
 
 # Enemy Constants
 enemy_patrol_speed = 50
-enemy_attack_speed = 100
+enemy_attack_speed = 200
 enemy_sight_angle = 0.22
 enemy_sight_dist = 100
 enemy_look_ahead = 15
@@ -19,15 +19,15 @@ enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
 
 # Spawning
-max_swarms_attack = 5
-max_swarms_flee = 10
+max_swarms_attack = 7
+max_swarms_flee = 12
 
-swarm_size = 8
+swarm_size = 7
 
 # Shooting
 enemy_fire_rate = 0.8
-enemy_inaccuracy = 0.12
-enemy_bullet_damage = 1
+enemy_inaccuracy = 0.10
+enemy_bullet_damage = 2
 
 # Flocking Constants
 flock_detect_dist = 15
@@ -41,13 +41,6 @@ flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 100
 
-sound_frontgun = 1
-sound_backgroundmusic = 2
-sound_incomingswarms = 3
-sound_hullfailing = 4
-sound_enemygun = 5
-sound_consolekeypress = 6
-sound_explosion = 7
 sound_musicvolume = 0.3
 
 ship_turrent_speed = -0.01

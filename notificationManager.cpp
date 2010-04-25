@@ -7,8 +7,8 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
                                          MapManager *mapManager, ShipState *shipState,
                                          DamageState *damageState, Tutorial *tutorial)
     : collabInfo(collabInfo)
-    , notification(new Notification(NT_NONE,"",-1,0))
-    , lastNotification(new Notification(NT_NONE,"",-1,0))
+    , notification(new Notification(NT_NONE,"","",0))
+    , lastNotification(new Notification(NT_NONE,"","",0))
     , stateMachine(stateMachine)
     , mapManager(mapManager)
     , shipState(shipState)
@@ -25,8 +25,8 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
 }
 
 NotificationManager::NotificationManager()
-    : notification(new Notification(NT_NONE,"",-1,0))
-    , lastNotification(new Notification(NT_NONE,"",-1,0))
+    : notification(new Notification(NT_NONE,"","",0))
+    , lastNotification(new Notification(NT_NONE,"","",0))
     , nextType(NT_NONE)
     , collabInfo(0)
     , stateMachine(0)
@@ -136,7 +136,7 @@ void NotificationManager::tick()
 
 void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
-    int soundNameConst = -1;
+    string soundNameConst = "";
     int soundLength = 0;
     bool local = false;
     std::string gameRole = collabInfo->getGameRoleString();
@@ -148,7 +148,7 @@ void NotificationManager::prepareNotification() {
                         << "\n\nWatch this space for further instructions." << std::endl;
             break;
         case NT_UNDER_ATTACK:
-            soundNameConst = ConstManager::getInt("sound_incomingswarms");
+            soundNameConst = "sound_incomingswarms";
             if (collabInfo->getGameRole() != ENGINEER)
                 consoleText << "They're coming for us! You may want to ask your engineer to increase weapon power..." << std::endl;
             else
@@ -172,7 +172,7 @@ void NotificationManager::prepareNotification() {
             consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
-            soundNameConst = ConstManager::getInt("sound_hullfailing");
+            soundNameConst = "sound_hullfailing";
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
         case NT_COMMENT_ONE:

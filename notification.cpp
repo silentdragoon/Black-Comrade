@@ -1,7 +1,7 @@
 #include "notification.h"
 
 Notification::Notification(NotificationType type, std::string consoleText,
-                           int soundNameConst, int soundLength)
+                           std::string soundNameConst, int soundLength)
     : type(type)
     , consoleText(consoleText)
     , soundNameConst(soundNameConst)
@@ -17,6 +17,6 @@ NotificationType Notification::getType() { return type; }
 
 std::string Notification::getConsoleText() { return consoleText; }
 
-int Notification::getSoundNameConst() { return soundNameConst; }
+std::string Notification::getSoundNameConst() { return soundNameConst; }
 
 int Notification::getSoundLength() { return soundLength; }

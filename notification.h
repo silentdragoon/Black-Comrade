@@ -10,17 +10,17 @@ private:
     NotificationType type;
     std::string consoleText;
     bool local;
-    int soundNameConst;
+    std::string soundNameConst;
     int soundLength;
 
 public:
 
     Notification(NotificationType type, std::string consoleText,
-                 int soundNameConst, int soundLength);
+                 std::string soundNameConst, int soundLength);
 
     NotificationType getType();
     std::string getConsoleText();
-    int getSoundNameConst();
+    std::string getSoundNameConst();
     int getSoundLength();
     bool isLocal();
     void makeLocal();

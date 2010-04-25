@@ -213,7 +213,7 @@ void Swarm::removeDeadEnemies()
             //Make Explosion here
             Vector3 pos = *e->getPosition();
             particleSystemEffectManager->createExplosion(pos);
-            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,2.5);
+            soundMgr->playSound("sound_explosion",pos,2.5);
             sceneNodeMgr->deleteNode(e);
             members.erase(members.begin()+(i));
             deadMembers.push_back(e);
@@ -270,7 +270,8 @@ void Swarm::updateTargetLocation() {
         }
     } else { // Move through the map randomly
         if (targetTile == swarmTile) {
-            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            std::vector<MapTile*> prohibitedTiles = std::vector<MapTile*>();
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,prohibitedTiles);
             target = mapMgr->getActualPosition(targetTile);
         }
     }
