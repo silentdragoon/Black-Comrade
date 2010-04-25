@@ -278,7 +278,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
     int maxAvgSpeed, maxWallHits, maxDestroyed, maxRepairs;
 
     if (info->getGameRole() == PILOT) {
-        std::cout << "PILOT:\n";
+        //std::cout << "PILOT:\n";
         maxAvgSpeed = getMax(averageSpeeds);
         maxWallHits = getMax(wallHits);
         maxDestroyed = getMax(pilotDestroyed);
@@ -290,7 +290,7 @@ std::string StatsScreen::calcIndividualRating(CollaborationInfo *info) {
         destroyedWeight = 0.05;
         repairsWeight = 0.15;
     } else {
-        std::cout << "OTHER:\n";
+        //std::cout << "OTHER:\n";
         maxAvgSpeed = 0;
         maxWallHits = 0;
         maxDestroyed = getMax(nonPilotDestroyed);
