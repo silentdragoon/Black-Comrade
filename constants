@@ -1,6 +1,5 @@
 
 INCLUDE = constMapPath
-INCLUDE = constObjective
 INCLUDE = constSoundPath
 
 tick_period = 0.0166666667
@@ -47,6 +46,10 @@ ship_turrent_speed = -0.01
 
 # Door
 door_open_time = 4
+
+# Objective
+escape_time = 90
+objective_health = 50
 
 # Tunnel
 tunnel_height = 50

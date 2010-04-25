@@ -12,19 +12,19 @@
 
 Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
     particleSystemEffectManager(particleSystemEffectManager),
-    health(10),
+    originalHealth(ConstManager::getInt("objective_health")),
+    health(ConstManager::getInt("objective_health")),
     escapeTime(ConstManager::getInt("escape_time")),
     ticks(0),
-    boom(false),
-    originalHealth(10)
+    boom(false)
 {}
 
 Objective::Objective()
-    : health(10)
+    : originalHealth(ConstManager::getInt("objective_health"))
+    , health(ConstManager::getInt("objective_health"))
     , escapeTime(ConstManager::getInt("escape_time"))
     , boom(false)
     , ticks(0)
-    , originalHealth(10)
 {}
 
 void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *psem) {
