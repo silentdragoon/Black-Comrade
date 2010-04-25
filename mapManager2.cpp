@@ -322,6 +322,11 @@ std::vector<string*> MapManager::getWaypoints(Vector3 *locn) {
     return names;
 }
 
+std::vector<Waypoint*> MapManager::getAllWaypoints()
+{
+    return waypoints;
+}
+
 std::vector<Vector3*> MapManager::getSpawnPoints(Vector3 *locn) {
     int x = (int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y = (int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));

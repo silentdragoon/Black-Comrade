@@ -65,6 +65,7 @@ public:
     MapTile* getMapTile(Vector3 *locn);
     Vector3 getActualPosition(MapTile* tile);
     std::vector<string*> getWaypoints(Vector3 *locn);
+    std::vector<Waypoint*> getAllWaypoints();
     std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
     std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
     void makeConPieces();

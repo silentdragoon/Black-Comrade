@@ -39,12 +39,16 @@ class SwarmManager : public ITickable
 
         std::vector<ReplicaObject*> replicatedEnemies;
 
+        std::map<string, std::vector<MapTile*> > enemyPatrolBlocks;
+
         int id;
 
         int dynSwarmSize;
 
         int ticksSinceLastUpdate;
         int swarmTick;
+
+        void loadPatrolGroups();
 
     public:
 

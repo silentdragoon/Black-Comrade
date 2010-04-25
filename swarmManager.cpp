@@ -23,6 +23,8 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     ticksSinceLastUpdate(0)
 {
 
+    loadPatrolGroups();
+
     activeSwarms = std::deque<Swarm*>();
     replicatedEnemies = std::vector<ReplicaObject*>();
 
@@ -43,6 +45,34 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
         }
     }
     
+}
+
+void SwarmManager::loadPatrolGroups()
+{
+    std::vector<Waypoint*> wps = mapMgr->getAllWaypoints();
+    
+    for(std::vector<Waypoint*>::iterator it = wps.begin();
+        it != wps.end(); ++it) {
+        Waypoint *wp = *it;
+        
+        Vector3 pos(wp->getX(), wp->getY(), 0);
+        
+        MapTile *mapTile = mapMgr->getMapTile(&pos);
+
+        if(wp->getName()->substr(0,13).compare("patrol_block_") == 0) {
+            string tag = wp->getName()->substr(13);
+            
+            if(enemyPatrolBlocks.count(tag) > 0) {
+                enemyPatrolBlocks[tag].push_back(mapTile);
+            } else {
+                enemyPatrolBlocks.insert(
+                    pair<string,std::vector<MapTile*> >(tag, 
+                        std::vector<MapTile*>()));
+                enemyPatrolBlocks[tag].push_back(mapTile);
+                
+            }
+        }
+    }
 }
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
