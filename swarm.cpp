@@ -3,12 +3,13 @@
 #include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-             Real roll, Real pitch, Real yaw, ShipState *shipState,
-             SceneNodeManager *sceneNodeMgr, Lines *lines,
-             CollisionManager *collisionMgr, MapManager *mapMgr,
-             GameParameterMap *gameParameterMap,
-             ParticleSystemEffectManager *particleSystemEffectManager,
-             SoundManager *soundMgr, NetworkingManager *networkingMgr)
+              Real roll, Real pitch, Real yaw, ShipState *shipState,
+              SceneNodeManager *sceneNodeMgr, Lines *lines,
+              CollisionManager *collisionMgr, MapManager *mapMgr,
+              GameParameterMap *gameParameterMap,
+              ParticleSystemEffectManager *particleSystemEffectManager,
+              SoundManager *soundMgr, NetworkingManager *networkingMgr,
+              std::vector<MapTile*> patrolBlocks)
     : size(size)
     , id(id)
     , location(location)
@@ -25,6 +26,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , particleSystemEffectManager(particleSystemEffectManager)
     , soundMgr(soundMgr)
     , networkingMgr(networkingMgr)
+    , patrolBlocks(patrolBlocks)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -34,6 +36,12 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 
 	// Seed random generator
 	rng.seed();
+
+    for(std::vector<MapTile*>::iterator it = patrolBlocks.begin();
+        it != patrolBlocks.end(); ++it) {
+        
+        cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
+    }
 
     for(int i=0;i<(size);i++) {
         string ename = "follower";
@@ -146,7 +154,6 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::canSwarmSeeShip()
 {
-    //return false;
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
     
@@ -213,7 +220,7 @@ void Swarm::removeDeadEnemies()
             //Make Explosion here
             Vector3 pos = *e->getPosition();
             particleSystemEffectManager->createExplosion(pos);
-            soundMgr->playSound(ConstManager::getInt("sound_explosion"),pos,2.5);
+            soundMgr->playSound("sound_explosion",pos,2.5);
             sceneNodeMgr->deleteNode(e);
             members.erase(members.begin()+(i));
             deadMembers.push_back(e);
@@ -270,7 +277,7 @@ void Swarm::updateTargetLocation() {
         }
     } else { // Move through the map randomly
         if (targetTile == swarmTile) {
-            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,patrolBlocks);
             target = mapMgr->getActualPosition(targetTile);
         }
     }

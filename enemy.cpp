@@ -48,6 +48,10 @@ Vector3 Enemy::getBulletOrigin() {
     return *getPosition();
 }
 
+int Enemy::getBulletDamage() {
+    return ConstManager::getInt("enemy_bullet_damage");
+}
+
 Vector3 Enemy::getBulletDirection() {
     Vector3 angles = SceneNodeManager::directionToOrientationVector(
                                           getDirection());

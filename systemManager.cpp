@@ -7,7 +7,9 @@ SystemManager::SystemManager() :
     engineRate(1.0),
     weaponCharge(100),
     shieldCharge(100),
-    timeSinceLastPress(100)
+    timeSinceLastPress(100),
+    timeSinceWeaponRecharge(0),
+    timeSinceShieldRecharge(0)
 {
 }
 
@@ -19,19 +21,28 @@ SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState)
     engineRate(1.0),
     weaponCharge(100),
     shieldCharge(100),
-    timeSinceLastPress(100)
+    timeSinceLastPress(100),
+    timeSinceWeaponRecharge(0),
+    timeSinceShieldRecharge(0)
 {
 }
 
 void SystemManager::tick() {
     if(engCon!=0) {
         timeSinceLastPress++;
+        timeSinceWeaponRecharge++;
+        timeSinceShieldRecharge++;
 
         double chargeModifier = 0.1;
-
         double decharge = 0.5;
-        weaponCharge += (weaponRate-decharge)*chargeModifier;
-        shieldCharge += (shieldRate-decharge)*chargeModifier;
+
+        double weaponDiff = (weaponRate-decharge)*chargeModifier;
+        double shieldDiff = (shieldRate-decharge)*chargeModifier;
+        weaponCharge += weaponDiff;
+        shieldCharge += shieldDiff;
+
+        if (weaponDiff > 0.0) timeSinceWeaponRecharge = 0;
+        if (shieldDiff > 0.0) timeSinceShieldRecharge = 0;
 
         if(weaponCharge<0) weaponCharge = 0;
         if(shieldCharge<0) shieldCharge = 0;
@@ -60,6 +71,14 @@ void SystemManager::tick() {
             timeSinceLastPress=0;
         }
     }
+}
+
+bool SystemManager::areWeaponsStuck() {
+    return (timeSinceWeaponRecharge >= 350 && getWeaponCharge() == 0.0);
+}
+
+bool SystemManager::areShieldsStuck() {
+    return (timeSinceShieldRecharge >= 350 && getShieldCharge() == 0.0);
 }
 
 void SystemManager::incShieldRate() {

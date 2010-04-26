@@ -66,7 +66,7 @@ void GuiStatusUpdater::tick() {
             case GS_STEALTH:
                 hud->switchStatus(1);
                 break;
-            case GS_ATTACK:
+            case GS_BLACK_COMRADE:
                 hud->switchStatus(4);
                 break;
             case GS_FLEE:
@@ -81,13 +81,14 @@ void GuiStatusUpdater::tick() {
 
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
+        // Updates the images on the minimap
+        hud->updateMiniMap();
+
         if(((NavigatorControls*) playerControls)->isMap()) {
             hud->toggleMap(true);
         } else {
             hud->toggleMap(false);
         }
-        // Updates the images on the minimap
-        hud->updateMiniMap();
    }
 
     // Update the state of the power system bars
@@ -166,11 +167,9 @@ void GuiStatusUpdater::tick() {
 
 
     int t = objective->getEscapeTime();
-    if (t < 90) {
-        std::stringstream count;
-        count << " " << t << " seconds";
-        hud->setCountdown(count.str());
-    }
+    std::stringstream count;
+    count << " " << t << " seconds";
+    hud->setCountdown(count.str());
 
     // Update transmission log
 

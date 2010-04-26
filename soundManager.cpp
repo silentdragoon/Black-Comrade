@@ -4,7 +4,7 @@
 
 void SoundManager::errCheck(FMOD_RESULT result, std::string from) {
     if (result != FMOD_OK) {
-        cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
+        //cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
     }
 }
 
@@ -51,22 +51,72 @@ SoundManager::SoundManager() {
 void SoundManager::loadSoundFiles() {
     FMOD::Sound *tempsound;
     // Frontgun sound
-    loadSoundFile("/sounds/shipgun1.wav",ConstManager::getInt("sound_frontgun"),false,false);
+    loadSoundFile("sounds/shipgun1.wav",stringToInt("sound_frontgun"),false,false);
 
     // Frontgun sound
-    loadSoundFile("/sounds/enemygun1.wav",ConstManager::getInt("sound_enemygun"),false,false);
+    loadSoundFile("sounds/enemygun1.wav",stringToInt("sound_enemygun"),false,false);
 
     // Attack mode
-    loadSoundFile("/sounds/vo/ship/incomingswarms.mp3",ConstManager::getInt("sound_incomingswarms"),false,true);
+    loadSoundFile("sounds/vo/ship/incomingswarms.mp3",stringToInt("sound_incomingswarms"),false,true);
 
     // Hull critical
-    loadSoundFile("/sounds/vo/ship/shiphullfilling.mp3",ConstManager::getInt("sound_hullfailing"),false,true);
+    loadSoundFile("sounds/vo/ship/shiphullfilling.mp3",stringToInt("sound_hullfailing"),false,true);
 
     // Console key press
-    loadSoundFile("/sounds/consolekeypress.wav",ConstManager::getInt("sound_consolekeypress"), false,true);
+    loadSoundFile("sounds/consolekeypress.wav",stringToInt("sound_consolekeypress"), false,true);
 
     // Enemy explosion
-    loadSoundFile("/sounds/explosion6.wav",ConstManager::getInt("sound_explosion"), false,false);
+    loadSoundFile("sounds/explosion6.wav",stringToInt("sound_explosion"), false,false);
+
+	// English Voiceover Incoming...
+	
+	loadSoundFile("sounds/vo/engship/10.mp3",stringToInt("sound_Count10"),false,true);
+	loadSoundFile("sounds/vo/engship/15.mp3",stringToInt("sound_Count15"),false,true);
+	loadSoundFile("sounds/vo/engship/30.mp3",stringToInt("sound_Count30"),false,true);
+	loadSoundFile("sounds/vo/engship/54321.mp3",stringToInt("sound_Count54321"),false,true);
+	loadSoundFile("sounds/vo/engship/60.mp3",stringToInt("sound_Count60"),false,true);
+	loadSoundFile("sounds/vo/engship/ama.mp3",stringToInt("sound_AssaultModeActivated"),false,true);
+	loadSoundFile("sounds/vo/engship/amd.mp3",stringToInt("sound_AssaultModeDeactivated"),false,true);
+	loadSoundFile("sounds/vo/engship/asian.mp3",stringToInt("sound_AsianModeActivated"),false,true);
+	loadSoundFile("sounds/vo/engship/bc1.mp3",stringToInt("sound_CommandOrdersBCDestruction"),false,true);
+	loadSoundFile("sounds/vo/engship/bc2.mp3",stringToInt("sound_CommandOrdersBCDestruction2"),false,true);
+	loadSoundFile("sounds/vo/engship/bcd.mp3",stringToInt("sound_BCDestroyed"),false,true);
+	loadSoundFile("sounds/vo/engship/cleared.mp3",stringToInt("sound_ClearedToProceed"),false,true);
+	loadSoundFile("sounds/vo/engship/complete.mp3",stringToInt("sound_MissionComplete"),false,true);
+	loadSoundFile("sounds/vo/engship/destination.mp3",stringToInt("sound_DestinationReached"),false,true);
+	loadSoundFile("sounds/vo/engship/detected.mp3",stringToInt("sound_WeAreDetected"),false,true);
+	loadSoundFile("sounds/vo/engship/disobey1.mp3",stringToInt("sound_Disobey1"),false,true);
+	loadSoundFile("sounds/vo/engship/disobey2.mp3",stringToInt("sound_Disobey2"),false,true);
+	loadSoundFile("sounds/vo/engship/ef.mp3",stringToInt("sound_EngineDamage2"),false,true);
+	loadSoundFile("sounds/vo/engship/english.mp3",stringToInt("sound_EnglishModeActivated"),false,true);
+	loadSoundFile("sounds/vo/engship/enr.mp3",stringToInt("sound_EngineDamage1"),false,true);
+	loadSoundFile("sounds/vo/engship/etsd.mp3",stringToInt("sound_EngineDamage3"),false,true);
+	loadSoundFile("sounds/vo/engship/gameover.mp3",stringToInt("sound_GameOver"),false,true);
+	loadSoundFile("sounds/vo/engship/hdc.mp3",stringToInt("sound_HullDamage1"),false,true);
+	loadSoundFile("sounds/vo/engship/hdi.mp3",stringToInt("sound_HullDamage2"),false,true);
+	loadSoundFile("sounds/vo/engship/hif.mp3",stringToInt("sound_HullDamage3"),false,true);
+	loadSoundFile("sounds/vo/engship/htsd.mp3",stringToInt("sound_HullDamage4"),false,true);
+	loadSoundFile("sounds/vo/engship/nearbc.mp3",stringToInt("sound_NearingBC"),false,true);
+	loadSoundFile("sounds/vo/engship/nominal.mp3",stringToInt("sound_Startup"),false,true);
+	loadSoundFile("sounds/vo/engship/nor.mp3",stringToInt("sound_NewObjectivesReceived"),false,true);
+	loadSoundFile("sounds/vo/engship/od.mp3",stringToInt("sound_ObjectiveDestroyed"),false,true);
+	loadSoundFile("sounds/vo/engship/rd.mp3",stringToInt("sound_ReactorDestroyed"),false,true);
+	loadSoundFile("sounds/vo/engship/sd.mp3",stringToInt("sound_ShieldsDown"),false,true);
+	loadSoundFile("sounds/vo/engship/sgnr.mp3",stringToInt("sound_ShieldGenDamage1"),false,true);
+	loadSoundFile("sounds/vo/engship/sgtsd.mp3",stringToInt("sound_ShieldGenDamage2"),false,true);
+	loadSoundFile("sounds/vo/engship/shf.mp3",stringToInt("sound_ShieldGenFailing"),false,true);
+	loadSoundFile("sounds/vo/engship/sma.mp3",stringToInt("sound_StealthModeActivated"),false,true);
+	loadSoundFile("sounds/vo/engship/smd.mp3",stringToInt("sound_StealthModeDeactivated"),false,true);
+	loadSoundFile("sounds/vo/engship/ssf.mp3",stringToInt("sound_SensorDamage1"),false,true);
+	loadSoundFile("sounds/vo/engship/sstsd.mp3",stringToInt("sound_SensorDamage2"),false,true);
+	loadSoundFile("sounds/vo/engship/swarms.mp3",stringToInt("sound_IncomingSwarms"),false,true);
+	loadSoundFile("sounds/vo/engship/wcd.mp3",stringToInt("sound_WeaponChargeDepleted"),false,true);
+	loadSoundFile("sounds/vo/engship/wnr.mp3",stringToInt("sound_WeaponDamage5"),false,true);
+	loadSoundFile("sounds/vo/engship/wsdc.mp3",stringToInt("sound_WeaponDamage1"),false,true);
+	loadSoundFile("sounds/vo/engship/wsdi.mp3",stringToInt("sound_WeaponDamage2"),false,true);
+	loadSoundFile("sounds/vo/engship/wsif.mp3",stringToInt("sound_WeaponDamage3"),false,true);
+	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true);
+
 
     // Music section
     loadMusic();
@@ -94,19 +144,19 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop, 
 }
 
 void SoundManager::loadMusic() {
-    string musicPath = ConstManager::getString("sound_file_path") + "/sounds/stealth.mp3";
+    string musicPath = ConstManager::getString("sound_file_path") + "sounds/stealth.mp3";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &stealthMusic));
     errCheck(stealthMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "/sounds/attack.mp3";
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/attack.mp3";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &attackMusic));
     errCheck(attackMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "/sounds/flee.mp3";
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/flee.mp3";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
     errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "/sounds/theme.mp3";
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/theme.mp3";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &themeMusic));
     errCheck(themeMusic->setMode(FMOD_LOOP_NORMAL));
 
@@ -128,7 +178,7 @@ void SoundManager::loadMusic() {
 
 void SoundManager::loadPermanent() {
     string soundsPath = ConstManager::getString("sound_file_path");
-    string fullPath = soundsPath + "/sounds/engine.wav";
+    string fullPath = soundsPath + "sounds/engine.wav";
     std::cout << fullPath << std::endl;
     errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
     errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
@@ -140,11 +190,12 @@ void SoundManager::loadPermanent() {
     errCheck(engineChannel->getFrequency(&engineFrequency));
 }
 
-void SoundManager::playSound(int constName, SceneNode *soundNode, float volume) {
-    playSound(constName,soundNode->getPosition(),volume);
+void SoundManager::playSound(string constNameString, SceneNode *soundNode, float volume) {
+    playSound(constNameString,soundNode->getPosition(),volume);
 }
 
-void SoundManager::playSound(int constName, Vector3 soundPos, float volume) {
+void SoundManager::playSound(string constNameString, Vector3 soundPos, float volume) {
+    int constName = stringToInt(constNameString);
 
     float x = soundPos.x/50.0;
     float y = soundPos.y/50.0;
@@ -294,6 +345,15 @@ void SoundManager::stopEngine() {
 
 void SoundManager::setShipNode(SceneNode *ship) { shipNode = ship; }
 void SoundManager::setShipState(ShipState *state) { shipState = state; }
+
+int SoundManager::stringToInt(string name) {
+    int total = 0;
+    for(int i=0;i<name.length();i++) {
+        total += (int)name[i];
+    }
+    return total;
+}
+
 
 void SoundManager::tick() {
     crossFade();

@@ -5,14 +5,16 @@
 
 NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
                                          MapManager *mapManager, ShipState *shipState,
-                                         DamageState *damageState, Tutorial *tutorial)
+                                         DamageState *damageState, SystemManager *systemManager,
+                                         Tutorial *tutorial)
     : collabInfo(collabInfo)
-    , notification(new Notification(NT_NONE,"",-1,0))
-    , lastNotification(new Notification(NT_NONE,"",-1,0))
+    , notification(new Notification(NT_NONE,"","",0))
+    , lastNotification(new Notification(NT_NONE,"","",0))
     , stateMachine(stateMachine)
     , mapManager(mapManager)
     , shipState(shipState)
     , damageState(damageState)
+    , systemManager(systemManager)
     , mIsNewNotification(false)
     , lastStateNotified(GS_END)
     , nextType(NT_NONE)
@@ -25,14 +27,15 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
 }
 
 NotificationManager::NotificationManager()
-    : notification(new Notification(NT_NONE,"",-1,0))
-    , lastNotification(new Notification(NT_NONE,"",-1,0))
+    : notification(new Notification(NT_NONE,"","",0))
+    , lastNotification(new Notification(NT_NONE,"","",0))
     , nextType(NT_NONE)
     , collabInfo(0)
     , stateMachine(0)
     , mapManager(0)
     , shipState(0)
     , damageState(0)
+    , systemManager(0)
     , tickcount(2000)
     , mIsNewNotification(false)
     , controlsDisplayed(false)
@@ -56,10 +59,15 @@ void NotificationManager::initializeRecencies() {
     recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_WEAPONS_CRITICAL,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_HULL_CRITICAL,maxDelay));
+
+    recency.insert(std::pair<NotificationType,int>(NT_WEAPON_CHARGE_STUCK,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_SHIELD_CHARGE_STUCK,maxDelay));
+
     recency.insert(std::pair<NotificationType,int>(NT_UNDER_ATTACK,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_COMMENT_ONE,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_COMMENT_TWO,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_COMMENT_THREE,maxDelay));
+
     recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_SEEK,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_DESTROY,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));
@@ -119,6 +127,7 @@ void NotificationManager::tick()
         updateRecencies();
         checkComments(); 
         checkShipPosition();
+        checkCharges();
         checkHealth();
         checkTutorialState();
         checkGameState();
@@ -136,7 +145,7 @@ void NotificationManager::tick()
 
 void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
-    int soundNameConst = -1;
+    string soundNameConst = "";
     int soundLength = 0;
     bool local = false;
     std::string gameRole = collabInfo->getGameRoleString();
@@ -148,7 +157,7 @@ void NotificationManager::prepareNotification() {
                         << "\n\nWatch this space for further instructions." << std::endl;
             break;
         case NT_UNDER_ATTACK:
-            soundNameConst = ConstManager::getInt("sound_incomingswarms");
+            soundNameConst = "sound_incomingswarms";
             if (collabInfo->getGameRole() != ENGINEER)
                 consoleText << "They're coming for us! You may want to ask your engineer to increase weapon power..." << std::endl;
             else
@@ -172,7 +181,7 @@ void NotificationManager::prepareNotification() {
             consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
-            soundNameConst = ConstManager::getInt("sound_hullfailing");
+            soundNameConst = "sound_hullfailing";
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
         case NT_COMMENT_ONE:
@@ -203,6 +212,14 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_WAITING:
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
+            local = true;
+            break;
+        case NT_WEAPON_CHARGE_STUCK:
+            consoleText << "Weapons are out of charge!\n";
+            local = true;
+            break;
+        case NT_SHIELD_CHARGE_STUCK:
+            consoleText << "Shields are out of charge!\n";
             local = true;
             break;
     }
@@ -340,6 +357,25 @@ void NotificationManager::checkHealth() {
     }
     if(lastNotification->getType() != newNotification) {
         if (isTimely(newNotification,20,8)) {
+            mIsNewNotification = true;
+            nextType = newNotification;
+        }
+    }
+}
+
+void NotificationManager::checkCharges() {
+    NotificationType newNotification = lastNotification->getType();
+    GameState gameState = stateMachine->currentGameState();
+    if (systemManager->areWeaponsStuck()
+        && (gameState == GS_ATTACK || gameState == GS_BLACK_COMRADE))
+        newNotification = NT_WEAPON_CHARGE_STUCK;
+    else if (systemManager->areShieldsStuck()
+        && (gameState == GS_ATTACK || gameState == GS_BLACK_COMRADE))
+        newNotification = NT_SHIELD_CHARGE_STUCK;
+
+    std::cout << newNotification << "\n";
+    if(lastNotification->getType() != newNotification) {
+        if (isTimely(newNotification,1000,1)) {
             mIsNewNotification = true;
             nextType = newNotification;
         }

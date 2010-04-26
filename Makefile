@@ -90,7 +90,8 @@ door.cpp \
 mapPieceChoices.cpp \
 tutorial.cpp \
 spotLight.cpp \
-lightManager.cpp
+lightManager.cpp \
+gameTimer.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

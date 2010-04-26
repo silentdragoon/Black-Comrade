@@ -57,6 +57,7 @@
 #include <cstdio>
 #include "spotLight.h"
 #include "lightManager.h"
+#include "gameTimer.h"
 
 using namespace Ogre;
 using namespace std;

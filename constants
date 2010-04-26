@@ -1,6 +1,5 @@
 
 INCLUDE = constMapPath
-INCLUDE = constObjective
 INCLUDE = constSoundPath
 
 tick_period = 0.0166666667
@@ -9,7 +8,7 @@ tick_period = 0.0166666667
 ship_scale = 1
 
 # Enemy Constants
-enemy_patrol_speed = 50
+enemy_patrol_speed = 35
 enemy_attack_speed = 200
 enemy_sight_angle = 0.22
 enemy_sight_dist = 100
@@ -41,19 +40,16 @@ flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 100
 
-sound_frontgun = 1
-sound_backgroundmusic = 2
-sound_incomingswarms = 3
-sound_hullfailing = 4
-sound_enemygun = 5
-sound_consolekeypress = 6
-sound_explosion = 7
 sound_musicvolume = 0.3
 
 ship_turrent_speed = -0.01
 
 # Door
 door_open_time = 4
+
+# Objective
+escape_time = 90
+objective_health = 50
 
 # Tunnel
 tunnel_height = 50

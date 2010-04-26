@@ -260,7 +260,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Notifications
     if (collabInfo->getGameRole() == NAVIGATOR || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {
-        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState, damageState, tutorial);
+        notificationMgr = new NotificationManager(collabInfo, gameStateMachine, mapMgr, shipState,
+                                                  damageState, systemManager, tutorial);
         networkingManager->replicate(notificationMgr);
     } else {
         notificationMgr = (NotificationManager*) networkingManager->
@@ -380,6 +381,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
+    // Game timer
+    GameTimer *timer = new GameTimer(gameStateMachine);
+    gameLoop->addTickable(timer,"timer");
+
     // Game ender
     gameEnder = new GameEnder(gameStateMachine,guiMgr,this);
     gameLoop->addTickable(gameEnder,"gameEnder");
@@ -417,7 +422,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Post-game environment
     PostGame *postGame = new PostGame(sceneMgr,window,inputState,
                                       guiMgr,soundMgr,pilotInfo,navigatorInfo,
-                                      engineerInfo,gameStateMachine->currentGameState());
+                                      engineerInfo,gameStateMachine->currentGameState(),
+                                      damageState,timer->getTime());
 
     std::cout << "Pilot stats:" << "\n";
     pilotInfo->getPlayerStats()->print();
