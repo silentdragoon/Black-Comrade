@@ -61,7 +61,7 @@ void Objective::tick() {
         }
         // Count down timer
         ticks++;
-        if(ticks>=1/ConstManager::getFloat("tick_period")) {
+        if(ticks>=1/ConstManager::getFloat("tick_period") && escapeTime > -1) {
             ticks=0;
             escapeTime--;
             std::cout << "ESCAPE: " << escapeTime << " seconds" << std::endl;
