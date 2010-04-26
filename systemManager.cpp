@@ -34,7 +34,7 @@ void SystemManager::tick() {
         timeSinceShieldRecharge++;
 
         double chargeModifier = 0.1;
-        double decharge = 0.5;
+        double decharge = 0.0;
 
         double weaponDiff = (weaponRate-decharge)*chargeModifier;
         double shieldDiff = (shieldRate-decharge)*chargeModifier;

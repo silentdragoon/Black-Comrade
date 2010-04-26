@@ -53,7 +53,7 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
 
     switch(toRepair) {
         case(SS_NONE):
-            return;
+            break;
         case (SS_ENGINES):
             repairEngines(repairer->repairAmount);
             break;
@@ -98,8 +98,8 @@ void DamageState::damage(double multiplier) {
     boost::uniform_int<> six(1,4);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
     int irand = die();
-    
-    int damage = (multiplier * 5 * shieldModifier);
+
+    double damage = (multiplier * 5 * shieldModifier);
     switch(irand) {
         case 1:
             if (sensorHealth > 0) {

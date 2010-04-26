@@ -34,7 +34,7 @@ private:
     double engineHealth;
     double hullHealth;
 
-    int damageSustained;
+    double damageSustained;
 
     CollaborationInfo *pilotInfo;
     CollaborationInfo *engineerInfo;
