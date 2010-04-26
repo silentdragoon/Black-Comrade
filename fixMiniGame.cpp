@@ -11,9 +11,9 @@ void FixMiniGame::tick()
 {
     switch(system) {
         case SS_NONE:
-            system = SS_SHIELD_GENERATOR;
+            system = SS_HULL;
             break;
-        case SS_SHIELD_GENERATOR:
+        case SS_HULL:
             system = SS_ENGINES;
             break;
         case SS_ENGINES:

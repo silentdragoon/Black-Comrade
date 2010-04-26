@@ -242,7 +242,7 @@ int SheildMiniGame::getScore()
 
 ShipSystem SheildMiniGame::getSystem()
 {
-    return SS_SHIELD_GENERATOR;
+    return SS_ENGINES;
 }
 
 string SheildMiniGame::getName()
