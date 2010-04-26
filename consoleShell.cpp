@@ -58,7 +58,7 @@ void ConsoleShell::processCommand() {
         gameToPlay = new FixMiniGame(); // Need to add the sensors game here
         //gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "repair hull" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_HULL);
     } else if (command == "access main program" ) {
         console->appendLine("access: PERMISSION DENIED.");
     } else if (command == "access main program grid" ) {

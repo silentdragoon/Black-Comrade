@@ -63,6 +63,9 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
         case (SS_WEAPONS):
             repairWeapons(repairer->repairAmount);
             break;
+        case (SS_HULL):
+            repairHull(repairer->repairAmount);
+            break;
     }
 
     repairer->toRepair = SS_NONE;
