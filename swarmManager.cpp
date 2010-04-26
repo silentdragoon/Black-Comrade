@@ -39,9 +39,14 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
 
         MapTile *mapTile = mapMgr->getMapTile(&pos);
 
-        if(wp->getName()->substr(0,9).compare("en_spawn_") == 0) {
+        Vector3 *spawnPoint = mapTile->getSpawnPoints()[0];
+
+        if(wp->getName()->substr(0,8).compare("en_spawn") == 0) {
             
-            string tag = wp->getName()->substr(9);
+            string tag;
+            
+            if(wp->getName()->size() > 8) 
+                tag = wp->getName()->substr(9);
             
             std::map<string, std::vector<MapTile*> >::iterator it;
              
@@ -52,10 +57,9 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
             if(it != enemyPatrolBlocks.end()) {
                 patrolBlocks = it->second;
             }
-            
-            Vector3 *spawnPoint = mapTile->getSpawnPoints()[0];
-            
+
             cout << "Created initial swarm @ " << *spawnPoint << endl;
+            cout << "Patrol Group: " << tag << endl;
             createSwarm(ConstManager::getInt("swarm_size"), *spawnPoint,
                 patrolBlocks);
             
