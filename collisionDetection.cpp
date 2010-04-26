@@ -11,7 +11,7 @@ CollisionDetection::CollisionDetection( bool gernerateMeshes ):
     idmatrix[5] = 1.0f;
     idmatrix[10] = 1.0f;
     idmatrix[15] = 1.0f;
-    enemyCol = NULL;
+    enemyEnt = NULL;
     shapeID = 5;
 }
 
@@ -270,6 +270,25 @@ void CollisionDetection::getMatrix(Entity *entity, dFloat *matrix, bool doTransf
     }
 }
 
+/* dFloat CollisionDetection::getRCAgainstNCollision( Vector3 *start, Vector3 *end, NewtonCollision* collideAgainst )
+{
+    dFloat p0[3];
+    dFloat p1[3];
+    p0[0] = start->x;
+    p0[1] = start->y;
+    p0[2] = start->z;
+
+    p1[0] = end->x;
+    p1[1] = end->y;
+    p1[2] = end->z;
+
+    dFloat normal[3];
+    int att[1];
+
+     return NewtonCollisionRayCast( collideAgainst, p0, p1, normal, att);
+} */
+
+
 dFloat CollisionDetection::rayCollideDist( Vector3 *start, Vector3 *end, Entity* collideAgainst )
 {
     dFloat p0[3];
@@ -307,7 +326,36 @@ dFloat CollisionDetection::rayCollideWithTransform( Vector3 *start, Vector3 *end
     //return -1;
 }
 
-void CollisionDetection::createConvexHull( Entity *entity )
+
+dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
+{
+    if( enemyEnt != NULL )
+    {
+        cout<<"here"<<endl;
+        Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
+        Vector3 transStart = m4 * (*start);
+        Vector3 transEnd = m4 * (*end);
+
+
+        dFloat p0[3];
+        dFloat p1[3];
+        p0[0] = transStart.x;
+        p0[1] = transStart.y;
+        p0[2] = transStart.z;
+
+        p1[0] = transEnd.x;
+        p1[1] = transEnd.y;
+        p1[2] = transEnd.z;
+
+        dFloat normal[3];
+        int att[1];
+
+        return NewtonCollisionRayCast( enemyEnt, p0, p1, normal, att);
+    }
+    else return 1.2;
+}
+
+void CollisionDetection::createConvexHull( Entity *entity, bool enemy )
 {
     size_t vertex_count;
 	size_t index_count;
@@ -328,31 +376,19 @@ void CollisionDetection::createConvexHull( Entity *entity )
     }
     shapeID++;
     NewtonCollision *newCol = NewtonCreateConvexHull (newtonWorld, vertex_count, vertexCloud, 12, 0.0, shapeID, NULL);
-    NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, newCol);
-    //PROBLEM with the line as this comand should work, but terminates the app;Possibly a c++ issue
-    //NewtonReleaseCollision( newtonWorld, enemyCol);
-    collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,newCol));
- 	bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidBodyBox));
+    if(enemy)
+    {
+        enemyEnt = newCol;
+    }
+    else
+    {
+        NewtonBody* rigidBodyBox = NewtonCreateBody (newtonWorld, newCol);
+        //PROBLEM with the line as this comand should work, but terminates the app;Possibly a c++ issue
+        //NewtonReleaseCollision( newtonWorld, enemyCol);
+        collisionsMap.insert(pair<Entity*,NewtonCollision*>(entity,newCol));
+        bodysMap.insert(pair<Entity*,NewtonBody*>(entity,rigidBodyBox));
+    }
 }
-
-
-/* dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst )
-{
-
-    Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
-    Vector3 transStart = m4 * (*start);
-    Vector3 transEnd = m4 * (*end);
-
-    dFloat p0[3]; dFloat p1[3];
-    p0[0] = transStart.x; p0[1] = transStart.y; p0[2] = transStart.z;
-
-    p1[0] = transEnd.x; p1[1] = transEnd.y; p1[2] = transEnd.z;
-
-    dFloat normal[3];
-    int att[1];
-
-    return NewtonCollisionRayCast( enemyCol, p0, p1, normal, att);
-} */
 
 
 /* void CollisionDetection::createShipMesh( Entity * e )

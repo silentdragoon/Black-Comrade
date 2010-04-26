@@ -29,6 +29,8 @@ private:
     MapManager *mp;
     Objective *objective;
 
+    bool enemyAdded;
+
     SceneManager* sceneMgr;
     LoadingScreen *loadingScreen;
 
@@ -60,6 +62,9 @@ public:
     //will add a convex hull for that entity. Will be about the origin, so any ray Cast option to it will need to use the transformed version.
     void addMesh( Entity* e);
 
+    //adds an enemy mesh. Will only be checked by getRCEnemyDist(..)
+    void addEnemyMesh( Entity *e );
+
     //will add ship mesh to map (removed: and keep a special poitner to it)
     void addShipMesh( Entity* e );
 
@@ -69,6 +74,9 @@ public:
 
     //method for getting the dist to objective
     dFloat getRCObjDist( Vector3 *pos, Vector3 *direction );
+
+    //raycasting against enemies
+    dFloat getRCEnemyDist( Vector3 *start, Vector3 *direction, Entity *e );
 
     //needs to be used for dynamic pieces
     dFloat rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* entity);

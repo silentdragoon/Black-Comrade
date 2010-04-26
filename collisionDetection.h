@@ -29,7 +29,7 @@ private:
     std::map<Entity *,NewtonBody *> bodysMap;
     Entity *enemy;
 
-    NewtonCollision *enemyCol;
+    NewtonCollision *enemyEnt;
     NewtonCollision *objCollision;
 
     //dFloat t[9];
@@ -66,13 +66,12 @@ public:
 
     //
     bool collideEntityWithObj(Entity *e);
-
+    void createEnemyMesh( Entity* e );
+    dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     //depreciated. Here for refrence
-    //dFloat rayCollideWithEnemy( Vector3 *start, Vector3 *end, Entity* collideAgainst );
     //void createShipMesh( Entity* e );
-    // void createEnemyMesh( Entity* e );
 
-    void createConvexHull( Entity *entity );
+    void createConvexHull( Entity *entity, bool enemy );
     void createObjPrimitive( Real x, Real y, Real z, Real radius);
     dFloat objRayCollision(  Vector3 *start, Vector3 *end );
 
