@@ -222,11 +222,11 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
           HardwareBuffer::HBU_STATIC_WRITE_ONLY,
           true, true);
 
-    unsigned short src, dest;
-    if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
-    {
-       pMesh->buildTangentVectors(VES_TANGENT, src, dest);
-    }
+    // unsigned short src, dest;
+    // if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
+    // {
+       // pMesh->buildTangentVectors(VES_TANGENT, src, dest);
+    // }
 
     Entity *e = sceneManager->createEntity(name, pMesh->getName() );
 
