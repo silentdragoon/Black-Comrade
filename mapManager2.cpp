@@ -154,6 +154,10 @@ void MapManager::loadMap(char *file) {
                     if(*w->getName()=="wp_start") {
                         startx = (x * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
                         starty = (y * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
+                        mts[x][y]->setStart();
+                    }
+                    if(*w->getName()=="wp_end") {
+                        mts[x][y]->setEnd();
                     }
                 }
             }
@@ -163,6 +167,8 @@ void MapManager::loadMap(char *file) {
 
         setSpawnPoints();
         makeConPieces();
+
+        mts[objx][objy]->setObjective();
 
         cout << "Map " << file << " loaded..." << endl;
     } else {

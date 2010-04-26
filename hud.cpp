@@ -361,10 +361,16 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
             CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
             if(mapMgr->mts[xpos][ypos]->isEmpty()) {
                 ic.setImage("Minimap","mapTile-blank");
+            } else if(mapMgr->mts[xpos][ypos]->isObj()) {
+                ic.setImage("MinimapNow","mapTileN-special");
             } else {
                 std::stringstream tile;
                 if((xpos==x)&&(ypos==y)) {
                     tile << "mapTileN";
+                } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                    tile << "mapTileS";
+                } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                    tile << "mapTileE";
                 } else {
                     tile << "mapTile";
                 }
@@ -374,6 +380,10 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
                     ic.setImage("MinimapNow",name);
+                } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                    ic.setImage("MinimapStart",name);
+                } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                    ic.setImage("MinimapEnd",name);
                 } else {
                     ic.setImage("Minimap",name);
                 }
