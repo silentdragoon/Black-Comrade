@@ -202,6 +202,9 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
         }
     }
     closedir(dp);
+    std::sort( names.begin(), names.end() );
+    std::sort( files.begin(), files.end() );
+
 
     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
 
