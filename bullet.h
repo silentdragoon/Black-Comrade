@@ -23,6 +23,7 @@ class Bullet
 
         SceneNode *node;
         RibbonTrail *trail;
+        Light *l;
 
         SceneManager *sceneMgr;
 
