@@ -331,7 +331,6 @@ dFloat CollisionDetection::rayCollideWithEnemy( Vector3 *start, Vector3 *end, En
 {
     if( enemyEnt != NULL )
     {
-        cout<<"here"<<endl;
         Matrix4 m4 = collideAgainst->getParentSceneNode()->_getFullTransform().inverse();
         Vector3 transStart = m4 * (*start);
         Vector3 transEnd = m4 * (*end);
