@@ -4,7 +4,7 @@
 Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState,
                 DamageState *damageState, CollisionManager *colMgr,
                 SystemManager *systemManager, bool useCollisions,
-                double iXPos, double iYPos, double iZPos,
+                double iXPos, double iYPos, double iZPos, double iYaw,
                 PlayerStats *pilotStats):
     snMgr(snMgr),
     colMgr(colMgr),
@@ -20,7 +20,7 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     flyYaw(0.0),
     flyRoll(0.0),
     pitch(0.0),
-    yaw(0.0),
+    yaw(iYaw),
     roll(0.0),
     hitCountDown(0),
     addRoll(0.0),

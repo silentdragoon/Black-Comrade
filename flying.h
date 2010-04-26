@@ -75,7 +75,7 @@ class Flying : public ITickable
         Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState,
                 DamageState *damageState, CollisionManager *colMgr,
                 SystemManager *systemManager, bool collisions,
-                double x, double y, double z,
+                double x, double y, double z, double yaw,
                 PlayerStats *pilotStats);
 
         ~Flying();

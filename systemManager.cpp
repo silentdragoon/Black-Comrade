@@ -115,7 +115,7 @@ double SystemManager::getEngineRate() {
 }
 
 void SystemManager::fireWeapon() {
-    weaponCharge -= 1.0; // TODO: Fiddle this number or something
+    weaponCharge -= 0.7; // TODO: Fiddle this number or something
 }
 
 void SystemManager::damageShield() {
