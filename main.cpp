@@ -371,7 +371,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(audioState,"audioState");
 
     // Radar GUI
-    if (true || collabInfo->getGameRole() == ENGINEER) {
+    if (collabInfo->getGameRole() == ENGINEER) {
     	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
     	    "BigRadar", navigatorControls);
     	gameLoop->addTickable(bigRadarGui,"BigRadar");
