@@ -42,7 +42,7 @@ flock_target_weight = 100
 
 sound_musicvolume = 0.3
 
-ship_turrent_speed = -0.01
+ship_turrent_speed = -0.002
 
 # Door
 door_open_time = 4
