@@ -204,7 +204,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
-                             collisions, mapMgr->startx, 0.0, mapMgr->starty, (i % 2) ? PI / 2 :  0,
+                             collisions, mapMgr->startx, 0.0, mapMgr->starty, (i % 2) ? 0 :  PI / 2,
                              pilotInfo->getPlayerStats() );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
