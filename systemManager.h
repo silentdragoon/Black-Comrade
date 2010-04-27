@@ -37,7 +37,7 @@ public:
     SystemManager(EngineerControls *engCon, DamageState *damageState);
     void tick();
 
-    void incShieldRate();
+    void incEngineRate();
     void incWeaponRate();
     //void incSensorRate();
 

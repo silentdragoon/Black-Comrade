@@ -59,7 +59,7 @@ void SoundManager::loadSoundFiles() {
     // Attack mode
     loadSoundFile("sounds/vo/ship/incomingswarms.mp3",stringToInt("sound_incomingswarms"),false,true);
 
-    // Hull critical
+    // Hull critica
     loadSoundFile("sounds/vo/ship/shiphullfilling.mp3",stringToInt("sound_hullfailing"),false,true);
 
     // Console key press

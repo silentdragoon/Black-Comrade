@@ -60,7 +60,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
 
 
-    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    if (!useMouse) // || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -213,7 +213,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
 
     // Navigator Controls
-    if(true || collabInfo->getGameRole() == NAVIGATOR) {
+    if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
@@ -375,10 +375,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
-    	    "BigRadar", navigatorControls);
+    	    "BigRadar", engineerControls);
     	gameLoop->addTickable(bigRadarGui,"BigRadar");
     	smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-    	    "SmallRadar", navigatorControls);
+    	    "SmallRadar", engineerControls);
     	gameLoop->addTickable(smallRadarGui,"SmallRadar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
