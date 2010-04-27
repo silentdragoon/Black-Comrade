@@ -25,7 +25,9 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     tutorial(tutorial),
     flashLength(35),
     flashProgress(0),
-    flashOn(false)
+    flashOn(false),
+    elementToHighlight(HE_NONE),
+    keyToHint(KH_NONE)
 {
     guiMgr->setOverlayAboveCEGUI(false);
 }
@@ -39,35 +41,53 @@ void GuiStatusUpdater::updateFlash() {
     } else {
         flashProgress ++;
     }
+    if (flashOn)
+        hud->highlightElement(elementToHighlight);
+    else
+        hud->stopHighlightingElement(elementToHighlight);
 }
 
 void GuiStatusUpdater::checkTutorial() {
+    elementToHighlight = HE_NONE;
+    keyToHint = KH_NONE;
 
     switch(tutorial->getState()) {
         case TS_SHOW_CONTROLS:
             // Show the F1 key on screen?
+            keyToHint = KH_F1;
+            break;
+        case TS_AVATARS:
+            // Highlight avatars
+            elementToHighlight = HE_AVATARS;
             break;
         case TS_HEALTH_BARS:
             // Highlight health bars
+            elementToHighlight = HE_HEALTH_BARS;
             break;
         case TS_CHARGE_BARS:
             // Hightlight chargs bars
+            elementToHighlight = HE_CHARGE_BARS;
             break;
         case TS_POWER_BARS:
             // Highlight power bars
+            elementToHighlight = HE_POWER_BARS;
             break;
         case TS_MINI_MAP:
             // Highlight the mini map
+            elementToHighlight = HE_MINI_MAP;
             break;
         case TS_SHOW_MAP:
         case TS_SHOW_RADAR:
             // Show the tab key on screen?
+            keyToHint = KH_TAB;
             break;
-        case TS_OPEN_CONSOLE:
         case TS_REPAIR_SYSTEMS:
             // Highlight the health bars?
+            elementToHighlight = HE_HEALTH_BARS;
+        case TS_OPEN_CONSOLE:
         case TS_CLOSE_CONSOLE:
             // Show the escape key on screen?
+            keyToHint = KH_ESCAPE;
             break;
     }
 }
@@ -82,11 +102,15 @@ void GuiStatusUpdater::tick() {
     s = out.str();
     hud->setStatus(s);
 
-    // Flash
-    updateFlash();
-
     // Tutorial
     checkTutorial();
+
+    // Highlight the HUD
+    updateFlash();
+
+    // Give key hints
+    hud->showKeyHint(keyToHint);
+
 
     // Ship speed
     if(gameRole==PILOT) {

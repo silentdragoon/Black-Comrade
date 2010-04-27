@@ -58,6 +58,72 @@ bool HUD::hasLargeMapBeenShown() { return largeRadarBeenShown; }
 
 bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
 
+void HUD::showKeyHint(KeyHint keyHint) {
+    hideKeyHint();
+
+    // TODO: For each case, set the image of the key hint
+    //       window to an image of the key
+
+    switch (keyHint) {
+        case KH_F1:
+            break;
+        case KH_TAB:
+            break;
+        case KH_ESCAPE:
+            break;
+    }
+
+    // TODO: Set the key hint window to visible
+}
+
+void HUD::hideKeyHint() {
+    // TODO: Set the key hint window to hidden
+}
+
+void HUD::highlightElement(HUDElement element) {
+    // TODO: For each case, swap the image of the element
+    //       to a highlighted version
+
+    switch (element) {
+        case HE_AVATARS:
+            break;
+        case HE_HEALTH_BARS:
+            break;
+        case HE_CHARGE_BARS:
+            break;
+        case HE_POWER_BARS:
+            break;
+        case HE_MINI_MAP:
+            break;
+        case HE_MINI_RADAR:
+            break;
+        case HE_MISSION_LOG:
+            break;
+    }
+}
+
+void HUD::stopHighlightingElement(HUDElement element) {
+    // TODO: For each case, swap the image of the element
+    //       to the normal version
+
+    switch (element) {
+        case HE_AVATARS:
+            break;
+        case HE_HEALTH_BARS:
+            break;
+        case HE_CHARGE_BARS:
+            break;
+        case HE_POWER_BARS:
+            break;
+        case HE_MINI_MAP:
+            break;
+        case HE_MINI_RADAR:
+            break;
+        case HE_MISSION_LOG:
+            break;
+    }
+}
+
 void HUD::makeCommonHUD() {
 
     // Overlay

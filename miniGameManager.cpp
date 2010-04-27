@@ -102,6 +102,7 @@ void MiniGameManager::setConsoleState(bool isVisible) {
 }
 
 bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
+
     if (inputReceiver == NULL) return false;
 
     if (arg.key == OIS::KC_RETURN) {
@@ -112,7 +113,7 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
         inputReceiver->backspaceKeyPressed();
         aKeyPressed = true;
         return true;
-    } else if (arg.text == 0) {
+    } else if (arg.text == 0 || arg.key == OIS::KC_TAB) {
         inputReceiver->otherKeyPressed(arg);
         return true;
     }
