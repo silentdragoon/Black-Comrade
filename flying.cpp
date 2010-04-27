@@ -183,5 +183,5 @@ void Flying::tick()
 
 double Flying::getSpeed()
 {
-    return sqrt( xVel*xVel+zVel*zVel) * 3.6 * 60;
+    return sqrt( xVel*xVel+zVel*zVel+yVel*yVel) * 3.6 * 60;
 }
