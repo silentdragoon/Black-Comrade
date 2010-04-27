@@ -47,6 +47,9 @@ void GuiStatusUpdater::checkTutorial() {
         case TS_SHOW_CONTROLS:
             // Show the F1 key on screen?
             break;
+        case TS_AVATARS:
+            // Highlight avatars
+            break;
         case TS_HEALTH_BARS:
             // Highlight health bars
             break;

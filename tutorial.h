@@ -13,9 +13,11 @@
 
 enum TutorialState { TS_PRE, TS_START,
                      TS_SHOW_CONTROLS,
+                     TS_AVATARS,
                      TS_HEALTH_BARS,
                      TS_CHARGE_BARS,
                      TS_POWER_BARS,
+                     TS_MINI_RADAR,
                      TS_MINI_MAP,
                      TS_PILOT_ROLE,
                      TS_ENGINEER_ROLE,
