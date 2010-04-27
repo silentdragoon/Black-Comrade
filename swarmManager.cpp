@@ -268,8 +268,12 @@ void SwarmManager::tick()
             Vector3 *shipLocn = shipState->getPosition();
             float dist = shipLocn->distance(swarmLocn);
             if(dist>ConstManager::getFloat("swarm_respawn_dist")) {
-                cout << "Removing left behind swarm" << endl;
-                s->killAllMembers();     
+                if((gameStateMachine->currentGameState()==GS_ATTACK)||
+                        (gameStateMachine->currentGameState()==GS_BLACK_COMRADE)||
+                        (gameStateMachine->currentGameState()==GS_FLEE)) {
+                    cout << "Removing left behind swarm" << endl;
+                    s->killAllMembers();     
+                }
             } 
             if(s->size!=0) {
                 s->tick();
