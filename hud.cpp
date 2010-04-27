@@ -84,10 +84,13 @@ void HUD::highlightElement(HUDElement element) {
     // TODO: For each case, swap the image of the element
     //       to a highlighted version
 
+    stopHighlightingAllElements();
+
     switch (element) {
         case HE_AVATARS:
             break;
         case HE_HEALTH_BARS:
+            std::cout << "FLASH HEALTH BARS\n";
             break;
         case HE_CHARGE_BARS:
             break;
@@ -122,6 +125,10 @@ void HUD::stopHighlightingElement(HUDElement element) {
         case HE_MISSION_LOG:
             break;
     }
+}
+
+void HUD::stopHighlightingAllElements() {
+    // TODO:: Show the normal version of all images
 }
 
 void HUD::makeCommonHUD() {

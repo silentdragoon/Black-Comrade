@@ -5,19 +5,6 @@
 
 #include <iostream>
 
-DamageState::DamageState()
-    : sensorHealth(100.0)
-    , weaponHealth(100.0)
-    , engineHealth(100.0)
-    , hullHealth(100.0)
-    , shieldModifier(0.1)
-    , isDamaged(false)
-    , pilotInfo(0)
-    , engineerInfo(0)
-    , navigatorInfo(0)
-    , damageSustained(0)
-{}
-
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
@@ -34,6 +21,19 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
 }
+
+DamageState::DamageState()
+    : sensorHealth(100.0)
+    , weaponHealth(100.0)
+    , engineHealth(100.0)
+    , hullHealth(100.0)
+    , shieldModifier(0.1)
+    , isDamaged(false)
+    , pilotInfo(0)
+    , engineerInfo(0)
+    , navigatorInfo(0)
+    , damageSustained(0)
+{}
 
 void DamageState::tick() {
     isDamaged = false;

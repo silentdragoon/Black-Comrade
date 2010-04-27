@@ -38,13 +38,13 @@ void GuiStatusUpdater::updateFlash() {
     if (flashProgress == flashLength) {
         flashProgress = 0;
         flashOn = !flashOn;
+        if (flashOn)
+            hud->highlightElement(elementToHighlight);
+        else
+            hud->stopHighlightingElement(elementToHighlight);
     } else {
         flashProgress ++;
     }
-    if (flashOn)
-        hud->highlightElement(elementToHighlight);
-    else
-        hud->stopHighlightingElement(elementToHighlight);
 }
 
 void GuiStatusUpdater::checkTutorial() {
@@ -83,7 +83,7 @@ void GuiStatusUpdater::checkTutorial() {
             break;
         case TS_REPAIR_SYSTEMS:
             // Highlight the health bars?
-            elementToHighlight = HE_HEALTH_BARS;
+            //elementToHighlight = HE_HEALTH_BARS;
         case TS_OPEN_CONSOLE:
         case TS_CLOSE_CONSOLE:
             // Show the escape key on screen?

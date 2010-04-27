@@ -113,6 +113,7 @@ public:
     void showKeyHint(KeyHint key);
     void hideKeyHint();
     void highlightElement(HUDElement element);
+    void stopHighlightingAllElements();
     void stopHighlightingElement(HUDElement element);
 
     void setStatus(std::string stat);
