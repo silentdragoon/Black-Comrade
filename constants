@@ -22,7 +22,7 @@ max_swarms_attack = 7
 max_swarms_flee = 12
 
 swarm_size = 7
-swarm_respawn_dist = 2000.0
+swarm_respawn_dist = 1500.0
 
 # Shooting
 enemy_fire_rate = 0.8
