@@ -20,9 +20,9 @@ QuickTimeMiniGame::QuickTimeMiniGame(Console *console, InputState *inputState,
     console->setString("R: Reboot bot systems",0,7);
     console->setString("O: Override bot safeties",0,8);
     console->setString("S: Self repair",0,9);
-    console->setString("Q: Quit",0,10);
+    console->setString("Enter: Quit",0,10);
     console->setString("",0,11);
-    console->setString("Enter to begin repairs...",0,12);
+    console->setString("Space to begin repairs...",0,12);
     saveTick = 0;
 
     endTicks = (int)ceil(20.0 / ConstManager::getFloat("tick_period"));
@@ -144,7 +144,7 @@ void QuickTimeMiniGame::tick() {
 
     updateProgressBar();
 
-    if(inputState->isKeyDown(OIS::KC_Q)) isEnd=true;
+    if(inputState->isKeyDown(OIS::KC_SPACE)) begin=true;
 }
 
 void QuickTimeMiniGame::updateProgressBar() {
@@ -172,7 +172,7 @@ void QuickTimeMiniGame::updateProgressBar() {
 bool QuickTimeMiniGame::end() { return isEnd; }
 
 void QuickTimeMiniGame::returnKeyPressed() {
-    begin = true; 
+    isEnd = true; 
 }
 
 int QuickTimeMiniGame::getScore() { return score; }
