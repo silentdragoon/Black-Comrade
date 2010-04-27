@@ -4,7 +4,7 @@
 
 void SoundManager::errCheck(FMOD_RESULT result, std::string from) {
     if (result != FMOD_OK) {
-        //cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
+        cerr << "FMOD: " << result << " " << FMOD_ErrorString(result) << " : " << from << endl;
     }
 }
 
