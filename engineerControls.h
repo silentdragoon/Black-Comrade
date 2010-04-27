@@ -17,14 +17,14 @@ class EngineerControls : public ITickable, public GunnerControls
        
        InputState *inputState;
        
-        bool isChangeShield;
+        bool isChangeEngine;
         bool isChangeWeapons;
         bool isTransferShields;
         bool isTransferWeapons;
   
     public:
         virtual void tick();
-        virtual bool isShield();
+        virtual bool isEngine();
         virtual bool isWeapons();
         virtual bool transferShields();
         virtual bool transferWeapons();
