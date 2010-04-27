@@ -2,9 +2,9 @@
 
 SystemManager::SystemManager() :
     engCon(0),
-    shieldRate(0.5),
+    shieldRate(1.0),
     weaponRate(0.5),
-    engineRate(1.0),
+    engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
     timeSinceLastPress(100),
@@ -16,9 +16,9 @@ SystemManager::SystemManager() :
 SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState) :
     engCon(engCon),
     damageState(damageState),
-    shieldRate(0.5),
+    shieldRate(1.0),
     weaponRate(0.5),
-    engineRate(1.0),
+    engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
     timeSinceLastPress(100),
@@ -51,8 +51,8 @@ void SystemManager::tick() {
 
         if (damageState->isDamaged) damageShield();
 
-        if((engCon->isShield())&&(timeSinceLastPress>10)) {
-            incShieldRate();
+        if((engCon->isEngine())&&(timeSinceLastPress>10)) {
+            incEngineRate();
             timeSinceLastPress=0;
         }
 
@@ -81,13 +81,13 @@ bool SystemManager::areShieldsStuck() {
     return (timeSinceShieldRecharge >= 350 && getShieldCharge() == 0.0);
 }
 
-void SystemManager::incShieldRate() {
-    shieldRate += 0.25;
-    if(shieldRate>1.0) {
-        shieldRate = 0;
-        engineRate += 1.0;
+void SystemManager::incEngineRate() {
+    engineRate += 0.25;
+    if(engineRate>1.0) {
+        engineRate = 0;
+        shieldRate += 1.0;
     } else {
-        engineRate -= 0.25;
+        shieldRate -= 0.25;
     }
 }
 
@@ -95,14 +95,14 @@ void SystemManager::incWeaponRate() {
     weaponRate += 0.25;
     if(weaponRate>1.0) {
         weaponRate = 0;
-        engineRate += 1.0;
+        shieldRate += 1.0;
     } else {
-        engineRate -= 0.25;
+        shieldRate -= 0.25;
     }
 }
 
 double SystemManager::getShieldRate() {
-    return shieldRate;
+    return shieldRate/2.0;
 }
 
 double SystemManager::getWeaponRate() {
@@ -110,8 +110,7 @@ double SystemManager::getWeaponRate() {
 }
 
 double SystemManager::getEngineRate() {
-    double blarg = engineRate/2.0;
-    return blarg;
+    return engineRate;
 }
 
 void SystemManager::fireWeapon() {

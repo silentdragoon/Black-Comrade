@@ -3,7 +3,7 @@
 
 EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     inputState(inputState),
-    isChangeShield(false),
+    isChangeEngine(false),
     isChangeWeapons(false),
     isTransferShields(false),
     isTransferWeapons(false)
@@ -17,8 +17,8 @@ EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
 EngineerControls::~EngineerControls()
 {}
 
-bool EngineerControls::isShield() {
-    return isChangeShield;
+bool EngineerControls::isEngine() {
+    return isChangeEngine;
 }
 
 bool EngineerControls::isWeapons() {
@@ -42,7 +42,7 @@ void EngineerControls::tick()
     tickGunnerControls();
 
     if(isEnabled()) {
-        isChangeShield = inputState->isKeyDown(OIS::KC_S);
+        isChangeEngine = inputState->isKeyDown(OIS::KC_D);
         isChangeWeapons = inputState->isKeyDown(OIS::KC_A);
         isTransferShields = inputState->isKeyDown(OIS::KC_W);
         isTransferWeapons = inputState->isKeyDown(OIS::KC_Q);

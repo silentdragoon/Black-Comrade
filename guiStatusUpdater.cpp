@@ -5,7 +5,8 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
                                    SystemManager *systemManager, HUD *hud, Flying *flying,
                                    NotificationManager *notificationMgr,
                                    GameStateMachine *gameStateMachine, Objective *objective, Console *console,
-                                   CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo) :
+                                   CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo,
+                                   Tutorial *tutorial) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -20,7 +21,8 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     console(console),
     pilotInfo(pilotInfo),
     engInfo(engInfo),
-    navInfo(navInfo)
+    navInfo(navInfo),
+    tutorial(tutorial)
 {
     guiMgr->setOverlayAboveCEGUI(false);
 }
