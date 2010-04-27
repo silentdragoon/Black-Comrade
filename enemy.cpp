@@ -83,7 +83,7 @@ Vector3* Enemy::getOrientation() { return new Vector3(pitch,yaw,roll); }
 
 Vector3 *Enemy::getMeshOrientation() { return new Vector3(0,PI,0); }
 
-std::string Enemy::getMeshName() { return "squid2.mesh"; }
+std::string Enemy::getMeshName() { return "squidop.mesh"; }
 
 IDrawable* Enemy::getParentObject() { return NULL; }
 
