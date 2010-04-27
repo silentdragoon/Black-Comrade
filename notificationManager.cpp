@@ -373,7 +373,7 @@ void NotificationManager::checkCharges() {
         && (gameState == GS_ATTACK || gameState == GS_BLACK_COMRADE))
         newNotification = NT_SHIELD_CHARGE_STUCK;
 
-    std::cout << newNotification << "\n";
+    //std::cout << newNotification << "\n";
     if(lastNotification->getType() != newNotification) {
         if (isTimely(newNotification,1000,1)) {
             mIsNewNotification = true;

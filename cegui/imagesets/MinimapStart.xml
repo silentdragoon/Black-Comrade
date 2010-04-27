@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="MinimapStart" Imagefile="minimapstartbig.png" AutoScaled="false" >
+    <Image Name="mapTileS-1-2-3-4" XPos="0" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-2-3" XPos="70" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-2-4" XPos="140" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-2" XPos="210" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-3-4" XPos="280" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-3" XPos="350" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1-4" XPos="420" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-1" XPos="490" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-2-3-4" XPos="560" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-2-3" XPos="630" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-2-4" XPos="700" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-2" XPos="770" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-3-4" XPos="840" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-3" XPos="910" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-4" XPos="980" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-blank" XPos="1050" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-special" XPos="1120" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-special-1" XPos="1190" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-special-2" XPos="1260" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-special-3" XPos="1330" YPos="0" Width="70" Height="70" />
+	<Image Name="mapTileS-special-4" XPos="1400" YPos="0" Width="70" Height="70" />
+</Imageset>

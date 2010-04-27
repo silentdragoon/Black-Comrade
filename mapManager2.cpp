@@ -152,8 +152,12 @@ void MapManager::loadMap(char *file) {
                     mts[x][y]->assignWaypoint(w);
 
                     if(*w->getName()=="wp_start") {
-                        startx = (x * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
-                        starty = (y * ConstManager::getInt("map_tile_size"))+(ConstManager::getInt("map_tile_size")/2);
+                        startx = x;
+                        starty = y;
+                        mts[x][y]->setStart();
+                    }
+                    if(*w->getName()=="wp_end") {
+                        mts[x][y]->setEnd();
                     }
                 }
             }
@@ -163,6 +167,8 @@ void MapManager::loadMap(char *file) {
 
         setSpawnPoints();
         makeConPieces();
+
+        mts[objx][objy]->setObjective();
 
         cout << "Map " << file << " loaded..." << endl;
     } else {
@@ -196,6 +202,9 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
         }
     }
     closedir(dp);
+    std::sort( names.begin(), names.end() );
+    std::sort( files.begin(), files.end() );
+
 
     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
 
@@ -222,11 +231,11 @@ void MapManager::createTile(string adir, std::vector<int> connections, int x, in
           HardwareBuffer::HBU_STATIC_WRITE_ONLY,
           true, true);
 
-    unsigned short src, dest;
-    if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
-    {
-       pMesh->buildTangentVectors(VES_TANGENT, src, dest);
-    }
+    // unsigned short src, dest;
+    // if (!pMesh->suggestTangentVectorBuildParams(VES_TANGENT, src, dest))
+    // {
+       // pMesh->buildTangentVectors(VES_TANGENT, src, dest);
+    // }
 
     Entity *e = sceneManager->createEntity(name, pMesh->getName() );
 
@@ -299,6 +308,12 @@ MapTile* MapManager::getMapTile(Vector3 *locn) {
         }
     }
     return NULL;
+}
+
+Vector3 MapManager::getStartingPosition() {
+    std::cout << startx << " " << starty << "\n";
+    MapTile *startTile = mts[startx][starty];
+    return getActualPosition(startTile);
 }
 
 Vector3 MapManager::getActualPosition(MapTile *mapTile) {

@@ -13,6 +13,7 @@ int GameParameterMap::getParameter(string name){
 	// SPAWN Parameter
 	if(name.compare("SPAWN") == 0) {
 		switch(gameStateMachine->currentGameState()) {
+			case GS_BLACK_COMRADE:
 			case GS_ATTACK:
                 return ConstManager::getInt("max_swarms_attack");
                 break;
@@ -28,6 +29,7 @@ int GameParameterMap::getParameter(string name){
 	if(name.compare("SWARMS_FIND_SHIP") == 0) {
 	    switch(gameStateMachine->currentGameState()) {
 	        case GS_ATTACK:
+            case GS_BLACK_COMRADE:
 	        case GS_FLEE:
 	            return 1;
 	            break;

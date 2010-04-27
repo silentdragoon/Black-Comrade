@@ -137,11 +137,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         shipState =
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
+    Vector3 startingPosition = mapMgr->getStartingPosition();
+    std::cout << startingPosition << "\n";
     shipState->setDamageState(damageState);
-    shipState->setX(mapMgr->startx);
+    shipState->setX(startingPosition.x);
     shipState->setY(0);
-    shipState->setZ(mapMgr->starty);
-    cout << mapMgr->startx << ", " << mapMgr->starty << endl;
+    shipState->setZ(startingPosition.z);
+    //cout << mapMgr->startx << ", " << mapMgr->starty << endl;
     gameLoop->addTickable(shipState, "shipState");
     soundMgr->setShipState(shipState);
 
@@ -204,7 +206,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
-                             collisions, mapMgr->startx, 0.0, mapMgr->starty,
+                             collisions, startingPosition.x, 0.0, startingPosition.z, (i % 2) ? 0 :  PI / 2,
                              pilotInfo->getPlayerStats() );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");

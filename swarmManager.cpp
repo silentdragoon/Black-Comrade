@@ -132,7 +132,7 @@ void SwarmManager::createSwarm(int size, Vector3 location, std::vector<MapTile*>
     Enemy *en;
     for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
         en = *ite;
-        colMgr->addMesh(sceneNodeMgr->getEntity(en));
+        colMgr->addEnemyMesh(sceneNodeMgr->getEntity(en));
     }
     
     activeSwarms.push_back(s);
@@ -211,7 +211,7 @@ void SwarmManager::updateRemoteSwarms() {
             } else if (!enemy->isReplicated) {
                 enemy->isReplicated = true;
                 sceneNodeMgr->createNode(enemy);
-                colMgr->addMesh(sceneNodeMgr->getEntity(enemy));
+                colMgr->addEnemyMesh(sceneNodeMgr->getEntity(enemy));
             }
         }
     } else {
