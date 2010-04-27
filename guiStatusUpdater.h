@@ -41,6 +41,8 @@ class GuiStatusUpdater : public ITickable {
         CollaborationInfo *engInfo;
         CollaborationInfo *navInfo;
 
+        void checkTutorial();
+
     public:
         GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState,
                          GunnerControls *playerControls, GameRole gameRole,
