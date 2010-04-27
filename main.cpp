@@ -403,7 +403,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,
-                                            cons, pilotInfo,navigatorInfo,engineerInfo);
+                                            cons, pilotInfo,navigatorInfo,engineerInfo, tutorial);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
     gameLoop->addTickable(lightMgr,"lightMgr");
