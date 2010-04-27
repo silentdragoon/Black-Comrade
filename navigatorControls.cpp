@@ -23,6 +23,11 @@ void NavigatorControls::tick()
     tickGunnerControls();
 
     if(isEnabled()) {
-        isFullMap = inputState->isKeyDown(OIS::KC_TAB);
+        
+        if(inputState->isKeyDown(OIS::KC_TAB) && !lastTabState) {
+            isFullMap = !isFullMap;
+        }
+        
+        lastTabState = inputState->isKeyDown(OIS::KC_TAB);
     }
 }

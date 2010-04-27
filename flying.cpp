@@ -107,7 +107,7 @@ void Flying::updatePosition()
         if( damageState->getEngineHealth() > 0 )
         {
             double engineRate = systemManager->getEngineRate();
-            double xzFor =  (engineRate+0.1)*EngineForce*sin(flyPitch);
+            double xzFor =  0.7*(engineRate/1.3+0.4)*EngineForce*sin(flyPitch);
             xVel += xzFor*sin(flyYaw);
             zVel += xzFor*cos(flyYaw);
             double xzSide = (engineRate+0.1)*SideForce*sin(flyRoll);

@@ -100,6 +100,7 @@ bool NetworkingManager::connectToGame(ServerInfo *info) {
 
     rakPeer->SetNetworkIDManager(&networkIdManager);
     networkIdManager.SetIsNetworkIDAuthority(false);
+    rakPeer->SetTimeoutTime(100,UNASSIGNED_SYSTEM_ADDRESS);
 
     rakPeer->Startup(3,100,&sd,1);
     rakPeer->AttachPlugin(&replicaManager);
