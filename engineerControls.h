@@ -15,6 +15,10 @@ class EngineerControls : public ITickable, public GunnerControls
 {
     private:
        
+        bool isFullMap;
+        
+        bool lastTabState;
+       
        InputState *inputState;
        
         bool isChangeEngine;
@@ -28,6 +32,8 @@ class EngineerControls : public ITickable, public GunnerControls
         virtual bool isWeapons();
         virtual bool transferShields();
         virtual bool transferWeapons();
+
+        virtual bool isMap();
 
         EngineerControls(InputState *inputState, Camera *cam);
         ~EngineerControls();

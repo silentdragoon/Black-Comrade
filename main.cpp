@@ -60,7 +60,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
 
 
-    if (!useMouse || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
+    if (!useMouse) // || collabInfo->getNetworkRole() == DEVELOPMENTSERVER)
         inputState->releaseMouse();
     if (!useKey) inputState->releaseKeyboard();
 
@@ -137,11 +137,13 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         shipState =
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
+    Vector3 startingPosition = mapMgr->getStartingPosition();
+    std::cout << startingPosition << "\n";
     shipState->setDamageState(damageState);
-    shipState->setX(mapMgr->startx);
+    shipState->setX(startingPosition.x);
     shipState->setY(0);
-    shipState->setZ(mapMgr->starty);
-    cout << mapMgr->startx << ", " << mapMgr->starty << endl;
+    shipState->setZ(startingPosition.z);
+    //cout << mapMgr->startx << ", " << mapMgr->starty << endl;
     gameLoop->addTickable(shipState, "shipState");
     soundMgr->setShipState(shipState);
 
@@ -204,14 +206,14 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
-                             collisions, mapMgr->startx, 0.0, mapMgr->starty, (i % 2) ? PI / 2 :  0,
+                             collisions, startingPosition.x, 0.0, startingPosition.z, (i % 2) ? 0 :  PI / 2,
                              pilotInfo->getPlayerStats() );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
     }
 
     // Navigator Controls
-    if(true || collabInfo->getGameRole() == NAVIGATOR) {
+    if(collabInfo->getGameRole() == NAVIGATOR) {
         navigatorControls = new NavigatorControls(inputState,camera);
         gameLoop->addTickable(navigatorControls,"navigatorControls");
     }
@@ -373,10 +375,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
-    	    "BigRadar", navigatorControls);
+    	    "BigRadar", engineerControls);
     	gameLoop->addTickable(bigRadarGui,"BigRadar");
     	smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-    	    "SmallRadar", navigatorControls);
+    	    "SmallRadar", engineerControls);
     	gameLoop->addTickable(smallRadarGui,"SmallRadar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");

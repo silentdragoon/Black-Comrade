@@ -9,7 +9,7 @@
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
-            NavigatorControls *navigatorControls)
+            EngineerControls *engineerControls)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -23,7 +23,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , fullScreen(fullScreen)
     , visible(true)
     , name(name)
-    , navigatorControls(navigatorControls)
+    , engineerControls(engineerControls)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
@@ -181,7 +181,7 @@ void RadarGui::tick()
     }
 
     if(fullScreen) {
-        visible = navigatorControls->isMap();
+        visible = engineerControls->isMap();
     }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();

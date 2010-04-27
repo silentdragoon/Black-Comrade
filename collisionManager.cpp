@@ -6,7 +6,8 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
     mp(mp),
     obj(true),
     objective(objective),
-    loadingScreen(loadingScreen)
+    loadingScreen(loadingScreen),
+    enemyAdded(false)
 {
     movableObj = std::vector<Entity*>();
     if(rebuildCollisionMeshes) deleteAllColMeshes();
@@ -58,7 +59,7 @@ void CollisionManager::deleteAllColMeshes()
 
 void CollisionManager::addColidableMovableObject( Entity *e )
 {
-    cd->createConvexHull(e);
+    cd->createConvexHull(e, false);
     movableObj.push_back(e);
 }
 
@@ -99,12 +100,21 @@ dFloat CollisionManager::getRCDirDist(Vector3 *pos, Vector3 *direction, dFloat d
 
 void CollisionManager::addMesh( Entity *e)
 {
-    cd->createConvexHull(e);
+    cd->createConvexHull(e, false);
+}
+
+void CollisionManager::addEnemyMesh( Entity *e)
+{
+    if(!enemyAdded)
+    {
+        cd->createConvexHull(e, true);
+        enemyAdded = true;
+    }
 }
 
 void CollisionManager::addShipMesh( Entity *e)
 {
-    cd->createConvexHull(e);
+    cd->createConvexHull(e, false);
 }
 
 void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
@@ -128,6 +138,17 @@ dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
     else return false;
 }
 
+dFloat CollisionManager::getRCEnemyDist( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
+{
+    dFloat dist = 2000;
+    double x = start->x + direction->x * dist;
+    double y = start->y + direction->y * dist;
+    double z = start->z + direction->z * dist;
+    Vector3 end = Vector3(x,y,z);
+    return (cd->rayCollideWithEnemy( start, &end, collideAgainst) * dist);
+    //return -1;
+}
+
 dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
 {
     dFloat dist = 2000;
@@ -147,10 +168,10 @@ bool CollisionManager::collideEntityWithObj(Entity *e)
 
 Collision CollisionManager::collideWithMapPieceAndMovableObjects( Entity *e )
 {
-    //dFloat contacts[16] = {0.0f};
-    //dFloat normals[16] = {0.0f};
-    //dFloat penetration[16] = {0.0f};
-    Collision col;// = Collision(false,normals,contacts,penetration);
+    dFloat contacts[16] = {0.0f};
+    dFloat normals[16] = {0.0f};
+    dFloat penetration[16] = {0.0f};
+    Collision col = Collision(false,normals,contacts,penetration);
 
     Vector3 pos = e->getParentSceneNode()->_getFullTransform().getTrans();
 

@@ -17,10 +17,10 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     xVel(0.0),
     yVel(0.0),
     flyPitch(0.0),
-    flyYaw(0.0),
+    flyYaw(iYaw),
     flyRoll(0.0),
     pitch(0.0),
-    yaw(iYaw),
+    yaw(0.0),
     roll(0.0),
     hitCountDown(0),
     addRoll(0.0),
@@ -156,7 +156,7 @@ void Flying::updateShipState()
     shipState->setX(position->x);
     shipState->setY(position->y);
     shipState->setZ(position->z);
-    
+
     shipState->yaw = yaw;
     shipState->pitch = -pitch;
     shipState->roll = -roll;

@@ -33,6 +33,10 @@ bool EngineerControls::transferWeapons() {
     return isTransferWeapons;
 }
 
+bool EngineerControls::isMap() {
+    return isFullMap; 
+}
+
 void EngineerControls::tick()
 {
     tickGunnerControls();
@@ -42,5 +46,11 @@ void EngineerControls::tick()
         isChangeWeapons = inputState->isKeyDown(OIS::KC_A);
         isTransferShields = inputState->isKeyDown(OIS::KC_W);
         isTransferWeapons = inputState->isKeyDown(OIS::KC_Q);
+        
+        if(inputState->isKeyDown(OIS::KC_TAB) && !lastTabState) {
+            isFullMap = !isFullMap;
+        }
+        
+        lastTabState = inputState->isKeyDown(OIS::KC_TAB);
     }
 }

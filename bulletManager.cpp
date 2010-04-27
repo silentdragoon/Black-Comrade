@@ -63,7 +63,7 @@ double BulletManager::getDistanceTo(IBulletTarget *possibleTarget,IBulletOwner *
             break;
         case ENTT_ENEMY: {
             Entity *enemyEntity = sceneNodeMgr->getEntity((Enemy*)possibleTarget);
-            distance = colMgr->rayCollideWithTransform(&origin,&direction,enemyEntity);
+            distance = colMgr->getRCEnemyDist(&origin,&direction,enemyEntity);
             break;
         }
         case ENTT_SHIP: {
