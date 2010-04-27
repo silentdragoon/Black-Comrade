@@ -263,6 +263,14 @@ void SwarmManager::tick()
         if(!activeSwarms.empty()) {
             Swarm *s = activeSwarms.front();
             activeSwarms.pop_front();
+            
+            Vector3 swarmLocn =  s->getAveragePosition();
+            Vector3 *shipLocn = shipState->getPosition();
+            float dist = shipLocn->distance(swarmLocn);
+            if(dist>ConstManager::getFloat("swarm_respawn_dist")) {
+                cout << "Removing left behind swarm" << endl;
+                s->killAllMembers();     
+            } 
             if(s->size!=0) {
                 s->tick();
                 activeSwarms.push_back(s);

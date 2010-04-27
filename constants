@@ -8,7 +8,7 @@ tick_period = 0.0166666667
 ship_scale = 1
 
 # Enemy Constants
-enemy_patrol_speed = 60
+enemy_patrol_speed = 80
 enemy_attack_speed = 200
 enemy_sight_angle = 0.22
 enemy_sight_dist = 100
@@ -22,6 +22,7 @@ max_swarms_attack = 7
 max_swarms_flee = 12
 
 swarm_size = 7
+swarm_respawn_dist = 2000.0
 
 # Shooting
 enemy_fire_rate = 0.8

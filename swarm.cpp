@@ -49,7 +49,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(1,i);
+        Enemy *e = new Enemy(2,i);
         //e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
         //e->setPosition(location+i*Vector3(0,1,0));
         e->setPosition(location);
@@ -576,6 +576,15 @@ void Swarm::pointAtShip(Enemy *e)
         calcNewAngle( pitch, newPitch, ConstManager::getFloat("enemy_max_turn"));
     e->yaw = yaw;
     e->pitch = pitch;
+}
+
+void Swarm::killAllMembers() {
+    Enemy *e;
+	std::deque<Enemy*>::iterator itr;
+	for(itr = members.begin(); itr != members.end(); ++itr) {
+        e = *itr;
+        e->isDead = true;
+    }
 }
 
 void Swarm::attackProcess(Enemy *e)

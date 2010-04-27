@@ -97,6 +97,7 @@ class Swarm
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
     	bool canSwarmSeeShip();
+        void killAllMembers();
 
         std::vector<Enemy*> getAllEnemies();
         

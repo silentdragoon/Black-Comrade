@@ -18,7 +18,7 @@ Enemy::Enemy(int health, int id) :
 
 Enemy::Enemy() :
     isReplicated(false),
-    health(1),
+    health(2),
     fire(false),
     fireDelay(0),
     position(new Vector3()),
