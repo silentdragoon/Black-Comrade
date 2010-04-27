@@ -35,6 +35,9 @@ class GuiStatusUpdater : public ITickable {
         Objective *objective;
         Tutorial *tutorial;
 
+        HUDElement elementToHighlight;
+        KeyHint keyToHint;
+
         Console *console;
 
         CollaborationInfo *pilotInfo;

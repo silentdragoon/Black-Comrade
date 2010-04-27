@@ -109,7 +109,10 @@ void ConsoleShell::otherKeyPressed (const OIS::KeyEvent &arg) {
         historyBack();
     } else if (arg.key == OIS::KC_DOWN) {
         historyForward();
+    } else if (arg.key == OIS::KC_TAB) {
+        std::cout << "TAB\n";
     }
+
 }
 
 void ConsoleShell::historyBack() {

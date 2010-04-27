@@ -11,11 +11,13 @@
 #include "gameRole.h"
 #include "mapManager2.h"
 
-enum KeyHint { KH_TAB,
+enum KeyHint { KH_NONE,
+               KH_TAB,
                KH_ESCAPE,
                KH_F1 };
 
-enum HUDElement { HE_AVATARS,
+enum HUDElement { HE_NONE,
+                  HE_AVATARS,
                   HE_HEALTH_BARS,
                   HE_CHARGE_BARS,
                   HE_POWER_BARS,
