@@ -22,12 +22,55 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     pilotInfo(pilotInfo),
     engInfo(engInfo),
     navInfo(navInfo),
-    tutorial(tutorial)
+    tutorial(tutorial),
+    flashLength(35),
+    flashProgress(0),
+    flashOn(false)
 {
     guiMgr->setOverlayAboveCEGUI(false);
 }
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
+
+void GuiStatusUpdater::updateFlash() {
+    if (flashProgress == flashLength) {
+        flashProgress = 0;
+        flashOn = !flashOn;
+    } else {
+        flashProgress ++;
+    }
+}
+
+void GuiStatusUpdater::checkTutorial() {
+
+    switch(tutorial->getState()) {
+        case TS_SHOW_CONTROLS:
+            // Show the F1 key on screen?
+            break;
+        case TS_HEALTH_BARS:
+            // Highlight health bars
+            break;
+        case TS_CHARGE_BARS:
+            // Hightlight chargs bars
+            break;
+        case TS_POWER_BARS:
+            // Highlight power bars
+            break;
+        case TS_MINI_MAP:
+            // Highlight the mini map
+            break;
+        case TS_SHOW_MAP:
+        case TS_SHOW_RADAR:
+            // Show the tab key on screen?
+            break;
+        case TS_OPEN_CONSOLE:
+        case TS_REPAIR_SYSTEMS:
+            // Highlight the health bars?
+        case TS_CLOSE_CONSOLE:
+            // Show the escape key on screen?
+            break;
+    }
+}
 
 void GuiStatusUpdater::tick() {
 
@@ -38,6 +81,12 @@ void GuiStatusUpdater::tick() {
     out << slack << "ms";
     s = out.str();
     hud->setStatus(s);
+
+    // Flash
+    updateFlash();
+
+    // Tutorial
+    checkTutorial();
 
     // Ship speed
     if(gameRole==PILOT) {

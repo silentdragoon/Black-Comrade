@@ -41,7 +41,12 @@ class GuiStatusUpdater : public ITickable {
         CollaborationInfo *engInfo;
         CollaborationInfo *navInfo;
 
+        void updateFlash();
         void checkTutorial();
+
+        int flashLength;
+        int flashProgress;
+        bool flashOn;
 
     public:
         GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate, DamageState *damageState,
