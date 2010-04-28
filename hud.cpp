@@ -306,8 +306,8 @@ void HUD::makePilotHUD() {
     repairAv3->setVisible(false);
 
     // Right box
-    guiManager->addStaticImagePix("RightPil", 1.0 - 119 * wpixel,  1.0 - 70 * hpixel,
-                                  119 * wpixel, 70 * hpixel, "RightPil", "Main");
+    guiManager->addStaticImagePix("RightPil", 1.0 - 138 * wpixel,  1.0 - 75 * hpixel,
+                                  138 * wpixel, 75 * hpixel, "RightPil", "Main");
 
     // Speed indicator
     indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
