@@ -236,6 +236,7 @@ void NetworkRoleMenu::hide() {
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow("Lobby");
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(nameBox);
     CEGUI::WindowManager::getSingletonPtr()->destroyWindow(btn);
+    CEGUI::WindowManager::getSingletonPtr()->destroyWindow(gameList);
 }
 
 bool NetworkRoleMenu::end() { return isEnd; }

@@ -95,6 +95,13 @@ private:
     CEGUI::FrameWindow *repairAv1;
     CEGUI::FrameWindow *repairAv2;
     CEGUI::FrameWindow *repairAv3;
+    
+    CEGUI::FrameWindow *speedo0;
+    CEGUI::FrameWindow *speedo1;
+    CEGUI::FrameWindow *speedo2;
+    CEGUI::FrameWindow *speedo3;
+    CEGUI::FrameWindow *speedo4;
+    CEGUI::FrameWindow *speedo5;
 
     GameRole gameRole;
     
@@ -118,7 +125,7 @@ public:
 
     void setStatus(std::string stat);
     void setLog(std::string wang);
-    void setSpeedIndicator(std::string giraffe);
+    void setSpeedIndicator(double giraffe);
 
     //void setShields(float yeah);
     void setSensors(float yeah);

@@ -310,11 +310,28 @@ void HUD::makePilotHUD() {
                                   138 * wpixel, 75 * hpixel, "RightPil", "Main");
 
     // Speed indicator
+    /*
     indicator = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","indicator"));
     //indicator->setFont("DroidSansMono-big.font");
     guiManager->getRootWindow()->addChildWindow(indicator);
     indicator->setSize(CEGUI::UVector2(CEGUI::UDim(100 * wpixel,0),CEGUI::UDim(50 * hpixel,0)));
     indicator->setPosition(CEGUI::UVector2(CEGUI::UDim(1 - 99 * wpixel,0),CEGUI::UDim(1 - 60 * hpixel,0)));
+	*/
+	
+	// Speedo
+	
+	speedo0 = guiManager->addStaticImagePix("Speedo0", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo0");
+	speedo1 = guiManager->addStaticImagePix("Speedo1", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo1");
+	speedo2 = guiManager->addStaticImagePix("Speedo2", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo2");
+	speedo3 = guiManager->addStaticImagePix("Speedo3", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo3");
+	speedo4 = guiManager->addStaticImagePix("Speedo4", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo4");
+	speedo5 = guiManager->addStaticImagePix("Speedo5", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo5");
+	
+	speedo1->setVisible(false);
+	speedo2->setVisible(false);
+	speedo3->setVisible(false);
+	speedo4->setVisible(false);
+	speedo5->setVisible(false);
 
     // Controls
     controls = guiManager->addStaticImage("KeyboardPilot",0.5, 0.5,1.0, 1.0,"KeyboardPilot","Loading");
@@ -698,8 +715,28 @@ void HUD::setLog(std::string wang) {
     log->ensureCaratIsVisible();
 }
 
-void HUD::setSpeedIndicator(std::string giraffe) {
-    indicator->setText(giraffe);
+void HUD::setSpeedIndicator(double giraffe) {
+	speedo0->setVisible(false);
+	speedo1->setVisible(false);
+	speedo2->setVisible(false);
+	speedo3->setVisible(false);
+	speedo4->setVisible(false);
+	speedo5->setVisible(false);
+
+
+    if (giraffe >= 120.0 && giraffe < 180.0) {
+    	speedo1->setVisible(true);
+    } else if (giraffe >= 180.0 && giraffe < 240.0) {
+    	speedo2->setVisible(true);
+    } else if (giraffe >= 240.0 && giraffe < 300.0) {
+    	speedo3->setVisible(true);
+    } else if (giraffe >= 300.0 && giraffe < 360.0) {
+    	speedo4->setVisible(true);
+    } else if (giraffe >= 360.0) {
+    	speedo5->setVisible(true);
+	} else {
+		speedo0->setVisible(true);
+	}
 }
 
 //void HUD::setShieldsbool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }(float yeah) {

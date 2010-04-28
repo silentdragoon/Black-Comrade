@@ -115,11 +115,7 @@ void GuiStatusUpdater::tick() {
     // Ship speed
     if(gameRole==PILOT) {
         double speed = flying->getSpeed();
-        std::string t;
-        std::stringstream outt;
-        outt << int(speed) << " KM/H";
-        t = outt.str();
-        hud->setSpeedIndicator(t);
+        hud->setSpeedIndicator(speed);
     }
 
     // Deal with the damage of various systems

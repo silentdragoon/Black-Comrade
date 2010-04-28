@@ -41,6 +41,7 @@
     <Imageset Filename="black.xml" />    
     <Imageset Filename="buttons.xml" />
     <Imageset Filename="cursor.xml" />
+    <Imageset Filename="speedo.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -78,6 +79,12 @@
     <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
     <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
     
+    <FalagardMapping WindowType="BlackComrade/Speedo0" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo0" />
+    <FalagardMapping WindowType="BlackComrade/Speedo1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo1" />
+    <FalagardMapping WindowType="BlackComrade/Speedo2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo2" />
+    <FalagardMapping WindowType="BlackComrade/Speedo3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo3" />
+    <FalagardMapping WindowType="BlackComrade/Speedo4" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo4" />
+    <FalagardMapping WindowType="BlackComrade/Speedo5" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo5" />
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />

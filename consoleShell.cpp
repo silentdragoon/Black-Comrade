@@ -26,7 +26,6 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState,
     console->appendLine(" engines               Launches engine repair");
     console->appendLine(" hull                  Launches hull repair");
     console->appendLine(" help                  Shows available commands");
-    console->appendLine(" reboot                Reboot the ship's systems (may cause unpredictable results)");
     console->appendLine("");
     showPrompt();
 }
