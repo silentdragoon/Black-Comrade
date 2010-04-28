@@ -146,8 +146,8 @@ void HUD::makeCommonHUD() {
 
     // Weapon & Shield Charge backgrounds
     
-    guiManager->addStaticImagePix("Charge", 1.0 - 48 *wpixel, 0.4 - 160 * hpixel, 48 * wpixel, 240 * hpixel, "Charge", "hole"  );
-    guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0.4 + 80 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
+    guiManager->addStaticImagePix("Charge", 1.0 - 48 *wpixel, 0.4 - 300 * hpixel, 48 * wpixel, 600 * hpixel, "Charge", "hole"  );
+    //guiManager->addStaticImagePix("Charges", 1.0 - 48*wpixel,  0.4 + 80 * hpixel, 48 * wpixel, 240 * hpixel, "Charges", "Whole");
 
     // Left box
     guiManager->addStaticImagePix("Left",  0.0, 1.0 - 229 * hpixel, 566 * wpixel, 229 * hpixel, "Left", "Main");
@@ -234,11 +234,11 @@ void HUD::makeCommonHUD() {
     guiManager->getRootWindow()->addChildWindow(weaponCharge);
     guiManager->getRootWindow()->addChildWindow(shieldCharge);
         
-    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - 120 * hpixel,0)));
-    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 -  40*wpixel,0),CEGUI::UDim(0.4 + 120 * hpixel,0)));
+    weaponCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - (300 - 40) * hpixel,0)));
+    shieldCharge->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0 - 40*wpixel,0),CEGUI::UDim(0.4 - (300 - 340)  * hpixel,0)));
         
-    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
-    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(192 * hpixel,0)));
+    weaponCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(252 * hpixel,0)));
+    shieldCharge->setSize(CEGUI::UVector2(CEGUI::UDim(32 * wpixel,0),CEGUI::UDim(252 * hpixel,0)));
 
     // Status Indicator
     
