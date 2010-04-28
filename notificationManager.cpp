@@ -198,12 +198,12 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_OPEN_CONSOLE:
             consoleText << "You can repair the ship using the console."
-                        << "\n\n Try opening the console now by pressing the ESCAPE key." << std::endl;
+                        << "\n\nTry opening the console now by pressing the ESCAPE key." << std::endl;
             local = true;
             break;
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
-                        << "\n\n Try closing it by pressing the ESCAPE key again." << std::endl;
+                        << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
             local = true;
             break;
         case NT_TUT_REPAIR:

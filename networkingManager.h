@@ -72,5 +72,15 @@ public:
         void stopNetworking();
 };
 
+// Sample sub-class for ListboxTextItem that auto-sets the selection brush
+// image.  This saves doing it manually every time in the code.
+class MyListItem : public CEGUI::ListboxTextItem
+{
+public:
+    MyListItem(const CEGUI::String& text) : ListboxTextItem(text)
+    {
+        setSelectionBrushImage("TaharezLook", "MultiListSelectionBrush");
+    }
+};
 
 #endif

@@ -37,6 +37,8 @@ EntityType Objective::getEntityType() { return ENTT_OBJECTIVE; }
 
 float Objective::getHealthPercentage() { return (float)health/(float)originalHealth; }
 
+float Objective::getOriginalHealth() { return (float) originalHealth; }
+
 float Objective::getHealth() { return (float) health; }
 
 EffectType Objective::getHitEffectType() { return ET_NONE; }

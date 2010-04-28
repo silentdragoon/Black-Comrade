@@ -120,7 +120,9 @@ void GameStateMachine::checkObjective() {
     } else {
         MapTile *shipTile = mapManager->getMapTile(shipState->getPosition());
         MapTile *objectiveTile = mapManager->getMapTile(&mapManager->getObjectivePosition());
-        if (shipTile == objectiveTile) gameState = GS_BLACK_COMRADE;
+        if (shipTile == objectiveTile
+            || objective->getHealth() < objective->getOriginalHealth())
+            gameState = GS_BLACK_COMRADE;
     }
 }
 
