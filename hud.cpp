@@ -319,7 +319,7 @@ void HUD::makePilotHUD() {
 
     repairAv1 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
     repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
-    repairAv3 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv3 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
 
 
     repairAv1->setVisible(false);
@@ -362,15 +362,15 @@ void HUD::makePilotHUD() {
 
 void HUD::makeNavigatorHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
-    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
 
     // Repair avatars
 
-    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
-    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
-    repairAv3 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv3 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
 
     repairAv1->setVisible(false);
     repairAv2->setVisible(false);
@@ -395,15 +395,15 @@ void HUD::makeNavigatorHUD() {
 
 void HUD::makeEngineerHUD() {
     // Crew avatars
-    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
-    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
-    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
+    guiManager->addStaticImagePix("Crewav1", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav1");
+    guiManager->addStaticImagePix("Crewav2", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav2");
+    guiManager->addStaticImagePix("Crewav3", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Crewav3");
 
     // Repair Avatars
 
-    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.3 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
-    repairAv2 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.6 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
-    repairAv3 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.0 + 2 * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
+    repairAv1 = guiManager->addStaticImagePix("Repairav1", 2 * wpixel, 0.4 - (100 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav1");
+    repairAv2 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
+    repairAv3 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
 
     repairAv1->setVisible(false);
     repairAv2->setVisible(false);
