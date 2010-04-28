@@ -25,6 +25,9 @@ private:
 
     int timeSinceLastPress;
 
+    int timeSinceWeaponRecharge;
+    int timeSinceShieldRecharge;
+
     EngineerControls *engCon;
     DamageState *damageState;
 
@@ -34,9 +37,12 @@ public:
     SystemManager(EngineerControls *engCon, DamageState *damageState);
     void tick();
 
-    void incShieldRate();
+    void incEngineRate();
     void incWeaponRate();
     //void incSensorRate();
+
+    bool areWeaponsStuck();
+    bool areShieldsStuck();
 
     double getShieldRate(); //
     double getWeaponRate(); //

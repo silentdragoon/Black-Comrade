@@ -7,8 +7,11 @@
 #include "collaborationInfo.h"
 #include "gameStateMachine.h"
 
+#include <fstream>
+#include <fstream>
 #include <sstream>
 #include <math.h>
+#include <vector>
 
 class StatsScreen : public IMenuScreen
 {
@@ -23,7 +26,40 @@ class StatsScreen : public IMenuScreen
         CollaborationInfo *navInfo;
         CollaborationInfo *engInfo;
 
+        std::vector<double> averageSpeeds;
+        std::vector<int> wallHits;
+        std::vector<int> pilotShots;
+        std::vector<int> nonPilotShots;
+        std::vector<int> pilotHits;
+        std::vector<int> nonPilotHits;
+        std::vector<int> pilotDestroyed;
+        std::vector<int> nonPilotDestroyed;
+        std::vector<int> pilotRepairs;
+        std::vector<int> nonPilotRepairs;
+
+        std::vector<int> gameLengths;
+        std::vector<int> damagesSustained;
+
+        char delim;
+
+        int damageSustained;
+        int gameLength;
         GameState finishState;
+
+
+        void loadExistingStats(std::string fileName);
+        void parseCommonStats(std::istringstream *iss, bool pilot);
+
+        double getAverage(std::vector<int> stats);
+        double getAverage(std::vector<double> stats);
+
+        double getMax(std::vector<int> stats);
+        double getMax(std::vector<double> stats);
+
+        void saveStats(std::string fileName);
+
+        int toInt(std::string str);
+        double toDouble(std::string str);
 
         void addStats(CollaborationInfo *info, int columnOffset);
         void addOverallRating();
@@ -51,7 +87,9 @@ class StatsScreen : public IMenuScreen
                     CollaborationInfo *pilotInfo,
                     CollaborationInfo *navInfo,
                     CollaborationInfo *engInfo,
-                    GameState finishState);
+                    GameState finishState,
+                    int totalDamage,
+                    int gameLength);
 
         ~StatsScreen();
 };

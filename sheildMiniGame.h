@@ -34,6 +34,8 @@ class SheildMiniGame : public IMiniGame
         bool winLine;
         bool loseLine;
         
+        int streak;
+        
         int boardX, boardY;
         int boardHeight;
         int boardWidth;

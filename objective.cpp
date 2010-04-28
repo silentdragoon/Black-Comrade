@@ -12,19 +12,19 @@
 
 Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
     particleSystemEffectManager(particleSystemEffectManager),
-    health(10),
+    originalHealth(ConstManager::getInt("objective_health")),
+    health(ConstManager::getInt("objective_health")),
     escapeTime(ConstManager::getInt("escape_time")),
     ticks(0),
-    boom(false),
-    originalHealth(10)
+    boom(false)
 {}
 
 Objective::Objective()
-    : health(10)
+    : originalHealth(ConstManager::getInt("objective_health"))
+    , health(ConstManager::getInt("objective_health"))
     , escapeTime(ConstManager::getInt("escape_time"))
     , boom(false)
     , ticks(0)
-    , originalHealth(10)
 {}
 
 void Objective::setParticleSystemEffectManager(ParticleSystemEffectManager *psem) {
@@ -36,6 +36,8 @@ Objective::~Objective() {}
 EntityType Objective::getEntityType() { return ENTT_OBJECTIVE; }
 
 float Objective::getHealthPercentage() { return (float)health/(float)originalHealth; }
+
+float Objective::getOriginalHealth() { return (float) originalHealth; }
 
 float Objective::getHealth() { return (float) health; }
 
@@ -61,7 +63,7 @@ void Objective::tick() {
         }
         // Count down timer
         ticks++;
-        if(ticks>=1/ConstManager::getFloat("tick_period")) {
+        if(ticks>=1/ConstManager::getFloat("tick_period") && escapeTime > -1) {
             ticks=0;
             escapeTime--;
             std::cout << "ESCAPE: " << escapeTime << " seconds" << std::endl;

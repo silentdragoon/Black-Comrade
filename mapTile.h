@@ -20,6 +20,8 @@ class MapTile
         bool waypoint;
         bool empty;
         bool obj;
+        bool start;
+        bool end;
         
         bool southConn;
         bool eastConn;
@@ -46,6 +48,10 @@ class MapTile
         bool hasWaypoint();
         bool isEmpty();
         bool isObj();
+        bool isStart();
+        bool isEnd();
+        void setStart();
+        void setEnd();
 
         void setObjective();
 

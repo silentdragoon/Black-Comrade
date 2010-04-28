@@ -23,26 +23,77 @@ SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMg
     ticksSinceLastUpdate(0)
 {
 
+    loadPatrolGroups();
+
     activeSwarms = std::deque<Swarm*>();
     replicatedEnemies = std::vector<ReplicaObject*>();
 
-    std::vector<Vector3*> wps = mapMgr->getInitialSpawnPoints();
+    std::vector<Waypoint*> wps = mapMgr->getAllWaypoints();
+    
+    for(std::vector<Waypoint*>::iterator it = wps.begin();
+        it != wps.end(); ++it) {
+        Waypoint *wp = *it;
+        
+        Vector3 pos((wp->getX() + 0.5) * ConstManager::getInt("map_tile_size"), 
+            0, (wp->getY() + 0.5) * ConstManager::getInt("map_tile_size"));
 
-    Vector3 *v;
-    for(std::vector<Vector3*>::const_iterator it=wps.begin();it!=wps.end(); ++it) {
-        v = *it;
-        std::vector<Vector3*> rings = mapMgr->getSpawnPoints(v);
+        MapTile *mapTile = mapMgr->getMapTile(&pos);
 
-        Vector3 *spawnPoint;
-        for(std::vector<Vector3*>::const_iterator ite=rings.begin();ite!=rings.end(); ++ite) {
-            spawnPoint = *ite;
-            Vector3 sp = Vector3(spawnPoint->x,spawnPoint->y,spawnPoint->z);
-            createSwarm(ConstManager::getInt("swarm_size"),sp);
-            cout << "Created initial swarm..." << endl;
-            return;
+        Vector3 *spawnPoint = mapTile->getSpawnPoints()[0];
+
+        if(wp->getName()->substr(0,8).compare("en_spawn") == 0) {
+            
+            string tag;
+            
+            if(wp->getName()->size() > 8) 
+                tag = wp->getName()->substr(9);
+            
+            std::map<string, std::vector<MapTile*> >::iterator it;
+             
+            it = enemyPatrolBlocks.find(tag);
+            
+            std::vector<MapTile*> patrolBlocks;
+            
+            if(it != enemyPatrolBlocks.end()) {
+                patrolBlocks = it->second;
+            }
+
+            cout << "Created initial swarm @ " << *spawnPoint << endl;
+            cout << "Patrol Group: " << tag << endl;
+            createSwarm(ConstManager::getInt("swarm_size"), *spawnPoint,
+                patrolBlocks);
+            
+        }
+    }    
+}
+
+void SwarmManager::loadPatrolGroups()
+{
+    std::vector<Waypoint*> wps = mapMgr->getAllWaypoints();
+    
+    for(std::vector<Waypoint*>::iterator it = wps.begin();
+        it != wps.end(); ++it) {
+        Waypoint *wp = *it;
+        
+        Vector3 pos((wp->getX() + 0.5) * ConstManager::getInt("map_tile_size"), 
+            0, (wp->getY() + 0.5) * ConstManager::getInt("map_tile_size"));
+        
+        MapTile *mapTile = mapMgr->getMapTile(&pos);
+
+        if(wp->getName()->substr(0,13).compare("patrol_block_") == 0) {
+            string tag = wp->getName()->substr(13);
+            
+            if(enemyPatrolBlocks.count(tag) > 0) {
+                enemyPatrolBlocks[tag].push_back(mapTile);
+            } else {
+                enemyPatrolBlocks.insert(
+                    pair<string,std::vector<MapTile*> >(tag, 
+                        std::vector<MapTile*>()));
+                enemyPatrolBlocks[tag].push_back(mapTile);
+                
+            }
         }
     }
-    
 }
 
 SwarmManager::SwarmManager(SceneManager *sceneMgr, SceneNodeManager *sceneNodeMgr, GameParameterMap *gamePM,
@@ -70,17 +121,18 @@ SwarmManager::~SwarmManager()
 {
 }
 
-void SwarmManager::createSwarm(int size, Vector3 location)
+void SwarmManager::createSwarm(int size, Vector3 location, std::vector<MapTile*> patrolBlocks)
 {
     std::cout << "Created Swarm of size: " << size << std::endl;
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
-        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr,networkingMgr);
+        ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr
+        ,networkingMgr,patrolBlocks);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
     for(std::vector<Enemy*>::const_iterator ite=ents.begin();ite!=ents.end();++ite) {
         en = *ite;
-        colMgr->addMesh(sceneNodeMgr->getEntity(en));
+        colMgr->addEnemyMesh(sceneNodeMgr->getEntity(en));
     }
     
     activeSwarms.push_back(s);
@@ -159,7 +211,7 @@ void SwarmManager::updateRemoteSwarms() {
             } else if (!enemy->isReplicated) {
                 enemy->isReplicated = true;
                 sceneNodeMgr->createNode(enemy);
-                colMgr->addMesh(sceneNodeMgr->getEntity(enemy));
+                colMgr->addEnemyMesh(sceneNodeMgr->getEntity(enemy));
             }
         }
     } else {
@@ -199,7 +251,8 @@ void SwarmManager::tick()
             if(swarmTick>Const::SPAWN_DELAY) {
                 swarmTick = 0;
                 Vector3 spawnPoint = mapMgr->getDynamicSpawnPoint(shipState->getPosition());
-                createSwarm(ConstManager::getInt("swarm_size"),spawnPoint);
+                createSwarm(ConstManager::getInt("swarm_size"),spawnPoint,
+                    std::vector<MapTile*>());
                 cout << "Swarms: " << activeSwarms.size() << endl;
             }
         }
@@ -210,6 +263,18 @@ void SwarmManager::tick()
         if(!activeSwarms.empty()) {
             Swarm *s = activeSwarms.front();
             activeSwarms.pop_front();
+            
+            Vector3 swarmLocn =  s->getAveragePosition();
+            Vector3 *shipLocn = shipState->getPosition();
+            float dist = shipLocn->distance(swarmLocn);
+            if(dist>ConstManager::getFloat("swarm_respawn_dist")) {
+                if((gameStateMachine->currentGameState()==GS_ATTACK)||
+                        (gameStateMachine->currentGameState()==GS_BLACK_COMRADE)||
+                        (gameStateMachine->currentGameState()==GS_FLEE)) {
+                    cout << "Removing left behind swarm" << endl;
+                    s->killAllMembers();     
+                }
+            } 
             if(s->size!=0) {
                 s->tick();
                 activeSwarms.push_back(s);

@@ -56,6 +56,8 @@ class Swarm
         ParticleSystemEffectManager *particleSystemEffectManager;
         SoundManager *soundMgr;
     
+        std::vector<MapTile*> patrolBlocks;
+    
     	// Random Generator for firing
     	boost::mt19937 rng;
     
@@ -87,13 +89,15 @@ class Swarm
               CollisionManager *collisionMgr, MapManager *mapMgr,
               GameParameterMap *gameParameterMap,
               ParticleSystemEffectManager *particleSystemEffectManager,
-              SoundManager *soundMgr, NetworkingManager *networkingMgr);
+              SoundManager *soundMgr, NetworkingManager *networkingMgr,
+              std::vector<MapTile*> patrolBlocks);
 
         ~Swarm();
 
         Vector3 getAverageAlignment();
         Vector3 getAveragePosition();
     	bool canSwarmSeeShip();
+        void killAllMembers();
 
         std::vector<Enemy*> getAllEnemies();
         

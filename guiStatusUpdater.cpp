@@ -5,7 +5,8 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
                                    SystemManager *systemManager, HUD *hud, Flying *flying,
                                    NotificationManager *notificationMgr,
                                    GameStateMachine *gameStateMachine, Objective *objective, Console *console,
-                                   CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo) :
+                                   CollaborationInfo *pilotInfo, CollaborationInfo *navInfo, CollaborationInfo *engInfo,
+                                   Tutorial *tutorial) :
     guiMgr(guiMgr),
     stateUpdate(stateUpdate),
     damageState(damageState),
@@ -20,12 +21,76 @@ GuiStatusUpdater::GuiStatusUpdater(GuiManager *guiMgr, StateUpdate *stateUpdate,
     console(console),
     pilotInfo(pilotInfo),
     engInfo(engInfo),
-    navInfo(navInfo)
+    navInfo(navInfo),
+    tutorial(tutorial),
+    flashLength(35),
+    flashProgress(0),
+    flashOn(false),
+    elementToHighlight(HE_NONE),
+    keyToHint(KH_NONE)
 {
     guiMgr->setOverlayAboveCEGUI(false);
 }
 
 GuiStatusUpdater::~GuiStatusUpdater() {}
+
+void GuiStatusUpdater::updateFlash() {
+    if (flashProgress == flashLength) {
+        flashProgress = 0;
+        flashOn = !flashOn;
+        if (flashOn)
+            hud->highlightElement(elementToHighlight);
+        else
+            hud->stopHighlightingElement(elementToHighlight);
+    } else {
+        flashProgress ++;
+    }
+}
+
+void GuiStatusUpdater::checkTutorial() {
+    elementToHighlight = HE_NONE;
+    keyToHint = KH_NONE;
+
+    switch(tutorial->getState()) {
+        case TS_SHOW_CONTROLS:
+            // Show the F1 key on screen?
+            keyToHint = KH_F1;
+            break;
+        case TS_AVATARS:
+            // Highlight avatars
+            elementToHighlight = HE_AVATARS;
+            break;
+        case TS_HEALTH_BARS:
+            // Highlight health bars
+            elementToHighlight = HE_HEALTH_BARS;
+            break;
+        case TS_CHARGE_BARS:
+            // Hightlight chargs bars
+            elementToHighlight = HE_CHARGE_BARS;
+            break;
+        case TS_POWER_BARS:
+            // Highlight power bars
+            elementToHighlight = HE_POWER_BARS;
+            break;
+        case TS_MINI_MAP:
+            // Highlight the mini map
+            elementToHighlight = HE_MINI_MAP;
+            break;
+        case TS_SHOW_MAP:
+        case TS_SHOW_RADAR:
+            // Show the tab key on screen?
+            keyToHint = KH_TAB;
+            break;
+        case TS_REPAIR_SYSTEMS:
+            // Highlight the health bars?
+            //elementToHighlight = HE_HEALTH_BARS;
+        case TS_OPEN_CONSOLE:
+        case TS_CLOSE_CONSOLE:
+            // Show the escape key on screen?
+            keyToHint = KH_ESCAPE;
+            break;
+    }
+}
 
 void GuiStatusUpdater::tick() {
 
@@ -36,6 +101,16 @@ void GuiStatusUpdater::tick() {
     out << slack << "ms";
     s = out.str();
     hud->setStatus(s);
+
+    // Tutorial
+    checkTutorial();
+
+    // Highlight the HUD
+    updateFlash();
+
+    // Give key hints
+    hud->showKeyHint(keyToHint);
+
 
     // Ship speed
     if(gameRole==PILOT) {
@@ -66,7 +141,7 @@ void GuiStatusUpdater::tick() {
             case GS_STEALTH:
                 hud->switchStatus(1);
                 break;
-            case GS_ATTACK:
+            case GS_BLACK_COMRADE:
                 hud->switchStatus(4);
                 break;
             case GS_FLEE:
@@ -81,13 +156,14 @@ void GuiStatusUpdater::tick() {
 
     // If player is navigator they can toggle the full screen map here
     if(gameRole==NAVIGATOR) {
+        // Updates the images on the minimap
+        hud->updateMiniMap();
+
         if(((NavigatorControls*) playerControls)->isMap()) {
             hud->toggleMap(true);
         } else {
             hud->toggleMap(false);
         }
-        // Updates the images on the minimap
-        hud->updateMiniMap();
    }
 
     // Update the state of the power system bars

@@ -18,7 +18,7 @@ Enemy::Enemy(int health, int id) :
 
 Enemy::Enemy() :
     isReplicated(false),
-    health(1),
+    health(2),
     fire(false),
     fireDelay(0),
     position(new Vector3()),
@@ -46,6 +46,10 @@ ColourValue Enemy::getBulletColour() {
 
 Vector3 Enemy::getBulletOrigin() {
     return *getPosition();
+}
+
+int Enemy::getBulletDamage() {
+    return ConstManager::getInt("enemy_bullet_damage");
 }
 
 Vector3 Enemy::getBulletDirection() {
@@ -79,7 +83,7 @@ Vector3* Enemy::getOrientation() { return new Vector3(pitch,yaw,roll); }
 
 Vector3 *Enemy::getMeshOrientation() { return new Vector3(0,PI,0); }
 
-std::string Enemy::getMeshName() { return "squid2.mesh"; }
+std::string Enemy::getMeshName() { return "squidop.mesh"; }
 
 IDrawable* Enemy::getParentObject() { return NULL; }
 

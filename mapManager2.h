@@ -52,9 +52,10 @@ private:
     void setSpawnPoints();
     void attachLight( Real x, Real z);
     int getNextChosenPiece();
+    int startx,starty; // Index location of the start square of the map
 
 public:
-    int startx,starty; // Index location of the start square of the map
+
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
     MapManager(char* file, SceneManager *sceneManager, LightManager *lightMgr);
@@ -65,11 +66,13 @@ public:
     MapTile* getMapTile(Vector3 *locn);
     Vector3 getActualPosition(MapTile* tile);
     std::vector<string*> getWaypoints(Vector3 *locn);
+    std::vector<Waypoint*> getAllWaypoints();
     std::vector<Vector3*> getSpawnPoints(Vector3 *locn); // Takes a location and returns the ring spawn places
     std::vector<Vector3*> getInitialSpawnPoints(); // Returns location inside the correct tile piece
     void makeConPieces();
     Vector3 getDynamicSpawnPoint(Vector3 *locn);
     Vector3 getObjectivePosition();
+    Vector3 getStartingPosition();
     std::vector<Entity*> getMapEntitiesForCollision();
     //mps has 5 space for 5 entity pointers
     void getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps);

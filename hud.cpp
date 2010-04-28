@@ -58,6 +58,79 @@ bool HUD::hasLargeMapBeenShown() { return largeRadarBeenShown; }
 
 bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
 
+void HUD::showKeyHint(KeyHint keyHint) {
+    hideKeyHint();
+
+    // TODO: For each case, set the image of the key hint
+    //       window to an image of the key
+
+    switch (keyHint) {
+        case KH_F1:
+            break;
+        case KH_TAB:
+            break;
+        case KH_ESCAPE:
+            break;
+    }
+
+    // TODO: Set the key hint window to visible
+}
+
+void HUD::hideKeyHint() {
+    // TODO: Set the key hint window to hidden
+}
+
+void HUD::highlightElement(HUDElement element) {
+    // TODO: For each case, swap the image of the element
+    //       to a highlighted version
+
+    stopHighlightingAllElements();
+
+    switch (element) {
+        case HE_AVATARS:
+            break;
+        case HE_HEALTH_BARS:
+            std::cout << "FLASH HEALTH BARS\n";
+            break;
+        case HE_CHARGE_BARS:
+            break;
+        case HE_POWER_BARS:
+            break;
+        case HE_MINI_MAP:
+            break;
+        case HE_MINI_RADAR:
+            break;
+        case HE_MISSION_LOG:
+            break;
+    }
+}
+
+void HUD::stopHighlightingElement(HUDElement element) {
+    // TODO: For each case, swap the image of the element
+    //       to the normal version
+
+    switch (element) {
+        case HE_AVATARS:
+            break;
+        case HE_HEALTH_BARS:
+            break;
+        case HE_CHARGE_BARS:
+            break;
+        case HE_POWER_BARS:
+            break;
+        case HE_MINI_MAP:
+            break;
+        case HE_MINI_RADAR:
+            break;
+        case HE_MISSION_LOG:
+            break;
+    }
+}
+
+void HUD::stopHighlightingAllElements() {
+    // TODO:: Show the normal version of all images
+}
+
 void HUD::makeCommonHUD() {
 
     // Overlay
@@ -361,10 +434,16 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
             CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
             if(mapMgr->mts[xpos][ypos]->isEmpty()) {
                 ic.setImage("Minimap","mapTile-blank");
+            } else if(mapMgr->mts[xpos][ypos]->isObj()) {
+                ic.setImage("MinimapNow","mapTileN-special");
             } else {
                 std::stringstream tile;
                 if((xpos==x)&&(ypos==y)) {
                     tile << "mapTileN";
+                } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                    tile << "mapTileS";
+                } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                    tile << "mapTileE";
                 } else {
                     tile << "mapTile";
                 }
@@ -374,6 +453,10 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
                     ic.setImage("MinimapNow",name);
+                } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                    ic.setImage("MinimapStart",name);
+                } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                    ic.setImage("MinimapEnd",name);
                 } else {
                     ic.setImage("Minimap",name);
                 }
@@ -530,10 +613,16 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
             ic.setImage("Minimap","mapTile-blank");
         }else if(mapMgr->mts[xpos][ypos]->isEmpty()) {
             ic.setImage("Minimap","mapTile-blank");
+        } else if(mapMgr->mts[xpos][ypos]->isObj()) {
+            ic.setImage("MinimapNow","mapTileN-special");
         } else {
             std::stringstream tile;
             if(i==0) {
                 tile << "mapTileN";
+            } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                tile << "mapTileS";
+            } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                tile << "mapTileE";
             } else {
                 tile << "mapTile";
             }
@@ -543,6 +632,10 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
             string name = tile.str();
             if(i==0) {
                 ic.setImage("MinimapNow",name);
+            } else if (mapMgr->mts[xpos][ypos]->isStart()) {
+                ic.setImage("MinimapStart",name);
+            } else if (mapMgr->mts[xpos][ypos]->isEnd()) {
+                ic.setImage("MinimapEnd",name);
             } else {
                 ic.setImage("Minimap",name);
             }

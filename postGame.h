@@ -31,7 +31,9 @@ public:
             CollaborationInfo *pilotInfo,
             CollaborationInfo *navInfo,
             CollaborationInfo *engInfo,
-            GameState finishState);
+            GameState finishState,
+            DamageState *damageState,
+            int gameLength);
 
     void showMenus();
     void tick();

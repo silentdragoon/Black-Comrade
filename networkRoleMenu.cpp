@@ -79,26 +79,76 @@ bool NetworkRoleMenu::createClicked(const CEGUI::EventArgs& e) {
     return true;
 }
 
+bool NetworkRoleMenu::listDoubleClicked(const CEGUI::EventArgs& e) {
+    bool joined = joinAGame();
+    if (joined) {
+        isEnd = true;
+        networkingMgr->discoveryAgent->destroyClient();
+    } else {
+        // Could not join selected game
+        std::cout << "failed" << std::endl;
+    }
+}
+
+bool NetworkRoleMenu::listSelectionChanged(const CEGUI::EventArgs& e) {
+    if (gameList->getFirstSelectedItem() == NULL) return false;
+
+    selectedGame = (int) gameList->getItemRowIndex(gameList->getFirstSelectedItem());
+
+    return true;
+}
+
 void NetworkRoleMenu::handleGameList() {
     if (lastRefresh == gameRefreshDelay && !isEnd) {
-        // Refresh games
-        refreshGameList();
+        // Look for more games
+        networkingMgr->discoveryAgent->startServerListUpdate(6001);
         lastRefresh = 0;
     } else { lastRefresh ++; }
 
     if (!isEnd) networkingMgr->discoveryAgent->updateServerList();
-
+    refreshGameList();
 }
 
 void NetworkRoleMenu::refreshGameList() {
-    std::cout << "Refreshing game list\n";
-    networkingMgr->discoveryAgent->startServerListUpdate(6001);
+   
     servers = networkingMgr->discoveryAgent->getServerList();
+    gameList->resetList();
     for(std::vector<ServerInfo*>::const_iterator it=servers.begin();it!=servers.end(); ++it) {
-        // TODO: List these on the screen, show selection etc
         ServerInfo *server =  *it;
-        server->print();
+        //server->print();
+
+        // Don't list games which are not responding (possibly full)
+        if (server->getLastPong() > 1) continue;
+        addGameToList(server);
     }
+
+    if (selectedGame > (int) gameList->getRowCount()  -1) return;
+
+    CEGUI::MCLGridRef ref = CEGUI::MCLGridRef(selectedGame,0);
+    gameList->setItemSelectState(gameList->getItemAtGridReference(ref),true);
+}
+
+void NetworkRoleMenu::addGameToList(ServerInfo *game) {
+    CEGUI::ListboxItem *listboxitem;
+    int row;
+
+    std::stringstream latency;
+    latency << game->getLatency();
+
+    // TODO: Show the roles as images
+    std::stringstream roles;
+    std::string pilot = (game->isPilotTaken()) ? " " : "P";
+    std::string eng = (game->isEngineerTaken()) ? " " : "E";
+    std::string nav = (game->isNavigatorTaken()) ? " " : "N";
+
+    roles << pilot << " " << eng << " " << nav;
+
+    listboxitem = new MyListItem(game->getName());
+    row = gameList->addRow(listboxitem, 0);
+    listboxitem = new MyListItem(roles.str());
+    gameList->setItem(listboxitem, 1, row);
+    listboxitem = new MyListItem(latency.str());
+    gameList->setItem(listboxitem, 2, row);
 }
 
 bool NetworkRoleMenu::joinAGame() {
@@ -123,8 +173,12 @@ void NetworkRoleMenu::show() {
     float wpixel = winWidth / 1680.0;
     float hpixel = winHeight / 1050.0;
 
+    gameList = static_cast<CEGUI::MultiColumnList *>
+               (CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/MultiColumnList","gameList"));
+
     nameBox = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("BlackComrade/IEditbox","nameBox"));
     guiMgr->getRootWindow()->addChildWindow(nameBox);
+    guiMgr->getRootWindow()->addChildWindow(gameList);
 
     CEGUI::Image namePlacement = bgImageSet->getImage("GameNamePlacement");
     float nameWidth =  200 * wpixel;
@@ -132,9 +186,24 @@ void NetworkRoleMenu::show() {
     float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
     float nameY =  namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
+    CEGUI::Image listPlacement = bgImageSet->getImage("NamePlacement");
+    float listX =  listPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
+    float listY =  listPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
+
     nameBox->setSize(CEGUI::UVector2(CEGUI::UDim(0,nameWidth),CEGUI::UDim(0,nameHeight)));
     nameBox->setPosition(CEGUI::UVector2(CEGUI::UDim(0,nameX),CEGUI::UDim(0,nameY)));
     nameBox->setMaxTextLength(20);
+
+    // TODO: Set the size and the position of the game list correctly
+    gameList->setSize(CEGUI::UVector2(CEGUI::UDim(0,580),CEGUI::UDim(0,285)));
+    gameList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,listX - 30),CEGUI::UDim(0,listY - 30)));
+    gameList->addColumn("Name", 0, CEGUI::UDim(0.5,0));
+    gameList->addColumn("Roles available", 1, CEGUI::UDim(0.3,0));
+    gameList->addColumn("Latency", 2, CEGUI::UDim(0.2,0));
+    gameList->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+    gameList->setUserSortControlEnabled(false);
+    gameList->setUserColumnSizingEnabled(false);
+    gameList->setUserColumnDraggingEnabled(false);
 
     std::stringstream out;
     out << networkingMgr->nick << "'s Game";
@@ -156,6 +225,8 @@ void NetworkRoleMenu::show() {
     btn->setProperty(CEGUI::String("PushedImage"),CEGUI::String("set:Buttons image:CreateClick"));
 
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&NetworkRoleMenu::createClicked, this));
+    gameList->subscribeEvent(CEGUI::Window::EventMouseDoubleClick, CEGUI::Event::Subscriber(&NetworkRoleMenu::listDoubleClicked, this));
+    gameList->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged, CEGUI::Event::Subscriber(&NetworkRoleMenu::listSelectionChanged, this));
 
     isVisible = true;
 }

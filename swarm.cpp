@@ -3,12 +3,13 @@
 #include "main.h"
 
 Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
-             Real roll, Real pitch, Real yaw, ShipState *shipState,
-             SceneNodeManager *sceneNodeMgr, Lines *lines,
-             CollisionManager *collisionMgr, MapManager *mapMgr,
-             GameParameterMap *gameParameterMap,
-             ParticleSystemEffectManager *particleSystemEffectManager,
-             SoundManager *soundMgr, NetworkingManager *networkingMgr)
+              Real roll, Real pitch, Real yaw, ShipState *shipState,
+              SceneNodeManager *sceneNodeMgr, Lines *lines,
+              CollisionManager *collisionMgr, MapManager *mapMgr,
+              GameParameterMap *gameParameterMap,
+              ParticleSystemEffectManager *particleSystemEffectManager,
+              SoundManager *soundMgr, NetworkingManager *networkingMgr,
+              std::vector<MapTile*> patrolBlocks)
     : size(size)
     , id(id)
     , location(location)
@@ -25,6 +26,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , particleSystemEffectManager(particleSystemEffectManager)
     , soundMgr(soundMgr)
     , networkingMgr(networkingMgr)
+    , patrolBlocks(patrolBlocks)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -35,13 +37,19 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
 	// Seed random generator
 	rng.seed();
 
+    for(std::vector<MapTile*>::iterator it = patrolBlocks.begin();
+        it != patrolBlocks.end(); ++it) {
+        
+        cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
+    }
+
     for(int i=0;i<(size);i++) {
         string ename = "follower";
         std::stringstream out;
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(1,i);
+        Enemy *e = new Enemy(2,i);
         //e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
         //e->setPosition(location+i*Vector3(0,1,0));
         e->setPosition(location);
@@ -146,7 +154,6 @@ Vector3 Swarm::getAveragePosition()
 
 bool Swarm::canSwarmSeeShip()
 {
-    //return false;
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
     
@@ -270,7 +277,7 @@ void Swarm::updateTargetLocation() {
         }
     } else { // Move through the map randomly
         if (targetTile == swarmTile) {
-            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile);
+            targetTile = pathFinder->pickNextTile(swarmTile,oldSwarmTile,patrolBlocks);
             target = mapMgr->getActualPosition(targetTile);
         }
     }
@@ -569,6 +576,15 @@ void Swarm::pointAtShip(Enemy *e)
         calcNewAngle( pitch, newPitch, ConstManager::getFloat("enemy_max_turn"));
     e->yaw = yaw;
     e->pitch = pitch;
+}
+
+void Swarm::killAllMembers() {
+    Enemy *e;
+	std::deque<Enemy*>::iterator itr;
+	for(itr = members.begin(); itr != members.end(); ++itr) {
+        e = *itr;
+        e->isDead = true;
+    }
 }
 
 void Swarm::attackProcess(Enemy *e)

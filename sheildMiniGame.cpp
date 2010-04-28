@@ -16,6 +16,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , heal(0)
     , healed(false)
     , numNotes(0)
+    , streak(0)
 {
 	console->makeBlank();
 
@@ -75,7 +76,7 @@ void SheildMiniGame::tick()
     if(winLine) {
         drawLine(0,"");
         if(!healed) {
-            heal = 5;//calcHeal();
+            heal = calcHeal();
             healed = true;
         }
     }
@@ -97,12 +98,11 @@ void SheildMiniGame::tick()
             if(index >= 0 && index < keys.size()) {
                 drawLine(i,keys[index]);
             } else drawLine(i,"");
-            
-            winLine = false;
-            loseLine = false;
-            heal = false;
-            
         }
+        
+        winLine = false;
+        loseLine = false;
+        healed = false;
     }
 }
 
@@ -242,7 +242,7 @@ int SheildMiniGame::getScore()
 
 ShipSystem SheildMiniGame::getSystem()
 {
-    return SS_SHIELD_GENERATOR;
+    return SS_ENGINES;
 }
 
 string SheildMiniGame::getName()

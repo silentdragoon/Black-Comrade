@@ -34,6 +34,8 @@ private:
     double engineHealth;
     double hullHealth;
 
+    double damageSustained;
+
     CollaborationInfo *pilotInfo;
     CollaborationInfo *engineerInfo;
     CollaborationInfo *navigatorInfo;
@@ -61,6 +63,8 @@ public:
     double getWeaponHealth();
     double getEngineHealth();
     double getHullHealth();
+
+    int getDamageSustained();
 
     bool isDamaged;
 

@@ -11,7 +11,7 @@
 #include "inputState.h"
 #include "tutorial.h"
 
-enum GameState { GS_TUTORIAL, GS_STEALTH, GS_ATTACK, GS_FLEE, GS_GAME_OVER, GS_END };
+enum GameState { GS_TUTORIAL, GS_STEALTH, GS_ATTACK, GS_BLACK_COMRADE, GS_FLEE, GS_GAME_OVER, GS_END };
 
 class GameStateMachine : public ITickable, public ReplicaObject
 {

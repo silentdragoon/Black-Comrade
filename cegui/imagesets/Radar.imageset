@@ -2,4 +2,5 @@
 <Imageset Name="Radar" Imagefile="radar.png" NativeHorzRes="1200" NativeVertRes="1280" AutoScaled="true">
 	<Image Name="background" XPos="0" YPos="0" Width="1200" Height="1200" />
 	<Image Name="enemy" XPos="0" YPos="1200" Width="80" Height="80" />
+	<Image Name="backgroundFull" XPos="1200" YPos="0" Width="1200" Height="1200" />
 </Imageset>

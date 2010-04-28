@@ -2,36 +2,47 @@
 
 SystemManager::SystemManager() :
     engCon(0),
-    shieldRate(0.5),
+    shieldRate(1.0),
     weaponRate(0.5),
-    engineRate(1.0),
+    engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
-    timeSinceLastPress(100)
+    timeSinceLastPress(100),
+    timeSinceWeaponRecharge(0),
+    timeSinceShieldRecharge(0)
 {
 }
 
 SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState) :
     engCon(engCon),
     damageState(damageState),
-    shieldRate(0.5),
+    shieldRate(1.0),
     weaponRate(0.5),
-    engineRate(1.0),
+    engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
-    timeSinceLastPress(100)
+    timeSinceLastPress(100),
+    timeSinceWeaponRecharge(0),
+    timeSinceShieldRecharge(0)
 {
 }
 
 void SystemManager::tick() {
     if(engCon!=0) {
         timeSinceLastPress++;
+        timeSinceWeaponRecharge++;
+        timeSinceShieldRecharge++;
 
         double chargeModifier = 0.1;
+        double decharge = 0.0;
 
-        double decharge = 0.5;
-        weaponCharge += (weaponRate-decharge)*chargeModifier;
-        shieldCharge += (shieldRate-decharge)*chargeModifier;
+        double weaponDiff = (weaponRate-decharge)*chargeModifier;
+        double shieldDiff = (shieldRate/2.0-decharge)*chargeModifier;
+        weaponCharge += weaponDiff;
+        shieldCharge += shieldDiff;
+
+        if (weaponDiff > 0.0) timeSinceWeaponRecharge = 0;
+        if (shieldDiff > 0.0) timeSinceShieldRecharge = 0;
 
         if(weaponCharge<0) weaponCharge = 0;
         if(shieldCharge<0) shieldCharge = 0;
@@ -40,8 +51,8 @@ void SystemManager::tick() {
 
         if (damageState->isDamaged) damageShield();
 
-        if((engCon->isShield())&&(timeSinceLastPress>10)) {
-            incShieldRate();
+        if((engCon->isEngine())&&(timeSinceLastPress>10)) {
+            incEngineRate();
             timeSinceLastPress=0;
         }
 
@@ -62,13 +73,21 @@ void SystemManager::tick() {
     }
 }
 
-void SystemManager::incShieldRate() {
-    shieldRate += 0.25;
-    if(shieldRate>1.0) {
-        shieldRate = 0;
-        engineRate += 1.0;
+bool SystemManager::areWeaponsStuck() {
+    return (timeSinceWeaponRecharge >= 350 && getWeaponCharge() == 0.0);
+}
+
+bool SystemManager::areShieldsStuck() {
+    return (timeSinceShieldRecharge >= 350 && getShieldCharge() == 0.0);
+}
+
+void SystemManager::incEngineRate() {
+    engineRate += 0.25;
+    if(engineRate>1.0) {
+        engineRate = 0;
+        shieldRate += 1.0;
     } else {
-        engineRate -= 0.25;
+        shieldRate -= 0.25;
     }
 }
 
@@ -76,14 +95,14 @@ void SystemManager::incWeaponRate() {
     weaponRate += 0.25;
     if(weaponRate>1.0) {
         weaponRate = 0;
-        engineRate += 1.0;
+        shieldRate += 1.0;
     } else {
-        engineRate -= 0.25;
+        shieldRate -= 0.25;
     }
 }
 
 double SystemManager::getShieldRate() {
-    return shieldRate;
+    return shieldRate/2.0;
 }
 
 double SystemManager::getWeaponRate() {
@@ -91,12 +110,11 @@ double SystemManager::getWeaponRate() {
 }
 
 double SystemManager::getEngineRate() {
-    double blarg = engineRate/2.0;
-    return blarg;
+    return engineRate;
 }
 
 void SystemManager::fireWeapon() {
-    weaponCharge -= 1.0; // TODO: Fiddle this number or something
+    weaponCharge -= 0.7; // TODO: Fiddle this number or something
 }
 
 void SystemManager::damageShield() {

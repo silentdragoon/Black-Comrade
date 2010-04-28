@@ -5,18 +5,6 @@
 
 #include <iostream>
 
-DamageState::DamageState()
-    : sensorHealth(100.0)
-    , weaponHealth(100.0)
-    , engineHealth(100.0)
-    , hullHealth(100.0)
-    , shieldModifier(0.1)
-    , isDamaged(false)
-    , pilotInfo(0)
-    , engineerInfo(0)
-    , navigatorInfo(0)
-{}
-
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
@@ -29,9 +17,23 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
     , pilotInfo(pilotInfo)
     , engineerInfo(engineerInfo)
     , navigatorInfo(navigatorInfo)
+    , damageSustained(0)
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
 }
+
+DamageState::DamageState()
+    : sensorHealth(100.0)
+    , weaponHealth(100.0)
+    , engineHealth(100.0)
+    , hullHealth(100.0)
+    , shieldModifier(0.1)
+    , isDamaged(false)
+    , pilotInfo(0)
+    , engineerInfo(0)
+    , navigatorInfo(0)
+    , damageSustained(0)
+{}
 
 void DamageState::tick() {
     isDamaged = false;
@@ -51,7 +53,7 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
 
     switch(toRepair) {
         case(SS_NONE):
-            return;
+            break;
         case (SS_ENGINES):
             repairEngines(repairer->repairAmount);
             break;
@@ -60,6 +62,9 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             break;
         case (SS_WEAPONS):
             repairWeapons(repairer->repairAmount);
+            break;
+        case (SS_HULL):
+            repairHull(repairer->repairAmount);
             break;
     }
 
@@ -93,34 +98,36 @@ void DamageState::damage(double multiplier) {
     boost::uniform_int<> six(1,4);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
     int irand = die();
-    
+
+    double damage = (multiplier * 5 * shieldModifier);
     switch(irand) {
         case 1:
             if (sensorHealth > 0) {
-                sensorHealth = sensorHealth - (multiplier * 5 * shieldModifier);
+                sensorHealth -= damage;
                 if (sensorHealth < 0) sensorHealth = 0.0;
                 break;
             }
         case 2:
             if (weaponHealth > 0) {
-                weaponHealth = weaponHealth - (multiplier * 5 * shieldModifier);
+                weaponHealth -= damage;
                 if (weaponHealth < 0) weaponHealth = 0.0;
                 break;
             }
         case 3:
             if (engineHealth > 0) {
-                engineHealth = engineHealth - (multiplier * 5 * shieldModifier);
+                engineHealth -= damage;
                 if (engineHealth < 0) engineHealth = 0.0;
                 break;
             }
         case 4:
             if (hullHealth > 0) {
-                hullHealth = hullHealth - (multiplier * 5 * shieldModifier);
+                hullHealth -= damage;
                 if (hullHealth < 0) hullHealth = 0.0;
                 break;
             }
     }
 
+    damageSustained += damage;
     isDamaged = true;
 }
 
@@ -148,6 +155,8 @@ void DamageState::repairHull(int amount) {
     if (hullHealth > 100) hullHealth = 100;
 }
 
+int DamageState::getDamageSustained() { return damageSustained; }
+
 RakNet::RakString DamageState::GetName(void) const {return RakNet::RakString("DamageState");}
 
 RM3SerializationResult DamageState::Serialize(SerializeParameters *serializeParameters) {
@@ -157,6 +166,7 @@ RM3SerializationResult DamageState::Serialize(SerializeParameters *serializePara
     serializeParameters->outputBitstream[0].Write(engineHealth);
     serializeParameters->outputBitstream[0].Write(hullHealth);
     serializeParameters->outputBitstream[0].Write(isDamaged);
+    serializeParameters->outputBitstream[0].Write(damageSustained);
 
     return RM3SR_BROADCAST_IDENTICALLY;
 }
@@ -167,6 +177,7 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(weaponHealth);
     deserializeParameters->serializationBitstream[0].Read(engineHealth);
     deserializeParameters->serializationBitstream[0].Read(hullHealth);
+    deserializeParameters->serializationBitstream[0].Read(damageSustained);
 
     bool isDamaged2 = false;
     deserializeParameters->serializationBitstream[0].Read(isDamaged2);

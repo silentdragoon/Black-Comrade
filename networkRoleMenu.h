@@ -23,6 +23,7 @@ class NetworkRoleMenu : public IMenuScreen
         CEGUI::Imageset *bgImageSet;
         CEGUI::Imageset *btImageSet;
 
+        CEGUI::MultiColumnList * gameList;
         CEGUI::Editbox *nameBox;
         CEGUI::PushButton *btn;
 
@@ -43,6 +44,8 @@ class NetworkRoleMenu : public IMenuScreen
         void handleInput();
         void handleKeys();
         void handleGameList();
+
+        void addGameToList(ServerInfo *game);
         
     public:
         void tick();
@@ -53,6 +56,8 @@ class NetworkRoleMenu : public IMenuScreen
 
         void refreshGameList();
 
+        bool listSelectionChanged(const CEGUI::EventArgs& e);
+        bool listDoubleClicked(const CEGUI::EventArgs& e);
         bool createClicked(const CEGUI::EventArgs& e);
 
         bool visible();

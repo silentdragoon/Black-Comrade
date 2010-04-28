@@ -15,6 +15,8 @@
 #include "IBulletOwner.h"
 #include "IBulletTarget.h"
 
+#include "constManager.h"
+
 using namespace Ogre;
 using namespace std;
 
@@ -64,6 +66,7 @@ class Enemy : public IDrawable, public ReplicaObject,
         Vector3 getBulletOrigin();
         Vector3 getBulletDirection();
         ColourValue getBulletColour();
+        int getBulletDamage();
 
         float getHealth();
         void damage(float amount);

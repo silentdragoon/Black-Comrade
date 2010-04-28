@@ -9,7 +9,7 @@
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
-            NavigatorControls *navigatorControls)
+            EngineerControls *engineerControls)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -23,7 +23,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , fullScreen(fullScreen)
     , visible(true)
     , name(name)
-    , navigatorControls(navigatorControls)
+    , engineerControls(engineerControls)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
@@ -51,7 +51,12 @@ CEGUI::FrameWindow *RadarGui::createWindow(
     std::vector<std::pair<float,float> > *positions)
 {
     char *imageSet = "Radar";
-    char *imageName = "background";
+    char *imageName;
+    
+    if(fullScreen)
+        imageName = "backgroundFull";
+    else
+        imageName = "background";
 
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
@@ -89,14 +94,14 @@ CEGUI::FrameWindow *RadarGui::createWindow(
         std::pair<float,float> pair = *it;
 
         float size;
-        size = DOT_HEIGHT * height;
+        size = (fullScreen ? 0.5 : 1) * DOT_HEIGHT * height;
 
         // TODO: actully put stuff in the right place!
 
         float xPos, yPos;
-        xPos = pair.first * sin(pair.second) - size;
-        yPos = pair.first * cos(pair.second) - 0.5
-            + 2 * size * DOT_Y_OFFSET_FRAC;
+        xPos = (fullScreen ? 0.5 : 1) * pair.first * sin(pair.second) - size;
+        yPos = (fullScreen ? 0.5 : 1) * pair.first * cos(pair.second) - 0.5
+            + 2 * size * DOT_Y_OFFSET_FRAC + (fullScreen ? 0.5 : 0);
         //cout << xPos << " - " << yPos << endl;
         ic = CEGUI::ImageryComponent();
         ic.setImage(imageSet,"enemy");
@@ -176,7 +181,7 @@ void RadarGui::tick()
     }
 
     if(fullScreen) {
-        visible = navigatorControls->isMap();
+        visible = engineerControls->isMap();
     }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
@@ -229,7 +234,7 @@ void RadarGui::tick()
         // If real close just draw dot
         //if(dist < 0.1) { dist = 0; angle = 0;}
 
-        if(dist < 1 && abs(angle) < RADAR_ANGLE/2) {
+        if(dist < 1 && (fullScreen || abs(angle) < RADAR_ANGLE/2)) {
 
             positions.push_back(std::pair<float,float>(dist, angle));
 

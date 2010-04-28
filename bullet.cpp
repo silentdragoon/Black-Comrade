@@ -40,7 +40,7 @@ void Bullet::makeNode() {
 
     sceneMgr->getRootSceneNode()->attachObject(trail);
 
-    Light *l = sceneMgr->createLight();
+    l = sceneMgr->createLight();
     l->setType(Light::LT_POINT);
     l->setDiffuseColour(owner->getBulletColour());
     l->setSpecularColour(owner->getBulletColour());
@@ -72,5 +72,6 @@ Vector3 Bullet::getPointOfImpact() {
 Bullet::~Bullet() {
     sceneMgr->destroySceneNode(node);
     sceneMgr->destroyRibbonTrail(trail);
+    sceneMgr->destroyLight(l);
 }
         

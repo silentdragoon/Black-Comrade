@@ -4,7 +4,7 @@
 Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState,
                 DamageState *damageState, CollisionManager *colMgr,
                 SystemManager *systemManager, bool useCollisions,
-                double iXPos, double iYPos, double iZPos,
+                double iXPos, double iYPos, double iZPos, double iYaw,
                 PlayerStats *pilotStats):
     snMgr(snMgr),
     colMgr(colMgr),
@@ -17,7 +17,7 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     xVel(0.0),
     yVel(0.0),
     flyPitch(0.0),
-    flyYaw(0.0),
+    flyYaw(iYaw),
     flyRoll(0.0),
     pitch(0.0),
     yaw(0.0),
@@ -107,7 +107,7 @@ void Flying::updatePosition()
         if( damageState->getEngineHealth() > 0 )
         {
             double engineRate = systemManager->getEngineRate();
-            double xzFor =  (engineRate+0.1)*EngineForce*sin(flyPitch);
+            double xzFor =  0.7*(engineRate/1.3+0.4)*EngineForce*sin(flyPitch);
             xVel += xzFor*sin(flyYaw);
             zVel += xzFor*cos(flyYaw);
             double xzSide = (engineRate+0.1)*SideForce*sin(flyRoll);
@@ -156,7 +156,7 @@ void Flying::updateShipState()
     shipState->setX(position->x);
     shipState->setY(position->y);
     shipState->setZ(position->z);
-    
+
     shipState->yaw = yaw;
     shipState->pitch = -pitch;
     shipState->roll = -roll;
@@ -183,5 +183,5 @@ void Flying::tick()
 
 double Flying::getSpeed()
 {
-    return sqrt( xVel*xVel+zVel*zVel) * 3.6 * 60;
+    return sqrt( xVel*xVel+zVel*zVel+yVel*yVel) * 3.6 * 60;
 }

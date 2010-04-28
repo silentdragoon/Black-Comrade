@@ -115,7 +115,15 @@ void GameStateMachine::checkHealth() {
 void GameStateMachine::checkObjective() {
     if (objective->getEscapeTime() < 0 && gameState != GS_END) {
         gameState = GS_GAME_OVER;
-    } else if (objective->getHealth() <= 0.0) { gameState = GS_FLEE; }
+    } else if (objective->getHealth() <= 0.0) {
+        gameState = GS_FLEE;
+    } else {
+        MapTile *shipTile = mapManager->getMapTile(shipState->getPosition());
+        MapTile *objectiveTile = mapManager->getMapTile(&mapManager->getObjectivePosition());
+        if (shipTile == objectiveTile
+            || objective->getHealth() < objective->getOriginalHealth())
+            gameState = GS_BLACK_COMRADE;
+    }
 }
 
 void GameStateMachine::checkSwarms() {

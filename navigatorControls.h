@@ -15,6 +15,8 @@ class NavigatorControls : public ITickable, public GunnerControls
 {
     private:
         bool isFullMap;
+        
+        bool lastTabState;
 
         InputState *inputState;
     public:

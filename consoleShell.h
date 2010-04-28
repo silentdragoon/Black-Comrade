@@ -47,6 +47,7 @@ class ConsoleShell : public IConsoleInputReceiver
         void showCommand(int index);
 
         void processCommand();
+        void tabComplete();
         int getDifficulty(std::string name);
         
     public:

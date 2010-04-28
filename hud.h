@@ -11,6 +11,20 @@
 #include "gameRole.h"
 #include "mapManager2.h"
 
+enum KeyHint { KH_NONE,
+               KH_TAB,
+               KH_ESCAPE,
+               KH_F1 };
+
+enum HUDElement { HE_NONE,
+                  HE_AVATARS,
+                  HE_HEALTH_BARS,
+                  HE_CHARGE_BARS,
+                  HE_POWER_BARS,
+                  HE_MINI_MAP,
+                  HE_MINI_RADAR,
+                  HE_MISSION_LOG };
+
 class HUD {
 private:
 
@@ -95,6 +109,12 @@ private:
 public:
     HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr);
     ~HUD();
+
+    void showKeyHint(KeyHint key);
+    void hideKeyHint();
+    void highlightElement(HUDElement element);
+    void stopHighlightingAllElements();
+    void stopHighlightingElement(HUDElement element);
 
     void setStatus(std::string stat);
     void setLog(std::string wang);

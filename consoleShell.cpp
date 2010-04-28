@@ -16,9 +16,18 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState,
 {
     commands = std::vector<std::string>();
     console->appendLine("---------------------------------------");
-    console->appendLine("BlackComrade Ship System v0.5 (beta)");
+    console->appendLine("ACS Nighthawk Repair System v0.7 (beta)");
     console->appendLine("---------------------------------------");
-    console->appendLine("Type 'help' for a list of available commands");
+    console->appendLine("");
+    console->appendLine(" Available commands:");
+    console->appendLine("");
+    console->appendLine(" weapons               Launches weapon system repair");
+    console->appendLine(" sensors               Launches sensor system repair");
+    console->appendLine(" engines               Launches engine repair");
+    console->appendLine(" hull                  Launches hull repair");
+    console->appendLine(" help                  Shows available commands");
+    console->appendLine(" reboot                Reboot the ship's systems (may cause unpredictable results)");
+    console->appendLine("");
     showPrompt();
 }
 
@@ -44,21 +53,22 @@ void ConsoleShell::processCommand() {
     commands.push_back(command);
     if (command == "help") {
         console->appendLine("Available commands:");
-        console->appendLine(" repair SYSNAME        Launches System Repair for the specified system");
+        console->appendLine("");
+        console->appendLine(" weapons               Launches weapon system repair");
+        console->appendLine(" sensors               Launches sensor system repair");
+        console->appendLine(" engines               Launches engine repair");
+        console->appendLine(" hull                  Launches hull repair");
         console->appendLine(" help                  Shows available commands");
         console->appendLine(" reboot                Reboot the ship's systems (may cause unpredictable results)");
-    } else if (command == "repair" ) {
-        console->appendLine("Error: No target system specified.");
-        console->appendLine("Usage: repair [ weapons | sensors | engines | hull ]");
-    } else if (command == "repair engines" ) {
+    } else if (command == "engines" ) {
         gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame")); // Actually now the engine game
-    } else if (command == "repair weapons" ) {
+    } else if (command == "weapons" ) {
         gameToPlay = new WeaponMiniGame(console,inputState,getDifficulty("weaponGame"));
-    } else if (command == "repair sensors" ) {
+    } else if (command == "sensors" ) {
         gameToPlay = new FixMiniGame(); // Need to add the sensors game here
         //gameToPlay = new SensorMiniGame(console,inputState);
-    } else if (command == "repair hull" ) {
-        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_ENGINES);
+    } else if (command == "hull" ) {
+        gameToPlay = new QuickTimeMiniGame(console,inputState,SS_HULL);
     } else if (command == "access main program" ) {
         console->appendLine("access: PERMISSION DENIED.");
     } else if (command == "access main program grid" ) {
@@ -80,6 +90,50 @@ void ConsoleShell::processCommand() {
     }
     command = "";
     commandIndex = commands.size() - 1;
+}
+
+void ConsoleShell::tabComplete() {
+    if(command!="") {
+        string e ("engines");
+        string w ("weapons");
+        string s ("sensors");
+        string r ("reboot");
+        string hu ("hull");
+        string he ("help");
+        size_t found = e.find(command);
+        if((found!=string::npos)&&(found==0)) {
+            command = "engines";
+        }
+        found = w.find(command);
+        if((found!=string::npos)&&(found==0)) {
+            command = "weapons";
+        }
+        found = s.find(command);
+        if((found!=string::npos)&&(found==0)) {
+            command = "sensors";
+        }
+        found = r.find(command);
+        if((found!=string::npos)&&(found==0)) {
+            command = "reboot";
+        }
+        if(command!="h") {
+            found = hu.find(command);
+            if((found!=string::npos)&&(found==0)) {
+                command = "hull";
+            }
+            found = he.find(command);
+            if((found!=string::npos)&&(found==0)) {
+                command = "help";
+            }
+        } else {
+            console->appendLine("Available commands:"); 
+            console->appendLine("    help"); 
+            console->appendLine("    hull"); 
+        }
+        console->clearPrompt();
+        console->appendToPrompt(">> ");
+        console->appendToPrompt(command);
+    }
 }
 
 void ConsoleShell::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
@@ -109,7 +163,10 @@ void ConsoleShell::otherKeyPressed (const OIS::KeyEvent &arg) {
         historyBack();
     } else if (arg.key == OIS::KC_DOWN) {
         historyForward();
+    } else if (arg.key == OIS::KC_TAB) {
+        tabComplete();
     }
+
 }
 
 void ConsoleShell::historyBack() {
