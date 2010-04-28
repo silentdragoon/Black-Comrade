@@ -79,6 +79,10 @@
     <FalagardMapping WindowType="BlackComrade/KeyboardPilot" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardPilot" />
     <FalagardMapping WindowType="BlackComrade/KeyboardNavigator" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyboardNavigator" />
     
+    <FalagardMapping WindowType="BlackComrade/EngBox" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/EngBox" />
+    <FalagardMapping WindowType="BlackComrade/NavBox" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/NavBox" />
+    <FalagardMapping WindowType="BlackComrade/PilBox" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/PilBox" />
+    
     <FalagardMapping WindowType="BlackComrade/Speedo0" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo0" />
     <FalagardMapping WindowType="BlackComrade/Speedo1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo1" />
     <FalagardMapping WindowType="BlackComrade/Speedo2" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo2" />

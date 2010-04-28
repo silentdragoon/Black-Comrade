@@ -7,7 +7,9 @@
     <Image Name="Repairav1" XPos="104" YPos="102" Width="100" Height="100" />
     <Image Name="Repairav2" XPos="204" YPos="102" Width="100" Height="100" />
     <Image Name="Repairav3" XPos="304" YPos="102" Width="100" Height="100" />
-    <Image Name="EmptyBox" XPos="0" YPos="0" Width="104" Height="157" />
+    <Image Name="EngBox" XPos="0" YPos="0" Width="104" Height="200" />
+    <Image Name="PilBox" XPos="0" YPos="200" Width="104" Height="200" />
+    <Image Name="NavBox" XPos="0" YPos="400" Width="104" Height="200" />
     <Image Name="AvPlacement" XPos="2" YPos="2" Width="100" Height="100" />
     <Image Name="TextPlacement" XPos="10" YPos="110" Width="84" Height="37" />
 </Imageset>

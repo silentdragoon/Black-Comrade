@@ -138,7 +138,12 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/Speedo5">
     </WidgetLook>
-    
+    <WidgetLook name="BlackComrade/EngBox">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/NavBox">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/PilBox">
+    </WidgetLook>    
     
     <!--
     ***************************************************
