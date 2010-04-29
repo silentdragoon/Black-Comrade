@@ -81,7 +81,7 @@ void ConsoleShell::processCommand() {
     } else if (command == "test") {
         gameToPlay = new TestMiniGame(console,inputState);
     } else if (command == "fix") {
-        console->appendLine("Fixing all Systems you fucking cheater...Fixed!");
+        console->appendLine("CHEAT ACTIVATED ...Fixed!");
         gameToPlay = new FixMiniGame();
     } else {
         command += ": command not found";
