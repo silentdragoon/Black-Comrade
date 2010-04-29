@@ -118,7 +118,7 @@ void NetworkRoleMenu::refreshGameList() {
         //server->print();
 
         // Don't list games which are not responding (possibly full)
-        if (server->getLastPong() > 1) continue;
+        if (server->getLastPong() > 0) continue;
         addGameToList(server);
     }
 
@@ -201,7 +201,7 @@ void NetworkRoleMenu::show() {
     gameList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,listX),CEGUI::UDim(0,listY)));
     gameList->addColumn("Name", 0, CEGUI::UDim(0.5,0));
     gameList->addColumn("Roles available", 1, CEGUI::UDim(0.3,0));
-    gameList->addColumn("Latency", 2, CEGUI::UDim(0.2,0));
+    gameList->addColumn("Latency", 2, CEGUI::UDim(0.15,0));
     gameList->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
     gameList->setUserSortControlEnabled(false);
     gameList->setUserColumnSizingEnabled(false);
