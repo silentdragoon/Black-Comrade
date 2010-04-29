@@ -186,7 +186,9 @@ void NetworkRoleMenu::show() {
     float nameX =  namePlacement.getSourceTextureArea().getPosition().d_x * wpixel;
     float nameY =  namePlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
-    CEGUI::Image listPlacement = bgImageSet->getImage("NamePlacement");
+    CEGUI::Image listPlacement = bgImageSet->getImage("TablePlacement");
+    float listWidth =  listPlacement.getWidth() * wpixel;
+    float listHeight =  listPlacement.getHeight() * wpixel;
     float listX =  listPlacement.getSourceTextureArea().getPosition().d_x * wpixel;
     float listY =  listPlacement.getSourceTextureArea().getPosition().d_y * hpixel;
 
@@ -195,8 +197,8 @@ void NetworkRoleMenu::show() {
     nameBox->setMaxTextLength(20);
 
     // TODO: Set the size and the position of the game list correctly
-    gameList->setSize(CEGUI::UVector2(CEGUI::UDim(0,580),CEGUI::UDim(0,285)));
-    gameList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,listX - 30),CEGUI::UDim(0,listY - 30)));
+    gameList->setSize(CEGUI::UVector2(CEGUI::UDim(0,listWidth),CEGUI::UDim(0,listHeight)));
+    gameList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,listX),CEGUI::UDim(0,listY)));
     gameList->addColumn("Name", 0, CEGUI::UDim(0.5,0));
     gameList->addColumn("Roles available", 1, CEGUI::UDim(0.3,0));
     gameList->addColumn("Latency", 2, CEGUI::UDim(0.2,0));
