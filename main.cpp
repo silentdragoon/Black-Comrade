@@ -129,6 +129,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
 
+    MapTile *startMapTile = mapMgr->getMapTile(&mapMgr->getStartingPosition());
+    int i = (startMapTile->getConnections())[0];
+
     // Ship State
     if(collabInfo->getGameRole() == PILOT) {
         shipState = new ShipState();
@@ -138,11 +141,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
     Vector3 startingPosition = mapMgr->getStartingPosition();
-    std::cout << startingPosition << "\n";
     shipState->setDamageState(damageState);
     shipState->setX(startingPosition.x);
     shipState->setY(0);
     shipState->setZ(startingPosition.z);
+    shipState->yaw = (i % 2) ? 0 :  PI / 2;
     //cout << mapMgr->startx << ", " << mapMgr->starty << endl;
     gameLoop->addTickable(shipState, "shipState");
     soundMgr->setShipState(shipState);
@@ -154,22 +157,18 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
 
-    // Start Door
-    MapTile *startMapTile = mapMgr->getMapTile(shipState->getPosition());
-    int i = (startMapTile->getConnections())[0];
-
-    Vector3 doorPos = *startMapTile->getSpawn(i);
-    Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
-    sceneNodeMgr->createNode(door);
-    //door->open();
-    collisionMgr->addColidableMovableObject(sceneNodeMgr->getEntity(door));
-    gameLoop->addTickable(door, "Door");
-
     soundMgr->setShipNode(shipSceneNode);
     Entity *shipEntity = sceneNodeMgr->getEntity(shipState);
     if (collabInfo->getGameRole() == PILOT) {
         shipEntity->setVisible(false);
     }
+
+    // Door
+    Vector3 doorPos = *startMapTile->getSpawn(i);
+    Door *door = new Door(doorPos,(i % 2) ? 0 :  PI / 2);
+    sceneNodeMgr->createNode(door);
+    collisionMgr->addColidableMovableObject(sceneNodeMgr->getEntity(door));
+    gameLoop->addTickable(door, "Door");
 
     // Camera
     camera = createCamera(shipSceneNode);
