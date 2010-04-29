@@ -199,9 +199,9 @@ void NetworkRoleMenu::show() {
     // TODO: Set the size and the position of the game list correctly
     gameList->setSize(CEGUI::UVector2(CEGUI::UDim(0,listWidth),CEGUI::UDim(0,listHeight)));
     gameList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,listX),CEGUI::UDim(0,listY)));
-    gameList->addColumn("Name", 0, CEGUI::UDim(0.5,0));
-    gameList->addColumn("Roles available", 1, CEGUI::UDim(0.3,0));
-    gameList->addColumn("Latency", 2, CEGUI::UDim(0.15,0));
+    gameList->addColumn("", 0, CEGUI::UDim(0.5,0));
+    gameList->addColumn("", 1, CEGUI::UDim(0.3,0));
+    gameList->addColumn("", 2, CEGUI::UDim(0.15,0));
     gameList->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
     gameList->setUserSortControlEnabled(false);
     gameList->setUserColumnSizingEnabled(false);
