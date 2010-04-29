@@ -15,6 +15,7 @@ NetworkRoleMenu::NetworkRoleMenu(InputState *inputState,
 {
     bgImageSet = &(CEGUI::ImagesetManager::getSingleton().create("lobby.xml"));
     btImageSet = &(CEGUI::ImagesetManager::getSingleton().create("buttons.xml"));
+    CEGUI::ImagesetManager::getSingleton().create("roleicons.xml");
 
     gameRefreshDelay = 100;
     lastRefresh = gameRefreshDelay;
@@ -137,9 +138,9 @@ void NetworkRoleMenu::addGameToList(ServerInfo *game) {
 
     // TODO: Show the roles as images
     std::stringstream roles;
-    std::string pilot = (game->isPilotTaken()) ? " " : "P";
-    std::string eng = (game->isEngineerTaken()) ? " " : "E";
-    std::string nav = (game->isNavigatorTaken()) ? " " : "N";
+    std::string pilot = (game->isPilotTaken()) ? "[image='set:RoleIcons image:PG']" : "[image='set:RoleIcons image:PH']";
+    std::string eng = (game->isEngineerTaken()) ? "[image='set:RoleIcons image:EG']" : "[image='set:RoleIcons image:EH']";
+    std::string nav = (game->isNavigatorTaken()) ? "[image='set:RoleIcons image:NG']" : "[image='set:RoleIcons image:NH']";
 
     roles << pilot << " " << eng << " " << nav;
 
