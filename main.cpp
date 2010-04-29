@@ -375,11 +375,11 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Radar GUI
     if (collabInfo->getGameRole() == ENGINEER) {
     	bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true, 
-    	    "BigRadar", engineerControls);
-    	gameLoop->addTickable(bigRadarGui,"BigRadar");
+            "BigRadar", engineerControls, damageState);
+        gameLoop->addTickable(bigRadarGui,"BigRadar");
     	smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-    	    "SmallRadar", engineerControls);
-    	gameLoop->addTickable(smallRadarGui,"SmallRadar");
+            "SmallRadar", engineerControls, damageState);
+        gameLoop->addTickable(smallRadarGui,"SmallRadar");
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
