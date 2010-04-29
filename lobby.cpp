@@ -98,7 +98,11 @@ bool Lobby::wait() {
             }
     }
     else if (networkRole == SERVER) {
-        if (rakPeer->NumberOfConnections() < 2) discoveryAgent->beServer(gameName,pilotTaken,navTaken,engTaken);
+        if (rakPeer->NumberOfConnections() < 2) {
+            discoveryAgent->beServer(gameName,pilotTaken,navTaken,engTaken);
+        } else {
+            discoveryAgent->beServer("",pilotTaken,navTaken,engTaken);
+        }
         process();
         if (pilotTaken && navTaken && engTaken) return true;
     }
