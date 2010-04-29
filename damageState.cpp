@@ -8,7 +8,7 @@
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
-    : sensorHealth(100.0)
+    : sensorHealth(0.0)
     , weaponHealth(100.0)
     , engineHealth(100.0)
     , hullHealth(100.0)

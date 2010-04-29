@@ -208,9 +208,9 @@ void RadarGui::tick()
         yCenter = 1 - (219 - 0) * hpixel + height / 2;
     }
 
-    std::vector<Enemy*> enemies = (damageState->getSensorHealth() <= 0) ? swarmManager->getAllLocalEnemies() : std::vector<Enemy*>();
+    std::vector<Enemy*> enemies = (damageState->getSensorHealth() <= 0) ? std::vector<Enemy*>() : swarmManager->getAllLocalEnemies();
 
-    std::vector<Enemy*> replicas = (damageState->getSensorHealth() <= 0) ? swarmManager->getReplicatedEnemies() : std::vector<Enemy*>();
+    std::vector<Enemy*> replicas = (damageState->getSensorHealth() <= 0) ? std::vector<Enemy*>() : swarmManager->getReplicatedEnemies();
 
     for(std::vector<Enemy*>::const_iterator it= replicas.begin(); it != replicas.end(); ++it) {
         enemies.push_back(*it);
