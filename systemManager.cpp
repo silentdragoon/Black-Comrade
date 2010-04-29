@@ -119,7 +119,7 @@ void SystemManager::fireWeapon() {
 
 void SystemManager::damageShield() {
     //std::cout << shieldCharge << std::endl;
-    shieldCharge -= 1; // TODO: fix this
+    shieldCharge -= ConstManager::getInt("enemy_bullet_damage"); // TODO: fix this
     double mod = 1.0 - ((double)shieldCharge / 100.0);
     damageState->setShieldModifier( mod + 0.1) ;
 }

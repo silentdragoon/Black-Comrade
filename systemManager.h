@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <time.h>
 #include "damageState.h"
+#include "constManager.h"
 
 class SystemManager : public ITickable, public ReplicaObject {
 private:
