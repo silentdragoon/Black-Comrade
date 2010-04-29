@@ -14,6 +14,7 @@
 #include "engineerControls.h"
 #include "swarm.h"
 #include "hud.h"
+#include "damageState.h"
 
 class RadarGui : public ITickable {
 private:
@@ -29,6 +30,8 @@ private:
     bool visible;
 
     char *name;
+
+    DamageState *damageState;
 
     CEGUI::WindowManager *guiMgr;
     GuiManager *guiManager;
@@ -53,7 +56,7 @@ private:
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
-            EngineerControls *engineerControls);
+            EngineerControls *engineerControls, DamageState *damageState);
     //~RadarGui();
     
     void tick();

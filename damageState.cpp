@@ -8,7 +8,7 @@
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
-    : sensorHealth(100.0)
+    : sensorHealth(0.0)
     , weaponHealth(100.0)
     , engineHealth(100.0)
     , hullHealth(100.0)
@@ -177,10 +177,10 @@ void DamageState::Deserialize(RakNet::DeserializeParameters *deserializeParamete
     deserializeParameters->serializationBitstream[0].Read(weaponHealth);
     deserializeParameters->serializationBitstream[0].Read(engineHealth);
     deserializeParameters->serializationBitstream[0].Read(hullHealth);
-    deserializeParameters->serializationBitstream[0].Read(damageSustained);
-
     bool isDamaged2 = false;
     deserializeParameters->serializationBitstream[0].Read(isDamaged2);
+    deserializeParameters->serializationBitstream[0].Read(damageSustained);
+
     if (isDamaged2) isDamaged = true;
 }
 
