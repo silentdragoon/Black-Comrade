@@ -144,6 +144,18 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/PilBox">
     </WidgetLook>    
+    <WidgetLook name="BlackComrade/hAvatars">
+    </WidgetLook>    
+    <WidgetLook name="BlackComrade/hCharge">
+    </WidgetLook>    
+    <WidgetLook name="BlackComrade/hHealthbars">
+    </WidgetLook>    
+    <WidgetLook name="BlackComrade/hMinimap">
+    </WidgetLook>    
+    <WidgetLook name="BlackComrade/hMissionlog">
+    </WidgetLook>    
+    <WidgetLook name="BlackComrade/hPowerbars">
+    </WidgetLook>    
     
     <!--
     ***************************************************

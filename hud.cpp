@@ -88,19 +88,25 @@ void HUD::highlightElement(HUDElement element) {
 
     switch (element) {
         case HE_AVATARS:
+        	hAvatars->setVisible(true);
             break;
         case HE_HEALTH_BARS:
-            std::cout << "FLASH HEALTH BARS\n";
+        	hHealthbars->setVisible(true);
             break;
         case HE_CHARGE_BARS:
+           	hCharge->setVisible(true);
             break;
         case HE_POWER_BARS:
+           	hPowerbars->setVisible(true);
             break;
         case HE_MINI_MAP:
+           	hMinimap->setVisible(true);
             break;
         case HE_MINI_RADAR:
+        	hMinimap->setVisible(true);
             break;
         case HE_MISSION_LOG:
+           	hMissionlog->setVisible(true);
             break;
     }
 }
@@ -128,7 +134,12 @@ void HUD::stopHighlightingElement(HUDElement element) {
 }
 
 void HUD::stopHighlightingAllElements() {
-    // TODO:: Show the normal version of all images
+    hAvatars->setVisible(false);
+    hCharge->setVisible(false);
+    hHealthbars->setVisible(false);
+    hMinimap->setVisible(false);
+    hMissionlog->setVisible(false);
+    hPowerbars->setVisible(false);
 }
 
 void HUD::makeCommonHUD() {
@@ -166,6 +177,18 @@ void HUD::makeCommonHUD() {
 			guiManager->addStaticImagePix("Crews", 0 * wpixel, 0.4 - 300 * hpixel, 104 * wpixel, 200 * hpixel,  "Crew", "EngBox" );
             break;
     }
+    
+    // Highlight Images
+    
+    hAvatars = guiManager->addStaticImagePix("hAvatars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hAvatars", "Whole" );
+    hCharge = guiManager->addStaticImagePix("hCharge", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
+    hHealthbars = guiManager->addStaticImagePix("hHealthbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
+    hMinimap = guiManager->addStaticImagePix("hMinimap", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
+    hMissionlog = guiManager->addStaticImagePix("hMissionlog", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
+    hPowerbars = guiManager->addStaticImagePix("hPowerbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
+    
+    stopHighlightingAllElements();
+
     
 
     // Teammate Info
@@ -829,8 +852,6 @@ void HUD::setTeamInfo(std::string nick1, std::string nick2, std::string nick3,
 	kills1->setText(k1.str());
 	kills2->setText(k2.str());
 	kills3->setText(k3.str());
-
-    // TODO: Show a symbol indicating if players are repairing or not
 
     repairing1 ? repairAv1->setVisible(true) : repairAv1->setVisible(false);
 	repairing2 ? repairAv2->setVisible(true) : repairAv2->setVisible(false);

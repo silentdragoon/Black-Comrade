@@ -102,6 +102,13 @@ private:
     CEGUI::FrameWindow *speedo3;
     CEGUI::FrameWindow *speedo4;
     CEGUI::FrameWindow *speedo5;
+    
+    CEGUI::FrameWindow *hAvatars;
+    CEGUI::FrameWindow *hCharge;
+    CEGUI::FrameWindow *hHealthbars;
+    CEGUI::FrameWindow *hMinimap;
+    CEGUI::FrameWindow *hMissionlog;
+    CEGUI::FrameWindow *hPowerbars;
 
     GameRole gameRole;
     

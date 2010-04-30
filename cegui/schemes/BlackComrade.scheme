@@ -42,6 +42,13 @@
     <Imageset Filename="buttons.xml" />
     <Imageset Filename="cursor.xml" />
     <Imageset Filename="speedo.xml" />
+    
+    <Imageset Filename="havatars.xml" />
+    <Imageset Filename="hcharge.xml" />
+    <Imageset Filename="hhealthbars.xml" />
+    <Imageset Filename="hminimap.xml" />
+    <Imageset Filename="hmissionlog.xml" />
+    <Imageset Filename="hpowerbars.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -89,6 +96,13 @@
     <FalagardMapping WindowType="BlackComrade/Speedo3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo3" />
     <FalagardMapping WindowType="BlackComrade/Speedo4" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo4" />
     <FalagardMapping WindowType="BlackComrade/Speedo5" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo5" />
+    
+    <FalagardMapping WindowType="BlackComrade/hAvatars" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hAvatars" />
+    <FalagardMapping WindowType="BlackComrade/hCharge" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hCharge" />
+    <FalagardMapping WindowType="BlackComrade/hHealthbars" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hHealthbars" />
+    <FalagardMapping WindowType="BlackComrade/hMinimap" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hMinimap" />
+    <FalagardMapping WindowType="BlackComrade/hMissionlog" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hMissionlog" />
+    <FalagardMapping WindowType="BlackComrade/hPowerbars" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hPowerbars" />
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />
