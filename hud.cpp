@@ -372,7 +372,7 @@ void HUD::makeNavigatorHUD() {
     repairAv2 = guiManager->addStaticImagePix("Repairav3", 2 * wpixel, 0.4 + (100 + 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav3");
     repairAv3 = guiManager->addStaticImagePix("Repairav2", 2 * wpixel, 0.4 - (300 - 38) * hpixel, 100 * wpixel, 100 * hpixel, "Crew", "Repairav2");
 
-    repairAv1->setVisible(false);
+    repairAv1->setVisible(false); 
     repairAv2->setVisible(false);
     repairAv3->setVisible(false);
 

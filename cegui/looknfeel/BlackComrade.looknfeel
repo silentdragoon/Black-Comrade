@@ -3922,19 +3922,19 @@
     <WidgetLook name="BlackComrade/MultiColumnList">
         <NamedArea name="ItemRenderingArea">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="VertMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="VertMenu" image="X" dimension="Width" />
+                            <ImageDim imageset="TaharezLook" image="MultiListRight" dimension="Width" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="VertMenu" image="X" dimension="Height" />
+                            <ImageDim imageset="TaharezLook" image="MultiListBottom" dimension="Height" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3942,12 +3942,12 @@
         </NamedArea>
         <NamedArea name="ItemRenderingAreaHScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="VertMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="VertMenu" image="X" dimension="Width" />
+                            <ImageDim imageset="TaharezLook" image="MultiListRight" dimension="Width" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3962,7 +3962,7 @@
         </NamedArea>
         <NamedArea name="ItemRenderingAreaVScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="VertMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
@@ -3974,7 +3974,7 @@
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="VertMenu" image="X" dimension="Height" />
+                            <ImageDim imageset="TaharezLook" image="MultiListBottom" dimension="Height" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3982,7 +3982,7 @@
         </NamedArea>
         <NamedArea name="ItemRenderingAreaHVScroll">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="VertMenu" image="X" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
@@ -4040,15 +4040,15 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="VertMenu" image="X" />
-                <Image type="TopRightCorner" imageset="VertMenu" image="X" />
-                <Image type="BottomLeftCorner" imageset="VertMenu" image="X" />
-                <Image type="BottomRightCorner" imageset="VertMenu" image="X" />
-                <Image type="LeftEdge" imageset="VertMenu" image="X" />
-                <Image type="RightEdge" imageset="VertMenu" image="X" />
-                <Image type="TopEdge" imageset="VertMenu" image="X" />
-                <Image type="BottomEdge" imageset="VertMenu" image="X" />
-                <Image type="Background" imageset="VertMenu" image="X" />
+                <Image type="TopLeftCorner" imageset="TaharezLook" image="MultiListTopLeft" />
+                <Image type="TopRightCorner" imageset="TaharezLook" image="MultiListTopRight" />
+                <Image type="BottomLeftCorner" imageset="TaharezLook" image="MultiListBottomLeft" />
+                <Image type="BottomRightCorner" imageset="TaharezLook" image="MultiListBottomRight" />
+                <Image type="LeftEdge" imageset="TaharezLook" image="MultiListLeft" />
+                <Image type="RightEdge" imageset="TaharezLook" image="MultiListRight" />
+                <Image type="TopEdge" imageset="TaharezLook" image="MultiListTop" />
+                <Image type="BottomEdge" imageset="TaharezLook" image="MultiListBottom" />
+                <Image type="Background" imageset="TaharezLook" image="MultiListBackdrop" />
             </FrameComponent>
         </ImagerySection>
         <StateImagery name="Enabled">
@@ -4059,7 +4059,7 @@
         <StateImagery name="Disabled">
             <Layer>
                 <Section section="main">
-                    <Colours topLeft="00000000" topRight="00000000" bottomLeft="00000000" bottomRight="00000000" />
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
                 </Section>
             </Layer>
         </StateImagery>

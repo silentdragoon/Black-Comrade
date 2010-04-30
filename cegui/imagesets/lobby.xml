@@ -3,9 +3,9 @@
 <Imageset Name="Lobby" Imagefile="lobby.png" AutoScaled="false" >
     <Image Name="Whole" XPos="0" YPos="0" Width="1680" Height="1050" />
     <Image Name="NamePlacement" XPos="496" YPos="411" Width="0" Height="0" />
-    <Image Name="RolePlacement" XPos="866" YPos="411" Width="0" Height="0" />
+    <Image Name="RolePlacement" XPos="820" YPos="411" Width="0" Height="0" />
     <Image Name="PingPlacement" XPos="1110" YPos="411" Width="0" Height="0" />
     <Image Name="GameNamePlacement" XPos="589" YPos="900" Width="320" Height="25" />
-    <Image Name="TablePlacement" XPos="446" YPos="400" Width="788" Height="350" />
+    <Image Name="TablePlacement" XPos="490" YPos="380" Width="769" Height="350" />
     <Image Name="CreateButton" XPos="953" YPos="884" Width="156" Height="56" />
 </Imageset>
