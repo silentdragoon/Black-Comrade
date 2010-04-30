@@ -91,7 +91,8 @@ mapPieceChoices.cpp \
 tutorial.cpp \
 spotLight.cpp \
 lightManager.cpp \
-gameTimer.cpp
+gameTimer.cpp \
+screenshot.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

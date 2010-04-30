@@ -58,6 +58,7 @@
 #include "spotLight.h"
 #include "lightManager.h"
 #include "gameTimer.h"
+#include "screenshot.h"
 
 using namespace Ogre;
 using namespace std;
@@ -132,6 +133,8 @@ private:
     LightManager *lightMgr;
 
     Fader *fader;
+    
+    Screenshot *screenshot;
 
     Door *door;
 

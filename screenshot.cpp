@@ -1,15 +1,17 @@
 #include "screenshot.h"
 
-screenshot::screenshot(InputState *inputState, Ogre::RenderWindow *window) :
-    inputState(inputState),
-    window(window)
-    {}
+Screenshot::Screenshot(InputState *inputState, Ogre::RenderWindow *window)
+	: inputState(inputState)
+    , window(window)
+{}
 
-screenshot::~screenshot() {}
+Screenshot::~Screenshot() {}
 
-void screenshot::tick() {
+void Screenshot::tick() {
 
     if (inputState->isKeyDown(OIS::KC_SYSRQ)) {
-        
+		window->writeContentsToFile("screenshot.png");
+    }
 
 }
+

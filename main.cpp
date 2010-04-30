@@ -41,6 +41,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Sound manager
     soundMgr = new SoundManager();
+    
+    // Screenshots
+    screenshot = new Screenshot(inputState,window);
+    gameLoop->addTickable(screenshot,"screenshot");
 
     collabInfo = preGame->showMenus();
 
