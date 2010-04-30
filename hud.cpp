@@ -57,24 +57,31 @@ bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
 
 void HUD::showKeyHint(KeyHint keyHint) {
     hideKeyHint();
-
-    // TODO: For each case, set the image of the key hint
-    //       window to an image of the key
-
+    
     switch (keyHint) {
         case KH_F1:
+        	keyHintF1->setVisible(true);
+       	    keyHintWindow->setVisible(true);
             break;
         case KH_TAB:
+	        keyHintTab->setVisible(true);
+	        keyHintWindow->setVisible(true);
             break;
         case KH_ESCAPE:
+        	keyHintEsc->setVisible(true);
+        	keyHintWindow->setVisible(true);
             break;
     }
 
-    // TODO: Set the key hint window to visible
+	// for some reaosn if I set the keyHintWindow visible here,
+	// it is constantly activated.
 }
 
 void HUD::hideKeyHint() {
-    // TODO: Set the key hint window to hidden
+   	keyHintWindow->setVisible(false);
+	keyHintF1->setVisible(false);
+	keyHintTab->setVisible(false);
+	keyHintEsc->setVisible(false);
 }
 
 void HUD::highlightElement(HUDElement element) {
@@ -189,8 +196,15 @@ void HUD::makeCommonHUD() {
     
     stopHighlightingAllElements();
 
+	// KeyHints
+	
+	keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 0.0, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
+	keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
+	keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 5 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
+	keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
+	
+	hideKeyHint();
     
-
     // Teammate Info
     
     teaminfo1 = static_cast<CEGUI::Editbox*>(guiMgr->createWindow("BlackComrade/IEditbox","teaminfo1"));

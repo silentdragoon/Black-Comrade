@@ -156,6 +156,14 @@
     </WidgetLook>    
     <WidgetLook name="BlackComrade/hPowerbars">
     </WidgetLook>    
+    <WidgetLook name="BlackComrade/KeyHintWindow">
+    </WidgetLook> 
+    <WidgetLook name="BlackComrade/KeyHintF1">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/KeyHintTab">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/KeyHintEsc">
+    </WidgetLook>
     
     <!--
     ***************************************************

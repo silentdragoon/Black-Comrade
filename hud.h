@@ -109,6 +109,11 @@ private:
     CEGUI::FrameWindow *hMinimap;
     CEGUI::FrameWindow *hMissionlog;
     CEGUI::FrameWindow *hPowerbars;
+    
+    CEGUI::FrameWindow *keyHintWindow;
+    CEGUI::FrameWindow *keyHintF1;
+    CEGUI::FrameWindow *keyHintTab;
+    CEGUI::FrameWindow *keyHintEsc;
 
     GameRole gameRole;
     
