@@ -47,9 +47,6 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     controls->hide();
     controls->setAlwaysOnTop(true);
 
-    // TEST	
-    // CEGUI::FrameWindow *test     = guiManager->addStaticImage("ScoresFail",     0.5, 0.5,   1680 * wpixel,  1050 * hpixel,    "ScoresFail",      "Whole" );
-
 }
 
 bool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }
@@ -81,8 +78,6 @@ void HUD::hideKeyHint() {
 }
 
 void HUD::highlightElement(HUDElement element) {
-    // TODO: For each case, swap the image of the element
-    //       to a highlighted version
 
     stopHighlightingAllElements();
 
@@ -112,23 +107,28 @@ void HUD::highlightElement(HUDElement element) {
 }
 
 void HUD::stopHighlightingElement(HUDElement element) {
-    // TODO: For each case, swap the image of the element
-    //       to the normal version
 
     switch (element) {
         case HE_AVATARS:
+        	hAvatars->setVisible(false);
             break;
         case HE_HEALTH_BARS:
+        	hHealthbars->setVisible(false);
             break;
         case HE_CHARGE_BARS:
+        	hCharge->setVisible(false);
             break;
         case HE_POWER_BARS:
+        	hPowerbars->setVisible(false);
             break;
         case HE_MINI_MAP:
+        	hMinimap->setVisible(false);
             break;
         case HE_MINI_RADAR:
+        	hMinimap->setVisible(false);
             break;
         case HE_MISSION_LOG:
+        	hMissionlog->setVisible(false);
             break;
     }
 }
