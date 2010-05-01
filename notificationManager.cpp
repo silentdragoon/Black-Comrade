@@ -143,11 +143,21 @@ void NotificationManager::tick()
 
 }
 
+std::string NotificationManager::pick(std::string sound, int num) {
+
+	num = rand() % num + 1;
+	std::stringstream temp;
+	temp << "sound_" << sound << num;
+	return temp.str();
+
+}
+
 void NotificationManager::prepareNotification() {
     std::stringstream consoleText;
     string soundNameConst = "";
     int soundLength = 0;
     bool local = false;
+    srand ( time(NULL) );
     std::string gameRole = collabInfo->getGameRoleString();
     std::transform(gameRole.begin(), gameRole.end(), gameRole.begin(), ::tolower);
     switch(nextType) {
@@ -157,13 +167,14 @@ void NotificationManager::prepareNotification() {
                         << "\n\nWatch this space for further instructions." << std::endl;
             break;
         case NT_UNDER_ATTACK:
-            soundNameConst = "sound_incomingswarms";
+            soundNameConst = pick("IncomingSwarms",2);
             if (collabInfo->getGameRole() != ENGINEER)
                 consoleText << "They're coming for us! You may want to ask your engineer to increase weapon power..." << std::endl;
             else
                 consoleText << "They're coming for us! You may want to increase weapon power..." << std::endl;
             break;
         case NT_FLEE:
+        	soundNameConst = pick("ObjectiveDestroyed",2);
             if (collabInfo->getGameRole() == PILOT)
                 consoleText << "You did it! Now you need to ask your navigator to find the exit, and escape." << std::endl;
             else if (collabInfo->getGameRole() == NAVIGATOR)
@@ -172,18 +183,24 @@ void NotificationManager::prepareNotification() {
                 consoleText << "You did it! You may want to increase engine power so we can escape quickly." << std::endl;
             break;
         case NT_OBJECTIVE_SEEK:
+        	soundNameConst = "sound_ClearedToProceed";
             consoleText << "You should be ready for your mission now. Your first objective is to find the Black Comrade..." << std::endl;
             break;
         case NT_ENGINES_CRITICAL:
+        	soundNameConst = pick("EngineDamage",3);
             consoleText << "Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
             break;
         case NT_WEAPONS_CRITICAL:
+        	soundNameConst = pick("WeaponDamage",5);
             consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
-            soundNameConst = "sound_hullfailing";
+            soundNameConst = pick("HullDamage",4);
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
+        case NT_SENSORS_CRITICAL:		// this one may need to be plugged in
+        	soundNameConst = pick("SensorDamage",2);
+        	consoleText << "Our sensors are almost destroyed! Repair them quickly, or we'll be flying blind!" << std::endl;
         case NT_COMMENT_ONE:
             consoleText << "Keep up the good work, soldiers." << std::endl;
             break;
@@ -215,13 +232,45 @@ void NotificationManager::prepareNotification() {
             local = true;
             break;
         case NT_WEAPON_CHARGE_STUCK:
+        	soundNameConst = "sound_WeaponChargeDepleted";
             consoleText << "Weapons are out of charge!\n";
             local = true;
             break;
         case NT_SHIELD_CHARGE_STUCK:
+        	soundNameConst = "sound_ShieldsDown";
             consoleText << "Shields are out of charge!\n";
             local = true;
             break;
+        case NT_COUNTDOWN_5:
+        	soundNameConst = "sound_Count54321";
+        	break;
+    	case NT_COUNTDOWN_10:
+    		soundNameConst = "sound_Count10";
+    		break;
+		case NT_COUNTDOWN_15:
+    		soundNameConst = "sound_Count15";
+    		break;
+    	case NT_COUNTDOWN_30:
+    		soundNameConst = "sound_Count30";
+    		break;
+    	case NT_COUNTDOWN_60:
+    		soundNameConst = "sound_Count60";
+    		break;
+		case NT_MISSION_COMPLETE:
+			soundNameConst = "sound_MissionComplete";
+			break;
+		case NT_DISOBEY:
+			soundNameConst = pick("Disobey",2);
+			break;
+		case NT_GAME_OVER:
+			soundNameConst = "sound_GameOver";
+			break;
+		case NT_NEAR_BC:
+			soundNameConst = "sound_NearingBC";
+			break;
+		case NT_SHIP_ON:
+			soundNameConst = "sound_Startup";
+			break;
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
     if (local) notification->makeLocal();

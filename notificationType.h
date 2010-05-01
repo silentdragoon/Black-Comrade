@@ -7,7 +7,11 @@ enum NotificationType { NT_NONE,
                         NT_CONTROLS, NT_UNDER_ATTACK, NT_FLEE,
                         NT_WEAPON_CHARGE_STUCK, NT_SHIELD_CHARGE_STUCK,
                         NT_HULL_CRITICAL, NT_ENGINES_CRITICAL, NT_WEAPONS_CRITICAL,
+                        NT_SENSORS_CRITICAL,
                         NT_OBJECTIVE_SEEK, NT_OBJECTIVE_DESTROY, NT_OBJECTIVE_ESCAPE,
-                        NT_COMMENT_ONE, NT_COMMENT_TWO, NT_COMMENT_THREE };
+                        NT_COMMENT_ONE, NT_COMMENT_TWO, NT_COMMENT_THREE,
+                        NT_COUNTDOWN_5, NT_COUNTDOWN_10, NT_COUNTDOWN_15, NT_COUNTDOWN_30,
+                        NT_COUNTDOWN_60,
+                        NT_MISSION_COMPLETE, NT_DISOBEY, NT_GAME_OVER, NT_NEAR_BC, NT_SHIP_ON };
 
 #endif

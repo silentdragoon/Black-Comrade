@@ -65,6 +65,8 @@ private:
     void updateRecencies();
 
     void prepareNotification();
+    
+    std::string pick(std::string sound, int num);
 	
 public:
     NotificationManager();
