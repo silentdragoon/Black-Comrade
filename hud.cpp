@@ -47,6 +47,30 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     controls->hide();
     controls->setAlwaysOnTop(true);
 
+    // Highlighting HUD
+    makeHighlightingHUD();
+
+}
+
+void HUD::makeHighlightingHUD() {
+    // Highlight Images
+    
+    hAvatars = guiManager->addStaticImagePix("hAvatars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hAvatars", "Whole" );
+    hCharge = guiManager->addStaticImagePix("hCharge", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
+    hHealthbars = guiManager->addStaticImagePix("hHealthbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
+    hMinimap = guiManager->addStaticImagePix("hMinimap", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
+    hMissionlog = guiManager->addStaticImagePix("hMissionlog", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
+    hPowerbars = guiManager->addStaticImagePix("hPowerbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
+
+    stopHighlightingAllElements();
+
+    // KeyHints
+    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 0.0, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
+    keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
+    keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 5 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
+    keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
+	
+    hideKeyHint();
 }
 
 bool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }
@@ -184,26 +208,6 @@ void HUD::makeCommonHUD() {
 			guiManager->addStaticImagePix("Crews", 0 * wpixel, 0.4 - 300 * hpixel, 104 * wpixel, 200 * hpixel,  "Crew", "EngBox" );
             break;
     }
-    
-    // Highlight Images
-    
-    hAvatars = guiManager->addStaticImagePix("hAvatars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hAvatars", "Whole" );
-    hCharge = guiManager->addStaticImagePix("hCharge", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
-    hHealthbars = guiManager->addStaticImagePix("hHealthbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
-    hMinimap = guiManager->addStaticImagePix("hMinimap", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
-    hMissionlog = guiManager->addStaticImagePix("hMissionlog", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
-    hPowerbars = guiManager->addStaticImagePix("hPowerbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
-    
-    stopHighlightingAllElements();
-
-	// KeyHints
-	
-	keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 0.0, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
-	keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
-	keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 5 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
-	keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
-	
-	hideKeyHint();
     
     // Teammate Info
     

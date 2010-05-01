@@ -123,6 +123,8 @@ private:
     void makeNavigatorHUD();
     void makeEngineerHUD();
 
+    void makeHighlightingHUD();
+
     void appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate);
 
 public:
