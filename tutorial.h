@@ -69,6 +69,7 @@ class Tutorial : public ITickable {
                  GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
                  Door *door, InputState *inputState);
 	virtual void tick();
+        void end();
 };
 
 #endif

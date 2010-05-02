@@ -102,6 +102,12 @@ void GameStateMachine::checkWaypoints() {
                 if (objective->getHealth() <=0.0)
                     gameState = GS_END;
             }
+            if (*wp == "wp_tutorial_end") {
+                switch(gameState) {
+                    case GS_TUTORIAL:
+                        tutorial->end();
+                }
+            }
         }
     }
 }

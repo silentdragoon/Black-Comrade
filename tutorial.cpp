@@ -182,3 +182,7 @@ void Tutorial::checkForCompletion() {
         if (completed) state = TS_INDIVIDUAL;
     }
 }
+
+void Tutorial::end() {
+    state = TS_END;
+}

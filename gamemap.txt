@@ -48,3 +48,5 @@ wp 4 3 patrol_block_g2
 wp 5 5 patrol_block_g2
 wp 6 5 patrol_block_g2
 
+wp 1 0 wp_tutorial_end
+
