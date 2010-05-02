@@ -278,8 +278,16 @@ void NotificationManager::prepareNotification() {
                         << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
             local = true;
             break;
-        case NT_TUT_REPAIR:
-            consoleText << "The ship's systems are damaged. Pick one and repair it using the console.\n";
+        case NT_TUT_PILOT_ROLE:
+            consoleText << "You are the pilot...\n";
+            local = true;
+            break;
+        case NT_TUT_MOVE_SHIP:
+            consoleText << "Why don't you try to move the ship now...\n";
+            local = true;
+            break; 
+        case NT_TUT_REPAIR_ENGINES:
+            consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
             local = true;
             break;
         case NT_TUT_WAITING:
@@ -431,8 +439,14 @@ void NotificationManager::checkTutorialState() {
         case TS_START:
             newNotification = NT_TUT_START;
             break;
-        case TS_REPAIR_SYSTEMS:
-            newNotification = NT_TUT_REPAIR;
+        case TS_REPAIR_ENGINES:
+            newNotification = NT_TUT_REPAIR_ENGINES;
+            break;
+        case TS_PILOT_ROLE:
+            newNotification = NT_TUT_PILOT_ROLE;
+            break;
+        case TS_MOVE_SHIP:
+            newNotification = NT_TUT_MOVE_SHIP;
             break;
         case TS_WAITING_FOR_OTHERS:
             newNotification = NT_TUT_WAITING;
