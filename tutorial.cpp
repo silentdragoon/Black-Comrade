@@ -48,6 +48,22 @@ void Tutorial::tickCommonTutorial() {
         case(TS_PRE) :
             changeWithPause(TS_START,350);
             break;
+        case(TS_START) :
+            changeWithPause(TS_MISSION_LOG,350);
+            break;
+        case(TS_MISSION_LOG) :
+            // Highlight the mission log to the players
+            changeWithPause(TS_HEALTH_BARS,700);
+            break;
+        case(TS_HEALTH_BARS) :
+            changeWithPause(TS_CHARGE_BARS,400);
+            break;
+        case(TS_CHARGE_BARS) :
+            changeWithPause(TS_AVATARS,300);
+            break;
+        case(TS_AVATARS) :
+            changeWithPause(TS_OPEN_CONSOLE,400);
+            break;
         case(TS_REPAIR_SYSTEMS) :
             // We want the players to repair all systems
             if (  damageState->getEngineHealth()>=95
@@ -70,7 +86,7 @@ void Tutorial::tickCommonTutorial() {
 void Tutorial::tickPilotTutorial() {
     switch(state) {
         case(TS_START) :
-            changeWithPause(TS_OPEN_CONSOLE,350);
+            //changeWithPause(TS_OPEN_CONSOLE,350);
             break;
     }
 }
@@ -78,7 +94,7 @@ void Tutorial::tickPilotTutorial() {
 void Tutorial::tickEngineerTutorial() {
     switch(state) {
         case(TS_START) :
-            changeWithPause(TS_OPEN_CONSOLE,350);
+            //changeWithPause(TS_OPEN_CONSOLE,350);
             break;
     }
 }
@@ -86,7 +102,7 @@ void Tutorial::tickEngineerTutorial() {
 void Tutorial::tickNavigatorTutorial() {
     switch(state) {
         case(TS_START) :
-            changeWithPause(TS_OPEN_CONSOLE,350);
+            //changeWithPause(TS_OPEN_CONSOLE,350);
             break;
     }
 }

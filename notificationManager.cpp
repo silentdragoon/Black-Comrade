@@ -6,7 +6,7 @@
 NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
                                          MapManager *mapManager, ShipState *shipState,
                                          DamageState *damageState, SystemManager *systemManager,
-                                         Tutorial *tutorial)
+                                         Tutorial *tutorial, Objective *objective)
     : collabInfo(collabInfo)
     , notification(new Notification(NT_NONE,"","",0))
     , lastNotification(new Notification(NT_NONE,"","",0))
@@ -22,6 +22,7 @@ NotificationManager::NotificationManager(CollaborationInfo *collabInfo, GameStat
     , tickcount(2000)
     , tutorial(tutorial)
     , lastTutorialStateNotified(TS_END)
+    , objective(objective)
 {
     initializeRecencies();
 }
@@ -39,6 +40,7 @@ NotificationManager::NotificationManager()
     , tickcount(2000)
     , mIsNewNotification(false)
     , controlsDisplayed(false)
+    , objective(0)
 {
     initializeRecencies();
 }
@@ -49,11 +51,17 @@ void NotificationManager::setTutorial(Tutorial *newTutorial) {
 
 void NotificationManager::initializeRecencies() {
     maxDelay = std::numeric_limits<int>::max();
+
+    for (int i=0 ; i < NT_ENUM_END ; i++) {
+        recency.insert(std::pair<NotificationType,int>((NotificationType)i,maxDelay));
+    }
+/*
     recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_OPEN_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_CLOSE_CONSOLE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_REPAIR,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_WAITING,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_SHOW_CONTROLS,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_TUT_SHOW_CONTROLS,maxDelay));
+
+
+
 
     recency.insert(std::pair<NotificationType,int>(NT_CONTROLS,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
@@ -68,9 +76,15 @@ void NotificationManager::initializeRecencies() {
     recency.insert(std::pair<NotificationType,int>(NT_COMMENT_TWO,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_COMMENT_THREE,maxDelay));
 
+    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_60,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_30,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_15,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_10,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_5,maxDelay));
+
     recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_SEEK,maxDelay));
     recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_DESTROY,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));
+    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));*/
 }
 
 void NotificationManager::updateRecencies() {
@@ -130,6 +144,7 @@ void NotificationManager::tick()
         checkCharges();
         checkHealth();
         checkTutorialState();
+        checkCountdown();
         checkGameState();
 
         prepareNotification();
@@ -361,6 +376,34 @@ void NotificationManager::checkTutorialState() {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;
+        }
+    }
+}
+
+void NotificationManager::checkCountdown() {
+    NotificationType newNotification = lastNotification->getType();
+    int countdown = objective->getEscapeTime();
+    switch (countdown) {
+        case 60:
+            newNotification = NT_COUNTDOWN_60;
+            break;
+        case 30:
+            newNotification = NT_COUNTDOWN_30;
+            break;
+        case 15:
+            newNotification = NT_COUNTDOWN_15;
+            break;
+        case 10:
+            newNotification = NT_COUNTDOWN_10;
+            break;
+        case 6:
+            newNotification = NT_COUNTDOWN_5;
+            break;
+    }
+    if(lastNotification->getType() != newNotification) {
+        if (isTimely(newNotification,30,0)) {
+            mIsNewNotification = true;
+            nextType = newNotification;
         }
     }
 }

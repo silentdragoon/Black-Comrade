@@ -60,6 +60,9 @@ void GuiStatusUpdater::checkTutorial() {
             // Highlight avatars
             elementToHighlight = HE_AVATARS;
             break;
+        case TS_MISSION_LOG:
+            // Highlight mission log
+            elementToHighlight = HE_MISSION_LOG;
         case TS_HEALTH_BARS:
             // Highlight health bars
             elementToHighlight = HE_HEALTH_BARS;
@@ -106,7 +109,8 @@ void GuiStatusUpdater::tick() {
     checkTutorial();
 
     // Highlight the HUD
-    updateFlash();
+    //updateFlash();
+    hud->highlightElement(elementToHighlight);
 
     // Give key hints
     hud->showKeyHint(keyToHint);

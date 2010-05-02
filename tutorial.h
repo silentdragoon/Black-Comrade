@@ -13,6 +13,7 @@
 
 enum TutorialState { TS_PRE, TS_START,
                      TS_SHOW_CONTROLS,
+                     TS_MISSION_LOG,
                      TS_AVATARS,
                      TS_HEALTH_BARS,
                      TS_CHARGE_BARS,

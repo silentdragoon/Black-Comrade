@@ -9,6 +9,8 @@
 #include "damageState.h"
 #include "systemManager.h"
 #include "tutorial.h"
+#include "objective.h"
+
 #include "constManager.h"
 #include <vector>
 #include <limits>
@@ -40,6 +42,7 @@ private:
     ShipState *shipState;
     DamageState *damageState;
     SystemManager *systemManager;
+    Objective *objective;
 
     Tutorial *tutorial;
     bool mIsNewNotification;
@@ -56,6 +59,7 @@ private:
     void checkShipPosition();
     void checkHealth();
     void checkCharges();
+    void checkCountdown();
 
     bool isTimely(NotificationType notification, int delaySinceMe, int delaySinceLast);
     int getTimeSince(NotificationType notification);
@@ -73,7 +77,7 @@ public:
     NotificationManager(CollaborationInfo *collabInfo, GameStateMachine *stateMachine,
                         MapManager *mapManager, ShipState *shipState,
                         DamageState *damageState, SystemManager *systemManager,
-                        Tutorial *tutorial);
+                        Tutorial *tutorial, Objective *objective);
     void tick();
 	
     Notification *getCurrentNotification();
