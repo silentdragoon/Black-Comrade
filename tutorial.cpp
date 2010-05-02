@@ -53,7 +53,7 @@ void Tutorial::tickCommonTutorial() {
             break;
         case(TS_MISSION_LOG) :
             // Highlight the mission log to the players
-            changeWithPause(TS_HEALTH_BARS,700);
+            changeWithPause(TS_HEALTH_BARS,500);
             break;
         case(TS_HEALTH_BARS) :
             changeWithPause(TS_CHARGE_BARS,400);

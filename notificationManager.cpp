@@ -160,10 +160,10 @@ void NotificationManager::tick()
 
 std::string NotificationManager::pick(std::string sound, int num) {
 
-	num = rand() % num + 1;
-	std::stringstream temp;
-	temp << "sound_" << sound << num;
-	return temp.str();
+    num = rand() % num + 1;
+    std::stringstream temp;
+    temp << "sound_" << sound << num;
+    return temp.str();
 
 }
 
@@ -176,6 +176,8 @@ void NotificationManager::prepareNotification() {
     std::string gameRole = collabInfo->getGameRoleString();
     std::transform(gameRole.begin(), gameRole.end(), gameRole.begin(), ::tolower);
     switch(nextType) {
+
+        // Game state notifications
         case NT_CONTROLS:
             consoleText << "Welcome aboard, " << collabInfo->getNick() << "."
                         << "\nWe know you're going to make a great " << gameRole << "."
@@ -189,7 +191,7 @@ void NotificationManager::prepareNotification() {
                 consoleText << "They're coming for us! You may want to increase weapon power..." << std::endl;
             break;
         case NT_FLEE:
-        	soundNameConst = pick("ObjectiveDestroyed",2);
+            soundNameConst = pick("ObjectiveDestroyed",2);
             if (collabInfo->getGameRole() == PILOT)
                 consoleText << "You did it! Now you need to ask your navigator to find the exit, and escape." << std::endl;
             else if (collabInfo->getGameRole() == NAVIGATOR)
@@ -198,24 +200,40 @@ void NotificationManager::prepareNotification() {
                 consoleText << "You did it! You may want to increase engine power so we can escape quickly." << std::endl;
             break;
         case NT_OBJECTIVE_SEEK:
-        	soundNameConst = "sound_ClearedToProceed";
+            soundNameConst = "sound_ClearedToProceed";
             consoleText << "You should be ready for your mission now. Your first objective is to find the Black Comrade..." << std::endl;
             break;
+        case NT_MISSION_COMPLETE:
+           soundNameConst = "sound_MissionComplete";
+            break;
+        case NT_GAME_OVER:
+            soundNameConst = "sound_GameOver";
+            break;
+        case NT_NEAR_BC:
+            soundNameConst = "sound_NearingBC";
+            break;
+        case NT_SHIP_ON:
+            soundNameConst = "sound_Startup";
+            break;
+
+        // Health notifications
         case NT_ENGINES_CRITICAL:
-        	soundNameConst = pick("EngineDamage",3);
+            soundNameConst = pick("EngineDamage",3);
             consoleText << "Engines are critical! Repair them quickly, or you'll be immobilised." << std::endl;
             break;
         case NT_WEAPONS_CRITICAL:
-        	soundNameConst = pick("WeaponDamage",5);
+            soundNameConst = pick("WeaponDamage",5);
             consoleText << "Weapons are critical! Repair them quickly, or you'll be defenceless." << std::endl;
             break;
         case NT_HULL_CRITICAL:
             soundNameConst = pick("HullDamage",4);
             consoleText << "The hull is almost breached! Repair it quickly, or it's game over, men." << std::endl;
             break;
-        case NT_SENSORS_CRITICAL:		// this one may need to be plugged in
-        	soundNameConst = pick("SensorDamage",2);
-        	consoleText << "Our sensors are almost destroyed! Repair them quickly, or we'll be flying blind!" << std::endl;
+        case NT_SENSORS_CRITICAL:        // this one may need to be plugged in
+            soundNameConst = pick("SensorDamage",2);
+            consoleText << "Our sensors are almost destroyed! Repair them quickly, or we'll be flying blind!" << std::endl;
+
+        // Random comments
         case NT_COMMENT_ONE:
             consoleText << "Keep up the good work, soldiers." << std::endl;
             break;
@@ -225,8 +243,30 @@ void NotificationManager::prepareNotification() {
         case NT_COMMENT_THREE:
             consoleText << "Let's show those commies who's boss." << std::endl;
             break;
+
+        // Tutorial notifications
         case NT_TUT_START:
             consoleText << "Let's give you a quick reminder of how this ship works..." << std::endl;
+            break;
+        case NT_TUT_MISSION_LOG:
+            consoleText << "Here is the mission log..." << std::endl;
+            //soundNameConst = "";
+            local = true;
+            break;
+        case NT_TUT_HEALTH_BARS:
+            consoleText << "There are the health bars..." << std::endl;
+            //soundNameConst = "";
+            local = true;
+            break;
+        case NT_TUT_CHARGE_BARS:
+            consoleText << "There are the charge bars..." << std::endl;
+            //soundNameConst = "";
+            local = true;
+            break;
+        case NT_TUT_AVATARS:
+            consoleText << "There are the avatars..." << std::endl;
+            //soundNameConst = "";
+            local = true;
             break;
         case NT_TUT_OPEN_CONSOLE:
             consoleText << "You can repair the ship using the console."
@@ -246,46 +286,59 @@ void NotificationManager::prepareNotification() {
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
             local = true;
             break;
+
+                 /*     NT_TUT_START, NT_TUT_SHOW_CONTROLS,
+                        NT_TUT_MISSION_LOG,
+                        NT_TUT_AVATARS,
+                        NT_TUT_HEALTH_BARS,
+                        NT_TUT_CHARGE_BARS,
+                        NT_TUT_POWER_BARS,
+                        NT_TUT__MINI_RADAR,
+                        NT_TUT_MINI_MAP,
+                        NT_TUT_PILOT_ROLE,
+                        NT_TUT_ENGINEER_ROLE,
+                        NT_TUT_NAVIGATOR_ROLE,
+                        NT_TUT_FIRE_WEAPON,
+                        NT_TUT_MOVE_SHIP,
+                        NT_TUT_SHOW_MAP, NT_TUT_CLOSE_MAP,
+                        NT_TUT_SHOW_RADAR, NT_TUT_CLOSE_RADAR,
+                        NT_TUT_OPEN_CONSOLE, NT_TUT_CLOSE_CONSOLE, NT_TUT_WAITING,
+                        NT_TUT_REPAIR,*/
+
+        // Charge notifications
         case NT_WEAPON_CHARGE_STUCK:
-        	soundNameConst = "sound_WeaponChargeDepleted";
+            soundNameConst = "sound_WeaponChargeDepleted";
             consoleText << "Weapons are out of charge!\n";
             local = true;
             break;
         case NT_SHIELD_CHARGE_STUCK:
-        	soundNameConst = "sound_ShieldsDown";
+            soundNameConst = "sound_ShieldsDown";
             consoleText << "Shields are out of charge!\n";
             local = true;
             break;
+
+        // Countdown notifications
         case NT_COUNTDOWN_5:
-        	soundNameConst = "sound_Count54321";
-        	break;
-    	case NT_COUNTDOWN_10:
-    		soundNameConst = "sound_Count10";
-    		break;
-		case NT_COUNTDOWN_15:
-    		soundNameConst = "sound_Count15";
-    		break;
-    	case NT_COUNTDOWN_30:
-    		soundNameConst = "sound_Count30";
-    		break;
-    	case NT_COUNTDOWN_60:
-    		soundNameConst = "sound_Count60";
-    		break;
-		case NT_MISSION_COMPLETE:
-			soundNameConst = "sound_MissionComplete";
-			break;
-		case NT_DISOBEY:
-			soundNameConst = pick("Disobey",2);
-			break;
-		case NT_GAME_OVER:
-			soundNameConst = "sound_GameOver";
-			break;
-		case NT_NEAR_BC:
-			soundNameConst = "sound_NearingBC";
-			break;
-		case NT_SHIP_ON:
-			soundNameConst = "sound_Startup";
-			break;
+            soundNameConst = "sound_Count54321";
+            break;
+        case NT_COUNTDOWN_10:
+            soundNameConst = "sound_Count10";
+            break;
+        case NT_COUNTDOWN_15:
+            soundNameConst = "sound_Count15";
+            break;
+        case NT_COUNTDOWN_30:
+            soundNameConst = "sound_Count30";
+            break;
+        case NT_COUNTDOWN_60:
+            soundNameConst = "sound_Count60";
+            break;
+
+        // Other notifications
+        case NT_DISOBEY:
+            soundNameConst = pick("Disobey",2);
+            break;
+
     }
     notification = new Notification(nextType,consoleText.str(),soundNameConst,soundLength);
     if (local) notification->makeLocal();
@@ -354,6 +407,21 @@ void NotificationManager::checkTutorialState() {
     //if (lastTutorialStateNotified == tutorialState) return;
     NotificationType newNotification = lastNotification->getType();
     switch(tutorialState) {
+        case TS_MISSION_LOG:
+            newNotification = NT_TUT_MISSION_LOG;
+            break;
+        case TS_HEALTH_BARS:
+            newNotification = NT_TUT_HEALTH_BARS;
+            break;
+        case TS_CHARGE_BARS:
+            newNotification = NT_TUT_CHARGE_BARS;
+            break;
+        case TS_POWER_BARS:
+            newNotification = NT_TUT_POWER_BARS;
+            break;
+        case TS_AVATARS:
+            newNotification = NT_TUT_AVATARS;
+            break;
         case TS_OPEN_CONSOLE:
             newNotification = NT_TUT_OPEN_CONSOLE;
             break;
@@ -477,13 +545,13 @@ void NotificationManager::checkCharges() {
 void NotificationManager::setCollaborationInfo(CollaborationInfo *mCollabInfo) {
     collabInfo = mCollabInfo;
 }
-	
+    
 Notification *NotificationManager::getCurrentNotification() {
-	return notification;
+    return notification;
 }
 
 bool NotificationManager::hasNewNotification() {
-	return mIsNewNotification;
+    return mIsNewNotification;
 }
 
 RakNet::RakString NotificationManager::GetName(void) const {return RakNet::RakString("NotificationManager");}
