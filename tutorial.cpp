@@ -3,7 +3,7 @@
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                    GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                   Door *door, InputState *inputState)
+                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
@@ -13,6 +13,8 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , inputState(inputState)
     , miniGameMgr(miniGameMgr)
     , damageState(damageState)
+    , systemMgr(systemMgr)
+    , shipState(shipState)
     , state(TS_PRE)
     , door(door)
     , pauseProgress(0)
@@ -94,7 +96,8 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_MOVE_SHIP) :
             // TODO: Check if the ship has been moved
-            //changeWithPause(TS_INDIVIDUAL_END);
+            if (shipState->getSpeed() > 50)
+                changeWithPause(TS_PILOT_END);
             break;
     }
 }

@@ -1,3 +1,6 @@
+#ifndef BUTTON_MASH_MINI_GAME_H
+#define BUTTON_MASH_MINI_GAME_H
+
 #include "IMiniGame.h"
 #include "inputState.h"
 #include "console.h"
@@ -34,3 +37,5 @@ class ButtonMashMiniGame : public IMiniGame
         ButtonMashMiniGame(Console *console, InputState *inputState);
         ~ButtonMashMiniGame();
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef PRE_GAME_H
+#define PRE_GAME_H
+
 #include <OGRE/Ogre.h>
 
 #include "menuSystem.h"
@@ -38,3 +41,5 @@ public:
 
     void tick();
 };
+
+#endif

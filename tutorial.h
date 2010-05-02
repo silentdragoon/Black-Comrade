@@ -7,6 +7,8 @@
 #include "miniGameManager.h"
 #include "collaborationInfo.h"
 #include "door.h"
+#include "systemManager.h"
+#include "shipState.h"
 #include "tutorial.h"
 
 #include <iostream>
@@ -31,6 +33,7 @@ enum TutorialState { TS_PRE, TS_START,
                      TS_SHOW_RADAR, TS_CLOSE_RADAR,
                      TS_OPEN_CONSOLE, TS_CLOSE_CONSOLE,
                      TS_REPAIR_SYSTEMS, TS_REPAIR_ENGINES, TS_REPAIR_WEAPONS, TS_REPAIR_HULL,
+                     TS_PILOT_END, TS_ENGINEER_END, TS_NAVIGATOR_END,
                      TS_WAITING_FOR_OTHERS, TS_END };
 
 class Tutorial : public ITickable {
@@ -41,6 +44,9 @@ class Tutorial : public ITickable {
         TutorialState state;
         MiniGameManager *miniGameMgr;
         DamageState *damageState;
+        SystemManager *systemMgr;
+        ShipState *shipState;
+        //RadarGui *largeRadar;
         InputState *inputState;
 
         CollaborationInfo *tutee;
@@ -67,7 +73,7 @@ class Tutorial : public ITickable {
         Tutorial(CollaborationInfo *tutee,
                  CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                  GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                 Door *door, InputState *inputState);
+                 SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState);
 	virtual void tick();
         void end();
 };

@@ -1,3 +1,6 @@
+#ifndef POST_GAME_H
+#define POST_GAME_H
+
 #include <OGRE/Ogre.h>
 
 #include "menuSystem.h"
@@ -38,3 +41,5 @@ public:
     void showMenus();
     void tick();
 };
+
+#endif

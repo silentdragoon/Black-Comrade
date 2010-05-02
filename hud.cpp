@@ -905,6 +905,7 @@ void HUD::toggleMap(bool tog)
 {
     if(tog) {
         fullmap->setVisible(true);
+        largeMapBeenShown = true;
     } else {
         fullmap->setVisible(false);
     }

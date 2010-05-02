@@ -25,11 +25,14 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , name(name)
     , engineerControls(engineerControls)
     , damageState(damageState)
+    , beenShown(false)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
     //guiManager->getRootWindow()->addChildWindow(radarWindow);
 }
+
+bool RadarGui::hasBeenShown() { return beenShown; }
 
 void RadarGui::setDotPos(CEGUI::FrameWindow *dot, float x, float y)
 {
@@ -183,6 +186,7 @@ void RadarGui::tick()
 
     if(fullScreen) {
         visible = engineerControls->isMap();
+        if (visible == true) beenShown = true;
     }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();

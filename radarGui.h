@@ -28,6 +28,7 @@ private:
     
     bool fullScreen;
     bool visible;
+    bool beenShown;
 
     char *name;
 
@@ -60,6 +61,7 @@ public:
     //~RadarGui();
     
     void tick();
+    bool hasBeenShown();
 };
 
 #endif

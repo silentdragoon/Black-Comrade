@@ -285,7 +285,11 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_MOVE_SHIP:
             consoleText << "Why don't you try to move the ship now...\n";
             local = true;
-            break; 
+            break;
+        case NT_TUT_PILOT_END:
+            consoleText << "Great. Keep flying, and hopefully your navigator will give you some directions soon.\n";
+            local = true;
+            break;
         case NT_TUT_REPAIR_ENGINES:
             consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
             local = true;
@@ -450,6 +454,9 @@ void NotificationManager::checkTutorialState() {
             break;
         case TS_WAITING_FOR_OTHERS:
             newNotification = NT_TUT_WAITING;
+            break;
+        case TS_PILOT_END:
+            newNotification = NT_TUT_PILOT_END;
             break;
     }
 
