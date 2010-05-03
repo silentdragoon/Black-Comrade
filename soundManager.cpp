@@ -131,14 +131,14 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop, 
 
     string fullPath = soundsPath + relativePath;
     if(twod) {
-        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &tempsound));
+        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &tempsound),fullPath);
     } else {
-        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound));
+        errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_3D), 0, &tempsound),fullPath);
     }
     if (!loop) {
-        errCheck(tempsound->setMode(FMOD_LOOP_OFF));
+        errCheck(tempsound->setMode(FMOD_LOOP_OFF),fullPath);
     } else {
-        errCheck(tempsound->setMode(FMOD_LOOP_NORMAL));
+        errCheck(tempsound->setMode(FMOD_LOOP_NORMAL),fullPath);
     }
     sounds.insert(pair<int,FMOD::Sound*>(constName,tempsound));
 }
@@ -187,7 +187,7 @@ void SoundManager::loadPermanent() {
 
     errCheck(engineChannel->setVolume(0.2));
 
-    errCheck(engineChannel->getFrequency(&engineFrequency));
+    errCheck(engineChannel->getFrequency(&engineFrequency),"engine_freq_1");
 }
 
 void SoundManager::playSound(string constNameString, SceneNode *soundNode, float volume) {
@@ -214,7 +214,7 @@ void SoundManager::playSound(string constNameString, Vector3 soundPos, float vol
         channel1->set3DAttributes(&pos, &vel);
         //errCheck( channel1->set3DAttributes(&pos, &vel) );
 
-        errCheck( channel1->setVolume(volume) );
+        errCheck( channel1->setVolume(volume) , constNameString);
 
         errCheck( channel1->setPaused(false) );
         activeChannels.push_back(channel1);
