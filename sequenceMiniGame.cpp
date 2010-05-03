@@ -1,11 +1,11 @@
 
-#include "weaponMiniGame.h"
+#include "sequenceMiniGame.h"
 #include <iostream>
 #include <OgreTextAreaOverlayElement.h>
 #include <OgrePanelOverlayElement.h>
 #include <OgreFontManager.h>
 
-WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
+SequenceMiniGame::SequenceMiniGame(ShipSystem system, Console *console, InputState *inputState,
                                int difficulty)
     : console(console)
     , inputState(inputState)
@@ -13,6 +13,7 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
     , playing(false)
     , isComplete(false)
     , hit(false)
+    , system(system)
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
 
@@ -55,26 +56,31 @@ WeaponMiniGame::WeaponMiniGame(Console *console, InputState *inputState,
 
 }
 
-std::string WeaponMiniGame::getName() { return "weaponGame"; }
+std::string SequenceMiniGame::getName() {
+    return "weaponGame";
+}
 
-void WeaponMiniGame::setCoordinates() {
+void SequenceMiniGame::setCoordinates() {
     xMisalignedStart = 23;
-    xMisalignedEnd = 42;
+    xMisalignedEnd = 34;
     yMisalignedStart = 6;
-    yMisalignedEnd = 15;
+    yMisalignedEnd = 11;
 
     xAlignedStart = 70;
-    xAlignedEnd = 89;
+    xAlignedEnd = 81;
     yAlignedStart = 6;
-    yAlignedEnd = 15;
+    yAlignedEnd = 11;
 
     pointerXBase = 82;
     pointerY = 3;
 }
 
-void WeaponMiniGame::createScene() {
+void SequenceMiniGame::createScene() {
     console->makeBlank();
-    console->setString("Re-align the weapons matrices by repeating the following key sequence:",6,2);
+    if (system == SS_WEAPONS)
+        console->setString("Re-align the weapons matrices by repeating the following key sequence:",6,2);
+    else
+        console->setString("Unscramble the sensor matrices by repeating the following key sequence:",6,2);
     console->setString(generateSequenceString(),79,2);
     console->setChar('^',82,3);
 
@@ -97,7 +103,7 @@ void WeaponMiniGame::createScene() {
 }
 
 
-void WeaponMiniGame::generateSequence(int length) {
+void SequenceMiniGame::generateSequence(int length) {
 
     boost::uniform_int<> six(0,possibleChars.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
@@ -113,7 +119,7 @@ void WeaponMiniGame::generateSequence(int length) {
     }
 }
 
-void WeaponMiniGame::calculateOccurences() {
+void SequenceMiniGame::calculateOccurences() {
     int mod = remainingMisaligned % sequence.length();
     for (int i = 0 ; i < sequence.length() ; i++) {
         occurences[i] = (int) floor(remainingMisaligned / sequence.length());
@@ -121,7 +127,7 @@ void WeaponMiniGame::calculateOccurences() {
     }
 }
 
-void WeaponMiniGame::generateMisalignedBox() {
+void SequenceMiniGame::generateMisalignedBox() {
      
     boost::uniform_int<> six(0,sequence.length()-1);
     boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
@@ -138,7 +144,7 @@ void WeaponMiniGame::generateMisalignedBox() {
     }
 }
 
-void WeaponMiniGame::updateKeyToPress() {
+void SequenceMiniGame::updateKeyToPress() {
     if (toPressIndex + 1 == sequence.length()) {
         toPressIndex = 0;
     } else {
@@ -157,13 +163,13 @@ void WeaponMiniGame::updateKeyToPress() {
     
 }
 
-void WeaponMiniGame::updateRemaining() {
+void SequenceMiniGame::updateRemaining() {
     std::stringstream out;
     out << remainingMisaligned << " ";
     console->setString(out.str(),48,19);
 }
 
-void WeaponMiniGame::fillMisalignedBox() {
+void SequenceMiniGame::fillMisalignedBox() {
     int i = 0;
     for (int y = yMisalignedStart ; y <= yMisalignedEnd ; y++) {
         for (int x = xMisalignedStart ; x <= xMisalignedEnd ; x++) {
@@ -173,7 +179,7 @@ void WeaponMiniGame::fillMisalignedBox() {
     }
 }
 
-void WeaponMiniGame::fillAlignedBox() {
+void SequenceMiniGame::fillAlignedBox() {
     int i = 0;
     for (int y = yAlignedStart ; y <= yAlignedEnd ; y++) {
         for (int x = xAlignedStart ; x <= xAlignedEnd ; x++) {
@@ -183,7 +189,7 @@ void WeaponMiniGame::fillAlignedBox() {
     }
 }
 
-std::string WeaponMiniGame::generateSequenceString() {
+std::string SequenceMiniGame::generateSequenceString() {
     std::stringstream out;
     out << "[";
     for (int i = 0 ; i < sequence.length(); i++) {
@@ -195,11 +201,11 @@ std::string WeaponMiniGame::generateSequenceString() {
     return out.str();
 }
 
-void WeaponMiniGame::returnKeyPressed() {
+void SequenceMiniGame::returnKeyPressed() {
     isEnd = true;
 }
 
-void WeaponMiniGame::moveBoxes(char c) {
+void SequenceMiniGame::moveBoxes(char c) {
     int first = misalignedbox.find_first_of(c);
     int last = misalignedbox.find_last_of(c);
 
@@ -218,7 +224,7 @@ void WeaponMiniGame::moveBoxes(char c) {
     fillAlignedBox();
 }
 
-void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
+void SequenceMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
     if (playing == false && remainingMisaligned > 0) {
         playing = true;
     }
@@ -232,7 +238,7 @@ void WeaponMiniGame::alphaNumKeyPressed (const OIS::KeyEvent &arg) {
     }
 }
 
-void WeaponMiniGame::tick() {
+void SequenceMiniGame::tick() {
 
     if (remainingMisaligned < totalChars * 0.9) {
         isComplete = true;
@@ -245,18 +251,18 @@ void WeaponMiniGame::tick() {
     }
 }
 
-bool WeaponMiniGame::end() {
+bool SequenceMiniGame::end() {
     return isEnd;
 }
 
-bool WeaponMiniGame::complete() { return isComplete; }
+bool SequenceMiniGame::complete() { return isComplete; }
 
-int WeaponMiniGame::getScore() {
+int SequenceMiniGame::getScore() {
     if (hit) {
         hit = false;
         return 1;
     } else return 0;
 }
 
-ShipSystem WeaponMiniGame::getSystem() { return SS_WEAPONS; }
+ShipSystem SequenceMiniGame::getSystem() { return system; }
 

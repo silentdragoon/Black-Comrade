@@ -81,7 +81,7 @@ objective.cpp \
 serverInfo.cpp \
 sensorMiniGame.cpp \
 fixMiniGame.cpp \
-weaponMiniGame.cpp \
+sequenceMiniGame.cpp \
 sheildMiniGame.cpp \
 storyMenu.cpp \
 menuSystem.cpp \

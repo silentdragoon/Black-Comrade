@@ -1,6 +1,6 @@
 
-#ifndef WEAPON_MINI_GAME_H
-#define WEAPON_MINI_GAME_H
+#ifndef SEQUENCE_MINI_GAME_H
+#define SEQUENCE_MINI_GAME_H
 
 #include <OGRE/Ogre.h>
 
@@ -9,6 +9,8 @@
 #include <OIS/OIS.h>
 #include "rect2D.h"
 #include "console.h"
+#include "shipSystem.h"
+
 #include <sstream>
 #include <string>
 #include <math.h>
@@ -18,7 +20,7 @@
 
 using namespace Ogre;
 
-class WeaponMiniGame : public IMiniGame {
+class SequenceMiniGame : public IMiniGame {
 private:
 
     boost::mt19937 rng;
@@ -27,6 +29,7 @@ private:
     bool isEnd;
     bool isComplete;
 
+    ShipSystem system;
     bool hit;
     void createScene();
     InputState *inputState;
@@ -79,7 +82,7 @@ public:
     int getScore();
     ShipSystem getSystem();
 
-    WeaponMiniGame(Console *console, InputState *inputState, int difficulty);
+    SequenceMiniGame(ShipSystem system, Console *console, InputState *inputState, int difficulty);
 
     void alphaNumKeyPressed (const OIS::KeyEvent &arg);
     void returnKeyPressed();

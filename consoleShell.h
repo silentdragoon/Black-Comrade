@@ -18,7 +18,7 @@
 #include "buttonMashMiniGame.h"
 #include "testMiniGame.h"
 #include "fixMiniGame.h"
-#include "weaponMiniGame.h"
+#include "sequenceMiniGame.h"
 #include "sheildMiniGame.h"
 #include "sensorMiniGame.h"
 

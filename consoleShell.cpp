@@ -62,9 +62,9 @@ void ConsoleShell::processCommand() {
     } else if (command == "engines" ) {
         gameToPlay = new SheildMiniGame(console,inputState,getDifficulty("shieldGame")); // Actually now the engine game
     } else if (command == "weapons" ) {
-        gameToPlay = new WeaponMiniGame(console,inputState,getDifficulty("weaponGame"));
+        gameToPlay = new SequenceMiniGame(SS_WEAPONS, console,inputState,getDifficulty("weaponGame"));
     } else if (command == "sensors" ) {
-        gameToPlay = new FixMiniGame(); // Need to add the sensors game here
+        gameToPlay = new SequenceMiniGame(SS_SENSORS, console,inputState,getDifficulty("weaponGame"));
         //gameToPlay = new SensorMiniGame(console,inputState);
     } else if (command == "hull" ) {
         gameToPlay = new QuickTimeMiniGame(console,inputState,SS_HULL);
