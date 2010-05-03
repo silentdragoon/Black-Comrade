@@ -36,7 +36,7 @@ void AudioState::tick()
     if(notificationMgr->hasNewNotification()) {
         Notification *newNotification = notificationMgr->getCurrentNotification();
         if (newNotification->getType() != NT_NONE && newNotification->getSoundNameConst() != "") {
-            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,2);
+            sndMgr->playSound(newNotification->getSoundNameConst(),shipNode,20);
         }
     }
     

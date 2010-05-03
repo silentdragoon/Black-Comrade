@@ -82,7 +82,8 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 }
 
 void Swarm::tick()
-{ cout << "Called\n";
+{
+    //cout << "Called\n";
     // Removing must be done before marking (for syncing)
     removeDeadEnemies();
     
@@ -119,12 +120,12 @@ void Swarm::tick()
             
                 isCircling = !isCircling;
                 
-                cout << "Changed State to ";
+                //cout << "Changed State to ";
                 
-                if(isCircling) cout << "CIRCLE";
-                else cout << "ENGAGE";
+                //if(isCircling) cout << "CIRCLE";
+                //else cout << "ENGAGE";
                 
-                cout << endl;
+                //cout << endl;
                 
                 currentStateTime = isCircling ? 
                     ConstManager::getInt("enemy_circle_time")
@@ -250,6 +251,7 @@ void Swarm::markDeadEnemies()
 
 void Swarm::removeDeadEnemies()
 {
+    //cout << "I have " << members.size() << " members\n";
     for(int i=0;i<members.size();i++) {
     	Enemy *e = members.at(i);
         if(e->isDead) {

@@ -62,6 +62,7 @@ void Flying::updatePosition()
     } else {
         collided = colMgr->collideEntityWithObj(snMgr->getEntity(shipState));
         hitObj = collided;
+        //cout << "CHECKING OBJECTIVE\n";
     }
 
     if(collided && useCollisions)

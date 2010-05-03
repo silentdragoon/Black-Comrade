@@ -237,7 +237,6 @@ void SwarmManager::tick()
     updateRemoteSwarms();
     if (mapMgr == 0) return;
 
-    
     // This is broken atm, and it should be done through gameParameterMap anyway!
     //if (gameStateMachine->currentGameState() == GS_TUTORIAL) 
     //{  return; }
@@ -259,7 +258,7 @@ void SwarmManager::tick()
     }
 
     // Here we are updating the locations of the swarms and the enemies within
-    for(int i = 0; i<=activeSwarms.size(); i++) {
+    for(int i = 0; i < activeSwarms.size(); i++) {
             
         Swarm *s = activeSwarms[i];
         

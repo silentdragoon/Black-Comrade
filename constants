@@ -21,7 +21,7 @@ enemy_engage_time = 6
 enemy_circle_time = 3
 
 # Spawning
-max_swarms_attack = 1
+max_swarms_attack = 2
 max_swarms_flee = 12
 
 swarm_size = 7
