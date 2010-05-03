@@ -260,10 +260,15 @@ void SwarmManager::tick()
 
     // Here we are updating the locations of the swarms and the enemies within
     for(int i = 0; i<=activeSwarms.size(); i++) {
-        if(!activeSwarms.empty()) {
-            Swarm *s = activeSwarms.front();
-            activeSwarms.pop_front();
             
+        Swarm *s = activeSwarms[i];
+        
+         if(s->size!=0) {
+            s->tick();
+
+            if(s->canSwarmSeeShip()) 
+            	gameStateMachine->setIsShipInSight(true);
+
             Vector3 swarmLocn =  s->getAveragePosition();
             Vector3 *shipLocn = shipState->getPosition();
             float dist = shipLocn->distance(swarmLocn);
@@ -275,12 +280,6 @@ void SwarmManager::tick()
                     s->killAllMembers();     
                 }
             } 
-            if(s->size!=0) {
-                s->tick();
-                activeSwarms.push_back(s);
-                if(s->canSwarmSeeShip()) 
-                	gameStateMachine->setIsShipInSight(true);
-            }
         }
     }
 }

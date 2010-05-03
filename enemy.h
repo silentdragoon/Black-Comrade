@@ -24,7 +24,7 @@ class Enemy : public IDrawable, public ReplicaObject,
               public IBulletOwner, public IBulletTarget
 {
     private:
-        Vector3 *position;
+        Vector3 position;
         
         SceneManager *sceneMgr;
         int id;

@@ -49,7 +49,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
         out << id << i;
         ename += out.str();
 
-        Enemy *e = new Enemy(2,i);
+        Enemy *e = new Enemy(1,i);
         //e->setPosition(Vector3(1400+ 9*i*cos(0),0,250.632+9*i*sin(0)));
         //e->setPosition(location+i*Vector3(0,1,0));
         e->setPosition(location);
@@ -82,18 +82,27 @@ std::vector<Enemy*> Swarm::getAllEnemies() {
 }
 
 void Swarm::tick()
-{
+{ cout << "Called\n";
     // Removing must be done before marking (for syncing)
     removeDeadEnemies();
     
     markDeadEnemies();
     
-    if(canSwarmSeeShip()) state = SS_ATTACK;
-    else {
-        Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
-        if(lineToShip.length() > ConstManager::getFloat("enemy_sight_dist")) {
-            state = SS_PATROL;
+    if(canSwarmSeeShip()) {
+        
+        if(state == SS_PATROL) {
+            state = SS_ATTACK;
+            
+            isCircling = false;
+            currentStateTime = ConstManager::getInt("enemy_engage_time")
+                / ConstManager::getFloat("tick_period");
         }
+        
+    } else {
+        //Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
+        //if(lineToShip.length() > ConstManager::getFloat("enemy_sight_dist")) {
+        //    state = SS_PATROL;
+        //}
     }
 
     switch(state) {
@@ -106,9 +115,35 @@ void Swarm::tick()
             break;
         case SS_ATTACK:
 
-            updateEnemyLocationsAttack();
+            if(currentStateTime <= 0)  {
+            
+                isCircling = !isCircling;
+                
+                cout << "Changed State to ";
+                
+                if(isCircling) cout << "CIRCLE";
+                else cout << "ENGAGE";
+                
+                cout << endl;
+                
+                currentStateTime = isCircling ? 
+                    ConstManager::getInt("enemy_circle_time")
+                        / ConstManager::getFloat("tick_period")
+                    : ConstManager::getInt("enemy_engage_time")
+                        / ConstManager::getFloat("tick_period");
+            } else {
+                currentStateTime += -1;
+            }
+                
+            if(isCircling) {
+                updateTargetLocation();
 
-            shootAtShip();
+                updateEnemyLocationsFlocking();
+            } else {
+                updateEnemyLocationsAttack();
+
+                shootAtShip();
+            }
 
             break;
     }
@@ -143,8 +178,10 @@ Vector3 Swarm::getAveragePosition()
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
+
     for(i = members.begin(); i != members.end(); ++i) {
         e = *i;
+
         x = x + e->getPosition()->x;
         y = y + e->getPosition()->y;
         z = z + e->getPosition()->z;
@@ -366,11 +403,10 @@ void Swarm::turnEnemy(Enemy *e)
 	t = *e->getPosition() + t;
 	
 	// Draw swarm target for first enenmy
-	/*if(true || e == members[0]) {
+	if(true || e == members[0]) {
     	lines->addLine(e->getPosition(),&target);
     	lines->addCross(&target);
-    	cout << "Hello\n";
-	}*/
+	}
 	
 	// Add target for forward momentum over all friends in sight range
 	

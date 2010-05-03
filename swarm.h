@@ -56,6 +56,10 @@ class Swarm
         ParticleSystemEffectManager *particleSystemEffectManager;
         SoundManager *soundMgr;
     
+        // Used for engage then circle then engage etc.
+        bool isCircling;
+        int currentStateTime;
+    
         std::vector<MapTile*> patrolBlocks;
     
     	// Random Generator for firing
