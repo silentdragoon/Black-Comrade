@@ -21,19 +21,19 @@ SequenceMiniGame::SequenceMiniGame(ShipSystem system, Console *console, InputSta
 
     switch (difficulty) {
        case 1:
-           occurences = new int[3];
+           occurences = new int[2];
            possibleChars = "ABC";
-           generateSequence(3);
+           generateSequence(2);
            break;
        case 2:
-           occurences = new int[4];
+           occurences = new int[3];
            possibleChars = "ABCD";
-           generateSequence(4);
+           generateSequence(3);
            break;
        case 3:
-           occurences = new int[5];
+           occurences = new int[4];
            possibleChars = "ABCDE";
-           generateSequence(5);
+           generateSequence(4);
            break;
     }
 
@@ -61,15 +61,15 @@ std::string SequenceMiniGame::getName() {
 }
 
 void SequenceMiniGame::setCoordinates() {
-    xMisalignedStart = 23;
-    xMisalignedEnd = 34;
-    yMisalignedStart = 6;
-    yMisalignedEnd = 11;
+    xMisalignedStart = 27;
+    xMisalignedEnd = 38;
+    yMisalignedStart = 8;
+    yMisalignedEnd = 13;
 
-    xAlignedStart = 70;
-    xAlignedEnd = 81;
-    yAlignedStart = 6;
-    yAlignedEnd = 11;
+    xAlignedStart = 74;
+    xAlignedEnd = 85;
+    yAlignedStart = 8;
+    yAlignedEnd = 13;
 
     pointerXBase = 82;
     pointerY = 3;
