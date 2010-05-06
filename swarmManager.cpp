@@ -279,6 +279,8 @@ void SwarmManager::tick()
                     s->killAllMembers();     
                 }
             } 
+        } else {
+            activeSwarms.erase(activeSwarms.begin() + i);
         }
     }
 }
