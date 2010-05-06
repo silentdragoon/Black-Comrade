@@ -32,7 +32,7 @@
     <Imageset Filename="MinimapNow.xml" />
     <Imageset Filename="MinimapStart.xml" />
     <Imageset Filename="MinimapEnd.xml" />
-    s
+    <Imageset Filename="MinimapBroken.xml" />
     <Imageset Filename="story.xml" />
     <Imageset Filename="roleicons.xml" />
     <Imageset Filename="lobby.xml" />

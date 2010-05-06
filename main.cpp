@@ -404,7 +404,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     preGame->waitForPlayers(collabInfo,pilotInfo,engineerInfo,navigatorInfo);
 
     // CEGUI Stuff
-    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);
+    hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr,damageState);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,

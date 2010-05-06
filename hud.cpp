@@ -1,11 +1,12 @@
 
 #include "hud.h"
 
-HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr)
+HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState)
     : guiManager(guiManager)
     , shipState(shipState)
     , gameRole(gameRole)
     , mapMgr(mapMgr)
+    , damageState(damageState)
     , xCenter(0.5)
     , yCenter(0.47)
     , width(1)
@@ -513,7 +514,9 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
     for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
         for(int ypos=0;ypos<Const::MAPSIZE;ypos++) {
             CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
-            if(mapMgr->mts[xpos][ypos]->isEmpty()) {
+            if(damageState->getSensorHealth()<2.0) {
+                ic.setImage("MinimapBroken","mapTileB-blank");
+            } else if(mapMgr->mts[xpos][ypos]->isEmpty()) {
                 ic.setImage("Minimap","mapTile-blank");
             } else if(mapMgr->mts[xpos][ypos]->isObj()) {
                 ic.setImage("MinimapNow","mapTileN-special");
@@ -528,9 +531,9 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 } else {
                     tile << "mapTile";
                 }
-                
+
                 appendTileEnding(tile, xpos, ypos, 0);
-                
+
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
                     ic.setImage("MinimapNow",name);
@@ -690,7 +693,9 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
         }
 
         CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
-        if(((xpos<0)||(ypos<0))||((xpos>Const::MAPSIZE)||(ypos>Const::MAPSIZE))) {
+        if(damageState->getSensorHealth()<2.0) {
+            ic.setImage("MinimapBroken","mapTileB-blank");
+        } else if(((xpos<0)||(ypos<0))||((xpos>Const::MAPSIZE)||(ypos>Const::MAPSIZE))) {
             ic.setImage("Minimap","mapTile-blank");
         }else if(mapMgr->mts[xpos][ypos]->isEmpty()) {
             ic.setImage("Minimap","mapTile-blank");
@@ -890,7 +895,7 @@ void HUD::updateMiniMap() {
     
     int rotate = (int)((yaw + PI / 4) / (PI / 2));
 
-    if((x!=prevX)||(y!=prevY)||rotate!=prevRotate) {
+    if((x!=prevX)||(y!=prevY)||rotate!=prevRotate||(damageState->getSensorHealth()<2.0)) {
         prevRotate = rotate;
         guiManager->getRootWindow()->removeChildWindow(minimap);
         minimap = buildMiniMap(rotate);

@@ -10,6 +10,7 @@
 #include "shipState.h"
 #include "gameRole.h"
 #include "mapManager2.h"
+#include "damageState.h"
 
 enum KeyHint { KH_NONE,
                KH_TAB,
@@ -82,6 +83,7 @@ private:
     GuiManager *guiManager;
     MapManager *mapMgr;
     ShipState *shipState;
+    DamageState *damageState;
 
     CEGUI::FrameWindow* buildFullMap();
     CEGUI::FrameWindow* buildMiniMap(int rotate);
@@ -128,7 +130,7 @@ private:
     void appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate);
 
 public:
-    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr);
+    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState);
     ~HUD();
 
     void showKeyHint(KeyHint key);
