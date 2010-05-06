@@ -17,6 +17,8 @@
 using namespace Ogre;
 using namespace std;
 
+enum MusicState { MS_STEALTH, MS_ATTACK, MS_FLEE, MS_THEME };
+
 class SoundManager : public ITickable
 {
 private:
@@ -72,7 +74,7 @@ public:
 
     void playSound(string file, Vector3 position, float volume);
     void playSound(string file, SceneNode *soundNode, float volume);
-    void changeMusic(int file);
+    void changeMusic(MusicState file);
     void stopEngine();
     void setShipNode(SceneNode *ship);
     void setShipState(ShipState *shipState);

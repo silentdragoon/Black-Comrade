@@ -411,7 +411,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     gameLoop->addTickable(lightMgr,"lightMgr");
 
-    soundMgr->changeMusic(1); // Switch to stealth music
+    soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 
     // Viewport
     createViewPort();
@@ -564,7 +564,7 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
 void Main::createViewPort() {
 
     Viewport *vp = window->addViewport(camera);
-    vp->setBackgroundColour(ColourValue(1,0,0));
+    vp->setBackgroundColour(ColourValue(0,0,0));
 
     camera->setAspectRatio(
         Real(vp->getActualWidth()) / Real(vp->getActualHeight()*1.17));

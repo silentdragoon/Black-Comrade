@@ -172,7 +172,7 @@ void SoundManager::loadMusic() {
 
     errCheck(stealthChannel->setPaused(false));
     errCheck(attackChannel->setPaused(false));
-    errCheck(fleeChannel->setPaused(false));
+    errCheck(fleeChannel->setPaused(true));
     errCheck(themeChannel->setPaused(false));
 }
 
@@ -221,11 +221,7 @@ void SoundManager::playSound(string constNameString, Vector3 soundPos, float vol
     }
 }
 
-void SoundManager::changeMusic(int file) {
-    // 1: Stealth
-    // 2: Attack
-    // 3: Flee
-    // 4: Theme
+void SoundManager::changeMusic(MusicState file) {
     playingSound = file;
 }
 
@@ -236,27 +232,34 @@ void SoundManager::crossFade() {
     float attackAdjust;
     float fleeAdjust;
     float themeAdjust;
-    if(playingSound==1) {
+    if(playingSound==MS_STEALTH) {
         stealthAdjust = 0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
         themeAdjust = -0.001;
-    } else if(playingSound==2) {
+    } else if(playingSound==MS_ATTACK) {
         stealthAdjust = -0.001;
         attackAdjust = 0.001;
         fleeAdjust = -0.001;
         themeAdjust = -0.001;
-    } else if(playingSound==3) {
+    } else if(playingSound==MS_FLEE) {
+        errCheck(fleeChannel->setPaused(false));
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = 0.001;
         themeAdjust = -0.001;
+    } else if(playingSound==MS_THEME) {
+        stealthAdjust = -0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = -0.001;
+        themeAdjust = 0.001;
     } else {
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
         themeAdjust = 0.001;
     }
+
     float volume;
     errCheck(stealthChannel->getVolume(&volume));
     volume=volume+stealthAdjust;
