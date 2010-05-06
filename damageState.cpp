@@ -20,6 +20,7 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
     , damageSustained(0)
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
+    initializeHealths();
 }
 
 DamageState::DamageState()
@@ -33,7 +34,16 @@ DamageState::DamageState()
     , engineerInfo(0)
     , navigatorInfo(0)
     , damageSustained(0)
-{}
+{
+    initializeHealths();
+}
+
+void DamageState::initializeHealths() {
+    hullHealth = ConstManager::getFloat("initial_hull_health");
+    sensorHealth = ConstManager::getFloat("initial_sensor_health");
+    engineHealth = ConstManager::getFloat("initial_engine_health");
+    weaponHealth = ConstManager::getFloat("initial_weapon_health");
+}
 
 void DamageState::tick() {
     isDamaged = false;
