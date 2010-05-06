@@ -30,6 +30,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
     //guiManager->getRootWindow()->addChildWindow(radarWindow);
+    if (fullScreen) visible = false;
 }
 
 bool RadarGui::hasBeenShown() { return beenShown; }

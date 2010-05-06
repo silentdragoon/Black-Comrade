@@ -27,6 +27,11 @@ void SceneNodeManager::tick() {
 }
 
 void SceneNodeManager::updateNode(IDrawable *object, SceneNode *node) {
+    if (object->getOrientation()->isNaN() || object->getPosition()->isNaN()) {
+        std::cout << "INVALID POSIITON OR ORIENTATION DETECTED: " << object->getMeshName() << "\n";
+        return;
+    }
+
 	node->resetOrientation();
     node->setPosition(*object->getPosition());
 
