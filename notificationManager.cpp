@@ -286,7 +286,7 @@ void NotificationManager::prepareNotification() {
             local = true;
             break;
         case NT_TUT_ENGINEER_ROLE:
-            consoleText << "You are the navigator...\n";
+            consoleText << "You are the engineer...\n";
             local = true;
             break;
         case NT_TUT_POWER_BARS:

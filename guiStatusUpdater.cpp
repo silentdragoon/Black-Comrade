@@ -79,6 +79,10 @@ void GuiStatusUpdater::checkTutorial() {
             // Highlight the mini map
             elementToHighlight = HE_MINI_MAP;
             break;
+        case TS_MINI_RADAR:
+            // Highlight the mini radar
+            elementToHighlight = HE_MINI_RADAR;
+            break;
         case TS_SHOW_MAP:
         case TS_SHOW_RADAR:
             // Show the tab key on screen?
