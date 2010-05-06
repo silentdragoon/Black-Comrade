@@ -4,7 +4,6 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
                                     LoadingScreen* loadingScreen, bool rebuildCollisionMeshes ):
     sceneMgr(sceneMgr),
     mp(mp),
-    obj(true),
     objective(objective),
     loadingScreen(loadingScreen),
     enemyAdded(false)
@@ -24,10 +23,10 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
         cd->addStaticTreeCollisionMesh(*it);
     }
     //adding the objective collision mesh
-    Vector3 obj = mp->getObjectivePosition();
-    Real x = obj.x;
-    Real y = obj.y;
-    Real z = obj.z;
+    Vector3 objPos = mp->getObjectivePosition();
+    Real x = objPos.x;
+    Real y = objPos.y;
+    Real z = objPos.z;
     addObjMesh(x,y,z,30.0);
 
     cout << "Map pieces loaded: 100%"<<endl;
@@ -124,10 +123,9 @@ void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
 
 dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
 {
-    if( obj )
+    if( objective->getHealth() <= 0 )
     {
         dFloat dist = 2000;
-        if (objective->getHealth() <= 0) return 5000;
 
         double x = start->x + direction->x * dist;
         double y = start->y + direction->y * dist;
@@ -135,7 +133,7 @@ dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
         Vector3 end = Vector3(x,y,z);
         return cd->objRayCollision( start, &end )*dist;
     }
-    else return false;
+    else return 2400;
 }
 
 dFloat CollisionManager::getRCEnemyDist( Vector3 *start, Vector3 *direction, Entity* collideAgainst)
@@ -162,7 +160,7 @@ dFloat CollisionManager::rayCollideWithTransform( Vector3 *start, Vector3 *direc
 
 bool CollisionManager::collideEntityWithObj(Entity *e)
 {
-    if(obj && objective->getHealth() > 0) return cd->collideEntityWithObj(e);
+    if(objective->getHealth() > 0) return cd->collideEntityWithObj(e);
     else return false;
 }
 

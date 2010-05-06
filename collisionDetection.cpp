@@ -58,7 +58,7 @@ bool CollisionDetection::collideEntityWithObj(Entity *e)
             return false;
         }
         dFloat eMatrix[16];
-        getMatrix(e,eMatrix, false);
+        getMatrix(e,eMatrix, true);
         dFloat contacts[16];
         dFloat normals[16];
         dFloat penetration[16];

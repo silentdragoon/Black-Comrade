@@ -22,8 +22,6 @@ using namespace std;
 
 class CollisionManager{
 private:
-
-    bool obj;
     std::vector<Entity*> movableObj;
     CollisionDetection *cd;
     MapManager *mp;

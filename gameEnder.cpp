@@ -10,6 +10,7 @@ GameEnder::GameEnder(GameStateMachine *stateMachine,
 
 void GameEnder::tick() {
     if (stateMachine->currentGameState() == GS_GAME_OVER) {
+        guiMgr->cutToBlack();
         ending = true;
     } else if (stateMachine->currentGameState() == GS_END) {
         ending = true;
