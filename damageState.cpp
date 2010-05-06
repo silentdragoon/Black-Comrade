@@ -8,11 +8,7 @@
 DamageState::DamageState(CollaborationInfo *pilotInfo,
                          CollaborationInfo *engineerInfo,
                          CollaborationInfo *navigatorInfo)
-    : sensorHealth(100.0)
-    , weaponHealth(100.0)
-    , engineHealth(100.0)
-    , hullHealth(100.0)
-    , shieldModifier(0.1)
+    : shieldModifier(0.1)
     , isDamaged(false)
     , pilotInfo(pilotInfo)
     , engineerInfo(engineerInfo)
@@ -24,11 +20,7 @@ DamageState::DamageState(CollaborationInfo *pilotInfo,
 }
 
 DamageState::DamageState()
-    : sensorHealth(100.0)
-    , weaponHealth(100.0)
-    , engineHealth(100.0)
-    , hullHealth(100.0)
-    , shieldModifier(0.1)
+    : shieldModifier(0.1)
     , isDamaged(false)
     , pilotInfo(0)
     , engineerInfo(0)
