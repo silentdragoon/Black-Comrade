@@ -372,7 +372,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(soundMgr,"soundManager");
     audioState = new AudioState(pilotGunState,soundMgr,shipSceneNode,
                                 notificationMgr,bulletMgr,miniGameMgr,
-                                gameStateMachine);
+                                gameStateMachine,objective,damageState);
     gameLoop->addTickable(audioState,"audioState");
 
     // Radar GUI

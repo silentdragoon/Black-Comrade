@@ -3,14 +3,19 @@
 
 AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
                        NotificationManager *notificationMgr, BulletManager *bulletMgr,
-                       MiniGameManager *miniGameMgr,GameStateMachine *gameStateMachine)
+                       MiniGameManager *miniGameMgr,GameStateMachine *gameStateMachine,
+                       Objective *objective, DamageState *damageState)
     : gunState(gunState),
       sndMgr(sndMgr),
       shipNode(shipNode),
       notificationMgr(notificationMgr),
       bulletMgr(bulletMgr),
       miniGameMgr(miniGameMgr),
-      gameStateMachine(gameStateMachine)
+      gameStateMachine(gameStateMachine),
+      objective(objective),
+      damageState(damageState),
+      prevTime(ConstManager::getInt("escape_time")),
+      tickTime(0)
 {}
 
 void AudioState::tick()
@@ -24,7 +29,7 @@ void AudioState::tick()
 	    
 	    if (b->getOwner()->getEntityType() == ENTT_ENEMY) {
 	        // Enemy bullet
-	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.15);
+	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.07);
 	    } else if (b->getOwner()->getEntityType() == ENTT_PLAYER) {
 	        // Player bullet
 	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.4);
@@ -64,6 +69,24 @@ void AudioState::tick()
     if (miniGameMgr->aKeyPressed) {
         miniGameMgr->aKeyPressed = false;
         sndMgr->playSound("sound_consolekeypress",shipNode,0.1);
+    }
+
+    // Ship alarm for impending doom
+    int curTime = objective->getEscapeTime();
+    if(curTime!=prevTime) {
+        prevTime=curTime;
+        if(curTime<=20) {
+            sndMgr->playSound("sound_alarm",shipNode,0.2);
+        }
+    }
+
+    // Ship alarm for damaged hull
+    if(damageState->getHullHealth() < 25.0) {
+        if(tickTime==0) {
+            sndMgr->playSound("sound_alarm",shipNode,0.7);
+            tickTime=(int)(1.0/ConstManager::getFloat("tick_period"));
+        }
+        tickTime--;
     }
 }
 

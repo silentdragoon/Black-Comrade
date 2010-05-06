@@ -116,6 +116,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/wsdi.mp3",stringToInt("sound_WeaponDamage2"),false,true); //
 	loadSoundFile("sounds/vo/engship/wsif.mp3",stringToInt("sound_WeaponDamage3"),false,true); //
 	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true); //
+    loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true); //
 
 
     // Music section
@@ -177,16 +178,14 @@ void SoundManager::loadMusic() {
 }
 
 void SoundManager::loadPermanent() {
+    // Engine sound
     string soundsPath = ConstManager::getString("sound_file_path");
     string fullPath = soundsPath + "sounds/engine.wav";
     std::cout << fullPath << std::endl;
     errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
     errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
-
     errCheck(system->playSound(FMOD_CHANNEL_FREE,engineSound,true,&engineChannel));
-
     errCheck(engineChannel->setVolume(0.2));
-
     errCheck(engineChannel->getFrequency(&engineFrequency),"engine_freq_1");
 }
 
