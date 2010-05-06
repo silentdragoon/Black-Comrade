@@ -23,6 +23,8 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
 TutorialState Tutorial::getState() { return state; }
 
 void Tutorial::tick() {
+    if (state == TS_END) return;
+
     tickCommonTutorial();
     switch(tutee->getGameRole()) {
         case PILOT:
