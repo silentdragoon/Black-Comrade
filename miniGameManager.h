@@ -14,7 +14,6 @@
 #include "consoleShell.h"
 #include "quickTimeMiniGame.h"
 #include "sheildMiniGame.h"
-#include "weaponMiniGame.h"
 #include "collaborationInfo.h"
 #include "IExit.h"
 
