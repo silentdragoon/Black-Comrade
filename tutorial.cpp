@@ -23,6 +23,8 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
 TutorialState Tutorial::getState() { return state; }
 
 void Tutorial::tick() {
+    if (state == TS_END) return;
+
     tickCommonTutorial();
     switch(tutee->getGameRole()) {
         case PILOT:
@@ -133,7 +135,7 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_CHANGE_POWERS) :
             // TODO: Check if the powers have been changed
-            //changeWithPause(TS_INDIVIDUAL_END);
+            changeWithPause(TS_ENGINEER_END);
             break;
     }
 }
@@ -162,7 +164,7 @@ void Tutorial::tickNavigatorTutorial() {
             break;
         case(TS_CLOSE_MAP) :
             // TODO: Check if the large map has been closed
-            //changeWithPause(TS_INDIVIDUAL_END);
+            changeWithPause(TS_NAVIGATOR_END);
             break;
     }
 }

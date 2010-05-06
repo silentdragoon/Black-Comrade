@@ -22,7 +22,11 @@ CollaborationInfo* PreGame::showMenus() {
     return networkingMgr->collabInfo;
 }
 
-void PreGame::waitForPlayers() {
+void PreGame::waitForPlayers(CollaborationInfo *myInfo,
+                             CollaborationInfo *pilotInfo,
+                             CollaborationInfo *engineerInfo,
+                             CollaborationInfo *navigatorInfo) {
+    loadingScreen->setInfos(myInfo,pilotInfo,engineerInfo,navigatorInfo);
     loadingScreen->updateProgress(100);
     menuLoop->running = true;
     menuLoop->startLoop();

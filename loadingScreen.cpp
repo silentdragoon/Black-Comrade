@@ -7,6 +7,10 @@ LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr,
     , guiMgr(guiMgr)
     , networkingMgr(networkingMgr)
     , progress(0)
+    , myInfo(0)
+    , pilotInfo(0)
+    , engineerInfo(0)
+    , navigatorInfo(0)
     , isEnd(false)
 {
     CEGUI::ImagesetManager::getSingleton().create("loading.xml");
@@ -19,13 +23,34 @@ LoadingScreen::LoadingScreen(InputState *inputState, GuiManager *guiMgr,
     isVisible = false;
 }
 
+void LoadingScreen::setInfos(CollaborationInfo *mMyInfo,
+              CollaborationInfo *mPilotInfo,
+              CollaborationInfo *mEngineerInfo,
+              CollaborationInfo *mNavigatorInfo) {
+    myInfo = mMyInfo;
+    pilotInfo = mPilotInfo;
+    engineerInfo = mEngineerInfo;
+    navigatorInfo = mNavigatorInfo;
+
+}
+
 void LoadingScreen::tick() {
     // Check for key presses etc
     if (inputState->isKeyDown(OIS::KC_ESCAPE)) {
         std::exit(-1);
     }
     networkingMgr->tick();
-    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE)) isEnd = true;
+    if (progress >= 100 && inputState->isKeyDown(OIS::KC_SPACE) && myInfo) {
+        myInfo->isReady = true;
+        instructions->setText("Wait for the other players to be ready...");
+    }
+
+    if (pilotInfo && engineerInfo && navigatorInfo) {
+        if (pilotInfo->isReady && engineerInfo->isReady && navigatorInfo->isReady) {
+            instructions->setText("Here we go...");
+            isEnd = true;
+        }
+    }
 }
 
 MenuType::LoadingScreen::nextMenu() {

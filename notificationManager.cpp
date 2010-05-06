@@ -286,7 +286,7 @@ void NotificationManager::prepareNotification() {
             local = true;
             break;
         case NT_TUT_ENGINEER_ROLE:
-            consoleText << "You are the navigator...\n";
+            consoleText << "You are the engineer...\n";
             local = true;
             break;
         case NT_TUT_POWER_BARS:
@@ -490,7 +490,7 @@ void NotificationManager::checkTutorialState() {
     }
 
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,0,0)) {
+        if (isTimely(newNotification,100,0)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;
