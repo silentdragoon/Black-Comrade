@@ -30,7 +30,10 @@ class CollaborationInfo : public ReplicaObject
 
     ShipSystem toRepair;
     int repairAmount;
+
+    bool isReady;
     bool hasQuit;
+
     bool hasCompletedTutorial;
     bool repairing;
 

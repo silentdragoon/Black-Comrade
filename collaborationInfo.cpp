@@ -8,6 +8,7 @@ CollaborationInfo::CollaborationInfo(string nick, NetworkRole networkRole, GameR
     networkRole(networkRole),
     gameRole(gameRole),
     toRepair(SS_NONE),
+    isReady(false),
     repairAmount(0),
     killCount(0),
     stats(0),
@@ -25,6 +26,7 @@ CollaborationInfo::CollaborationInfo()
     , repairAmount(0)
     , killCount(0)
     , stats(0)
+    , isReady(false)
     , hasQuit(false)
     , repairing(false)
     , hasCompletedTutorial(false)
@@ -77,11 +79,13 @@ RakNet::RakString CollaborationInfo::GetName(void) const {
 }
 
 RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *serializeParameters) {
+    serializeParameters->outputBitstream[0].Write(isReady);
+    serializeParameters->outputBitstream[0].Write(hasCompletedTutorial);
     serializeParameters->outputBitstream[0].Write(toRepair);
     serializeParameters->outputBitstream[0].Write(repairAmount);
     serializeParameters->outputBitstream[0].Write(hasQuit);
     serializeParameters->outputBitstream[0].Write(repairing);
-    serializeParameters->outputBitstream[0].Write(hasCompletedTutorial);
+
     return RM3SR_BROADCAST_IDENTICALLY;
 }
 
@@ -89,11 +93,13 @@ void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializePa
     ShipSystem toRepair2 = SS_NONE;
     int repairAmount2 = 0;
 
+    deserializeParameters->serializationBitstream[0].Read(isReady);
+    deserializeParameters->serializationBitstream[0].Read(hasCompletedTutorial);
     deserializeParameters->serializationBitstream[0].Read(toRepair2);
     if (toRepair2 != SS_NONE) toRepair = toRepair2;
     deserializeParameters->serializationBitstream[0].Read(repairAmount2);
     if (repairAmount2 != 0) repairAmount = repairAmount2;
     deserializeParameters->serializationBitstream[0].Read(hasQuit);
     deserializeParameters->serializationBitstream[0].Read(repairing);
-    deserializeParameters->serializationBitstream[0].Read(hasCompletedTutorial);
+
 }

@@ -79,7 +79,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         engineerInfo = new CollaborationInfo("Engineer",CLIENT,ENGINEER);
         navigatorInfo = new CollaborationInfo("Navigator",CLIENT,NAVIGATOR);
         engineerInfo->hasCompletedTutorial = true;
+        engineerInfo->isReady = true;
         navigatorInfo->hasCompletedTutorial = true;
+        navigatorInfo->isReady = true;
     }
 
     // Player stats
@@ -399,7 +401,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Wait for the players to be ready
     std::cout << "Waiting for players...\n";
-    preGame->waitForPlayers();
+    preGame->waitForPlayers(collabInfo,pilotInfo,engineerInfo,navigatorInfo);
 
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr);

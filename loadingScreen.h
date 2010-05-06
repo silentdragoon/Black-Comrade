@@ -14,6 +14,11 @@ class LoadingScreen : public IMenuScreen
         InputState *inputState;
         GuiManager *guiMgr;
 
+        CollaborationInfo *myInfo;
+        CollaborationInfo *pilotInfo;
+        CollaborationInfo *navigatorInfo;
+        CollaborationInfo *engineerInfo;
+
         bool isVisible;
         bool isEnd;
         NetworkingManager *networkingMgr;
@@ -37,6 +42,11 @@ class LoadingScreen : public IMenuScreen
         int getProgress();
         void updateProgress(int progress);
         void hide();
+
+        void setInfos(CollaborationInfo *myInfo,
+                      CollaborationInfo *pilotInfo,
+                      CollaborationInfo *engineerInfo,
+                      CollaborationInfo *navigatorInfo);
 
         bool visible();
 
