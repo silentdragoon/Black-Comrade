@@ -21,19 +21,19 @@ SequenceMiniGame::SequenceMiniGame(ShipSystem system, Console *console, InputSta
 
     switch (difficulty) {
        case 1:
-           occurences = new int[3];
+           occurences = new int[2];
            possibleChars = "ABC";
-           generateSequence(3);
+           generateSequence(2);
            break;
        case 2:
-           occurences = new int[4];
+           occurences = new int[3];
            possibleChars = "ABCD";
-           generateSequence(4);
+           generateSequence(3);
            break;
        case 3:
-           occurences = new int[5];
+           occurences = new int[4];
            possibleChars = "ABCDE";
-           generateSequence(5);
+           generateSequence(4);
            break;
     }
 
