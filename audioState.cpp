@@ -27,7 +27,7 @@ void AudioState::tick()
 	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.15);
 	    } else if (b->getOwner()->getEntityType() == ENTT_PLAYER) {
 	        // Player bullet
-	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.6);
+	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.4);
 	    }
 	    
 	    b->madeNoise = true;
