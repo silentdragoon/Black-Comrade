@@ -58,7 +58,7 @@ bool CollisionDetection::collideEntityWithObj(Entity *e)
             return false;
         }
         dFloat eMatrix[16];
-        getMatrix(e,eMatrix, false);
+        getMatrix(e,eMatrix, true);
         dFloat contacts[16];
         dFloat normals[16];
         dFloat penetration[16];
@@ -66,6 +66,7 @@ bool CollisionDetection::collideEntityWithObj(Entity *e)
                                     eCollision,   &eMatrix[0],
                                     objCollision, &idmatrix[0],
                                     &contacts[0], &normals[0], &penetration[0], 0);
+        cout<< "here" <<endl;
         if (numCollisionPoints > 0) return true;
         else return false;
     }

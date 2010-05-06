@@ -62,7 +62,7 @@ void Flying::updatePosition()
     } else {
         collided = colMgr->collideEntityWithObj(snMgr->getEntity(shipState));
         hitObj = collided;
-        //cout << "CHECKING OBJECTIVE\n";
+        cout << "CHECKING OBJECTIVE\n";
     }
 
     if(collided && useCollisions)
@@ -94,7 +94,7 @@ void Flying::updatePosition()
 		}
 
         if (hitObj) {
-            damageState->damage(100);
+            damageState->damage(30);
         } else {
             damageState->damage(10);
         }
