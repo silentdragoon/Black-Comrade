@@ -66,7 +66,6 @@ bool CollisionDetection::collideEntityWithObj(Entity *e)
                                     eCollision,   &eMatrix[0],
                                     objCollision, &idmatrix[0],
                                     &contacts[0], &normals[0], &penetration[0], 0);
-        cout<< "here" <<endl;
         if (numCollisionPoints > 0) return true;
         else return false;
     }
