@@ -265,6 +265,14 @@ void NotificationManager::prepareNotification() {
             consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
             local = true;
             break;
+        case NT_TUT_REPAIR_WEAPONS:
+            consoleText << "The ship's weapons are damaged. Try and repair them using the console.\n";
+            local = true;
+            break;
+        case NT_TUT_REPAIR_HULL:
+            consoleText << "The ship's hull is damaged. Try and repair it using the console.\n";
+            local = true;
+            break;
         case NT_TUT_NAVIGATOR_ROLE:
             consoleText << "You are the navigator...\n";
             local = true;
@@ -441,6 +449,12 @@ void NotificationManager::checkTutorialState() {
             break;
         case TS_REPAIR_ENGINES:
             newNotification = NT_TUT_REPAIR_ENGINES;
+            break;
+        case TS_REPAIR_WEAPONS:
+            newNotification = NT_TUT_REPAIR_WEAPONS;
+            break;
+        case TS_REPAIR_HULL:
+            newNotification = NT_TUT_REPAIR_HULL;
             break;
         case TS_PILOT_ROLE:
             newNotification = NT_TUT_PILOT_ROLE;
