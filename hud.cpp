@@ -66,10 +66,10 @@ void HUD::makeHighlightingHUD() {
     stopHighlightingAllElements();
 
     // KeyHints
-    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 0.0, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
-    keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
-    keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 5 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
-    keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
+    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 1.0 - 80 *hpixel, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
+    keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 1.0 - 75 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
+    keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 1.0 - 75 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
+    keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 1.0 - 75 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
 	
     hideKeyHint();
 }
