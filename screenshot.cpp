@@ -3,6 +3,7 @@
 Screenshot::Screenshot(InputState *inputState, Ogre::RenderWindow *window)
 	: inputState(inputState)
     , window(window)
+    , num(0)
 {}
 
 Screenshot::~Screenshot() {}
@@ -17,7 +18,7 @@ std::string Screenshot::createUnique(std::string name) {
 void Screenshot::tick() {
 
     if (inputState->isKeyDown(OIS::KC_SYSRQ)) {
-		window->writeContentsToFile(createUnique("screenshot") + ".png");
+		window->writeContentsToFile(createUnique("screens/screenshot") + ".png");
     }
 
 }
