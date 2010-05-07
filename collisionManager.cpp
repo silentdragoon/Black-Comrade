@@ -123,7 +123,7 @@ void CollisionManager::addObjMesh( Real x, Real y, Real z, Real radius)
 
 dFloat CollisionManager::getRCObjDist( Vector3 *start, Vector3 *direction)
 {
-    if( objective->getHealth() <= 0 )
+    if( objective->getHealth() > 0 )
     {
         dFloat dist = 2000;
 
