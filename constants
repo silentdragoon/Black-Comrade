@@ -1,8 +1,11 @@
-
-INCLUDE = constMapPath
-INCLUDE = constSoundPath
+INCLUDE = constFilePaths
+INCLUDE = constMapName
 
 tick_period = 0.0166666667
+
+# Map constants
+map_tile_size = 600
+map_size = 30
 
 # Ship
 ship_scale = 1
@@ -16,7 +19,6 @@ enemy_look_ahead = 15
 enemy_max_turn = 0.05
 enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
-
 enemy_engage_time = 3
 enemy_circle_time = 3
 
@@ -44,6 +46,7 @@ flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 100
 
+# Music constants
 sound_musicvolume = 0.2
 
 ship_turrent_speed = -0.002
