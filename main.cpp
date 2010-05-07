@@ -36,15 +36,17 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Networking
     networkingManager = new NetworkingManager(this);
 
+    // Screenshots
+    screenshot = new Screenshot(inputState,window);
+    gameLoop->addTickable(screenshot,"screenshot");
+
     // Pre-game environment
-    PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager);
+    PreGame *preGame = new PreGame(sceneMgr,window,inputState,guiMgr,networkingManager,screenshot);
 
     // Sound manager
     soundMgr = new SoundManager();
     
-    // Screenshots
-    screenshot = new Screenshot(inputState,window);
-    gameLoop->addTickable(screenshot,"screenshot");
+
 
     collabInfo = preGame->showMenus();
 
