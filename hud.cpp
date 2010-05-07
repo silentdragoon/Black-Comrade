@@ -433,6 +433,10 @@ void HUD::makeNavigatorHUD() {
 
     // Controls
     controls = guiManager->addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
+    
+    // Map
+    mapbg = guiManager->addStaticImage("mapbg", 0.33,0.38, 256 * wpixel, 206 * hpixel, "mapbg", "Whole");
+    mapbg->setVisible(false);
 }
 
 void HUD::makeEngineerHUD() {
@@ -911,8 +915,10 @@ void HUD::toggleMap(bool tog)
     if(tog) {
         fullmap->setVisible(true);
         largeMapBeenShown = true;
+        mapbg->setVisible(true);
     } else {
         fullmap->setVisible(false);
+        mapbg->setVisible(false);
     }
 }
 

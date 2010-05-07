@@ -105,6 +105,8 @@ private:
     CEGUI::FrameWindow *speedo4;
     CEGUI::FrameWindow *speedo5;
     
+    CEGUI::FrameWindow *mapbg;
+    
     CEGUI::FrameWindow *hAvatars;
     CEGUI::FrameWindow *hCharge;
     CEGUI::FrameWindow *hHealthbars;

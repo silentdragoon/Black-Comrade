@@ -51,6 +51,7 @@
     <Imageset Filename="hpowerbars.xml" />
     
     <Imageset Filename="keyhint.xml" />
+    <Imageset Filename="mapbackground.xml" />
 
     <Font Filename="DroidSansMono.font" />
     <Font Filename="DroidSansMono-big.font" />
@@ -98,6 +99,8 @@
     <FalagardMapping WindowType="BlackComrade/Speedo3" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo3" />
     <FalagardMapping WindowType="BlackComrade/Speedo4" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo4" />
     <FalagardMapping WindowType="BlackComrade/Speedo5" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Speedo5" />
+    
+    <FalagardMapping WindowType="BlackComrade/mapbg" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/mapbg" />
     
     <FalagardMapping WindowType="BlackComrade/hAvatars" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hAvatars" />
     <FalagardMapping WindowType="BlackComrade/hCharge" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/hCharge" />
