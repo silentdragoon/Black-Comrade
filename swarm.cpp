@@ -405,10 +405,10 @@ void Swarm::turnEnemy(Enemy *e)
 	t = *e->getPosition() + t;
 	
 	// Draw swarm target for first enenmy
-	if(true || e == members[0]) {
+	/*if(true || e == members[0]) {
     	lines->addLine(e->getPosition(),&target);
     	lines->addCross(&target);
-	}
+	}*/
 	
 	// Add target for forward momentum over all friends in sight range
 	
