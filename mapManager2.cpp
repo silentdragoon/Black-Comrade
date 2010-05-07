@@ -311,7 +311,7 @@ MapTile* MapManager::getMapTile(Vector3 *locn) {
 }
 
 Vector3 MapManager::getStartingPosition() {
-    std::cout << startx << " " << starty << "\n";
+    //std::cout << startx << " " << starty << "\n";
     MapTile *startTile = mts[startx][starty];
     return getActualPosition(startTile);
 }
@@ -326,6 +326,7 @@ Vector3 MapManager::getActualPosition(MapTile *mapTile) {
 std::vector<string*> MapManager::getWaypoints(Vector3 *locn) {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
+
     std::vector<string*> names;
     if(mts[x][y]->hasWaypoint()) {
         std::vector<Waypoint*> wps = mts[x][y]->getWaypoints();
