@@ -80,6 +80,8 @@ void Flying::updatePosition()
         
             *position += normal * (pen + 1);
         
+            float speedBefore = vel.length();
+        
 		    float speedIn = vel.dotProduct(-normal) / normal.length();
             speedIn = abs(speedIn);
 		    if(speedIn > 0) {
@@ -89,7 +91,7 @@ void Flying::updatePosition()
 
 			    vel.normalise();
 		
-			    vel *= 0.95 * speedIn;
+			    vel *= 0.95 * speedBefore;
 
 			    xVel = vel.x;
 			    yVel = vel.y;
