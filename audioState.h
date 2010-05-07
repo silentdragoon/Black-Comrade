@@ -14,6 +14,8 @@
 #include "notificationManager.h"
 #include "gameStateMachine.h"
 #include "miniGameManager.h"
+#include "damageState.h"
+#include "objective.h"
 #include <vector>
 #include "bullet.h"
 
@@ -30,6 +32,11 @@ class AudioState : public ITickable
         NotificationManager *notificationMgr;
         MiniGameManager *miniGameMgr;
         GameStateMachine *gameStateMachine;
+        Objective *objective;
+        DamageState *damageState;
+
+        int prevTime;
+        int tickTime;
         
     public:
         
@@ -37,7 +44,8 @@ class AudioState : public ITickable
         
         AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *shipNode,
                    NotificationManager *notificationMgr, BulletManager *bulletMgr,
-                   MiniGameManager *miniGameManager, GameStateMachine *gameStateMachine);
+                   MiniGameManager *miniGameManager, GameStateMachine *gameStateMachine,
+                   Objective *objective, DamageState *damageState);
 
         ~AudioState();
 };

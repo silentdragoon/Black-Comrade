@@ -13,6 +13,9 @@ void PrintState::tick()
 		
 		switch(gameStateMachine->currentGameState())
 		{
+            case GS_TUTORIAL:
+                cout << "Tutorial\n";
+                break;
 			case GS_STEALTH:
 				cout << "Stealth\n";
 				break;

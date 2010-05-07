@@ -55,36 +55,7 @@ void NotificationManager::initializeRecencies() {
     for (int i=0 ; i < NT_ENUM_END ; i++) {
         recency.insert(std::pair<NotificationType,int>((NotificationType)i,maxDelay));
     }
-/*
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_START,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_SHOW_CONTROLS,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_TUT_SHOW_CONTROLS,maxDelay));
 
-
-
-
-    recency.insert(std::pair<NotificationType,int>(NT_CONTROLS,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_ENGINES_CRITICAL,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_WEAPONS_CRITICAL,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_HULL_CRITICAL,maxDelay));
-
-    recency.insert(std::pair<NotificationType,int>(NT_WEAPON_CHARGE_STUCK,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_SHIELD_CHARGE_STUCK,maxDelay));
-
-    recency.insert(std::pair<NotificationType,int>(NT_UNDER_ATTACK,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_ONE,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_TWO,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COMMENT_THREE,maxDelay));
-
-    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_60,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_30,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_15,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_10,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_COUNTDOWN_5,maxDelay));
-
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_SEEK,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_DESTROY,maxDelay));
-    recency.insert(std::pair<NotificationType,int>(NT_OBJECTIVE_ESCAPE,maxDelay));*/
 }
 
 void NotificationManager::updateRecencies() {
@@ -294,28 +265,64 @@ void NotificationManager::prepareNotification() {
             consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
             local = true;
             break;
+        case NT_TUT_REPAIR_WEAPONS:
+            consoleText << "The ship's weapons are damaged. Try and repair them using the console.\n";
+            local = true;
+            break;
+        case NT_TUT_REPAIR_HULL:
+            consoleText << "The ship's hull is damaged. Try and repair it using the console.\n";
+            local = true;
+            break;
+        case NT_TUT_NAVIGATOR_ROLE:
+            consoleText << "You are the navigator...\n";
+            local = true;
+            break;
+        case NT_TUT_MINI_MAP:
+            consoleText << "Here is your mini-map...\n";
+            local = true;
+            break;
+        case NT_TUT_SHOW_MAP:
+            consoleText << "Try showing the large version using TAB...\n";
+            local = true;
+            break;
+        case NT_TUT_CLOSE_MAP:
+            consoleText << "Some info about the large map here, now close it again using TAB...\n";
+            local = true;
+            break;
+        case NT_TUT_NAVIGATOR_END:
+            consoleText << "Great. Why don't you get familiar with the map, and give the pilot some instructions...\n";
+            local = true;
+            break;
+        case NT_TUT_ENGINEER_ROLE:
+            consoleText << "You are the engineer...\n";
+            local = true;
+            break;
+        case NT_TUT_POWER_BARS:
+            consoleText << "Here are the power bars...\n";
+            local = true;
+            break;
+        case NT_TUT_MINI_RADAR:
+            consoleText << "Here is your mini-radar...\n";
+            local = true;
+            break;
+        case NT_TUT_SHOW_RADAR:
+            consoleText << "Try showing the large version using TAB...\n";
+            local = true;
+            break;
+        case NT_TUT_CLOSE_RADAR:
+            consoleText << "Some info about the large radar here, now close it again using TAB...\n";
+            local = true;
+            break;
+        case NT_TUT_ENGINEER_END:
+            consoleText << "Great. Why don't you get familiar with your radar, and give the pilot some instructions...\n";
+            local = true;
+            break;
         case NT_TUT_WAITING:
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
             local = true;
             break;
 
-                 /*     NT_TUT_START, NT_TUT_SHOW_CONTROLS,
-                        NT_TUT_MISSION_LOG,
-                        NT_TUT_AVATARS,
-                        NT_TUT_HEALTH_BARS,
-                        NT_TUT_CHARGE_BARS,
-                        NT_TUT_POWER_BARS,
-                        NT_TUT__MINI_RADAR,
-                        NT_TUT_MINI_MAP,
-                        NT_TUT_PILOT_ROLE,
-                        NT_TUT_ENGINEER_ROLE,
-                        NT_TUT_NAVIGATOR_ROLE,
-                        NT_TUT_FIRE_WEAPON,
-                        NT_TUT_MOVE_SHIP,
-                        NT_TUT_SHOW_MAP, NT_TUT_CLOSE_MAP,
-                        NT_TUT_SHOW_RADAR, NT_TUT_CLOSE_RADAR,
-                        NT_TUT_OPEN_CONSOLE, NT_TUT_CLOSE_CONSOLE, NT_TUT_WAITING,
-                        NT_TUT_REPAIR,*/
+
 
         // Charge notifications
         case NT_WEAPON_CHARGE_STUCK:
@@ -428,9 +435,6 @@ void NotificationManager::checkTutorialState() {
         case TS_CHARGE_BARS:
             newNotification = NT_TUT_CHARGE_BARS;
             break;
-        case TS_POWER_BARS:
-            newNotification = NT_TUT_POWER_BARS;
-            break;
         case TS_AVATARS:
             newNotification = NT_TUT_AVATARS;
             break;
@@ -446,6 +450,12 @@ void NotificationManager::checkTutorialState() {
         case TS_REPAIR_ENGINES:
             newNotification = NT_TUT_REPAIR_ENGINES;
             break;
+        case TS_REPAIR_WEAPONS:
+            newNotification = NT_TUT_REPAIR_WEAPONS;
+            break;
+        case TS_REPAIR_HULL:
+            newNotification = NT_TUT_REPAIR_HULL;
+            break;
         case TS_PILOT_ROLE:
             newNotification = NT_TUT_PILOT_ROLE;
             break;
@@ -458,10 +468,43 @@ void NotificationManager::checkTutorialState() {
         case TS_PILOT_END:
             newNotification = NT_TUT_PILOT_END;
             break;
+        case TS_NAVIGATOR_ROLE:
+            newNotification = NT_TUT_NAVIGATOR_ROLE;
+            break;
+        case TS_MINI_MAP:
+            newNotification = NT_TUT_MINI_MAP;
+            break;
+        case TS_SHOW_MAP:
+            newNotification = NT_TUT_SHOW_MAP;
+            break;
+        case TS_CLOSE_MAP:
+            newNotification = NT_TUT_CLOSE_MAP;
+            break;
+        case TS_NAVIGATOR_END:
+            newNotification = NT_TUT_NAVIGATOR_END;
+            break;
+        case TS_ENGINEER_ROLE:
+            newNotification = NT_TUT_ENGINEER_ROLE;
+            break;
+        case TS_POWER_BARS:
+            newNotification = NT_TUT_POWER_BARS;
+            break;
+        case TS_MINI_RADAR:
+            newNotification = NT_TUT_MINI_RADAR;
+            break;
+        case TS_SHOW_RADAR:
+            newNotification = NT_TUT_SHOW_RADAR;
+            break;
+        case TS_CLOSE_RADAR:
+            newNotification = NT_TUT_CLOSE_RADAR;
+            break;
+        case TS_ENGINEER_END:
+            newNotification = NT_TUT_ENGINEER_END;
+            break;
     }
 
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,0,0)) {
+        if (isTimely(newNotification,100,0)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;

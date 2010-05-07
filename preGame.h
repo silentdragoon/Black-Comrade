@@ -35,7 +35,10 @@ public:
 
     CollaborationInfo *showMenus();
 
-    void waitForPlayers();
+    void waitForPlayers(CollaborationInfo *myInfo,
+                        CollaborationInfo *pilotInfo,
+                        CollaborationInfo *engineerInfo,
+                        CollaborationInfo *navigatorInfo);
     
     LoadingScreen *getLoadingScreen();
 

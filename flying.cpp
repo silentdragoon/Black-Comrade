@@ -66,36 +66,35 @@ void Flying::updatePosition()
 
     if(collided && useCollisions)
     {
-        vFactor = 0.05;
-        
-        //reflected vel need to be fixed
-        
-        float pen = col.penetration[0];
-        Vector3 normal(col.normals[0],col.normals[1],col.normals[2]);
-        Vector3 vel(xVel, yVel, zVel);
-        
-        *position += normal * (pen + 1);
-        
-		float speedIn = vel.dotProduct(-normal) / normal.length();
-        speedIn = abs(speedIn);
-		if(speedIn > 0) {
-			hitCountDown = static_cast<int> (50 * speedIn);
-		
-			vel = vel + (2 * (normal.dotProduct(-vel)) * normal);
-
-			vel.normalise();
-		
-			vel *= 0.95 * speedIn;
-
-			xVel = vel.x;
-			yVel = vel.y;
-			zVel = vel.z;
-		}
-
         if (hitObj) {
             damageState->damage(30);
         } else {
             damageState->damage(10);
+            vFactor = 0.05;
+        
+            //reflected vel need to be fixed
+        
+            float pen = col.penetration[0];
+            Vector3 normal(col.normals[0],col.normals[1],col.normals[2]);
+            Vector3 vel(xVel, yVel, zVel);
+        
+            *position += normal * (pen + 1);
+        
+		    float speedIn = vel.dotProduct(-normal) / normal.length();
+            speedIn = abs(speedIn);
+		    if(speedIn > 0) {
+			    hitCountDown = static_cast<int> (50 * speedIn);
+		
+			    vel = vel + (2 * (normal.dotProduct(-vel)) * normal);
+
+			    vel.normalise();
+		
+			    vel *= 0.95 * speedIn;
+
+			    xVel = vel.x;
+			    yVel = vel.y;
+			    zVel = vel.z;
+		    }
         }
         pilotStats->numCollisions ++;
     }

@@ -42,6 +42,8 @@ private:
 
     void checkForRepairs(CollaborationInfo *repairer);
 
+    void initializeHealths();
+
 public:
 
     DamageState(CollaborationInfo *pilotInfo,CollaborationInfo *engineerInfo,CollaborationInfo *navigatorInfo);

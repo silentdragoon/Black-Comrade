@@ -2,7 +2,7 @@
    
 <Imageset Name="KeyHint" Imagefile="keyhint.png" AutoScaled="false" >
     <Image Name="F1" XPos="0" YPos="0" Width="70" Height="70" />
-    <Image Name="Tab" XPos="0" YPos="76" Width="100" Height="70" />
-    <Image Name="Esc" XPos="0" YPos="180" Width="70" Height="70" />
+    <Image Name="Tab" XPos="76" YPos="0" Width="100" Height="70" />
+    <Image Name="Esc" XPos="180" YPos="0" Width="70" Height="70" />
     <Image Name="Background" XPos="0" YPos="72" Width="143" Height="80" />
 </Imageset>

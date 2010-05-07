@@ -1,11 +1,12 @@
 
 #include "hud.h"
 
-HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr)
+HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState)
     : guiManager(guiManager)
     , shipState(shipState)
     , gameRole(gameRole)
     , mapMgr(mapMgr)
+    , damageState(damageState)
     , xCenter(0.5)
     , yCenter(0.47)
     , width(1)
@@ -65,10 +66,10 @@ void HUD::makeHighlightingHUD() {
     stopHighlightingAllElements();
 
     // KeyHints
-    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 0.0, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
-    keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
-    keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 5 * wpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
-    keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 5 * wpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
+    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 1.0 - 80 *hpixel, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
+    keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 1.0 - 75 * hpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
+    keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 1.0 - 75 * hpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
+    keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 1.0 - 75 * hpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
 	
     hideKeyHint();
 }
@@ -432,6 +433,10 @@ void HUD::makeNavigatorHUD() {
 
     // Controls
     controls = guiManager->addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
+    
+    // Map
+    mapbg = guiManager->addStaticImage("mapbg", 0.33,0.38, 256 * wpixel, 206 * hpixel, "mapbg", "Whole");
+    mapbg->setVisible(false);
 }
 
 void HUD::makeEngineerHUD() {
@@ -513,7 +518,9 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
     for(int xpos=0;xpos<Const::MAPSIZE;xpos++) {
         for(int ypos=0;ypos<Const::MAPSIZE;ypos++) {
             CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
-            if(mapMgr->mts[xpos][ypos]->isEmpty()) {
+            if(damageState->getSensorHealth()<2.0) {
+                ic.setImage("MinimapBroken","mapTileB-blank");
+            } else if(mapMgr->mts[xpos][ypos]->isEmpty()) {
                 ic.setImage("Minimap","mapTile-blank");
             } else if(mapMgr->mts[xpos][ypos]->isObj()) {
                 ic.setImage("MinimapNow","mapTileN-special");
@@ -528,9 +535,9 @@ CEGUI::FrameWindow* HUD::buildFullMap() {
                 } else {
                     tile << "mapTile";
                 }
-                
+
                 appendTileEnding(tile, xpos, ypos, 0);
-                
+
                 string name = tile.str();
                 if((xpos==x)&&(ypos==y)) {
                     ic.setImage("MinimapNow",name);
@@ -690,7 +697,9 @@ CEGUI::FrameWindow* HUD::buildMiniMap(int rotate) {
         }
 
         CEGUI::ImageryComponent ic = CEGUI::ImageryComponent();
-        if(((xpos<0)||(ypos<0))||((xpos>Const::MAPSIZE)||(ypos>Const::MAPSIZE))) {
+        if(damageState->getSensorHealth()<2.0) {
+            ic.setImage("MinimapBroken","mapTileB-blank");
+        } else if(((xpos<0)||(ypos<0))||((xpos>Const::MAPSIZE)||(ypos>Const::MAPSIZE))) {
             ic.setImage("Minimap","mapTile-blank");
         }else if(mapMgr->mts[xpos][ypos]->isEmpty()) {
             ic.setImage("Minimap","mapTile-blank");
@@ -890,7 +899,7 @@ void HUD::updateMiniMap() {
     
     int rotate = (int)((yaw + PI / 4) / (PI / 2));
 
-    if((x!=prevX)||(y!=prevY)||rotate!=prevRotate) {
+    if((x!=prevX)||(y!=prevY)||rotate!=prevRotate||(damageState->getSensorHealth()<2.0)) {
         prevRotate = rotate;
         guiManager->getRootWindow()->removeChildWindow(minimap);
         minimap = buildMiniMap(rotate);
@@ -906,8 +915,10 @@ void HUD::toggleMap(bool tog)
     if(tog) {
         fullmap->setVisible(true);
         largeMapBeenShown = true;
+        mapbg->setVisible(true);
     } else {
         fullmap->setVisible(false);
+        mapbg->setVisible(false);
     }
 }
 
