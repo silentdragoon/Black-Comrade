@@ -1,16 +1,17 @@
 #include "preGame.h"
 
 PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState *inputState, 
-                 GuiManager *guiMgr, NetworkingManager *networkingMgr)
+                 GuiManager *guiMgr, NetworkingManager *networkingMgr, Screenshot *screenshot)
     : MenuSystem(sceneMgr, guiMgr, inputState, window)
     , networkingMgr(networkingMgr)
 {
     menuLoop->addTickable(this,"preGame");
-
+    menuLoop->addTickable(screenshot,"screenshot");
     storyMenu = new StoryMenu(inputState,networkingMgr,guiMgr);
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
     loadingScreen = new LoadingScreen(inputState,guiMgr,networkingMgr);
+
 }
 
 CollaborationInfo* PreGame::showMenus() {
