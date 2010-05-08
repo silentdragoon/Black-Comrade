@@ -513,7 +513,20 @@ void Swarm::turnEnemy(Enemy *e)
 	    }
 	}
 	
-	// Needs to be done on a per enemy basis (not per swarm)
+	// Avoid the ship
+	Vector3 d = *shipState->getPosition() - *e->getPosition();
+
+    // Check that i can see my the ship
+    if(d.length() < ConstManager::getFloat("enemy_ship_target_dist")) {
+        d.normalise();
+        float weight;
+        weight = - ConstManager::getFloat("flock_avoid_ship_weight")
+            * pow(1 - d.length()/
+            ConstManager::getFloat("enemy_ship_target_dist"),2);
+        d *= weight;
+        avg += d;
+        count++;
+    }
 
     float targetYaw;
     float targetPitch;
