@@ -1,7 +1,8 @@
 #include "mapManager2.h"
 
-MapManager::MapManager(char*file, SceneManager *sceneManager, LightAndObjectsManager *lightMgr) :
-    sceneManager(sceneManager)
+MapManager::MapManager(char*file, SceneManager *sceneManager, LightAndObjectsManager *lightMgr, SceneNodeManager *sceneNodeMgr ) :
+    sceneNodeMgr(sceneNodeMgr)
+    , sceneManager(sceneManager)
     , lightMgr(lightMgr)
 {
     rng.seed(static_cast<unsigned int>(std::time(0)));
@@ -12,10 +13,11 @@ MapManager::MapManager(char*file, SceneManager *sceneManager, LightAndObjectsMan
     loadMap(file);
 }
 
-MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager,  LightAndObjectsManager *lightMgr )
+MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager,  LightAndObjectsManager *lightMgr, SceneNodeManager *sceneNodeMgr )
     : sceneManager(sceneManager)
     , pieceChoices(pieceChoices)
     , lightMgr(lightMgr)
+    , sceneNodeMgr(sceneNodeMgr)
 {
     MAPROOT = ConstManager::getString("map_file_path");
     chosenPieces = std::vector<int>();
@@ -370,11 +372,22 @@ std::vector<Vector3*> MapManager::getInitialSpawnPoints() {
 }
 
 void MapManager::makeConPieces() {
+    connPieces = std::vector<ConnectionPiece*>();
     for(int y=0;y<Const::MAPSIZE;y++) {
         for(int x=0;x<Const::MAPSIZE;x++) {
             if(!(mts[x][y]->isEmpty())) {
                 if(mts[x][y]->eastConnected()) {
-                    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+
+                    Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"), 0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
+
+                    ConnectionPiece * cp = new ConnectionPiece( pos , PI/2.0);
+                    sceneNodeMgr->createNode(cp);
+                    //lightMgr->addConnPieceObjsAndSPLight( pos, 2,  cp);
+                    mts[x][y]->setSouthConnPiece( sceneNodeMgr->getEntity(cp) );
+                    //mapEntities.push_back(sceneNodeMgr->getEntity(cp));
+                    connPieces.push_back(cp);
+
+                    /* SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
                     string name = "eConPiece";
                     std::stringstream out;
                     out << "-" << x << "-" << y << "-2";
@@ -385,24 +398,20 @@ void MapManager::makeConPieces() {
                     //needs Tuning
                     Vector3 pos( x * ConstManager::getInt("map_tile_size") + ConstManager::getInt("map_tile_size"), 0 , y * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0));
                     node->setPosition(pos);
-                    lightMgr->addConnPieceSPLight( pos);
+                    lightMgr->addConnPieceObjsAndSPLight( pos, 2, node);
                     mts[x][y]->setEastConnPiece( e );
-                    mapEntities.push_back(e);
+                    mapEntities.push_back(e); */
                 }
                 if(mts[x][y]->southConnected()) {
-                    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
-                    string name = "sConPiece";
-                    std::stringstream out;
-                    out << "-" << x << "-" << y << "-3";
-                    name += out.str();
-                    Entity *e = sceneManager->createEntity(name,  "newConnExport.mesh");
-                    node->attachObject(e);
-                    //needs Tuning
+
                     Vector3 pos(x * ConstManager::getInt("map_tile_size") + (ConstManager::getInt("map_tile_size")/2.0) , 0 , y * ConstManager::getInt("map_tile_size") +(ConstManager::getInt("map_tile_size")));
-                    node->setPosition(pos);
-                    lightMgr->addConnPieceSPLight( pos);
-                    mts[x][y]->setSouthConnPiece( e );
-                    mapEntities.push_back(e);
+
+                    ConnectionPiece * cp = new ConnectionPiece( pos , 0 );
+                    sceneNodeMgr->createNode(cp);
+                    //lightMgr->addConnPieceObjsAndSPLight( pos, 1,  cp);
+                    mts[x][y]->setSouthConnPiece( sceneNodeMgr->getEntity(cp) );
+                    //mapEntities.push_back(sceneNodeMgr->getEntity(cp));
+                    connPieces.push_back(cp);
                 }
             }
         }
@@ -511,6 +520,10 @@ Vector3 MapManager::getObjectivePosition() {
 
 std::vector<Entity*> MapManager::getMapEntitiesForCollision() {
     return mapEntities;
+}
+
+std::vector<ConnectionPiece*> MapManager::getMapConnectionPiecesForCollision() {
+    return connPieces;
 }
 
 void MapManager::getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps)

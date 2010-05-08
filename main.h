@@ -56,7 +56,7 @@
 #include <string>
 #include <cstdio>
 #include "spotLight.h"
-#include "lightManager.h"
+#include "lightAndObjectsManager.h"
 #include "gameTimer.h"
 #include "screenshot.h"
 
@@ -130,7 +130,7 @@ private:
     ParticleSystemEffectManager *particleSystemEffectManager;
     Objective *objective;
 
-    LightManager *lightMgr;
+    LightAndObjectsManager *lightAndObjManager;
 
     Fader *fader;
     
