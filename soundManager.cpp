@@ -157,24 +157,31 @@ void SoundManager::loadMusic() {
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
     errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "sounds/theme.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &themeMusic));
-    errCheck(themeMusic->setMode(FMOD_LOOP_NORMAL));
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/menu.wav";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &menuMusic));
+    errCheck(menuMusic->setMode(FMOD_LOOP_NORMAL));
+
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/credits.wav";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &creditMusic));
+    errCheck(creditMusic->setMode(FMOD_LOOP_NORMAL));
 
     // Start the musics
     errCheck(system->playSound(FMOD_CHANNEL_FREE,stealthMusic,true,&stealthChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
-    errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,menuMusic,true,&menuChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,creditMusic,true,&creditChannel));
     errCheck(stealthChannel->setVolume(0.0));
     errCheck(attackChannel->setVolume(0.0));
     errCheck(fleeChannel->setVolume(0.0));
-    errCheck(themeChannel->setVolume(0.5));
+    errCheck(menuChannel->setVolume(0.5));
+    errCheck(creditChannel->setVolume(0.0));
 
     errCheck(stealthChannel->setPaused(false));
     errCheck(attackChannel->setPaused(false));
     errCheck(fleeChannel->setPaused(true));
-    errCheck(themeChannel->setPaused(false));
+    errCheck(menuChannel->setPaused(false));
+    errCheck(creditChannel->setPaused(false));
 }
 
 void SoundManager::loadPermanent() {
@@ -230,33 +237,45 @@ void SoundManager::crossFade() {
     float stealthAdjust;
     float attackAdjust;
     float fleeAdjust;
-    float themeAdjust;
+    float menuAdjust;
+    float creditAdjust;
     if(playingSound==MS_STEALTH) {
         stealthAdjust = 0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
     } else if(playingSound==MS_ATTACK) {
         stealthAdjust = -0.001;
         attackAdjust = 0.001;
         fleeAdjust = -0.001;
-        themeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
     } else if(playingSound==MS_FLEE) {
         errCheck(fleeChannel->setPaused(false));
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = 0.001;
-        themeAdjust = -0.001;
-    } else if(playingSound==MS_THEME) {
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
+    } else if(playingSound==MS_MENU) {
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = 0.001;
+        menuAdjust = 0.001;
+        creditAdjust = -0.001;
+    } else if(playingSound==MS_CREDITS) {
+        stealthAdjust = -0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = 0.001;
     } else {
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = 0.001;
+        menuAdjust = -0.001;
+        creditAdjust = 0.001;
     }
 
     float volume;
@@ -278,11 +297,17 @@ void SoundManager::crossFade() {
     if(volume<0.0) volume = 0.0;
     errCheck(fleeChannel->setVolume(volume));
 
-    errCheck(themeChannel->getVolume(&volume));
-    volume=volume+themeAdjust;
+    errCheck(menuChannel->getVolume(&volume));
+    volume=volume+menuAdjust;
     if(volume>maxVol) volume = maxVol;
     if(volume<0.0) volume = 0.0;
-    errCheck(themeChannel->setVolume(volume));
+    errCheck(menuChannel->setVolume(volume));
+
+    errCheck(creditChannel->getVolume(&volume));
+    volume=volume+creditAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(creditChannel->setVolume(volume));
 }
 
 void SoundManager::checkChannels() {
@@ -395,11 +420,13 @@ SoundManager::~SoundManager() {
     stealthChannel->stop();
     attackChannel->stop();
     fleeChannel->stop();
-    themeChannel->stop();
+    menuChannel->stop();
+    creditChannel->stop();
     stealthMusic->release();
     attackMusic->release();
     fleeMusic->release();
-    themeMusic->release();
+    menuMusic->release();
+    creditMusic->release();
     // Stop engine noise
     engineChannel->stop();
     engineSound->release();
