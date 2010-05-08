@@ -90,7 +90,7 @@ door.cpp \
 mapPieceChoices.cpp \
 tutorial.cpp \
 spotLight.cpp \
-lightManager.cpp \
+lightAndObjectsManager.cpp \
 gameTimer.cpp \
 screenshot.cpp
 

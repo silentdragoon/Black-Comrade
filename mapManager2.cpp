@@ -1,6 +1,6 @@
 #include "mapManager2.h"
 
-MapManager::MapManager(char*file, SceneManager *sceneManager, LightManager *lightMgr) :
+MapManager::MapManager(char*file, SceneManager *sceneManager, LightAndObjectsManager *lightMgr) :
     sceneManager(sceneManager)
     , lightMgr(lightMgr)
 {
@@ -12,7 +12,7 @@ MapManager::MapManager(char*file, SceneManager *sceneManager, LightManager *ligh
     loadMap(file);
 }
 
-MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager,  LightManager *lightMgr )
+MapManager::MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager,  LightAndObjectsManager *lightMgr )
     : sceneManager(sceneManager)
     , pieceChoices(pieceChoices)
     , lightMgr(lightMgr)

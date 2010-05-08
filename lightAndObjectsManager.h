@@ -10,7 +10,7 @@
 using namespace Ogre;
 using namespace std;
 
-class LightManager : public ITickable
+class LightAndObjectsManager : public ITickable
 {
   private:
     std::vector<Light*> connPieceMainSPLight;
@@ -19,10 +19,10 @@ class LightManager : public ITickable
 
 
   public:
-    LightManager(SceneManager *sceneManager);
+    LightAndObjectsManager(SceneManager *sceneManager);
     void addConnPieceSPLight( Vector3 pos );
     virtual void tick();
-    ~LightManager(){}
+    ~LightAndObjectsManager(){}
 };
 
 #endif

@@ -19,7 +19,7 @@
 #include "constManager.h"
 #include "const.h"
 #include "mapPieceChoices.h"
-#include "lightManager.h"
+#include "lightAndObjectsManager.h"
 
 #include <boost/math/distributions/uniform.hpp>
 #include <boost/random.hpp>
@@ -35,7 +35,7 @@ private:
 
     boost::mt19937 rng;
 
-    LightManager *lightMgr;
+    LightAndObjectsManager *lightMgr;
 
     int objx,objy; // Location of the objective tile
     int chosenIndex;

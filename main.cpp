@@ -50,19 +50,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
-    lightMgr = new LightManager(sceneMgr);
+    lightAndObjManager = new LightAndObjectsManager(sceneMgr);
 
     // Map
     MapPieceChoices *mapPieceChoices;
     std::string mapFileName = ConstManager::getString("map_file_name");
     if (mapFileName == "") mapFileName = "examplemap_new.txt";
     if (collabInfo->getGameRole() == PILOT) {
-        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightAndObjManager);
         mapPieceChoices = mapMgr->getChosenPieces();
         networkingManager->replicate(mapPieceChoices);
     } else {
         mapPieceChoices = (MapPieceChoices*) networkingManager->getReplica("MapPieceChoices",true);
-        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightAndObjManager);
     }
 
 
@@ -413,7 +413,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                             cons, pilotInfo,navigatorInfo,engineerInfo, tutorial);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
-    gameLoop->addTickable(lightMgr,"lightMgr");
+    gameLoop->addTickable(lightAndObjManager,"lightAndObjManager");
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 

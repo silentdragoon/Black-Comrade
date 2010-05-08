@@ -1,13 +1,13 @@
 #include "lightManager.h"
 
-LightManager::LightManager(SceneManager *sceneManager) :
+LightAndObjectsManager::LightAndObjectsManager(SceneManager *sceneManager) :
     sceneManager(sceneManager)
 {
     connPieceMainSPLight = std::vector<Light*>();
     angle = 0.0;
 }
 
-void LightManager::tick()
+void LightAndObjectsManager::tick()
 {
     /*
     double x = sin(angle);
@@ -22,7 +22,7 @@ void LightManager::tick()
 }
 
 
-void LightManager::addConnPieceSPLight( Vector3 pos )
+void LightAndObjectsManager::addConnPieceSPLight( Vector3 pos )
 {
     SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
 
