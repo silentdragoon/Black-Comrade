@@ -205,47 +205,32 @@ bool Swarm::canSwarmSeeShip()
 {
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
-    
-    float yaw = orient.y;
 
-	Vector3 lookDirection(sin(yaw),0,cos(yaw));
-	
-	/*// Draw debug lines
-	Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
-	    ,0, cos(yaw+ConstManager::getFloat("enemy_sight_angle")));
-	
-	end1 *= ConstManager::getFloat("enemy_sight_dist");
-	
-	end1 += getAveragePosition();
-	    
-	Vector3 end2(sin(yaw-ConstManager::getFloat("enemy_sight_angle"))
-	    ,0, cos(yaw-ConstManager::getFloat("enemy_sight_angle")));
-	
-	end2 *= ConstManager::getFloat("enemy_sight_dist");
-	
-	end2 += getAveragePosition();
-	
-	Vector3 avgPos(getAveragePosition());
-	
-	lines->addLine(&avgPos, &end1);
-	lines->addLine(&avgPos, &end2);
-	*/
-	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
-	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
-	
-	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
-		
-		Vector3 pos = getAveragePosition();
-		Vector3 dir = getAverageAlignment();
-		
-		double t = collisionMgr->getRCMapDist(&pos, &dir);
-		
-		if(lineToShip.length() <= t && lineToShip.angleBetween(lookDirection) 
-				< sightAngle) {
-			return true;
-		}
+    for(std::deque<Enemy*>::iterator it = members.begin();
+        it != members.end(); ++it) {
+    
+        Enemy *e = *it;
+
+    	Vector3 lookDirection = 
+    	    SceneNodeManager::rollPitchYawToDirection(
+    	        e->roll, e->pitch, e->yaw);
+    	        
+    	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
+    	Vector3 lineToShip = *(shipState->getPosition()) - *(e->getPosition());
+    	
+    	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
+    		
+    		Vector3 pos = getAveragePosition();
+    		Vector3 dir = getAverageAlignment();
+    		
+    		double t = collisionMgr->getRCMapDist(&pos, &dir);
+    		
+    		if(lineToShip.length() <= t && lineToShip.angleBetween(lookDirection) 
+    				< sightAngle) {
+    			return true;
+    		}
+    	}
 	}
-	
 	return false;
 } 
 
