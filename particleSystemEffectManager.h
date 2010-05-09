@@ -34,7 +34,7 @@ class ParticleSystemEffectManager : public ITickable {
         void createExplosion(Vector3 pos);
         void createSparks(Vector3 pos);
         void createMuzzleFlash(Vector3 pos);
-        void createEngineGlow();
+        void createEngineGlow(Vector3 pos);
         void updateEffects();
         void tick();
 };
