@@ -110,9 +110,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
-    // Effects creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
-    particleSystemEffectManager->createEngineGlow();
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {
@@ -161,6 +158,15 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
 
+    // Effects creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+
+    // Create Engine effects
+    particleSystemEffectManager->createEngineGlow(Vector3(0,0.5,12.5));
+    particleSystemEffectManager->createEngineGlow(Vector3(0,-0.65,-3.75));
+    particleSystemEffectManager->createEngineGlow(Vector3(2.5,-0.15,5.75));
+    particleSystemEffectManager->createEngineGlow(Vector3(-2.5,-0.15,5.75));
+
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
@@ -183,9 +189,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,7.3,0));
+        camera->setPosition(Vector3(0,2.5,9.25));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-7.3,0));
+        camera->setPosition(Vector3(0,-2.5,-8.5));
     }
 
     // Engineer Controls
@@ -416,6 +422,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(lightAndObjManager,"lightAndObjManager");
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
+
+    cout << "SSN: " << shipSceneNode << endl;
 
     // Viewport
     createViewPort();
