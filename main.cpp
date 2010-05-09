@@ -539,17 +539,31 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     ColourValue fadeColour(0.1,0.1,0.1);
     sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
 
-    /*Light *sp = sceneMgr->createLight("ShipLight");
+    // Bottom ship light
+    Light *sp = sceneMgr->createLight("bLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setDiffuseColour(0.3,0.3,0.3);
     sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);*/
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
+
+    // Bottom ship light
+    Light *sp1 = sceneMgr->createLight("tLight");
+    sp1->setType(Light::LT_POINT);
+    sp1->setDiffuseColour(0.3,0.3,0.3);
+    sp1->setSpecularColour(1.0,1.0,1.0);
+    sp1->setDirection(Vector3(0,0,1));
+    sp1->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
     // Josh if you are looking for the spot light,
     // they have been moved into the class "spotLight.h"
 
-    //shipSceneNode->attachObject(sp);
+    SceneNode *bLight = shipSceneNode->createChildSceneNode();
+    bLight->setPosition(Vector3(0,-8,0));
+    bLight->attachObject(sp);
+    SceneNode *tLight = shipSceneNode->createChildSceneNode();
+    tLight->setPosition(Vector3(0,8,0));
+    tLight->attachObject(sp1);
 
     return camera;
 }
