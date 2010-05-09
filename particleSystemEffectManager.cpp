@@ -50,7 +50,6 @@ void ParticleSystemEffectManager::makeObjective() {
 }
 
 void ParticleSystemEffectManager::destroyObjective() {
-    std::cout << mapMgr << std::endl;
     Vector3 pos = mapMgr->getObjectivePosition();
 
     obj1->stopEmitting();

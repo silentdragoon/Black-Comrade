@@ -160,6 +160,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Effects creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+    objective->setParticleSystemEffectManager(particleSystemEffectManager);
 
     // Create Engine effects
     particleSystemEffectManager->createEngineGlow(Vector3(0,0.5,12.5));
