@@ -435,7 +435,7 @@ void HUD::makeNavigatorHUD() {
     controls = guiManager->addStaticImage("KeyboardNavigator",0.5, 0.5,1.0, 1.0,"KeyboardNavigator","Loading");
     
     // Map
-    mapbg = guiManager->addStaticImage("mapbg", 0.33,0.38, 256 * wpixel, 206 * hpixel, "mapbg", "Whole");
+    mapbg = guiManager->addStaticImage("mapbg", 0.35,0.40, 256 * wpixel, 206 * hpixel, "mapbg", "Whole");
     mapbg->setVisible(false);
 }
 

@@ -50,19 +50,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
-    lightMgr = new LightManager(sceneMgr);
+    lightAndObjManager = new LightAndObjectsManager(sceneMgr);
 
     // Map
     MapPieceChoices *mapPieceChoices;
     std::string mapFileName = ConstManager::getString("map_file_name");
     if (mapFileName == "") mapFileName = "examplemap_new.txt";
     if (collabInfo->getGameRole() == PILOT) {
-        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightAndObjManager, sceneNodeMgr);
         mapPieceChoices = mapMgr->getChosenPieces();
         networkingManager->replicate(mapPieceChoices);
     } else {
         mapPieceChoices = (MapPieceChoices*) networkingManager->getReplica("MapPieceChoices",true);
-        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightMgr);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightAndObjManager, sceneNodeMgr);
     }
 
 
@@ -183,9 +183,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,4.3,0));
+        camera->setPosition(Vector3(0,7.3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-4.3,0));
+        camera->setPosition(Vector3(0,-7.3,0));
     }
 
     // Engineer Controls
@@ -413,7 +413,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
                                             cons, pilotInfo,navigatorInfo,engineerInfo, tutorial);
     gameLoop->addTickable(guiStatusUpdater,"guiStatusUpdater");
 
-    gameLoop->addTickable(lightMgr,"lightMgr");
+    gameLoop->addTickable(lightAndObjManager,"lightAndObjManager");
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 

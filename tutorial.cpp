@@ -143,10 +143,10 @@ void Tutorial::tickEngineerTutorial() {
 void Tutorial::tickNavigatorTutorial() {
     switch(state) {
         case(TS_REPAIR_SYSTEMS) :
-            state = TS_REPAIR_HULL;
+            state = TS_REPAIR_SENSORS;
             break;
-        case(TS_REPAIR_HULL) :
-            if (damageState->getHullHealth()>=95)
+        case(TS_REPAIR_SENSORS) :
+            if (damageState->getSensorHealth()>=95)
                changeWithPause(TS_CLOSE_CONSOLE,100);
             break;
         case(TS_INDIVIDUAL) :

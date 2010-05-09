@@ -90,9 +90,10 @@ door.cpp \
 mapPieceChoices.cpp \
 tutorial.cpp \
 spotLight.cpp \
-lightManager.cpp \
+lightAndObjectsManager.cpp \
 gameTimer.cpp \
-screenshot.cpp
+screenshot.cpp \
+connectionPiece.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

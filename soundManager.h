@@ -17,7 +17,7 @@
 using namespace Ogre;
 using namespace std;
 
-enum MusicState { MS_STEALTH, MS_ATTACK, MS_FLEE, MS_THEME };
+enum MusicState { MS_STEALTH, MS_ATTACK, MS_FLEE, MS_MENU, MS_CREDITS };
 
 class SoundManager : public ITickable
 {
@@ -36,11 +36,13 @@ private:
     FMOD::Sound *stealthMusic;
     FMOD::Sound *attackMusic;
     FMOD::Sound *fleeMusic;
-    FMOD::Sound *themeMusic;
+    FMOD::Sound *menuMusic;
+    FMOD::Sound *creditMusic;
     FMOD::Channel *stealthChannel;
     FMOD::Channel *attackChannel;
     FMOD::Channel *fleeChannel;
-    FMOD::Channel *themeChannel;
+    FMOD::Channel *menuChannel;
+    FMOD::Channel *creditChannel;
 
     // Pointers to specific things
     FMOD::Channel *engineChannel;
