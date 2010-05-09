@@ -28,6 +28,7 @@ class ConnectionPiece : public IDrawable, public ITickable
         Vector3 *getMeshOrientation();
         IDrawable *getParentObject();
         std::string getMeshName();
+        std::string getName();
 };
 
 #endif

@@ -55,7 +55,7 @@ public:
 
     CollisionDetection( bool genMeshes);
 
-    void addStaticTreeCollisionMesh(Entity *entity);
+    void addStaticTreeCollisionMesh(Entity *entity, string name);
 
     Collision staicAndDynamicCollision(Entity *e1, Entity *e2, bool dynamic);
 
