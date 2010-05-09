@@ -3,12 +3,13 @@
 
 // Includes all Ogre classes
 #include <OGRE/Ogre.h>
+#include <iostream>
 #include <vector>
 #include <math.h>
 #include "ITickable.h"
 #include "fan.h"
-
-
+#include "sceneNodeManager.h"
+#include "stateUpdate.h"
 
 using namespace Ogre;
 using namespace std;
@@ -24,12 +25,14 @@ class LightAndObjectsManager : public ITickable
     std::vector<SceneNode*> fanBladesDir1;
     std::vector<SceneNode*> fanBladesDir2;
     double fanAngle;
-    void attachFanBlade( Vector3 pos, int direction, SceneNode *node );
+    void attachFanBlades( Vector3 pos, int direction, IDrawable *parent );
+    SceneNodeManager *sceneNodeMgr;
+    StateUpdate *gameLoop;
 
 
   public:
-    LightAndObjectsManager(SceneManager *sceneManager);
-    void addConnPieceObjsAndSPLight( Vector3 pos, int d, SceneNode *node );
+    LightAndObjectsManager(SceneManager *sceneManager, SceneNodeManager *scenceNodeMgr, StateUpdate *gameLoop);
+    void addConnPieceObjsAndSPLight( Vector3 pos, int d, IDrawable *parent );
     virtual void tick();
     ~LightAndObjectsManager(){}
 };

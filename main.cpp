@@ -50,7 +50,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
-    lightAndObjManager = new LightAndObjectsManager(sceneMgr);
+    lightAndObjManager = new LightAndObjectsManager(sceneMgr, sceneNodeMgr, gameLoop);
 
     // Map
     MapPieceChoices *mapPieceChoices;

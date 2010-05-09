@@ -89,6 +89,7 @@ SceneNode* SceneNodeManager::createNode(IDrawable *object) {
         newNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     } else {
         newNode = getNode(object->getParentObject())->createChildSceneNode();
+        std::cout << "here" << std::endl;
     }
     Entity *newEntity;
     //if (!madeShip) {

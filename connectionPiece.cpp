@@ -36,7 +36,7 @@ std::string ConnectionPiece::getName()
 {
     string name = "ConPiece";
     std::stringstream out;
-    out << "-" << position.x << "-" << position.y;
+    out << "-" << position.x << "-" << position.z;
     name += out.str();
     return name;
 }
