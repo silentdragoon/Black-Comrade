@@ -50,7 +50,6 @@ void ParticleSystemEffectManager::makeObjective() {
 }
 
 void ParticleSystemEffectManager::destroyObjective() {
-    std::cout << mapMgr << std::endl;
     Vector3 pos = mapMgr->getObjectivePosition();
 
     obj1->stopEmitting();
@@ -133,13 +132,10 @@ void ParticleSystemEffectManager::createEngineGlow(Vector3 pos) {
     engine->setPosition(pos);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, engine, pname, "FX/engines");
     Light *engLight = sceneMgr->createLight();
-    engLight->setType(Light::LT_SPOTLIGHT);
+    engLight->setType(Light::LT_POINT);
     engLight->setDiffuseColour(0.2,0.2,1.0);
     engLight->setSpecularColour(0.2,0.2,1.0);
-    engLight->setAttenuation(300, 1.0, 0.007, 0.0002);
-    engLight->setSpotlightInnerAngle(Radian(Degree(90)));
-    engLight->setSpotlightOuterAngle(Radian(Degree(180)));
-    engLight->setDirection(0,-1,0);
+    engLight->setAttenuation(500,0,1,1);
     engine->attachObject(engLight);
 }
 

@@ -6,7 +6,8 @@ EngineerControls::EngineerControls(InputState *inputState, Camera *cam) :
     isChangeEngine(false),
     isChangeWeapons(false),
     isTransferShields(false),
-    isTransferWeapons(false)
+    isTransferWeapons(false),
+    isFullMap(false)
     
     , GunnerControls(inputState, cam)
 {
