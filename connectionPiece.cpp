@@ -32,6 +32,15 @@ std::string ConnectionPiece::getMeshName()
     return std::string("newConnExport.mesh");
 }
 
+std::string ConnectionPiece::getName()
+{
+    string name = "ConPiece";
+    std::stringstream out;
+    out << "-" << position.x << "-" << position.y;
+    name += out.str();
+    return name;
+}
+
 void ConnectionPiece::tick()
 {
     ;
