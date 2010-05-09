@@ -218,25 +218,26 @@ void NotificationManager::prepareNotification() {
         // Tutorial notifications
         case NT_TUT_START:
             consoleText << "Let's give you a quick reminder of how this ship works..." << std::endl;
+            soundNameConst = "sound_common-01";
             break;
         case NT_TUT_MISSION_LOG:
             consoleText << "Here is the mission log..." << std::endl;
-            //soundNameConst = "";
+            soundNameConst = "sound_common-02";
             local = true;
             break;
         case NT_TUT_HEALTH_BARS:
             consoleText << "There are the health bars..." << std::endl;
-            //soundNameConst = "";
+            soundNameConst = "sound_common-03";
             local = true;
             break;
         case NT_TUT_CHARGE_BARS:
             consoleText << "There are the charge bars..." << std::endl;
-            //soundNameConst = "";
+            soundNameConst = "sound_common-05";
             local = true;
             break;
         case NT_TUT_AVATARS:
             consoleText << "There are the avatars..." << std::endl;
-            //soundNameConst = "";
+            soundNameConst = "sound_common-07";
             local = true;
             break;
         case NT_TUT_OPEN_CONSOLE:
@@ -251,34 +252,42 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_PILOT_ROLE:
             consoleText << "You are the pilot...\n";
+            soundNameConst = "sound_pilot-01";
             local = true;
             break;
         case NT_TUT_MOVE_SHIP:
             consoleText << "Why don't you try to move the ship now...\n";
+            soundNameConst = "sound_pilot-03";
             local = true;
             break;
         case NT_TUT_PILOT_END:
             consoleText << "Great. Keep flying, and hopefully your navigator will give you some directions soon.\n";
+            soundNameConst = "sound_pilot-04";
             local = true;
             break;
         case NT_TUT_REPAIR_ENGINES:
             consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
+            soundNameConst = "sound_pilot-02";
             local = true;
             break;
         case NT_TUT_REPAIR_WEAPONS:
             consoleText << "The ship's weapons are damaged. Try and repair them using the console.\n";
+            soundNameConst = "sound_engineer-02";
             local = true;
             break;
-        case NT_TUT_REPAIR_HULL:
-            consoleText << "The ship's hull is damaged. Try and repair it using the console.\n";
+        case NT_TUT_REPAIR_SENSORS:
+            consoleText << "The ship's sensors are damaged. Try and repair it using the console.\n";
+            soundNameConst = "sound_navigator-02";
             local = true;
             break;
         case NT_TUT_NAVIGATOR_ROLE:
             consoleText << "You are the navigator...\n";
+            soundNameConst = "sound_navigator-03";
             local = true;
             break;
         case NT_TUT_MINI_MAP:
             consoleText << "Here is your mini-map...\n";
+            soundNameConst = "sound_navigator-05";
             local = true;
             break;
         case NT_TUT_SHOW_MAP:
@@ -291,18 +300,22 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_NAVIGATOR_END:
             consoleText << "Great. Why don't you get familiar with the map, and give the pilot some instructions...\n";
+            soundNameConst = "sound_navigator-06";
             local = true;
             break;
         case NT_TUT_ENGINEER_ROLE:
             consoleText << "You are the engineer...\n";
+            soundNameConst = "sound_engineer-01";
             local = true;
             break;
         case NT_TUT_POWER_BARS:
             consoleText << "Here are the power bars...\n";
+            soundNameConst = "sound_engineer-05";
             local = true;
             break;
         case NT_TUT_MINI_RADAR:
             consoleText << "Here is your mini-radar...\n";
+            soundNameConst = "sound_engineer-06";
             local = true;
             break;
         case NT_TUT_SHOW_RADAR:
@@ -315,6 +328,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_ENGINEER_END:
             consoleText << "Great. Why don't you get familiar with your radar, and give the pilot some instructions...\n";
+            soundNameConst = "sound_engineer-07";
             local = true;
             break;
         case NT_TUT_WAITING:
@@ -453,8 +467,8 @@ void NotificationManager::checkTutorialState() {
         case TS_REPAIR_WEAPONS:
             newNotification = NT_TUT_REPAIR_WEAPONS;
             break;
-        case TS_REPAIR_HULL:
-            newNotification = NT_TUT_REPAIR_HULL;
+        case TS_REPAIR_SENSORS:
+            newNotification = NT_TUT_REPAIR_SENSORS;
             break;
         case TS_PILOT_ROLE:
             newNotification = NT_TUT_PILOT_ROLE;

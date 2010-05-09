@@ -183,9 +183,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,4.3,0));
+        camera->setPosition(Vector3(0,7.3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-4.3,0));
+        camera->setPosition(Vector3(0,-7.3,0));
     }
 
     // Engineer Controls

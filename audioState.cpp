@@ -58,10 +58,10 @@ void AudioState::tick()
                 sndMgr->changeMusic(MS_FLEE);
                 break;
             case GS_GAME_OVER:
-                sndMgr->changeMusic(MS_THEME);// TODO: Change to sad music
+                sndMgr->changeMusic(MS_CREDITS);// TODO: Change to sad music
                 break;
             case GS_END:
-                sndMgr->changeMusic(MS_THEME);// TODO: Change to awesome victory music
+                sndMgr->changeMusic(MS_CREDITS);// TODO: Change to awesome victory music
                 break;
         }
     }

@@ -67,6 +67,9 @@ void SoundManager::loadSoundFiles() {
 
     // Enemy explosion
     loadSoundFile("sounds/explosion6.wav",stringToInt("sound_explosion"), false,false);
+    
+    // Alarm
+    loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true);
 
 	// English Voiceover Incoming...
 	
@@ -116,8 +119,36 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/wsdi.mp3",stringToInt("sound_WeaponDamage2"),false,true); //
 	loadSoundFile("sounds/vo/engship/wsif.mp3",stringToInt("sound_WeaponDamage3"),false,true); //
 	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true); //
-    loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true); //
 
+	// Tutorial Voiceover Incoming...
+	
+	loadSoundFile("sounds/vo/t/common-01.mp3",stringToInt("sound_common-01"),false,true);
+	loadSoundFile("sounds/vo/t/common-02.mp3",stringToInt("sound_common-02"),false,true);
+	loadSoundFile("sounds/vo/t/common-03.mp3",stringToInt("sound_common-03"),false,true);
+	loadSoundFile("sounds/vo/t/common-04.mp3",stringToInt("sound_common-04"),false,true);
+	loadSoundFile("sounds/vo/t/common-05.mp3",stringToInt("sound_common-05"),false,true);
+	loadSoundFile("sounds/vo/t/common-06.mp3",stringToInt("sound_common-06"),false,true);
+	loadSoundFile("sounds/vo/t/common-07.mp3",stringToInt("sound_common-07"),false,true);
+	loadSoundFile("sounds/vo/t/common-08.mp3",stringToInt("sound_common-08"),false,true);
+	loadSoundFile("sounds/vo/t/common-09.mp3",stringToInt("sound_common-09"),false,true);
+	loadSoundFile("sounds/vo/t/common-10.mp3",stringToInt("sound_common-10"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-01.mp3",stringToInt("sound_engineer-01"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-02.mp3",stringToInt("sound_engineer-02"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-03.mp3",stringToInt("sound_engineer-03"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-04.mp3",stringToInt("sound_engineer-04"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-05.mp3",stringToInt("sound_engineer-05"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-06.mp3",stringToInt("sound_engineer-06"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-01.mp3",stringToInt("sound_navigator-01"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-02.mp3",stringToInt("sound_navigator-02"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-03.mp3",stringToInt("sound_navigator-03"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-04.mp3",stringToInt("sound_navigator-04"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-05.mp3",stringToInt("sound_navigator-05"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-06.mp3",stringToInt("sound_navigator-06"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-01.mp3",stringToInt("sound_pilot-01"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-02.mp3",stringToInt("sound_pilot-02"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-03.mp3",stringToInt("sound_pilot-03"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-04.mp3",stringToInt("sound_pilot-04"),false,true);
 
     // Music section
     loadMusic();
@@ -157,24 +188,31 @@ void SoundManager::loadMusic() {
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
     errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "sounds/theme.mp3";
-    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &themeMusic));
-    errCheck(themeMusic->setMode(FMOD_LOOP_NORMAL));
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/menu.wav";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &menuMusic));
+    errCheck(menuMusic->setMode(FMOD_LOOP_NORMAL));
+
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/credits.wav";
+    errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &creditMusic));
+    errCheck(creditMusic->setMode(FMOD_LOOP_NORMAL));
 
     // Start the musics
     errCheck(system->playSound(FMOD_CHANNEL_FREE,stealthMusic,true,&stealthChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,attackMusic,true,&attackChannel));
     errCheck(system->playSound(FMOD_CHANNEL_FREE,fleeMusic,true,&fleeChannel));
-    errCheck(system->playSound(FMOD_CHANNEL_FREE,themeMusic,true,&themeChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,menuMusic,true,&menuChannel));
+    errCheck(system->playSound(FMOD_CHANNEL_FREE,creditMusic,true,&creditChannel));
     errCheck(stealthChannel->setVolume(0.0));
     errCheck(attackChannel->setVolume(0.0));
     errCheck(fleeChannel->setVolume(0.0));
-    errCheck(themeChannel->setVolume(0.5));
+    errCheck(menuChannel->setVolume(0.5));
+    errCheck(creditChannel->setVolume(0.0));
 
     errCheck(stealthChannel->setPaused(false));
     errCheck(attackChannel->setPaused(false));
     errCheck(fleeChannel->setPaused(true));
-    errCheck(themeChannel->setPaused(false));
+    errCheck(menuChannel->setPaused(false));
+    errCheck(creditChannel->setPaused(false));
 }
 
 void SoundManager::loadPermanent() {
@@ -230,33 +268,45 @@ void SoundManager::crossFade() {
     float stealthAdjust;
     float attackAdjust;
     float fleeAdjust;
-    float themeAdjust;
+    float menuAdjust;
+    float creditAdjust;
     if(playingSound==MS_STEALTH) {
         stealthAdjust = 0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
     } else if(playingSound==MS_ATTACK) {
         stealthAdjust = -0.001;
         attackAdjust = 0.001;
         fleeAdjust = -0.001;
-        themeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
     } else if(playingSound==MS_FLEE) {
         errCheck(fleeChannel->setPaused(false));
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = 0.001;
-        themeAdjust = -0.001;
-    } else if(playingSound==MS_THEME) {
+        menuAdjust = -0.001;
+        creditAdjust = -0.001;
+    } else if(playingSound==MS_MENU) {
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = 0.001;
+        menuAdjust = 0.001;
+        creditAdjust = -0.001;
+    } else if(playingSound==MS_CREDITS) {
+        stealthAdjust = -0.001;
+        attackAdjust = -0.001;
+        fleeAdjust = -0.001;
+        menuAdjust = -0.001;
+        creditAdjust = 0.001;
     } else {
         stealthAdjust = -0.001;
         attackAdjust = -0.001;
         fleeAdjust = -0.001;
-        themeAdjust = 0.001;
+        menuAdjust = -0.001;
+        creditAdjust = 0.001;
     }
 
     float volume;
@@ -278,11 +328,17 @@ void SoundManager::crossFade() {
     if(volume<0.0) volume = 0.0;
     errCheck(fleeChannel->setVolume(volume));
 
-    errCheck(themeChannel->getVolume(&volume));
-    volume=volume+themeAdjust;
+    errCheck(menuChannel->getVolume(&volume));
+    volume=volume+menuAdjust;
     if(volume>maxVol) volume = maxVol;
     if(volume<0.0) volume = 0.0;
-    errCheck(themeChannel->setVolume(volume));
+    errCheck(menuChannel->setVolume(volume));
+
+    errCheck(creditChannel->getVolume(&volume));
+    volume=volume+creditAdjust;
+    if(volume>maxVol) volume = maxVol;
+    if(volume<0.0) volume = 0.0;
+    errCheck(creditChannel->setVolume(volume));
 }
 
 void SoundManager::checkChannels() {
@@ -395,11 +451,13 @@ SoundManager::~SoundManager() {
     stealthChannel->stop();
     attackChannel->stop();
     fleeChannel->stop();
-    themeChannel->stop();
+    menuChannel->stop();
+    creditChannel->stop();
     stealthMusic->release();
     attackMusic->release();
     fleeMusic->release();
-    themeMusic->release();
+    menuMusic->release();
+    creditMusic->release();
     // Stop engine noise
     engineChannel->stop();
     engineSound->release();
