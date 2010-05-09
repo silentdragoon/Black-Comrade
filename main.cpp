@@ -123,7 +123,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(objective,"objective");
 
     // Collision Manager (takes 99% of our loading time)
-    collisionMgr = new CollisionManager(sceneMgr,mapMgr,objective,preGame->getLoadingScreen(), rebuildCollisionMeshes);
+    collisionMgr = new CollisionManager(sceneMgr,mapMgr,objective,preGame->getLoadingScreen(), rebuildCollisionMeshes, sceneNodeMgr);
 
     // Damage State
     if (collabInfo->getGameRole() == PILOT || collabInfo->getNetworkRole() == DEVELOPMENTSERVER) {

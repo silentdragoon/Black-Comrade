@@ -1,7 +1,8 @@
 #include "collisionManager.h"
 
 CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Objective *objective,
-                                    LoadingScreen* loadingScreen, bool rebuildCollisionMeshes ):
+                                    LoadingScreen* loadingScreen, bool rebuildCollisionMeshes, SceneNodeManager *sceneNodeMgr ):
+    sceneNodeMgr(sceneNodeMgr),
     sceneMgr(sceneMgr),
     mp(mp),
     objective(objective),
@@ -15,13 +16,21 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
     std::vector<Entity*> pc = mp->getMapEntitiesForCollision();
     double percInc = 100.0/pc.size();
     double percDone = 0;
+    std::vector<ConnectionPiece*> connP = mp->getMapConnectionPiecesForCollision();
     for( std::vector<Entity*>::iterator it = pc.begin(); it!=pc.end(); ++it)
     {
         cout << "Map pieces loaded: "<< int(percDone) <<"%"<<endl;
         loadingScreen->updateProgress(int(percDone));
         percDone += percInc;
-        cd->addStaticTreeCollisionMesh(*it);
+        cd->addStaticTreeCollisionMesh(*it, (*it)->getName());
     }
+
+    for( std::vector<ConnectionPiece*>::iterator it = connP.begin(); it!=connP.end(); ++it)
+    {
+        ConnectionPiece *cp = *it;
+        cd->addStaticTreeCollisionMesh( sceneNodeMgr->getEntity(cp), cp->getName() );
+    }
+
     //adding the objective collision mesh
     Vector3 objPos = mp->getObjectivePosition();
     Real x = objPos.x;
