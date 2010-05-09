@@ -103,6 +103,7 @@ SceneNode* SceneNodeManager::createNode(IDrawable *object) {
     entities.insert(std::pair<IDrawable*,Entity*>(object,newEntity));
     nodes.insert(std::pair<IDrawable*,SceneNode*>(object,newNode));
 
+    updateNode( object, newNode );
     return newNode;
 }
 

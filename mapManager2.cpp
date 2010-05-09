@@ -383,7 +383,7 @@ void MapManager::makeConPieces() {
                     ConnectionPiece * cp = new ConnectionPiece( pos , PI/2.0);
                     sceneNodeMgr->createNode(cp);
                     //lightMgr->addConnPieceObjsAndSPLight( pos, 2,  cp);
-                    mts[x][y]->setSouthConnPiece( sceneNodeMgr->getEntity(cp) );
+                    mts[x][y]->setEastConnPiece( sceneNodeMgr->getEntity(cp) );
                     //mapEntities.push_back(sceneNodeMgr->getEntity(cp));
                     connPieces.push_back(cp);
 
