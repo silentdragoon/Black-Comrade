@@ -1,10 +1,14 @@
-#include "lightManager.h"
+#include "lightAndObjectsManager.h"
 
 LightAndObjectsManager::LightAndObjectsManager(SceneManager *sceneManager) :
     sceneManager(sceneManager)
 {
     connPieceMainSPLight = std::vector<Light*>();
+    fanBladesDir1 = std::vector<SceneNode*>();
+    fanBladesDir2 = std::vector<SceneNode*>();
     angle = 0.0;
+    fanAngle = 0.0;
+    fanCounter = 0;
 }
 
 void LightAndObjectsManager::tick()
@@ -22,9 +26,10 @@ void LightAndObjectsManager::tick()
 }
 
 
-void LightAndObjectsManager::addConnPieceSPLight( Vector3 pos )
+void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direction, SceneNode *node  )
 {
-    SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
+    //attachFanBlade( pos , direction, node );
+    SceneNode *lnode = sceneManager->getRootSceneNode()->createChildSceneNode();
 
     std::stringstream out;
     out << "-" << pos.x << "-" << pos.z;
@@ -43,9 +48,9 @@ void LightAndObjectsManager::addConnPieceSPLight( Vector3 pos )
     light->setDirection(Vector3(0.0, -1.0, 0.0));
     //light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
     //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
-    node->attachObject(light);
+    lnode->attachObject(light);
     pos.y = 23;
-    node->setPosition(pos);
+    lnode->setPosition(pos);
     /*
     lightS += "2";
     Light *light2 = sceneManager->createLight(lightS);
@@ -61,3 +66,40 @@ void LightAndObjectsManager::addConnPieceSPLight( Vector3 pos )
     connPieceMainSPLight.push_back(light2);
      */
 }
+
+void LightAndObjectsManager::attachFanBlade( Vector3 pos, int direction, SceneNode *parent )
+{
+    //Fan tmp;
+    //tmp = new Fan(
+
+    /* SceneNode *fnode1 = parent->createChildSceneNode();
+    SceneNode *fnode2 = parent->createChildSceneNode();
+    SceneNode *fnode3 = parent->createChildSceneNode();
+    SceneNode *fnode4 = parent->createChildSceneNode();
+
+    std::stringstream name;
+
+    string fanS = "fan";
+    name << fanCounter;
+    fanS += name.str();
+    fanCounter++;
+
+    Entity *e = sceneManager->createEntity(fanS, "fanBlades.mesh");
+
+    fnode1->attachObject(e);
+    fnode2->attachObject(e);
+    fnode3->attachObject(e);
+    fnode4->attachObject(e);
+    fnode1->setPosition( -10.0, 20.0, -42 );
+    fnode2->setPosition( 10.0, 20.0, -42 );
+    fnode3->setPosition( -10.0, 20.0, 42 );
+    fnode3->yaw( Radian(myPI) );
+    fnode4->setPosition( 10.0, 20.0, 42 );
+    fnode3->yaw( Radian(myPI) );
+    fanBladesDir1.push_back(fnode1);
+    fanBladesDir1.push_back(fnode2);
+    fanBladesDir1.push_back(fnode3);
+    fanBladesDir1.push_back(fnode4); */
+}
+
+

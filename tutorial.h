@@ -32,7 +32,7 @@ enum TutorialState { TS_PRE, TS_START,
                      TS_SHOW_MAP, TS_CLOSE_MAP,
                      TS_SHOW_RADAR, TS_CLOSE_RADAR,
                      TS_OPEN_CONSOLE, TS_CLOSE_CONSOLE,
-                     TS_REPAIR_SYSTEMS, TS_REPAIR_ENGINES, TS_REPAIR_WEAPONS, TS_REPAIR_HULL,
+                     TS_REPAIR_SYSTEMS, TS_REPAIR_ENGINES, TS_REPAIR_WEAPONS, TS_REPAIR_SENSORS,
                      TS_PILOT_END, TS_ENGINEER_END, TS_NAVIGATOR_END,
                      TS_WAITING_FOR_OTHERS, TS_END };
 

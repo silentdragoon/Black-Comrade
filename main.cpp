@@ -57,12 +57,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::string mapFileName = ConstManager::getString("map_file_name");
     if (mapFileName == "") mapFileName = "examplemap_new.txt";
     if (collabInfo->getGameRole() == PILOT) {
-        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightAndObjManager);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), sceneMgr,lightAndObjManager, sceneNodeMgr);
         mapPieceChoices = mapMgr->getChosenPieces();
         networkingManager->replicate(mapPieceChoices);
     } else {
         mapPieceChoices = (MapPieceChoices*) networkingManager->getReplica("MapPieceChoices",true);
-        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightAndObjManager);
+        mapMgr = new MapManager((char*)mapFileName.c_str(), mapPieceChoices, sceneMgr, lightAndObjManager, sceneNodeMgr);
     }
 
 
@@ -183,9 +183,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,4.3,0));
+        camera->setPosition(Vector3(0,7.3,0));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-4.3,0));
+        camera->setPosition(Vector3(0,-7.3,0));
     }
 
     // Engineer Controls

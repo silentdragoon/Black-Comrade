@@ -20,6 +20,8 @@
 #include "const.h"
 #include "mapPieceChoices.h"
 #include "lightAndObjectsManager.h"
+#include "sceneNodeManager.h"
+#include "connectionPiece.h"
 
 #include <boost/math/distributions/uniform.hpp>
 #include <boost/random.hpp>
@@ -41,7 +43,9 @@ private:
     int chosenIndex;
     string MAPROOT;
 	SceneManager *sceneManager;
+    SceneNodeManager *sceneNodeMgr;
     std::vector<Entity*> mapEntities;
+    std::vector<ConnectionPiece*> connPieces;
     std::vector<Waypoint*> waypoints;
     std::vector<int> chosenPieces;
     MapPieceChoices *pieceChoices;
@@ -58,8 +62,8 @@ public:
 
     MapTile* mts[Const::MAPSIZE][Const::MAPSIZE]; // Maptile storage
 
-    MapManager(char* file, SceneManager *sceneManager, LightManager *lightMgr);
-    MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager, LightManager *lightMgr);
+    MapManager(char* file, SceneManager *sceneManager, LightAndObjectsManager *lightMgr, SceneNodeManager *sceneNodeMgr);
+    MapManager(char* file, MapPieceChoices *pieceChoices, SceneManager *sceneManager, LightAndObjectsManager *lightMgr, SceneNodeManager *sceneNodeMgr);
 
     Entity* getEntity(Vector3 *locn);
     //void getMapEntities(Vector3 *locn, Entity** mps );
@@ -74,6 +78,7 @@ public:
     Vector3 getObjectivePosition();
     Vector3 getStartingPosition();
     std::vector<Entity*> getMapEntitiesForCollision();
+    std::vector<ConnectionPiece*> getMapConnectionPiecesForCollision();
     //mps has 5 space for 5 entity pointers
     void getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mps);
     MapPieceChoices *getChosenPieces();

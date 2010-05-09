@@ -6,6 +6,9 @@
 #include <vector>
 #include <math.h>
 #include "ITickable.h"
+#include "fan.h"
+
+
 
 using namespace Ogre;
 using namespace std;
@@ -13,14 +16,20 @@ using namespace std;
 class LightAndObjectsManager : public ITickable
 {
   private:
+    int fanCounter;
+    static const double myPI = 3.141592;
     std::vector<Light*> connPieceMainSPLight;
     double angle;
     SceneManager *sceneManager;
+    std::vector<SceneNode*> fanBladesDir1;
+    std::vector<SceneNode*> fanBladesDir2;
+    double fanAngle;
+    void attachFanBlade( Vector3 pos, int direction, SceneNode *node );
 
 
   public:
     LightAndObjectsManager(SceneManager *sceneManager);
-    void addConnPieceSPLight( Vector3 pos );
+    void addConnPieceObjsAndSPLight( Vector3 pos, int d, SceneNode *node );
     virtual void tick();
     ~LightAndObjectsManager(){}
 };
