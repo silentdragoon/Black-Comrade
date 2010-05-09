@@ -112,7 +112,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Effects creator
     particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
-    //particleSystemEffectManager->createEngineGlow();
+    particleSystemEffectManager->createEngineGlow();
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {

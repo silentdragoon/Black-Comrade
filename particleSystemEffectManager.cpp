@@ -125,12 +125,12 @@ void ParticleSystemEffectManager::createMuzzleFlash(Vector3 pos) {
     activeEffects->push_back(pse);
 }
 
-void ParticleSystemEffectManager::createEngineGlow() {
+void ParticleSystemEffectManager::createEngineGlow(Vector3 pos) {
     // WWAARRGARRBBLLL
     std::string nname = createUnique("enode");
     std::string pname = createUnique("effect");
     SceneNode *engine = shipSceneNode->createChildSceneNode();
-    engine->setPosition(0,0,-40);
+    engine->setPosition(pos);
     ParticleSystemEffect *pse = new ParticleSystemEffect(sceneMgr, engine, pname, "FX/engines");
     Light *engLight = sceneMgr->createLight();
     engLight->setType(Light::LT_SPOTLIGHT);
