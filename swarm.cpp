@@ -14,7 +14,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , id(id)
     , location(location)
     , sceneMgr(sceneMgr)
-    , speed(ConstManager::getFloat("enemy_patrol_speed") * 
+    , speed(ConstManager::getFloat("enemy_patrol_stealth_speed") * 
           ConstManager::getFloat("tick_period"))
     , state(SS_PATROL)
     , shipState(shipState)
@@ -41,7 +41,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     for(std::vector<MapTile*>::iterator it = patrolBlocks.begin();
         it != patrolBlocks.end(); ++it) {
         
-        cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
+        //cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
     }
 
     for(int i=0;i<(size);i++) {
@@ -110,6 +110,8 @@ void Swarm::tick()
     switch(state) {
         case SS_PATROL:
          
+            speed = gameParameterMap->getParameter("PATROL_SPEED");
+         
             updateTargetLocation();
     
             updateEnemyLocationsFlocking();
@@ -138,10 +140,18 @@ void Swarm::tick()
             }
                 
             if(isCircling) {
+            
+                speed = ConstManager::getFloat("enemy_circle_speed") * 
+          ConstManager::getFloat("tick_period");
+            
                 updateTargetLocation();
 
                 updateEnemyLocationsFlocking();
             } else {
+                
+                speed = ConstManager::getFloat("enemy_engage_speed") * 
+          ConstManager::getFloat("tick_period");
+                
                 updateEnemyLocationsAttack();
 
                 shootAtShip();
@@ -481,7 +491,7 @@ void Swarm::turnEnemy(Enemy *e)
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    left.normalise();
 	    Vector3 p = (*e->getPosition()+2*left);
-	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    dist = collisionMgr->getRCMapDist(e->getPosition(), &left);
 	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
 	    result = p + dist * left;
 	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
@@ -601,7 +611,7 @@ void Swarm::updateEnemyLocationsFlocking()
 }
 
 void Swarm::updateEnemyLocationsAttack()
-{	
+{
 	std::deque<Enemy*>::iterator i;
 	Enemy *e;	
 	
