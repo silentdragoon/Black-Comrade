@@ -29,6 +29,8 @@ using namespace std;
 
 enum SwarmState { SS_PATROL, SS_ATTACK };
 
+class SwarmManager;
+
 class Swarm
 {
     private:
@@ -55,6 +57,8 @@ class Swarm
         GameParameterMap *gameParameterMap;
         ParticleSystemEffectManager *particleSystemEffectManager;
         SoundManager *soundMgr;
+    
+        SwarmManager *swarmManager;
     
         // Used for engage then circle then engage etc.
         bool isCircling;
@@ -94,7 +98,7 @@ class Swarm
               GameParameterMap *gameParameterMap,
               ParticleSystemEffectManager *particleSystemEffectManager,
               SoundManager *soundMgr, NetworkingManager *networkingMgr,
-              std::vector<MapTile*> patrolBlocks);
+              std::vector<MapTile*> patrolBlocks, SwarmManager *swarmManager);
 
         ~Swarm();
 

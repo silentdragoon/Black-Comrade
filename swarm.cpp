@@ -9,12 +9,12 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
               GameParameterMap *gameParameterMap,
               ParticleSystemEffectManager *particleSystemEffectManager,
               SoundManager *soundMgr, NetworkingManager *networkingMgr,
-              std::vector<MapTile*> patrolBlocks)
+              std::vector<MapTile*> patrolBlocks, SwarmManager *swarmManager)
     : size(size)
     , id(id)
     , location(location)
     , sceneMgr(sceneMgr)
-    , speed(ConstManager::getFloat("enemy_patrol_speed") * 
+    , speed(ConstManager::getFloat("enemy_patrol_stealth_speed") * 
           ConstManager::getFloat("tick_period"))
     , state(SS_PATROL)
     , shipState(shipState)
@@ -27,6 +27,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , soundMgr(soundMgr)
     , networkingMgr(networkingMgr)
     , patrolBlocks(patrolBlocks)
+    , swarmManager(swarmManager)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -40,7 +41,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     for(std::vector<MapTile*>::iterator it = patrolBlocks.begin();
         it != patrolBlocks.end(); ++it) {
         
-        cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
+        //cout << "No Go: " << (*it)->getX() << " " << (*it)->getY() << endl;    
     }
 
     for(int i=0;i<(size);i++) {
@@ -109,6 +110,8 @@ void Swarm::tick()
     switch(state) {
         case SS_PATROL:
          
+            speed = gameParameterMap->getParameter("PATROL_SPEED");
+         
             updateTargetLocation();
     
             updateEnemyLocationsFlocking();
@@ -137,10 +140,18 @@ void Swarm::tick()
             }
                 
             if(isCircling) {
+            
+                speed = ConstManager::getFloat("enemy_circle_speed") * 
+          ConstManager::getFloat("tick_period");
+            
                 updateTargetLocation();
 
                 updateEnemyLocationsFlocking();
             } else {
+                
+                speed = ConstManager::getFloat("enemy_engage_speed") * 
+          ConstManager::getFloat("tick_period");
+                
                 updateEnemyLocationsAttack();
 
                 shootAtShip();
@@ -194,47 +205,32 @@ bool Swarm::canSwarmSeeShip()
 {
     Vector3 orient = 
         SceneNodeManager::directionToOrientationVector(getAverageAlignment());
-    
-    float yaw = orient.y;
 
-	Vector3 lookDirection(sin(yaw),0,cos(yaw));
-	
-	/*// Draw debug lines
-	Vector3 end1(sin(yaw+ConstManager::getFloat("enemy_sight_angle"))
-	    ,0, cos(yaw+ConstManager::getFloat("enemy_sight_angle")));
-	
-	end1 *= ConstManager::getFloat("enemy_sight_dist");
-	
-	end1 += getAveragePosition();
-	    
-	Vector3 end2(sin(yaw-ConstManager::getFloat("enemy_sight_angle"))
-	    ,0, cos(yaw-ConstManager::getFloat("enemy_sight_angle")));
-	
-	end2 *= ConstManager::getFloat("enemy_sight_dist");
-	
-	end2 += getAveragePosition();
-	
-	Vector3 avgPos(getAveragePosition());
-	
-	lines->addLine(&avgPos, &end1);
-	lines->addLine(&avgPos, &end2);
-	*/
-	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
-	Vector3 lineToShip = *(shipState->getPosition()) - getAveragePosition();
-	
-	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
-		
-		Vector3 pos = getAveragePosition();
-		Vector3 dir = getAverageAlignment();
-		
-		double t = collisionMgr->getRCMapDist(&pos, &dir);
-		
-		if(lineToShip.length() <= t && lineToShip.angleBetween(lookDirection) 
-				< sightAngle) {
-			return true;
-		}
+    for(std::deque<Enemy*>::iterator it = members.begin();
+        it != members.end(); ++it) {
+    
+        Enemy *e = *it;
+
+    	Vector3 lookDirection = 
+    	    SceneNodeManager::rollPitchYawToDirection(
+    	        e->roll, e->pitch, e->yaw);
+    	        
+    	Radian sightAngle(ConstManager::getFloat("enemy_sight_angle"));
+    	Vector3 lineToShip = *(shipState->getPosition()) - *(e->getPosition());
+    	
+    	if(lineToShip.length() < ConstManager::getFloat("enemy_sight_dist")) {
+    		
+    		Vector3 pos = getAveragePosition();
+    		Vector3 dir = getAverageAlignment();
+    		
+    		double t = collisionMgr->getRCMapDist(&pos, &dir);
+    		
+    		if(lineToShip.length() <= t && lineToShip.angleBetween(lookDirection) 
+    				< sightAngle) {
+    			return true;
+    		}
+    	}
 	}
-	
 	return false;
 } 
 
@@ -436,6 +432,9 @@ void Swarm::turnEnemy(Enemy *e)
 	avg += momentum;
 	count++;
 	
+	//std::vector<Enemy*> enemies = swarmManager->getEnemies();
+	//std::vector<Enemy*>::iterator itv;
+	
 	// Move towards friends
 	for(itr = members.begin(); itr != members.end(); ++itr) {
 		otherEnemy = *itr;
@@ -477,7 +476,7 @@ void Swarm::turnEnemy(Enemy *e)
 	    Vector3 left(sin(a+yaw),0,cos(a+yaw));
 	    left.normalise();
 	    Vector3 p = (*e->getPosition()+2*left);
-	    dist = collisionMgr->getRCMapDist(&p, &left);
+	    dist = collisionMgr->getRCMapDist(e->getPosition(), &left);
 	    //dist = rRayQuery->RaycastFromPoint(p, left, result);
 	    result = p + dist * left;
 	    if(dist > 0 && dist <= ConstManager::getFloat("flock_seperation")) {
@@ -513,7 +512,20 @@ void Swarm::turnEnemy(Enemy *e)
 	    }
 	}
 	
-	// Needs to be done on a per enemy basis (not per swarm)
+	// Avoid the ship
+	Vector3 d = *shipState->getPosition() - *e->getPosition();
+
+    // Check that i can see my the ship
+    if(d.length() < ConstManager::getFloat("enemy_ship_target_dist")) {
+        d.normalise();
+        float weight;
+        weight = - ConstManager::getFloat("flock_avoid_ship_weight")
+            * pow(1 - d.length()/
+            ConstManager::getFloat("enemy_ship_target_dist"),2);
+        d *= weight;
+        avg += d;
+        count++;
+    }
 
     float targetYaw;
     float targetPitch;
@@ -584,7 +596,7 @@ void Swarm::updateEnemyLocationsFlocking()
 }
 
 void Swarm::updateEnemyLocationsAttack()
-{	
+{
 	std::deque<Enemy*>::iterator i;
 	Enemy *e;	
 	
@@ -656,6 +668,9 @@ void Swarm::attackProcess(Enemy *e)
     v *= weight;
     avg += v;
     ++count;
+	
+	//std::vector<Enemy*> enemies = swarmManager->getEnemies();
+	//std::vector<Enemy*>::iterator itv;
 	
 	// Avoid other enemies
 	for(itr = members.begin(); itr != members.end(); ++itr) {

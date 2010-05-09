@@ -11,10 +11,12 @@ map_size = 30
 ship_scale = 1
 
 # Enemy Constants
-enemy_patrol_speed = 120
-enemy_attack_speed = 360
+enemy_patrol_attack_speed = 60
+enemy_patrol_stealth_speed = 60
+enemy_engage_speed = 150
+enemy_circle_speed = 40
 enemy_sight_angle = 0.42
-enemy_sight_dist = 200
+enemy_sight_dist = 120
 enemy_look_ahead = 15
 enemy_max_turn = 0.05
 enemy_ship_target_dist = 35
@@ -45,6 +47,8 @@ flock_friend_closer_weight = 10
 flock_friend_further_weight = 1000
 flock_avoid_wall_weight = 1000
 flock_target_weight = 100
+flock_avoid_ship_weight = 1000
+flock_avoid_ship_dist = 30
 
 # Music constants
 sound_musicvolume = 0.2
