@@ -67,6 +67,9 @@ void SoundManager::loadSoundFiles() {
 
     // Enemy explosion
     loadSoundFile("sounds/explosion6.wav",stringToInt("sound_explosion"), false,false);
+    
+    // Alarm
+    loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true);
 
 	// English Voiceover Incoming...
 	
@@ -116,8 +119,36 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/wsdi.mp3",stringToInt("sound_WeaponDamage2"),false,true); //
 	loadSoundFile("sounds/vo/engship/wsif.mp3",stringToInt("sound_WeaponDamage3"),false,true); //
 	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true); //
-    loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true); //
 
+	// Tutorial Voiceover Incoming...
+	
+	loadSoundFile("sounds/vo/t/common-01.mp3",stringToInt("sound_common-01"),false,true);
+	loadSoundFile("sounds/vo/t/common-02.mp3",stringToInt("sound_common-02"),false,true);
+	loadSoundFile("sounds/vo/t/common-03.mp3",stringToInt("sound_common-03"),false,true);
+	loadSoundFile("sounds/vo/t/common-04.mp3",stringToInt("sound_common-04"),false,true);
+	loadSoundFile("sounds/vo/t/common-05.mp3",stringToInt("sound_common-05"),false,true);
+	loadSoundFile("sounds/vo/t/common-06.mp3",stringToInt("sound_common-06"),false,true);
+	loadSoundFile("sounds/vo/t/common-07.mp3",stringToInt("sound_common-07"),false,true);
+	loadSoundFile("sounds/vo/t/common-08.mp3",stringToInt("sound_common-08"),false,true);
+	loadSoundFile("sounds/vo/t/common-09.mp3",stringToInt("sound_common-09"),false,true);
+	loadSoundFile("sounds/vo/t/common-10.mp3",stringToInt("sound_common-10"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-01.mp3",stringToInt("sound_engineer-01"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-02.mp3",stringToInt("sound_engineer-02"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-03.mp3",stringToInt("sound_engineer-03"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-04.mp3",stringToInt("sound_engineer-04"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-05.mp3",stringToInt("sound_engineer-05"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-06.mp3",stringToInt("sound_engineer-06"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-01.mp3",stringToInt("sound_navigator-01"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-02.mp3",stringToInt("sound_navigator-02"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-03.mp3",stringToInt("sound_navigator-03"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-04.mp3",stringToInt("sound_navigator-04"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-05.mp3",stringToInt("sound_navigator-05"),false,true);
+	loadSoundFile("sounds/vo/t/navigator-06.mp3",stringToInt("sound_navigator-06"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-01.mp3",stringToInt("sound_pilot-01"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-02.mp3",stringToInt("sound_pilot-02"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-03.mp3",stringToInt("sound_pilot-03"),false,true);
+	loadSoundFile("sounds/vo/t/pilot-04.mp3",stringToInt("sound_pilot-04"),false,true);
 
     // Music section
     loadMusic();
