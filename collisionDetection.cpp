@@ -96,13 +96,13 @@ dFloat CollisionDetection::objRayCollision(  Vector3 *start, Vector3 *end )
     return t;
 }
 
-void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity)
+void CollisionDetection::addStaticTreeCollisionMesh( Entity *entity, string name)
 {
     bool meshCreated = false;
     NewtonCollision *treeCollision;
 
     std::stringstream out;
-    out << entity->getName();
+    out << name;
 
     string fileString = ConstManager::getString("cmesh_file_path");
     fileString += out.str();
