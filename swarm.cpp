@@ -9,7 +9,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
               GameParameterMap *gameParameterMap,
               ParticleSystemEffectManager *particleSystemEffectManager,
               SoundManager *soundMgr, NetworkingManager *networkingMgr,
-              std::vector<MapTile*> patrolBlocks)
+              std::vector<MapTile*> patrolBlocks, SwarmManager *swarmManager)
     : size(size)
     , id(id)
     , location(location)
@@ -27,6 +27,7 @@ Swarm::Swarm(int size, int id, Vector3 location, SceneManager *sceneMgr,
     , soundMgr(soundMgr)
     , networkingMgr(networkingMgr)
     , patrolBlocks(patrolBlocks)
+    , swarmManager(swarmManager)
 {
     pathFinder = new PathFinder(mapMgr);
     path = std::vector<MapTile*>();
@@ -436,6 +437,9 @@ void Swarm::turnEnemy(Enemy *e)
 	avg += momentum;
 	count++;
 	
+	//std::vector<Enemy*> enemies = swarmManager->getEnemies();
+	//std::vector<Enemy*>::iterator itv;
+	
 	// Move towards friends
 	for(itr = members.begin(); itr != members.end(); ++itr) {
 		otherEnemy = *itr;
@@ -669,6 +673,9 @@ void Swarm::attackProcess(Enemy *e)
     v *= weight;
     avg += v;
     ++count;
+	
+	//std::vector<Enemy*> enemies = swarmManager->getEnemies();
+	//std::vector<Enemy*>::iterator itv;
 	
 	// Avoid other enemies
 	for(itr = members.begin(); itr != members.end(); ++itr) {
