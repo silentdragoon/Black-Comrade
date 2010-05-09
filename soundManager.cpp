@@ -67,7 +67,7 @@ void SoundManager::loadSoundFiles() {
 
     // Enemy explosion
     loadSoundFile("sounds/explosion6.wav",stringToInt("sound_explosion"), false,false);
-    
+
     // Alarm
     loadSoundFile("sounds/alarm_2.wav",stringToInt("sound_alarm"),false,true);
 
@@ -121,8 +121,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true); //
 
 	// Tutorial Voiceover Incoming...
-	
-	loadSoundFile("sounds/vo/t/common-01.mp3",stringToInt("sound_common-01"),false,true);
+    loadSoundFile("sounds/vo/t/common-01.mp3",stringToInt("sound_common-01"),false,true);
 	loadSoundFile("sounds/vo/t/common-02.mp3",stringToInt("sound_common-02"),false,true);
 	loadSoundFile("sounds/vo/t/common-03.mp3",stringToInt("sound_common-03"),false,true);
 	loadSoundFile("sounds/vo/t/common-04.mp3",stringToInt("sound_common-04"),false,true);

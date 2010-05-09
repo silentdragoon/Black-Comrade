@@ -24,6 +24,8 @@ private:
     double weaponCharge; // 0 - 100 ?
     double shieldCharge; // 0 - 100 ?
 
+    int timeSinceWepPress;
+    int timeSinceEngPress;
     int timeSinceLastPress;
 
     int timeSinceWeaponRecharge;
