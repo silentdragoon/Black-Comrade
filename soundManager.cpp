@@ -121,6 +121,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/wstsd.mp3",stringToInt("sound_WeaponDamage4"),false,true); //
 
 	// Tutorial Voiceover Incoming...
+
     loadSoundFile("sounds/vo/t/common-01.mp3",stringToInt("sound_common-01"),false,true);
 	loadSoundFile("sounds/vo/t/common-02.mp3",stringToInt("sound_common-02"),false,true);
 	loadSoundFile("sounds/vo/t/common-03.mp3",stringToInt("sound_common-03"),false,true);
@@ -137,7 +138,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/t/engineer-04.mp3",stringToInt("sound_engineer-04"),false,true);
 	loadSoundFile("sounds/vo/t/engineer-05.mp3",stringToInt("sound_engineer-05"),false,true);
 	loadSoundFile("sounds/vo/t/engineer-06.mp3",stringToInt("sound_engineer-06"),false,true);
-	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07lol"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-01.mp3",stringToInt("sound_navigator-01"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-02.mp3",stringToInt("sound_navigator-02"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-03.mp3",stringToInt("sound_navigator-03"),false,true);
@@ -148,6 +149,20 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/t/pilot-02.mp3",stringToInt("sound_pilot-02"),false,true);
 	loadSoundFile("sounds/vo/t/pilot-03.mp3",stringToInt("sound_pilot-03"),false,true);
 	loadSoundFile("sounds/vo/t/pilot-04.mp3",stringToInt("sound_pilot-04"),false,true);
+
+	// loading Jasmine Aural Patches (or JAP)
+
+	loadSoundFile("sounds/vo/fix/closelong.mp3",stringToInt("sound_closelong"),false,true);
+    loadSoundFile("sounds/vo/fix/closeshort.mp3",stringToInt("sound_closeshort"),false,true);
+    loadSoundFile("sounds/vo/fix/fixengines.mp3",stringToInt("sound_fixengines"),false,true);
+    loadSoundFile("sounds/vo/fix/fixsensors.mp3",stringToInt("sound_fixsensors"),false,true);
+    loadSoundFile("sounds/vo/fix/fixweapons.mp3",stringToInt("sound_fixweapons"),false,true);
+    loadSoundFile("sounds/vo/fix/readyrun.mp3",stringToInt("sound_readyrun"),false,true);
+    loadSoundFile("sounds/vo/fix/tryflying.mp3",stringToInt("sound_tryflying"),false,true);
+    loadSoundFile("sounds/vo/fix/tryopeningconsole.mp3",stringToInt("sound_tryopeningconsole"),false,true);
+    loadSoundFile("sounds/vo/fix/tryplotting.mp3",stringToInt("sound_tryplotting"),false,true);
+    loadSoundFile("sounds/vo/fix/tryradar.mp3",stringToInt("sound_tryradar"),false,true);
+    loadSoundFile("sounds/vo/fix/tryrecharge.mp3",stringToInt("sound_tryrecharge"),false,true);
 
     // Music section
     loadMusic();
