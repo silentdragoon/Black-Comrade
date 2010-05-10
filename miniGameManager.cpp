@@ -29,9 +29,6 @@ MiniGameManager::MiniGameManager(Console *console,
 
 void MiniGameManager::tick()
 {
-    player->toRepair = SS_NONE;
-    player->repairAmount = 0;
-
     handleKeys();
 
     if (currentMiniGame != NULL) {
