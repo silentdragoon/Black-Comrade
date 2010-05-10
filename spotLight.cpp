@@ -13,7 +13,7 @@ SpotLight::SpotLight(SceneManager *sceneMgr, SceneNode *shipSceneNode,
     light->setDirection(Vector3(0,0,-1));
     light->setSpotlightInnerAngle(Radian(Degree(5)));
     light->setSpotlightOuterAngle(Radian(Degree(100)));
-    light->setSpotlightFalloff(40.0);
+    light->setSpotlightFalloff(100.0);
     
     sceneNode = shipSceneNode->createChildSceneNode();
     

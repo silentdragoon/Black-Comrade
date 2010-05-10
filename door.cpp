@@ -4,7 +4,7 @@
 Door::Door(Vector3 position, float yaw)
     : startPosition(position+Vector3(0,10,0))
     , orientation(Vector3(0,yaw,0))
-    , meshOrientation(Vector3(0,PI,0))
+    , meshOrientation(Vector3(0,3.141592654,0))
     , fracOpen(0.0)
     , motion(0)
 {}
