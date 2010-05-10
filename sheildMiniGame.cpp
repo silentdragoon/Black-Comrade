@@ -17,6 +17,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , healed(false)
     , numNotes(0)
     , streak(0)
+    , started(false)
 {
 	console->makeBlank();
 
@@ -26,7 +27,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     console->setString("phase matrix",1,3);
     console->setString("allignment system.",1,4);
     console->setString("Hold down the",1,6);
-    console->setString("maching keys [ASDF]",1,7);
+    console->setString("maching keys [1234]",1,7);
     console->setString("and press any",1,8);
     console->setString("arrow key as each",1,9);
     console->setString("line of charactors",1,10);
@@ -34,6 +35,10 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     console->setString("calibration point.",1,12);
     console->setString("Good luck...",1,14);
     console->setString("Calibration point    ---->",1,21);
+    
+    console->setString("Hit SPACE to Start",40,9);
+    
+    console->setString(
     
     drawBoard();
     cout << "Level: " << level << endl;
@@ -69,40 +74,42 @@ void SheildMiniGame::tick()
 {
 	//drawBoard();
 
-    drawKeyStates();
-    
-    heal = 0;
-    
-    if(winLine) {
-        drawLine(0,"");
-        if(!healed) {
-            heal = calcHeal();
-            healed = true;
-        }
-    }
-    
-    currentTime++;
-    
-    int newQ = (int) floor(currentTime / dTime);
-    if(currentQ != newQ) {
-        currentQ = newQ;
+    if(started) {
+        drawKeyStates();
         
-        // Check for end game
+        heal = 0;
         
-        if((currentQ - boardHeight) >= (int)keys.size()) {
-            isEnd = true;
+        if(winLine) {
+            drawLine(0,"");
+            if(!healed) {
+                heal = calcHeal();
+                healed = true;
+            }
         }
         
-        for(int i = 0; i <= boardHeight; i++) {
-            int index = currentQ + i - boardHeight;
-            if(index >= 0 && index < keys.size()) {
-                drawLine(i,keys[index]);
-            } else drawLine(i,"");
-        }
+        currentTime++;
         
-        winLine = false;
-        loseLine = false;
-        healed = false;
+        int newQ = (int) floor(currentTime / dTime);
+        if(currentQ != newQ) {
+            currentQ = newQ;
+            
+            // Check for end game
+            
+            if((currentQ - boardHeight) >= (int)keys.size()) {
+                isEnd = true;
+            }
+            
+            for(int i = 0; i <= boardHeight; i++) {
+                int index = currentQ + i - boardHeight;
+                if(index >= 0 && index < keys.size()) {
+                    drawLine(i,keys[index]);
+                } else drawLine(i,"");
+            }
+            
+            winLine = false;
+            loseLine = false;
+            healed = false;
+        }
     }
 }
 
@@ -252,7 +259,15 @@ string SheildMiniGame::getName()
 
 void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) 
 {
-    if(arg.key == OIS::KC_SPACE) otherKeyPressed(arg);
+    if(arg.key == OIS::KC_SPACE) {
+    
+        if(!started) {
+            started = true;
+            console->setString("                  ",40,9);
+        }
+    
+        otherKeyPressed(arg);
+    }
 }
 
 void SheildMiniGame::returnKeyPressed() 

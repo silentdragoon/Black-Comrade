@@ -23,6 +23,7 @@ class SheildMiniGame : public IMiniGame
 {
     private:
         bool isEnd;
+        bool started;
 
         ShipSystem system;
         Console *console;
