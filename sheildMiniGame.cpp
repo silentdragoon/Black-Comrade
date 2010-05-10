@@ -53,7 +53,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
             break;
     }
     
-    currentTime = (boardHeight - 6) * dTime;
+    currentTime = (boardHeight - 3) * dTime;
 }
 
 int SheildMiniGame::calcHeal() {
@@ -255,7 +255,10 @@ void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg)
     if(arg.key == OIS::KC_SPACE) otherKeyPressed(arg);
 }
 
-void SheildMiniGame::returnKeyPressed() {}
+void SheildMiniGame::returnKeyPressed() 
+{
+	isEnd = true;
+}
 
 void SheildMiniGame::backspaceKeyPressed() {}
 
