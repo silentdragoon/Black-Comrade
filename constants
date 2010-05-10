@@ -60,7 +60,7 @@ door_open_time = 4
 
 # Objective
 escape_time = 90
-objective_health = 50
+objective_health = 200
 
 # Tunnel
 tunnel_height = 50
