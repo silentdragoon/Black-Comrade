@@ -30,6 +30,8 @@ MiniGameManager::MiniGameManager(Console *console,
 void MiniGameManager::tick()
 {
     handleKeys();
+    player->repairAmount = 0;
+    player->toRepair = SS_NONE;
 
     if (currentMiniGame != NULL) {
         inputReceiver = currentMiniGame;
