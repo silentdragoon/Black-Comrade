@@ -329,7 +329,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_ENGINEER_END:
             consoleText << "Great. Why don't you get familiar with your radar, and give the pilot some instructions...\n";
-            soundNameConst = "sound_engineer-07";
+            soundNameConst = "sound_engineer-07lol";
             local = true;
             break;
         case NT_TUT_WAITING:

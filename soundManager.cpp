@@ -138,7 +138,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/t/engineer-04.mp3",stringToInt("sound_engineer-04"),false,true);
 	loadSoundFile("sounds/vo/t/engineer-05.mp3",stringToInt("sound_engineer-05"),false,true);
 	loadSoundFile("sounds/vo/t/engineer-06.mp3",stringToInt("sound_engineer-06"),false,true);
-	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07"),false,true);
+	loadSoundFile("sounds/vo/t/engineer-07.mp3",stringToInt("sound_engineer-07lol"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-01.mp3",stringToInt("sound_navigator-01"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-02.mp3",stringToInt("sound_navigator-02"),false,true);
 	loadSoundFile("sounds/vo/t/navigator-03.mp3",stringToInt("sound_navigator-03"),false,true);
