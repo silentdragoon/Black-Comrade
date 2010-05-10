@@ -38,23 +38,25 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     
     console->setString("Hit SPACE to Start",40,9);
     
-    //console->setString(
+    console->setString("Multiplier:", 64, 17);
     
+    console->setString("Streak:", 64, 20);
+
     drawBoard();
     cout << "Level: " << level << endl;
     switch(level)
     {
-        case 1:
-            dTime = 1 / ConstManager::getFloat("tick_period");
-            loadFile("sheildLevel1");
-            break;
         case 2:
-            dTime = 0.6 / ConstManager::getFloat("tick_period");
+            dTime = 0.7 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel2");
             break;
         case 3:
-            dTime = 0.4 / ConstManager::getFloat("tick_period");
+            dTime = 0.5 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel3");
+            break;
+        default:
+            dTime = 1.2 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel1");
             break;
     }
     
@@ -67,12 +69,25 @@ int SheildMiniGame::calcHeal() {
     
     int subTotal = perNote * currentChoird.size();
     
-    return subTotal;
+    return subTotal * mult;
 }
 
 void SheildMiniGame::tick()
 {
 	//drawBoard();
+
+    std::stringstream ss;
+
+    // Multiplier
+    mult = 1 + streak / (numNotes / 5);
+    mult = mult > 4 ? 4 : mult;
+    ss << mult << "x";
+    console->setString(ss.str(), 64, 18);
+    
+    // Streak
+    std::stringstream ss2;
+    ss2 << streak;
+    console->setString(ss2.str(), 64, 21);
 
     if(started) {
         drawKeyStates();
@@ -309,8 +324,12 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
         	}
         	
         	winLine = true;
+        	
         } else loseLine = true;
     } else loseLine = true;
+    
+    if(winLine) streak += currentChoird.size();
+    if(loseLine) streak = 0;
 }
 
         
