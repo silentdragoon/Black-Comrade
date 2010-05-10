@@ -129,6 +129,10 @@ void MapManager::loadMap(char *file) {
                         connections.push_back(4);
                         chosenPiece = pieceChoices->getNextChoice();
                         createTile("objec/",connections,x,y,chosenPiece);
+                    } else if(line[x]=='S') {
+                        connections.push_back(2);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("start/",connections,x,y,chosenPiece);
                     }
                 }
 

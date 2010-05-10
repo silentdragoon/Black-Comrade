@@ -39,7 +39,7 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
     string lightS = "light";
     lightS += out.str();
 
-    Light* light = sceneManager->createLight(lightS);
+    /*Light* light = sceneManager->createLight(lightS);
     light->setType(Light::LT_SPOTLIGHT);
     light->setDiffuseColour(1.0,1.0,1.0);
     light->setSpecularColour(1.0,1.0,1.0);
@@ -52,7 +52,7 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
     //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
     lnode->attachObject(light);
     pos.y = 23;
-    lnode->setPosition(pos);
+    lnode->setPosition(pos);*/
     /*
     lightS += "2";
     Light *light2 = sceneManager->createLight(lightS);
@@ -70,7 +70,7 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
 }
 
 void LightAndObjectsManager::attachFanBlades( Vector3 pos, int direction, IDrawable *parent )
-{   /*
+{
     Fan *fan1 = new Fan( Vector3( 10,20,-42), 0.0, parent );
     sceneNodeMgr->createNode(fan1);
     gameLoop->addTickable( fan1, "" );
