@@ -70,9 +70,9 @@ void Tutorial::tickCommonTutorial() {
             break;
         case(TS_OPEN_CONSOLE) :
             // We want the player to open the console
-            if (miniGameMgr->hasConsoleBeenOpened())
+            //if (miniGameMgr->hasConsoleBeenOpened())
                 changeWithPause(TS_REPAIR_SYSTEMS,0);
-            break;
+            //break;
         case(TS_CLOSE_CONSOLE) :
             // We want the player to close the console
             if (miniGameMgr->hasConsoleBeenClosed())
