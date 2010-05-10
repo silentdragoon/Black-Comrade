@@ -4,8 +4,7 @@
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                    GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState,
-                   RadarGui *radar)
+                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
@@ -19,11 +18,14 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , shipState(shipState)
     , state(TS_PRE)
     , door(door)
-    , largeRadar(radar)
     , pauseProgress(0)
 {}
 
 TutorialState Tutorial::getState() { return state; }
+
+void Tutorial::setRadar(RadarGui *radar) {
+    largeRadar = radar;
+}
 
 void Tutorial::tick() {
     if (state == TS_END) return;
@@ -119,7 +121,7 @@ void Tutorial::tickEngineerTutorial() {
             changeWithPause(TS_ENGINEER_ROLE);
             break;
         case(TS_ENGINEER_ROLE) :
-            changeWithPause(TS_POWER_BARS,1);
+            changeWithPause(TS_POWER_BARS,4);
             break;
         case(TS_POWER_BARS) :
             changeWithPause(TS_MINI_RADAR,11);
@@ -128,11 +130,11 @@ void Tutorial::tickEngineerTutorial() {
             changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
-            if (largeRadar->hasBeenShown())
+            //if (largeRadar->hasBeenShown())
                 changeWithPause(TS_CLOSE_RADAR,3);
             break;
         case(TS_CLOSE_RADAR) :
-            if (largeRadar->hasBeenClosed())
+            //if (largeRadar->hasBeenClosed())
                 changeWithPause(TS_CHANGE_POWERS,3);
             break;
         case(TS_CHANGE_POWERS) :
