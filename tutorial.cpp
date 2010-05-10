@@ -111,27 +111,27 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_REPAIR_WEAPONS) :
             if (damageState->getWeaponHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_ENGINEER_ROLE);
             break;
         case(TS_ENGINEER_ROLE) :
-            changeWithPause(TS_POWER_BARS,500);
+            changeWithPause(TS_POWER_BARS,1);
             break;
         case(TS_POWER_BARS) :
-            changeWithPause(TS_MINI_RADAR);
+            changeWithPause(TS_MINI_RADAR,11);
             break;
         case(TS_MINI_RADAR) :
-            changeWithPause(TS_SHOW_RADAR,300);
+            changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
             // TODO: Check if the large radar has been shown
-            changeWithPause(TS_CLOSE_RADAR,200);
+            changeWithPause(TS_CLOSE_RADAR,3);
             break;
         case(TS_CLOSE_RADAR) :
             // TODO: Check if the large radar has been closed
-            changeWithPause(TS_CHANGE_POWERS,100);
+            changeWithPause(TS_CHANGE_POWERS,3);
             break;
         case(TS_CHANGE_POWERS) :
             // TODO: Check if the powers have been changed
@@ -147,7 +147,7 @@ void Tutorial::tickNavigatorTutorial() {
             break;
         case(TS_REPAIR_SENSORS) :
             if (damageState->getSensorHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_NAVIGATOR_ROLE);

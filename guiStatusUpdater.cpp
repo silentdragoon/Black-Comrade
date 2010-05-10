@@ -88,6 +88,8 @@ void GuiStatusUpdater::checkTutorial() {
             // Show the tab key on screen?
             keyToHint = KH_TAB;
             break;
+        case TS_REPAIR_WEAPONS:
+        case TS_REPAIR_SENSORS:
         case TS_REPAIR_ENGINES:
             keyToHint = KH_ESCAPE;
         case TS_OPEN_CONSOLE:
