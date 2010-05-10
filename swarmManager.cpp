@@ -126,7 +126,7 @@ void SwarmManager::createSwarm(int size, Vector3 location, std::vector<MapTile*>
     std::cout << "Created Swarm of size: " << size << std::endl;
     Swarm *s = new Swarm(size,id,location,sceneMgr,0,0,0,shipState,sceneNodeMgr
         ,lines,colMgr,mapMgr,gamePM,particleSystemEffectManager,soundMgr
-        ,networkingMgr,patrolBlocks);
+        ,networkingMgr,patrolBlocks, this);
 
     std::vector<Enemy*> ents = s->getAllEnemies();
     Enemy *en;
@@ -232,7 +232,7 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
-    if(lines) lines->clear();
+    //if(lines) lines->clear();
 
     updateRemoteSwarms();
     if (mapMgr == 0) return;

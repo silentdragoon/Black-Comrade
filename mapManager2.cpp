@@ -382,9 +382,8 @@ void MapManager::makeConPieces() {
 
                     ConnectionPiece * cp = new ConnectionPiece( pos , PI/2.0);
                     sceneNodeMgr->createNode(cp);
-                    //lightMgr->addConnPieceObjsAndSPLight( pos, 2,  cp);
-                    mts[x][y]->setSouthConnPiece( sceneNodeMgr->getEntity(cp) );
-                    //mapEntities.push_back(sceneNodeMgr->getEntity(cp));
+                    lightMgr->addConnPieceObjsAndSPLight( pos, 2,  cp);
+                    mts[x][y]->setEastConnPiece( sceneNodeMgr->getEntity(cp) );
                     connPieces.push_back(cp);
 
                     /* SceneNode *node = sceneManager->getRootSceneNode()->createChildSceneNode();
@@ -408,9 +407,8 @@ void MapManager::makeConPieces() {
 
                     ConnectionPiece * cp = new ConnectionPiece( pos , 0 );
                     sceneNodeMgr->createNode(cp);
-                    //lightMgr->addConnPieceObjsAndSPLight( pos, 1,  cp);
+                    lightMgr->addConnPieceObjsAndSPLight( pos, 1,  cp);
                     mts[x][y]->setSouthConnPiece( sceneNodeMgr->getEntity(cp) );
-                    //mapEntities.push_back(sceneNodeMgr->getEntity(cp));
                     connPieces.push_back(cp);
                 }
             }

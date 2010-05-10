@@ -50,7 +50,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     collabInfo = preGame->showMenus();
 
-    lightAndObjManager = new LightAndObjectsManager(sceneMgr);
+    lightAndObjManager = new LightAndObjectsManager(sceneMgr, sceneNodeMgr, gameLoop);
 
     // Map
     MapPieceChoices *mapPieceChoices;
@@ -110,9 +110,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Your engineer is " << engineerInfo->getNick() << std::endl;
     std::cout << "Your navigator is " << navigatorInfo->getNick() << std::endl;
 
-    // Effects creator
-    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
-    //particleSystemEffectManager->createEngineGlow();
 
     // Objective
     if (collabInfo->getGameRole() == PILOT) {
@@ -161,6 +158,16 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // Ship Node
     shipSceneNode = sceneNodeMgr->createNode(shipState);
 
+    // Effects creator
+    particleSystemEffectManager = new ParticleSystemEffectManager(sceneMgr, mapMgr, shipSceneNode);
+    objective->setParticleSystemEffectManager(particleSystemEffectManager);
+
+    // Create Engine effects
+    particleSystemEffectManager->createEngineGlow(Vector3(0,0.5,12.0));
+    particleSystemEffectManager->createEngineGlow(Vector3(0,-0.65,-3.75));
+    particleSystemEffectManager->createEngineGlow(Vector3(2.5,-0.15,5.75));
+    particleSystemEffectManager->createEngineGlow(Vector3(-2.5,-0.15,5.75));
+
     // SCALE SHIP!!!!
     shipScale = ConstManager::getFloat("ship_scale");
     shipSceneNode->setScale(shipScale,shipScale,shipScale);
@@ -183,9 +190,9 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     if(collabInfo->getGameRole() == PILOT) {
         camera->setPosition(Vector3(0,0,-8));
     } else if(collabInfo->getGameRole() == NAVIGATOR) {
-        camera->setPosition(Vector3(0,7.3,0));
+        camera->setPosition(Vector3(0,2.5,9.25));
     } else if(collabInfo->getGameRole() == ENGINEER) {
-        camera->setPosition(Vector3(0,-7.3,0));
+        camera->setPosition(Vector3(0,-2.5,-8.5));
     }
 
     // Engineer Controls
@@ -244,7 +251,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     // Tutorial
     tutorial = new Tutorial(collabInfo,pilotInfo,navigatorInfo,engineerInfo,guiMgr,hud,
-                            miniGameMgr,damageState,systemManager,shipState, door,inputState);
+                            miniGameMgr,damageState,systemManager,shipState, door,inputState,bigRadarGui);
     gameLoop->addTickable(tutorial,"tutorial");
 
     // GameState
@@ -417,6 +424,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 
+    cout << "SSN: " << shipSceneNode << endl;
+
     // Viewport
     createViewPort();
 
@@ -531,17 +540,31 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     ColourValue fadeColour(0.1,0.1,0.1);
     sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
 
-    /*Light *sp = sceneMgr->createLight("ShipLight");
+    // Bottom ship light
+    Light *sp = sceneMgr->createLight("bLight");
     sp->setType(Light::LT_POINT);
-    sp->setDiffuseColour(1.0,1.0,1.0);
+    sp->setDiffuseColour(0.3,0.3,0.3);
     sp->setSpecularColour(1.0,1.0,1.0);
     sp->setDirection(Vector3(0,0,1));
-    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);*/
+    sp->setAttenuation( 600, 1.0, 0.007, 0.0002);
+
+    // Bottom ship light
+    Light *sp1 = sceneMgr->createLight("tLight");
+    sp1->setType(Light::LT_POINT);
+    sp1->setDiffuseColour(0.3,0.3,0.3);
+    sp1->setSpecularColour(1.0,1.0,1.0);
+    sp1->setDirection(Vector3(0,0,1));
+    sp1->setAttenuation( 600, 1.0, 0.007, 0.0002);
 
     // Josh if you are looking for the spot light,
     // they have been moved into the class "spotLight.h"
 
-    //shipSceneNode->attachObject(sp);
+    SceneNode *bLight = shipSceneNode->createChildSceneNode();
+    bLight->setPosition(Vector3(0,-8,0));
+    bLight->attachObject(sp);
+    SceneNode *tLight = shipSceneNode->createChildSceneNode();
+    tLight->setPosition(Vector3(0,8,0));
+    tLight->attachObject(sp1);
 
     return camera;
 }

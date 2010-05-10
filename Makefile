@@ -93,7 +93,8 @@ spotLight.cpp \
 lightAndObjectsManager.cpp \
 gameTimer.cpp \
 screenshot.cpp \
-connectionPiece.cpp
+connectionPiece.cpp \
+fan.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

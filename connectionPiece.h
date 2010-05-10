@@ -5,6 +5,7 @@
 
 #include "IDrawable.h"
 #include "ITickable.h"
+#include "fan.h"
 
 using namespace Ogre;
 using namespace std;
@@ -16,6 +17,7 @@ class ConnectionPiece : public IDrawable, public ITickable
 
         Vector3 orientation;
         Vector3 meshOrientation;
+        int funny;
 
     public:
 

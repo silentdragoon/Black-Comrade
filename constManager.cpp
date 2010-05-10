@@ -65,11 +65,22 @@ float ConstManager::getFloatInternal(std::string name)
     
     string *value;
     
-    if(itr != constMap.end()) value = itr->second;
-    
-    std::istringstream convert(*value);
     float vFloat;
-    convert >> vFloat;
+    
+    if(itr != constMap.end()) {
+    
+        value = itr->second;
+        
+        std::istringstream convert(*value);
+        
+        convert >> vFloat;
+
+    } else {
+        
+        cerr << "Constant Not Found: " << name << endl;
+        std::exit(1);
+        
+    }
 
     return vFloat;
 }

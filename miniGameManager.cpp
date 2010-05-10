@@ -29,15 +29,16 @@ MiniGameManager::MiniGameManager(Console *console,
 
 void MiniGameManager::tick()
 {
-    player->toRepair = SS_NONE;
-    player->repairAmount = 0;
-
     handleKeys();
+    player->repairAmount = 0;
+    player->toRepair = SS_NONE;
 
     if (currentMiniGame != NULL) {
         inputReceiver = currentMiniGame;
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
+            console->makeBlank();
+            consoleShell->showPrompt();
             std::cout << "Ended minigame\n";
             if (currentMiniGame->complete()) {
                 increaseDifficulty(currentMiniGame);
@@ -115,6 +116,7 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
         return true;
     } else if (arg.text == 0 || arg.key == OIS::KC_TAB) {
         inputReceiver->otherKeyPressed(arg);
+        aKeyPressed = true;
         return true;
     }
 

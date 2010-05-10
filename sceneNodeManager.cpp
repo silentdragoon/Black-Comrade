@@ -89,6 +89,7 @@ SceneNode* SceneNodeManager::createNode(IDrawable *object) {
         newNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     } else {
         newNode = getNode(object->getParentObject())->createChildSceneNode();
+        std::cout << "here" << std::endl;
     }
     Entity *newEntity;
     //if (!madeShip) {
@@ -103,6 +104,7 @@ SceneNode* SceneNodeManager::createNode(IDrawable *object) {
     entities.insert(std::pair<IDrawable*,Entity*>(object,newEntity));
     nodes.insert(std::pair<IDrawable*,SceneNode*>(object,newNode));
 
+    updateNode( object, newNode );
     return newNode;
 }
 

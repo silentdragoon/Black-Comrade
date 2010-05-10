@@ -1,10 +1,11 @@
 
-#include "Fan.h"
+#include "fan.h"
 
-Fan::Fan(Vector3 position, float yaw)
-    : startPosition(position)
+Fan::Fan(Vector3 position, float yaw, IDrawable *parent)
+    : position(position)
     , orientation(Vector3(0,yaw,0))
     , meshOrientation(Vector3(0,0,0))
+    , parent(parent)
 {}
 
 Vector3 *Fan::getPosition()
@@ -24,7 +25,7 @@ Vector3 *Fan::getMeshOrientation()
 
 IDrawable *Fan::getParentObject()
 {
-    return NULL;
+    return parent;
 }
 
 std::string Fan::getMeshName()
@@ -34,6 +35,6 @@ std::string Fan::getMeshName()
 
 void Fan::tick()
 {
-    ;
+    orientation.z = orientation.z + 0.1;
 }
 

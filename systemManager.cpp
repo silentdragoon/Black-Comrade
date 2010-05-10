@@ -7,6 +7,8 @@ SystemManager::SystemManager() :
     engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
+    timeSinceWepPress(100),
+    timeSinceEngPress(100),
     timeSinceLastPress(100),
     timeSinceWeaponRecharge(0),
     timeSinceShieldRecharge(0)
@@ -21,6 +23,8 @@ SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState)
     engineRate(0.5),
     weaponCharge(100),
     shieldCharge(100),
+    timeSinceWepPress(100),
+    timeSinceEngPress(100),
     timeSinceLastPress(100),
     timeSinceWeaponRecharge(0),
     timeSinceShieldRecharge(0)
@@ -30,6 +34,8 @@ SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState)
 void SystemManager::tick() {
     if(engCon!=0) {
         timeSinceLastPress++;
+        timeSinceWepPress++;
+        timeSinceEngPress++;
         timeSinceWeaponRecharge++;
         timeSinceShieldRecharge++;
 
@@ -51,14 +57,15 @@ void SystemManager::tick() {
 
         if (damageState->isDamaged) damageShield();
 
-        if((engCon->isEngine())&&(timeSinceLastPress>10)) {
+        if((engCon->isEngine())&&(timeSinceEngPress>10)) {
             incEngineRate();
-            timeSinceLastPress=0;
+            timeSinceEngPress=0;
         }
 
-        if((engCon->isWeapons())&&(timeSinceLastPress>10)) {
+        if((engCon->isWeapons())&&(timeSinceWepPress>10)) {
             incWeaponRate();
-            timeSinceLastPress=0;
+
+            timeSinceWepPress=0;
         }
 
         if((engCon->transferShields())&&(timeSinceLastPress>10)) {
@@ -120,8 +127,8 @@ void SystemManager::fireWeapon() {
 void SystemManager::damageShield() {
     //std::cout << shieldCharge << std::endl;
     shieldCharge -= ConstManager::getInt("enemy_bullet_damage"); // TODO: fix this
-    double mod = 1.0 - ((double)shieldCharge / 100.0);
-    damageState->setShieldModifier( mod + 0.1) ;
+    double mod = 1.0 - (tan(((double)shieldCharge / 100.0))/1.56);
+    damageState->setShieldModifier(mod) ;
 }
 
 double SystemManager::getWeaponCharge() {

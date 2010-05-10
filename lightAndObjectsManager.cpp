@@ -1,7 +1,9 @@
 #include "lightAndObjectsManager.h"
 
-LightAndObjectsManager::LightAndObjectsManager(SceneManager *sceneManager) :
-    sceneManager(sceneManager)
+LightAndObjectsManager::LightAndObjectsManager(SceneManager *sceneManager, SceneNodeManager *sceneNodeMgr, StateUpdate *gameLoop) :
+    gameLoop(gameLoop)
+    , sceneNodeMgr(sceneNodeMgr)
+    , sceneManager(sceneManager)
 {
     connPieceMainSPLight = std::vector<Light*>();
     fanBladesDir1 = std::vector<SceneNode*>();
@@ -26,9 +28,9 @@ void LightAndObjectsManager::tick()
 }
 
 
-void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direction, SceneNode *node  )
+void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direction, IDrawable *parent  )
 {
-    //attachFanBlade( pos , direction, node );
+    attachFanBlades( pos , direction, parent );
     SceneNode *lnode = sceneManager->getRootSceneNode()->createChildSceneNode();
 
     std::stringstream out;
@@ -67,10 +69,20 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
      */
 }
 
-void LightAndObjectsManager::attachFanBlade( Vector3 pos, int direction, SceneNode *parent )
-{
-    //Fan tmp;
-    //tmp = new Fan(
+void LightAndObjectsManager::attachFanBlades( Vector3 pos, int direction, IDrawable *parent )
+{   /*
+    Fan *fan1 = new Fan( Vector3( 10,20,-42), 0.0, parent );
+    sceneNodeMgr->createNode(fan1);
+    gameLoop->addTickable( fan1, "" );
+    fan1 = new Fan( Vector3( -10.0, 20.0, -42.0), 0.0, parent );
+    sceneNodeMgr->createNode(fan1);
+    gameLoop->addTickable( fan1, "" );
+    fan1 = new Fan( Vector3( -10.0, 20.0, 42.0), myPI, parent );
+    sceneNodeMgr->createNode(fan1);
+    gameLoop->addTickable( fan1, "" );
+    fan1 = new Fan( Vector3( 10.0, 20.0, 42.0), myPI, parent );
+    sceneNodeMgr->createNode(fan1);
+    gameLoop->addTickable( fan1, "" );
 
     /* SceneNode *fnode1 = parent->createChildSceneNode();
     SceneNode *fnode2 = parent->createChildSceneNode();
@@ -101,5 +113,4 @@ void LightAndObjectsManager::attachFanBlade( Vector3 pos, int direction, SceneNo
     fanBladesDir1.push_back(fnode3);
     fanBladesDir1.push_back(fnode4); */
 }
-
 

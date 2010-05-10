@@ -12,16 +12,17 @@ using namespace std;
 class Fan : public IDrawable, public ITickable
 {
     private:
-
-        Vector3 startPosition;
         Vector3 position;
 
         Vector3 orientation;
         Vector3 meshOrientation;
 
+
+        IDrawable *parent;
+
     public:
 
-        Fan(Vector3 position, float yaw);
+        Fan(Vector3 position, float yaw, IDrawable *parent);
 
         void tick();
 

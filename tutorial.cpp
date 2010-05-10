@@ -1,9 +1,11 @@
 #include "tutorial.h"
+#include "radarGui.h"
 
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                    GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState)
+                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState,
+                   RadarGui *radar)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
@@ -17,6 +19,7 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , shipState(shipState)
     , state(TS_PRE)
     , door(door)
+    , largeRadar(radar)
     , pauseProgress(0)
 {}
 
@@ -50,29 +53,29 @@ void Tutorial::tickCommonTutorial() {
 
     switch(state) {
         case(TS_PRE) :
-            changeWithPause(TS_START,350);
+            changeWithPause(TS_START,3);
             break;
         case(TS_START) :
-            changeWithPause(TS_MISSION_LOG,350);
+            changeWithPause(TS_MISSION_LOG,9);
             break;
         case(TS_MISSION_LOG) :
             // Highlight the mission log to the players
-            changeWithPause(TS_HEALTH_BARS,300);
+            changeWithPause(TS_HEALTH_BARS,8);
             break;
         case(TS_HEALTH_BARS) :
-            changeWithPause(TS_CHARGE_BARS,500);
+            changeWithPause(TS_CHARGE_BARS,13);
             break;
         case(TS_CHARGE_BARS) :
-            changeWithPause(TS_AVATARS,300);
+            changeWithPause(TS_AVATARS,12);
             break;
         case(TS_AVATARS) :
-            changeWithPause(TS_OPEN_CONSOLE,400);
+            changeWithPause(TS_OPEN_CONSOLE,7);
             break;
         case(TS_OPEN_CONSOLE) :
             // We want the player to open the console
-            if (miniGameMgr->hasConsoleBeenOpened())
+            //if (miniGameMgr->hasConsoleBeenOpened())
                 changeWithPause(TS_REPAIR_SYSTEMS,0);
-            break;
+            //break;
         case(TS_CLOSE_CONSOLE) :
             // We want the player to close the console
             if (miniGameMgr->hasConsoleBeenClosed())
@@ -88,7 +91,7 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_REPAIR_ENGINES) :
             if (damageState->getEngineHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_PILOT_ROLE);
@@ -97,7 +100,6 @@ void Tutorial::tickPilotTutorial() {
             changeWithPause(TS_MOVE_SHIP);
             break;
         case(TS_MOVE_SHIP) :
-            // TODO: Check if the ship has been moved
             if (shipState->getSpeed() > 50)
                 changeWithPause(TS_PILOT_END);
             break;
@@ -111,27 +113,27 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_REPAIR_WEAPONS) :
             if (damageState->getWeaponHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_ENGINEER_ROLE);
             break;
         case(TS_ENGINEER_ROLE) :
-            changeWithPause(TS_POWER_BARS,500);
+            changeWithPause(TS_POWER_BARS,1);
             break;
         case(TS_POWER_BARS) :
-            changeWithPause(TS_MINI_RADAR);
+            changeWithPause(TS_MINI_RADAR,11);
             break;
         case(TS_MINI_RADAR) :
-            changeWithPause(TS_SHOW_RADAR,300);
+            changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
-            // TODO: Check if the large radar has been shown
-            changeWithPause(TS_CLOSE_RADAR,200);
+            if (largeRadar->hasBeenShown())
+                changeWithPause(TS_CLOSE_RADAR,3);
             break;
         case(TS_CLOSE_RADAR) :
-            // TODO: Check if the large radar has been closed
-            changeWithPause(TS_CHANGE_POWERS,100);
+            if (largeRadar->hasBeenClosed())
+                changeWithPause(TS_CHANGE_POWERS,3);
             break;
         case(TS_CHANGE_POWERS) :
             // TODO: Check if the powers have been changed
@@ -147,7 +149,7 @@ void Tutorial::tickNavigatorTutorial() {
             break;
         case(TS_REPAIR_SENSORS) :
             if (damageState->getSensorHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_NAVIGATOR_ROLE);
@@ -170,7 +172,7 @@ void Tutorial::tickNavigatorTutorial() {
 }
 
 void Tutorial::changeWithPause(TutorialState newState, int pause) {
-    if (pauseProgress > pause) {
+    if (pauseProgress > pause / ConstManager::getFloat("tick_period")) {
         state = newState;
         pauseProgress = 0;
     } else {
