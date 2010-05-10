@@ -5,6 +5,7 @@
 
 #include "IDrawable.h"
 #include "ITickable.h"
+#define PI 3.141592654
 
 #include "constManager.h"
 
