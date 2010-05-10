@@ -141,6 +141,7 @@ void GameStateMachine::checkSwarms() {
 }
 
 void GameStateMachine::checkTutorial() {
+    if (gameState != GS_TUTORIAL) tutorial->end();
     if (gameState == GS_TUTORIAL && tutorial->getState() == TS_END) {
         // The tutorial has been completed
         gameState = GS_STEALTH;
