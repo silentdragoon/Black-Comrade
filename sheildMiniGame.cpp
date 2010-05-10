@@ -22,21 +22,28 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
 	console->makeBlank();
 
     console->setString("Sheild Gen Phase Allignment Program",30,0);
-    console->setString("Welcome to the",1,1);
-    console->setString("sheld generator",1,2);
-    console->setString("phase matrix",1,3);
-    console->setString("allignment system.",1,4);
-    console->setString("Hold down the",1,6);
-    console->setString("maching keys [1234]",1,7);
-    console->setString("and press any",1,8);
-    console->setString("arrow key as each",1,9);
-    console->setString("line of charactors",1,10);
-    console->setString("pass the",1,11);
-    console->setString("calibration point.",1,12);
-    console->setString("Good luck...",1,14);
-    console->setString("Calibration point    ---->",1,21);
+
+    int t = 6;
+    int c = 4;
     
-    console->setString("Hit SPACE to Start",40,9);
+    console->setString("",c,t++);
+    console->setString("Hold down the maching",c,t++);
+    console->setString("keys [1234] for each",c,t++);
+    console->setString("line.",c,t++);
+    
+    
+    console->setString("Press any ARROW key",c,t++);
+    console->setString("as each line reaches",c,t++);
+    console->setString("the calibration point.",c,t++);
+    console->setString("",c,t++);
+    console->setString("",c,t++);
+    console->setString("Good luck...",c,t++);
+    console->setString("",c,t++);
+    console->setString("",c,t++);
+    console->setString("Hit RETURN to EXIT",c,t++);
+    console->setString("Calibration point    ---->",3,21);
+    
+    console->setString("Hit SPACE to Start",40,15);
     
     console->setString("Multiplier:", 64, 17);
     
@@ -46,21 +53,25 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     cout << "Level: " << level << endl;
     switch(level)
     {
+        case 1:
+            dTime = 1.4 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel0");
+            break;
         case 2:
-            dTime = 0.7 / ConstManager::getFloat("tick_period");
-            loadFile("sheildLevel2");
-            break;
-        case 3:
-            dTime = 0.5 / ConstManager::getFloat("tick_period");
-            loadFile("sheildLevel3");
-            break;
-        default:
             dTime = 1.2 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel1");
             break;
+        case 3:
+            dTime = 0.7 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel2");
+            break;
+        case 4:
+            dTime = 0.5 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel3");
+            break;
     }
     
-    currentTime = (boardHeight - 3) * dTime;
+    currentTime = (boardHeight - 2) * dTime;
 }
 
 int SheildMiniGame::calcHeal() {
@@ -278,7 +289,7 @@ void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg)
     
         if(!started) {
             started = true;
-            console->setString("                  ",40,9);
+            console->setString("                  ",40,15);
         }
     
         otherKeyPressed(arg);
