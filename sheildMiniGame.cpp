@@ -21,7 +21,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
 {
 	console->makeBlank();
 
-    console->setString("Sheild Gen Phase Allignment Program",30,0);
+    console->setString("Engine Phase Allignment Program",34,0);
 
     int t = 6;
     int c = 4;
@@ -80,7 +80,7 @@ int SheildMiniGame::calcHeal() {
     
     int subTotal = perNote * currentChoird.size();
     
-    return subTotal * mult;
+    return subTotal * mult / 2;
 }
 
 void SheildMiniGame::tick()
