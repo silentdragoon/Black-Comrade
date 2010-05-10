@@ -66,7 +66,7 @@ class Tutorial : public ITickable {
 
         void checkForCompletion();
 
-        void changeWithPause(TutorialState newState, int pause = 150);
+        void changeWithPause(TutorialState newState, int pause = 2);
 
     public:
         TutorialState getState();

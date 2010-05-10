@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="RightPil" Imagefile="right_pil.png" AutoScaled="true" >
-    <Image Name="Main" XPos="0" YPos="0" Width="138" Height="75" />
+<Imageset Name="RightPil" Imagefile="right_pil.png" AutoScaled="false" >
+    <Image Name="Main" XPos="0" YPos="0" Width="276" Height="150" />
 </Imageset>
