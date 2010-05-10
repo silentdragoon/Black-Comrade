@@ -248,6 +248,7 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
+            soundNameConst = "sound_pilot-03";
             local = true;
             break;
         case NT_TUT_PILOT_ROLE:
@@ -257,7 +258,6 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_MOVE_SHIP:
             consoleText << "Why don't you try to move the ship now...\n";
-            soundNameConst = "sound_pilot-03";
             local = true;
             break;
         case NT_TUT_PILOT_END:

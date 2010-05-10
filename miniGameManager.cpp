@@ -115,6 +115,7 @@ bool MiniGameManager::keyPressed(const OIS::KeyEvent &arg) {
         return true;
     } else if (arg.text == 0 || arg.key == OIS::KC_TAB) {
         inputReceiver->otherKeyPressed(arg);
+        aKeyPressed = true;
         return true;
     }
 

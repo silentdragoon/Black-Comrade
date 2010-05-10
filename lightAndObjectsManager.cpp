@@ -70,7 +70,7 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
 }
 
 void LightAndObjectsManager::attachFanBlades( Vector3 pos, int direction, IDrawable *parent )
-{
+{   /*
     Fan *fan1 = new Fan( Vector3( 10,20,-42), 0.0, parent );
     sceneNodeMgr->createNode(fan1);
     gameLoop->addTickable( fan1, "" );
@@ -113,5 +113,4 @@ void LightAndObjectsManager::attachFanBlades( Vector3 pos, int direction, IDrawa
     fanBladesDir1.push_back(fnode3);
     fanBladesDir1.push_back(fnode4); */
 }
-
 

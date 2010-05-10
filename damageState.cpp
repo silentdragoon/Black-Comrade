@@ -70,8 +70,8 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             break;
     }
 
-    repairer->toRepair = SS_NONE;
-    repairer->repairAmount = 0;
+    //repairer->toRepair = SS_NONE;
+    //repairer->repairAmount = 0;
 }
 
 double DamageState::getSensorHealth() { return sensorHealth; }

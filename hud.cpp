@@ -371,8 +371,8 @@ void HUD::makePilotHUD() {
 
 
     // Right box
-    guiManager->addStaticImagePix("RightPil", 1.0 - 138 * wpixel,  1.0 - 75 * hpixel,
-                                  138 * wpixel, 75 * hpixel, "RightPil", "Main");
+    guiManager->addStaticImagePix("RightPil", 1.0 - 276 * wpixel,  1.0 - 150 * hpixel,
+                                  276 * wpixel, 150 * hpixel, "RightPil", "Main");
 
     // Speed indicator
     /*
@@ -385,12 +385,12 @@ void HUD::makePilotHUD() {
 	
 	// Speedo
 	
-	speedo0 = guiManager->addStaticImagePix("Speedo0", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo0");
-	speedo1 = guiManager->addStaticImagePix("Speedo1", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo1");
-	speedo2 = guiManager->addStaticImagePix("Speedo2", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo2");
-	speedo3 = guiManager->addStaticImagePix("Speedo3", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo3");
-	speedo4 = guiManager->addStaticImagePix("Speedo4", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo4");
-	speedo5 = guiManager->addStaticImagePix("Speedo5", 1.0 - 129 * wpixel, 1.0 - 68 * hpixel, 124 * wpixel, 60 * hpixel, "Speedo", "Speedo5");
+	speedo0 = guiManager->addStaticImagePix("Speedo0", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo0");
+	speedo1 = guiManager->addStaticImagePix("Speedo1", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo1");
+	speedo2 = guiManager->addStaticImagePix("Speedo2", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo2");
+	speedo3 = guiManager->addStaticImagePix("Speedo3", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo3");
+	speedo4 = guiManager->addStaticImagePix("Speedo4", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo4");
+	speedo5 = guiManager->addStaticImagePix("Speedo5", 1.0 - 262 * wpixel, 1.0 - 135 * hpixel, 248 * wpixel, 120 * hpixel, "Speedo", "Speedo5");
 	
 	speedo1->setVisible(false);
 	speedo2->setVisible(false);
