@@ -11,14 +11,14 @@ map_size = 30
 ship_scale = 1
 
 # Enemy Constants
-enemy_patrol_attack_speed = 60
+enemy_patrol_attack_speed = 150
 enemy_patrol_stealth_speed = 60
-enemy_engage_speed = 150
-enemy_circle_speed = 40
+enemy_engage_speed = 120
+enemy_circle_speed = 80
 enemy_sight_angle = 0.42
 enemy_sight_dist = 120
 enemy_look_ahead = 15
-enemy_max_turn = 0.05
+enemy_max_turn = 0.1
 enemy_ship_target_dist = 35
 enemy_attack_seperation = 10
 enemy_engage_time = 3

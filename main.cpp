@@ -163,7 +163,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     objective->setParticleSystemEffectManager(particleSystemEffectManager);
 
     // Create Engine effects
-    particleSystemEffectManager->createEngineGlow(Vector3(0,0.5,12.5));
+    particleSystemEffectManager->createEngineGlow(Vector3(0,0.5,12.0));
     particleSystemEffectManager->createEngineGlow(Vector3(0,-0.65,-3.75));
     particleSystemEffectManager->createEngineGlow(Vector3(2.5,-0.15,5.75));
     particleSystemEffectManager->createEngineGlow(Vector3(-2.5,-0.15,5.75));
