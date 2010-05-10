@@ -50,23 +50,23 @@ void Tutorial::tickCommonTutorial() {
 
     switch(state) {
         case(TS_PRE) :
-            changeWithPause(TS_START,350);
+            changeWithPause(TS_START,3);
             break;
         case(TS_START) :
-            changeWithPause(TS_MISSION_LOG,350);
+            changeWithPause(TS_MISSION_LOG,9);
             break;
         case(TS_MISSION_LOG) :
             // Highlight the mission log to the players
-            changeWithPause(TS_HEALTH_BARS,300);
+            changeWithPause(TS_HEALTH_BARS,8);
             break;
         case(TS_HEALTH_BARS) :
-            changeWithPause(TS_CHARGE_BARS,500);
+            changeWithPause(TS_CHARGE_BARS,13);
             break;
         case(TS_CHARGE_BARS) :
-            changeWithPause(TS_AVATARS,300);
+            changeWithPause(TS_AVATARS,12);
             break;
         case(TS_AVATARS) :
-            changeWithPause(TS_OPEN_CONSOLE,400);
+            changeWithPause(TS_OPEN_CONSOLE,7);
             break;
         case(TS_OPEN_CONSOLE) :
             // We want the player to open the console
@@ -88,7 +88,7 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_REPAIR_ENGINES) :
             if (damageState->getEngineHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,100);
+               changeWithPause(TS_CLOSE_CONSOLE);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_PILOT_ROLE);
@@ -170,7 +170,7 @@ void Tutorial::tickNavigatorTutorial() {
 }
 
 void Tutorial::changeWithPause(TutorialState newState, int pause) {
-    if (pauseProgress > pause) {
+    if (pauseProgress > pause / ConstManager::getFloat("tick_period")) {
         state = newState;
         pauseProgress = 0;
     } else {

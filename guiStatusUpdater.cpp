@@ -88,9 +88,8 @@ void GuiStatusUpdater::checkTutorial() {
             // Show the tab key on screen?
             keyToHint = KH_TAB;
             break;
-        case TS_REPAIR_SYSTEMS:
-            // Highlight the health bars?
-            elementToHighlight = HE_HEALTH_BARS;
+        case TS_REPAIR_WEAPONS:
+            keyToHint = KH_ESCAPE;
         case TS_OPEN_CONSOLE:
         case TS_CLOSE_CONSOLE:
             // Show the escape key on screen?
