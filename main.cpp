@@ -346,19 +346,6 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             networkingManager,particleSystemEffectManager,soundMgr,collisionMgr);
     }
 
-    // Radar GUI
-    if (collabInfo->getGameRole() == ENGINEER) {
-        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
-            "BigRadar", engineerControls, damageState);
-        gameLoop->addTickable(bigRadarGui,"BigRadar");
-        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-            "SmallRadar", engineerControls, damageState);
-        gameLoop->addTickable(smallRadarGui,"SmallRadar");
-        tutorial->setRadar(bigRadarGui);
-    }
-    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
-
-
     // Spot Lights
     pilotSpotLight = new SpotLight(sceneMgr, shipSceneNode, pilotGunState);
     gameLoop->addTickable(pilotSpotLight, "pilotSpotLight");
@@ -425,6 +412,19 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(lightAndObjManager,"lightAndObjManager");
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
+
+    // Radar GUI
+    if (collabInfo->getGameRole() == ENGINEER) {
+        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
+            "BigRadar", engineerControls, damageState);
+        gameLoop->addTickable(bigRadarGui,"BigRadar");
+        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
+            "SmallRadar", engineerControls, damageState);
+        gameLoop->addTickable(smallRadarGui,"SmallRadar");
+        tutorial->setRadar(bigRadarGui);
+    }
+    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
 
     cout << "SSN: " << shipSceneNode << endl;
 
