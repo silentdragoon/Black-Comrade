@@ -532,8 +532,8 @@ void MapManager::getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mp
         0 <= y && y <= Const::MAPSIZE)
     {
         mts[x][y]->getTileAndConnectionEntities( mps );
+    } else {
+        *mps = NULL;
     }
-    
-    *mps = NULL;
 }
 
