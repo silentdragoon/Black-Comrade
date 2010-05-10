@@ -30,11 +30,15 @@ MiniGameManager::MiniGameManager(Console *console,
 void MiniGameManager::tick()
 {
     handleKeys();
+    player->repairAmount = 0;
+    player->toRepair = SS_NONE;
 
     if (currentMiniGame != NULL) {
         inputReceiver = currentMiniGame;
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
+            console->makeBlank();
+            consoleShell->showPrompt();
             std::cout << "Ended minigame\n";
             if (currentMiniGame->complete()) {
                 increaseDifficulty(currentMiniGame);

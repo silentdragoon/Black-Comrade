@@ -17,43 +17,61 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , healed(false)
     , numNotes(0)
     , streak(0)
+    , started(false)
 {
 	console->makeBlank();
 
     console->setString("Sheild Gen Phase Allignment Program",30,0);
-    console->setString("Welcome to the",1,1);
-    console->setString("sheld generator",1,2);
-    console->setString("phase matrix",1,3);
-    console->setString("allignment system.",1,4);
-    console->setString("Hold down the",1,6);
-    console->setString("maching keys [ASDF]",1,7);
-    console->setString("and press any",1,8);
-    console->setString("arrow key as each",1,9);
-    console->setString("line of charactors",1,10);
-    console->setString("pass the",1,11);
-    console->setString("calibration point.",1,12);
-    console->setString("Good luck...",1,14);
-    console->setString("Calibration point    ---->",1,21);
+
+    int t = 6;
+    int c = 4;
     
+    console->setString("",c,t++);
+    console->setString("Hold down the maching",c,t++);
+    console->setString("keys [1234] for each",c,t++);
+    console->setString("line.",c,t++);
+    
+    
+    console->setString("Press any ARROW key",c,t++);
+    console->setString("as each line reaches",c,t++);
+    console->setString("the calibration point.",c,t++);
+    console->setString("",c,t++);
+    console->setString("",c,t++);
+    console->setString("Good luck...",c,t++);
+    console->setString("",c,t++);
+    console->setString("",c,t++);
+    console->setString("Hit RETURN to EXIT",c,t++);
+    console->setString("Calibration point    ---->",3,21);
+    
+    console->setString("Hit SPACE to Start",40,15);
+    
+    console->setString("Multiplier:", 64, 17);
+    
+    console->setString("Streak:", 64, 20);
+
     drawBoard();
     cout << "Level: " << level << endl;
     switch(level)
     {
         case 1:
-            dTime = 1 / ConstManager::getFloat("tick_period");
-            loadFile("sheildLevel1");
+            dTime = 1.4 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel0");
             break;
         case 2:
-            dTime = 0.6 / ConstManager::getFloat("tick_period");
-            loadFile("sheildLevel2");
+            dTime = 1.2 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel1");
             break;
         case 3:
-            dTime = 0.4 / ConstManager::getFloat("tick_period");
+            dTime = 0.7 / ConstManager::getFloat("tick_period");
+            loadFile("sheildLevel2");
+            break;
+        case 4:
+            dTime = 0.5 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel3");
             break;
     }
     
-    currentTime = (boardHeight - 6) * dTime;
+    currentTime = (boardHeight - 2) * dTime;
 }
 
 int SheildMiniGame::calcHeal() {
@@ -62,47 +80,62 @@ int SheildMiniGame::calcHeal() {
     
     int subTotal = perNote * currentChoird.size();
     
-    return subTotal;
+    return subTotal * mult;
 }
 
 void SheildMiniGame::tick()
 {
 	//drawBoard();
 
-    drawKeyStates();
+    std::stringstream ss;
+
+    // Multiplier
+    mult = 1 + streak / (numNotes / 5);
+    mult = mult > 4 ? 4 : mult;
+    ss << mult << "x";
+    console->setString(ss.str(), 64, 18);
     
-    heal = 0;
-    
-    if(winLine) {
-        drawLine(0,"");
-        if(!healed) {
-            heal = calcHeal();
-            healed = true;
-        }
-    }
-    
-    currentTime++;
-    
-    int newQ = (int) floor(currentTime / dTime);
-    if(currentQ != newQ) {
-        currentQ = newQ;
+    // Streak
+    std::stringstream ss2;
+    ss2 << streak;
+    console->setString(ss2.str(), 64, 21);
+
+    if(started) {
+        drawKeyStates();
         
-        // Check for end game
+        heal = 0;
         
-        if((currentQ - boardHeight) >= (int)keys.size()) {
-            isEnd = true;
-        }
-        
-        for(int i = 0; i <= boardHeight; i++) {
-            int index = currentQ + i - boardHeight;
-            if(index >= 0 && index < keys.size()) {
-                drawLine(i,keys[index]);
-            } else drawLine(i,"");
+        if(winLine) {
+            drawLine(0,"");
+            if(!healed) {
+                heal = calcHeal();
+                healed = true;
+            }
         }
         
-        winLine = false;
-        loseLine = false;
-        healed = false;
+        currentTime++;
+        
+        int newQ = (int) floor(currentTime / dTime);
+        if(currentQ != newQ) {
+            currentQ = newQ;
+            
+            // Check for end game
+            
+            if((currentQ - boardHeight) >= (int)keys.size()) {
+                isEnd = true;
+            }
+            
+            for(int i = 0; i <= boardHeight; i++) {
+                int index = currentQ + i - boardHeight;
+                if(index >= 0 && index < keys.size()) {
+                    drawLine(i,keys[index]);
+                } else drawLine(i,"");
+            }
+            
+            winLine = false;
+            loseLine = false;
+            healed = false;
+        }
     }
 }
 
@@ -252,10 +285,21 @@ string SheildMiniGame::getName()
 
 void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg) 
 {
-    if(arg.key == OIS::KC_SPACE) otherKeyPressed(arg);
+    if(arg.key == OIS::KC_SPACE) {
+    
+        if(!started) {
+            started = true;
+            console->setString("                  ",40,15);
+        }
+    
+        otherKeyPressed(arg);
+    }
 }
 
-void SheildMiniGame::returnKeyPressed() {}
+void SheildMiniGame::returnKeyPressed() 
+{
+	isEnd = true;
+}
 
 void SheildMiniGame::backspaceKeyPressed() {}
 
@@ -291,8 +335,12 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
         	}
         	
         	winLine = true;
+        	
         } else loseLine = true;
     } else loseLine = true;
+    
+    if(winLine) streak += currentChoird.size();
+    if(loseLine) streak = 0;
 }
 
         
