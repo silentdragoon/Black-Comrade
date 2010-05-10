@@ -64,6 +64,7 @@ void SystemManager::tick() {
 
         if((engCon->isWeapons())&&(timeSinceWepPress>10)) {
             incWeaponRate();
+
             timeSinceWepPress=0;
         }
 
@@ -126,8 +127,8 @@ void SystemManager::fireWeapon() {
 void SystemManager::damageShield() {
     //std::cout << shieldCharge << std::endl;
     shieldCharge -= ConstManager::getInt("enemy_bullet_damage"); // TODO: fix this
-    double mod = 1.0 - ((double)shieldCharge / 100.0);
-    damageState->setShieldModifier( mod + 0.05) ;
+    double mod = 1.0 - (tan(((double)shieldCharge / 100.0))/1.56);
+    damageState->setShieldModifier(mod) ;
 }
 
 double SystemManager::getWeaponCharge() {

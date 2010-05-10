@@ -34,7 +34,7 @@ swarm_respawn_dist = 1500.0
 # Shooting
 enemy_fire_rate = 0.8
 enemy_inaccuracy = 0.10
-enemy_bullet_damage = 2
+enemy_bullet_damage = 1
 
 # Flocking Constants
 flock_detect_dist = 15
