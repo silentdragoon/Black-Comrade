@@ -232,7 +232,7 @@ void SwarmManager::updateRemoteSwarms() {
 
 void SwarmManager::tick() 
 {
-    if(lines) lines->clear();
+    //if(lines) lines->clear();
 
     updateRemoteSwarms();
     if (mapMgr == 0) return;
