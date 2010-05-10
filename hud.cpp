@@ -56,12 +56,12 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
 void HUD::makeHighlightingHUD() {
     // Highlight Images
     
-    hAvatars = guiManager->addStaticImagePix("hAvatars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hAvatars", "Whole" );
-    hCharge = guiManager->addStaticImagePix("hCharge", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
-    hHealthbars = guiManager->addStaticImagePix("hHealthbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
-    hMinimap = guiManager->addStaticImagePix("hMinimap", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
-    hMissionlog = guiManager->addStaticImagePix("hMissionlog", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
-    hPowerbars = guiManager->addStaticImagePix("hPowerbars", 0.0, 0.0, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
+    hAvatars = guiManager->addStaticImage("hAvatars", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hAvatars", "Whole" );
+    hCharge = guiManager->addStaticImage("hCharge", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
+    hHealthbars = guiManager->addStaticImage("hHealthbars", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
+    hMinimap = guiManager->addStaticImage("hMinimap", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
+    hMissionlog = guiManager->addStaticImage("hMissionlog", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
+    hPowerbars = guiManager->addStaticImage("hPowerbars", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
 
     stopHighlightingAllElements();
 
