@@ -38,7 +38,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     
     console->setString("Hit SPACE to Start",40,9);
     
-    console->setString(
+    //console->setString(
     
     drawBoard();
     cout << "Level: " << level << endl;
