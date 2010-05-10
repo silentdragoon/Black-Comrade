@@ -63,6 +63,7 @@ void GuiStatusUpdater::checkTutorial() {
         case TS_MISSION_LOG:
             // Highlight mission log
             elementToHighlight = HE_MISSION_LOG;
+            break;
         case TS_HEALTH_BARS:
             // Highlight health bars
             elementToHighlight = HE_HEALTH_BARS;
