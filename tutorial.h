@@ -36,6 +36,8 @@ enum TutorialState { TS_PRE, TS_START,
                      TS_PILOT_END, TS_ENGINEER_END, TS_NAVIGATOR_END,
                      TS_WAITING_FOR_OTHERS, TS_END };
 
+class RadarGui;
+
 class Tutorial : public ITickable {
     private:
 
@@ -46,7 +48,7 @@ class Tutorial : public ITickable {
         DamageState *damageState;
         SystemManager *systemMgr;
         ShipState *shipState;
-        //RadarGui *largeRadar;
+        RadarGui *largeRadar;
         InputState *inputState;
 
         CollaborationInfo *tutee;
@@ -73,7 +75,8 @@ class Tutorial : public ITickable {
         Tutorial(CollaborationInfo *tutee,
                  CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                  GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                 SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState);
+                 SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState,
+                 RadarGui *radar);
 	virtual void tick();
         void end();
 };

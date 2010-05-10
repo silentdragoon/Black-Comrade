@@ -1,9 +1,11 @@
 #include "tutorial.h"
+#include "radarGui.h"
 
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
                    GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
-                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState)
+                   SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState,
+                   RadarGui *radar)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
@@ -17,6 +19,7 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , shipState(shipState)
     , state(TS_PRE)
     , door(door)
+    , largeRadar(radar)
     , pauseProgress(0)
 {}
 
@@ -97,7 +100,6 @@ void Tutorial::tickPilotTutorial() {
             changeWithPause(TS_MOVE_SHIP);
             break;
         case(TS_MOVE_SHIP) :
-            // TODO: Check if the ship has been moved
             if (shipState->getSpeed() > 50)
                 changeWithPause(TS_PILOT_END);
             break;
@@ -126,12 +128,12 @@ void Tutorial::tickEngineerTutorial() {
             changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
-            // TODO: Check if the large radar has been shown
-            changeWithPause(TS_CLOSE_RADAR,3);
+            if (largeRadar->hasBeenShown())
+                changeWithPause(TS_CLOSE_RADAR,3);
             break;
         case(TS_CLOSE_RADAR) :
-            // TODO: Check if the large radar has been closed
-            changeWithPause(TS_CHANGE_POWERS,3);
+            if (largeRadar->hasBeenClosed())
+                changeWithPause(TS_CHANGE_POWERS,3);
             break;
         case(TS_CHANGE_POWERS) :
             // TODO: Check if the powers have been changed
