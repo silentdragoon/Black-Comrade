@@ -130,11 +130,11 @@ void Tutorial::tickEngineerTutorial() {
             changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
-            //if (largeRadar->hasBeenShown())
+            if (largeRadar->hasBeenShown())
                 changeWithPause(TS_CLOSE_RADAR,3);
             break;
         case(TS_CLOSE_RADAR) :
-            //if (largeRadar->hasBeenClosed())
+            if (largeRadar->hasBeenClosed())
                 changeWithPause(TS_CHANGE_POWERS,3);
             break;
         case(TS_CHANGE_POWERS) :
