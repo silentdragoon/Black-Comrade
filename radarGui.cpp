@@ -35,6 +35,8 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
 
 bool RadarGui::hasBeenShown() { return beenShown; }
 
+bool RadarGui::hasBeenClosed() { return beenClosed; }
+
 void RadarGui::setDotPos(CEGUI::FrameWindow *dot, float x, float y)
 {
     float globalX, globalY;
@@ -188,6 +190,7 @@ void RadarGui::tick()
     if(fullScreen) {
         visible = engineerControls->isMap();
         if (visible == true) beenShown = true;
+        if (beenShown = true && !visible) beenClosed = true;
     }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();

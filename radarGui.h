@@ -29,6 +29,7 @@ private:
     bool fullScreen;
     bool visible;
     bool beenShown;
+    bool beenClosed;
 
     char *name;
 
@@ -62,6 +63,7 @@ public:
     
     void tick();
     bool hasBeenShown();
+    bool hasBeenClosed();
 };
 
 #endif
