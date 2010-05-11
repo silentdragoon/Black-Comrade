@@ -29,10 +29,10 @@ void AudioState::tick()
 	    
 	    if (b->getOwner()->getEntityType() == ENTT_ENEMY) {
 	        // Enemy bullet
-	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.07);
+	        sndMgr->playSound("sound_enemygun",b->getOrigin(),0.05);
 	    } else if (b->getOwner()->getEntityType() == ENTT_PLAYER) {
 	        // Player bullet
-	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.4);
+	        sndMgr->playSound("sound_frontgun",b->getOrigin(),0.2);
 	    }
 	    
 	    b->madeNoise = true;
@@ -75,7 +75,7 @@ void AudioState::tick()
     int curTime = objective->getEscapeTime();
     if(curTime!=prevTime) {
         prevTime=curTime;
-        if(curTime<=20) {
+        if(curTime<=5) {
             sndMgr->playSound("sound_alarm",shipNode,0.2);
         }
     }
@@ -83,7 +83,7 @@ void AudioState::tick()
     // Ship alarm for damaged hull
     if(damageState->getHullHealth() < 25.0) {
         if(tickTime==0) {
-            sndMgr->playSound("sound_alarm",shipNode,0.7);
+            sndMgr->playSound("sound_alarm",shipNode,0.5);
             tickTime=(int)(1.0/ConstManager::getFloat("tick_period"));
         }
         tickTime--;
