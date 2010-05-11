@@ -105,7 +105,7 @@ void GuiStatusUpdater::tick() {
     long slack = stateUpdate->getSlack();
     std::string s;
     std::stringstream out;
-    out << slack << "ms";
+    out << slack << "FPS";
     s = out.str();
     hud->setStatus(s);
 
