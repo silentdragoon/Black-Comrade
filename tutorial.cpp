@@ -110,13 +110,13 @@ void Tutorial::tickPilotTutorial() {
                changeWithPause(TS_END_MINIGAME,0);
             break;
         case(TS_INDIVIDUAL) :
+            if (flying) flying->enableFlying();
             changeWithPause(TS_PILOT_ROLE,4);
             break;
         case(TS_PILOT_ROLE) :
             changeWithPause(TS_MOVE_SHIP,4);
             break;
         case(TS_MOVE_SHIP) :
-            if (flying) flying->enableFlying();
             if (shipState->getSpeed() > 50)
                 changeWithPause(TS_PILOT_END,4);
             break;

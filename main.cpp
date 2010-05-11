@@ -133,6 +133,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
+    damageState->setRepairer(collabInfo);
 
     MapTile *startMapTile = mapMgr->getMapTile(&mapMgr->getStartingPosition());
     int i = (startMapTile->getConnections())[0];
