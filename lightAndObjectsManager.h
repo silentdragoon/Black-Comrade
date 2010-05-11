@@ -29,6 +29,8 @@ class LightAndObjectsManager : public ITickable
     SceneNodeManager *sceneNodeMgr;
     StateUpdate *gameLoop;
 
+	void attachConLight(Vector3 pos, 
+		Vector3 direction, IDrawable *parent);
 
   public:
     LightAndObjectsManager(SceneManager *sceneManager, SceneNodeManager *scenceNodeMgr, StateUpdate *gameLoop);

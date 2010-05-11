@@ -33,6 +33,28 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
     attachFanBlades( pos , direction, parent );
     SceneNode *lnode = sceneManager->getRootSceneNode()->createChildSceneNode();
 
+	//SceneNode *conNode = sceneNodeMgr->getNode(parent);
+
+	// Lights
+	/*
+	attachConLight(Vector3(24,6.5,12.5),
+		Vector3(-0.8,-1,0), parent);
+	attachConLight(Vector3(24,6.5,-12.5),
+		Vector3(-0.8,-1,0), parent);
+	attachConLight(Vector3(24,6.5,34),
+		Vector3(-0.8,-1,0), parent);
+	attachConLight(Vector3(24,6.5,-34),
+		Vector3(-0.8,-1,0), parent);
+	attachConLight(Vector3(-24,6.5,12.5),
+		Vector3(0.8,-1,0), parent);
+	attachConLight(Vector3(-24,6.5,-12.5),
+		Vector3(0.8,-1,0), parent);
+	attachConLight(Vector3(-24,6.5,34),
+		Vector3(0.8,-1,0), parent);
+	attachConLight(Vector3(-24,6.5,-34),
+		Vector3(0.8,-1,0), parent);
+	*/
+	
     std::stringstream out;
     out << "-" << pos.x << "-" << pos.z;
 
@@ -67,6 +89,35 @@ void LightAndObjectsManager::addConnPieceObjsAndSPLight( Vector3 pos, int direct
     node->attachObject(light2);
     connPieceMainSPLight.push_back(light2);
      */
+}
+
+void LightAndObjectsManager::attachConLight(Vector3 pos, Vector3 direction, IDrawable *parent)
+{
+	SceneNode *lnode = 
+		sceneNodeMgr->getNode(parent)->createChildSceneNode();
+
+    std::stringstream out;
+    out << lnode->getName();
+    out << "-" << pos.x << "-" << pos.y << "-" << pos.z;
+
+    string lightS = "-conLight";
+    lightS += out.str();
+
+    Light* light = sceneManager->createLight(lightS);
+    light->setType(Light::LT_SPOTLIGHT);
+    light->setDiffuseColour(1.0,1.0,1.0);
+    light->setSpecularColour(1.0,1.0,1.0);
+    //light->setAttenuation( 100, 1.0, 0.045, 0.0075);
+    light->setSpotlightInnerAngle(Radian(Degree(5)));
+    light->setSpotlightOuterAngle(Radian(Degree(100)));
+    light->setSpotlightFalloff(40.0);
+    light->setDirection(direction);
+    //light->setSpotlightRange(Ogre::Degree(20), Ogre::Degree(60), 1.2);
+    //light->setDirection(Vector3::NEGATIVE_UNIT_Y);
+    
+    lnode->attachObject(light);
+    
+    lnode->setPosition(pos);
 }
 
 void LightAndObjectsManager::attachFanBlades( Vector3 pos, int direction, IDrawable *parent )
