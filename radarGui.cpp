@@ -9,7 +9,8 @@
 
 RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
-            EngineerControls *engineerControls, DamageState *damageState)
+            EngineerControls *engineerControls, DamageState *damageState,
+           	Console *console)
     : guiManager(guiManager)
     , shipState(shipState)
     , swarmManager(swarmManager)
@@ -27,11 +28,12 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , damageState(damageState)
     , beenShown(false)
     , beenClosed(false)
+    , console(console)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
     //guiManager->getRootWindow()->addChildWindow(radarWindow);
-    if (fullScreen) visible = false;
+    if (fullScreen && !console->getVisible()) visible = false;
 }
 
 bool RadarGui::hasBeenShown() { return beenShown; }
@@ -61,7 +63,7 @@ CEGUI::FrameWindow *RadarGui::createWindow(
     char *imageSet = "Radar";
     char *imageName;
     
-    if(fullScreen)
+    if(fullScreen && !console->getVisible())
         imageName = "backgroundFull";
     else
         imageName = "background";
@@ -102,14 +104,14 @@ CEGUI::FrameWindow *RadarGui::createWindow(
         std::pair<float,float> pair = *it;
 
         float size;
-        size = (fullScreen ? 0.5 : 1) * DOT_HEIGHT * height;
+        size = (fullScreen && !console->getVisible() ? 0.5 : 1) * DOT_HEIGHT * height;
 
         // TODO: actully put stuff in the right place!
 
         float xPos, yPos;
-        xPos = (fullScreen ? 0.5 : 1) * pair.first * sin(pair.second) - size;
-        yPos = (fullScreen ? 0.5 : 1) * pair.first * cos(pair.second) - 0.5
-            + 2 * size * DOT_Y_OFFSET_FRAC + (fullScreen ? 0.5 : 0);
+        xPos = (fullScreen && !console->getVisible() ? 0.5 : 1) * pair.first * sin(pair.second) - size;
+        yPos = (fullScreen && !console->getVisible() ? 0.5 : 1) * pair.first * cos(pair.second) - 0.5
+            + 2 * size * DOT_Y_OFFSET_FRAC + (fullScreen && !console->getVisible() ? 0.5 : 0);
         //cout << xPos << " - " << yPos << endl;
         ic = CEGUI::ImageryComponent();
         ic.setImage(imageSet,"enemy");
@@ -188,7 +190,7 @@ void RadarGui::tick()
         guiMgr->destroyWindow(radarWindow);
     }
 
-    if(fullScreen) {
+    if(fullScreen && !console->getVisible()) {
         visible = engineerControls->isMap();
         if (visible) beenShown = true;
         if (beenShown && !visible) beenClosed = true;
@@ -203,7 +205,7 @@ void RadarGui::tick()
     float wpixel = 1.0 / (float)winWidth * g;
     float hpixel = 1.0 / (float)winHeight * g;
 
-    if(fullScreen) {
+    if(fullScreen && !console->getVisible()) {
     	width = 0.5 / ratio;
         height = 0.5;
 
@@ -244,7 +246,7 @@ void RadarGui::tick()
         // If real close just draw dot
         //if(dist < 0.1) { dist = 0; angle = 0;}
 
-        if(dist < 1 && (fullScreen || abs(angle) < RADAR_ANGLE/2)) {
+        if(dist < 1 && ((fullScreen && !console->getVisible()) || abs(angle) < RADAR_ANGLE/2)) {
 
             positions.push_back(std::pair<float,float>(dist, angle));
 
