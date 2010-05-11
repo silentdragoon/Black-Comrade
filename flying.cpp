@@ -71,7 +71,7 @@ void Flying::updatePosition()
         hitObj = collided;
     }
 
-    if(collided && useCollisions)
+    if(collided && useCollisions && !flyingDisabled)
     {
         if (hitObj) {
             damageState->damage(30);

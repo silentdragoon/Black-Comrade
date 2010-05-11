@@ -36,6 +36,7 @@ private:
 
     double damageSustained;
 
+    CollaborationInfo *me;
     CollaborationInfo *pilotInfo;
     CollaborationInfo *engineerInfo;
     CollaborationInfo *navigatorInfo;
@@ -54,6 +55,7 @@ public:
     void damage();
     void damage(double multiplier);
 
+    void setRepairer(CollaborationInfo *me);
     void setShieldModifier(double mod);
 
     void repairEngines(int amount);

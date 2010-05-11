@@ -66,10 +66,10 @@ objective_health = 200
 tunnel_height = 50
 
 # Initial healths
-initial_weapon_health = 50
+initial_weapon_health = 70
 initial_hull_health = 100
-initial_sensor_health = 50
-initial_engine_health = 50
+initial_sensor_health = 70
+initial_engine_health = 70
 
 # Decent!
 decent_height = 79.5
