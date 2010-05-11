@@ -37,18 +37,7 @@ void MiniGameManager::tick()
         inputReceiver = currentMiniGame;
         currentMiniGame->tick();
         if (currentMiniGame->end()) {
-            console->makeBlank();
-            consoleShell->showPrompt();
-            std::cout << "Ended minigame\n";
-            if (currentMiniGame->complete()) {
-                increaseDifficulty(currentMiniGame);
-                player->getPlayerStats()->repairsMade ++;
-            }
-            delete currentMiniGame;
-            currentMiniGame = NULL;
-            inputReceiver = consoleShell;
-            consoleShell->showPrompt();
-            player->repairing = false;
+            endGame();
         } else {
             // Game has not ended, so get the score for this tick
             player->toRepair = currentMiniGame->getSystem();
@@ -66,6 +55,21 @@ void MiniGameManager::tick()
     }
 }
 
+void MiniGameManager::endGame() {
+    console->makeBlank();
+    consoleShell->showPrompt();
+    std::cout << "Ended minigame\n";
+    if (currentMiniGame->complete()) {
+        increaseDifficulty(currentMiniGame);
+        player->getPlayerStats()->repairsMade ++;
+    }
+    delete currentMiniGame;
+    currentMiniGame = NULL;
+    inputReceiver = consoleShell;
+    consoleShell->showPrompt();
+    player->repairing = false;
+}
+
 void MiniGameManager::handleKeys() {
     if (lastKey < keyDelay) {
         lastKey ++;
@@ -77,6 +81,7 @@ void MiniGameManager::handleKeys() {
             // Hide it
             consoleBeenClosed = consoleBeenOpened;
             setConsoleState(false);
+            if (currentMiniGame) endGame();
         } else if (!console->getVisible() && releasedKey) {
             // Show it
             setConsoleState(true);

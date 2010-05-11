@@ -48,6 +48,8 @@ private:
     void setDifficulty(IMiniGame *game, int difficulty);
     int getDifficulty(IMiniGame *game);
     void increaseDifficulty(IMiniGame *game);
+
+    void endGame();
     
 public:
     bool aKeyPressed;
