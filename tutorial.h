@@ -38,6 +38,7 @@ enum TutorialState { TS_PRE, TS_START,
                      TS_WAITING_FOR_OTHERS, TS_END };
 
 class RadarGui;
+class Flying;
 
 class Tutorial : public ITickable {
     private:
@@ -51,6 +52,7 @@ class Tutorial : public ITickable {
         ShipState *shipState;
         RadarGui *largeRadar;
         InputState *inputState;
+        Flying *flying;
 
         CollaborationInfo *tutee;
 
@@ -82,6 +84,7 @@ class Tutorial : public ITickable {
 
     void setRadar(RadarGui *radar);
     void setHUD(HUD *hud);
+    void setFlying(Flying *flying);
 };
 
 #endif

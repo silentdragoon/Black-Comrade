@@ -53,6 +53,8 @@ class Flying : public ITickable
         int lastAverage;
         int averageDelay;
 
+        bool flyingDisabled;
+
         int numSpeedsTaken;
         
         static const double EngineForce = 0.5;
@@ -84,6 +86,8 @@ class Flying : public ITickable
         ~Flying();
 
         double getSpeed();
+
+        void enableFlying();
 
         virtual void tick();
 };

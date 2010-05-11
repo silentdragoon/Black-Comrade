@@ -31,8 +31,9 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     averageDelay(150),
     averageSpeed(0.0),
     numSpeedsTaken(0),
-    pilotStats(pilotStats)
-    , elivation(1)
+    pilotStats(pilotStats),
+    flyingDisabled(true),
+    elivation(1)
     
 {
     position = new Vector3(iXPos, iYPos + 8, iZPos );
@@ -40,6 +41,10 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
 
 Flying::~Flying()
 {}
+
+void Flying::enableFlying() {
+    flyingDisabled = false;
+}
 
 void Flying::updateAngels()
 {
@@ -107,7 +112,7 @@ void Flying::updatePosition()
     {
         updateAngels();
         //hack considering not all. Works fine though
-        if( damageState->getEngineHealth() > 0 )
+        if( damageState->getEngineHealth() > 0 && !flyingDisabled)
         {
             double engineRate = systemManager->getEngineRate();
             double xzFor =  0.7*(engineRate/1.3+0.4)*EngineForce*sin(flyPitch);

@@ -416,6 +416,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr,damageState, cons);
     tutorial->setHUD(hud);
+    if (collabInfo->getGameRole() == PILOT) tutorial->setFlying(flying);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,
