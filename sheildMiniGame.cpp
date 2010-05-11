@@ -18,6 +18,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , numNotes(0)
     , streak(0)
     , started(false)
+    , healTotal(0)
 {
 	console->makeBlank();
 
@@ -103,6 +104,31 @@ void SheildMiniGame::tick()
     if(started) {
         drawKeyStates();
         
+        int index = currentQ - boardHeight;
+        
+        // Line
+		if(index >= 0 && index < keys.size()) {
+        	std::string str;
+        
+        	str.append(keys[index]);
+        
+        	if(str.size() == currentChoird.size() && str.size() != 0) {
+        
+        		while(str.size() > 0) {
+
+            		if(currentChoird.find_first_of(str[0]) ==
+            			currentChoird.npos) {
+            			loseLine = true;
+            			return;
+            		}
+            		str.erase(0);
+        		}
+        	
+        		winLine = true;
+        	
+        	}
+    	}
+        
         heal = 0;
         
         if(winLine) {
@@ -125,6 +151,8 @@ void SheildMiniGame::tick()
                 isEnd = true;
             }
             
+            if(!winLine) streak = 0;
+            
             for(int i = 0; i <= boardHeight; i++) {
                 int index = currentQ + i - boardHeight;
                 if(index >= 0 && index < keys.size()) {
@@ -137,6 +165,8 @@ void SheildMiniGame::tick()
             healed = false;
         }
     }
+    
+    healTotal += heal;
 }
 
 void SheildMiniGame::loadFile(string fileName)
@@ -244,7 +274,6 @@ void SheildMiniGame::drawBoard()
 	
 	console->setChar('|', boardX, boardY + boardHeight);
 	console->setChar('|', boardX + boardWidth, boardY + boardHeight);
-	
 	console->setChar('+', boardX, boardY + boardHeight);
 	console->setChar('+', boardX + boardWidth, boardY + boardHeight);
 	console->setChar('|', boardX, boardY + boardHeight + 1);
@@ -265,7 +294,7 @@ bool SheildMiniGame::end()
 
 bool SheildMiniGame::complete()
 {
-    return true;
+    return healTotal >= 50;
 }
 
 int SheildMiniGame::getScore()
@@ -292,8 +321,9 @@ void SheildMiniGame::alphaNumKeyPressed(const OIS::KeyEvent &arg)
             console->setString("                  ",40,15);
         }
     
-        otherKeyPressed(arg);
+        
     }
+
 }
 
 void SheildMiniGame::returnKeyPressed() 
@@ -304,42 +334,14 @@ void SheildMiniGame::returnKeyPressed()
 void SheildMiniGame::backspaceKeyPressed() {}
 
 void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
-{
-    if(arg.key != OIS::KC_UP && arg.key != OIS::KC_DOWN
-    	&& arg.key != OIS::KC_LEFT && arg.key != OIS::KC_RIGHT
-    	&& arg.key != OIS::KC_SPACE)
-    		return;
-    
+{   return;
     if(winLine) {
     	winLine = false;
     	loseLine = true;
     	return;
     }
     
-    int index = currentQ - boardHeight;
-    if(index >= 0 && index < keys.size()) {
-        std::string str;
-        
-        str.append(keys[index]);
-        
-        if(str.size() == currentChoird.size() && str.size() != 0) {
-        
-        	while(str.size() > 0) {
-
-            	if(currentChoird.find_first_of(str[0]) ==
-            		currentChoird.npos) {
-            		loseLine = true;
-            		return;
-            	}
-            	str.erase(0);
-        	}
-        	
-        	winLine = true;
-        	
-        } else loseLine = true;
-    } else loseLine = true;
-    
-    if(winLine) streak += currentChoird.size();
+     if(winLine) streak += currentChoird.size();
     if(loseLine) streak = 0;
 }
 
