@@ -3,14 +3,13 @@
 
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
-                   GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
+                   GuiManager *guiMgr, MiniGameManager *miniGameMgr, DamageState *damageState,
                    SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState)
     : tutee(tutee)
     , tutee1(tutee1)
     , tutee2(tutee2)
     , tutee3(tutee3)
     , guiMgr(guiMgr)
-    , hud(hud)
     , inputState(inputState)
     , miniGameMgr(miniGameMgr)
     , damageState(damageState)
@@ -25,6 +24,10 @@ TutorialState Tutorial::getState() { return state; }
 
 void Tutorial::setRadar(RadarGui *radar) {
     largeRadar = radar;
+}
+
+void Tutorial::setHUD(HUD *mHud) {
+    hud = mHud;
 }
 
 void Tutorial::tick() {
@@ -165,12 +168,11 @@ void Tutorial::tickNavigatorTutorial() {
             changeWithPause(TS_SHOW_MAP,8);
             break;
         case(TS_SHOW_MAP) :
-            // TODO: Check if the large map has been shown
-            changeWithPause(TS_CLOSE_MAP,4);
+            if(hud->hasLargeMapBeenShown())
+                changeWithPause(TS_CLOSE_MAP,3);
             break;
         case(TS_CLOSE_MAP) :
-            // TODO: Check if the large map has been closed
-            changeWithPause(TS_NAVIGATOR_END);
+            changeWithPause(TS_NAVIGATOR_END,1);
             break;
     }
 }

@@ -113,6 +113,7 @@
     <FalagardMapping WindowType="BlackComrade/KeyHintF1" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyHintF1" />
     <FalagardMapping WindowType="BlackComrade/KeyHintEsc" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyHintEsc" />
     <FalagardMapping WindowType="BlackComrade/KeyHintTab" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyHintTab" />
+    <FalagardMapping WindowType="BlackComrade/KeyHintEnter" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/KeyHintEnter" />
 
     <FalagardMapping WindowType="BlackComrade/Crewl" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewl" />
     <FalagardMapping WindowType="BlackComrade/Crewr" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Crewr" />

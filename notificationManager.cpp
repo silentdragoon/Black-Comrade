@@ -530,7 +530,7 @@ void NotificationManager::checkTutorialState() {
     }
 
     if(lastNotification->getType() != newNotification) {
-        if (isTimely(newNotification,100,0)) {
+        if (isTimely(newNotification,1000,0)) {
             mIsNewNotification = true;
             nextType = newNotification;
             lastTutorialStateNotified = tutorialState;

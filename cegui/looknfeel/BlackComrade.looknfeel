@@ -164,6 +164,8 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/KeyHintEsc">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/KeyHintEnter">
+    </WidgetLook>
     <WidgetLook name="BlackComrade/mapbg">
     </WidgetLook>
     
@@ -4065,7 +4067,7 @@
                 <Image type="TopLeftCorner" imageset="TaharezLook" image="MultiListTopLeft" />
                 <Image type="TopRightCorner" imageset="TaharezLook" image="MultiListTopRight" />
                 <Image type="BottomLeftCorner" imageset="TaharezLook" image="MultiListBottomLeft" />
-                <Image type="BottomRightCorner" imageset="TaharezLook" image="MultiListBottomRight" />
+                <Imaghe type="BottomRightCorner" imageset="TaharezLook" image="MultiListBottomRight" />
                 <Image type="LeftEdge" imageset="TaharezLook" image="MultiListLeft" />
                 <Image type="RightEdge" imageset="TaharezLook" image="MultiListRight" />
                 <Image type="TopEdge" imageset="TaharezLook" image="MultiListTop" />

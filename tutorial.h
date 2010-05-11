@@ -75,12 +75,13 @@ class Tutorial : public ITickable {
         TutorialState getState();
         Tutorial(CollaborationInfo *tutee,
                  CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
-                 GuiManager *guiMgr, HUD *hud, MiniGameManager *miniGameMgr, DamageState *damageState,
+                 GuiManager *guiMgr, MiniGameManager *miniGameMgr, DamageState *damageState,
                  SystemManager *systemMgr, ShipState *shipState, Door *door, InputState *inputState);
 	virtual void tick();
     void end();
 
     void setRadar(RadarGui *radar);
+    void setHUD(HUD *hud);
 };
 
 #endif
