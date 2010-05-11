@@ -200,7 +200,7 @@ void SoundManager::loadMusic() {
 
     musicPath = ConstManager::getString("sound_file_path") + "sounds/flee.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
-    errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
+    errCheck(fleeMusic->setMode(FMOD_LOOP_OFF));
 
     musicPath = ConstManager::getString("sound_file_path") + "sounds/menu.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &menuMusic));
@@ -219,7 +219,7 @@ void SoundManager::loadMusic() {
     errCheck(stealthChannel->setVolume(0.0));
     errCheck(attackChannel->setVolume(0.0));
     errCheck(fleeChannel->setVolume(0.0));
-    errCheck(menuChannel->setVolume(0.5));
+    errCheck(menuChannel->setVolume(ConstManager::getFloat("sound_musicvolume")));
     errCheck(creditChannel->setVolume(0.0));
 
     errCheck(stealthChannel->setPaused(false));
@@ -338,7 +338,7 @@ void SoundManager::crossFade() {
 
     errCheck(fleeChannel->getVolume(&volume));
     volume=volume+fleeAdjust;
-    if(volume>maxVol) volume = maxVol;
+    if(volume>maxVol+0.3) volume = maxVol+0.3; // LOUDER FOR ESCAPE
     if(volume<0.0) volume = 0.0;
     errCheck(fleeChannel->setVolume(volume));
 
