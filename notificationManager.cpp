@@ -250,7 +250,7 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
-            soundNameConst = "sound_closelong";
+            soundNameConst = "sound_closelonger";
             soundLength = 6;
             local = true;
             break;
@@ -296,10 +296,12 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_SHOW_MAP:
             consoleText << "Try showing the large version using TAB...\n";
+            soundNameConst = "sound_tryshowlargemap";
             local = true;
             break;
         case NT_TUT_CLOSE_MAP:
-            consoleText << "Some info about the large map here, now close it again using TAB...\n";
+            consoleText << "You can use the large map to plan your route. Now close it again using TAB.\n";
+            soundNameConst = "sound_closemap";
             local = true;
             break;
         case NT_TUT_NAVIGATOR_END:
@@ -324,10 +326,12 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_SHOW_RADAR:
             consoleText << "Try showing the large version using TAB...\n";
+            soundNameConst = "sound_tryshowlargeradar";
             local = true;
             break;
         case NT_TUT_CLOSE_RADAR:
             consoleText << "Some info about the large radar here, now close it again using TAB...\n";
+            soundNameConst = "sound_closeradar";
             local = true;
             break;
         case NT_TUT_ENGINEER_END:
@@ -337,11 +341,12 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_WAITING:
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
+            soundNameConst = "sound_wait";
             local = true;
             break;
         case NT_TUT_OPEN_DOORS:
             consoleText << "It's about time we got you moving. I'll open the blast doors for you now\n";
-            soundNameConst = "sound_readyrun";
+            soundNameConst = "sound_blastdoors";
             local = true;
             break;
         // Charge notifications
