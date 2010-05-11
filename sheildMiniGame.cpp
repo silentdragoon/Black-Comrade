@@ -18,6 +18,7 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     , numNotes(0)
     , streak(0)
     , started(false)
+    , healTotal(0)
 {
 	console->makeBlank();
 
@@ -137,6 +138,8 @@ void SheildMiniGame::tick()
             healed = false;
         }
     }
+    
+    healTotal += heal;
 }
 
 void SheildMiniGame::loadFile(string fileName)
@@ -244,7 +247,7 @@ void SheildMiniGame::drawBoard()
 	
 	console->setChar('|', boardX, boardY + boardHeight);
 	console->setChar('|', boardX + boardWidth, boardY + boardHeight);
-	
+	isComplete
 	console->setChar('+', boardX, boardY + boardHeight);
 	console->setChar('+', boardX + boardWidth, boardY + boardHeight);
 	console->setChar('|', boardX, boardY + boardHeight + 1);
@@ -265,7 +268,7 @@ bool SheildMiniGame::end()
 
 bool SheildMiniGame::complete()
 {
-    return true;
+    return healTotal >= 50;
 }
 
 int SheildMiniGame::getScore()

@@ -44,6 +44,7 @@ class SheildMiniGame : public IMiniGame
         
         int heal;
         bool healed;
+        int healTotal;
         
         int numNotes;
         
