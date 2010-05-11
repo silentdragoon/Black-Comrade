@@ -126,8 +126,6 @@ void SheildMiniGame::tick()
         	
         		if(!winLine) streak += currentChoird.size();
         		winLine = true;
-        		
-        	
         	}
     	}
         
@@ -153,7 +151,8 @@ void SheildMiniGame::tick()
                 isEnd = true;
             }
             
-            if(!winLine) streak = 0;
+            index = currentQ - boardHeight - 1;
+            if(!winLine && index >= 0 && keys[index].size() != 0) streak = 0;
             
             for(int i = 0; i <= boardHeight; i++) {
                 int index = currentQ + i - boardHeight;
