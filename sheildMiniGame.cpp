@@ -33,9 +33,9 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     console->setString("line.",c,t++);
     
     
-    console->setString("Press any ARROW key",c,t++);
-    console->setString("as each line reaches",c,t++);
-    console->setString("the calibration point.",c,t++);
+    //console->setString("Press any ARROW key",c,t++);
+    //console->setString("as each line reaches",c,t++);
+    //console->setString("the calibration point.",c,t++);
     console->setString("",c,t++);
     console->setString("",c,t++);
     console->setString("Good luck...",c,t++);
@@ -55,19 +55,19 @@ SheildMiniGame::SheildMiniGame(Console *console, InputState *inputState, int lev
     switch(level)
     {
         case 1:
-            dTime = 1.4 / ConstManager::getFloat("tick_period");
+            dTime = 1.2 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel0");
             break;
         case 2:
-            dTime = 1.2 / ConstManager::getFloat("tick_period");
+            dTime = 1 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel1");
             break;
         case 3:
-            dTime = 0.7 / ConstManager::getFloat("tick_period");
+            dTime = 0.5 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel2");
             break;
         case 4:
-            dTime = 0.5 / ConstManager::getFloat("tick_period");
+            dTime = 0.4 / ConstManager::getFloat("tick_period");
             loadFile("sheildLevel3");
             break;
     }
@@ -124,7 +124,9 @@ void SheildMiniGame::tick()
             		str.erase(0);
         		}
         	
+        		if(!winLine) streak += currentChoird.size();
         		winLine = true;
+        		
         	
         	}
     	}
@@ -340,9 +342,6 @@ void SheildMiniGame::otherKeyPressed(const OIS::KeyEvent &arg)
     	loseLine = true;
     	return;
     }
-    
-     if(winLine) streak += currentChoird.size();
-    if(loseLine) streak = 0;
 }
 
         
