@@ -96,6 +96,7 @@ void HUD::showKeyHint(KeyHint keyHint) {
         case KH_ESCAPE:
         	keyHintEsc->setVisible(true);
         	keyHintWindow->setVisible(true);
+            break;
         case KH_ENTER:
             keyHintEnter->setVisible(true);
             keyHintWindow->setVisible(true);

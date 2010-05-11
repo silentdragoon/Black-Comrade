@@ -401,6 +401,18 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Waiting for players...\n";
     preGame->waitForPlayers(collabInfo,pilotInfo,engineerInfo,navigatorInfo);
 
+    // Radar GUI
+    if (collabInfo->getGameRole() == ENGINEER) {
+        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
+            "BigRadar", engineerControls, damageState);
+        gameLoop->addTickable(bigRadarGui,"BigRadar");
+        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
+            "SmallRadar", engineerControls, damageState);
+        gameLoop->addTickable(smallRadarGui,"SmallRadar");
+        tutorial->setRadar(bigRadarGui);
+    }
+    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr,damageState);
     tutorial->setHUD(hud);
@@ -414,17 +426,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 
-    // Radar GUI
-    if (collabInfo->getGameRole() == ENGINEER) {
-        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
-            "BigRadar", engineerControls, damageState);
-        gameLoop->addTickable(bigRadarGui,"BigRadar");
-        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-            "SmallRadar", engineerControls, damageState);
-        gameLoop->addTickable(smallRadarGui,"SmallRadar");
-        tutorial->setRadar(bigRadarGui);
-    }
-    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
 
     gameStateMachine->setTutorial(tutorial);
 
@@ -542,8 +544,8 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
     //sceneMgr->setShadowColour(ColourValue(0.5,0.5,0.5));
 
     // Add some sexy fog
-    ColourValue fadeColour(0.1,0.1,0.1);
-    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,50,450);
+    ColourValue fadeColour(0.0,0.0,0.0);
+    sceneMgr->setFog(FOG_LINEAR, fadeColour, 0.01,80,550);
 
     // Bottom ship light
     Light *sp = sceneMgr->createLight("bLight");

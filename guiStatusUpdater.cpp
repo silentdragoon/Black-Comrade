@@ -94,6 +94,8 @@ void GuiStatusUpdater::checkTutorial() {
             // Show the escape key on screen?
             keyToHint = KH_ESCAPE;
             break;
+        case TS_END_MINIGAME:
+            keyToHint = KH_ENTER;
     }
 }
 

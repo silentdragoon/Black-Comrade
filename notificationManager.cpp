@@ -349,6 +349,13 @@ void NotificationManager::prepareNotification() {
             soundNameConst = "sound_blastdoors";
             local = true;
             break;
+       case NT_TUT_END_MINIGAME:
+            soundNameConst = "sound_closelonger";
+            soundLength = 6;
+            local = true;
+            break;
+
+
         // Charge notifications
         case NT_WEAPON_CHARGE_STUCK:
             soundNameConst = "sound_WeaponChargeDepleted";
