@@ -33,6 +33,10 @@ GameStateMachine::GameStateMachine()
     , tutorial(0)
 {}
 
+void GameStateMachine::setTutorial(Tutorial *mTutorial) {
+   tutorial = mTutorial;
+}
+
 void GameStateMachine::tick()
 {
 

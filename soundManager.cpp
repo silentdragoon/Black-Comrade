@@ -211,7 +211,7 @@ void SoundManager::loadMusic() {
 
     musicPath = ConstManager::getString("sound_file_path") + "sounds/flee.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
-    errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
+    errCheck(fleeMusic->setMode(FMOD_LOOP_OFF));
 
     musicPath = ConstManager::getString("sound_file_path") + "sounds/menu.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &menuMusic));
@@ -230,7 +230,7 @@ void SoundManager::loadMusic() {
     errCheck(stealthChannel->setVolume(0.0));
     errCheck(attackChannel->setVolume(0.0));
     errCheck(fleeChannel->setVolume(0.0));
-    errCheck(menuChannel->setVolume(0.5));
+    errCheck(menuChannel->setVolume(ConstManager::getFloat("sound_musicvolume")));
     errCheck(creditChannel->setVolume(0.0));
 
     errCheck(stealthChannel->setPaused(false));
@@ -248,7 +248,7 @@ void SoundManager::loadPermanent() {
     errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
     errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
     errCheck(system->playSound(FMOD_CHANNEL_FREE,engineSound,true,&engineChannel));
-    errCheck(engineChannel->setVolume(0.2));
+    errCheck(engineChannel->setVolume(0.15));
     errCheck(engineChannel->getFrequency(&engineFrequency),"engine_freq_1");
 }
 
@@ -349,7 +349,7 @@ void SoundManager::crossFade() {
 
     errCheck(fleeChannel->getVolume(&volume));
     volume=volume+fleeAdjust;
-    if(volume>maxVol) volume = maxVol;
+    if(volume>maxVol+0.3) volume = maxVol+0.3; // LOUDER FOR ESCAPE
     if(volume<0.0) volume = 0.0;
     errCheck(fleeChannel->setVolume(volume));
 
@@ -414,7 +414,7 @@ void SoundManager::updateShipPosition() {
 void SoundManager::updateEnginePitch() {
     if((shipState!=0)&&(engineOn)) {
         errCheck(engineChannel->setPaused(false));
-        double speed = shipState->getSpeed() / 3.6 / 100;
+        double speed = shipState->getSpeed() / 3.6 / 200;
         speed += 1.0;
         float freq = engineFrequency*speed;
         errCheck( engineChannel->setFrequency(freq), "engine pitch"); 

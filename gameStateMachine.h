@@ -69,6 +69,8 @@ public:
     GameState currentGameState();
     bool isNewState();
 
+    void setTutorial(Tutorial *tutorial);
+
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
     virtual void Deserialize(RakNet::DeserializeParameters *deserializeParameters);
