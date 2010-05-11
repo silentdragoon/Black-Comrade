@@ -15,7 +15,8 @@
 enum KeyHint { KH_NONE,
                KH_TAB,
                KH_ESCAPE,
-               KH_F1 };
+               KH_F1,
+               KH_ENTER };
 
 enum HUDElement { HE_NONE,
                   HE_AVATARS,
@@ -118,6 +119,7 @@ private:
     CEGUI::FrameWindow *keyHintF1;
     CEGUI::FrameWindow *keyHintTab;
     CEGUI::FrameWindow *keyHintEsc;
+    CEGUI::FrameWindow *keyHintEnter;
 
     GameRole gameRole;
     
