@@ -168,6 +168,10 @@
     </WidgetLook>
     <WidgetLook name="BlackComrade/mapbg">
     </WidgetLook>
+    <WidgetLook name="BlackComrade/credits">
+    </WidgetLook>
+    <WidgetLook name="BlackComrade/title">
+    </WidgetLook>
     
     <!--
     ***************************************************
