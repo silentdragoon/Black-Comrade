@@ -146,10 +146,10 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
             (ShipState*) networkingManager->getReplica("ShipState",true);
     }
     Vector3 startingPosition = mapMgr->getStartingPosition();
+    startingPosition.x = startingPosition.x - 215.8;
+    startingPosition.y = 15.5;
+    startingPosition.z = startingPosition.z - 37.5;
     shipState->setDamageState(damageState);
-    shipState->setX(startingPosition.x);
-    shipState->setY(0);
-    shipState->setZ(startingPosition.z);
     shipState->yaw = (i % 2) ? 0 :  PI / 2;
     //cout << mapMgr->startx << ", " << mapMgr->starty << endl;
     gameLoop->addTickable(shipState, "shipState");
@@ -220,7 +220,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         //last 3 terms of flying are the starting position x y z. Note mapMgr->starty = z
         flying = new Flying( sceneNodeMgr, pilotControls, shipState,
                              damageState, collisionMgr, systemManager,
-                             collisions, startingPosition.x, 0.0, startingPosition.z, (i % 2) ? 0 :  PI / 2,
+                             collisions, startingPosition.x, startingPosition.y, startingPosition.z, (i % 2) ? 0 :  PI / 2,
                              pilotInfo->getPlayerStats() );
         gameLoop->addTickable(pilotControls,"pilotControls");
         gameLoop->addTickable(flying,"flying");
@@ -336,7 +336,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         }
     }
 
-    // TODO: start the enemies pointing towards the ship?
+    // TODO: starts the enemies pointing towards the ship?
     // Swarm Manager
     if (collabInfo->getGameRole() == PILOT) {
         swarmMgr = new SwarmManager(sceneMgr, sceneNodeMgr, gameParameterMap, mapMgr,

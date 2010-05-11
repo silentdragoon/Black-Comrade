@@ -4,7 +4,7 @@
 #include <iostream>
 
 ShipState::ShipState() 
-    : position(new Vector3(1400.0,0.0,100.0))
+    : position(new Vector3())
 {
     roll=0.0;
     pitch=0.0;
@@ -16,7 +16,9 @@ Vector3 *ShipState::getPosition() {
     return position;
 }
 
-void ShipState::tick() {}
+void ShipState::tick() {
+	cout << *position << endl;
+}
 
 IDrawable* ShipState::getParentObject() { return NULL; }
 
