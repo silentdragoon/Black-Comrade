@@ -36,7 +36,7 @@ CollisionManager::CollisionManager( SceneManager* sceneMgr, MapManager* mp, Obje
     Real x = objPos.x;
     Real y = objPos.y;
     Real z = objPos.z;
-    addObjMesh(x,y,z,30.0);
+    addObjMesh(x,y,z,20.0);
 
     cout << "Map pieces loaded: 100%"<<endl;
 }

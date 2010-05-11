@@ -26,6 +26,7 @@ RadarGui::RadarGui(GuiManager *guiManager, ShipState *shipState,
     , engineerControls(engineerControls)
     , damageState(damageState)
     , beenShown(false)
+    , beenClosed(false)
 {
     //radarWindow = guiManager->addStaticImage("Radar",xCenter,yCenter,width,height,"Radar","background");
 
@@ -189,8 +190,8 @@ void RadarGui::tick()
 
     if(fullScreen) {
         visible = engineerControls->isMap();
-        if (visible == true) beenShown = true;
-        if (beenShown = true && !visible) beenClosed = true;
+        if (visible) beenShown = true;
+        if (beenShown && !visible) beenClosed = true;
     }
 
     int winWidth = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();

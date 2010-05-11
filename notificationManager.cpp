@@ -243,12 +243,13 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_OPEN_CONSOLE:
             consoleText << "You can repair the ship using the console."
                         << "\n\nTry opening the console now by pressing the ESCAPE key." << std::endl;
+            soundNameConst = "sound_tryopeningconsole";
             local = true;
             break;
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
-            soundNameConst = "sound_pilot-03";
+            soundNameConst = "sound_closeshort";
             local = true;
             break;
         case NT_TUT_PILOT_ROLE:
@@ -267,17 +268,17 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_REPAIR_ENGINES:
             consoleText << "The ship's engines are damaged. Try and repair them using the console.\n";
-            soundNameConst = "sound_pilot-02";
+            soundNameConst = "sound_fixengines";
             local = true;
             break;
         case NT_TUT_REPAIR_WEAPONS:
             consoleText << "The ship's weapons are damaged. Try and repair them using the console.\n";
-            soundNameConst = "sound_engineer-02";
+            soundNameConst = "sound_fixweapons";
             local = true;
             break;
         case NT_TUT_REPAIR_SENSORS:
             consoleText << "The ship's sensors are damaged. Try and repair it using the console.\n";
-            soundNameConst = "sound_navigator-02";
+            soundNameConst = "sound_fixsensors";
             local = true;
             break;
         case NT_TUT_NAVIGATOR_ROLE:
@@ -328,7 +329,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_ENGINEER_END:
             consoleText << "Great. Why don't you get familiar with your radar, and give the pilot some instructions...\n";
-            soundNameConst = "sound_engineer-07";
+            soundNameConst = "sound_engineer-07lol";
             local = true;
             break;
         case NT_TUT_WAITING:

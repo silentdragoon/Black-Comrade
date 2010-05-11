@@ -29,7 +29,7 @@ IDrawable *ConnectionPiece::getParentObject()
 
 std::string ConnectionPiece::getMeshName()
 {
-    return std::string("newConnExport.mesh");
+    return std::string("finalConnPieceExport.mesh");
 }
 
 std::string ConnectionPiece::getName()
