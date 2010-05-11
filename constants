@@ -56,7 +56,7 @@ sound_musicvolume = 0.2
 ship_turrent_speed = -0.002
 
 # Door
-door_open_time = 4
+door_open_time = 8
 
 # Objective
 escape_time = 90
