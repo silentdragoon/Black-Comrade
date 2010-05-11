@@ -11,7 +11,8 @@ SystemManager::SystemManager() :
     timeSinceEngPress(100),
     timeSinceLastPress(100),
     timeSinceWeaponRecharge(0),
-    timeSinceShieldRecharge(0)
+    timeSinceShieldRecharge(0),
+    powersBeenChanged(false)
 {
 }
 
@@ -27,8 +28,17 @@ SystemManager::SystemManager(EngineerControls *engCon, DamageState *damageState)
     timeSinceEngPress(100),
     timeSinceLastPress(100),
     timeSinceWeaponRecharge(0),
-    timeSinceShieldRecharge(0)
+    timeSinceShieldRecharge(0),
+    powersBeenChanged(false)
 {
+}
+
+bool SystemManager::havePowersBeenChanged() {
+    return powersBeenChanged;
+}
+
+void SystemManager::resetPowersBeenChanged() {
+    powersBeenChanged = false;
 }
 
 void SystemManager::tick() {
@@ -59,22 +69,25 @@ void SystemManager::tick() {
 
         if((engCon->isEngine())&&(timeSinceEngPress>10)) {
             incEngineRate();
+            powersBeenChanged = true;
             timeSinceEngPress=0;
         }
 
         if((engCon->isWeapons())&&(timeSinceWepPress>10)) {
             incWeaponRate();
-
+            powersBeenChanged = true;
             timeSinceWepPress=0;
         }
 
         if((engCon->transferShields())&&(timeSinceLastPress>10)) {
             transferWeaponsToShields();
+            powersBeenChanged = true;
             timeSinceLastPress=0;
         }
 
         if((engCon->transferWeapons())&&(timeSinceLastPress>10)) {
             transferShieldsToWeapons();
+            powersBeenChanged = true;
             timeSinceLastPress=0;
         }
     }

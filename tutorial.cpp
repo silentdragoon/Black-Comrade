@@ -101,7 +101,7 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_REPAIR_ENGINES) :
             if (damageState->getEngineHealth()>=95)
-               changeWithPause(TS_END_MINIGAME,1);
+               changeWithPause(TS_END_MINIGAME,0);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_PILOT_ROLE,4);
@@ -123,7 +123,7 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_REPAIR_WEAPONS) :
             if (damageState->getWeaponHealth()>=95)
-               changeWithPause(TS_END_MINIGAME,1);
+               changeWithPause(TS_END_MINIGAME,0);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_ENGINEER_ROLE);
@@ -132,22 +132,23 @@ void Tutorial::tickEngineerTutorial() {
             changeWithPause(TS_POWER_BARS,4);
             break;
         case(TS_POWER_BARS) :
-            changeWithPause(TS_MINI_RADAR,11);
+            changeWithPause(TS_CHANGE_POWERS,11);
+            systemMgr->resetPowersBeenChanged();
             break;
         case(TS_MINI_RADAR) :
             changeWithPause(TS_SHOW_RADAR,11);
             break;
         case(TS_SHOW_RADAR) :
             if (largeRadar->hasBeenShown())
-                changeWithPause(TS_CHANGE_POWERS,3);
+                changeWithPause(TS_ENGINEER_END,3);
             break;
         //case(TS_CLOSE_RADAR) :
         //    if (largeRadar->hasBeenClosed())
         //        changeWithPause(TS_CHANGE_POWERS,3);
         //    break;
         case(TS_CHANGE_POWERS) :
-            // TODO: Check if the powers have been changed
-            changeWithPause(TS_ENGINEER_END,2);
+            if (systemMgr->havePowersBeenChanged())
+                changeWithPause(TS_MINI_RADAR,2);
             break;
     }
 }

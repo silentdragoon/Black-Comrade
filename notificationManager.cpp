@@ -247,13 +247,6 @@ void NotificationManager::prepareNotification() {
             soundLength = 6;
             local = true;
             break;
-        case NT_TUT_CLOSE_CONSOLE:
-            consoleText << "Looks like you're familiar with the console now."
-                        << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
-            soundNameConst = "sound_closelonger";
-            soundLength = 6;
-            local = true;
-            break;
         case NT_TUT_PILOT_ROLE:
             consoleText << "You are the pilot...\n";
             soundNameConst = "sound_pilot-01";
@@ -326,7 +319,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_SHOW_RADAR:
             consoleText << "Try showing the large version using TAB...\n";
-            soundNameConst = "sound_tryshowlargeradar";
+            //soundNameConst = "sound_tryshowlargeradar";
             local = true;
             break;
         case NT_TUT_CLOSE_RADAR:
@@ -350,6 +343,8 @@ void NotificationManager::prepareNotification() {
             local = true;
             break;
        case NT_TUT_END_MINIGAME:
+            consoleText << "Looks like you're familiar with the console now."
+                        << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
             soundNameConst = "sound_closelonger";
             soundLength = 6;
             local = true;
