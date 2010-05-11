@@ -563,10 +563,10 @@ Camera *Main::createCamera(SceneNode *shipSceneNode) {
 
     SceneNode *bLight = shipSceneNode->createChildSceneNode();
     bLight->setPosition(Vector3(0,-8,0));
-    bLight->attachObject(sp);
+    //bLight->attachObject(sp);
     SceneNode *tLight = shipSceneNode->createChildSceneNode();
     tLight->setPosition(Vector3(0,8,0));
-    tLight->attachObject(sp1);
+    //tLight->attachObject(sp1);
 
     return camera;
 }
