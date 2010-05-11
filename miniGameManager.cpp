@@ -27,6 +27,10 @@ MiniGameManager::MiniGameManager(Console *console,
     inputReceiver = consoleShell;
 }
 
+bool MiniGameManager::isGameInProgress() {
+    return (currentMiniGame != NULL);
+}
+
 void MiniGameManager::tick()
 {
     handleKeys();

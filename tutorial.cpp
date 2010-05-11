@@ -81,6 +81,9 @@ void Tutorial::tickCommonTutorial() {
             if (miniGameMgr->hasConsoleBeenOpened())
                 changeWithPause(TS_REPAIR_SYSTEMS,0);
             break;
+        case(TS_END_MINIGAME) :
+             if(!miniGameMgr->isGameInProgress())
+                 changeWithPause(TS_CLOSE_CONSOLE,0);
         case(TS_CLOSE_CONSOLE) :
             // We want the player to close the console
             if (miniGameMgr->hasConsoleBeenClosed())
@@ -98,7 +101,7 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_REPAIR_ENGINES) :
             if (damageState->getEngineHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE,1);
+               changeWithPause(TS_END_MINIGAME,1);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_PILOT_ROLE,4);
@@ -120,7 +123,7 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_REPAIR_WEAPONS) :
             if (damageState->getWeaponHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE);
+               changeWithPause(TS_END_MINIGAME,1);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_ENGINEER_ROLE);
@@ -156,7 +159,7 @@ void Tutorial::tickNavigatorTutorial() {
             break;
         case(TS_REPAIR_SENSORS) :
             if (damageState->getSensorHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE);
+               changeWithPause(TS_END_MINIGAME,0);
             break;
         case(TS_INDIVIDUAL) :
             changeWithPause(TS_NAVIGATOR_ROLE);
@@ -192,7 +195,7 @@ void Tutorial::checkForCompletion() {
         bool completed = (tutee1->hasCompletedTutorial &&
                           tutee2->hasCompletedTutorial &&
                           tutee3->hasCompletedTutorial);
-        if (completed) changeWithPause(TS_OPEN_DOORS,2);
+        if (completed) changeWithPause(TS_OPEN_DOORS,4);
     }
 }
 

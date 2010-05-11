@@ -15,9 +15,9 @@ ConsoleShell::ConsoleShell(Console *console, InputState *inputState,
     , difficulty(1)
 {
     commands = std::vector<std::string>();
-    console->appendLine("---------------------------------------");
-    console->appendLine("ACS Nighthawk Repair System v0.7 (beta)");
-    console->appendLine("---------------------------------------");
+    console->appendLine("------------------------------------");
+    console->appendLine("ACS Badger Repair System v0.7 (beta)");
+    console->appendLine("------------------------------------");
     console->appendLine("");
     console->appendLine(" Available commands:");
     console->appendLine("");

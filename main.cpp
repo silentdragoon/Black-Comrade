@@ -401,6 +401,18 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     std::cout << "Waiting for players...\n";
     preGame->waitForPlayers(collabInfo,pilotInfo,engineerInfo,navigatorInfo);
 
+    // Radar GUI
+    if (collabInfo->getGameRole() == ENGINEER) {
+        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
+            "BigRadar", engineerControls, damageState);
+        gameLoop->addTickable(bigRadarGui,"BigRadar");
+        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
+            "SmallRadar", engineerControls, damageState);
+        gameLoop->addTickable(smallRadarGui,"SmallRadar");
+        tutorial->setRadar(bigRadarGui);
+    }
+    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr,damageState);
     tutorial->setHUD(hud);
@@ -414,17 +426,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
 
     soundMgr->changeMusic(MS_STEALTH); // Switch to stealth music
 
-    // Radar GUI
-    if (collabInfo->getGameRole() == ENGINEER) {
-        bigRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, true,
-            "BigRadar", engineerControls, damageState);
-        gameLoop->addTickable(bigRadarGui,"BigRadar");
-        smallRadarGui = new RadarGui(guiMgr, shipState, swarmMgr, hud, false,
-            "SmallRadar", engineerControls, damageState);
-        gameLoop->addTickable(smallRadarGui,"SmallRadar");
-        tutorial->setRadar(bigRadarGui);
-    }
-    gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
+
 
     gameStateMachine->setTutorial(tutorial);
 

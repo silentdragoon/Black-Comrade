@@ -76,7 +76,7 @@ void SoundManager::loadSoundFiles() {
 	loadSoundFile("sounds/vo/engship/10.mp3",stringToInt("sound_Count10"),false,true); //
 	loadSoundFile("sounds/vo/engship/15.mp3",stringToInt("sound_Count15"),false,true); //
 	loadSoundFile("sounds/vo/engship/30.mp3",stringToInt("sound_Count30"),false,true); //
-	loadSoundFile("sounds/vo/engship/54321.mp3",stringToInt("sound_Count54321"),false,true); //
+	loadSoundFile("sounds/vo/engship/54321.mp3",stringToInt("sound_Count54321dancedance"),false,true); //
 	loadSoundFile("sounds/vo/engship/60.mp3",stringToInt("sound_Count60"),false,true); //
 	loadSoundFile("sounds/vo/engship/ama.mp3",stringToInt("sound_AssaultModeActivated"),false,true);
 	loadSoundFile("sounds/vo/engship/amd.mp3",stringToInt("sound_AssaultModeDeactivated"),false,true);

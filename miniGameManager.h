@@ -66,6 +66,7 @@ public:
 
     bool hasConsoleBeenOpened();
     bool hasConsoleBeenClosed();
+    bool isGameInProgress();
 };
 
 #endif
