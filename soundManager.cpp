@@ -190,15 +190,15 @@ void SoundManager::loadSoundFile(string relativePath, int constName, bool loop, 
 }
 
 void SoundManager::loadMusic() {
-    string musicPath = ConstManager::getString("sound_file_path") + "sounds/stealth.mp3";
+    string musicPath = ConstManager::getString("sound_file_path") + "sounds/stealth.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &stealthMusic));
     errCheck(stealthMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "sounds/attack.mp3";
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/attack.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &attackMusic));
     errCheck(attackMusic->setMode(FMOD_LOOP_NORMAL));
 
-    musicPath = ConstManager::getString("sound_file_path") + "sounds/flee.mp3";
+    musicPath = ConstManager::getString("sound_file_path") + "sounds/flee.wav";
     errCheck(system->createStream(musicPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &fleeMusic));
     errCheck(fleeMusic->setMode(FMOD_LOOP_NORMAL));
 
