@@ -31,6 +31,8 @@ private:
     int timeSinceWeaponRecharge;
     int timeSinceShieldRecharge;
 
+    bool powersBeenChanged;
+
     EngineerControls *engCon;
     DamageState *damageState;
 
@@ -60,6 +62,9 @@ public:
 
     void transferShieldsToWeapons();
     void transferWeaponsToShields();
+
+    void resetPowersBeenChanged();
+    bool havePowersBeenChanged();
 
     virtual RakNet::RakString GetName(void) const;
     virtual RM3SerializationResult Serialize(SerializeParameters *serializeParameters);
