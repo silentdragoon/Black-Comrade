@@ -171,7 +171,7 @@ void NotificationManager::prepareNotification() {
                 consoleText << "You did it! You may want to increase engine power so we can escape quickly." << std::endl;
             break;
         case NT_OBJECTIVE_SEEK:
-            soundNameConst = "sound_ClearedToProceed";
+            soundNameConst = "sound_CommandOrdersBCDestruction";
             consoleText << "You should be ready for your mission now. Your first objective is to find the Black Comrade..." << std::endl;
             break;
         case NT_MISSION_COMPLETE:
@@ -244,12 +244,14 @@ void NotificationManager::prepareNotification() {
             consoleText << "You can repair the ship using the console."
                         << "\n\nTry opening the console now by pressing the ESCAPE key." << std::endl;
             soundNameConst = "sound_tryopeningconsole";
+            soundLength = 6;
             local = true;
             break;
         case NT_TUT_CLOSE_CONSOLE:
             consoleText << "Looks like you're familiar with the console now."
                         << "\n\nTry closing it by pressing the ESCAPE key again." << std::endl;
-            soundNameConst = "sound_closeshort";
+            soundNameConst = "sound_closelong";
+            soundLength = 6;
             local = true;
             break;
         case NT_TUT_PILOT_ROLE:
@@ -259,6 +261,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_MOVE_SHIP:
             consoleText << "Why don't you try to move the ship now...\n";
+            soundNameConst = "sound_tryflying";
             local = true;
             break;
         case NT_TUT_PILOT_END:
@@ -283,7 +286,7 @@ void NotificationManager::prepareNotification() {
             break;
         case NT_TUT_NAVIGATOR_ROLE:
             consoleText << "You are the navigator...\n";
-            soundNameConst = "sound_navigator-03";
+            soundNameConst = "sound_navigator-04";
             local = true;
             break;
         case NT_TUT_MINI_MAP:
@@ -336,9 +339,11 @@ void NotificationManager::prepareNotification() {
             consoleText << "Great! We'll just wait while the other players finish getting to grips with the ship...\n";
             local = true;
             break;
-
-
-
+        case NT_TUT_OPEN_DOORS:
+            consoleText << "It's about time we got you moving. I'll open the blast doors for you now\n";
+            soundNameConst = "sound_readyrun";
+            local = true;
+            break;
         // Charge notifications
         case NT_WEAPON_CHARGE_STUCK:
             soundNameConst = "sound_WeaponChargeDepleted";
@@ -515,6 +520,12 @@ void NotificationManager::checkTutorialState() {
             break;
         case TS_ENGINEER_END:
             newNotification = NT_TUT_ENGINEER_END;
+            break;
+        case TS_OPEN_DOORS:
+            newNotification = NT_TUT_OPEN_DOORS;
+            break;
+        case TS_INDIVIDUAL:
+            newNotification = NT_TUT_INDIVIDUAL;
             break;
     }
 

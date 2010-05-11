@@ -17,7 +17,7 @@ Vector3 *ShipState::getPosition() {
 }
 
 void ShipState::tick() {
-	cout << *position << endl;
+	//cout << *position << endl;
 }
 
 IDrawable* ShipState::getParentObject() { return NULL; }
