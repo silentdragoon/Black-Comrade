@@ -32,8 +32,10 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     averageSpeed(0.0),
     numSpeedsTaken(0),
     pilotStats(pilotStats)
+    , elivation(1)
+    
 {
-    position = new Vector3(iXPos, iYPos, iZPos );
+    position = new Vector3(iXPos, iYPos + 8, iZPos );
 }
 
 Flying::~Flying()
@@ -155,7 +157,8 @@ void Flying::updatePosition()
 void Flying::updateShipState()
 {
     shipState->setX(position->x);
-    shipState->setY(position->y);
+    shipState->setY(position->y + 
+    	ConstManager::getFloat("decent_height") * elivation);
     shipState->setZ(position->z);
 
     shipState->yaw = yaw;
@@ -171,14 +174,21 @@ void Flying::updateAverageSpeed() {
 
 void Flying::tick()
 {
+	if(elivation > 0) {
+	
+		elivation -= ConstManager::getFloat("tick_period") /
+			ConstManager::getFloat("decent_time");
+	
+	} else elivation = 0;
+
     shipState->setSpeed(getSpeed());
     updatePosition();
     updateShipState();
     if (lastAverage > averageDelay) {
-        updateAverageSpeed();
-        lastAverage = 0;
-    } else {
-        lastAverage ++;
+       	updateAverageSpeed();
+       	lastAverage = 0;
+   	} else {
+       	lastAverage ++;
     }
 }
 

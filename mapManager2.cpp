@@ -129,6 +129,10 @@ void MapManager::loadMap(char *file) {
                         connections.push_back(4);
                         chosenPiece = pieceChoices->getNextChoice();
                         createTile("objec/",connections,x,y,chosenPiece);
+                    } else if(line[x]=='S') {
+                        connections.push_back(2);
+                        chosenPiece = pieceChoices->getNextChoice();
+                        createTile("start/",connections,x,y,chosenPiece);
                     }
                 }
 
@@ -528,6 +532,12 @@ void MapManager::getEntitiesForCollisionFromAPosition(Vector3 *locn, Entity** mp
 {
     int x =(int) floor(locn->x/(double)ConstManager::getInt("map_tile_size"));
     int y =(int) floor(locn->z/(double)ConstManager::getInt("map_tile_size"));
-    mts[x][y]->getTileAndConnectionEntities( mps );
+    if(0 <= x && x <= Const::MAPSIZE &&
+        0 <= y && y <= Const::MAPSIZE)
+    {
+        mts[x][y]->getTileAndConnectionEntities( mps );
+    } else {
+        *mps = NULL;
+    }
 }
 
