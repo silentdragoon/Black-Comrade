@@ -70,3 +70,7 @@ initial_weapon_health = 50
 initial_hull_health = 100
 initial_sensor_health = 50
 initial_engine_health = 50
+
+# Decent!
+decent_height = 79.5
+decent_time = 9

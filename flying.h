@@ -11,13 +11,16 @@
 #include "systemManager.h"
 #include "sceneNodeManager.h"
 
-
 using namespace Ogre;
 using namespace std;
 
 class Flying : public ITickable
 {
     private:
+    	
+    	// Decent
+    	float elivation;
+    
         void updateShipState();
         
         bool useCollisions;

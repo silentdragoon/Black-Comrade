@@ -4,5 +4,6 @@
     <Image Name="F1" XPos="0" YPos="0" Width="70" Height="70" />
     <Image Name="Tab" XPos="76" YPos="0" Width="100" Height="70" />
     <Image Name="Esc" XPos="180" YPos="0" Width="70" Height="70" />
-    <Image Name="Background" XPos="0" YPos="72" Width="143" Height="80" />
+    <Image Name="Enter" XPos="250" YPos="0" Width="100" Height="70" />
+    <Image Name="Background" XPos="0" YPos="72" Width="306" Height="81" />
 </Imageset>

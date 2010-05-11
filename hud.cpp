@@ -66,10 +66,11 @@ void HUD::makeHighlightingHUD() {
     stopHighlightingAllElements();
 
     // KeyHints
-    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 71 * wpixel, 1.0 - 80 *hpixel, 143 * wpixel, 80 * hpixel, "KeyHint", "Background");
+    keyHintWindow = guiManager->addStaticImagePix("KeyHintWindow", 0.5 - 153 * wpixel, 1.0 - 81 *hpixel, 306 * wpixel, 81 * hpixel, "KeyHint", "Background");
     keyHintF1 = guiManager->addStaticImagePix("KeyHintF1", 0.5 - 35 * wpixel, 1.0 - 75 * hpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "F1");
     keyHintTab = guiManager->addStaticImagePix("KeyHintTab", 0.5- 50 * wpixel, 1.0 - 75 * hpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Tab");
     keyHintEsc = guiManager->addStaticImagePix("KeyHintEsc", 0.5 - 35 * wpixel, 1.0 - 75 * hpixel, 70 * wpixel, 70 * hpixel, "KeyHint", "Esc");
+    keyHintEnter = guiManager->addStaticImagePix("KeyHintEnter", 0.5- 50 * wpixel, 1.0 - 75 * hpixel, 100 * wpixel, 70 * hpixel, "KeyHint", "Enter");
 	
     hideKeyHint();
 }
@@ -95,10 +96,13 @@ void HUD::showKeyHint(KeyHint keyHint) {
         case KH_ESCAPE:
         	keyHintEsc->setVisible(true);
         	keyHintWindow->setVisible(true);
+        case KH_ENTER:
+            keyHintEnter->setVisible(true);
+            keyHintWindow->setVisible(true);
             break;
     }
 
-	// for some reaosn if I set the keyHintWindow visible here,
+	// for some reason if I set the keyHintWindow visible here,
 	// it is constantly activated.
 }
 
@@ -107,6 +111,7 @@ void HUD::hideKeyHint() {
 	keyHintF1->setVisible(false);
 	keyHintTab->setVisible(false);
 	keyHintEsc->setVisible(false);
+	keyHintEnter->setVisible(false);
 }
 
 void HUD::highlightElement(HUDElement element) {
