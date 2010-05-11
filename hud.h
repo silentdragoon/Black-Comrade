@@ -11,6 +11,7 @@
 #include "gameRole.h"
 #include "mapManager2.h"
 #include "damageState.h"
+#include "console.h"
 
 enum KeyHint { KH_NONE,
                KH_TAB,
@@ -121,6 +122,8 @@ private:
     CEGUI::FrameWindow *keyHintEsc;
     CEGUI::FrameWindow *keyHintEnter;
 
+	Console *console;
+
     GameRole gameRole;
     
     void makeCommonHUD();
@@ -134,7 +137,7 @@ private:
     void appendTileEnding(std::stringstream &ss, int xpos, int ypos, int rotate);
 
 public:
-    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState);
+    HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState, Console *console);
     ~HUD();
 
     void showKeyHint(KeyHint key);

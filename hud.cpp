@@ -1,7 +1,7 @@
 
 #include "hud.h"
 
-HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState)
+HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapManager *mapMgr, DamageState *damageState, Console *console)
     : guiManager(guiManager)
     , shipState(shipState)
     , gameRole(gameRole)
@@ -16,6 +16,7 @@ HUD::HUD(GuiManager *guiManager, ShipState *shipState, GameRole gameRole, MapMan
     , controlsBeenShown(false)
     , largeMapBeenShown(false)
     , largeRadarBeenShown(false)
+    , console(console)
 {
     guiMgr = CEGUI::WindowManager::getSingletonPtr();
 
@@ -918,7 +919,7 @@ void HUD::updateMiniMap() {
 
 void HUD::toggleMap(bool tog)
 {
-    if(tog) {
+    if(tog && console->getVisible()) {
         fullmap->setVisible(true);
         largeMapBeenShown = true;
         mapbg->setVisible(true);
