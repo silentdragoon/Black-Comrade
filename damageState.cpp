@@ -55,6 +55,8 @@ void DamageState::tick() {
 void DamageState::checkForRepairs(CollaborationInfo *repairer) {
     ShipSystem toRepair = repairer->toRepair;
 
+    if (repairer->repairAmount != 0)
+       std::cout << "GOT FROM " << repairer->getGameRoleString() << "\n";
     switch(toRepair) {
         case(SS_NONE):
             break;
