@@ -15,6 +15,7 @@
 #include "swarm.h"
 #include "hud.h"
 #include "damageState.h"
+#include "console.h"
 
 class RadarGui : public ITickable {
 private:
@@ -54,11 +55,13 @@ private:
     std::vector<std::pair<float,float> > *positions);
 
     EngineerControls *engineerControls;
+    Console *console;
 
 public:
     RadarGui(GuiManager *guiManager, ShipState *shipState,
         SwarmManager *swarmManager, HUD *hud, bool fullScreen, char *name,
-            EngineerControls *engineerControls, DamageState *damageState);
+            EngineerControls *engineerControls, DamageState *damageState,
+            	Console *console);
     //~RadarGui();
     
     void tick();
