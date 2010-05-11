@@ -33,16 +33,12 @@ wp 0 0 wp_start
 wp 12 13 wp_end
 wp 8 6 wp_attack
 
-wp 5 0 en_spawn_g1
-wp 6 0 en_spawn_g1
 wp 6 1 en_spawn_g1
 
 wp 4 1 patrol_block_g1
 wp 5 3 patrol_block_g1
 wp 7 2 patrol_block_g1
 
-wp 5 4 en_spawn_g2
-wp 6 4 en_spawn_g2
 wp 7 4 en_spawn_g2
 
 wp 5 1 patrol_block_g2
@@ -50,8 +46,6 @@ wp 8 2 patrol_block_g2
 wp 8 3 patrol_block_g2
 wp 6 1 patrol_block_g2
 
-wp 10 5 en_spawn_g3
-wp 9 5 en_spawn_g3
 wp 9 6 en_spawn_g3
 
 wp 8 7 patrol_block_g3
