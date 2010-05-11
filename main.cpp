@@ -426,6 +426,8 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     }
     gameLoop->addTickable(sceneNodeMgr,"sceneNodeMgr");
 
+    gameStateMachine->setTutorial(tutorial);
+
 
     cout << "SSN: " << shipSceneNode << endl;
 
