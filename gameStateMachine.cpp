@@ -45,7 +45,7 @@ void GameStateMachine::tick()
             mIsNewState = true;
             oldState = gameState;
         }
-        
+        if (gameState != GS_TUTORIAL) tutorial->end();
         return;
     }
 

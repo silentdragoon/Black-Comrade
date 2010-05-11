@@ -76,9 +76,9 @@ void HUD::makeHighlightingHUD() {
 
 bool HUD::hasControlScreenBeenShown() { return controlsBeenShown; }
 
-bool HUD::hasLargeMapBeenShown() { return largeRadarBeenShown; }
+bool HUD::hasLargeMapBeenShown() { return largeMapBeenShown; }
 
-bool HUD::hasLargeRadarBeenShown() { return largeMapBeenShown; }
+bool HUD::hasLargeRadarBeenShown() { return largeRadarBeenShown; }
 
 void HUD::showKeyHint(KeyHint keyHint) {
     hideKeyHint();
