@@ -919,7 +919,7 @@ void HUD::updateMiniMap() {
 
 void HUD::toggleMap(bool tog)
 {
-    if(tog && console->getVisible()) {
+    if(tog && !console->getVisible()) {
         fullmap->setVisible(true);
         largeMapBeenShown = true;
         mapbg->setVisible(true);
