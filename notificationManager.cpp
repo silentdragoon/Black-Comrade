@@ -363,7 +363,7 @@ void NotificationManager::prepareNotification() {
 
         // Countdown notifications
         case NT_COUNTDOWN_5:
-            soundNameConst = "sound_Count54321";
+            soundNameConst = "sound_Count54321dancedance";
             break;
         case NT_COUNTDOWN_10:
             soundNameConst = "sound_Count10";
