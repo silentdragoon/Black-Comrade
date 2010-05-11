@@ -6,7 +6,7 @@ include Makefile.local
 CC = g++
 CFLAGS = -g -o2
 
-OUTPUT = test
+OUTPUT = theBlackComrade
 
 SRCS = \
 main.cpp \
@@ -109,19 +109,19 @@ $(OUTPUT) : $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 	
 run:
-	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb -ex run ./$(OUTPUT)
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT)
 	
 nc:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT) -nc
+
+rc:
+	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT) -rc
 	
 debug:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; gdb ./$(OUTPUT)
 
 kdebug:
 	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; kdbg ./$(OUTPUT)
-
-nodebug:
-	export LD_LIBRARY_PATH="${OGRE_PATH}/lib/:${FMOD_PATH}/lib/"; ./$(OUTPUT)
 
 .PHONY: clean depend
 
