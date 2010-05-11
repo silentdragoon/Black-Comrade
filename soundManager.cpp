@@ -248,7 +248,7 @@ void SoundManager::loadPermanent() {
     errCheck(system->createSound(fullPath.c_str(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D), 0, &engineSound),"create engine sound");
     errCheck(engineSound->setMode(FMOD_LOOP_NORMAL), "engine sound loop");
     errCheck(system->playSound(FMOD_CHANNEL_FREE,engineSound,true,&engineChannel));
-    errCheck(engineChannel->setVolume(0.15));
+    errCheck(engineChannel->setVolume(0.05));
     errCheck(engineChannel->getFrequency(&engineFrequency),"engine_freq_1");
 }
 
