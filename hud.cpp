@@ -60,7 +60,7 @@ void HUD::makeHighlightingHUD() {
     hCharge = guiManager->addStaticImage("hCharge", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hCharge", "Whole" );
     hHealthbars = guiManager->addStaticImage("hHealthbars", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hHealthbars", "Whole" );
     hMinimap = guiManager->addStaticImage("hMinimap", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hMinimap", "Whole" );
-    hMissionlog = guiManager->addStaticImage("hMissionlog", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hMissionlog", "Whole" );
+    hMissionlog = guiManager->addStaticImage("hMissionlog", 0.5, 0.5, 1.0, 1.0,  "hMissionlog", "Whole" );
     hPowerbars = guiManager->addStaticImage("hPowerbars", 0.5, 0.5, 1680 * wpixel, 1050 * hpixel,  "hPowerbars", "Whole" );
 
     stopHighlightingAllElements();

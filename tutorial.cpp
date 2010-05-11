@@ -75,14 +75,16 @@ void Tutorial::tickCommonTutorial() {
             break;
         case(TS_OPEN_CONSOLE) :
             // We want the player to open the console
-            //if (miniGameMgr->hasConsoleBeenOpened())
+            if (miniGameMgr->hasConsoleBeenOpened())
                 changeWithPause(TS_REPAIR_SYSTEMS,0);
-            //break;
+            break;
         case(TS_CLOSE_CONSOLE) :
             // We want the player to close the console
             if (miniGameMgr->hasConsoleBeenClosed())
                state = TS_WAITING_FOR_OTHERS;
             break;
+        case(TS_OPEN_DOORS) :
+            changeWithPause(TS_INDIVIDUAL,4);
     }
 }
 
@@ -93,17 +95,17 @@ void Tutorial::tickPilotTutorial() {
             break;
         case(TS_REPAIR_ENGINES) :
             if (damageState->getEngineHealth()>=95)
-               changeWithPause(TS_CLOSE_CONSOLE);
+               changeWithPause(TS_CLOSE_CONSOLE,1);
             break;
         case(TS_INDIVIDUAL) :
-            changeWithPause(TS_PILOT_ROLE);
+            changeWithPause(TS_PILOT_ROLE,4);
             break;
         case(TS_PILOT_ROLE) :
-            changeWithPause(TS_MOVE_SHIP);
+            changeWithPause(TS_MOVE_SHIP,4);
             break;
         case(TS_MOVE_SHIP) :
             if (shipState->getSpeed() > 50)
-                changeWithPause(TS_PILOT_END);
+                changeWithPause(TS_PILOT_END,4);
             break;
     }
 }
@@ -131,15 +133,15 @@ void Tutorial::tickEngineerTutorial() {
             break;
         case(TS_SHOW_RADAR) :
             if (largeRadar->hasBeenShown())
-                changeWithPause(TS_CLOSE_RADAR,3);
-            break;
-        case(TS_CLOSE_RADAR) :
-            if (largeRadar->hasBeenClosed())
                 changeWithPause(TS_CHANGE_POWERS,3);
             break;
+        //case(TS_CLOSE_RADAR) :
+        //    if (largeRadar->hasBeenClosed())
+        //        changeWithPause(TS_CHANGE_POWERS,3);
+        //    break;
         case(TS_CHANGE_POWERS) :
             // TODO: Check if the powers have been changed
-            changeWithPause(TS_ENGINEER_END);
+            changeWithPause(TS_ENGINEER_END,2);
             break;
     }
 }
@@ -157,14 +159,14 @@ void Tutorial::tickNavigatorTutorial() {
             changeWithPause(TS_NAVIGATOR_ROLE);
             break;
         case(TS_NAVIGATOR_ROLE) :
-            changeWithPause(TS_MINI_MAP,500);
+            changeWithPause(TS_MINI_MAP,4);
             break;
         case(TS_MINI_MAP) :
-            changeWithPause(TS_SHOW_MAP,100);
+            changeWithPause(TS_SHOW_MAP,8);
             break;
         case(TS_SHOW_MAP) :
             // TODO: Check if the large map has been shown
-            changeWithPause(TS_CLOSE_MAP,200);
+            changeWithPause(TS_CLOSE_MAP,4);
             break;
         case(TS_CLOSE_MAP) :
             // TODO: Check if the large map has been closed
@@ -188,7 +190,7 @@ void Tutorial::checkForCompletion() {
         bool completed = (tutee1->hasCompletedTutorial &&
                           tutee2->hasCompletedTutorial &&
                           tutee3->hasCompletedTutorial);
-        if (completed) state = TS_INDIVIDUAL;
+        if (completed) changeWithPause(TS_OPEN_DOORS,2);
     }
 }
 
