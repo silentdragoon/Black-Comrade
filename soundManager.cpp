@@ -164,6 +164,17 @@ void SoundManager::loadSoundFiles() {
     loadSoundFile("sounds/vo/fix/tryradar.mp3",stringToInt("sound_tryradar"),false,true);
     loadSoundFile("sounds/vo/fix/tryrecharge.mp3",stringToInt("sound_tryrecharge"),false,true);
 
+    // loading JAP2
+
+    loadSoundFile("sounds/vo/fix/blastdoors.mp3",stringToInt("sound_blastdoors"),false,true); //
+    loadSoundFile("sounds/vo/fix/closelonger.mp3",stringToInt("sound_closelonger"),false,true); //
+    loadSoundFile("sounds/vo/fix/tryshowlargeradar.mp3",stringToInt("sound_tryshowlargeradar"),false,true); //
+    loadSoundFile("sounds/vo/fix/tryshowlargemap.mp3",stringToInt("sound_tryshowlargemap"),false,true); //
+    loadSoundFile("sounds/vo/fix/closemap.mp3",stringToInt("sound_closemap"),false,true); //
+    loadSoundFile("sounds/vo/fix/closeradar.mp3",stringToInt("sound_closeradar"),false,true); //
+    loadSoundFile("sounds/vo/fix/wait.mp3",stringToInt("sound_wait"),false,true); //
+    loadSoundFile("sounds/vo/fix/cheat.mp3",stringToInt("sound_cheat"),false,true);
+
     // Music section
     loadMusic();
 
