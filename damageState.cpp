@@ -30,6 +30,10 @@ DamageState::DamageState()
     initializeHealths();
 }
 
+void DamageState::setRepairer(CollaborationInfo *mMe) {
+    me = mMe;
+}
+
 void DamageState::initializeHealths() {
     hullHealth = ConstManager::getFloat("initial_hull_health");
     sensorHealth = ConstManager::getFloat("initial_sensor_health");
@@ -39,13 +43,9 @@ void DamageState::initializeHealths() {
 
 void DamageState::tick() {
     isDamaged = false;
-    if (pilotInfo != 0) {
+    if (pilotInfo != 0 && engineerInfo != 0 && navigatorInfo != 0) {
         checkForRepairs(pilotInfo);
-    }
-    if (engineerInfo != 0) {
         checkForRepairs(engineerInfo);
-    }
-    if (navigatorInfo != 0) {
         checkForRepairs(navigatorInfo);
     }
 }
@@ -53,6 +53,8 @@ void DamageState::tick() {
 void DamageState::checkForRepairs(CollaborationInfo *repairer) {
     ShipSystem toRepair = repairer->toRepair;
 
+    if (repairer->repairAmount != 0)
+       std::cout << "GOT FROM " << repairer->getGameRoleString() << "\n";
     switch(toRepair) {
         case(SS_NONE):
             break;
@@ -69,9 +71,6 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             repairHull(repairer->repairAmount);
             break;
     }
-
-    repairer->toRepair = SS_NONE;
-    repairer->repairAmount = 0;
 }
 
 double DamageState::getSensorHealth() { return sensorHealth; }

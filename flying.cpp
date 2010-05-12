@@ -31,8 +31,10 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     averageDelay(150),
     averageSpeed(0.0),
     numSpeedsTaken(0),
-    pilotStats(pilotStats)
-    , elivation(1)
+    pilotStats(pilotStats),
+    flyingDisabled(true),
+    elivation(1),
+    timeToNextDamage(0)
     
 {
     position = new Vector3(iXPos, iYPos + 8, iZPos );
@@ -40,6 +42,10 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
 
 Flying::~Flying()
 {}
+
+void Flying::enableFlying() {
+    flyingDisabled = false;
+}
 
 void Flying::updateAngels()
 {
@@ -66,12 +72,18 @@ void Flying::updatePosition()
         hitObj = collided;
     }
 
-    if(collided && useCollisions)
-    {
+    if(collided && useCollisions && !flyingDisabled) {
+    
         if (hitObj) {
             damageState->damage(30);
         } else {
-            damageState->damage(10);
+            
+            //if(timeToNextDamage <= 0) {
+            //    timeToNextDamage = (int)(
+            //        ConstManager::getFloat("wall_damage_delay")
+            //        / ConstManager::getFloat("tick_period"));
+                damageState->damage(10);
+            //}
             vFactor = 0.05;
         
             //reflected vel need to be fixed
@@ -107,7 +119,7 @@ void Flying::updatePosition()
     {
         updateAngels();
         //hack considering not all. Works fine though
-        if( damageState->getEngineHealth() > 0 )
+        if( damageState->getEngineHealth() > 0 && !flyingDisabled)
         {
             double engineRate = systemManager->getEngineRate();
             double xzFor =  0.7*(engineRate/1.3+0.4)*EngineForce*sin(flyPitch);
@@ -174,6 +186,8 @@ void Flying::updateAverageSpeed() {
 
 void Flying::tick()
 {
+    if(timeToNextDamage > 0) timeToNextDamage--;
+
 	if(elivation > 0) {
 	
 		elivation -= ConstManager::getFloat("tick_period") /

@@ -1,5 +1,6 @@
 #include "tutorial.h"
 #include "radarGui.h"
+#include "flying.h"
 
 Tutorial::Tutorial(CollaborationInfo *tutee,
                    CollaborationInfo *tutee1, CollaborationInfo *tutee2, CollaborationInfo *tutee3,
@@ -17,6 +18,7 @@ Tutorial::Tutorial(CollaborationInfo *tutee,
     , shipState(shipState)
     , state(TS_PRE)
     , door(door)
+    , flying(0)
     , pauseProgress(0)
 {}
 
@@ -28,6 +30,10 @@ void Tutorial::setRadar(RadarGui *radar) {
 
 void Tutorial::setHUD(HUD *mHud) {
     hud = mHud;
+}
+
+void Tutorial::setFlying(Flying *mFlying) {
+    flying = mFlying;
 }
 
 void Tutorial::tick() {
@@ -104,6 +110,7 @@ void Tutorial::tickPilotTutorial() {
                changeWithPause(TS_END_MINIGAME,0);
             break;
         case(TS_INDIVIDUAL) :
+            if (flying) flying->enableFlying();
             changeWithPause(TS_PILOT_ROLE,4);
             break;
         case(TS_PILOT_ROLE) :

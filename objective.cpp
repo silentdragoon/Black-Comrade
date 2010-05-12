@@ -10,6 +10,14 @@
     originalHealth(10)
 {}*/
 
+void Objective::setPosition(Vector3 pos) {
+	position = pos;
+}
+
+Vector3 Objective::getPosition() {
+	return position;
+}
+
 Objective::Objective(ParticleSystemEffectManager *particleSystemEffectManager) :
     particleSystemEffectManager(particleSystemEffectManager),
     originalHealth(ConstManager::getInt("objective_health")),

@@ -21,6 +21,8 @@ private:
     int count;
     long latestSlack;
     
+    int fps;
+    
     std::map <ITickable*,string> names;
     std::vector <ITickable*> tickables;
    
@@ -42,6 +44,7 @@ public:
     void startLoop();
     
     long getSlack();
+    int getFps();
 };
 
 #endif

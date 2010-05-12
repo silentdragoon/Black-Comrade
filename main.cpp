@@ -120,6 +120,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         objective = (Objective*) networkingManager->getReplica("Objective",true);
         objective->setParticleSystemEffectManager(particleSystemEffectManager);
     }
+    objective->setPosition(mapMgr->getObjectivePosition());
     gameLoop->addTickable(objective,"objective");
 
     // Collision Manager (takes 99% of our loading time)
@@ -133,6 +134,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         damageState =
                 (DamageState*) networkingManager->getReplica("DamageState",true);
     }
+    damageState->setRepairer(collabInfo);
 
     MapTile *startMapTile = mapMgr->getMapTile(&mapMgr->getStartingPosition());
     int i = (startMapTile->getConnections())[0];
@@ -246,7 +248,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(cons,"console");
 
     // Minigame manager
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
+    if (collabInfo->getGameRole() == PILOT)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,navigatorInfo,engineerInfo,this);
+    else if (collabInfo->getGameRole() == NAVIGATOR)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,pilotInfo,engineerInfo,this);
+    else if (collabInfo->getGameRole() == ENGINEER)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,pilotInfo,navigatorInfo,this);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
@@ -416,6 +423,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     // CEGUI Stuff
     hud = new HUD(guiMgr, shipState,collabInfo->getGameRole(),mapMgr,damageState, cons);
     tutorial->setHUD(hud);
+    if (collabInfo->getGameRole() == PILOT) tutorial->setFlying(flying);
     guiStatusUpdater = new GuiStatusUpdater(guiMgr,gameLoop,damageState,myControls,
                                             collabInfo->getGameRole(),systemManager,hud,
                                             flying,notificationMgr,gameStateMachine,objective,

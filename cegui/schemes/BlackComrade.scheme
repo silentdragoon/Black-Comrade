@@ -69,8 +69,8 @@
     <FalagardMapping WindowType="BlackComrade/Lobby" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Lobby" />
     <FalagardMapping WindowType="BlackComrade/ChoosePlayer" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/ChoosePlayer" />
 
-    <FalagardMapping WindowType="BlackComrade/credits" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/credits" />
-    <FalagardMapping WindowType="BlackComrade/title" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/title" />
+    <FalagardMapping WindowType="BlackComrade/Credits" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Credits" />
+    <FalagardMapping WindowType="BlackComrade/Title" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Title" />
 
     <FalagardMapping WindowType="BlackComrade/Black" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Black" />
     <FalagardMapping WindowType="BlackComrade/Buttons" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="BlackComrade/Buttons" />

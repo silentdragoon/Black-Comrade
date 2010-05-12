@@ -102,10 +102,10 @@ void GuiStatusUpdater::checkTutorial() {
 void GuiStatusUpdater::tick() {
 
     // Display the slack in the game time
-    long slack = stateUpdate->getSlack();
+    long slack = stateUpdate->getFps();
     std::string s;
     std::stringstream out;
-    out << slack << "ms";
+    out << slack << "FPS";
     s = out.str();
     hud->setStatus(s);
 

@@ -174,6 +174,10 @@ void SoundManager::loadSoundFiles() {
     loadSoundFile("sounds/vo/fix/closeradar.mp3",stringToInt("sound_closeradar"),false,true); //
     loadSoundFile("sounds/vo/fix/wait.mp3",stringToInt("sound_wait"),false,true); //
     loadSoundFile("sounds/vo/fix/cheat.mp3",stringToInt("sound_cheat"),false,true);
+    
+    // EXPLOSIONS
+    
+    loadSoundFile("sounds/bcexplosion.wav",stringToInt("sound_bcexplosion"),false,false);
 
     // Music section
     loadMusic();

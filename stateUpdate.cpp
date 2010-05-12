@@ -10,6 +10,7 @@ StateUpdate::StateUpdate()
     , count(0)
     , running(true)
     ,latestSlack(0)
+    , fps(0)
 {}
 
 bool StateUpdate::frameRenderingQueued (const FrameEvent &evt)
@@ -57,6 +58,8 @@ void StateUpdate::startLoop()
     	sleep = (long)(1000 * ConstManager::getFloat("tick_period")) - looptime;
     	//sleep = (sleep > 0) ? sleep : 0;
     	latestSlack = sleep;
+    	float time = sleep + looptime;
+    	fps = (int)(1 / time);
     	while(timer.getMilliseconds() < newtime + sleep);
     }
 }
@@ -70,6 +73,11 @@ void StateUpdate::addTickable(ITickable* t, string name)
 long StateUpdate::getSlack()
 {
     return latestSlack;
+}
+
+int StateUpdate::getFps()
+{
+    return fps;
 }
 
 // Called once every TICK_PERIOD seconds
