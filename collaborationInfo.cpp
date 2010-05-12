@@ -87,9 +87,6 @@ RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *seriali
     serializeParameters->outputBitstream[0].Write(repairing);
 
     if (repairAmount !=0) {
-        //std::cout << "resetting\n";
-        //toRepair = SS_NONE;
-        //repairAmount = 0;
         return RM3SR_SERIALIZED_ALWAYS_IDENTICALLY;
     } else {
         return RM3SR_BROADCAST_IDENTICALLY;

@@ -5,6 +5,8 @@ MiniGameManager::MiniGameManager(Console *console,
                                  InputState *inputState, GunnerControls *playerControls,
                                  SceneManager *sceneManager,
                                  CollaborationInfo *player,
+                                 CollaborationInfo *otherPlayer1,
+                                 CollaborationInfo *otherPlayer2,
                                  IExit *exit)
     : currentMiniGame(NULL)
     , console(console)
@@ -13,6 +15,8 @@ MiniGameManager::MiniGameManager(Console *console,
     , playerControls(playerControls)
     , sceneManager(sceneManager)
     , player(player)
+    , otherPlayer1(otherPlayer1)
+    , otherPlayer2(otherPlayer2)
     , aKeyPressed(false)
     , exit(exit)
     , consoleBeenOpened(false)
@@ -34,8 +38,7 @@ bool MiniGameManager::isGameInProgress() {
 void MiniGameManager::tick()
 {
     handleKeys();
-    player->repairAmount = 0;
-    player->toRepair = SS_NONE;
+    resetScores();
 
     if (currentMiniGame != NULL) {
         inputReceiver = currentMiniGame;
@@ -57,6 +60,17 @@ void MiniGameManager::tick()
         
         consoleShell->tick();
     }
+}
+
+void MiniGameManager::resetScores() {
+    player->repairAmount = 0;
+    player->toRepair = SS_NONE;
+
+    otherPlayer1->repairAmount = 0;
+    otherPlayer1->toRepair = SS_NONE;
+
+    otherPlayer2->repairAmount = 0;
+    otherPlayer2->toRepair = SS_NONE;
 }
 
 void MiniGameManager::endGame() {

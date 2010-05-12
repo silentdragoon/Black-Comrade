@@ -33,6 +33,9 @@ private:
     IExit *exit;
     std::map <std::string,int> *difficulties;
 
+    CollaborationInfo *otherPlayer1;
+    CollaborationInfo *otherPlayer2;
+
     bool consoleBeenOpened;
     bool consoleBeenClosed;
 
@@ -41,6 +44,8 @@ private:
     bool releasedKey;
     
     IMiniGame *currentMiniGame;
+
+    void resetScores();
 
     void handleKeys();
     void setConsoleState(bool isOpen);
@@ -59,6 +64,7 @@ public:
     MiniGameManager(Console *console,
                     InputState *inputState, GunnerControls *playerControls,
                     SceneManager *sceneManager, CollaborationInfo *player,
+                    CollaborationInfo *otherPlayer1, CollaborationInfo *otherPlayer2,
                     IExit *exit);
 
     bool keyPressed(const OIS::KeyEvent &arg);

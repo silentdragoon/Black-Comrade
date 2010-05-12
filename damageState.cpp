@@ -48,8 +48,6 @@ void DamageState::tick() {
         checkForRepairs(engineerInfo);
         checkForRepairs(navigatorInfo);
     }
-    me->toRepair = SS_NONE;
-    me->repairAmount = 0;
 }
 
 void DamageState::checkForRepairs(CollaborationInfo *repairer) {
@@ -73,8 +71,6 @@ void DamageState::checkForRepairs(CollaborationInfo *repairer) {
             repairHull(repairer->repairAmount);
             break;
     }
-    repairer->toRepair = SS_NONE;
-    repairer->repairAmount = 0;
 }
 
 double DamageState::getSensorHealth() { return sensorHealth; }
