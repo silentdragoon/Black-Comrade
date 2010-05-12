@@ -18,6 +18,7 @@ class Objective : public ITickable, public ReplicaObject,
         int ticks;
         bool boom;
         int originalHealth;
+        Vector3 position;
     public:
         //Objective(ParticleSystemEffectManager *particleSystemEffectManager, CollisionManager *colMgr);
         Objective(ParticleSystemEffectManager *particleSystemEffectManager);
@@ -35,6 +36,8 @@ class Objective : public ITickable, public ReplicaObject,
 
         void damageObjective();
         int getEscapeTime();
+        Vector3 getPosition();
+        void setPosition(Vector3 pos);
 
         void tick();
 

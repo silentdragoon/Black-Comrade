@@ -88,6 +88,9 @@ void AudioState::tick()
         }
         tickTime--;
     }
+    
+    if(objective->getHealth() == 0)
+    	sndMgr->playSound("sound_bcexplosion",objective->getPosition(),0.5);
 }
 
 AudioState::~AudioState() {}

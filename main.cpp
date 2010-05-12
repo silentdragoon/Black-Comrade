@@ -120,6 +120,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         objective = (Objective*) networkingManager->getReplica("Objective",true);
         objective->setParticleSystemEffectManager(particleSystemEffectManager);
     }
+    objective->setPosition(mapMgr->getObjectivePosition());
     gameLoop->addTickable(objective,"objective");
 
     // Collision Manager (takes 99% of our loading time)
