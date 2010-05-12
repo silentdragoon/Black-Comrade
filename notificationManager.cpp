@@ -290,6 +290,7 @@ void NotificationManager::prepareNotification() {
         case NT_TUT_SHOW_MAP:
             consoleText << "Try showing the large version using TAB...\n";
             soundNameConst = "sound_tryshowlargemap";
+            soundLength = 5;
             local = true;
             break;
         case NT_TUT_CLOSE_MAP:
