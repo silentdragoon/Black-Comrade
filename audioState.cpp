@@ -15,6 +15,7 @@ AudioState::AudioState(GunState *gunState, SoundManager *sndMgr, SceneNode *ship
       objective(objective),
       damageState(damageState),
       prevTime(ConstManager::getInt("escape_time")),
+      playedExplosion(false),
       tickTime(0)
 {}
 
@@ -89,8 +90,10 @@ void AudioState::tick()
         tickTime--;
     }
     
-    if(objective->getHealth() == 0)
-    	sndMgr->playSound("sound_bcexplosion",objective->getPosition(),0.5);
+    if((objective->getHealth() == 0)&&(!playedExplosion)) {
+        playedExplosion = true;
+        sndMgr->playSound("sound_bcexplosion",objective->getPosition(),0.8);
+    }
 }
 
 AudioState::~AudioState() {}

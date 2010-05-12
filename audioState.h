@@ -37,6 +37,8 @@ class AudioState : public ITickable
 
         int prevTime;
         int tickTime;
+
+        bool playedExplosion;
         
     public:
         

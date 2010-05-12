@@ -36,8 +36,8 @@ SoundManager::SoundManager() {
     playingSound = 4; // We are playing the theme music at the start
 
     // Create reverb effect
-    errCheck(system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb),"Create reverb");
-    errCheck(reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0),"Reverb param");
+    //errCheck(system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB,&reverb),"Create reverb");
+    //errCheck(reverb->setParameter(FMOD_DSP_SFXREVERB_DECAYTIME,5.0),"Reverb param");
 
     for(int i=0;i<50;i++) {
         FMOD::Channel *chan;
@@ -177,7 +177,7 @@ void SoundManager::loadSoundFiles() {
     
     // EXPLOSIONS
     
-    loadSoundFile("sounds/bcexplosion.wav",stringToInt("sound_bcexplosion"),false,false);
+    loadSoundFile("sounds/bcexplosion.wav",stringToInt("sound_bcexplosion"),false,true);
 
     // Music section
     loadMusic();
