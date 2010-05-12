@@ -7,6 +7,8 @@ tick_period = 0.0166666667
 map_tile_size = 600
 map_size = 30
 
+wall_damage_delay = 0.3
+
 # Ship
 ship_scale = 1
 

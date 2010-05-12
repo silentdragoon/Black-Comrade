@@ -20,6 +20,7 @@ class Flying : public ITickable
     	
     	// Decent
     	float elivation;
+    	int timeToNextDamage;
     
         void updateShipState();
         

@@ -33,7 +33,8 @@ Flying::Flying( SceneNodeManager *snMgr, PilotControls *sc, ShipState *shipState
     numSpeedsTaken(0),
     pilotStats(pilotStats),
     flyingDisabled(true),
-    elivation(1)
+    elivation(1),
+    timeToNextDamage(0)
     
 {
     position = new Vector3(iXPos, iYPos + 8, iZPos );
@@ -71,12 +72,18 @@ void Flying::updatePosition()
         hitObj = collided;
     }
 
-    if(collided && useCollisions && !flyingDisabled)
-    {
+    if(collided && useCollisions && !flyingDisabled) {
+    
         if (hitObj) {
             damageState->damage(30);
         } else {
-            damageState->damage(10);
+            
+            //if(timeToNextDamage <= 0) {
+            //    timeToNextDamage = (int)(
+            //        ConstManager::getFloat("wall_damage_delay")
+            //        / ConstManager::getFloat("tick_period"));
+                damageState->damage(10);
+            //}
             vFactor = 0.05;
         
             //reflected vel need to be fixed
@@ -179,6 +186,8 @@ void Flying::updateAverageSpeed() {
 
 void Flying::tick()
 {
+    if(timeToNextDamage > 0) timeToNextDamage--;
+
 	if(elivation > 0) {
 	
 		elivation -= ConstManager::getFloat("tick_period") /
