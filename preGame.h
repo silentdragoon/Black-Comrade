@@ -10,6 +10,7 @@
 #include "stateUpdate.h"
 #include "ITickable.h"
 
+#include "splashScreen.h"
 #include "storyMenu.h"
 #include "networkRoleMenu.h"
 #include "gameRoleMenu.h"
@@ -23,6 +24,7 @@ private:
 
     void loadNextMenu();
 
+    IMenuScreen *splashScreen;
     IMenuScreen *storyMenu;
     IMenuScreen *networkRoleMenu;
     IMenuScreen *gameRoleMenu;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="Title" Imagefile="credits.png" AutoScaled="false" >
+<Imageset Name="Title" Imagefile="title.png" AutoScaled="false" >
     <Image Name="Title" XPos="0" YPos="0" Width="1680" Height="1050" />
 </Imageset>
