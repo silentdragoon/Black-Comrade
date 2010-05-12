@@ -94,7 +94,8 @@ lightAndObjectsManager.cpp \
 gameTimer.cpp \
 screenshot.cpp \
 connectionPiece.cpp \
-fan.cpp
+fan.cpp \
+splashScreen.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

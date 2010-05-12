@@ -86,7 +86,11 @@ RM3SerializationResult CollaborationInfo::Serialize(SerializeParameters *seriali
     serializeParameters->outputBitstream[0].Write(hasQuit);
     serializeParameters->outputBitstream[0].Write(repairing);
 
-    return RM3SR_BROADCAST_IDENTICALLY;
+    if (repairAmount !=0) {
+        return RM3SR_SERIALIZED_ALWAYS_IDENTICALLY;
+    } else {
+        return RM3SR_BROADCAST_IDENTICALLY;
+    }
 }
 
 void CollaborationInfo::Deserialize(RakNet::DeserializeParameters *deserializeParameters) {

@@ -41,8 +41,6 @@ SequenceMiniGame::SequenceMiniGame(ShipSystem system, Console *console, InputSta
                      (yMisalignedEnd - yMisalignedStart + 1);
     remainingMisaligned = totalChars;
 
-    std::cout << "-------------------------------" << difficulty << "\n";
-
     calculateOccurences();
 
     toPress = sequence[0];

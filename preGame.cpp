@@ -7,6 +7,7 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
 {
     menuLoop->addTickable(this,"preGame");
     menuLoop->addTickable(screenshot,"screenshot");
+    splashScreen = new SplashScreen(inputState,guiMgr);
     storyMenu = new StoryMenu(inputState,networkingMgr,guiMgr);
     networkRoleMenu = new NetworkRoleMenu(inputState,networkingMgr,guiMgr);
     gameRoleMenu = new GameRoleMenu(inputState,networkingMgr,guiMgr);
@@ -16,7 +17,7 @@ PreGame::PreGame(SceneManager *sceneMgr, Ogre::RenderWindow *window, InputState 
 
 CollaborationInfo* PreGame::showMenus() {
 
-    currentMenuScreen = storyMenu;
+    currentMenuScreen = splashScreen;
 
     run();
 
@@ -77,6 +78,9 @@ void PreGame::tick() {
 void PreGame::loadNextMenu() {
 
     switch (currentMenuScreen->nextMenu()) {
+        case MT_CHOOSE_NICK :
+            currentMenuScreen = storyMenu;
+            break;
         case MT_CHOOSE_NETWORK_ROLE :
             currentMenuScreen = networkRoleMenu;
             break;

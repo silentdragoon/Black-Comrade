@@ -120,6 +120,7 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
         objective = (Objective*) networkingManager->getReplica("Objective",true);
         objective->setParticleSystemEffectManager(particleSystemEffectManager);
     }
+    objective->setPosition(mapMgr->getObjectivePosition());
     gameLoop->addTickable(objective,"objective");
 
     // Collision Manager (takes 99% of our loading time)
@@ -247,7 +248,12 @@ Main::Main(  bool useKey, bool useMouse, bool enemies, bool collisions, bool reb
     gameLoop->addTickable(cons,"console");
 
     // Minigame manager
-    miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,this);
+    if (collabInfo->getGameRole() == PILOT)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,navigatorInfo,engineerInfo,this);
+    else if (collabInfo->getGameRole() == NAVIGATOR)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,pilotInfo,engineerInfo,this);
+    else if (collabInfo->getGameRole() == ENGINEER)
+        miniGameMgr = new MiniGameManager(cons,inputState,myControls,sceneMgr,collabInfo,pilotInfo,navigatorInfo,this);
     gameLoop->addTickable(miniGameMgr,"miniGameManager");
 
     // Tutorial
