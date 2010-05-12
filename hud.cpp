@@ -253,6 +253,7 @@ void HUD::makeCommonHUD() {
     guiManager->getRootWindow()->addChildWindow(status);
     status->setSize(CEGUI::UVector2(CEGUI::UDim(80 * wpixel,0),CEGUI::UDim(20 * hpixel,0)));
     status->setPosition(CEGUI::UVector2(CEGUI::UDim(0 * wpixel,0),CEGUI::UDim(-1 * hpixel,0)));
+    status->setVisible(false);
 
     // Transmission Log
 
