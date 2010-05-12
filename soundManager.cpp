@@ -54,7 +54,7 @@ void SoundManager::loadSoundFiles() {
     loadSoundFile("sounds/shipgun1.wav",stringToInt("sound_frontgun"),false,false);
 
     // Frontgun sound
-    loadSoundFile("sounds/enemygun1.wav",stringToInt("sound_enemygun"),false,false);
+    loadSoundFile("sounds/enemyfire.wav",stringToInt("sound_enemygun"),false,false);
 
     // Attack mode
     loadSoundFile("sounds/vo/ship/incomingswarms.mp3",stringToInt("sound_incomingswarms"),false,true);
